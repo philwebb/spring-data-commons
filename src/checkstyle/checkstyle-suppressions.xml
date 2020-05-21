@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+		"-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+		"https://checkstyle.org/dtds/suppressions_1_2.dtd">
+<suppressions>
+	<suppress files=".*" checks="AnnotationUseStyle" />
+	<suppress files=".*" checks="ArrayTypeStyle" />
+	<suppress files=".*" checks="AtclauseOrder" />
+	<suppress files=".*" checks="AvoidStaticImport" />
+	<suppress files=".*" checks="FinalClass" />
+	<suppress files=".*" checks="IllegalImport" />
+	<suppress files=".*" checks="InnerAssignment" />
+	<suppress files=".*" checks="InnerTypeLast" />
+	<suppress files=".*" checks="JavadocMethod" />
+	<suppress files=".*" checks="JavadocStyle" />
+	<suppress files=".*" checks="JavadocTagContinuationIndentation" />
+	<suppress files=".*" checks="JavadocType" />
+	<suppress files=".*" checks="JavadocVariable" />
+	<suppress files=".*" checks="ModifierOrder" />
+	<suppress files=".*" checks="MultipleVariableDeclarations" />
+	<suppress files=".*" checks="NestedIfDepth" />
+	<suppress files=".*" checks="NonEmptyAtclauseDescription" />
+	<suppress files=".*" checks="OneTopLevelClass" />
+	<suppress files=".*" checks="RedundantImport" />
+	<suppress files=".*" checks="RedundantModifier" />
+	<suppress files=".*" checks="Regexp" />
+	<suppress files=".*" checks="RegexpSinglelineJava" />
+	<suppress files=".*" checks="SpringCatch" />
+	<suppress files=".*" checks="SpringHeader" />
+	<suppress files=".*" checks="SpringHideUtilityClassConstructor" />
+	<suppress files=".*" checks="SpringJUnit5" />
+	<suppress files=".*" checks="SpringJavadoc" />
+	<suppress files=".*" checks="SpringLambda" />
+	<suppress files=".*" checks="SpringMethodOrder" />
+	<suppress files=".*" checks="SpringMethodVisibility" />
+	<suppress files=".*" checks="SpringTernary" />
+</suppressions>
