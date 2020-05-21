@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Retention(RUNTIME)
-@Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
+@Target({ FIELD, METHOD, ANNOTATION_TYPE })
 public @interface Version {
 
 }

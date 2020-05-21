@@ -286,7 +286,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		String getter;
 
-		@RevisedAnnnotationWithAliasFor(value = "my-value")
+		@RevisedAnnnotationWithAliasFor("my-value")
 		String setter;
 
 		String doubleMapping;
@@ -356,7 +356,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
+	@Target({ FIELD, METHOD, ANNOTATION_TYPE })
 	public @interface MyAnnotation {
 
 		String value() default "";
@@ -364,14 +364,14 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target(value = { FIELD, METHOD })
+	@Target({ FIELD, METHOD })
 	@MyAnnotation
 	public @interface MyAnnotationAsMeta {
 
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target(value = { FIELD, METHOD })
+	@Target({ FIELD, METHOD })
 	@MyAnnotation
 	public @interface MyComposedAnnotationUsingAliasFor {
 
@@ -381,7 +381,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target(value = { FIELD, METHOD })
+	@Target({ FIELD, METHOD })
 	@interface RevisedAnnnotationWithAliasFor {
 
 		@AliasFor("value")
@@ -393,7 +393,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
+	@Target({ FIELD, METHOD, ANNOTATION_TYPE })
 	@Id
 	public @interface MyId {
 

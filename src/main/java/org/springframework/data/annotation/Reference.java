@@ -33,7 +33,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * @author Jon Brisbin
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
+@Target({ FIELD, METHOD, ANNOTATION_TYPE })
 public @interface Reference {
 
 	/**

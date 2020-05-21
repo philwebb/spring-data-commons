@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * @author Oliver Gierke
  */
 @Documented
-@Target({ ElementType.ANNOTATION_TYPE, ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, })
+@Target({ ElementType.ANNOTATION_TYPE, ElementType.TYPE, ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AccessType {
 

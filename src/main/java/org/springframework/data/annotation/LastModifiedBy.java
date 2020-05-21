@@ -32,7 +32,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * @since 1.5
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
+@Target({ FIELD, METHOD, ANNOTATION_TYPE })
 public @interface LastModifiedBy {
 
 }

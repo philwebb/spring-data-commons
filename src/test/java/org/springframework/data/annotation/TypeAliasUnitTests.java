@@ -38,7 +38,7 @@ class TypeAliasUnitTests {
 		assertThat(types).containsExactlyInAnyOrder(SampleType.class, TypeAlias.class);
 	}
 
-	@TypeAlias(value = "foo")
+	@TypeAlias("foo")
 	static class SampleType {
 
 	}

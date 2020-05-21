@@ -30,7 +30,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * @author Oliver Gierke
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
+@Target({ FIELD, METHOD, ANNOTATION_TYPE })
 public @interface Id {
 
 }
