@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.data.querydsl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.querydsl.core.annotations.QueryEntity;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  * @author Oliver Gierke
@@ -29,27 +24,12 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  * @author Christoph Strobl
  */
 @QueryEntity
-public class User {
+class SpecialUser extends User {
 
-	public String firstname;
+	public String specialProperty;
 
-	public String lastname;
-
-	@DateTimeFormat(iso = ISO.DATE)
-	public Date dateOfBirth;
-
-	public Address address;
-
-	public List<Address> addresses;
-
-	public List<String> nickNames;
-
-	public Long inceptionYear;
-
-	public User(String firstname, String lastname, Address address) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.address = address;
+	public SpecialUser(String firstname, String lastname, Address address) {
+		super(firstname, lastname, address);
 	}
 
 }
