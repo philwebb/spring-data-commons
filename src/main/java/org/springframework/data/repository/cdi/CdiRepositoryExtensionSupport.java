@@ -70,8 +70,8 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	/**
 	 * Implementation of a an observer which checks for Spring Data repository types and
 	 * stores them in {@link #repositoryTypes} for later registration as bean type.
-	 * @param <X> The type.
-	 * @param processAnnotatedType The annotated type as defined by CDI.
+	 * @param <X> the type.
+	 * @param processAnnotatedType the annotated type as defined by CDI.
 	 */
 	protected <X> void processAnnotatedType(@Observes ProcessAnnotatedType<X> processAnnotatedType) {
 		AnnotatedType<X> annotatedType = processAnnotatedType.getAnnotatedType();

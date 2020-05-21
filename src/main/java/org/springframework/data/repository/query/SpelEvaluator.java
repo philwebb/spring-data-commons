@@ -56,7 +56,7 @@ public class SpelEvaluator {
 	/**
 	 * Evaluate all the SpEL expressions in {@link #parameterNameToSpelMap} based on
 	 * values provided as an argument.
-	 * @param values Parameter values. Must not be {@literal null}.
+	 * @param values parameter values. Must not be {@literal null}.
 	 * @return a map from parameter name to evaluated value. Guaranteed to be not
 	 * {@literal null}.
 	 */

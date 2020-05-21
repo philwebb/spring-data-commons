@@ -57,7 +57,7 @@ final class SelectionSet<T> {
 	/**
 	 * Filters the collection with the predicate if there are still more then one elements
 	 * in the collection.
-	 * @param predicate To be used for filtering.
+	 * @param predicate the predicate to be used for filtering
 	 */
 	SelectionSet<T> filterIfNecessary(Predicate<T> predicate) {
 		return findUniqueResult().map((it) -> this).orElseGet(() -> new SelectionSet<>(

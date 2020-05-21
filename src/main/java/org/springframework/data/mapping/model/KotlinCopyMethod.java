@@ -54,9 +54,9 @@ final class KotlinCopyMethod {
 	private final KFunction<?> copyFunction;
 
 	/**
-	 * @param publicCopyMethod Compiler-generated public {@code copy} method accepting all
+	 * @param publicCopyMethod compiler-generated public {@code copy} method accepting all
 	 * properties.
-	 * @param syntheticCopyMethod Compiler-generated synthetic {@code copy$default}
+	 * @param syntheticCopyMethod compiler-generated synthetic {@code copy$default}
 	 * variant of the copy method accepting the original instance and defaulting masks.
 	 */
 	private KotlinCopyMethod(Method publicCopyMethod, Method syntheticCopyMethod) {

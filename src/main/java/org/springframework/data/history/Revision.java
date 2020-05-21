@@ -67,7 +67,7 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 
 	/**
 	 * Returns the timestamp of the revision.
-	 * @return Guaranteed to be not {@literal null}.
+	 * @return the instance (guaranteed to be not {@literal null}).
 	 */
 	public Optional<Instant> getRevisionInstant() {
 		return this.metadata.getRevisionInstant();

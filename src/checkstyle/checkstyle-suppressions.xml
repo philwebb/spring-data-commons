@@ -9,7 +9,6 @@
 	<suppress files=".*" checks="JavadocType" />
 	<suppress files=".*" checks="JavadocVariable" />
 	<suppress files=".*" checks="NonEmptyAtclauseDescription" />
-	<suppress files=".*" checks="SpringJavadoc" />
 	<suppress files="generated-test-sources" checks=".*" />
 	<suppress files="QueryExecutionConverters.*" checks="IllegalImport"/>
 	<suppress files="RepositoryBeanNameGeneratorUnitTests" checks="IllegalImport"/>

@@ -45,13 +45,13 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 
 	/**
 	 * The name of the property
-	 * @return The property name
+	 * @return the property name
 	 */
 	String getName();
 
 	/**
 	 * The type of the property
-	 * @return The property type
+	 * @return the property type
 	 */
 	Class<?> getType();
 

@@ -119,7 +119,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 * @param qualifiers must not be {@literal null}.
 	 * @param repositoryType has to be an interface must not be {@literal null}.
 	 * @param beanManager the CDI {@link BeanManager}, must not be {@literal null}.
-	 * @param context CDI context encapsulating class loader, metadata scanning and
+	 * @param context the CDI context encapsulating class loader, metadata scanning and
 	 * fragment detection.
 	 * @since 2.1
 	 */

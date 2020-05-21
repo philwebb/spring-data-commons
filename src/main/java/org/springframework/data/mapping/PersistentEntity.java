@@ -125,8 +125,8 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 
 	/**
 	 * Obtains a {@link PersistentProperty} instance by name.
-	 * @param name The name of the property. Can be {@literal null}.
-	 * @return the {@link PersistentProperty} or {@literal null} if it doesn't exist.
+	 * @param name the name of the property. Can be {@literal null}
+	 * @return the {@link PersistentProperty} or {@literal null} if it doesn't exist
 	 */
 	@Nullable
 	P getPersistentProperty(String name);
@@ -181,7 +181,7 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 
 	/**
 	 * Returns the resolved Java type of this entity.
-	 * @return The underlying Java class for this entity. Never {@literal null}.
+	 * @return the underlying Java class for this entity. Never {@literal null}.
 	 */
 	Class<T> getType();
 

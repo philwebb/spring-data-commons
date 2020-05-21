@@ -42,7 +42,7 @@ public interface EntityCallbacks {
 	 * @param callbackType must not be {@literal null}.
 	 * @param entity must not be {@literal null}.
 	 * @param args optional arguments.
-	 * @param <T> Entity type.
+	 * @param <T> entity type.
 	 * @return never {@literal null}.
 	 * @throws IllegalArgumentException if a required argument is {@literal null}.
 	 */

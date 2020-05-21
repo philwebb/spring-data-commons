@@ -122,8 +122,8 @@ public class CdiRepositoryContext {
 	 * Retrieves a custom repository interfaces from a repository type. This works for the
 	 * whole class hierarchy and can find also a custom repository which is inherited over
 	 * many levels.
-	 * @param repositoryType The class representing the repository.
-	 * @param cdiRepositoryConfiguration The configuration for CDI usage.
+	 * @param repositoryType the class representing the repository.
+	 * @param cdiRepositoryConfiguration the configuration for CDI usage.
 	 * @return the interface class or {@literal null}.
 	 */
 	Optional<Class<?>> getCustomImplementationClass(Class<?> repositoryType,

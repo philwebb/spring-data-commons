@@ -228,8 +228,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		 * Can be overridden to support custom annotations that carry transaction
 		 * metadata.
 		 * @param ae the annotated method or class
-		 * @return TransactionAttribute the configured transaction attribute, or
-		 * {@code null} if none was found
+		 * @return the configured transaction attribute, or {@code null} if none was found
 		 */
 		protected TransactionAttribute determineTransactionAttribute(AnnotatedElement ae) {
 			for (TransactionAnnotationParser annotationParser : this.annotationParsers) {
@@ -342,7 +341,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		 * @param method the method for the current invocation (never <code>null</code>)
 		 * @param targetClass the target class for this invocation (may be
 		 * <code>null</code>)
-		 * @return TransactionAttribute for this method, or <code>null</code> if the
+		 * @return the transaction attribute for this method, or <code>null</code> if the
 		 * method is not transactional
 		 */
 		@Override

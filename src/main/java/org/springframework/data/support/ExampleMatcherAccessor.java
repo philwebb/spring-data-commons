@@ -64,7 +64,7 @@ public class ExampleMatcherAccessor {
 	 * Get the {@link ExampleMatcher.PropertySpecifier} for given path. <br />
 	 * Please check if {@link #hasPropertySpecifier(String)} to avoid running into
 	 * {@literal null} values.
-	 * @param path Dot-Path to property.
+	 * @param path the dot-path to property
 	 * @return {@literal null} when no {@link ExampleMatcher.PropertySpecifier} defined
 	 * for path.
 	 */

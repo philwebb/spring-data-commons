@@ -38,8 +38,8 @@
 			<property name="ignoreComments" value="true" />
 		</module>
 		<module name="io.spring.javaformat.checkstyle.check.SpringJavadocCheck">
-			<property name="publicOnlySinceTags" value="true" />
-			<property name="requireSinceTag" value="true" />
+			<property name="publicOnlySinceTags" value="false" />
+			<property name="requireSinceTag" value="false" />
 		</module>
 	</module>
 </module>

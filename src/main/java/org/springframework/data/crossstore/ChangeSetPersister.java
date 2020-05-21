@@ -49,7 +49,7 @@ public interface ChangeSetPersister<K> {
 	/**
 	 * Return key
 	 * @param entity
-	 * @param cs Key may be null if not persistent
+	 * @param cs the change set (key may be null if not persistent)
 	 * @return the persistent state
 	 * @throws DataAccessException
 	 */

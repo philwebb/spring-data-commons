@@ -45,7 +45,7 @@ public interface ReactiveEntityCallbacks {
 	 * @param callbackType must not be {@literal null}.
 	 * @param entity must not be {@literal null}.
 	 * @param args optional arguments.
-	 * @param <T> Entity type.
+	 * @param <T> entity type.
 	 * @return a {@link Mono} emitting the result after invoking the callbacks.
 	 * @throws IllegalArgumentException if a required argument is {@literal null}.
 	 */

@@ -603,7 +603,7 @@ public interface ExampleMatcher {
 
 		/**
 		 * Creates new {@link PropertySpecifier} for given path.
-		 * @param path Dot-Path to the property. Must not be {@literal null}.
+		 * @param path the dot-path to the property. Must not be {@literal null}.
 		 */
 		PropertySpecifier(String path) {
 			Assert.hasText(path, "Path must not be null/empty!");

@@ -27,8 +27,8 @@ import org.springframework.util.ObjectUtils;
 /**
  * A tuple of things.
  *
- * @param <S> Type of the first thing.
- * @param <T> Type of the second thing.
+ * @param <S> type of the first item
+ * @param <T> type of the second item
  * @author Tobias Trelle
  * @author Oliver Gierke
  * @author Christoph Strobl

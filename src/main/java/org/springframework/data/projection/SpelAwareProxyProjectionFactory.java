@@ -69,7 +69,7 @@ public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory impl
 	 * caches the result. Will create a {@link SpelEvaluatingMethodInterceptor} if an
 	 * annotation was found or return the delegate as is if not.
 	 * @param interceptor the root {@link MethodInterceptor}.
-	 * @param source The backing source object.
+	 * @param source the backing source object.
 	 * @param projectionType the proxy target type.
 	 * @return
 	 */

@@ -93,7 +93,7 @@ public class SpelQueryContext {
 	 * {@literal String}s enclosed in single or double quotation marks.
 	 * @param query a query containing SpEL expressions in the format described above.
 	 * Must not be {@literal null}.
-	 * @return A {@link SpelExtractor} which makes the query with SpEL expressions
+	 * @return a {@link SpelExtractor} which makes the query with SpEL expressions
 	 * replaced by bind parameters and a map from bind parameter to SpEL expression
 	 * available. Guaranteed to be not {@literal null}.
 	 */
@@ -150,7 +150,7 @@ public class SpelQueryContext {
 		 * Must not be {@literal null}.
 		 * @param parameters a {@link Parameters} instance describing query method
 		 * parameters
-		 * @return A {@link SpelEvaluator} which allows to evaluate the SpEL expressions.
+		 * @return a {@link SpelEvaluator} which allows to evaluate the SpEL expressions.
 		 * Will never be {@literal null}.
 		 */
 		public SpelEvaluator parse(String query, Parameters<?, ?> parameters) {
@@ -219,7 +219,7 @@ public class SpelQueryContext {
 
 		/**
 		 * The query with all the SpEL expressions replaced with bind parameters.
-		 * @return Guaranteed to be not {@literal null}.
+		 * @return the query string (guaranteed to be not {@literal null}).
 		 */
 		public String getQueryString() {
 			return this.query;
@@ -240,7 +240,7 @@ public class SpelQueryContext {
 
 		/**
 		 * A {@literal Map} from parameter name to SpEL expression.
-		 * @return Guaranteed to be not {@literal null}.
+		 * @return the parameters map (guaranteed to be not {@literal null}).
 		 */
 		Map<String, String> getParameterMap() {
 			return this.expressions;
