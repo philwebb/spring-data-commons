@@ -55,7 +55,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	private static final Pattern SPLITTER_FOR_QUOTED = Pattern
 			.compile("(?:[%s]?([%s]*?[^%s]+))".replaceAll("%s", "\\."));
 
-	private static final Map<Key, PropertyPath> CACHE = new ConcurrentReferenceHashMap<>();
+	private static final Map<Key, PropertyPath> cache = new ConcurrentReferenceHashMap<>();
 
 	private final TypeInformation<?> owningType;
 
@@ -309,7 +309,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	public static PropertyPath from(String source, TypeInformation<?> type) {
 		Assert.hasText(source, "Source must not be null or empty!");
 		Assert.notNull(type, "TypeInformation must not be null or empty!");
-		return CACHE.computeIfAbsent(Key.of(type, source), it -> {
+		return cache.computeIfAbsent(Key.of(type, source), it -> {
 			List<String> iteratorSource = new ArrayList<>();
 			Matcher matcher = isQuoted(it.path)
 					? SPLITTER_FOR_QUOTED.matcher(it.path.replace("\\Q", "").replace("\\E", ""))

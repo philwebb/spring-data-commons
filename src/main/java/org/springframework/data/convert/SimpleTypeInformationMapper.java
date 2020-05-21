@@ -35,7 +35,7 @@ import org.springframework.util.ClassUtils;
  */
 public class SimpleTypeInformationMapper implements TypeInformationMapper {
 
-	private final Map<String, Optional<ClassTypeInformation<?>>> CACHE = new ConcurrentHashMap<>();
+	private final Map<String, Optional<ClassTypeInformation<?>>> cache = new ConcurrentHashMap<>();
 
 	/**
 	 * Returns the {@link TypeInformation} that shall be used when the given
@@ -51,7 +51,7 @@ public class SimpleTypeInformationMapper implements TypeInformationMapper {
 	public TypeInformation<?> resolveTypeFrom(Alias alias) {
 		String stringAlias = alias.mapTyped(String.class);
 		if (stringAlias != null) {
-			return this.CACHE.computeIfAbsent(stringAlias, SimpleTypeInformationMapper::loadClass).orElse(null);
+			return this.cache.computeIfAbsent(stringAlias, SimpleTypeInformationMapper::loadClass).orElse(null);
 		}
 		return null;
 	}

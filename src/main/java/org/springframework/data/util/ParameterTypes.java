@@ -46,7 +46,7 @@ public class ParameterTypes {
 
 	private static final TypeDescriptor OBJECT_DESCRIPTOR = TypeDescriptor.valueOf(Object.class);
 
-	private static final ConcurrentMap<List<TypeDescriptor>, ParameterTypes> CACHE = new ConcurrentReferenceHashMap<>();
+	private static final ConcurrentMap<List<TypeDescriptor>, ParameterTypes> cache = new ConcurrentReferenceHashMap<>();
 
 	private final List<TypeDescriptor> types;
 
@@ -73,7 +73,7 @@ public class ParameterTypes {
 	 */
 	public static ParameterTypes of(List<TypeDescriptor> types) {
 		Assert.notNull(types, "Types must not be null!");
-		return CACHE.computeIfAbsent(types, ParameterTypes::new);
+		return cache.computeIfAbsent(types, ParameterTypes::new);
 	}
 
 	/**

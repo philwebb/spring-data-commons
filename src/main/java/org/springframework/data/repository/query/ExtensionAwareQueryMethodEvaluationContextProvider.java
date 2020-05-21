@@ -116,7 +116,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	 */
 	static class DelegatingMethodInterceptor implements MethodInterceptor {
 
-		private static final Map<Method, Method> METHOD_CACHE = new ConcurrentReferenceHashMap<>();
+		private static final Map<Method, Method> methodCache = new ConcurrentReferenceHashMap<>();
 
 		private final Object target;
 
@@ -143,7 +143,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 				throw new IllegalArgumentException("Invocation must not be null!");
 			}
 			Method method = invocation.getMethod();
-			Method targetMethod = METHOD_CACHE.computeIfAbsent(method,
+			Method targetMethod = methodCache.computeIfAbsent(method,
 					it -> Optional.ofNullable(findTargetMethod(it)).orElse(it));
 			Object result = method.equals(targetMethod) ? invocation.proceed()
 					: ReflectionUtils.invokeMethod(targetMethod, this.target, invocation.getArguments());
