@@ -28,7 +28,10 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
  *
  * @author Oliver Gierke
  */
-public class WebTestUtils {
+public final class WebTestUtils {
+
+	private WebTestUtils() {
+	}
 
 	/**
 	 * Initializes web tests. Will register a {@link MockHttpServletRequest} for the

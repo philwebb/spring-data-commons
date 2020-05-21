@@ -451,6 +451,9 @@ public interface ExampleMatcher {
 	 */
 	class GenericPropertyMatchers {
 
+		private GenericPropertyMatchers() {
+		}
+
 		/**
 		 * Creates a {@link GenericPropertyMatcher} that matches string case insensitive.
 		 * @return

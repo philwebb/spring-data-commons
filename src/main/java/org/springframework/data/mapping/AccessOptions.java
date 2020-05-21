@@ -36,7 +36,10 @@ import org.springframework.util.Assert;
  * @author Oliver Drotbohm
  * @since 2.3
  */
-public class AccessOptions {
+public final class AccessOptions {
+
+	private AccessOptions() {
+	}
 
 	/**
 	 * Returns the default {@link SetOptions} rejecting setting values when finding an

@@ -26,7 +26,10 @@ package org.springframework.data.mapping.model;
  * package-protected implementation.
  */
 @Deprecated
-public class InternalEntityInstantiatorFactory {
+public final class InternalEntityInstantiatorFactory {
+
+	private InternalEntityInstantiatorFactory() {
+	}
 
 	public static EntityInstantiator getClassGeneratingEntityInstantiator() {
 		return new ClassGeneratingEntityInstantiator();

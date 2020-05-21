@@ -31,7 +31,10 @@ import org.springframework.web.context.request.ServletWebRequest;
  * @author Mark Paluch
  * @since 1.6
  */
-class TestUtils {
+final class TestUtils {
+
+	private TestUtils() {
+	}
 
 	static NativeWebRequest getWebRequest() {
 		return new ServletWebRequest(new MockHttpServletRequest());

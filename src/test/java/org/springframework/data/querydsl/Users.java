@@ -22,13 +22,16 @@ import java.util.List;
 /**
  * @author Oliver Gierke
  */
-public class Users {
+public final class Users {
 
 	public static final User OLIVER;
 
 	public static final User CHRISTOPH;
 
 	public static final List<User> USERS;
+
+	private Users() {
+	}
 
 	static {
 		OLIVER = new User("Oliver", "Gierke", new Address("Somewhere", "Dresden"));

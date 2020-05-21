@@ -34,7 +34,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Oliver Gierke
  */
-class RepositoryInvocationTestUtils {
+final class RepositoryInvocationTestUtils {
+
+	private RepositoryInvocationTestUtils() {
+	}
 
 	@SuppressWarnings("unchecked")
 	static <T> T getVerifyingRepositoryProxy(T target, VerifyingMethodInterceptor interceptor) {
