@@ -68,6 +68,7 @@ class EnableSpringDataWebSupportIntegrationTests {
 		SampleController controller() {
 			return new SampleController();
 		}
+
 	}
 
 	@Configuration
@@ -79,6 +80,7 @@ class EnableSpringDataWebSupportIntegrationTests {
 		PageableHandlerMethodArgumentResolverCustomizer testPageableResolverCustomizer() {
 			return pageableResolver -> pageableResolver.setMaxPageSize(100);
 		}
+
 	}
 
 	@Configuration
@@ -90,6 +92,7 @@ class EnableSpringDataWebSupportIntegrationTests {
 		SortHandlerMethodArgumentResolverCustomizer testSortResolverCustomizer() {
 			return sortResolver -> sortResolver.setSortParameter("foo");
 		}
+
 	}
 
 	@Configuration
@@ -102,6 +105,7 @@ class EnableSpringDataWebSupportIntegrationTests {
 		SimpleEntityPathResolver entityPathResolver() {
 			return resolver;
 		}
+
 	}
 
 	@Test // DATACMNS-330
@@ -249,4 +253,5 @@ class EnableSpringDataWebSupportIntegrationTests {
 
 		Arrays.asList(resolverTypes).forEach(type -> assertThat(resolvers).hasAtLeastOneElementOfType(type));
 	}
+
 }

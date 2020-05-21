@@ -47,5 +47,8 @@ class AnnotationAttributeUnitTests {
 	}
 
 	@Component("foo")
-	static class Sample {}
+	static class Sample {
+
+	}
+
 }

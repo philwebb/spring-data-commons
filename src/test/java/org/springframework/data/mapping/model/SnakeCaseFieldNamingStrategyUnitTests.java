@@ -37,7 +37,8 @@ class SnakeCaseFieldNamingStrategyUnitTests {
 
 	private FieldNamingStrategy strategy = new SnakeCaseFieldNamingStrategy();
 
-	@Mock PersistentProperty<?> property;
+	@Mock
+	PersistentProperty<?> property;
 
 	@Test // DATACMNS-523
 	void rendersSnakeCaseFieldNames() {
@@ -53,4 +54,5 @@ class SnakeCaseFieldNamingStrategyUnitTests {
 		when(this.property.getName()).thenReturn(propertyName);
 		assertThat(this.strategy.getFieldName(this.property)).isEqualTo(fieldName);
 	}
+
 }

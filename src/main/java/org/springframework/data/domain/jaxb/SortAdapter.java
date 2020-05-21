@@ -23,13 +23,15 @@ import org.springframework.data.domain.jaxb.SpringDataJaxb.SortDto;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link XmlAdapter} to convert {@link Sort} instances into {@link SortDto} instances and vice versa.
+ * {@link XmlAdapter} to convert {@link Sort} instances into {@link SortDto} instances and
+ * vice versa.
  *
  * @author Oliver Gierke
  */
 public class SortAdapter extends XmlAdapter<SortDto, Sort> {
 
 	public static final SortAdapter INSTANCE = new SortAdapter();
+
 	@Nullable
 	@Override
 	public SortDto marshal(@Nullable Sort source) {
@@ -43,9 +45,12 @@ public class SortAdapter extends XmlAdapter<SortDto, Sort> {
 
 		return dto;
 	}
+
 	@Nonnull
 	@Override
 	public Sort unmarshal(@Nullable SortDto source) {
-		return source == null ? Sort.unsorted() : Sort.by(SpringDataJaxb.unmarshal(source.orders, OrderAdapter.INSTANCE));
+		return source == null ? Sort.unsorted()
+				: Sort.by(SpringDataJaxb.unmarshal(source.orders, OrderAdapter.INSTANCE));
 	}
+
 }

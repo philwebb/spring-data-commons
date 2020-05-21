@@ -175,7 +175,8 @@ public class PersistentPropertyAccessorTests {
 		PersistentPropertyAccessor accessor = propertyAccessorFunction.apply(bean);
 		SamplePersistentProperty property = getProperty(bean, "immutable");
 
-		assertThatThrownBy(() -> accessor.setProperty(property, "value")).isInstanceOf(UnsupportedOperationException.class);
+		assertThatThrownBy(() -> accessor.setProperty(property, "value"))
+				.isInstanceOf(UnsupportedOperationException.class);
 	}
 
 	@ParameterizedTest // DATACMNS-1322
@@ -187,7 +188,8 @@ public class PersistentPropertyAccessorTests {
 		PersistentPropertyAccessor accessor = propertyAccessorFunction.apply(bean);
 		SamplePersistentProperty property = getProperty(bean, "immutable");
 
-		assertThatThrownBy(() -> accessor.setProperty(property, "value")).isInstanceOf(UnsupportedOperationException.class);
+		assertThatThrownBy(() -> accessor.setProperty(property, "value"))
+				.isInstanceOf(UnsupportedOperationException.class);
 	}
 
 	@Test // DATACMNS-1422
@@ -212,16 +214,24 @@ public class PersistentPropertyAccessorTests {
 
 	@Data
 	static class DataClass {
+
 		String id;
+
 	}
 
-	static class ClassLoaderTest {}
+	static class ClassLoaderTest {
+
+	}
 
 	@Value
 
 	private static class ValueClass {
-		@With String id;
+
+		@With
+		String id;
+
 		String immutable;
+
 	}
 
 }

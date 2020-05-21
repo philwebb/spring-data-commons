@@ -36,7 +36,8 @@ public class CamelCaseAbbreviatingFieldNamingStrategyUnitTests {
 
 	FieldNamingStrategy strategy = new CamelCaseAbbreviatingFieldNamingStrategy();
 
-	@Mock PersistentProperty<?> property;
+	@Mock
+	PersistentProperty<?> property;
 
 	@Test // DATACMNS-523
 	void abbreviatesToCamelCase() {
@@ -50,4 +51,5 @@ public class CamelCaseAbbreviatingFieldNamingStrategyUnitTests {
 		when(this.property.getName()).thenReturn(propertyName);
 		assertThat(this.strategy.getFieldName(this.property)).isEqualTo(fieldName);
 	}
+
 }

@@ -35,29 +35,31 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.util.ClassUtils;
 
 /**
- * Annotation to automatically register the following beans for usage with Spring MVC. Note that using this annotation
- * will require Spring 3.2.
+ * Annotation to automatically register the following beans for usage with Spring MVC.
+ * Note that using this annotation will require Spring 3.2.
  * <ul>
- * <li>{@link org.springframework.data.repository.support.DomainClassConverter} - to allow usage of domain types managed
- * by Spring Data repositories as controller method arguments bound with
- * {@link org.springframework.web.bind.annotation.PathVariable} or
+ * <li>{@link org.springframework.data.repository.support.DomainClassConverter} - to allow
+ * usage of domain types managed by Spring Data repositories as controller method
+ * arguments bound with {@link org.springframework.web.bind.annotation.PathVariable} or
  * {@link org.springframework.web.bind.annotation.RequestParam}.</li>
  * <li>{@link PageableHandlerMethodArgumentResolver} - to allow injection of
- * {@link org.springframework.data.domain.Pageable} instances into controller methods automatically created from request
- * parameters.</li>
- * <li>{@link org.springframework.data.web.SortHandlerMethodArgumentResolver} - to allow injection of
- * {@link org.springframework.data.domain.Sort} instances into controller methods automatically created from request
- * parameters.</li>
+ * {@link org.springframework.data.domain.Pageable} instances into controller methods
+ * automatically created from request parameters.</li>
+ * <li>{@link org.springframework.data.web.SortHandlerMethodArgumentResolver} - to allow
+ * injection of {@link org.springframework.data.domain.Sort} instances into controller
+ * methods automatically created from request parameters.</li>
  * </ul>
  * If Spring HATEOAS is present on the classpath we will register the following beans:
  * <ul>
- * <li>{@link org.springframework.data.web.HateoasPageableHandlerMethodArgumentResolver} - instead of
- * {@link PageableHandlerMethodArgumentResolver}</li>
- * <li>{@link org.springframework.data.web.HateoasSortHandlerMethodArgumentResolver} - instead of
- * {@link org.springframework.data.web.SortHandlerMethodArgumentResolver}</li>
- * <li>{@link org.springframework.data.web.PagedResourcesAssembler} - for injection into web components</li>
- * <li>{@link org.springframework.data.web.SortHandlerMethodArgumentResolver} - for injection of
- * {@link org.springframework.data.web.PagedResourcesAssembler} into controller methods</li>
+ * <li>{@link org.springframework.data.web.HateoasPageableHandlerMethodArgumentResolver} -
+ * instead of {@link PageableHandlerMethodArgumentResolver}</li>
+ * <li>{@link org.springframework.data.web.HateoasSortHandlerMethodArgumentResolver} -
+ * instead of {@link org.springframework.data.web.SortHandlerMethodArgumentResolver}</li>
+ * <li>{@link org.springframework.data.web.PagedResourcesAssembler} - for injection into
+ * web components</li>
+ * <li>{@link org.springframework.data.web.SortHandlerMethodArgumentResolver} - for
+ * injection of {@link org.springframework.data.web.PagedResourcesAssembler} into
+ * controller methods</li>
  * <ul>
  *
  * @since 1.6
@@ -73,10 +75,11 @@ import org.springframework.util.ClassUtils;
 public @interface EnableSpringDataWebSupport {
 
 	/**
-	 * Import selector to import the appropriate configuration class depending on whether Spring HATEOAS is present on the
-	 * classpath. We need to register the HATEOAS specific class first as apparently only the first class implementing
-	 * {@link org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport} gets callbacks invoked (see
-	 * https://jira.springsource.org/browse/SPR-10565).
+	 * Import selector to import the appropriate configuration class depending on whether
+	 * Spring HATEOAS is present on the classpath. We need to register the HATEOAS
+	 * specific class first as apparently only the first class implementing
+	 * {@link org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport}
+	 * gets callbacks invoked (see https://jira.springsource.org/browse/SPR-10565).
 	 *
 	 * @author Oliver Gierke
 	 * @author Jens Schauder
@@ -84,10 +87,12 @@ public @interface EnableSpringDataWebSupport {
 	static class SpringDataWebConfigurationImportSelector implements ImportSelector, ResourceLoaderAware {
 
 		private Optional<ClassLoader> resourceLoader = Optional.empty();
+
 		@Override
 		public void setResourceLoader(ResourceLoader resourceLoader) {
 			this.resourceLoader = Optional.of(resourceLoader).map(ResourceLoader::getClassLoader);
 		}
+
 		@Override
 		public String[] selectImports(AnnotationMetadata importingClassMetadata) {
 
@@ -107,20 +112,24 @@ public @interface EnableSpringDataWebSupport {
 
 			return imports.toArray(new String[imports.size()]);
 		}
+
 	}
 
 	/**
-	 * Import selector to register {@link QuerydslWebConfiguration} as configuration class if Querydsl is on the
-	 * classpath.
+	 * Import selector to register {@link QuerydslWebConfiguration} as configuration class
+	 * if Querydsl is on the classpath.
 	 *
 	 * @author Oliver Gierke
-		 * @since 1.11
+	 * @since 1.11
 	 */
 	static class QuerydslActivator implements ImportSelector {
+
 		@Override
 		public String[] selectImports(AnnotationMetadata importingClassMetadata) {
 			return QuerydslUtils.QUERY_DSL_PRESENT ? new String[] { QuerydslWebConfiguration.class.getName() }
 					: new String[0];
 		}
+
 	}
+
 }

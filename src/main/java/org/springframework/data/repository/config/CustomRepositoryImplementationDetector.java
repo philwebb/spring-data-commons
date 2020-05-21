@@ -30,12 +30,15 @@ import org.springframework.data.util.StreamUtils;
 import org.springframework.util.Assert;
 
 /**
- * Detects the custom implementation for a {@link org.springframework.data.repository.Repository} instance. If
- * configured with a {@link ImplementationDetectionConfiguration} at construction time, the necessary component scan is
- * executed on first access, cached and its result is the filtered on every further implementation lookup according to
- * the given {@link ImplementationDetectionConfiguration}. If none is given initially, every invocation to
- * {@link #detectCustomImplementation(String, String, ImplementationDetectionConfiguration)} will issue a new component
- * scan.
+ * Detects the custom implementation for a
+ * {@link org.springframework.data.repository.Repository} instance. If configured with a
+ * {@link ImplementationDetectionConfiguration} at construction time, the necessary
+ * component scan is executed on first access, cached and its result is the filtered on
+ * every further implementation lookup according to the given
+ * {@link ImplementationDetectionConfiguration}. If none is given initially, every
+ * invocation to
+ * {@link #detectCustomImplementation(String, String, ImplementationDetectionConfiguration)}
+ * will issue a new component scan.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -47,18 +50,22 @@ import org.springframework.util.Assert;
 public class CustomRepositoryImplementationDetector {
 
 	private static final String CUSTOM_IMPLEMENTATION_RESOURCE_PATTERN = "**/*%s.class";
+
 	private static final String AMBIGUOUS_CUSTOM_IMPLEMENTATIONS = "Ambiguous custom implementations detected! Found %s but expected a single implementation!";
 
 	private final Environment environment;
+
 	private final ResourceLoader resourceLoader;
+
 	private final Lazy<Set<BeanDefinition>> implementationCandidates;
 
 	/**
-	 * Creates a new {@link CustomRepositoryImplementationDetector} with the given {@link Environment},
-	 * {@link ResourceLoader} and {@link ImplementationDetectionConfiguration}. The latter will be registered for a
-	 * one-time component scan for implementation candidates that will the be used and filtered in all subsequent calls to
+	 * Creates a new {@link CustomRepositoryImplementationDetector} with the given
+	 * {@link Environment}, {@link ResourceLoader} and
+	 * {@link ImplementationDetectionConfiguration}. The latter will be registered for a
+	 * one-time component scan for implementation candidates that will the be used and
+	 * filtered in all subsequent calls to
 	 * {@link #detectCustomImplementation(RepositoryConfiguration)}.
-	 * 
 	 * @param environment must not be {@literal null}.
 	 * @param resourceLoader must not be {@literal null}.
 	 * @param configuration must not be {@literal null}.
@@ -76,10 +83,10 @@ public class CustomRepositoryImplementationDetector {
 	}
 
 	/**
-	 * Creates a new {@link CustomRepositoryImplementationDetector} with the given {@link Environment} and
-	 * {@link ResourceLoader}. Calls to {@link #detectCustomImplementation(ImplementationLookupConfiguration)} will issue
+	 * Creates a new {@link CustomRepositoryImplementationDetector} with the given
+	 * {@link Environment} and {@link ResourceLoader}. Calls to
+	 * {@link #detectCustomImplementation(ImplementationLookupConfiguration)} will issue
 	 * scans for
-	 * 
 	 * @param environment must not be {@literal null}.
 	 * @param resourceLoader must not be {@literal null}.
 	 */
@@ -94,10 +101,11 @@ public class CustomRepositoryImplementationDetector {
 	}
 
 	/**
-	 * Tries to detect a custom implementation for a repository bean by classpath scanning.
-	 *
+	 * Tries to detect a custom implementation for a repository bean by classpath
+	 * scanning.
 	 * @param lookup must not be {@literal null}.
-	 * @return the {@code AbstractBeanDefinition} of the custom implementation or {@literal null} if none found.
+	 * @return the {@code AbstractBeanDefinition} of the custom implementation or
+	 * {@literal null} if none found.
 	 */
 	public Optional<AbstractBeanDefinition> detectCustomImplementation(ImplementationLookupConfiguration lookup) {
 
@@ -142,4 +150,5 @@ public class CustomRepositoryImplementationDetector {
 
 		throw new IllegalStateException(String.format(AMBIGUOUS_CUSTOM_IMPLEMENTATIONS, implementationNames));
 	}
+
 }

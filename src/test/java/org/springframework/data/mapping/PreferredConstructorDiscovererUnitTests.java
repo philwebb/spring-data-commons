@@ -61,29 +61,29 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 	@Test // DATACMNS-1126
 	public void doesNotThrowExceptionForMultipleConstructorsAndNoNoArgConstructorWithoutAnnotation() {
 
-		assertThat(PreferredConstructorDiscoverer.discover(ClassWithMultipleConstructorsWithoutEmptyOne.class)).isNull();
+		assertThat(PreferredConstructorDiscoverer.discover(ClassWithMultipleConstructorsWithoutEmptyOne.class))
+				.isNull();
 	}
 
 	@Test // DATACMNS-1126
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void usesConstructorWithAnnotationOverEveryOther() {
 
-
 		assertThat(PreferredConstructorDiscoverer.discover(ClassWithMultipleConstructorsAndAnnotation.class))
 				.satisfies(constructor -> {
 
-			assertThat(constructor).isNotNull();
-			assertThat(constructor.isNoArgConstructor()).isFalse();
-			assertThat(constructor.isExplicitlyAnnotated()).isTrue();
+					assertThat(constructor).isNotNull();
+					assertThat(constructor.isNoArgConstructor()).isFalse();
+					assertThat(constructor.isExplicitlyAnnotated()).isTrue();
 
-			assertThat(constructor.hasParameters()).isTrue();
+					assertThat(constructor.hasParameters()).isTrue();
 
 					Iterator<Parameter<Object, P>> parameters = (Iterator) constructor.getParameters().iterator();
 
-			Parameter<?, P> parameter = parameters.next();
-			assertThat(parameter.getType().getType()).isEqualTo(Long.class);
-			assertThat(parameters.hasNext()).isFalse();
-		});
+					Parameter<?, P> parameter = parameters.next();
+					assertThat(parameter.getType().getType()).isEqualTo(Long.class);
+					assertThat(parameters.hasNext()).isFalse();
+				});
 	}
 
 	@Test // DATACMNS-134, DATACMNS-1126
@@ -106,23 +106,29 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 
 		assertThat(PreferredConstructorDiscoverer.discover(entity)).satisfies(constructor -> {
 
-			PersistenceConstructor annotation = constructor.getConstructor().getAnnotation(PersistenceConstructor.class);
+			PersistenceConstructor annotation = constructor.getConstructor()
+					.getAnnotation(PersistenceConstructor.class);
 			assertThat(annotation).isNotNull();
 			assertThat(constructor.getConstructor().isSynthetic()).isFalse();
 		});
 	}
 
 	static class SyntheticConstructor {
+
 		@PersistenceConstructor
-		private SyntheticConstructor(String x) {}
+		private SyntheticConstructor(String x) {
+		}
 
 		class InnerSynthetic {
+
 			// Compiler will generate a synthetic constructor since
 			// SyntheticConstructor() is private.
 			InnerSynthetic() {
 				new SyntheticConstructor("");
 			}
+
 		}
+
 	}
 
 	static class EntityWithoutConstructor {
@@ -131,31 +137,43 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 
 	static class ClassWithEmptyConstructor {
 
-		public ClassWithEmptyConstructor() {}
+		public ClassWithEmptyConstructor() {
+		}
+
 	}
 
 	static class ClassWithMultipleConstructorsAndEmptyOne {
 
-		public ClassWithMultipleConstructorsAndEmptyOne(String value) {}
+		public ClassWithMultipleConstructorsAndEmptyOne(String value) {
+		}
 
-		public ClassWithMultipleConstructorsAndEmptyOne() {}
+		public ClassWithMultipleConstructorsAndEmptyOne() {
+		}
+
 	}
 
 	static class ClassWithMultipleConstructorsWithoutEmptyOne {
 
-		public ClassWithMultipleConstructorsWithoutEmptyOne(String value) {}
+		public ClassWithMultipleConstructorsWithoutEmptyOne(String value) {
+		}
 
-		public ClassWithMultipleConstructorsWithoutEmptyOne(Long value) {}
+		public ClassWithMultipleConstructorsWithoutEmptyOne(Long value) {
+		}
+
 	}
 
 	static class ClassWithMultipleConstructorsAndAnnotation {
 
-		public ClassWithMultipleConstructorsAndAnnotation() {}
+		public ClassWithMultipleConstructorsAndAnnotation() {
+		}
 
-		public ClassWithMultipleConstructorsAndAnnotation(String value) {}
+		public ClassWithMultipleConstructorsAndAnnotation(String value) {
+		}
 
 		@PersistenceConstructor
-		public ClassWithMultipleConstructorsAndAnnotation(Long value) {}
+		public ClassWithMultipleConstructorsAndAnnotation(Long value) {
+		}
+
 	}
 
 	static class Outer {
@@ -163,5 +181,7 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 		class Inner {
 
 		}
+
 	}
+
 }

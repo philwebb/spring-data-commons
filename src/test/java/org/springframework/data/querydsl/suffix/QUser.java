@@ -35,4 +35,5 @@ public class QUser extends EntityPathBase<User> {
 	public QUser(String user) {
 		super(User.class, user);
 	}
+
 }

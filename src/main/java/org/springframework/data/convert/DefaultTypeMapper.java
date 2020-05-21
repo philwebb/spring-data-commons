@@ -42,15 +42,16 @@ import org.springframework.util.Assert;
 public class DefaultTypeMapper<S> implements TypeMapper<S> {
 
 	private final TypeAliasAccessor<S> accessor;
+
 	private final List<? extends TypeInformationMapper> mappers;
+
 	private final Map<Alias, Optional<TypeInformation<?>>> typeCache;
 
 	private final Function<Alias, Optional<TypeInformation<?>>> getAlias;
 
 	/**
-	 * Creates a new {@link DefaultTypeMapper} using the given {@link TypeAliasAccessor}. It will use a
-	 * {@link SimpleTypeInformationMapper} to calculate type aliases.
-	 *
+	 * Creates a new {@link DefaultTypeMapper} using the given {@link TypeAliasAccessor}.
+	 * It will use a {@link SimpleTypeInformationMapper} to calculate type aliases.
 	 * @param accessor must not be {@literal null}.
 	 */
 	public DefaultTypeMapper(TypeAliasAccessor<S> accessor) {
@@ -58,9 +59,8 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	}
 
 	/**
-	 * Creates a new {@link DefaultTypeMapper} using the given {@link TypeAliasAccessor} and {@link TypeInformationMapper}
-	 * s.
-	 *
+	 * Creates a new {@link DefaultTypeMapper} using the given {@link TypeAliasAccessor}
+	 * and {@link TypeInformationMapper} s.
 	 * @param accessor must not be {@literal null}.
 	 * @param mappers must not be {@literal null}.
 	 */
@@ -69,10 +69,9 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	}
 
 	/**
-	 * Creates a new {@link DefaultTypeMapper} using the given {@link TypeAliasAccessor}, {@link MappingContext} and
-	 * additional {@link TypeInformationMapper}s. Will register a {@link MappingContextTypeInformationMapper} before the
-	 * given additional mappers.
-	 *
+	 * Creates a new {@link DefaultTypeMapper} using the given {@link TypeAliasAccessor},
+	 * {@link MappingContext} and additional {@link TypeInformationMapper}s. Will register
+	 * a {@link MappingContextTypeInformationMapper} before the given additional mappers.
 	 * @param accessor must not be {@literal null}.
 	 * @param mappingContext
 	 * @param additionalMappers must not be {@literal null}.
@@ -105,6 +104,7 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 			return Optional.empty();
 		};
 	}
+
 	@Nullable
 	public TypeInformation<?> readType(S source) {
 
@@ -114,9 +114,9 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	}
 
 	/**
-	 * Tries to lookup a {@link TypeInformation} for the given alias from the cache and return it if found. If none is
-	 * found it'll consult the {@link TypeInformationMapper}s and cache the value found.
-	 *
+	 * Tries to lookup a {@link TypeInformation} for the given alias from the cache and
+	 * return it if found. If none is found it'll consult the
+	 * {@link TypeInformationMapper}s and cache the value found.
 	 * @param alias
 	 * @return
 	 */
@@ -134,7 +134,9 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.TypeMapper#readType(java.lang.Object, org.springframework.data.util.TypeInformation)
+	 * 
+	 * @see org.springframework.data.convert.TypeMapper#readType(java.lang.Object,
+	 * org.springframework.data.util.TypeInformation)
 	 */
 	public <T> TypeInformation<? extends T> readType(S source, TypeInformation<T> basicType) {
 
@@ -162,9 +164,8 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	}
 
 	/**
-	 * Returns the type discovered through {@link #readType(Object)} but defaulted to the one returned by
-	 * {@link #getFallbackTypeFor(Object)}.
-	 *
+	 * Returns the type discovered through {@link #readType(Object)} but defaulted to the
+	 * one returned by {@link #getFallbackTypeFor(Object)}.
 	 * @param source
 	 * @return
 	 */
@@ -178,8 +179,8 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	}
 
 	/**
-	 * Returns the type fallback {@link TypeInformation} in case none could be extracted from the given source.
-	 *
+	 * Returns the type fallback {@link TypeInformation} in case none could be extracted
+	 * from the given source.
 	 * @param source will never be {@literal null}.
 	 * @return
 	 */
@@ -190,7 +191,9 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.TypeMapper#writeType(java.lang.Class, java.lang.Object)
+	 * 
+	 * @see org.springframework.data.convert.TypeMapper#writeType(java.lang.Class,
+	 * java.lang.Object)
 	 */
 	public void writeType(Class<?> type, S dbObject) {
 		writeType(ClassTypeInformation.from(type), dbObject);
@@ -198,7 +201,10 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.TypeMapper#writeType(org.springframework.data.util.TypeInformation, java.lang.Object)
+	 * 
+	 * @see
+	 * org.springframework.data.convert.TypeMapper#writeType(org.springframework.data.util
+	 * .TypeInformation, java.lang.Object)
 	 */
 	public void writeType(TypeInformation<?> info, S sink) {
 
@@ -212,10 +218,9 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 
 	/**
 	 * Returns the alias to be used for the given {@link TypeInformation}.
-	 *
 	 * @param info must not be {@literal null}
-	 * @return the alias for the given {@link TypeInformation} or {@literal null} of none was found or all mappers
-	 *         returned {@literal null}.
+	 * @return the alias for the given {@link TypeInformation} or {@literal null} of none
+	 * was found or all mappers returned {@literal null}.
 	 */
 	protected final Alias getAliasFor(TypeInformation<?> info) {
 
@@ -231,4 +236,5 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 
 		return Alias.NONE;
 	}
+
 }

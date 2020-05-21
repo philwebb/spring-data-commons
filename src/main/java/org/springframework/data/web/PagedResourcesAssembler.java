@@ -44,7 +44,8 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * {@link ResourceAssembler} to easily convert {@link Page} instances into {@link PagedResources}.
+ * {@link ResourceAssembler} to easily convert {@link Page} instances into
+ * {@link PagedResources}.
  *
  * @since 1.6
  * @author Oliver Gierke
@@ -54,16 +55,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<Page<T>, PagedModel<EntityModel<T>>> {
 
 	private final HateoasPageableHandlerMethodArgumentResolver pageableResolver;
+
 	private final Optional<UriComponents> baseUri;
+
 	private final EmbeddedWrappers wrappers = new EmbeddedWrappers(false);
 
 	private boolean forceFirstAndLastRels = false;
 
 	/**
-	 * Creates a new {@link PagedResourcesAssembler} using the given {@link PageableHandlerMethodArgumentResolver} and
-	 * base URI. If the former is {@literal null}, a default one will be created. If the latter is {@literal null}, calls
-	 * to {@link #toModel(Page)} will use the current request's URI to build the relevant previous and next links.
-	 *
+	 * Creates a new {@link PagedResourcesAssembler} using the given
+	 * {@link PageableHandlerMethodArgumentResolver} and base URI. If the former is
+	 * {@literal null}, a default one will be created. If the latter is {@literal null},
+	 * calls to {@link #toModel(Page)} will use the current request's URI to build the
+	 * relevant previous and next links.
 	 * @param resolver can be {@literal null}.
 	 * @param baseUri can be {@literal null}.
 	 */
@@ -75,17 +79,18 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	/**
-	 * Configures whether to always add {@code first} and {@code last} links to the {@link PagedResources} created.
-	 * Defaults to {@literal false} which means that {@code first} and {@code last} links only appear in conjunction with
-	 * {@code prev} and {@code next} links.
-	 *
-	 * @param forceFirstAndLastRels whether to always add {@code first} and {@code last} links to the
-	 *          {@link PagedResources} created.
+	 * Configures whether to always add {@code first} and {@code last} links to the
+	 * {@link PagedResources} created. Defaults to {@literal false} which means that
+	 * {@code first} and {@code last} links only appear in conjunction with {@code prev}
+	 * and {@code next} links.
+	 * @param forceFirstAndLastRels whether to always add {@code first} and {@code last}
+	 * links to the {@link PagedResources} created.
 	 * @since 1.11
 	 */
 	public void setForceFirstAndLastRels(boolean forceFirstAndLastRels) {
 		this.forceFirstAndLastRels = forceFirstAndLastRels;
 	}
+
 	@Override
 	@SuppressWarnings("null")
 	public PagedModel<EntityModel<T>> toModel(Page<T> entity) {
@@ -93,10 +98,10 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	/**
-	 * Creates a new {@link PagedResources} by converting the given {@link Page} into a {@link PageMetadata} instance and
-	 * wrapping the contained elements into {@link Resource} instances. Will add pagination links based on the given the
-	 * self link.
-	 *
+	 * Creates a new {@link PagedResources} by converting the given {@link Page} into a
+	 * {@link PageMetadata} instance and wrapping the contained elements into
+	 * {@link Resource} instances. Will add pagination links based on the given the self
+	 * link.
 	 * @param page must not be {@literal null}.
 	 * @param selfLink must not be {@literal null}.
 	 * @return
@@ -106,9 +111,9 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	/**
-	 * Creates a new {@link PagedResources} by converting the given {@link Page} into a {@link PageMetadata} instance and
-	 * using the given {@link ResourceAssembler} to turn elements of the {@link Page} into resources.
-	 *
+	 * Creates a new {@link PagedResources} by converting the given {@link Page} into a
+	 * {@link PageMetadata} instance and using the given {@link ResourceAssembler} to turn
+	 * elements of the {@link Page} into resources.
 	 * @param page must not be {@literal null}.
 	 * @param assembler must not be {@literal null}.
 	 * @return
@@ -119,10 +124,10 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	/**
-	 * Creates a new {@link PagedResources} by converting the given {@link Page} into a {@link PageMetadata} instance and
-	 * using the given {@link ResourceAssembler} to turn elements of the {@link Page} into resources. Will add pagination
-	 * links based on the given the self link.
-	 *
+	 * Creates a new {@link PagedResources} by converting the given {@link Page} into a
+	 * {@link PageMetadata} instance and using the given {@link ResourceAssembler} to turn
+	 * elements of the {@link Page} into resources. Will add pagination links based on the
+	 * given the self link.
 	 * @param page must not be {@literal null}.
 	 * @param assembler must not be {@literal null}.
 	 * @param link must not be {@literal null}.
@@ -137,8 +142,8 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	/**
-	 * Creates a {@link PagedResources} with an empt collection {@link EmbeddedWrapper} for the given domain type.
-	 *
+	 * Creates a {@link PagedResources} with an empt collection {@link EmbeddedWrapper}
+	 * for the given domain type.
 	 * @param page must not be {@literal null}, content must be empty.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -149,8 +154,8 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	/**
-	 * Creates a {@link PagedResources} with an empt collection {@link EmbeddedWrapper} for the given domain type.
-	 *
+	 * Creates a {@link PagedResources} with an empt collection {@link EmbeddedWrapper}
+	 * for the given domain type.
 	 * @param page must not be {@literal null}, content must be empty.
 	 * @param type must not be {@literal null}.
 	 * @param link must not be {@literal null}.
@@ -178,8 +183,8 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 
 	/**
 	 * Creates the {@link PagedResources} to be equipped with pagination links downstream.
-	 *
-	 * @param resources the original page's elements mapped into {@link ResourceSupport} instances.
+	 * @param resources the original page's elements mapped into {@link ResourceSupport}
+	 * instances.
 	 * @param metadata the calculated {@link PageMetadata}, must not be {@literal null}.
 	 * @param page the original page handed to the assembler, must not be {@literal null}.
 	 * @return must not be {@literal null}.
@@ -238,17 +243,16 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 
 			int lastIndex = page.getTotalPages() == 0 ? 0 : page.getTotalPages() - 1;
 
-			resources
-					.add(createLink(base, PageRequest.of(lastIndex, page.getSize(), page.getSort()), IanaLinkRelations.LAST));
+			resources.add(createLink(base, PageRequest.of(lastIndex, page.getSize(), page.getSort()),
+					IanaLinkRelations.LAST));
 		}
 
 		return resources;
 	}
 
 	/**
-	 * Returns a default URI string either from the one configured on assembler creatino or by looking it up from the
-	 * current request.
-	 *
+	 * Returns a default URI string either from the one configured on assembler creatino
+	 * or by looking it up from the current request.
 	 * @return
 	 */
 	private UriTemplate getUriTemplate(Optional<Link> baseLink) {
@@ -256,9 +260,9 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	/**
-	 * Creates a {@link Link} with the given {@link LinkRelation} that will be based on the given {@link UriTemplate} but
-	 * enriched with the values of the given {@link Pageable} (if not {@literal null}).
-	 *
+	 * Creates a {@link Link} with the given {@link LinkRelation} that will be based on
+	 * the given {@link UriTemplate} but enriched with the values of the given
+	 * {@link Pageable} (if not {@literal null}).
 	 * @param base must not be {@literal null}.
 	 * @param pageable can be {@literal null}
 	 * @param relation must not be {@literal null}.
@@ -273,9 +277,9 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	/**
-	 * Return the {@link MethodParameter} to be used to potentially qualify the paging and sorting request parameters to.
-	 * Default implementations returns {@literal null}, which means the parameters will not be qualified.
-	 *
+	 * Return the {@link MethodParameter} to be used to potentially qualify the paging and
+	 * sorting request parameters to. Default implementations returns {@literal null},
+	 * which means the parameters will not be qualified.
 	 * @return
 	 * @since 1.7
 	 */
@@ -286,7 +290,6 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 
 	/**
 	 * Creates a new {@link PageMetadata} instance from the given {@link Page}.
-	 *
 	 * @param page must not be {@literal null}.
 	 * @return
 	 */
@@ -306,4 +309,5 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	private static String currentRequest() {
 		return ServletUriComponentsBuilder.fromCurrentRequest().build().toString();
 	}
+
 }

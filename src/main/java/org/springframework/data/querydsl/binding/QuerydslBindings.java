@@ -46,16 +46,18 @@ import com.querydsl.core.types.Path;
  *     bind(String.class).first((path, value) -> path.like(value.toString()));
  *   }
  * }
- * </code>
- * </pre>
+ * </code> </pre>
  *
- * The bindings can either handle a single - see {@link PathBinder#first(SingleValueBinding)} - (the first in case
- * multiple ones are supplied) or multiple - see {@link PathBinder#all(MultiValueBinding)} - value binding. If exactly
- * one path is deployed, an {@link AliasingPathBinder} is returned which - as the name suggests - allows aliasing of
- * paths, i.e. exposing the path under a different name.
+ * The bindings can either handle a single - see
+ * {@link PathBinder#first(SingleValueBinding)} - (the first in case multiple ones are
+ * supplied) or multiple - see {@link PathBinder#all(MultiValueBinding)} - value binding.
+ * If exactly one path is deployed, an {@link AliasingPathBinder} is returned which - as
+ * the name suggests - allows aliasing of paths, i.e. exposing the path under a different
+ * name.
  * <p>
- * {@link QuerydslBindings} are usually manipulated using a {@link QuerydslBinderCustomizer}, either implemented
- * directly or using a default method on a Spring Data repository.
+ * {@link QuerydslBindings} are usually manipulated using a
+ * {@link QuerydslBinderCustomizer}, either implemented directly or using a default method
+ * on a Spring Data repository.
  *
  * @author Christoph Strobl
  * @author Oliver Gierke
@@ -65,7 +67,9 @@ import com.querydsl.core.types.Path;
 public class QuerydslBindings {
 
 	private final Map<String, PathAndBinding<?, ?>> pathSpecs;
+
 	private final Map<Class<?>, PathAndBinding<?, ?>> typeSpecs;
+
 	private final Set<String> whiteList, blackList, aliases;
 
 	private boolean excludeUnlistedProperties;
@@ -84,8 +88,8 @@ public class QuerydslBindings {
 	}
 
 	/**
-	 * Returns an {@link AliasingPathBinder} for the given {@link Path} to define bindings for them.
-	 *
+	 * Returns an {@link AliasingPathBinder} for the given {@link Path} to define bindings
+	 * for them.
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
@@ -94,8 +98,8 @@ public class QuerydslBindings {
 	}
 
 	/**
-	 * Returns a new {@link PathBinder} for the given {@link Path}s to define bindings for them.
-	 *
+	 * Returns a new {@link PathBinder} for the given {@link Path}s to define bindings for
+	 * them.
 	 * @param paths must not be {@literal null} or empty.
 	 * @return
 	 */
@@ -106,7 +110,6 @@ public class QuerydslBindings {
 
 	/**
 	 * Returns a new {@link TypeBinder} for the given type.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -115,9 +118,9 @@ public class QuerydslBindings {
 	}
 
 	/**
-	 * Exclude properties from binding. Exclusion of all properties of a nested type can be done by exclusion on a higher
-	 * level. E.g. {@code address} would exclude both {@code address.city} and {@code address.street}.
-	 *
+	 * Exclude properties from binding. Exclusion of all properties of a nested type can
+	 * be done by exclusion on a higher level. E.g. {@code address} would exclude both
+	 * {@code address.city} and {@code address.street}.
 	 * @param paths must not be {@literal null} or empty.
 	 */
 	public final void excluding(Path<?>... paths) {
@@ -130,8 +133,8 @@ public class QuerydslBindings {
 	}
 
 	/**
-	 * Include properties for binding. Include the property considered a binding candidate.
-	 *
+	 * Include properties for binding. Include the property considered a binding
+	 * candidate.
 	 * @param properties must not be {@literal null} or empty.
 	 */
 	public final void including(Path<?>... paths) {
@@ -144,10 +147,10 @@ public class QuerydslBindings {
 	}
 
 	/**
-	 * Returns whether to exclude all properties for which no explicit binding has been defined or it has been explicitly
-	 * white-listed. This defaults to {@literal false} which means that for properties without an explicitly defined
-	 * binding a type specific default binding will be applied.
-	 *
+	 * Returns whether to exclude all properties for which no explicit binding has been
+	 * defined or it has been explicitly white-listed. This defaults to {@literal false}
+	 * which means that for properties without an explicitly defined binding a type
+	 * specific default binding will be applied.
 	 * @param excludeUnlistedProperties
 	 * @return
 	 * @see #including(String...)
@@ -161,7 +164,6 @@ public class QuerydslBindings {
 
 	/**
 	 * Returns whether the given path is available on the given type.
-	 *
 	 * @param path must not be {@literal null}.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -176,7 +178,6 @@ public class QuerydslBindings {
 
 	/**
 	 * Returns whether the given path is available on the given type.
-	 *
 	 * @param path must not be {@literal null}.
 	 * @param type
 	 * @return
@@ -190,9 +191,9 @@ public class QuerydslBindings {
 	}
 
 	/**
-	 * Returns the {@link SingleValueBinding} for the given {@link PropertyPath}. Prefers a path configured for the
-	 * specific path but falls back to the builder registered for a given type.
-	 *
+	 * Returns the {@link SingleValueBinding} for the given {@link PropertyPath}. Prefers
+	 * a path configured for the specific path but falls back to the builder registered
+	 * for a given type.
 	 * @param path must not be {@literal null}.
 	 * @return can be {@literal null}.
 	 */
@@ -219,7 +220,6 @@ public class QuerydslBindings {
 
 	/**
 	 * Returns a {@link Path} for the {@link PropertyPath} instance.
-	 *
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
@@ -232,7 +232,6 @@ public class QuerydslBindings {
 
 	/**
 	 * Returns the {@link PathInformation} for the given path and {@link TypeInformation}.
-	 *
 	 * @param path must not be {@literal null}.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -256,14 +255,14 @@ public class QuerydslBindings {
 		try {
 			PathInformation propertyPath = PropertyPathInformation.of(path, type);
 			return isPathVisible(propertyPath) ? propertyPath : null;
-		} catch (PropertyReferenceException o_O) {
+		}
+		catch (PropertyReferenceException o_O) {
 			return null;
 		}
 	}
 
 	/**
 	 * Checks if a given {@link PropertyPath} should be visible for binding values.
-	 *
 	 * @param path
 	 * @return
 	 */
@@ -288,9 +287,9 @@ public class QuerydslBindings {
 	}
 
 	/**
-	 * Returns whether the given path is visible, which means either an alias and not explicitly blacklisted, explicitly
-	 * white listed or not on the black list if no white list configured.
-	 *
+	 * Returns whether the given path is visible, which means either an alias and not
+	 * explicitly blacklisted, explicitly white listed or not on the black list if no
+	 * white list configured.
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
@@ -310,7 +309,6 @@ public class QuerydslBindings {
 
 	/**
 	 * Returns the property path for the given {@link Path}.
-	 *
 	 * @param path can be {@literal null}.
 	 * @return
 	 */
@@ -340,7 +338,6 @@ public class QuerydslBindings {
 
 		/**
 		 * Creates a new {@link PathBinder} for the given {@link Path}s.
-		 *
 		 * @param paths must not be {@literal null} or empty.
 		 */
 		@SafeVarargs
@@ -352,7 +349,6 @@ public class QuerydslBindings {
 
 		/**
 		 * Defines the given {@link SingleValueBinding} to be used for the paths.
-		 *
 		 * @param binding must not be {@literal null}.
 		 * @return
 		 */
@@ -371,7 +367,6 @@ public class QuerydslBindings {
 
 		/**
 		 * Defines the given {@link MultiValueBinding} to be used for the paths.
-		 *
 		 * @param binding must not be {@literal null}.
 		 * @return
 		 */
@@ -385,22 +380,24 @@ public class QuerydslBindings {
 		protected void registerBinding(PathAndBinding<P, T> binding) {
 			QuerydslBindings.this.pathSpecs.put(toDotPath(binding.getPath()), binding);
 		}
+
 	}
 
 	/**
-	 * A special {@link PathBinder} that additionally registers the binding under a dedicated alias. The original path is
-	 * still registered but blacklisted so that it becomes unavailable except it's explicitly whitelisted.
+	 * A special {@link PathBinder} that additionally registers the binding under a
+	 * dedicated alias. The original path is still registered but blacklisted so that it
+	 * becomes unavailable except it's explicitly whitelisted.
 	 *
 	 * @author Oliver Gierke
 	 */
 	public class AliasingPathBinder<P extends Path<? extends T>, T> extends PathBinder<P, T> {
 
 		private final @Nullable String alias;
+
 		private final P path;
 
 		/**
 		 * Creates a new {@link AliasingPathBinder} for the given {@link Path}.
-		 *
 		 * @param paths must not be {@literal null}.
 		 */
 		AliasingPathBinder(P path) {
@@ -408,8 +405,8 @@ public class QuerydslBindings {
 		}
 
 		/**
-		 * Creates a new {@link AliasingPathBinder} using the given alias and {@link Path}.
-		 *
+		 * Creates a new {@link AliasingPathBinder} using the given alias and
+		 * {@link Path}.
 		 * @param alias can be {@literal null}.
 		 * @param path must not be {@literal null}.
 		 */
@@ -424,10 +421,10 @@ public class QuerydslBindings {
 		}
 
 		/**
-		 * Aliases the current binding to be available under the given path. By default, the binding path will be
-		 * blacklisted so that aliasing effectively hides the original path. If you want to keep the original path around,
-		 * include it in an explicit whitelist.
-		 *
+		 * Aliases the current binding to be available under the given path. By default,
+		 * the binding path will be blacklisted so that aliasing effectively hides the
+		 * original path. If you want to keep the original path around, include it in an
+		 * explicit whitelist.
 		 * @param alias must not be {@literal null}.
 		 * @return will never be {@literal null}.
 		 */
@@ -443,6 +440,7 @@ public class QuerydslBindings {
 		public void withDefaultBinding() {
 			registerBinding(PathAndBinding.withPath(this.path));
 		}
+
 		@Override
 		protected void registerBinding(PathAndBinding<P, T> binding) {
 
@@ -454,6 +452,7 @@ public class QuerydslBindings {
 				QuerydslBindings.this.blackList.add(toDotPath(binding.getPath()));
 			}
 		}
+
 	}
 
 	/**
@@ -470,8 +469,8 @@ public class QuerydslBindings {
 		}
 
 		/**
-		 * Configures the given {@link SingleValueBinding} to be used for the current type.
-		 *
+		 * Configures the given {@link SingleValueBinding} to be used for the current
+		 * type.
 		 * @param binding must not be {@literal null}.
 		 */
 		public <P extends Path<T>> void firstOptional(OptionalValueBinding<P, T> binding) {
@@ -483,20 +482,21 @@ public class QuerydslBindings {
 		public <P extends Path<T>> void first(SingleValueBinding<P, T> binding) {
 
 			Assert.notNull(binding, "Binding must not be null!");
-			all((MultiValueBinding<P, T>) (path, value) -> Optionals.next(value.iterator()).map(t -> binding.bind(path, t)));
+			all((MultiValueBinding<P, T>) (path, value) -> Optionals.next(value.iterator())
+					.map(t -> binding.bind(path, t)));
 		}
 
 		/**
 		 * Configures the given {@link MultiValueBinding} to be used for the current type.
-		 *
 		 * @param binding must not be {@literal null}.
 		 */
 		public <P extends Path<T>> void all(MultiValueBinding<P, T> binding) {
 
 			Assert.notNull(binding, "Binding must not be null!");
 
-			QuerydslBindings.this.typeSpecs.put(this.type, PathAndBinding.<T, P> withoutPath().with(binding));
+			QuerydslBindings.this.typeSpecs.put(this.type, PathAndBinding.<T, P>withoutPath().with(binding));
 		}
+
 	}
 
 	/**
@@ -509,6 +509,7 @@ public class QuerydslBindings {
 	private static final class PathAndBinding<P extends Path<? extends T>, T> {
 
 		private final Optional<Path<?>> path;
+
 		private final Optional<MultiValueBinding<P, T>> binding;
 
 		PathAndBinding(Optional<Path<?>> path, Optional<MultiValueBinding<P, T>> binding) {
@@ -535,6 +536,7 @@ public class QuerydslBindings {
 		public Optional<MultiValueBinding<P, T>> getBinding() {
 			return this.binding;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 			if (this == o) {
@@ -549,15 +551,19 @@ public class QuerydslBindings {
 			}
 			return ObjectUtils.nullSafeEquals(this.binding, that.binding);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.path);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.binding);
 			return result;
 		}
+
 		@Override
 		public String toString() {
 			return "QuerydslBindings.PathAndBinding(path=" + this.getPath() + ", binding=" + this.getBinding() + ")";
 		}
+
 	}
+
 }

@@ -24,10 +24,13 @@ public class ChangeSetBackedTransactionSynchronization implements TransactionSyn
 	protected final Logger log = LoggerFactory.getLogger(getClass());
 
 	private final ChangeSetPersister<Object> changeSetPersister;
+
 	private final ChangeSetBacked entity;
+
 	private int changeSetTxStatus = -1;
 
-	public ChangeSetBackedTransactionSynchronization(ChangeSetPersister<Object> changeSetPersister, ChangeSetBacked entity) {
+	public ChangeSetBackedTransactionSynchronization(ChangeSetPersister<Object> changeSetPersister,
+			ChangeSetBacked entity) {
 		this.changeSetPersister = changeSetPersister;
 		this.entity = entity;
 	}
@@ -44,7 +47,8 @@ public class ChangeSetBackedTransactionSynchronization implements TransactionSyn
 			if (status == STATUS_COMMITTED) {
 				// this is good
 				this.log.debug("ChangedSetBackedTransactionSynchronization completed successfully for " + this.entity);
-			} else {
+			}
+			else {
 				// this could be bad - TODO: compensate
 				this.log.error("ChangedSetBackedTransactionSynchronization failed for " + this.entity);
 			}

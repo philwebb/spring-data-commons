@@ -65,4 +65,5 @@ public class StreamableUnitTests {
 				.collect(Streamable.toStreamable(Collectors.toSet()))) //
 						.containsExactlyInAnyOrder(1, 2);
 	}
+
 }

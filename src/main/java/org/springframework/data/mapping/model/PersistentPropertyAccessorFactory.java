@@ -19,7 +19,8 @@ import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentPropertyAccessor;
 
 /**
- * Factory to create {@link PersistentPropertyAccessor} for a given {@link PersistentEntity} and bean instance.
+ * Factory to create {@link PersistentPropertyAccessor} for a given
+ * {@link PersistentEntity} and bean instance.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
@@ -28,8 +29,8 @@ import org.springframework.data.mapping.PersistentPropertyAccessor;
 public interface PersistentPropertyAccessorFactory {
 
 	/**
-	 * Returns a {@link PersistentPropertyAccessor} for a given {@link PersistentEntity} and {@code bean}.
-	 *
+	 * Returns a {@link PersistentPropertyAccessor} for a given {@link PersistentEntity}
+	 * and {@code bean}.
 	 * @param entity must not be {@literal null}.
 	 * @param bean must not be {@literal null}.
 	 * @return will never be {@literal null}.
@@ -37,10 +38,11 @@ public interface PersistentPropertyAccessorFactory {
 	<T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean);
 
 	/**
-	 * Returns whether given {@link PersistentEntity} is supported by this {@link PersistentPropertyAccessorFactory}.
-	 *
+	 * Returns whether given {@link PersistentEntity} is supported by this
+	 * {@link PersistentPropertyAccessorFactory}.
 	 * @param entity must not be {@literal null}.
 	 * @return
 	 */
 	boolean isSupported(PersistentEntity<?, ?> entity);
+
 }

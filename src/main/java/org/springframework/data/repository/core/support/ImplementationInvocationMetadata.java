@@ -30,9 +30,10 @@ import org.springframework.data.util.ReflectionUtils;
 import org.springframework.lang.Nullable;
 
 /**
- * Metadata for a implementation {@link Method} invocation. This value object encapsulates whether the called and the
- * backing method are regular methods or suspendable Kotlin coroutines methods. It also allows invocation of suspended
- * methods by backing the invocation using methods returning reactive types.
+ * Metadata for a implementation {@link Method} invocation. This value object encapsulates
+ * whether the called and the backing method are regular methods or suspendable Kotlin
+ * coroutines methods. It also allows invocation of suspended methods by backing the
+ * invocation using methods returning reactive types.
  *
  * @author Mark Paluch
  * @since 2.3
@@ -40,7 +41,9 @@ import org.springframework.lang.Nullable;
 class ImplementationInvocationMetadata {
 
 	private final boolean suspendedDeclaredMethod;
+
 	private final boolean suspendedBaseClassMethod;
+
 	private final boolean reactiveBaseClassMethod;
 
 	ImplementationInvocationMetadata(Method declaredMethod, Method baseClassMethod) {
@@ -53,11 +56,9 @@ class ImplementationInvocationMetadata {
 		}
 
 		KFunction<?> declaredFunction = KotlinDetector.isKotlinType(declaredMethod.getDeclaringClass())
-				? KotlinReflectionUtils.findKotlinFunction(declaredMethod)
-				: null;
+				? KotlinReflectionUtils.findKotlinFunction(declaredMethod) : null;
 		KFunction<?> baseClassFunction = KotlinDetector.isKotlinType(baseClassMethod.getDeclaringClass())
-				? KotlinReflectionUtils.findKotlinFunction(baseClassMethod)
-				: null;
+				? KotlinReflectionUtils.findKotlinFunction(baseClassMethod) : null;
 
 		this.suspendedDeclaredMethod = declaredFunction != null && declaredFunction.isSuspend();
 		this.suspendedBaseClassMethod = baseClassFunction != null && baseClassFunction.isSuspend();
@@ -83,8 +84,9 @@ class ImplementationInvocationMetadata {
 			throws ReflectiveOperationException {
 
 		/*
-		 * Kotlin suspended functions are invoked with a synthetic Continuation parameter that keeps track of the Coroutine context.
-		 * We're invoking a method without Continuation as we expect the method to return any sort of reactive type,
+		 * Kotlin suspended functions are invoked with a synthetic Continuation parameter
+		 * that keeps track of the Coroutine context. We're invoking a method without
+		 * Continuation as we expect the method to return any sort of reactive type,
 		 * therefore we need to strip the Continuation parameter.
 		 */
 		Object[] invocationArguments = new Object[args.length - 1];
@@ -109,4 +111,5 @@ class ImplementationInvocationMetadata {
 
 		return false;
 	}
+
 }

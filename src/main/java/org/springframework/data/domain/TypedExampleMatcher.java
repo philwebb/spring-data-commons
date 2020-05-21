@@ -33,10 +33,15 @@ import org.springframework.util.ObjectUtils;
 class TypedExampleMatcher implements ExampleMatcher {
 
 	private final NullHandler nullHandler;
+
 	private final StringMatcher defaultStringMatcher;
+
 	private final PropertySpecifiers propertySpecifiers;
+
 	private final Set<String> ignoredPaths;
+
 	private final boolean defaultIgnoreCase;
+
 	private final MatchMode mode;
 
 	TypedExampleMatcher() {
@@ -46,7 +51,8 @@ class TypedExampleMatcher implements ExampleMatcher {
 	}
 
 	private TypedExampleMatcher(NullHandler nullHandler, StringMatcher defaultStringMatcher,
-			PropertySpecifiers propertySpecifiers, Set<String> ignoredPaths, boolean defaultIgnoreCase, MatchMode mode) {
+			PropertySpecifiers propertySpecifiers, Set<String> ignoredPaths, boolean defaultIgnoreCase,
+			MatchMode mode) {
 		this.nullHandler = nullHandler;
 		this.defaultStringMatcher = defaultStringMatcher;
 		this.propertySpecifiers = propertySpecifiers;
@@ -54,6 +60,7 @@ class TypedExampleMatcher implements ExampleMatcher {
 		this.defaultIgnoreCase = defaultIgnoreCase;
 		this.mode = mode;
 	}
+
 	@Override
 	public ExampleMatcher withIgnorePaths(String... ignoredPaths) {
 
@@ -63,26 +70,30 @@ class TypedExampleMatcher implements ExampleMatcher {
 		Set<String> newIgnoredPaths = new LinkedHashSet<>(this.ignoredPaths);
 		newIgnoredPaths.addAll(Arrays.asList(ignoredPaths));
 
-		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, this.propertySpecifiers, newIgnoredPaths,
-				this.defaultIgnoreCase, this.mode);
+		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, this.propertySpecifiers,
+				newIgnoredPaths, this.defaultIgnoreCase, this.mode);
 	}
+
 	@Override
 	public ExampleMatcher withStringMatcher(StringMatcher defaultStringMatcher) {
 
 		Assert.notNull(this.ignoredPaths, "DefaultStringMatcher must not be empty!");
 
-		return new TypedExampleMatcher(this.nullHandler, defaultStringMatcher, this.propertySpecifiers, this.ignoredPaths,
-				this.defaultIgnoreCase, this.mode);
+		return new TypedExampleMatcher(this.nullHandler, defaultStringMatcher, this.propertySpecifiers,
+				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
+
 	@Override
 	public ExampleMatcher withIgnoreCase(boolean defaultIgnoreCase) {
-		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, this.propertySpecifiers, this.ignoredPaths,
-				defaultIgnoreCase, this.mode);
+		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, this.propertySpecifiers,
+				this.ignoredPaths, defaultIgnoreCase, this.mode);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#withMatcher(java.lang.String, org.springframework.data.domain.ExampleMatcher.MatcherConfigurer)
+	 * 
+	 * @see org.springframework.data.domain.ExampleMatcher#withMatcher(java.lang.String,
+	 * org.springframework.data.domain.ExampleMatcher.MatcherConfigurer)
 	 */
 	@Override
 	public ExampleMatcher withMatcher(String propertyPath, GenericPropertyMatcher genericPropertyMatcher) {
@@ -105,13 +116,16 @@ class TypedExampleMatcher implements ExampleMatcher {
 
 		propertySpecifiers.add(propertySpecifier);
 
-		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, propertySpecifiers, this.ignoredPaths,
-				this.defaultIgnoreCase, this.mode);
+		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, propertySpecifiers,
+				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#withTransformer(java.lang.String, org.springframework.data.domain.ExampleMatcher.PropertyValueTransformer)
+	 * 
+	 * @see
+	 * org.springframework.data.domain.ExampleMatcher#withTransformer(java.lang.String,
+	 * org.springframework.data.domain.ExampleMatcher.PropertyValueTransformer)
 	 */
 	@Override
 	public ExampleMatcher withTransformer(String propertyPath, PropertyValueTransformer propertyValueTransformer) {
@@ -124,9 +138,10 @@ class TypedExampleMatcher implements ExampleMatcher {
 
 		propertySpecifiers.add(propertySpecifier.withValueTransformer(propertyValueTransformer));
 
-		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, propertySpecifiers, this.ignoredPaths,
-				this.defaultIgnoreCase, this.mode);
+		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, propertySpecifiers,
+				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
+
 	@Override
 	public ExampleMatcher withIgnoreCase(String... propertyPaths) {
 
@@ -140,45 +155,51 @@ class TypedExampleMatcher implements ExampleMatcher {
 			propertySpecifiers.add(propertySpecifier.withIgnoreCase(true));
 		}
 
-		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, propertySpecifiers, this.ignoredPaths,
-				this.defaultIgnoreCase, this.mode);
+		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, propertySpecifiers,
+				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
+
 	@Override
 	public ExampleMatcher withNullHandler(NullHandler nullHandler) {
 
 		Assert.notNull(nullHandler, "NullHandler must not be null!");
-		return new TypedExampleMatcher(nullHandler, this.defaultStringMatcher, this.propertySpecifiers, this.ignoredPaths,
-				this.defaultIgnoreCase, this.mode);
+		return new TypedExampleMatcher(nullHandler, this.defaultStringMatcher, this.propertySpecifiers,
+				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
+
 	@Override
 	public NullHandler getNullHandler() {
 		return this.nullHandler;
 	}
+
 	@Override
 	public StringMatcher getDefaultStringMatcher() {
 		return this.defaultStringMatcher;
 	}
+
 	@Override
 	public boolean isIgnoreCaseEnabled() {
 		return this.defaultIgnoreCase;
 	}
+
 	@Override
 	public Set<String> getIgnoredPaths() {
 		return this.ignoredPaths;
 	}
+
 	@Override
 	public PropertySpecifiers getPropertySpecifiers() {
 		return this.propertySpecifiers;
 	}
+
 	@Override
 	public MatchMode getMatchMode() {
 		return this.mode;
 	}
 
 	TypedExampleMatcher withMode(MatchMode mode) {
-		return this.mode == mode ? this
-				: new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, this.propertySpecifiers,
-						this.ignoredPaths, this.defaultIgnoreCase, mode);
+		return this.mode == mode ? this : new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher,
+				this.propertySpecifiers, this.ignoredPaths, this.defaultIgnoreCase, mode);
 	}
 
 	private PropertySpecifier getOrCreatePropertySpecifier(String propertyPath, PropertySpecifiers propertySpecifiers) {
@@ -189,6 +210,7 @@ class TypedExampleMatcher implements ExampleMatcher {
 
 		return new PropertySpecifier(propertyPath);
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -225,6 +247,7 @@ class TypedExampleMatcher implements ExampleMatcher {
 
 		return this.mode == that.mode;
 	}
+
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(this.nullHandler);
@@ -235,10 +258,12 @@ class TypedExampleMatcher implements ExampleMatcher {
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.mode);
 		return result;
 	}
+
 	@Override
 	public String toString() {
-		return "TypedExampleMatcher{" + "nullHandler=" + this.nullHandler + ", defaultStringMatcher=" + this.defaultStringMatcher
-				+ ", propertySpecifiers=" + this.propertySpecifiers + ", ignoredPaths=" + this.ignoredPaths + ", defaultIgnoreCase="
-				+ this.defaultIgnoreCase + ", mode=" + this.mode + '}';
+		return "TypedExampleMatcher{" + "nullHandler=" + this.nullHandler + ", defaultStringMatcher="
+				+ this.defaultStringMatcher + ", propertySpecifiers=" + this.propertySpecifiers + ", ignoredPaths="
+				+ this.ignoredPaths + ", defaultIgnoreCase=" + this.defaultIgnoreCase + ", mode=" + this.mode + '}';
 	}
+
 }

@@ -114,11 +114,13 @@ class AbstractRepositoryMetadataUnitTests {
 	interface UserRepository extends Repository<User, Long> {
 
 		User findSingle();
+
 	}
 
 	interface IntermediateRepository<T> extends Repository<T, Long> {
 
 		List<T> intermediateMethod();
+
 	}
 
 	interface ConcreteRepository extends IntermediateRepository<User> {
@@ -132,11 +134,13 @@ class AbstractRepositoryMetadataUnitTests {
 		GenericType<User> someMethod();
 
 		List<Map<String, Object>> anotherMethod();
+
 	}
 
 	interface PagedRepository extends PagingAndSortingRepository<User, Long> {
 
 		User[] returnsArray();
+
 	}
 
 	class GenericType<T> {
@@ -158,15 +162,23 @@ class AbstractRepositoryMetadataUnitTests {
 		public Class<?> getDomainType() {
 			return ResolvableType.forClass(Repository.class, getRepositoryInterface()).getGeneric(0).resolve();
 		}
+
 	}
 
 	// DATACMNS-1299
 
-	class Element {}
+	class Element {
 
-	abstract class Container implements Iterable<Element> {}
+	}
+
+	abstract class Container implements Iterable<Element> {
+
+	}
 
 	interface ContainerRepository extends Repository<Container, Long> {
+
 		Container someMethod();
+
 	}
+
 }

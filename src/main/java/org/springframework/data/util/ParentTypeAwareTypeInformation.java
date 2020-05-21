@@ -29,11 +29,11 @@ import org.springframework.lang.Nullable;
 public abstract class ParentTypeAwareTypeInformation<S> extends TypeDiscoverer<S> {
 
 	private final TypeDiscoverer<?> parent;
+
 	private int hashCode;
 
 	/**
 	 * Creates a new {@link ParentTypeAwareTypeInformation}.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @param parent must not be {@literal null}.
 	 */
@@ -46,6 +46,7 @@ public abstract class ParentTypeAwareTypeInformation<S> extends TypeDiscoverer<S
 		super(type, map);
 		this.parent = parent;
 	}
+
 	@Override
 	protected TypeInformation<?> createInfo(Type fieldType) {
 
@@ -55,6 +56,7 @@ public abstract class ParentTypeAwareTypeInformation<S> extends TypeDiscoverer<S
 
 		return super.createInfo(fieldType);
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -73,6 +75,7 @@ public abstract class ParentTypeAwareTypeInformation<S> extends TypeDiscoverer<S
 		ParentTypeAwareTypeInformation<?> that = (ParentTypeAwareTypeInformation<?>) obj;
 		return this.parent == null ? that.parent == null : this.parent.equals(that.parent);
 	}
+
 	@Override
 	public int hashCode() {
 
@@ -82,4 +85,5 @@ public abstract class ParentTypeAwareTypeInformation<S> extends TypeDiscoverer<S
 
 		return this.hashCode;
 	}
+
 }

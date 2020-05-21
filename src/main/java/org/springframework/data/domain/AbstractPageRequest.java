@@ -29,12 +29,12 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 	private static final long serialVersionUID = 1232825578694716871L;
 
 	private final int page;
+
 	private final int size;
 
 	/**
-	 * Creates a new {@link AbstractPageRequest}. Pages are zero indexed, thus providing 0 for {@code page} will return
-	 * the first page.
-	 *
+	 * Creates a new {@link AbstractPageRequest}. Pages are zero indexed, thus providing 0
+	 * for {@code page} will return the first page.
 	 * @param page must not be less than zero.
 	 * @param size must not be less than one.
 	 */
@@ -51,30 +51,37 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 		this.page = page;
 		this.size = size;
 	}
+
 	public int getPageSize() {
 		return this.size;
 	}
+
 	public int getPageNumber() {
 		return this.page;
 	}
+
 	public long getOffset() {
 		return (long) this.page * (long) this.size;
 	}
+
 	public boolean hasPrevious() {
 		return this.page > 0;
 	}
+
 	public Pageable previousOrFirst() {
 		return hasPrevious() ? previous() : first();
 	}
+
 	public abstract Pageable next();
 
 	/**
 	 * Returns the {@link Pageable} requesting the previous {@link Page}.
-	 *
 	 * @return
 	 */
 	public abstract Pageable previous();
+
 	public abstract Pageable first();
+
 	@Override
 	public int hashCode() {
 
@@ -86,6 +93,7 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 
@@ -100,4 +108,5 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 		AbstractPageRequest other = (AbstractPageRequest) obj;
 		return this.page == other.page && this.size == other.size;
 	}
+
 }

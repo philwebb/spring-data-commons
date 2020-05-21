@@ -19,7 +19,8 @@ import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 /**
- * Provides a way to access a centrally defined potentially shared {@link StandardEvaluationContext}.
+ * Provides a way to access a centrally defined potentially shared
+ * {@link StandardEvaluationContext}.
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
@@ -29,8 +30,8 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 public interface EvaluationContextProvider {
 
 	/**
-	 * A simple default {@link EvaluationContextProvider} returning a {@link StandardEvaluationContext} with the given
-	 * root object.
+	 * A simple default {@link EvaluationContextProvider} returning a
+	 * {@link StandardEvaluationContext} with the given root object.
 	 */
 	static EvaluationContextProvider DEFAULT = rootObject -> rootObject == null //
 			? new StandardEvaluationContext() //
@@ -38,9 +39,9 @@ public interface EvaluationContextProvider {
 
 	/**
 	 * Returns an {@link EvaluationContext} built using the given parameter values.
-	 *
 	 * @param rootObject the root object to set in the {@link EvaluationContext}.
 	 * @return
 	 */
 	EvaluationContext getEvaluationContext(Object rootObject);
+
 }

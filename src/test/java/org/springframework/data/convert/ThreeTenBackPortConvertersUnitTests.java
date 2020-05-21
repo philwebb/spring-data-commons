@@ -124,4 +124,5 @@ class ThreeTenBackPortConvertersUnitTests {
 	private static String format(Date date, String format) {
 		return new SimpleDateFormat(format).format(date);
 	}
+
 }

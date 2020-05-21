@@ -29,8 +29,8 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * {@link EntityCallbacks} implementation using an {@link EntityCallbackDiscoverer} to retrieve {@link EntityCallback
- * EntityCallbacks} from a {@link BeanFactory}.
+ * {@link EntityCallbacks} implementation using an {@link EntityCallbackDiscoverer} to
+ * retrieve {@link EntityCallback EntityCallbacks} from a {@link BeanFactory}.
  * 
  * @author Mark Paluch
  * @author Christoph Strobl
@@ -39,7 +39,9 @@ import org.springframework.util.ReflectionUtils;
 class DefaultEntityCallbacks implements EntityCallbacks {
 
 	private final Map<Class<?>, Method> callbackMethodCache = new ConcurrentReferenceHashMap<>(64);
+
 	private final SimpleEntityCallbackInvoker callbackInvoker = new SimpleEntityCallbackInvoker();
+
 	private final EntityCallbackDiscoverer callbackDiscoverer;
 
 	/**
@@ -50,9 +52,8 @@ class DefaultEntityCallbacks implements EntityCallbacks {
 	}
 
 	/**
-	 * Create new instance of {@link DefaultEntityCallbacks} discovering {@link EntityCallback entity callbacks} within
-	 * the given {@link BeanFactory}.
-	 * 
+	 * Create new instance of {@link DefaultEntityCallbacks} discovering
+	 * {@link EntityCallback entity callbacks} within the given {@link BeanFactory}.
 	 * @param beanFactory must not be {@literal null}.
 	 */
 	DefaultEntityCallbacks(BeanFactory beanFactory) {
@@ -61,7 +62,10 @@ class DefaultEntityCallbacks implements EntityCallbacks {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.callback.EntityCallbacks#callback(java.lang.Class, java.lang.Object, java.lang.Object)
+	 * 
+	 * @see
+	 * org.springframework.data.mapping.callback.EntityCallbacks#callback(java.lang.Class,
+	 * java.lang.Object, java.lang.Object)
 	 */
 	@Override
 	public <T> T callback(Class<? extends EntityCallback> callbackType, T entity, Object... args) {
@@ -90,6 +94,7 @@ class DefaultEntityCallbacks implements EntityCallbacks {
 
 		return value;
 	}
+
 	@Override
 	public void addEntityCallback(EntityCallback<?> callback) {
 		this.callbackDiscoverer.addEntityCallback(callback);
@@ -109,25 +114,30 @@ class DefaultEntityCallbacks implements EntityCallbacks {
 					return (T) value;
 				}
 
-				throw new IllegalArgumentException(
-						String.format("Callback invocation on %s returned null value for %s", callback.getClass(), entity));
+				throw new IllegalArgumentException(String.format("Callback invocation on %s returned null value for %s",
+						callback.getClass(), entity));
 
-			} catch (ClassCastException ex) {
+			}
+			catch (ClassCastException ex) {
 
 				String msg = ex.getMessage();
 				if (msg == null || EntityCallbackInvoker.matchesClassCastMessage(msg, entity.getClass())) {
 
-					// Possibly a lambda-defined listener which we could not resolve the generic event type for
+					// Possibly a lambda-defined listener which we could not resolve the
+					// generic event type for
 					// -> let's suppress the exception and just log a debug message.
 					Log logger = LogFactory.getLog(getClass());
 					if (logger.isDebugEnabled()) {
 						logger.debug("Non-matching callback type for entity callback: " + callback, ex);
 					}
 					return entity;
-				} else {
+				}
+				else {
 					throw ex;
 				}
 			}
 		}
+
 	}
+
 }

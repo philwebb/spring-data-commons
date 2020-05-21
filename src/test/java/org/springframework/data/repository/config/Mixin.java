@@ -21,4 +21,5 @@ package org.springframework.data.repository.config;
 interface Mixin {
 
 	String getOne();
+
 }

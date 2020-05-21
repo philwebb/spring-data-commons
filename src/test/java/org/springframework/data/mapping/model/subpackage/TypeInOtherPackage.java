@@ -24,21 +24,32 @@ import org.springframework.data.annotation.AccessType.Type;
  */
 public class TypeInOtherPackage {
 
-	@SuppressWarnings("unused") private String privateField;
+	@SuppressWarnings("unused")
+	private String privateField;
+
 	String packageDefaultField;
+
 	protected String protectedField;
+
 	public String publicField;
+
 	private String backing;
+
 	private final String immutable = "";
+
 	private final String wither;
 
-	@AccessType(Type.PROPERTY) private String privateProperty;
+	@AccessType(Type.PROPERTY)
+	private String privateProperty;
 
-	@AccessType(Type.PROPERTY) private String packageDefaultProperty;
+	@AccessType(Type.PROPERTY)
+	private String packageDefaultProperty;
 
-	@AccessType(Type.PROPERTY) private String protectedProperty;
+	@AccessType(Type.PROPERTY)
+	private String protectedProperty;
 
-	@AccessType(Type.PROPERTY) private String publicProperty;
+	@AccessType(Type.PROPERTY)
+	private String publicProperty;
 
 	public TypeInOtherPackage() {
 		this.wither = "";
@@ -98,4 +109,5 @@ public class TypeInOtherPackage {
 	public TypeInOtherPackage withWither(String wither) {
 		return new TypeInOtherPackage(wither);
 	}
+
 }

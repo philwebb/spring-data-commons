@@ -40,9 +40,14 @@ import org.springframework.data.mapping.model.AbstractPersistentPropertyUnitTest
 @MockitoSettings(strictness = Strictness.LENIENT)
 class SpelExpressionParameterProviderUnitTests {
 
-	@Mock SpELExpressionEvaluator evaluator;
-	@Mock ParameterValueProvider<SamplePersistentProperty> delegate;
-	@Mock ConversionService conversionService;
+	@Mock
+	SpELExpressionEvaluator evaluator;
+
+	@Mock
+	ParameterValueProvider<SamplePersistentProperty> delegate;
+
+	@Mock
+	ConversionService conversionService;
 
 	private SpELExpressionParameterValueProvider<SamplePersistentProperty> provider;
 
@@ -51,7 +56,8 @@ class SpelExpressionParameterProviderUnitTests {
 	@BeforeEach
 	@SuppressWarnings("unchecked")
 	void setUp() {
-		this.provider = new SpELExpressionParameterValueProvider<>(this.evaluator, this.conversionService, this.delegate);
+		this.provider = new SpELExpressionParameterValueProvider<>(this.evaluator, this.conversionService,
+				this.delegate);
 
 		this.parameter = mock(Parameter.class);
 		when(this.parameter.hasSpelExpression()).thenReturn(true);
@@ -107,12 +113,13 @@ class SpelExpressionParameterProviderUnitTests {
 	@Test
 	void returnsMassagedObjectOnOverride() {
 
-		this.provider = new SpELExpressionParameterValueProvider<SamplePersistentProperty>(this.evaluator, this.conversionService,
-				this.delegate) {
+		this.provider = new SpELExpressionParameterValueProvider<SamplePersistentProperty>(this.evaluator,
+				this.conversionService, this.delegate) {
 
 			@Override
 			@SuppressWarnings("unchecked")
-			protected <T> T potentiallyConvertSpelValue(Object object, Parameter<T, SamplePersistentProperty> parameter) {
+			protected <T> T potentiallyConvertSpelValue(Object object,
+					Parameter<T, SamplePersistentProperty> parameter) {
 				return (T) "FOO";
 			}
 		};
@@ -124,4 +131,5 @@ class SpelExpressionParameterProviderUnitTests {
 
 		verify(this.delegate, times(0)).getParameterValue(this.parameter);
 	}
+
 }

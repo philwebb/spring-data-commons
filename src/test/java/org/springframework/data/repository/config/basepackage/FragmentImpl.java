@@ -20,4 +20,6 @@ import org.springframework.data.repository.config.basepackage.repo.Fragment;
 /**
  * @author Mark Paluch
  */
-public class FragmentImpl implements Fragment {}
+public class FragmentImpl implements Fragment {
+
+}

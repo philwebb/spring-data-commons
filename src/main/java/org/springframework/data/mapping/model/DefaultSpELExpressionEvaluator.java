@@ -24,14 +24,15 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link ParameterValueProvider} implementation that evaluates the {@link Parameter}s key against
- * {@link SpelExpressionParser} and {@link EvaluationContext}.
+ * {@link ParameterValueProvider} implementation that evaluates the {@link Parameter}s key
+ * against {@link SpelExpressionParser} and {@link EvaluationContext}.
  *
  * @author Oliver Gierke
  */
 public class DefaultSpELExpressionEvaluator implements SpELExpressionEvaluator {
 
 	private final Object source;
+
 	private final SpELContext factory;
 
 	public DefaultSpELExpressionEvaluator(Object source, SpELContext factory) {
@@ -42,6 +43,7 @@ public class DefaultSpELExpressionEvaluator implements SpELExpressionEvaluator {
 		this.source = source;
 		this.factory = factory;
 	}
+
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T> T evaluate(String expression) {
@@ -49,4 +51,5 @@ public class DefaultSpELExpressionEvaluator implements SpELExpressionEvaluator {
 		Expression parseExpression = this.factory.getParser().parseExpression(expression);
 		return (T) parseExpression.getValue(this.factory.getEvaluationContext(this.source));
 	}
+
 }

@@ -30,7 +30,10 @@ class PageRequestUnitTests extends AbstractPageRequestUnitTests {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.AbstractPageRequestUnitTests#newPageRequest(int, int)
+	 * 
+	 * @see
+	 * org.springframework.data.domain.AbstractPageRequestUnitTests#newPageRequest(int,
+	 * int)
 	 */
 	@Override
 	public AbstractPageRequest newPageRequest(int page, int size) {
@@ -69,4 +72,5 @@ class PageRequestUnitTests extends AbstractPageRequestUnitTests {
 		assertThatExceptionOfType(IllegalArgumentException.class) //
 				.isThrownBy(() -> PageRequest.of(0, 10, null));
 	}
+
 }

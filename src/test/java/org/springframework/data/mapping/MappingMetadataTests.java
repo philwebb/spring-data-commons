@@ -48,10 +48,12 @@ public class MappingMetadataTests {
 	@Test
 	public void testAssociations() {
 
-		PersistentEntity<?, SamplePersistentProperty> person = this.ctx.getRequiredPersistentEntity(PersonWithChildren.class);
+		PersistentEntity<?, SamplePersistentProperty> person = this.ctx
+				.getRequiredPersistentEntity(PersonWithChildren.class);
 
 		person.doWithAssociations((AssociationHandler<SamplePersistentProperty>) association -> {
 			assertThat(association.getInverse().getComponentType()).isEqualTo(Child.class);
 		});
 	}
+
 }

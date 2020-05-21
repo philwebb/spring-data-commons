@@ -33,6 +33,7 @@ import org.springframework.http.MediaType;
 class ProjectingJackson2HttpMessageConverterUnitTests {
 
 	ProjectingJackson2HttpMessageConverter converter = new ProjectingJackson2HttpMessageConverter();
+
 	MediaType ANYTHING_JSON = MediaType.parseMediaType("application/*+json");
 
 	@Test // DATCMNS-885
@@ -69,17 +70,31 @@ class ProjectingJackson2HttpMessageConverterUnitTests {
 	}
 
 	@ProjectedPayload
-	interface SampleInterface {}
+	interface SampleInterface {
 
-	interface UnannotatedInterface {}
-
-	class SampleClass {}
-
-	class AbstractDto {}
-
-	abstract class BaseController<D extends AbstractDto> {
-		public void createEntity(D dto) {}
 	}
 
-	class ConcreteController extends BaseController<AbstractDto> {}
+	interface UnannotatedInterface {
+
+	}
+
+	class SampleClass {
+
+	}
+
+	class AbstractDto {
+
+	}
+
+	abstract class BaseController<D extends AbstractDto> {
+
+		public void createEntity(D dto) {
+		}
+
+	}
+
+	class ConcreteController extends BaseController<AbstractDto> {
+
+	}
+
 }

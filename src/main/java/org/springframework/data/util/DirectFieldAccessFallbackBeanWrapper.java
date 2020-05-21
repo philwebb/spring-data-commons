@@ -25,8 +25,8 @@ import org.springframework.beans.NotWritablePropertyException;
 import org.springframework.lang.Nullable;
 
 /**
- * Custom extension of {@link BeanWrapperImpl} that falls back to direct field access in case the object or type being
- * wrapped does not use accessor methods.
+ * Custom extension of {@link BeanWrapperImpl} that falls back to direct field access in
+ * case the object or type being wrapped does not use accessor methods.
  *
  * @author Oliver Gierke
  */
@@ -39,13 +39,15 @@ public class DirectFieldAccessFallbackBeanWrapper extends BeanWrapperImpl {
 	public DirectFieldAccessFallbackBeanWrapper(Class<?> type) {
 		super(type);
 	}
+
 	@Override
 	@Nullable
 	public Object getPropertyValue(String propertyName) {
 
 		try {
 			return super.getPropertyValue(propertyName);
-		} catch (NotReadablePropertyException e) {
+		}
+		catch (NotReadablePropertyException e) {
 
 			Field field = findField(getWrappedClass(), propertyName);
 
@@ -61,14 +63,17 @@ public class DirectFieldAccessFallbackBeanWrapper extends BeanWrapperImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.beans.BeanWrapperImpl#setPropertyValue(java.lang.String, java.lang.Object)
+	 * 
+	 * @see org.springframework.beans.BeanWrapperImpl#setPropertyValue(java.lang.String,
+	 * java.lang.Object)
 	 */
 	@Override
 	public void setPropertyValue(String propertyName, @Nullable Object value) {
 
 		try {
 			super.setPropertyValue(propertyName, value);
-		} catch (NotWritablePropertyException e) {
+		}
+		catch (NotWritablePropertyException e) {
 
 			Field field = findField(getWrappedClass(), propertyName);
 
@@ -81,4 +86,5 @@ public class DirectFieldAccessFallbackBeanWrapper extends BeanWrapperImpl {
 			setField(field, getWrappedInstance(), value);
 		}
 	}
+
 }

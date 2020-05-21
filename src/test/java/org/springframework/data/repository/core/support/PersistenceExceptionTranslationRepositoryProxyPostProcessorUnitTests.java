@@ -36,8 +36,11 @@ import org.springframework.dao.support.PersistenceExceptionTranslationIntercepto
 @ExtendWith(MockitoExtension.class)
 class PersistenceExceptionTranslationRepositoryProxyPostProcessorUnitTests {
 
-	@Mock ListableBeanFactory beanFactory;
-	@Mock ProxyFactory proxyFactory;
+	@Mock
+	ListableBeanFactory beanFactory;
+
+	@Mock
+	ProxyFactory proxyFactory;
 
 	@Test // DATACMNS-318
 	void rejectsNullBeanFactory() {
@@ -55,4 +58,5 @@ class PersistenceExceptionTranslationRepositoryProxyPostProcessorUnitTests {
 
 		verify(this.proxyFactory).addAdvice(isA(PersistenceExceptionTranslationInterceptor.class));
 	}
+
 }

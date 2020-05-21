@@ -35,8 +35,9 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
 
 /**
- * Abstraction of a method that is designated to execute a finder query. Enriches the standard {@link Method} interface
- * with specific information that is necessary to construct {@link RepositoryQuery}s for the method.
+ * Abstraction of a method that is designated to execute a finder query. Enriches the
+ * standard {@link Method} interface with specific information that is necessary to
+ * construct {@link RepositoryQuery}s for the method.
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
@@ -47,17 +48,22 @@ import org.springframework.util.Assert;
 public class QueryMethod {
 
 	private final RepositoryMetadata metadata;
+
 	private final Method method;
+
 	private final Class<?> unwrappedReturnType;
+
 	private final Parameters<?, ?> parameters;
+
 	private final ResultProcessor resultProcessor;
+
 	private final Lazy<Class<?>> domainClass;
+
 	private final Lazy<Boolean> isCollectionQuery;
 
 	/**
-	 * Creates a new {@link QueryMethod} from the given parameters. Looks up the correct query to use for following
-	 * invocations of the method given.
-	 *
+	 * Creates a new {@link QueryMethod} from the given parameters. Looks up the correct
+	 * query to use for following invocations of the method given.
 	 * @param method must not be {@literal null}.
 	 * @param metadata must not be {@literal null}.
 	 * @param factory must not be {@literal null}.
@@ -72,8 +78,8 @@ public class QueryMethod {
 				.filter(type -> getNumberOfOccurences(method, type) > 1)//
 				.findFirst().ifPresent(type -> {
 					throw new IllegalStateException(
-							String.format("Method must only one argument of type %s! Offending method: %s", type.getSimpleName(),
-									method.toString()));
+							String.format("Method must only one argument of type %s! Offending method: %s",
+									type.getSimpleName(), method.toString()));
 				});
 
 		this.method = method;
@@ -88,8 +94,10 @@ public class QueryMethod {
 			}
 
 			if (hasParameterOfType(method, Sort.class)) {
-				throw new IllegalStateException(String.format("Method must not have Pageable *and* Sort parameter. "
-						+ "Use sorting capabilities on Pageable instead! Offending method: %s", method.toString()));
+				throw new IllegalStateException(String.format(
+						"Method must not have Pageable *and* Sort parameter. "
+								+ "Use sorting capabilities on Pageable instead! Offending method: %s",
+						method.toString()));
 			}
 		}
 
@@ -97,8 +105,8 @@ public class QueryMethod {
 				() -> String.format("Parameters extracted from method '%s' must not be null!", method.getName()));
 
 		if (isPageQuery()) {
-			Assert.isTrue(this.parameters.hasPageableParameter(),
-					String.format("Paging query needs to have a Pageable parameter! Offending method %s", method.toString()));
+			Assert.isTrue(this.parameters.hasPageableParameter(), String
+					.format("Paging query needs to have a Pageable parameter! Offending method %s", method.toString()));
 		}
 
 		this.domainClass = Lazy.of(() -> {
@@ -107,8 +115,7 @@ public class QueryMethod {
 			Class<?> methodDomainClass = metadata.getReturnedDomainClass(method);
 
 			return repositoryDomainClass == null || repositoryDomainClass.isAssignableFrom(methodDomainClass)
-					? methodDomainClass
-					: repositoryDomainClass;
+					? methodDomainClass : repositoryDomainClass;
 		});
 
 		this.resultProcessor = new ResultProcessor(this, factory);
@@ -117,7 +124,6 @@ public class QueryMethod {
 
 	/**
 	 * Creates a {@link Parameters} instance.
-	 *
 	 * @param method
 	 * @return must not return {@literal null}.
 	 */
@@ -127,7 +133,6 @@ public class QueryMethod {
 
 	/**
 	 * Returns the method's name.
-	 *
 	 * @return
 	 */
 	public String getName() {
@@ -141,7 +146,6 @@ public class QueryMethod {
 
 	/**
 	 * Returns the name of the named query this method belongs to.
-	 *
 	 * @return
 	 */
 	public String getNamedQueryName() {
@@ -150,7 +154,6 @@ public class QueryMethod {
 
 	/**
 	 * Returns the domain class the query method is targeted at.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	protected Class<?> getDomainClass() {
@@ -159,7 +162,6 @@ public class QueryMethod {
 
 	/**
 	 * Returns the type of the object that will be returned.
-	 *
 	 * @return
 	 */
 	public Class<?> getReturnedObjectType() {
@@ -167,8 +169,8 @@ public class QueryMethod {
 	}
 
 	/**
-	 * Returns whether the finder will actually return a collection of entities or a single one.
-	 *
+	 * Returns whether the finder will actually return a collection of entities or a
+	 * single one.
 	 * @return
 	 */
 	public boolean isCollectionQuery() {
@@ -177,17 +179,16 @@ public class QueryMethod {
 
 	/**
 	 * Returns whether the query method will return a {@link Slice}.
-	 *
 	 * @return
 	 * @since 1.8
 	 */
 	public boolean isSliceQuery() {
-		return !isPageQuery() && org.springframework.util.ClassUtils.isAssignable(Slice.class, this.unwrappedReturnType);
+		return !isPageQuery()
+				&& org.springframework.util.ClassUtils.isAssignable(Slice.class, this.unwrappedReturnType);
 	}
 
 	/**
 	 * Returns whether the finder will return a {@link Page} of results.
-	 *
 	 * @return
 	 */
 	public final boolean isPageQuery() {
@@ -196,7 +197,6 @@ public class QueryMethod {
 
 	/**
 	 * Returns whether the query method is a modifying one.
-	 *
 	 * @return
 	 */
 	public boolean isModifyingQuery() {
@@ -205,7 +205,6 @@ public class QueryMethod {
 
 	/**
 	 * Returns whether the query for this method actually returns entities.
-	 *
 	 * @return
 	 */
 	public boolean isQueryForEntity() {
@@ -214,7 +213,6 @@ public class QueryMethod {
 
 	/**
 	 * Returns whether the method returns a Stream.
-	 *
 	 * @return
 	 * @since 1.10
 	 */
@@ -223,8 +221,8 @@ public class QueryMethod {
 	}
 
 	/**
-	 * Returns the {@link Parameters} wrapper to gain additional information about {@link Method} parameters.
-	 *
+	 * Returns the {@link Parameters} wrapper to gain additional information about
+	 * {@link Method} parameters.
 	 * @return
 	 */
 	public Parameters<?, ?> getParameters() {
@@ -233,12 +231,12 @@ public class QueryMethod {
 
 	/**
 	 * Returns the {@link ResultProcessor} to be used with the query method.
-	 *
 	 * @return the resultFactory
 	 */
 	public ResultProcessor getResultProcessor() {
 		return this.resultProcessor;
 	}
+
 	@Override
 	public String toString() {
 		return this.method.toString();
@@ -301,4 +299,5 @@ public class QueryMethod {
 
 		throw new IllegalStateException("Method has to have one of the following return types! " + types.toString());
 	}
+
 }

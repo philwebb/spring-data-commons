@@ -30,6 +30,7 @@ import org.springframework.lang.Nullable;
 public class OrderAdapter extends XmlAdapter<OrderDto, Order> {
 
 	public static final OrderAdapter INSTANCE = new OrderAdapter();
+
 	@Nullable
 	@Override
 	public OrderDto marshal(@Nullable Order order) {
@@ -43,6 +44,7 @@ public class OrderAdapter extends XmlAdapter<OrderDto, Order> {
 		dto.property = order.getProperty();
 		return dto;
 	}
+
 	@Nullable
 	@Override
 	public Order unmarshal(@Nullable OrderDto source) {
@@ -60,4 +62,5 @@ public class OrderAdapter extends XmlAdapter<OrderDto, Order> {
 
 		return new Order(direction, property);
 	}
+
 }

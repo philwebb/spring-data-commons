@@ -82,5 +82,7 @@ class ParametersParameterAccessorUnitTests {
 		void method(String string, int integer);
 
 		void method(Pageable pageable, String string);
+
 	}
+
 }

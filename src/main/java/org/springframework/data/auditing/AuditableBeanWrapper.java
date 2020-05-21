@@ -28,28 +28,24 @@ public interface AuditableBeanWrapper<T> {
 
 	/**
 	 * Set the creator of the object.
-	 *
 	 * @param value
 	 */
 	Object setCreatedBy(Object value);
 
 	/**
 	 * Set the date the object was created.
-	 *
 	 * @param value
 	 */
 	TemporalAccessor setCreatedDate(TemporalAccessor value);
 
 	/**
 	 * Set the last modifier of the object.
-	 *
 	 * @param value
 	 */
 	Object setLastModifiedBy(Object value);
 
 	/**
 	 * Returns the date of the last modification date of the backing bean.
-	 *
 	 * @return the date of the last modification.
 	 * @since 1.10
 	 */
@@ -57,17 +53,17 @@ public interface AuditableBeanWrapper<T> {
 
 	/**
 	 * Set the last modification date.
-	 *
 	 * @param value
 	 */
 	TemporalAccessor setLastModifiedDate(TemporalAccessor value);
 
 	/**
-	 * Returns the underlying bean that potentially has been modified by the setter methods exposed. Client code needs to
-	 * make sure to call this method to see all the changes applied via this {@link AuditableBeanWrapper}.
-	 * 
+	 * Returns the underlying bean that potentially has been modified by the setter
+	 * methods exposed. Client code needs to make sure to call this method to see all the
+	 * changes applied via this {@link AuditableBeanWrapper}.
 	 * @return will never be {@literal null}.
 	 * @since 2.1
 	 */
 	T getBean();
+
 }

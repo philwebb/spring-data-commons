@@ -34,8 +34,8 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Extension of {@link PageableHandlerMethodArgumentResolver} that also supports enhancing URIs using Spring HATEOAS
- * support.
+ * Extension of {@link PageableHandlerMethodArgumentResolver} that also supports enhancing
+ * URIs using Spring HATEOAS support.
  *
  * @since 1.6
  * @author Oliver Gierke
@@ -50,7 +50,8 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 	private final HateoasSortHandlerMethodArgumentResolver sortResolver;
 
 	/**
-	 * Constructs an instance of this resolver with a default {@link HateoasSortHandlerMethodArgumentResolver}.
+	 * Constructs an instance of this resolver with a default
+	 * {@link HateoasSortHandlerMethodArgumentResolver}.
 	 */
 	public HateoasPageableHandlerMethodArgumentResolver() {
 		this(null);
@@ -59,10 +60,10 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 	/**
 	 * Creates a new {@link HateoasPageableHandlerMethodArgumentResolver} using the given
 	 * {@link HateoasSortHandlerMethodArgumentResolver}..
-	 *
 	 * @param sortResolver
 	 */
-	public HateoasPageableHandlerMethodArgumentResolver(@Nullable HateoasSortHandlerMethodArgumentResolver sortResolver) {
+	public HateoasPageableHandlerMethodArgumentResolver(
+			@Nullable HateoasSortHandlerMethodArgumentResolver sortResolver) {
 
 		super(getDefaultedSortResolver(sortResolver));
 		this.sortResolver = getDefaultedSortResolver(sortResolver);
@@ -70,7 +71,6 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 
 	/**
 	 * Returns the template variable for the pagination parameters.
-	 *
 	 * @param parameter can be {@literal null}.
 	 * @return
 	 * @since 1.7
@@ -100,7 +100,10 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.hateoas.server.mvc.UriComponentsContributor#enhance(org.springframework.web.util.UriComponentsBuilder, org.springframework.core.MethodParameter, java.lang.Object)
+	 * 
+	 * @see org.springframework.hateoas.server.mvc.UriComponentsContributor#enhance(org.
+	 * springframework.web.util.UriComponentsBuilder,
+	 * org.springframework.core.MethodParameter, java.lang.Object)
 	 */
 	@Override
 	public void enhance(UriComponentsBuilder builder, @Nullable MethodParameter parameter, Object value) {
@@ -133,4 +136,5 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 			@Nullable HateoasSortHandlerMethodArgumentResolver sortResolver) {
 		return sortResolver == null ? DEFAULT_SORT_RESOLVER : sortResolver;
 	}
+
 }

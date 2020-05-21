@@ -39,7 +39,9 @@ import org.springframework.data.convert.Jsr310Converters.LocalDateTimeToDateConv
 class ReflectionAuditingBeanWrapperUnitTests {
 
 	ConversionService conversionService;
+
 	AnnotatedUser user;
+
 	AuditableBeanWrapper<?> wrapper;
 
 	LocalDateTime time = LocalDateTime.now();
@@ -55,7 +57,8 @@ class ReflectionAuditingBeanWrapperUnitTests {
 	void setsDateTimeFieldCorrectly() {
 
 		this.wrapper.setCreatedDate(this.time);
-		assertThat(this.user.createdDate).isEqualTo(new DateTime(LocalDateTimeToDateConverter.INSTANCE.convert(this.time)));
+		assertThat(this.user.createdDate)
+				.isEqualTo(new DateTime(LocalDateTimeToDateConverter.INSTANCE.convert(this.time)));
 	}
 
 	@Test
@@ -70,19 +73,24 @@ class ReflectionAuditingBeanWrapperUnitTests {
 
 		class Sample {
 
-			@CreatedDate Long createdDate;
+			@CreatedDate
+			Long createdDate;
 
-			@LastModifiedDate long modifiedDate;
+			@LastModifiedDate
+			long modifiedDate;
+
 		}
 
 		Sample sample = new Sample();
 		AuditableBeanWrapper<Sample> wrapper = new ReflectionAuditingBeanWrapper<>(this.conversionService, sample);
 
 		wrapper.setCreatedDate(this.time);
-		assertThat(sample.createdDate).isEqualTo(this.time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
+		assertThat(sample.createdDate)
+				.isEqualTo(this.time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
 
 		wrapper.setLastModifiedDate(this.time);
-		assertThat(sample.modifiedDate).isEqualTo(this.time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
+		assertThat(sample.modifiedDate)
+				.isEqualTo(this.time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
 	}
 
 	@Test
@@ -96,4 +104,5 @@ class ReflectionAuditingBeanWrapperUnitTests {
 		this.wrapper.setLastModifiedBy(object);
 		assertThat(this.user.lastModifiedBy).isEqualTo(object);
 	}
+
 }

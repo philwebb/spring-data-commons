@@ -42,4 +42,5 @@ public class StreamUtilsTests {
 
 		assertThat(input).isEqualTo(output);
 	}
+
 }

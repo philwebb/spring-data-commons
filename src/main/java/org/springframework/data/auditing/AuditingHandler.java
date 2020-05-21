@@ -45,14 +45,16 @@ public class AuditingHandler implements InitializingBean {
 	private final DefaultAuditableBeanWrapperFactory factory;
 
 	private DateTimeProvider dateTimeProvider = CurrentDateTimeProvider.INSTANCE;
+
 	private Optional<AuditorAware<?>> auditorAware;
+
 	private boolean dateTimeForNow = true;
+
 	private boolean modifyOnCreation = true;
 
 	/**
-	 * Creates a new {@link AuditableBeanWrapper} using the given {@link MappingContext} when looking up auditing metadata
-	 * via reflection.
-	 *
+	 * Creates a new {@link AuditableBeanWrapper} using the given {@link MappingContext}
+	 * when looking up auditing metadata via reflection.
 	 * @param mappingContext must not be {@literal null}.
 	 * @since 1.8
 	 * @deprecated use {@link AuditingHandler(PersistentEntities)} instead.
@@ -64,9 +66,8 @@ public class AuditingHandler implements InitializingBean {
 	}
 
 	/**
-	 * Creates a new {@link AuditableBeanWrapper} using the given {@link PersistentEntities} when looking up auditing
-	 * metadata via reflection.
-	 *
+	 * Creates a new {@link AuditableBeanWrapper} using the given
+	 * {@link PersistentEntities} when looking up auditing metadata via reflection.
 	 * @param entities must not be {@literal null}.
 	 * @since 1.10
 	 */
@@ -80,7 +81,6 @@ public class AuditingHandler implements InitializingBean {
 
 	/**
 	 * Setter to inject a {@code AuditorAware} component to retrieve the current auditor.
-	 *
 	 * @param auditorAware must not be {@literal null}.
 	 */
 	public void setAuditorAware(AuditorAware<?> auditorAware) {
@@ -91,9 +91,9 @@ public class AuditingHandler implements InitializingBean {
 
 	/**
 	 * Setter do determine if {@link Auditable#setCreatedDate(DateTime)} and
-	 * {@link Auditable#setLastModifiedDate(DateTime)} shall be filled with the current Java time. Defaults to
-	 * {@code true}. One might set this to {@code false} to use database features to set entity time.
-	 *
+	 * {@link Auditable#setLastModifiedDate(DateTime)} shall be filled with the current
+	 * Java time. Defaults to {@code true}. One might set this to {@code false} to use
+	 * database features to set entity time.
 	 * @param dateTimeForNow the dateTimeForNow to set
 	 */
 	public void setDateTimeForNow(boolean dateTimeForNow) {
@@ -101,9 +101,9 @@ public class AuditingHandler implements InitializingBean {
 	}
 
 	/**
-	 * Set this to true if you want to treat entity creation as modification and thus setting the current date as
-	 * modification date during creation, too. Defaults to {@code true}.
-	 *
+	 * Set this to true if you want to treat entity creation as modification and thus
+	 * setting the current date as modification date during creation, too. Defaults to
+	 * {@code true}.
 	 * @param modifyOnCreation if modification information shall be set on creation, too
 	 */
 	public void setModifyOnCreation(boolean modifyOnCreation) {
@@ -112,7 +112,6 @@ public class AuditingHandler implements InitializingBean {
 
 	/**
 	 * Sets the {@link DateTimeProvider} to be used to determine the dates to be set.
-	 *
 	 * @param dateTimeProvider
 	 */
 	public void setDateTimeProvider(DateTimeProvider dateTimeProvider) {
@@ -121,7 +120,6 @@ public class AuditingHandler implements InitializingBean {
 
 	/**
 	 * Marks the given object as created.
-	 *
 	 * @param source
 	 */
 	public <T> T markCreated(T source) {
@@ -133,7 +131,6 @@ public class AuditingHandler implements InitializingBean {
 
 	/**
 	 * Marks the given object as modified.
-	 *
 	 * @param source
 	 */
 	public <T> T markModified(T source) {
@@ -145,7 +142,6 @@ public class AuditingHandler implements InitializingBean {
 
 	/**
 	 * Returns whether the given source is considered to be auditable in the first place
-	 *
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
@@ -179,8 +175,8 @@ public class AuditingHandler implements InitializingBean {
 	}
 
 	/**
-	 * Sets modifying and creating auditor. Creating auditor is only set on new auditables.
-	 *
+	 * Sets modifying and creating auditor. Creating auditor is only set on new
+	 * auditables.
 	 * @param auditable
 	 * @return
 	 */
@@ -203,8 +199,8 @@ public class AuditingHandler implements InitializingBean {
 	}
 
 	/**
-	 * Touches the auditable regarding modification and creation date. Creation date is only set on new auditables.
-	 *
+	 * Touches the auditable regarding modification and creation date. Creation date is
+	 * only set on new auditables.
 	 * @param wrapper
 	 * @return
 	 */
@@ -214,17 +210,20 @@ public class AuditingHandler implements InitializingBean {
 
 		Optional<TemporalAccessor> now = this.dateTimeProvider.getNow();
 
-		Assert.notNull(now, () -> String.format("Now must not be null! Returned by: %s!", this.dateTimeProvider.getClass()));
+		Assert.notNull(now,
+				() -> String.format("Now must not be null! Returned by: %s!", this.dateTimeProvider.getClass()));
 
 		now.filter(temporalAccessor -> isNew).ifPresent(wrapper::setCreatedDate);
 		now.filter(temporalAccessor -> !isNew || this.modifyOnCreation).ifPresent(wrapper::setLastModifiedDate);
 
 		return now;
 	}
+
 	public void afterPropertiesSet() {
 
 		if (!this.auditorAware.isPresent()) {
 			logger.debug("No AuditorAware set! Auditing will not be applied!");
 		}
 	}
+
 }

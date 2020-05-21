@@ -18,4 +18,6 @@ package org.springframework.data.util.nonnull.type;
 /**
  * @author Mark Paluch
  */
-public class NonAnnotatedType {}
+public class NonAnnotatedType {
+
+}

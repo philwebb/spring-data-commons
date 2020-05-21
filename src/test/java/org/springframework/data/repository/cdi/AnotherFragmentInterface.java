@@ -23,4 +23,5 @@ interface AnotherFragmentInterface {
 	int getPriority();
 
 	int getShadowed();
+
 }

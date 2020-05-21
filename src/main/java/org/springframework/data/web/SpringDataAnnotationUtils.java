@@ -35,11 +35,12 @@ import org.springframework.util.ObjectUtils;
  */
 abstract class SpringDataAnnotationUtils {
 
-	private SpringDataAnnotationUtils() {}
+	private SpringDataAnnotationUtils() {
+	}
 
 	/**
-	 * Asserts uniqueness of all {@link Pageable} parameters of the method of the given {@link MethodParameter}.
-	 *
+	 * Asserts uniqueness of all {@link Pageable} parameters of the method of the given
+	 * {@link MethodParameter}.
 	 * @param parameter must not be {@literal null}.
 	 */
 	public static void assertPageableUniqueness(MethodParameter parameter) {
@@ -47,7 +48,8 @@ abstract class SpringDataAnnotationUtils {
 		Method method = parameter.getMethod();
 
 		if (method == null) {
-			throw new IllegalArgumentException(String.format("Method parameter %s is not backed by a method.", parameter));
+			throw new IllegalArgumentException(
+					String.format("Method parameter %s is not backed by a method.", parameter));
 		}
 
 		if (containsMoreThanOnePageableParameter(method)) {
@@ -57,8 +59,8 @@ abstract class SpringDataAnnotationUtils {
 	}
 
 	/**
-	 * Returns whether the given {@link Method} has more than one {@link Pageable} parameter.
-	 *
+	 * Returns whether the given {@link Method} has more than one {@link Pageable}
+	 * parameter.
 	 * @param method must not be {@literal null}.
 	 * @return
 	 */
@@ -81,9 +83,9 @@ abstract class SpringDataAnnotationUtils {
 	}
 
 	/**
-	 * Returns the value of the given specific property of the given annotation. If the value of that property is the
-	 * properties default, we fall back to the value of the {@code value} attribute.
-	 *
+	 * Returns the value of the given specific property of the given annotation. If the
+	 * value of that property is the properties default, we fall back to the value of the
+	 * {@code value} attribute.
 	 * @param annotation must not be {@literal null}.
 	 * @param property must not be {@literal null} or empty.
 	 * @return
@@ -106,9 +108,8 @@ abstract class SpringDataAnnotationUtils {
 	}
 
 	/**
-	 * Asserts that every {@link Pageable} parameter of the given parameters carries an {@link Qualifier} annotation to
-	 * distinguish them from each other.
-	 *
+	 * Asserts that every {@link Pageable} parameter of the given parameters carries an
+	 * {@link Qualifier} annotation to distinguish them from each other.
 	 * @param parameterTypes must not be {@literal null}.
 	 * @param annotations must not be {@literal null}.
 	 */
@@ -137,9 +138,9 @@ abstract class SpringDataAnnotationUtils {
 	}
 
 	/**
-	 * Returns a {@link Qualifier} annotation from the given array of {@link Annotation}s. Returns {@literal null} if the
-	 * array does not contain a {@link Qualifier} annotation.
-	 *
+	 * Returns a {@link Qualifier} annotation from the given array of {@link Annotation}s.
+	 * Returns {@literal null} if the array does not contain a {@link Qualifier}
+	 * annotation.
 	 * @param annotations must not be {@literal null}.
 	 * @return
 	 */
@@ -154,4 +155,5 @@ abstract class SpringDataAnnotationUtils {
 
 		return null;
 	}
+
 }

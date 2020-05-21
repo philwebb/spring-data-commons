@@ -30,7 +30,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Exception being thrown in case an entity could not be instantiated in the process of a to-object-mapping.
+ * Exception being thrown in case an entity could not be instantiated in the process of a
+ * to-object-mapping.
  *
  * @author Oliver Gierke
  * @author Jon Brisbin
@@ -40,16 +41,18 @@ import org.springframework.util.ObjectUtils;
 public class MappingInstantiationException extends RuntimeException {
 
 	private static final long serialVersionUID = 822211065035487628L;
+
 	private static final String TEXT_TEMPLATE = "Failed to instantiate %s using constructor %s with arguments %s";
 
 	private final Class<?> entityType;
+
 	private final Constructor<?> constructor;
+
 	private final List<Object> constructorArguments;
 
 	/**
-	 * Creates a new {@link MappingInstantiationException} for the given {@link PersistentEntity}, constructor arguments
-	 * and the causing exception.
-	 *
+	 * Creates a new {@link MappingInstantiationException} for the given
+	 * {@link PersistentEntity}, constructor arguments and the causing exception.
 	 * @param entity
 	 * @param arguments
 	 * @param cause
@@ -59,8 +62,8 @@ public class MappingInstantiationException extends RuntimeException {
 	}
 
 	/**
-	 * Creates a new {@link MappingInstantiationException} for the given constructor arguments and the causing exception.
-	 *
+	 * Creates a new {@link MappingInstantiationException} for the given constructor
+	 * arguments and the causing exception.
 	 * @param arguments
 	 * @param cause
 	 */
@@ -74,8 +77,8 @@ public class MappingInstantiationException extends RuntimeException {
 		super(buildExceptionMessage(entity, arguments, message), cause);
 
 		this.entityType = entity.map(PersistentEntity::getType).orElse(null);
-		this.constructor = entity.map(PersistentEntity::getPersistenceConstructor).map(PreferredConstructor::getConstructor)
-				.orElse(null);
+		this.constructor = entity.map(PersistentEntity::getPersistenceConstructor)
+				.map(PreferredConstructor::getConstructor).orElse(null);
 		this.constructorArguments = arguments;
 	}
 
@@ -84,7 +87,8 @@ public class MappingInstantiationException extends RuntimeException {
 
 		return entity.map(it -> {
 
-			Optional<? extends PreferredConstructor<?, ?>> constructor = Optional.ofNullable(it.getPersistenceConstructor());
+			Optional<? extends PreferredConstructor<?, ?>> constructor = Optional
+					.ofNullable(it.getPersistenceConstructor());
 			List<String> toStringArgs = new ArrayList<>(arguments.size());
 
 			for (Object o : arguments) {
@@ -116,7 +120,6 @@ public class MappingInstantiationException extends RuntimeException {
 
 	/**
 	 * Returns the type of the entity that was attempted to instantiate.
-	 *
 	 * @return the entityType
 	 */
 	public Optional<Class<?>> getEntityType() {
@@ -125,7 +128,6 @@ public class MappingInstantiationException extends RuntimeException {
 
 	/**
 	 * The constructor used during the instantiation attempt.
-	 *
 	 * @return the constructor
 	 */
 	public Optional<Constructor<?>> getConstructor() {
@@ -134,10 +136,10 @@ public class MappingInstantiationException extends RuntimeException {
 
 	/**
 	 * The constructor arguments used to invoke the constructor.
-	 *
 	 * @return the constructorArguments
 	 */
 	public List<Object> getConstructorArguments() {
 		return this.constructorArguments;
 	}
+
 }

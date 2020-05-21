@@ -33,6 +33,7 @@ import org.w3c.dom.Element;
  * @author Oliver Gierke
  */
 public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+
 	@Nonnull
 	@Override
 	protected String getBeanClassName(Element element) {
@@ -41,7 +42,8 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 
 		if ("unmarshaller-populator".equals(name)) {
 			return UnmarshallerRepositoryPopulatorFactoryBean.class.getName();
-		} else if ("jackson2-populator".equals(name)) {
+		}
+		else if ("jackson2-populator".equals(name)) {
 			return Jackson2RepositoryPopulatorFactoryBean.class.getName();
 		}
 
@@ -50,7 +52,11 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser#doParse(org.w3c.dom.Element, org.springframework.beans.factory.xml.ParserContext, org.springframework.beans.factory.support.BeanDefinitionBuilder)
+	 * 
+	 * @see
+	 * org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser#doParse(
+	 * org.w3c.dom.Element, org.springframework.beans.factory.xml.ParserContext,
+	 * org.springframework.beans.factory.support.BeanDefinitionBuilder)
 	 */
 	@Override
 	protected void doParse(Element element, BeanDefinitionBuilder builder) {
@@ -61,14 +67,14 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 
 		if ("unmarshaller-populator".equals(localName)) {
 			parseXmlPopulator(element, builder);
-		} else if (Arrays.asList("jackson-populator", "jackson2-populator").contains(localName)) {
+		}
+		else if (Arrays.asList("jackson-populator", "jackson2-populator").contains(localName)) {
 			parseJsonPopulator(element, builder);
 		}
 	}
 
 	/**
 	 * Populates the {@link BeanDefinitionBuilder} for a Jackson reader.
-	 *
 	 * @param element
 	 * @param builder
 	 */
@@ -83,7 +89,6 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 
 	/**
 	 * Populate the {@link BeanDefinitionBuilder} for XML reader.
-	 *
 	 * @param element
 	 * @param builder
 	 */
@@ -95,8 +100,10 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 			builder.addPropertyReference("unmarshaller", unmarshallerRefName);
 		}
 	}
+
 	@Override
 	protected boolean shouldGenerateIdAsFallback() {
 		return true;
 	}
+
 }

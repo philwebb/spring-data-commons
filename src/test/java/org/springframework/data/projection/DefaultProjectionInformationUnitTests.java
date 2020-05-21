@@ -87,8 +87,7 @@ class DefaultProjectionInformationUnitTests {
 
 		return descriptors.stream()//
 				.map(FeatureDescriptor::getName)//
-				.distinct()
-				.collect(Collectors.toList());
+				.distinct().collect(Collectors.toList());
 	}
 
 	interface CustomerProjection {
@@ -96,6 +95,7 @@ class DefaultProjectionInformationUnitTests {
 		String getFirstname();
 
 		String getLastname();
+
 	}
 
 	interface ProjectionAcceptingArguments {
@@ -104,11 +104,13 @@ class DefaultProjectionInformationUnitTests {
 		String getFirstname(int i);
 
 		String getLastname();
+
 	}
 
 	interface ExtendedProjection extends CustomerProjection {
 
 		int getAge();
+
 	}
 
 	interface SameMethodNamesInAlternateOrder {
@@ -118,15 +120,21 @@ class DefaultProjectionInformationUnitTests {
 		String getLastname();
 
 		String getFirstname(String foo);
+
 	}
 
-	interface CompositeProjection extends CustomerProjection, AgeProjection {}
+	interface CompositeProjection extends CustomerProjection, AgeProjection {
 
-	interface ReorderedCompositeProjection extends AgeProjection, CustomerProjection {}
+	}
+
+	interface ReorderedCompositeProjection extends AgeProjection, CustomerProjection {
+
+	}
 
 	interface AgeProjection {
 
 		int getAge();
+
 	}
 
 	interface WithDefaultMethod {
@@ -136,5 +144,7 @@ class DefaultProjectionInformationUnitTests {
 		default String getLastname() {
 			return null;
 		}
+
 	}
+
 }

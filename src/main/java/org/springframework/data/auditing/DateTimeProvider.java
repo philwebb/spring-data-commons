@@ -28,8 +28,8 @@ public interface DateTimeProvider {
 
 	/**
 	 * Returns the current time to be used as modification or creation date.
-	 *
 	 * @return
 	 */
 	Optional<TemporalAccessor> getNow();
+
 }

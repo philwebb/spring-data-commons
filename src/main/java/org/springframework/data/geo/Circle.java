@@ -32,11 +32,11 @@ public class Circle implements Shape {
 	private static final long serialVersionUID = 5215611530535947924L;
 
 	private final Point center;
+
 	private final Distance radius;
 
 	/**
 	 * Creates a new {@link Circle} from the given {@link Point} and radius.
-	 *
 	 * @param center must not be {@literal null}.
 	 * @param radius must not be {@literal null} and it's value greater or equal to zero.
 	 */
@@ -53,7 +53,6 @@ public class Circle implements Shape {
 
 	/**
 	 * Creates a new {@link Circle} from the given {@link Point} and radius.
-	 *
 	 * @param center must not be {@literal null}.
 	 * @param radius's value must be greater or equal to zero.
 	 */
@@ -62,9 +61,8 @@ public class Circle implements Shape {
 	}
 
 	/**
-	 * Creates a new {@link Circle} from the given coordinates and radius as {@link Distance} with a
-	 * {@link Metrics#NEUTRAL}.
-	 *
+	 * Creates a new {@link Circle} from the given coordinates and radius as
+	 * {@link Distance} with a {@link Metrics#NEUTRAL}.
 	 * @param centerX
 	 * @param centerY
 	 * @param radius must be greater or equal to zero.
@@ -75,7 +73,6 @@ public class Circle implements Shape {
 
 	/**
 	 * Returns the center of the {@link Circle}.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public Point getCenter() {
@@ -84,12 +81,12 @@ public class Circle implements Shape {
 
 	/**
 	 * Returns the radius of the {@link Circle}.
-	 *
 	 * @return
 	 */
 	public Distance getRadius() {
 		return this.radius;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -109,14 +106,17 @@ public class Circle implements Shape {
 
 		return ObjectUtils.nullSafeEquals(this.radius, circle.radius);
 	}
+
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(this.center);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.radius);
 		return result;
 	}
+
 	@Override
 	public String toString() {
 		return String.format("Circle: [center=%s, radius=%s]", this.center, this.radius);
 	}
+
 }

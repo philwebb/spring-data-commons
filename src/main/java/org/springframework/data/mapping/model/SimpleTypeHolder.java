@@ -72,6 +72,7 @@ public class SimpleTypeHolder {
 			add(Enum.class);
 		}
 	};
+
 	public static final SimpleTypeHolder DEFAULT = new SimpleTypeHolder();
 
 	private volatile Map<Class<?>, Boolean> simpleTypes;
@@ -86,9 +87,9 @@ public class SimpleTypeHolder {
 	}
 
 	/**
-	 * Creates a new {@link SimpleTypeHolder} to carry the given custom simple types. Registration of default simple types
-	 * can be deactivated by passing {@literal false} for {@code registerDefaults}.
-	 *
+	 * Creates a new {@link SimpleTypeHolder} to carry the given custom simple types.
+	 * Registration of default simple types can be deactivated by passing {@literal false}
+	 * for {@code registerDefaults}.
 	 * @param customSimpleTypes
 	 * @param registerDefaults
 	 */
@@ -106,8 +107,8 @@ public class SimpleTypeHolder {
 	}
 
 	/**
-	 * Copy constructor to create a new {@link SimpleTypeHolder} that carries the given additional custom simple types.
-	 *
+	 * Copy constructor to create a new {@link SimpleTypeHolder} that carries the given
+	 * additional custom simple types.
 	 * @param customSimpleTypes must not be {@literal null}
 	 * @param source must not be {@literal null}
 	 */
@@ -136,7 +137,6 @@ public class SimpleTypeHolder {
 
 	/**
 	 * Returns whether the given type is considered a simple one.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -187,4 +187,5 @@ public class SimpleTypeHolder {
 
 		return copy;
 	}
+
 }

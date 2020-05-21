@@ -32,11 +32,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Utility class to expose details about reactive wrapper types. This class exposes whether a reactive wrapper is
- * supported in general and whether a particular type is suitable for no-value/single-value/multi-value usage.
+ * Utility class to expose details about reactive wrapper types. This class exposes
+ * whether a reactive wrapper is supported in general and whether a particular type is
+ * suitable for no-value/single-value/multi-value usage.
  * <p>
- * Supported types are discovered by their availability on the class path. This class is typically used to determine
- * multiplicity and whether a reactive wrapper type is acceptable for a specific operation.
+ * Supported types are discovered by their availability on the class path. This class is
+ * typically used to determine multiplicity and whether a reactive wrapper type is
+ * acceptable for a specific operation.
  *
  * @author Mark Paluch
  * @author Christoph Strobl
@@ -67,10 +69,13 @@ public abstract class ReactiveWrappers {
 
 	private static final boolean KOTLIN_COROUTINES_PRESENT = ClassUtils.isPresent("kotlinx.coroutines.flow.Flow",
 			ReactiveWrappers.class.getClassLoader())
-			&& ClassUtils.isPresent("kotlinx.coroutines.reactive.ReactiveFlowKt", ReactiveWrappers.class.getClassLoader())
-			&& ClassUtils.isPresent("kotlinx.coroutines.reactor.ReactorFlowKt", ReactiveWrappers.class.getClassLoader());
+			&& ClassUtils.isPresent("kotlinx.coroutines.reactive.ReactiveFlowKt",
+					ReactiveWrappers.class.getClassLoader())
+			&& ClassUtils.isPresent("kotlinx.coroutines.reactor.ReactorFlowKt",
+					ReactiveWrappers.class.getClassLoader());
 
-	private ReactiveWrappers() {}
+	private ReactiveWrappers() {
+	}
 
 	/**
 	 * Enumeration of supported reactive libraries.
@@ -78,13 +83,15 @@ public abstract class ReactiveWrappers {
 	 * @author Mark Paluch
 	 */
 	public static enum ReactiveLibrary {
+
 		PROJECT_REACTOR, RXJAVA1, RXJAVA2, KOTLIN_COROUTINES;
+
 	}
 
 	/**
-	 * Returns {@literal true} if reactive support is available. More specifically, whether any of the libraries defined
-	 * in {@link ReactiveLibrary} are on the class path.
-	 *
+	 * Returns {@literal true} if reactive support is available. More specifically,
+	 * whether any of the libraries defined in {@link ReactiveLibrary} are on the class
+	 * path.
 	 * @return {@literal true} if reactive support is available.
 	 */
 	public static boolean isAvailable() {
@@ -93,7 +100,6 @@ public abstract class ReactiveWrappers {
 
 	/**
 	 * Returns {@literal true} if the {@link ReactiveLibrary} is available.
-	 *
 	 * @param reactiveLibrary must not be {@literal null}.
 	 * @return {@literal true} if the {@link ReactiveLibrary} is available.
 	 */
@@ -102,22 +108,21 @@ public abstract class ReactiveWrappers {
 		Assert.notNull(reactiveLibrary, "Reactive library must not be null!");
 
 		switch (reactiveLibrary) {
-			case PROJECT_REACTOR:
-				return PROJECT_REACTOR_PRESENT;
-			case RXJAVA1:
-				return RXJAVA1_PRESENT;
-			case RXJAVA2:
-				return RXJAVA2_PRESENT;
-			case KOTLIN_COROUTINES:
-				return PROJECT_REACTOR_PRESENT && KOTLIN_COROUTINES_PRESENT;
-			default:
-				throw new IllegalArgumentException(String.format("Reactive library %s not supported", reactiveLibrary));
+		case PROJECT_REACTOR:
+			return PROJECT_REACTOR_PRESENT;
+		case RXJAVA1:
+			return RXJAVA1_PRESENT;
+		case RXJAVA2:
+			return RXJAVA2_PRESENT;
+		case KOTLIN_COROUTINES:
+			return PROJECT_REACTOR_PRESENT && KOTLIN_COROUTINES_PRESENT;
+		default:
+			throw new IllegalArgumentException(String.format("Reactive library %s not supported", reactiveLibrary));
 		}
 	}
 
 	/**
 	 * Returns {@literal true} if the {@code type} is a supported reactive wrapper type.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return {@literal true} if the {@code type} is a supported reactive wrapper type.
 	 */
@@ -126,8 +131,8 @@ public abstract class ReactiveWrappers {
 	}
 
 	/**
-	 * Returns whether the given type uses any reactive wrapper type in its method signatures.
-	 *
+	 * Returns whether the given type uses any reactive wrapper type in its method
+	 * signatures.
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -141,10 +146,11 @@ public abstract class ReactiveWrappers {
 	}
 
 	/**
-	 * Returns {@literal true} if {@code type} is a reactive wrapper type that contains no value.
-	 *
+	 * Returns {@literal true} if {@code type} is a reactive wrapper type that contains no
+	 * value.
 	 * @param type must not be {@literal null}.
-	 * @return {@literal true} if {@code type} is a reactive wrapper type that contains no value.
+	 * @return {@literal true} if {@code type} is a reactive wrapper type that contains no
+	 * value.
 	 */
 	public static boolean isNoValueType(Class<?> type) {
 
@@ -154,10 +160,11 @@ public abstract class ReactiveWrappers {
 	}
 
 	/**
-	 * Returns {@literal true} if {@code type} is a reactive wrapper type for a single value.
-	 *
+	 * Returns {@literal true} if {@code type} is a reactive wrapper type for a single
+	 * value.
 	 * @param type must not be {@literal null}.
-	 * @return {@literal true} if {@code type} is a reactive wrapper type for a single value.
+	 * @return {@literal true} if {@code type} is a reactive wrapper type for a single
+	 * value.
 	 */
 	public static boolean isSingleValueType(Class<?> type) {
 
@@ -167,18 +174,18 @@ public abstract class ReactiveWrappers {
 	}
 
 	/**
-	 * Returns {@literal true} if {@code type} is a reactive wrapper type supporting multiple values ({@code 0..N}
-	 * elements).
-	 *
+	 * Returns {@literal true} if {@code type} is a reactive wrapper type supporting
+	 * multiple values ({@code 0..N} elements).
 	 * @param type must not be {@literal null}.
-	 * @return {@literal true} if {@code type} is a reactive wrapper type supporting multiple values ({@code 0..N}
-	 *         elements).
+	 * @return {@literal true} if {@code type} is a reactive wrapper type supporting
+	 * multiple values ({@code 0..N} elements).
 	 */
 	public static boolean isMultiValueType(Class<?> type) {
 
 		Assert.notNull(type, "Candidate type must not be null!");
 
-		// Prevent single-types with a multi-hierarchy supertype to be reported as multi type
+		// Prevent single-types with a multi-hierarchy supertype to be reported as multi
+		// type
 		// See Mono implements Publisher
 		return isSingleValueType(type) ? false
 				: findDescriptor(type).map(ReactiveTypeDescriptor::isMultiValue).orElse(false);
@@ -186,7 +193,6 @@ public abstract class ReactiveWrappers {
 
 	/**
 	 * Returns a collection of no-value wrapper types.
-	 *
 	 * @return a collection of no-value wrapper types.
 	 * @deprecated not supported anymore.
 	 */
@@ -197,7 +203,6 @@ public abstract class ReactiveWrappers {
 
 	/**
 	 * Returns a collection of single-value wrapper types.
-	 *
 	 * @return a collection of single-value wrapper types.
 	 * @deprecated not supported anymore.
 	 */
@@ -208,7 +213,6 @@ public abstract class ReactiveWrappers {
 
 	/**
 	 * Returns a collection of multi-value wrapper types.
-	 *
 	 * @return a collection of multi-value wrapper types.
 	 * @deprecated not supported anymore.
 	 */
@@ -219,7 +223,6 @@ public abstract class ReactiveWrappers {
 
 	/**
 	 * Returns whether the given type is a reactive wrapper type.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -232,7 +235,6 @@ public abstract class ReactiveWrappers {
 
 	/**
 	 * Looks up a {@link ReactiveTypeDescriptor} for the given wrapper type.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -250,4 +252,5 @@ public abstract class ReactiveWrappers {
 
 		return Optional.ofNullable(adapter == null ? null : adapter.getDescriptor());
 	}
+
 }

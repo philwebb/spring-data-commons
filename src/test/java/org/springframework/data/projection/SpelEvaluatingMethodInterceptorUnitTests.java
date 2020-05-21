@@ -41,8 +41,11 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 @ExtendWith(MockitoExtension.class)
 class SpelEvaluatingMethodInterceptorUnitTests {
 
-	@Mock MethodInterceptor delegate;
-	@Mock MethodInvocation invocation;
+	@Mock
+	MethodInterceptor delegate;
+
+	@Mock
+	MethodInvocation invocation;
 
 	SpelExpressionParser parser = new SpelExpressionParser();
 
@@ -51,8 +54,8 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("propertyFromTarget"));
 
-		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), null, this.parser,
-				Projection.class);
+		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), null,
+				this.parser, Projection.class);
 
 		assertThat(interceptor.invoke(this.invocation)).isEqualTo("property");
 	}
@@ -65,8 +68,8 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
 		factory.registerSingleton("someBean", new SomeBean());
 
-		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), factory,
-				this.parser, Projection.class);
+		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(),
+				factory, this.parser, Projection.class);
 
 		assertThat(interceptor.invoke(this.invocation)).isEqualTo("value");
 	}
@@ -86,8 +89,8 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 
 	@Test // DATACMNS-630
 	void rejectsEmptySpelExpression() {
-		assertThatIllegalStateException().isThrownBy(() -> new SpelEvaluatingMethodInterceptor(this.delegate, new Target(),
-				new DefaultListableBeanFactory(), this.parser, InvalidProjection.class));
+		assertThatIllegalStateException().isThrownBy(() -> new SpelEvaluatingMethodInterceptor(this.delegate,
+				new Target(), new DefaultListableBeanFactory(), this.parser, InvalidProjection.class));
 	}
 
 	@Test // DATACMNS-630
@@ -110,11 +113,12 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
 		factory.registerSingleton("someBean", new SomeBean());
 
-		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("invokeBeanWithParameter", Integer.class));
+		when(this.invocation.getMethod())
+				.thenReturn(Projection.class.getMethod("invokeBeanWithParameter", Integer.class));
 		when(this.invocation.getArguments()).thenReturn(new Object[] { 1 });
 
-		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), factory, this.parser,
-				Projection.class);
+		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), factory,
+				this.parser, Projection.class);
 
 		assertThat(interceptor.invoke(this.invocation)).isEqualTo("property1");
 	}
@@ -133,12 +137,14 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 
 		@Value("#{@someBean.someMethod(target, args[0])}")
 		String invokeBeanWithParameter(Integer parameter);
+
 	}
 
 	interface InvalidProjection {
 
 		@Value("")
 		String getAddress();
+
 	}
 
 	static class Target {
@@ -146,6 +152,7 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 		public String getName() {
 			return "property";
 		}
+
 	}
 
 	static class SomeBean {
@@ -157,5 +164,7 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 		public String someMethod(Target target, Integer parameter) {
 			return target.getName() + parameter.toString();
 		}
+
 	}
+
 }

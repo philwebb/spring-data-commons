@@ -24,8 +24,8 @@ public interface EntityMetadata<T> {
 
 	/**
 	 * Returns the actual domain class type.
-	 *
 	 * @return
 	 */
 	Class<T> getJavaType();
+
 }

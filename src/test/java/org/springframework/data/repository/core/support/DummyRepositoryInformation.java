@@ -97,4 +97,5 @@ public final class DummyRepositoryInformation implements RepositoryInformation {
 	public boolean isReactiveRepository() {
 		return this.metadata.isReactiveRepository();
 	}
+
 }

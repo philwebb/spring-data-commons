@@ -28,7 +28,8 @@ import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.data.repository.core.support.PersistentEntityInformation;
 
 /**
- * Unit tests for {@link ClassGeneratingPropertyAccessorFactory} covering interface and concrete class entity types.
+ * Unit tests for {@link ClassGeneratingPropertyAccessorFactory} covering interface and
+ * concrete class entity types.
  *
  * @author John Blum
  * @author Oliver Gierke
@@ -55,7 +56,8 @@ public class ClassGeneratingPropertyAccessorFactoryEntityTypeTests {
 
 	private EntityInformation<Object, Serializable> getEntityInformation(Class<?> type) {
 
-		PersistentEntity<Object, SamplePersistentProperty> entity = this.mappingContext.getRequiredPersistentEntity(type);
+		PersistentEntity<Object, SamplePersistentProperty> entity = this.mappingContext
+				.getRequiredPersistentEntity(type);
 		return new PersistentEntityInformation<>(entity);
 	}
 
@@ -63,6 +65,7 @@ public class ClassGeneratingPropertyAccessorFactoryEntityTypeTests {
 
 		@Id
 		String getName();
+
 	}
 
 	class QuickSort implements Algorithm {
@@ -71,14 +74,18 @@ public class ClassGeneratingPropertyAccessorFactoryEntityTypeTests {
 		public String getName() {
 			return getClass().toString();
 		}
+
 	}
 
 	static class Person {
 
-		@Id String name;
+		@Id
+		String name;
 
 		Person(String name) {
 			this.name = name;
 		}
+
 	}
+
 }

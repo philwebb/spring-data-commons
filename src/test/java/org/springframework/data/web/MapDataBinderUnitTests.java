@@ -132,6 +132,7 @@ class MapDataBinderUnitTests {
 		Foo getFoo();
 
 		Bar getBar();
+
 	}
 
 	interface Foo {
@@ -144,9 +145,13 @@ class MapDataBinderUnitTests {
 
 		@DateTimeFormat(iso = ISO.DATE_TIME)
 		Date getDate();
+
 	}
 
 	interface Bar {
+
 		Collection<String> getFooBar();
+
 	}
+
 }

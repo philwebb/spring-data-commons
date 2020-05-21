@@ -121,8 +121,8 @@ class ReactiveSortHandlerMethodArgumentResolverUnitTests {
 	@Test // DATACMNS-1211
 	void requestForMultipleSortPropertiesIsUnmarshalledCorrectly() {
 
-		MockServerHttpRequest request = MockServerHttpRequest.get(String.format("foo?sort=%s", SortDefaultUnitTests.SORT_3))
-				.build();
+		MockServerHttpRequest request = MockServerHttpRequest
+				.get(String.format("foo?sort=%s", SortDefaultUnitTests.SORT_3)).build();
 
 		ReactiveSortHandlerMethodArgumentResolver resolver = new ReactiveSortHandlerMethodArgumentResolver();
 		Sort result = resolve(resolver, request, PARAMETER);
@@ -163,8 +163,7 @@ class ReactiveSortHandlerMethodArgumentResolverUnitTests {
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
 
 		assertThatIllegalArgumentException()
-				.isThrownBy(() ->
-		resolver.resolveArgumentValue(parameter, null,
+				.isThrownBy(() -> resolver.resolveArgumentValue(parameter, null,
 						MockServerWebExchange.from(TestUtils.getWebfluxRequest())))
 				.withMessageContaining(SortDefault.class.getSimpleName())
 				.withMessageContaining(SortDefaults.class.getSimpleName()).withMessageContaining(parameter.toString());
@@ -263,5 +262,7 @@ class ReactiveSortHandlerMethodArgumentResolverUnitTests {
 		void containeredDefault(@SortDefaults(@SortDefault({ "foo", "bar" })) Sort sort);
 
 		void invalid(@SortDefaults(@SortDefault({ "foo", "bar" })) @SortDefault({ "bar", "foo" }) Sort sort);
+
 	}
+
 }

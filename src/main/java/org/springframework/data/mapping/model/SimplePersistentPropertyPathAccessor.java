@@ -39,9 +39,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link PersistentPropertyPathAccessor} that propagates attempts to set property values through collections and map
- * values. I.e. if a {@link PersistentPropertyPath} contains a path segment pointing to a collection or map based
- * property, the nested property will be set on all collection elements and map values.
+ * {@link PersistentPropertyPathAccessor} that propagates attempts to set property values
+ * through collections and map values. I.e. if a {@link PersistentPropertyPath} contains a
+ * path segment pointing to a collection or map based property, the nested property will
+ * be set on all collection elements and map values.
  *
  * @author Oliver Gierke
  * @since 2.3
@@ -55,15 +56,18 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	public SimplePersistentPropertyPathAccessor(PersistentPropertyAccessor<T> delegate) {
 		this.delegate = delegate;
 	}
+
 	@Override
 	public T getBean() {
 		return this.delegate.getBean();
 	}
+
 	@Nullable
 	@Override
 	public Object getProperty(PersistentProperty<?> property) {
 		return this.delegate.getProperty(property);
 	}
+
 	@Nullable
 	@Override
 	public Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path) {
@@ -72,7 +76,11 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyPathAccessor#getProperty(org.springframework.data.mapping.PersistentPropertyPath, org.springframework.data.mapping.PersistentPropertyPathAccessor.Options)
+	 * 
+	 * @see
+	 * org.springframework.data.mapping.PersistentPropertyPathAccessor#getProperty(org.
+	 * springframework.data.mapping.PersistentPropertyPath,
+	 * org.springframework.data.mapping.PersistentPropertyPathAccessor.Options)
 	 */
 	@Nullable
 	@Override
@@ -102,7 +110,9 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.springframework.data.mapping.PersistentProperty, java.lang.Object)
+	 * 
+	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
+	 * springframework.data.mapping.PersistentProperty, java.lang.Object)
 	 */
 	@Override
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
@@ -111,7 +121,10 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyPathAccessor#setProperty(org.springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
+	 * 
+	 * @see
+	 * org.springframework.data.mapping.PersistentPropertyPathAccessor#setProperty(org.
+	 * springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
 	 */
 	@Override
 	public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value) {
@@ -120,7 +133,10 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.ConvertingPropertyAccessor#setProperty(org.springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
+	 * 
+	 * @see
+	 * org.springframework.data.mapping.model.ConvertingPropertyAccessor#setProperty(org.
+	 * springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -164,9 +180,11 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 			newValue = source.stream() //
 					.map(it -> setValue(it, leafProperty, value)) //
-					.collect(Collectors.toCollection(() -> CollectionFactory.createApproximateCollection(source, source.size())));
+					.collect(Collectors
+							.toCollection(() -> CollectionFactory.createApproximateCollection(source, source.size())));
 
-		} else if (Map.class.isInstance(parent)) {
+		}
+		else if (Map.class.isInstance(parent)) {
 
 			Map<Object, Object> source = getTypedProperty(parentProperty, Map.class);
 
@@ -182,7 +200,8 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 			newValue = result;
 
-		} else {
+		}
+		else {
 			newValue = setValue(parent, leafProperty, value);
 		}
 
@@ -212,14 +231,13 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 		PersistentPropertyPath<? extends PersistentProperty<?>> parentPath = path.getParentPath();
 
-		throw new MappingException(String.format(nullIntermediateMessage, parentPath.getLeafProperty(), path.toDotPath(),
-				getBean().getClass().getName()));
+		throw new MappingException(String.format(nullIntermediateMessage, parentPath.getLeafProperty(),
+				path.toDotPath(), getBean().getClass().getName()));
 	}
 
 	/**
-	 * Sets the value for the given {@link PersistentProperty} on the given parent object and returns the potentially
-	 * newly created instance.
-	 *
+	 * Sets the value for the given {@link PersistentProperty} on the given parent object
+	 * and returns the potentially newly created instance.
 	 * @param parent must not be {@literal null}.
 	 * @param property must not be {@literal null}.
 	 * @param newValue can be {@literal null}.
@@ -233,10 +251,9 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	}
 
 	/**
-	 * Returns the value of the given {@link PersistentProperty} potentially applying type conversion to the given target
-	 * type. The default implementation will not attempt any conversion and reject a type mismatch with a
-	 * {@link MappingException}.
-	 *
+	 * Returns the value of the given {@link PersistentProperty} potentially applying type
+	 * conversion to the given target type. The default implementation will not attempt
+	 * any conversion and reject a type mismatch with a {@link MappingException}.
 	 * @param property will never be {@literal null}.
 	 * @param type will never be {@literal null}.
 	 * @return can be {@literal null}.
@@ -260,4 +277,5 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 		return type.cast(value);
 	}
+
 }

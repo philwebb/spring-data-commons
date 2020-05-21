@@ -36,7 +36,8 @@ import org.w3c.dom.Element;
 @ExtendWith(MockitoExtension.class)
 class XmlRepositoryConfigurationSourceUnitTests {
 
-	@Mock Element element;
+	@Mock
+	Element element;
 
 	@Test // DATACMNS-456
 	void translatesCamelCaseAttributeNameIntoXmlEquivalent() {
@@ -49,4 +50,5 @@ class XmlRepositoryConfigurationSourceUnitTests {
 
 		assertThat(source.getAttribute("someXmlAttribute")).hasValue("value");
 	}
+
 }

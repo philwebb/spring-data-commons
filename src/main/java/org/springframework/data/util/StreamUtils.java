@@ -46,7 +46,6 @@ public interface StreamUtils {
 
 	/**
 	 * Returns a {@link Stream} backed by the given {@link Iterator}
-	 *
 	 * @param iterator must not be {@literal null}.
 	 * @return
 	 */
@@ -57,9 +56,8 @@ public interface StreamUtils {
 	}
 
 	/**
-	 * Returns a {@link Stream} backed by the given {@link CloseableIterator} and forwarding calls to
-	 * {@link Stream#close()} to the iterator.
-	 *
+	 * Returns a {@link Stream} backed by the given {@link CloseableIterator} and
+	 * forwarding calls to {@link Stream#close()} to the iterator.
 	 * @param iterator must not be {@literal null}.
 	 * @return
 	 * @since 2.0
@@ -73,7 +71,6 @@ public interface StreamUtils {
 
 	/**
 	 * Returns a {@link Collector} to create an unmodifiable {@link List}.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public static <T> Collector<T, ?, List<T>> toUnmodifiableList() {
@@ -82,7 +79,6 @@ public interface StreamUtils {
 
 	/**
 	 * Returns a {@link Collector} to create an unmodifiable {@link Set}.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
@@ -91,20 +87,22 @@ public interface StreamUtils {
 
 	/**
 	 * Returns a {@link Collector} to create a {@link MultiValueMap}.
-	 *
-	 * @param keyFunction {@link Function} to create a key from an element of the {@link java.util.stream.Stream}
-	 * @param valueFunction {@link Function} to create a value from an element of the {@link java.util.stream.Stream}
+	 * @param keyFunction {@link Function} to create a key from an element of the
+	 * {@link java.util.stream.Stream}
+	 * @param valueFunction {@link Function} to create a value from an element of the
+	 * {@link java.util.stream.Stream}
 	 */
-	public static <T, K, V> Collector<T, MultiValueMap<K, V>, MultiValueMap<K, V>> toMultiMap(Function<T, K> keyFunction,
-			Function<T, V> valueFunction) {
+	public static <T, K, V> Collector<T, MultiValueMap<K, V>, MultiValueMap<K, V>> toMultiMap(
+			Function<T, K> keyFunction, Function<T, V> valueFunction) {
 		return MultiValueMapCollector.of(keyFunction, valueFunction);
 	}
 
 	/**
-	 * Creates a new {@link Stream} for the given value returning an empty {@link Stream} if the value is {@literal null}.
-	 * 
+	 * Creates a new {@link Stream} for the given value returning an empty {@link Stream}
+	 * if the value is {@literal null}.
 	 * @param source can be {@literal null}.
-	 * @return a new {@link Stream} for the given value returning an empty {@link Stream} if the value is {@literal null}.
+	 * @return a new {@link Stream} for the given value returning an empty {@link Stream}
+	 * if the value is {@literal null}.
 	 * @since 2.0.6
 	 */
 	public static <T> Stream<T> fromNullable(@Nullable T source) {
@@ -112,10 +110,9 @@ public interface StreamUtils {
 	}
 
 	/**
-	 * Zips the given {@link Stream}s using the given {@link BiFunction}. The resulting {@link Stream} will have the
-	 * length of the shorter of the two, abbreviating the zipping when the shorter of the two {@link Stream}s is
-	 * exhausted.
-	 * 
+	 * Zips the given {@link Stream}s using the given {@link BiFunction}. The resulting
+	 * {@link Stream} will have the length of the shorter of the two, abbreviating the
+	 * zipping when the shorter of the two {@link Stream}s is exhausted.
 	 * @param left must not be {@literal null}.
 	 * @param right must not be {@literal null}.
 	 * @param combiner must not be {@literal null}.
@@ -145,4 +142,5 @@ public interface StreamUtils {
 
 		}, parallel);
 	}
+
 }

@@ -27,4 +27,5 @@ public abstract class TxUtils {
 	}
 
 	public static final String DEFAULT_TRANSACTION_MANAGER = "transactionManager";
+
 }

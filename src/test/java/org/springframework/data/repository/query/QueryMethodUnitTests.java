@@ -49,6 +49,7 @@ import org.springframework.data.repository.core.support.DefaultRepositoryMetadat
 class QueryMethodUnitTests {
 
 	RepositoryMetadata metadata = new DefaultRepositoryMetadata(SampleRepository.class);
+
 	ProjectionFactory factory = new SpelAwareProxyProjectionFactory();
 
 	@Test // DATAJPA-59
@@ -278,6 +279,7 @@ class QueryMethodUnitTests {
 		Future<Seq<User>> returnsFutureOfSeq();
 
 		Future<Option<User>> returnsFutureOfOption();
+
 	}
 
 	class User {
@@ -290,11 +292,18 @@ class QueryMethodUnitTests {
 
 	// DATACMNS-1300
 
-	class Element {}
+	class Element {
 
-	abstract class Container implements Iterable<Element> {}
+	}
+
+	abstract class Container implements Iterable<Element> {
+
+	}
 
 	interface ContainerRepository extends Repository<Container, Long> {
+
 		Container someMethod();
+
 	}
+
 }

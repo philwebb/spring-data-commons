@@ -46,10 +46,14 @@ class DefaultTypeMapperUnitTests {
 	static final TypeInformation<String> STRING_TYPE_INFO = ClassTypeInformation.from(String.class);
 	static final Alias ALIAS = Alias.of(String.class.getName());
 
-	@Mock TypeAliasAccessor<Map<String, String>> accessor;
-	@Mock TypeInformationMapper mapper;
+	@Mock
+	TypeAliasAccessor<Map<String, String>> accessor;
+
+	@Mock
+	TypeInformationMapper mapper;
 
 	DefaultTypeMapper<Map<String, String>> typeMapper;
+
 	Map<String, String> source;
 
 	@BeforeEach
@@ -103,14 +107,23 @@ class DefaultTypeMapperUnitTests {
 	}
 
 	static class TypeWithAbstractGenericType<T> {
+
 		AbstractBar<T> abstractBar;
+
 	}
 
-	static class Foo extends TypeWithAbstractGenericType<Character> {}
+	static class Foo extends TypeWithAbstractGenericType<Character> {
 
-	static abstract class AbstractBar<T> {}
+	}
+
+	static abstract class AbstractBar<T> {
+
+	}
 
 	static class Bar<T> extends AbstractBar<T> {
+
 		T field;
+
 	}
+
 }

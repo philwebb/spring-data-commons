@@ -60,8 +60,8 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 	private final ParseContext context;
 
 	/**
-	 * Creates a new {@link JsonProjectingMethodInterceptorFactory} using the given {@link ObjectMapper}.
-	 *
+	 * Creates a new {@link JsonProjectingMethodInterceptorFactory} using the given
+	 * {@link ObjectMapper}.
 	 * @param mapper must not be {@literal null}.
 	 */
 	public JsonProjectingMethodInterceptorFactory(MappingProvider mappingProvider) {
@@ -78,7 +78,9 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.projection.MethodInterceptorFactory#createMethodInterceptor(java.lang.Object, java.lang.Class)
+	 * 
+	 * @see org.springframework.data.projection.MethodInterceptorFactory#
+	 * createMethodInterceptor(java.lang.Object, java.lang.Class)
 	 */
 	@Override
 	public MethodInterceptor createMethodInterceptor(Object source, Class<?> targetType) {
@@ -91,7 +93,10 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang.Object, java.lang.Class)
+	 * 
+	 * @see
+	 * org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang.
+	 * Object, java.lang.Class)
 	 */
 	@Override
 	public boolean supports(Object source, Class<?> targetType) {
@@ -105,8 +110,8 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 	}
 
 	/**
-	 * Returns whether the given type contains a method with a {@link org.springframework.data.web.JsonPath} annotation.
-	 *
+	 * Returns whether the given type contains a method with a
+	 * {@link org.springframework.data.web.JsonPath} annotation.
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -128,6 +133,7 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 		public InputMessageProjecting(DocumentContext context) {
 			this.context = context;
 		}
+
 		@Nullable
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -151,8 +157,7 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 					}
 
 					type = isCollectionResult && JsonPath.isPathDefinite(jsonPath)
-							? ResolvableType.forClassWithGenerics(List.class, type)
-							: type;
+							? ResolvableType.forClassWithGenerics(List.class, type) : type;
 
 					List<?> result = (List<?>) this.context.read(jsonPath, new ResolvableTypeRef(type));
 
@@ -162,7 +167,8 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 
 					return isCollectionResult ? result : result.isEmpty() ? null : result.get(0);
 
-				} catch (PathNotFoundException o_O) {
+				}
+				catch (PathNotFoundException o_O) {
 					// continue with next path
 				}
 			}
@@ -172,7 +178,6 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 
 		/**
 		 * Returns the JSONPath expression to be used for the given method.
-		 *
 		 * @param method
 		 * @return
 		 */
@@ -195,10 +200,14 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 			ResolvableTypeRef(ResolvableType type) {
 				this.type = type;
 			}
+
 			@Override
 			public Type getType() {
 				return this.type.getType();
 			}
+
 		}
+
 	}
+
 }

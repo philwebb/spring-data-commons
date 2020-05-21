@@ -37,22 +37,23 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Parser to populate the given {@link ClassPathScanningCandidateComponentProvider} with {@link TypeFilter}s parsed from
- * the given {@link Element}'s children.
+ * Parser to populate the given {@link ClassPathScanningCandidateComponentProvider} with
+ * {@link TypeFilter}s parsed from the given {@link Element}'s children.
  *
  * @author Oliver Gierke
  */
 public class TypeFilterParser {
 
 	private static final String FILTER_TYPE_ATTRIBUTE = "type";
+
 	private static final String FILTER_EXPRESSION_ATTRIBUTE = "expression";
 
 	private final ReaderContext readerContext;
+
 	private final ClassLoader classLoader;
 
 	/**
 	 * Creates a new {@link TypeFilterParser} with the given {@link ReaderContext}.
-	 *
 	 * @param readerContext must not be {@literal null}.
 	 */
 	public TypeFilterParser(XmlReaderContext readerContext) {
@@ -60,9 +61,8 @@ public class TypeFilterParser {
 	}
 
 	/**
-	 * Constructor to ease testing as {@link XmlReaderContext#getBeanClassLoader()} is final and thus cannot be mocked
-	 * easily.
-	 *
+	 * Constructor to ease testing as {@link XmlReaderContext#getBeanClassLoader()} is
+	 * final and thus cannot be mocked easily.
 	 * @param readerContext must not be {@literal null}.
 	 * @param classLoader must not be {@literal null}.
 	 */
@@ -76,9 +76,9 @@ public class TypeFilterParser {
 	}
 
 	/**
-	 * Returns all {@link TypeFilter} declared in nested elements of the given {@link Element}. Allows to selectively
-	 * retrieve including or excluding filters based on the given {@link Type}.
-	 *
+	 * Returns all {@link TypeFilter} declared in nested elements of the given
+	 * {@link Element}. Allows to selectively retrieve including or excluding filters
+	 * based on the given {@link Type}.
 	 * @param element must not be {@literal null}.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -99,7 +99,8 @@ public class TypeFilterParser {
 
 			try {
 				filters.add(createTypeFilter(childElement, this.classLoader));
-			} catch (RuntimeException e) {
+			}
+			catch (RuntimeException e) {
 				this.readerContext.error(e.getMessage(), this.readerContext.extractSource(element), e.getCause());
 			}
 		}
@@ -108,8 +109,8 @@ public class TypeFilterParser {
 	}
 
 	/**
-	 * Creates a {@link TypeFilter} instance from the given {@link Element} and {@link ClassLoader}.
-	 *
+	 * Creates a {@link TypeFilter} instance from the given {@link Element} and
+	 * {@link ClassLoader}.
 	 * @param element must not be {@literal null}.
 	 * @param classLoader must not be {@literal null}.
 	 * @return
@@ -124,14 +125,15 @@ public class TypeFilterParser {
 			FilterType filter = FilterType.fromString(filterType);
 			return filter.getFilter(expression, classLoader);
 
-		} catch (ClassNotFoundException ex) {
+		}
+		catch (ClassNotFoundException ex) {
 			throw new FatalBeanException("Type filter class not found: " + expression, ex);
 		}
 	}
 
 	/**
-	 * Enum representing all the filter types available for {@code include} and {@code exclude} elements. This acts as
-	 * factory for {@link TypeFilter} instances.
+	 * Enum representing all the filter types available for {@code include} and
+	 * {@code exclude} elements. This acts as factory for {@link TypeFilter} instances.
 	 *
 	 * @author Oliver Gierke
 	 * @see #getFilter(String, ClassLoader)
@@ -181,8 +183,8 @@ public class TypeFilterParser {
 		};
 
 		/**
-		 * Returns the {@link TypeFilter} for the given expression and {@link ClassLoader}.
-		 *
+		 * Returns the {@link TypeFilter} for the given expression and
+		 * {@link ClassLoader}.
 		 * @param expression
 		 * @param classLoader
 		 * @return
@@ -192,10 +194,10 @@ public class TypeFilterParser {
 
 		/**
 		 * Returns the {@link FilterType} for the given type as {@link String}.
-		 *
 		 * @param typeString
 		 * @return
-		 * @throws IllegalArgumentException if no {@link FilterType} could be found for the given argument.
+		 * @throws IllegalArgumentException if no {@link FilterType} could be found for
+		 * the given argument.
 		 */
 		static FilterType fromString(String typeString) {
 
@@ -207,6 +209,7 @@ public class TypeFilterParser {
 
 			throw new IllegalArgumentException("Unsupported filter type: " + typeString);
 		}
+
 	}
 
 	public static enum Type {
@@ -220,9 +223,8 @@ public class TypeFilterParser {
 		}
 
 		/**
-		 * Returns the {@link Element} if the given {@link Node} is an {@link Element} and it's name equals the one of the
-		 * type.
-		 *
+		 * Returns the {@link Element} if the given {@link Node} is an {@link Element} and
+		 * it's name equals the one of the type.
 		 * @param node
 		 * @return
 		 */
@@ -238,5 +240,7 @@ public class TypeFilterParser {
 
 			return null;
 		}
+
 	}
+
 }

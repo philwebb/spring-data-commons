@@ -76,7 +76,10 @@ class AnnotationAuditingMetadataUnitTests {
 	void rejectsInvalidDateTypeField() {
 
 		class Sample {
-			@CreatedDate String field;
+
+			@CreatedDate
+			String field;
+
 		}
 
 		assertThatIllegalStateException().isThrownBy(() -> AnnotationAuditingMetadata.getMetadata(Sample.class))
@@ -85,6 +88,9 @@ class AnnotationAuditingMetadataUnitTests {
 
 	@SuppressWarnings("unused")
 	static class NonAuditableUser {
+
 		private Object nonAuditProperty;
+
 	}
+
 }

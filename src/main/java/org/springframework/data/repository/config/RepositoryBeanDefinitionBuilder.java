@@ -36,7 +36,8 @@ import org.springframework.data.util.Optionals;
 import org.springframework.util.Assert;
 
 /**
- * Builder to create {@link BeanDefinitionBuilder} instance to eventually create Spring Data repository instances.
+ * Builder to create {@link BeanDefinitionBuilder} instance to eventually create Spring
+ * Data repository instances.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -48,17 +49,21 @@ class RepositoryBeanDefinitionBuilder {
 	private static final Logger logger = LoggerFactory.getLogger(RepositoryBeanDefinitionBuilder.class);
 
 	private final BeanDefinitionRegistry registry;
+
 	private final RepositoryConfigurationExtension extension;
+
 	private final ResourceLoader resourceLoader;
 
 	private final MetadataReaderFactory metadataReaderFactory;
+
 	private final FragmentMetadata fragmentMetadata;
+
 	private final CustomRepositoryImplementationDetector implementationDetector;
 
 	/**
-	 * Creates a new {@link RepositoryBeanDefinitionBuilder} from the given {@link BeanDefinitionRegistry},
-	 * {@link RepositoryConfigurationExtension} and {@link ResourceLoader}.
-	 *
+	 * Creates a new {@link RepositoryBeanDefinitionBuilder} from the given
+	 * {@link BeanDefinitionRegistry}, {@link RepositoryConfigurationExtension} and
+	 * {@link ResourceLoader}.
 	 * @param registry must not be {@literal null}.
 	 * @param extension must not be {@literal null}.
 	 * @param resourceLoader must not be {@literal null}.
@@ -83,9 +88,8 @@ class RepositoryBeanDefinitionBuilder {
 	}
 
 	/**
-	 * Builds a new {@link BeanDefinitionBuilder} from the given {@link BeanDefinitionRegistry} and {@link ResourceLoader}
-	 * .
-	 *
+	 * Builds a new {@link BeanDefinitionBuilder} from the given
+	 * {@link BeanDefinitionRegistry} and {@link ResourceLoader} .
 	 * @param configuration must not be {@literal null}.
 	 * @return
 	 */
@@ -144,7 +148,8 @@ class RepositoryBeanDefinitionBuilder {
 			return Optional.of(beanName);
 		}
 
-		Optional<AbstractBeanDefinition> beanDefinition = this.implementationDetector.detectCustomImplementation(lookup);
+		Optional<AbstractBeanDefinition> beanDefinition = this.implementationDetector
+				.detectCustomImplementation(lookup);
 
 		return beanDefinition.map(it -> {
 
@@ -177,7 +182,8 @@ class RepositoryBeanDefinitionBuilder {
 			ImplementationDetectionConfiguration config) {
 
 		ImplementationLookupConfiguration lookup = config.forFragment(fragmentInterface);
-		Optional<AbstractBeanDefinition> beanDefinition = this.implementationDetector.detectCustomImplementation(lookup);
+		Optional<AbstractBeanDefinition> beanDefinition = this.implementationDetector
+				.detectCustomImplementation(lookup);
 
 		return beanDefinition.map(bd -> new RepositoryFragmentConfiguration(fragmentInterface, bd));
 	}
@@ -227,4 +233,5 @@ class RepositoryBeanDefinitionBuilder {
 		this.registry.registerBeanDefinition(beanName,
 				ParsingUtils.getSourceBeanDefinition(fragmentBuilder, configuration.getSource()));
 	}
+
 }

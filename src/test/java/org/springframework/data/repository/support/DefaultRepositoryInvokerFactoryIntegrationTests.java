@@ -38,8 +38,11 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig(classes = SampleConfiguration.class)
 class DefaultRepositoryInvokerFactoryIntegrationTests {
 
-	@Autowired ProductRepository productRepository;
-	@Autowired Repositories repositories;
+	@Autowired
+	ProductRepository productRepository;
+
+	@Autowired
+	Repositories repositories;
 
 	RepositoryInvokerFactory factory;
 
@@ -96,4 +99,5 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 				.isInstanceOf(CrudRepositoryInvoker.class)//
 				.isNotInstanceOf(PagingAndSortingRepositoryInvoker.class);
 	}
+
 }

@@ -27,21 +27,24 @@ import org.springframework.util.MultiValueMap;
 import com.querydsl.core.types.Predicate;
 
 /**
- * {@link RepositoryInvoker} that is aware of a {@link QuerydslPredicateExecutor} and {@link Predicate} to be executed
- * for all flavors of {@code findAll(…)}. All other calls are forwarded to the configured delegate.
+ * {@link RepositoryInvoker} that is aware of a {@link QuerydslPredicateExecutor} and
+ * {@link Predicate} to be executed for all flavors of {@code findAll(…)}. All other calls
+ * are forwarded to the configured delegate.
  *
  * @author Oliver Gierke
  */
 public class QuerydslRepositoryInvokerAdapter implements RepositoryInvoker {
 
 	private final RepositoryInvoker delegate;
+
 	private final QuerydslPredicateExecutor<Object> executor;
+
 	private final Predicate predicate;
 
 	/**
-	 * Creates a new {@link QuerydslRepositoryInvokerAdapter} for the given delegate {@link RepositoryInvoker},
-	 * {@link QuerydslPredicateExecutor} and Querydsl {@link Predicate}.
-	 *
+	 * Creates a new {@link QuerydslRepositoryInvokerAdapter} for the given delegate
+	 * {@link RepositoryInvoker}, {@link QuerydslPredicateExecutor} and Querydsl
+	 * {@link Predicate}.
 	 * @param delegate must not be {@literal null}.
 	 * @param executor must not be {@literal null}.
 	 * @param predicate can be {@literal null}.
@@ -56,34 +59,42 @@ public class QuerydslRepositoryInvokerAdapter implements RepositoryInvoker {
 		this.executor = executor;
 		this.predicate = predicate;
 	}
+
 	@Override
 	public Iterable<Object> invokeFindAll(Pageable pageable) {
 		return this.executor.findAll(this.predicate, pageable);
 	}
+
 	@Override
 	public Iterable<Object> invokeFindAll(Sort sort) {
 		return this.executor.findAll(this.predicate, sort);
 	}
+
 	@Override
 	public boolean hasDeleteMethod() {
 		return this.delegate.hasDeleteMethod();
 	}
+
 	@Override
 	public boolean hasFindAllMethod() {
 		return this.delegate.hasFindAllMethod();
 	}
+
 	@Override
 	public boolean hasFindOneMethod() {
 		return this.delegate.hasFindOneMethod();
 	}
+
 	@Override
 	public boolean hasSaveMethod() {
 		return this.delegate.hasSaveMethod();
 	}
+
 	@Override
 	public void invokeDeleteById(Object id) {
 		this.delegate.invokeDeleteById(id);
 	}
+
 	@Override
 	public <T> Optional<T> invokeFindById(Object id) {
 		return this.delegate.invokeFindById(id);
@@ -91,15 +102,21 @@ public class QuerydslRepositoryInvokerAdapter implements RepositoryInvoker {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.support.RepositoryInvoker#invokeQueryMethod(java.lang.reflect.Method, org.springframework.util.MultiValueMap, org.springframework.data.domain.Pageable, org.springframework.data.domain.Sort)
+	 * 
+	 * @see
+	 * org.springframework.data.repository.support.RepositoryInvoker#invokeQueryMethod(
+	 * java.lang.reflect.Method, org.springframework.util.MultiValueMap,
+	 * org.springframework.data.domain.Pageable, org.springframework.data.domain.Sort)
 	 */
 	@Override
 	public Optional<Object> invokeQueryMethod(Method method, MultiValueMap<String, ? extends Object> parameters,
 			Pageable pageable, Sort sort) {
 		return this.delegate.invokeQueryMethod(method, parameters, pageable, sort);
 	}
+
 	@Override
 	public <T> T invokeSave(T object) {
 		return this.delegate.invokeSave(object);
 	}
+
 }

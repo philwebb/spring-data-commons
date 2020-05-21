@@ -43,9 +43,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
- * {@link AuditableBeanWrapperFactory} that will create am {@link AuditableBeanWrapper} using mapping information
- * obtained from a {@link MappingContext} to detect auditing configuration and eventually invoking setting the auditing
- * values.
+ * {@link AuditableBeanWrapperFactory} that will create am {@link AuditableBeanWrapper}
+ * using mapping information obtained from a {@link MappingContext} to detect auditing
+ * configuration and eventually invoking setting the auditing values.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -55,11 +55,12 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrapperFactory {
 
 	private final PersistentEntities entities;
+
 	private final Map<Class<?>, MappingAuditingMetadata> metadataCache;
 
 	/**
-	 * Creates a new {@link MappingAuditableBeanWrapperFactory} using the given {@link PersistentEntities}.
-	 *
+	 * Creates a new {@link MappingAuditableBeanWrapperFactory} using the given
+	 * {@link PersistentEntities}.
 	 * @param entities must not be {@literal null}.
 	 */
 	public MappingAuditableBeanWrapperFactory(PersistentEntities entities) {
@@ -69,6 +70,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		this.entities = entities;
 		this.metadataCache = new ConcurrentReferenceHashMap<>();
 	}
+
 	@Override
 	public <T> Optional<AuditableBeanWrapper<T>> getBeanWrapperFor(T source) {
 
@@ -83,9 +85,9 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 				MappingAuditingMetadata metadata = this.metadataCache.computeIfAbsent(it.getClass(),
 						key -> new MappingAuditingMetadata(context, it.getClass()));
 
-				return Optional.<AuditableBeanWrapper<T>> ofNullable(metadata.isAuditable() //
-						? new MappingMetadataAuditableBeanWrapper<>(getConversionService(), entity.getPropertyPathAccessor(it),
-								metadata)
+				return Optional.<AuditableBeanWrapper<T>>ofNullable(metadata.isAuditable() //
+						? new MappingMetadataAuditableBeanWrapper<>(getConversionService(),
+								entity.getPropertyPathAccessor(it), metadata)
 						: null);
 
 			}).orElseGet(() -> super.getBeanWrapperFor(source));
@@ -100,8 +102,8 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 	 */
 	static class MappingAuditingMetadata {
 
-		private static final Predicate<? super PersistentProperty<?>> HAS_COLLECTION_PROPERTY = it -> it.isCollectionLike()
-				|| it.isMap();
+		private static final Predicate<? super PersistentProperty<?>> HAS_COLLECTION_PROPERTY = it -> it
+				.isCollectionLike() || it.isMap();
 
 		private final PersistentPropertyPaths<?, ? extends PersistentProperty<?>> createdByPaths, createdDatePaths,
 				lastModifiedByPaths, lastModifiedDatePaths;
@@ -109,8 +111,8 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		private final Lazy<Boolean> isAuditable;
 
 		/**
-		 * Creates a new {@link MappingAuditingMetadata} instance from the given {@link PersistentEntity}.
-		 *
+		 * Creates a new {@link MappingAuditingMetadata} instance from the given
+		 * {@link PersistentEntity}.
 		 * @param entity must not be {@literal null}.
 		 */
 		public <P> MappingAuditingMetadata(MappingContext<?, ? extends PersistentProperty<?>> context, Class<?> type) {
@@ -124,15 +126,15 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 
 			this.isAuditable = Lazy.of( //
 					() -> //
-					Stream.of(this.createdByPaths, this.createdDatePaths, this.lastModifiedByPaths, this.lastModifiedDatePaths) //
+					Stream.of(this.createdByPaths, this.createdDatePaths, this.lastModifiedByPaths,
+							this.lastModifiedDatePaths) //
 							.anyMatch(it -> !it.isEmpty())//
 			);
 		}
 
 		/**
-		 * Returns whether the {@link PersistentEntity} is auditable at all (read: any of the auditing annotations is
-		 * present).
-		 *
+		 * Returns whether the {@link PersistentEntity} is auditable at all (read: any of
+		 * the auditing annotations is present).
 		 * @return
 		 */
 		public boolean isAuditable() {
@@ -150,11 +152,12 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		private static Predicate<PersistentProperty<?>> withAnnotation(Class<? extends Annotation> type) {
 			return t -> t.findAnnotation(type) != null;
 		}
+
 	}
 
 	/**
-	 * {@link AuditableBeanWrapper} using {@link MappingAuditingMetadata} and a {@link PersistentPropertyAccessor} to set
-	 * values on auditing properties.
+	 * {@link AuditableBeanWrapper} using {@link MappingAuditingMetadata} and a
+	 * {@link PersistentPropertyAccessor} to set values on auditing properties.
 	 *
 	 * @author Oliver Gierke
 	 * @since 1.8
@@ -166,19 +169,17 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 				.withCollectionAndMapPropagation(Propagation.SKIP);
 
 		private final PersistentPropertyPathAccessor<T> accessor;
+
 		private final MappingAuditingMetadata metadata;
 
 		/**
-		 * Creates a new {@link MappingMetadataAuditableBeanWrapper} for the given target and
-		 * {@link MappingAuditingMetadata}.
-		 *
+		 * Creates a new {@link MappingMetadataAuditableBeanWrapper} for the given target
+		 * and {@link MappingAuditingMetadata}.
 		 * @param accessor must not be {@literal null}.
 		 * @param metadata must not be {@literal null}.
 		 */
-		public MappingMetadataAuditableBeanWrapper(
-				ConversionService conversionService,
-				PersistentPropertyPathAccessor<T> accessor,
-				MappingAuditingMetadata metadata) {
+		public MappingMetadataAuditableBeanWrapper(ConversionService conversionService,
+				PersistentPropertyPathAccessor<T> accessor, MappingAuditingMetadata metadata) {
 			super(conversionService);
 
 			Assert.notNull(accessor, "PersistentPropertyAccessor must not be null!");
@@ -187,18 +188,22 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 			this.accessor = accessor;
 			this.metadata = metadata;
 		}
+
 		@Override
 		public Object setCreatedBy(Object value) {
 			return setProperty(this.metadata.createdByPaths, value);
 		}
+
 		@Override
 		public TemporalAccessor setCreatedDate(TemporalAccessor value) {
 			return setDateProperty(this.metadata.createdDatePaths, value);
 		}
+
 		@Override
 		public Object setLastModifiedBy(Object value) {
 			return setProperty(this.metadata.lastModifiedByPaths, value);
 		}
+
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
 
@@ -207,25 +212,26 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 
 			return getAsTemporalAccessor(firstValue, TemporalAccessor.class);
 		}
+
 		@Override
 		public TemporalAccessor setLastModifiedDate(TemporalAccessor value) {
 			return setDateProperty(this.metadata.lastModifiedDatePaths, value);
 		}
+
 		@Override
 		public T getBean() {
 			return this.accessor.getBean();
 		}
 
-		private <S> S setProperty(
-				PersistentPropertyPaths<?, ? extends PersistentProperty<?>> paths, S value) {
+		private <S> S setProperty(PersistentPropertyPaths<?, ? extends PersistentProperty<?>> paths, S value) {
 
 			paths.forEach(it -> this.accessor.setProperty(it, value, OPTIONS));
 
 			return value;
 		}
 
-		private TemporalAccessor setDateProperty(
-				PersistentPropertyPaths<?, ? extends PersistentProperty<?>> property, TemporalAccessor value) {
+		private TemporalAccessor setDateProperty(PersistentPropertyPaths<?, ? extends PersistentProperty<?>> property,
+				TemporalAccessor value) {
 
 			property.forEach(it -> {
 
@@ -236,5 +242,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 
 			return value;
 		}
+
 	}
+
 }

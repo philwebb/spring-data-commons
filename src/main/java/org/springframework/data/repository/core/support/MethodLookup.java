@@ -25,11 +25,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Strategy interface providing {@link MethodPredicate predicates} to resolve a method called on a composite to its
- * implementation method.
+ * Strategy interface providing {@link MethodPredicate predicates} to resolve a method
+ * called on a composite to its implementation method.
  * <p />
- * {@link MethodPredicate Predicates} are ordered by filtering priority and applied individually. If a predicate does
- * not yield any positive match, the next predicate is applied.
+ * {@link MethodPredicate Predicates} are ordered by filtering priority and applied
+ * individually. If a predicate does not yield any positive match, the next predicate is
+ * applied.
  *
  * @author Mark Paluch
  * @since 2.0
@@ -39,18 +40,17 @@ import org.springframework.util.ObjectUtils;
 public interface MethodLookup {
 
 	/**
-	 * Return an ordered {@link List} of {@link MethodPredicate}. Each predicate is applied individually. If any
-	 * {@link MethodPredicate} matches, the tested candidate {@link Method} passes the filter.
-	 *
+	 * Return an ordered {@link List} of {@link MethodPredicate}. Each predicate is
+	 * applied individually. If any {@link MethodPredicate} matches, the tested candidate
+	 * {@link Method} passes the filter.
 	 * @return {@link List} of {@link MethodPredicate}.
 	 */
 	List<MethodPredicate> getLookups();
 
 	/**
-	 * Returns a composed {@link MethodLookup} that represents a concatenation of this predicate and another. When
-	 * evaluating the composed method lookup, if this lookup evaluates {@code true}, then the {@code other} method lookup
-	 * is not evaluated.
-	 *
+	 * Returns a composed {@link MethodLookup} that represents a concatenation of this
+	 * predicate and another. When evaluating the composed method lookup, if this lookup
+	 * evaluates {@code true}, then the {@code other} method lookup is not evaluated.
 	 * @param other must not be {@literal null}.
 	 * @return the composed {@link MethodLookup}.
 	 */
@@ -62,7 +62,8 @@ public interface MethodLookup {
 	}
 
 	/**
-	 * A method predicate to be applied on the {@link InvokedMethod} and {@link Method method candidate}.
+	 * A method predicate to be applied on the {@link InvokedMethod} and {@link Method
+	 * method candidate}.
 	 */
 	@FunctionalInterface
 	interface MethodPredicate extends BiPredicate<InvokedMethod, Method> {
@@ -70,13 +71,13 @@ public interface MethodLookup {
 		@Override
 		@SuppressWarnings("null")
 		boolean test(InvokedMethod invokedMethod, Method candidate);
+
 	}
 
 	/**
 	 * Value object representing an invoked {@link Method}.
 	 */
-	final
-	class InvokedMethod {
+	final class InvokedMethod {
 
 		private final Method method;
 
@@ -107,6 +108,7 @@ public interface MethodLookup {
 		public Method getMethod() {
 			return this.method;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -121,13 +123,17 @@ public interface MethodLookup {
 			InvokedMethod that = (InvokedMethod) o;
 			return ObjectUtils.nullSafeEquals(this.method, that.method);
 		}
+
 		@Override
 		public int hashCode() {
 			return ObjectUtils.nullSafeHashCode(this.method);
 		}
+
 		@Override
 		public String toString() {
 			return "MethodLookup.InvokedMethod(method=" + this.getMethod() + ")";
 		}
+
 	}
+
 }

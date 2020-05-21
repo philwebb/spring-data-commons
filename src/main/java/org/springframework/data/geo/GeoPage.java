@@ -22,8 +22,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Custom {@link Page} to carry the average distance retrieved from the {@link GeoResults} the {@link GeoPage} is set up
- * from.
+ * Custom {@link Page} to carry the average distance retrieved from the {@link GeoResults}
+ * the {@link GeoPage} is set up from.
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
@@ -40,7 +40,6 @@ public class GeoPage<T> extends PageImpl<GeoResult<T>> {
 
 	/**
 	 * Creates a new {@link GeoPage} from the given {@link GeoResults}.
-	 *
 	 * @param content must not be {@literal null}.
 	 */
 	public GeoPage(GeoResults<T> results) {
@@ -51,8 +50,8 @@ public class GeoPage<T> extends PageImpl<GeoResult<T>> {
 	}
 
 	/**
-	 * Creates a new {@link GeoPage} from the given {@link GeoResults}, {@link Pageable} and total.
-	 *
+	 * Creates a new {@link GeoPage} from the given {@link GeoResults}, {@link Pageable}
+	 * and total.
 	 * @param results must not be {@literal null}.
 	 * @param pageable must not be {@literal null}.
 	 * @param total
@@ -63,6 +62,7 @@ public class GeoPage<T> extends PageImpl<GeoResult<T>> {
 
 		this.averageDistance = results.getAverageDistance();
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -78,6 +78,7 @@ public class GeoPage<T> extends PageImpl<GeoResult<T>> {
 
 		return super.equals(obj) && ObjectUtils.nullSafeEquals(this.averageDistance, that.averageDistance);
 	}
+
 	@Override
 	public int hashCode() {
 		return super.hashCode() + ObjectUtils.nullSafeHashCode(this.averageDistance);
@@ -86,4 +87,5 @@ public class GeoPage<T> extends PageImpl<GeoResult<T>> {
 	public Distance getAverageDistance() {
 		return this.averageDistance;
 	}
+
 }

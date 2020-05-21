@@ -54,6 +54,7 @@ class PagedResourcesAssemblerUnitTests {
 	static final Page<Person> EMPTY_PAGE = new PageImpl<>(Collections.emptyList(), PAGEABLE, 0);
 
 	HateoasPageableHandlerMethodArgumentResolver resolver = new HateoasPageableHandlerMethodArgumentResolver();
+
 	PagedResourcesAssembler<Person> assembler = new PagedResourcesAssembler<>(this.resolver, null);
 
 	@BeforeEach
@@ -161,7 +162,8 @@ class PagedResourcesAssemblerUnitTests {
 		assertThat(resource.hasLink("prev")).isTrue();
 		assertThat(resource.hasLink("next")).isTrue();
 
-		// We expect 2 as the created page has index 1. Pages itself are always 0 indexed, so we created page 2 above.
+		// We expect 2 as the created page has index 1. Pages itself are always 0 indexed,
+		// so we created page 2 above.
 		assertThat(resource.getMetadata().getNumber()).isEqualTo(2);
 
 		assertThat(getQueryParameters(resource.getRequiredLink("prev"))).containsEntry("page", "1");
@@ -274,20 +276,26 @@ class PagedResourcesAssemblerUnitTests {
 	}
 
 	static class Person {
+
 		String name;
+
 	}
 
 	static class PersonResource extends RepresentationModel<PersonResource> {
+
 		String name;
+
 	}
 
 	static class PersonResourceAssembler implements RepresentationModelAssembler<Person, PersonResource> {
+
 		@Override
 		public PersonResource toModel(Person entity) {
 			PersonResource resource = new PersonResource();
 			resource.name = entity.name;
 			return resource;
 		}
+
 	}
 
 	static class CustomPagedResourcesAssembler<T> extends PagedResourcesAssembler<T> {
@@ -298,13 +306,18 @@ class PagedResourcesAssemblerUnitTests {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.data.web.PagedResourcesAssembler#createPagedModel(java.util.List, org.springframework.hateoas.PagedModel.PageMetadata, org.springframework.data.domain.Page)
+		 * 
+		 * @see
+		 * org.springframework.data.web.PagedResourcesAssembler#createPagedModel(java.util
+		 * .List, org.springframework.hateoas.PagedModel.PageMetadata,
+		 * org.springframework.data.domain.Page)
 		 */
 		@Override
 		protected <R extends RepresentationModel<?>, S> PagedModel<R> createPagedModel(List<R> resources,
 				PageMetadata metadata, Page<S> page) {
 			return new CustomPagedResources<>(resources, metadata);
 		}
+
 	}
 
 	static class CustomPagedResources<R extends RepresentationModel> extends PagedModel<R> {
@@ -312,5 +325,7 @@ class PagedResourcesAssemblerUnitTests {
 		CustomPagedResources(Collection<R> content, PageMetadata metadata) {
 			super(content, metadata);
 		}
+
 	}
+
 }

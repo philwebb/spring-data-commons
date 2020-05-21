@@ -48,9 +48,11 @@ import org.springframework.data.repository.core.support.DummyRepositoryFactoryBe
 @ExtendWith(MockitoExtension.class)
 class RepositoryBeanDefinitionRegistrarSupportUnitTests {
 
-	@Mock BeanDefinitionRegistry registry;
+	@Mock
+	BeanDefinitionRegistry registry;
 
 	StandardEnvironment environment;
+
 	DummyRegistrar registrar;
 
 	@BeforeEach
@@ -144,14 +146,17 @@ class RepositoryBeanDefinitionRegistrarSupportUnitTests {
 		DummyRegistrar() {
 			setResourceLoader(new DefaultResourceLoader());
 		}
+
 		@Override
 		protected Class<? extends Annotation> getAnnotation() {
 			return EnableRepositories.class;
 		}
+
 		@Override
 		protected RepositoryConfigurationExtension getExtension() {
 			return new DummyConfigurationExtension();
 		}
+
 	}
 
 	static class DummyConfigurationExtension extends RepositoryConfigurationExtensionSupport {
@@ -164,13 +169,19 @@ class RepositoryBeanDefinitionRegistrarSupportUnitTests {
 		protected String getModulePrefix() {
 			return "commons";
 		}
+
 	}
 
 	@EnableRepositories(
 			includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, value = RepositoryWithFragmentExclusion.class),
 			basePackageClasses = RepositoryWithFragmentExclusion.class)
-	static class FragmentExclusionConfiguration {}
+	static class FragmentExclusionConfiguration {
+
+	}
 
 	@EnableRepositories(basePackageClasses = FragmentImpl.class)
-	static class LimitsImplementationBasePackages {}
+	static class LimitsImplementationBasePackages {
+
+	}
+
 }

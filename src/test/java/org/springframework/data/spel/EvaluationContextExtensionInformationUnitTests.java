@@ -42,6 +42,7 @@ class EvaluationContextExtensionInformationUnitTests {
 
 		@Override
 		SampleRoot getRootObject();
+
 	}
 
 	interface SampleRoot {
@@ -49,5 +50,7 @@ class EvaluationContextExtensionInformationUnitTests {
 		void someMethod();
 
 		void someMethod(String parameter);
+
 	}
+
 }

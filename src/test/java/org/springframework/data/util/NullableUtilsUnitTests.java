@@ -116,4 +116,5 @@ class NullableUtilsUnitTests {
 
 		assertThat(NullableUtils.isExplicitNullable(new MethodParameter(method, -1))).isTrue();
 	}
+
 }

@@ -42,6 +42,7 @@ import com.querydsl.core.types.dsl.StringPath;
 class QuerydslBindingsUnitTests {
 
 	QuerydslPredicateBuilder builder;
+
 	QuerydslBindings bindings;
 
 	static final SingleValueBinding<StringPath, String> CONTAINS_BINDING = (path, value) -> path.contains(value);
@@ -228,7 +229,8 @@ class QuerydslBindingsUnitTests {
 
 		assertThat(this.bindings.isPathAvailable("address.city", User.class)).isTrue();
 
-		PathInformation propertyPath = this.bindings.getPropertyPath("address.city", ClassTypeInformation.from(User.class));
+		PathInformation propertyPath = this.bindings.getPropertyPath("address.city",
+				ClassTypeInformation.from(User.class));
 		assertThat(propertyPath).isNotNull();
 
 		assertAdapterWithTargetBinding(this.bindings.getBindingForPath(propertyPath), CONTAINS_BINDING);
@@ -257,8 +259,10 @@ class QuerydslBindingsUnitTests {
 			Optional<MultiValueBinding<P, S>> binding, SingleValueBinding<? extends Path<?>, ?> expected) {
 
 		assertThat(binding).hasValueSatisfying(it -> {
-			// assertThat(binding, is(instanceOf(QuerydslBindings.MultiValueBindingAdapter.class)));
-			// assertThat(ReflectionTestUtils.getField(binding, "delegate"), is((Object) expected));
+			// assertThat(binding,
+			// is(instanceOf(QuerydslBindings.MultiValueBindingAdapter.class)));
+			// assertThat(ReflectionTestUtils.getField(binding, "delegate"), is((Object)
+			// expected));
 		});
 	}
 
@@ -268,11 +272,16 @@ class QuerydslBindingsUnitTests {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.data.querydsl.binding.SingleValueBinding#bind(com.querydsl.core.types.Path, java.lang.Object)
+		 * 
+		 * @see
+		 * org.springframework.data.querydsl.binding.SingleValueBinding#bind(com.querydsl.
+		 * core.types.Path, java.lang.Object)
 		 */
 		@Override
 		public Predicate bind(StringPath path, String value) {
 			return path.contains(value);
 		}
+
 	}
+
 }

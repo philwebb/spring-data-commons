@@ -28,4 +28,5 @@ import org.springframework.stereotype.Component;
 public class AddressRepositoryClient {
 
 	private final @Getter AddressRepository repository;
+
 }

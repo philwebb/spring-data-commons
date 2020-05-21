@@ -54,4 +54,5 @@ class PointUnitTests {
 		Point serialized = (Point) SerializationUtils.deserialize(SerializationUtils.serialize(point));
 		assertThat(serialized).isEqualTo(point);
 	}
+
 }

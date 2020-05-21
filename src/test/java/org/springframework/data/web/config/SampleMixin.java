@@ -26,4 +26,5 @@ class SampleMixin implements SpringDataJacksonModules {
 	String sampleBean() {
 		return "sampleBean";
 	}
+
 }

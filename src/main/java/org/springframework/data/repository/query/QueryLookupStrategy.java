@@ -37,7 +37,6 @@ public interface QueryLookupStrategy {
 
 		/**
 		 * Returns a strategy key from the given XML value.
-		 *
 		 * @param xml
 		 * @return a strategy key from the given XML value
 		 */
@@ -50,11 +49,12 @@ public interface QueryLookupStrategy {
 
 			return valueOf(xml.toUpperCase(Locale.US).replace("-", "_"));
 		}
+
 	}
 
 	/**
-	 * Resolves a {@link RepositoryQuery} from the given {@link QueryMethod} that can be executed afterwards.
-	 *
+	 * Resolves a {@link RepositoryQuery} from the given {@link QueryMethod} that can be
+	 * executed afterwards.
 	 * @param method will never be {@literal null}.
 	 * @param metadata will never be {@literal null}.
 	 * @param factory will never be {@literal null}.
@@ -63,4 +63,5 @@ public interface QueryLookupStrategy {
 	 */
 	RepositoryQuery resolveQuery(Method method, RepositoryMetadata metadata, ProjectionFactory factory,
 			NamedQueries namedQueries);
+
 }

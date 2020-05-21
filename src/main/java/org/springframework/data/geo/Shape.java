@@ -23,4 +23,6 @@ import java.io.Serializable;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
-public interface Shape extends Serializable {}
+public interface Shape extends Serializable {
+
+}

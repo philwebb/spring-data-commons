@@ -19,4 +19,6 @@ package org.springframework.data.util.nonnull.type;
  * @author Mark Paluch
  */
 @CustomNonNullAnnotation
-public interface CustomAnnotatedType {}
+public interface CustomAnnotatedType {
+
+}

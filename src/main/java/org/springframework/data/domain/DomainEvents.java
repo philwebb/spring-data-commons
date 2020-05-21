@@ -21,8 +21,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * {@link DomainEvents} can be used on methods of aggregate roots managed by Spring Data repositories to publish the
- * events returned by that method as Spring application events.
+ * {@link DomainEvents} can be used on methods of aggregate roots managed by Spring Data
+ * repositories to publish the events returned by that method as Spring application
+ * events.
  *
  * @author Oliver Gierke
  * @see org.springframework.context.ApplicationEventPublisher
@@ -32,4 +33,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE })
 public @interface DomainEvents {
+
 }

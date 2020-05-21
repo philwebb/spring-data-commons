@@ -36,8 +36,8 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.lang.Nullable;
 
 /**
- * Reflection utility methods specific to Kotlin reflection. Requires Kotlin classes to be present to avoid linkage
- * errors.
+ * Reflection utility methods specific to Kotlin reflection. Requires Kotlin classes to be
+ * present to avoid linkage errors.
  *
  * @author Mark Paluch
  * @author Christoph Strobl
@@ -46,12 +46,13 @@ import org.springframework.lang.Nullable;
  */
 public final class KotlinReflectionUtils {
 
-	private KotlinReflectionUtils() {}
+	private KotlinReflectionUtils() {
+	}
 
 	/**
-	 * Return {@literal true} if the specified class is a supported Kotlin class. Currently supported are only regular
-	 * Kotlin classes. Other class types (synthetic, SAM, lambdas) are not supported via reflection.
-	 *
+	 * Return {@literal true} if the specified class is a supported Kotlin class.
+	 * Currently supported are only regular Kotlin classes. Other class types (synthetic,
+	 * SAM, lambdas) are not supported via reflection.
 	 * @return {@literal true} if {@code type} is a supported Kotlin class.
 	 */
 	public static boolean isSupportedKotlinClass(Class<?> type) {
@@ -67,9 +68,9 @@ public final class KotlinReflectionUtils {
 	}
 
 	/**
-	 * Returns a {@link KFunction} instance corresponding to the given Java {@link Method} instance, or {@code null} if
-	 * this method cannot be represented by a Kotlin function.
-	 *
+	 * Returns a {@link KFunction} instance corresponding to the given Java {@link Method}
+	 * instance, or {@code null} if this method cannot be represented by a Kotlin
+	 * function.
 	 * @param method the method to look up.
 	 * @return the {@link KFunction} or {@code null} if the method cannot be looked up.
 	 */
@@ -78,29 +79,29 @@ public final class KotlinReflectionUtils {
 
 		KFunction<?> kotlinFunction = ReflectJvmMapping.getKotlinFunction(method);
 
-		// Fallback to own lookup because there's no public Kotlin API for that kind of lookup until
+		// Fallback to own lookup because there's no public Kotlin API for that kind of
+		// lookup until
 		// https://youtrack.jetbrains.com/issue/KT-20768 gets resolved.
 		return kotlinFunction == null ? findKFunction(method).orElse(null) : kotlinFunction;
 	}
 
 	/**
 	 * Returns whether the {@link Method} is declared as suspend (Kotlin Coroutine).
-	 *
 	 * @param method the method to inspect.
 	 * @return {@literal true} if the method is declared as suspend.
 	 * @see KFunction#isSuspend()
 	 */
 	public static boolean isSuspend(Method method) {
 
-		KFunction<?> invokedFunction = KotlinDetector.isKotlinType(method.getDeclaringClass()) ? findKotlinFunction(method)
-				: null;
+		KFunction<?> invokedFunction = KotlinDetector.isKotlinType(method.getDeclaringClass())
+				? findKotlinFunction(method) : null;
 
 		return invokedFunction != null && invokedFunction.isSuspend();
 	}
 
 	/**
-	 * Returns the {@link Class return type} of a Kotlin {@link Method}. Supports regular and suspended methods.
-	 *
+	 * Returns the {@link Class return type} of a Kotlin {@link Method}. Supports regular
+	 * and suspended methods.
 	 * @param method the method to inspect, typically any synthetic JVM {@link Method}.
 	 * @return return type of the method.
 	 */
@@ -116,9 +117,8 @@ public final class KotlinReflectionUtils {
 	}
 
 	/**
-	 * Returns {@literal} whether the given {@link MethodParameter} is nullable. Its declaring method can reference a
-	 * Kotlin function, property or interface property.
-	 *
+	 * Returns {@literal} whether the given {@link MethodParameter} is nullable. Its
+	 * declaring method can reference a Kotlin function, property or interface property.
 	 * @return {@literal true} if {@link MethodParameter} is nullable.
 	 * @since 2.0.1
 	 */
@@ -160,7 +160,6 @@ public final class KotlinReflectionUtils {
 
 	/**
 	 * Lookup a {@link Method} to a {@link KFunction}.
-	 *
 	 * @param method the JVM {@link Method} to look up.
 	 * @return {@link Optional} wrapping a possibly existing {@link KFunction}.
 	 */
@@ -211,5 +210,7 @@ public final class KotlinReflectionUtils {
 		KotlinClassHeaderKind(int val) {
 			this.id = val;
 		}
+
 	}
+
 }

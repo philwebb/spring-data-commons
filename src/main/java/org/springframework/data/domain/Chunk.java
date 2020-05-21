@@ -37,11 +37,12 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 	private static final long serialVersionUID = 867755909294344406L;
 
 	private final List<T> content = new ArrayList<>();
+
 	private final Pageable pageable;
 
 	/**
-	 * Creates a new {@link Chunk} with the given content and the given governing {@link Pageable}.
-	 *
+	 * Creates a new {@link Chunk} with the given content and the given governing
+	 * {@link Pageable}.
 	 * @param content must not be {@literal null}.
 	 * @param pageable must not be {@literal null}.
 	 */
@@ -53,51 +54,63 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 		this.content.addAll(content);
 		this.pageable = pageable;
 	}
+
 	public int getNumber() {
 		return this.pageable.isPaged() ? this.pageable.getPageNumber() : 0;
 	}
+
 	public int getSize() {
 		return this.pageable.isPaged() ? this.pageable.getPageSize() : this.content.size();
 	}
+
 	public int getNumberOfElements() {
 		return this.content.size();
 	}
+
 	public boolean hasPrevious() {
 		return getNumber() > 0;
 	}
+
 	public boolean isFirst() {
 		return !hasPrevious();
 	}
+
 	public boolean isLast() {
 		return !hasNext();
 	}
+
 	public Pageable nextPageable() {
 		return hasNext() ? this.pageable.next() : Pageable.unpaged();
 	}
+
 	public Pageable previousPageable() {
 		return hasPrevious() ? this.pageable.previousOrFirst() : Pageable.unpaged();
 	}
+
 	public boolean hasContent() {
 		return !this.content.isEmpty();
 	}
+
 	public List<T> getContent() {
 		return Collections.unmodifiableList(this.content);
 	}
+
 	@Override
 	public Pageable getPageable() {
 		return this.pageable;
 	}
+
 	@Override
 	public Sort getSort() {
 		return this.pageable.getSort();
 	}
+
 	public Iterator<T> iterator() {
 		return this.content.iterator();
 	}
 
 	/**
 	 * Applies the given {@link Function} to the content of the {@link Chunk}.
-	 *
 	 * @param converter must not be {@literal null}.
 	 * @return
 	 */
@@ -107,6 +120,7 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 
 		return this.stream().map(converter::apply).collect(Collectors.toList());
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 
@@ -125,6 +139,7 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 
 		return contentEqual && pageableEqual;
 	}
+
 	@Override
 	public int hashCode() {
 
@@ -135,4 +150,5 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 
 		return result;
 	}
+
 }

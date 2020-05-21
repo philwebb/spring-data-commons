@@ -26,10 +26,12 @@ import java.util.Optional;
 public interface AuditableBeanWrapperFactory {
 
 	/**
-	 * Returns the {@link AuditableBeanWrapper} for the given source object if it's eligible for auditing.
-	 *
+	 * Returns the {@link AuditableBeanWrapper} for the given source object if it's
+	 * eligible for auditing.
 	 * @param source must not be {@literal null}.
-	 * @return the {@link AuditableBeanWrapper} for the given source object if it's eligible for auditing.
+	 * @return the {@link AuditableBeanWrapper} for the given source object if it's
+	 * eligible for auditing.
 	 */
 	<T> Optional<AuditableBeanWrapper<T>> getBeanWrapperFor(T source);
+
 }

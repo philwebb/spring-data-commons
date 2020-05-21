@@ -24,10 +24,11 @@ package org.springframework.data.support;
 public interface IsNewStrategy {
 
 	/**
-	 * Returns whether the given entity is new, i.e. has never been persisted before or not.
-	 *
+	 * Returns whether the given entity is new, i.e. has never been persisted before or
+	 * not.
 	 * @param entity must not be {@literal null}.
 	 * @return
 	 */
 	boolean isNew(Object entity);
+
 }

@@ -87,7 +87,8 @@ abstract class SortDefaultUnitTests {
 	@Test
 	void rejectsNonSortParameter() {
 
-		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod", String.class);
+		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod",
+				String.class);
 		assertThat(getResolver().supportsParameter(parameter)).isFalse();
 	}
 
@@ -135,4 +136,5 @@ abstract class SortDefaultUnitTests {
 	private static MethodParameter getParameterOfMethod(Class<?> controller, String name) {
 		return TestUtils.getParameterOfMethod(controller, name, Sort.class);
 	}
+
 }

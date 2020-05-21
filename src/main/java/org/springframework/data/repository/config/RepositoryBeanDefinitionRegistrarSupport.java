@@ -40,26 +40,30 @@ public abstract class RepositoryBeanDefinitionRegistrarSupport
 		implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
 
 	private @SuppressWarnings("null") @Nonnull ResourceLoader resourceLoader;
+
 	private @SuppressWarnings("null") @Nonnull Environment environment;
+
 	@Override
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
 	}
+
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;
 	}
 
 	/**
-	 * Forwarding to {@link #registerBeanDefinitions(AnnotationMetadata, BeanDefinitionRegistry, BeanNameGenerator)} for
-	 * backwards compatibility reasons so that tests in downstream modules do not accidentally invoke the super type's
-	 * default implementation.
+	 * Forwarding to
+	 * {@link #registerBeanDefinitions(AnnotationMetadata, BeanDefinitionRegistry, BeanNameGenerator)}
+	 * for backwards compatibility reasons so that tests in downstream modules do not
+	 * accidentally invoke the super type's default implementation.
 	 *
 	 * @see org.springframework.context.annotation.ImportBeanDefinitionRegistrar#registerBeanDefinitions(org.springframework.core.type.AnnotationMetadata,
-	 *      org.springframework.beans.factory.support.BeanDefinitionRegistry)
+	 * org.springframework.beans.factory.support.BeanDefinitionRegistry)
 	 * @deprecated since 2.2, call
-	 *             {@link #registerBeanDefinitions(AnnotationMetadata, BeanDefinitionRegistry, BeanNameGenerator)}
-	 *             instead.
+	 * {@link #registerBeanDefinitions(AnnotationMetadata, BeanDefinitionRegistry, BeanNameGenerator)}
+	 * instead.
 	 * @see ConfigurationClassPostProcessor#IMPORT_BEAN_NAME_GENERATOR
 	 */
 	@Override
@@ -70,7 +74,11 @@ public abstract class RepositoryBeanDefinitionRegistrarSupport
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.context.annotation.ImportBeanDefinitionRegistrar#registerBeanDefinitions(org.springframework.core.type.AnnotationMetadata, org.springframework.beans.factory.support.BeanDefinitionRegistry, org.springframework.beans.factory.support.BeanNameGenerator)
+	 * 
+	 * @see org.springframework.context.annotation.ImportBeanDefinitionRegistrar#
+	 * registerBeanDefinitions(org.springframework.core.type.AnnotationMetadata,
+	 * org.springframework.beans.factory.support.BeanDefinitionRegistry,
+	 * org.springframework.beans.factory.support.BeanNameGenerator)
 	 */
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry,
@@ -85,33 +93,33 @@ public abstract class RepositoryBeanDefinitionRegistrarSupport
 			return;
 		}
 
-		AnnotationRepositoryConfigurationSource configurationSource = new AnnotationRepositoryConfigurationSource(metadata,
-				getAnnotation(), this.resourceLoader, this.environment, registry, generator);
+		AnnotationRepositoryConfigurationSource configurationSource = new AnnotationRepositoryConfigurationSource(
+				metadata, getAnnotation(), this.resourceLoader, this.environment, registry, generator);
 
 		RepositoryConfigurationExtension extension = getExtension();
 		RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
 
-		RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configurationSource, this.resourceLoader,
-				this.environment);
+		RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configurationSource,
+				this.resourceLoader, this.environment);
 
 		delegate.registerRepositoriesIn(registry, extension);
 	}
 
 	/**
-	 * Return the annotation to obtain configuration information from. Will be wrappen into an
-	 * {@link AnnotationRepositoryConfigurationSource} so have a look at the constants in there for what annotation
-	 * attributes it expects.
-	 *
+	 * Return the annotation to obtain configuration information from. Will be wrappen
+	 * into an {@link AnnotationRepositoryConfigurationSource} so have a look at the
+	 * constants in there for what annotation attributes it expects.
 	 * @return
 	 */
 	protected abstract Class<? extends Annotation> getAnnotation();
 
 	/**
-	 * Returns the {@link RepositoryConfigurationExtension} for store specific callbacks and {@link BeanDefinition}
-	 * post-processing.
+	 * Returns the {@link RepositoryConfigurationExtension} for store specific callbacks
+	 * and {@link BeanDefinition} post-processing.
 	 *
 	 * @see RepositoryConfigurationExtensionSupport
 	 * @return
 	 */
 	protected abstract RepositoryConfigurationExtension getExtension();
+
 }

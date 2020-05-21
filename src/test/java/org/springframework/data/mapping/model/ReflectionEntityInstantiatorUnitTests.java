@@ -47,8 +47,11 @@ import org.springframework.util.ReflectionUtils;
 @ExtendWith(MockitoExtension.class)
 class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 
-	@Mock PersistentEntity<?, P> entity;
-	@Mock ParameterValueProvider<P> provider;
+	@Mock
+	PersistentEntity<?, P> entity;
+
+	@Mock
+	ParameterValueProvider<P> provider;
 
 	@Test
 	void instantiatesSimpleObjectCorrectly() {
@@ -74,8 +77,8 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 		Object instance = INSTANCE.createInstance(this.entity, this.provider);
 
 		assertThat(instance).isInstanceOf(Foo.class);
-		assertThat(constructor)
-				.satisfies(it -> verify(this.provider, times(1)).getParameterValue(it.getParameters().iterator().next()));
+		assertThat(constructor).satisfies(
+				it -> verify(this.provider, times(1)).getParameterValue(it.getParameters().iterator().next()));
 	}
 
 	@Test // DATACMNS-300
@@ -103,7 +106,8 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 
 			assertThat(instance).isNotNull();
 
-			// Hack to check synthetic field as compiles create different field names (e.g. this$0, this$1)
+			// Hack to check synthetic field as compiles create different field names
+			// (e.g. this$0, this$1)
 			ReflectionUtils.doWithFields(Inner.class, field -> {
 				if (field.isSynthetic() && field.getName().startsWith("this$")) {
 					ReflectionUtils.makeAccessible(field);
@@ -129,7 +133,8 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 			INSTANCE.createInstance(entity, this.provider);
 			fail("Expected MappingInstantiationException!");
 
-		} catch (MappingInstantiationException o_O) {
+		}
+		catch (MappingInstantiationException o_O) {
 
 			assertThat(o_O.getConstructor()).hasValue(constructor);
 			assertThat(o_O.getConstructorArguments()).isEqualTo(parameters);
@@ -147,6 +152,7 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 		Foo(String foo) {
 
 		}
+
 	}
 
 	static class Outer {
@@ -154,11 +160,13 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 		class Inner {
 
 		}
+
 	}
 
 	static class Sample {
 
 		final Long id;
+
 		final String name;
 
 		public Sample(Long id, String name) {
@@ -166,5 +174,7 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 			this.id = id;
 			this.name = name;
 		}
+
 	}
+
 }

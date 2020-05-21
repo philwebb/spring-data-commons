@@ -42,37 +42,45 @@ class QuerydslPathInformation implements PathInformation {
 	public static QuerydslPathInformation of(Path<?> path) {
 		return new QuerydslPathInformation(path);
 	}
+
 	@Override
 	public Class<?> getLeafType() {
 		return this.path.getType();
 	}
+
 	@Override
 	public Class<?> getLeafParentType() {
 
 		Path<?> parent = this.path.getMetadata().getParent();
 
 		if (parent == null) {
-			throw new IllegalStateException(String.format("Could not obtain metadata for parent node of %s!", this.path));
+			throw new IllegalStateException(
+					String.format("Could not obtain metadata for parent node of %s!", this.path));
 		}
 
 		return parent.getType();
 	}
+
 	@Override
 	public String getLeafProperty() {
 		return this.path.getMetadata().getElement().toString();
 	}
+
 	@Nullable
 	@Override
 	public PropertyDescriptor getLeafPropertyDescriptor() {
 		return BeanUtils.getPropertyDescriptor(getLeafParentType(), getLeafProperty());
 	}
+
 	@Override
 	public String toDotPath() {
 		return QuerydslUtils.toDotPath(this.path);
 	}
+
 	public Path<?> reifyPath(EntityPathResolver resolver) {
 		return this.path;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -87,12 +95,15 @@ class QuerydslPathInformation implements PathInformation {
 		QuerydslPathInformation that = (QuerydslPathInformation) o;
 		return ObjectUtils.nullSafeEquals(this.path, that.path);
 	}
+
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(this.path);
 	}
+
 	@Override
 	public String toString() {
 		return "QuerydslPathInformation(path=" + this.path + ")";
 	}
+
 }

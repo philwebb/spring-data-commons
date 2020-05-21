@@ -104,4 +104,5 @@ class RepositoryBeanDefinitionRegistrarSupportIntegrationTests {
 				.contains(EnableRepositories.class.getSimpleName()) //
 				.contains(ClassUtils.getShortName(SampleConfig.class));
 	}
+
 }

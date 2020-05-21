@@ -118,6 +118,7 @@ class RepositoryConfigurationExtensionSupportUnitTests {
 		protected Collection<Class<?>> getIdentifyingTypes() {
 			return Collections.singleton(StoreInterface.class);
 		}
+
 	}
 
 	static class NonIdentifyingConfigurationExtension extends RepositoryConfigurationExtensionSupport {
@@ -136,27 +137,48 @@ class RepositoryConfigurationExtensionSupportUnitTests {
 		protected Collection<Class<?>> getIdentifyingTypes() {
 			return Collections.singleton(CrudRepository.class);
 		}
+
 	}
 
 	@Primary
-	static class AnnotatedType {}
+	static class AnnotatedType {
 
-	static class PlainType {}
+	}
 
-	interface AnnotatedTypeRepository extends Repository<AnnotatedType, Long> {}
+	static class PlainType {
 
-	interface PlainTypeRepository extends Repository<PlainType, Long> {}
+	}
 
-	interface ReactiveRepository extends ReactiveCrudRepository<PlainType, Long> {}
+	interface AnnotatedTypeRepository extends Repository<AnnotatedType, Long> {
 
-	interface StoreInterface {}
+	}
 
-	interface ExtendingInterface extends StoreInterface, Repository<PlainType, Long> {}
+	interface PlainTypeRepository extends Repository<PlainType, Long> {
+
+	}
+
+	interface ReactiveRepository extends ReactiveCrudRepository<PlainType, Long> {
+
+	}
+
+	interface StoreInterface {
+
+	}
+
+	interface ExtendingInterface extends StoreInterface, Repository<PlainType, Long> {
+
+	}
 
 	@EnableRepositories
-	static class SampleConfiguration {}
+	static class SampleConfiguration {
 
-	@EnableRepositories(includeFilters = { @Filter(type = FilterType.ASSIGNABLE_TYPE, value = ReactiveRepository.class) },
+	}
+
+	@EnableRepositories(
+			includeFilters = { @Filter(type = FilterType.ASSIGNABLE_TYPE, value = ReactiveRepository.class) },
 			basePackageClasses = ReactiveRepository.class, considerNestedRepositories = true)
-	class ReactiveConfiguration {}
+	class ReactiveConfiguration {
+
+	}
+
 }

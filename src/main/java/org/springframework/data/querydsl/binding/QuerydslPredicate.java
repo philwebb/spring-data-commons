@@ -33,21 +33,20 @@ import java.lang.annotation.Target;
 public @interface QuerydslPredicate {
 
 	/**
-	 * The root type to create the {@link com.querydsl.core.types.Predicate}. Specify this explicitly if the type is not
-	 * contained in the controller method's return type.
-	 *
+	 * The root type to create the {@link com.querydsl.core.types.Predicate}. Specify this
+	 * explicitly if the type is not contained in the controller method's return type.
 	 * @return
 	 */
 	Class<?> root() default Object.class;
 
 	/**
-	 * To customize the way individual properties' values should be bound to the predicate a
-	 * {@link QuerydslBinderCustomizer} can be specified here. We'll try to obtain a Spring bean of this type but fall
-	 * back to a plain instantiation if no bean is found in the current
-	 * {@link org.springframework.beans.factory.BeanFactory}.
-	 *
+	 * To customize the way individual properties' values should be bound to the predicate
+	 * a {@link QuerydslBinderCustomizer} can be specified here. We'll try to obtain a
+	 * Spring bean of this type but fall back to a plain instantiation if no bean is found
+	 * in the current {@link org.springframework.beans.factory.BeanFactory}.
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
 	Class<? extends QuerydslBinderCustomizer> bindings() default QuerydslBinderCustomizer.class;
+
 }

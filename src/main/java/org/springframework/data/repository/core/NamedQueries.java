@@ -23,21 +23,22 @@ package org.springframework.data.repository.core;
 public interface NamedQueries {
 
 	/**
-	 * Returns whether the map contains a named query for the given name. If this method returns {@literal true} you can
-	 * expect {@link #getQuery(String)} to return a non-{@literal null} query for the very same name.
-	 *
+	 * Returns whether the map contains a named query for the given name. If this method
+	 * returns {@literal true} you can expect {@link #getQuery(String)} to return a
+	 * non-{@literal null} query for the very same name.
 	 * @param queryName must not be {@literal null} or empty.
 	 * @return
-	 * @throws IllegalArgumentException in case the given name is {@literal null} or empty.
+	 * @throws IllegalArgumentException in case the given name is {@literal null} or
+	 * empty.
 	 */
 	boolean hasQuery(String queryName);
 
 	/**
 	 * Returns the named query with the given name.
-	 *
 	 * @param queryName must not be {@literal null} or empty.
 	 * @return
 	 * @throws IllegalArgumentException in case no query with the given name exists.
 	 */
 	String getQuery(String queryName);
+
 }

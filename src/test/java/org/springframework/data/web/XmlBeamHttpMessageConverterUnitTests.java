@@ -44,7 +44,8 @@ class XmlBeamHttpMessageConverterUnitTests {
 
 	XmlBeamHttpMessageConverter converter = new XmlBeamHttpMessageConverter();
 
-	@Mock HttpInputMessage message;
+	@Mock
+	HttpInputMessage message;
 
 	@Test // DATACMNS-885
 	void findsTopLevelElements() throws Exception {
@@ -115,7 +116,11 @@ class XmlBeamHttpMessageConverterUnitTests {
 
 		@XBRead("//lastname")
 		String getLastname();
+
 	}
 
-	interface UnnannotatedInterface {}
+	interface UnnannotatedInterface {
+
+	}
+
 }

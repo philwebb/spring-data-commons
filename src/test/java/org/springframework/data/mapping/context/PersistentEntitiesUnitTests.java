@@ -38,8 +38,11 @@ import org.springframework.data.util.ClassTypeInformation;
 @ExtendWith(MockitoExtension.class)
 class PersistentEntitiesUnitTests {
 
-	@Mock SampleMappingContext first;
-	@Mock SampleMappingContext second;
+	@Mock
+	SampleMappingContext first;
+
+	@Mock
+	SampleMappingContext second;
 
 	@Test // DATACMNS-458
 	void rejectsNullMappingContexts() {
@@ -74,7 +77,8 @@ class PersistentEntitiesUnitTests {
 		assertThat(entities.getPersistentEntity(Object.class)).isNotPresent();
 		assertThat(entities.getManagedTypes()).contains(ClassTypeInformation.from(Sample.class));
 
-		assertThat(entities.getPersistentEntity(Sample.class)).hasValueSatisfying(it -> assertThat(entities).contains(it));
+		assertThat(entities.getPersistentEntity(Sample.class))
+				.hasValueSatisfying(it -> assertThat(entities).contains(it));
 	}
 
 	@Test // DATACMNS-1318
@@ -86,7 +90,8 @@ class PersistentEntitiesUnitTests {
 		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class)//
 				.getPersistentProperty("sampleId");
 
-		PersistentEntity<?, ?> referredToEntity = PersistentEntities.of(context).getEntityUltimatelyReferredToBy(property);
+		PersistentEntity<?, ?> referredToEntity = PersistentEntities.of(context)
+				.getEntityUltimatelyReferredToBy(property);
 
 		assertThat(referredToEntity).isNotNull();
 		assertThat(referredToEntity.getType()).isEqualTo(Sample.class);
@@ -144,31 +149,58 @@ class PersistentEntitiesUnitTests {
 	}
 
 	static class Sample {
-		@Id String id;
+
+		@Id
+		String id;
+
 	}
 
 	static class WithReference {
-		@Reference String sampleId;
-		@Reference Long longId;
-		@Reference(FirstWithLongId.class) Long qualifiedLongId;
-		@Reference Identifier<SecondWithGenericId> generic;
+
+		@Reference
+		String sampleId;
+
+		@Reference
+		Long longId;
+
+		@Reference(FirstWithLongId.class)
+		Long qualifiedLongId;
+
+		@Reference
+		Identifier<SecondWithGenericId> generic;
+
 	}
 
 	static class FirstWithLongId {
-		@Id Long id;
+
+		@Id
+		Long id;
+
 	}
 
 	static class SecondWithLongId {
-		@Id Long id;
+
+		@Id
+		Long id;
+
 	}
 
 	static class FirstWithGenericId {
-		@Id Identifier<FirstWithGenericId> id;
+
+		@Id
+		Identifier<FirstWithGenericId> id;
+
 	}
 
 	static class SecondWithGenericId {
-		@Id Identifier<SecondWithGenericId> id;
+
+		@Id
+		Identifier<SecondWithGenericId> id;
+
 	}
 
-	interface Identifier<T> {}
+	interface Identifier<T> {
+
+	}
+
 }

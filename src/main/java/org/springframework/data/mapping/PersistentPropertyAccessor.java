@@ -20,12 +20,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Domain service to allow accessing and setting {@link PersistentProperty}s of an entity. Usually obtained through
- * {@link PersistentEntity#getPropertyAccessor(Object)}. In case type conversion shall be applied on property access,
- * use a {@link ConvertingPropertyAccessor}.
+ * Domain service to allow accessing and setting {@link PersistentProperty}s of an entity.
+ * Usually obtained through {@link PersistentEntity#getPropertyAccessor(Object)}. In case
+ * type conversion shall be applied on property access, use a
+ * {@link ConvertingPropertyAccessor}.
  * <p />
- * This service supports mutation for immutable classes by creating new object instances. These are managed as state of
- * {@link PersistentPropertyAccessor} and must be obtained from {@link #getBean()} after processing all updates.
+ * This service supports mutation for immutable classes by creating new object instances.
+ * These are managed as state of {@link PersistentPropertyAccessor} and must be obtained
+ * from {@link #getBean()} after processing all updates.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -36,24 +38,26 @@ import org.springframework.util.Assert;
 public interface PersistentPropertyAccessor<T> {
 
 	/**
-	 * Sets the given {@link PersistentProperty} to the given value. Will do type conversion if a
-	 * {@link org.springframework.core.convert.ConversionService} is configured.
-	 *
+	 * Sets the given {@link PersistentProperty} to the given value. Will do type
+	 * conversion if a {@link org.springframework.core.convert.ConversionService} is
+	 * configured.
 	 * @param property must not be {@literal null}.
 	 * @param value can be {@literal null}.
-	 * @throws MappingException in case an exception occurred when setting the property value.
+	 * @throws MappingException in case an exception occurred when setting the property
+	 * value.
 	 */
 	void setProperty(PersistentProperty<?> property, @Nullable Object value);
 
 	/**
-	 * Sets the given value for the {@link PersistentProperty} pointed to by the given {@link PersistentPropertyPath}. The
-	 * lookup of intermediate values must not yield {@literal null}.
-	 *
+	 * Sets the given value for the {@link PersistentProperty} pointed to by the given
+	 * {@link PersistentPropertyPath}. The lookup of intermediate values must not yield
+	 * {@literal null}.
 	 * @param path must not be {@literal null} or empty.
 	 * @param value can be {@literal null}.
 	 * @since 2.1
-	 * @deprecated since 2.3, use {@link PersistentPropertyPathAccessor#setProperty(PersistentPropertyPath, Object)}
-	 *             instead.
+	 * @deprecated since 2.3, use
+	 * {@link PersistentPropertyPathAccessor#setProperty(PersistentPropertyPath, Object)}
+	 * instead.
 	 */
 	@Deprecated
 	default void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value) {
@@ -76,8 +80,8 @@ public interface PersistentPropertyAccessor<T> {
 
 			String nullIntermediateMessage = "Cannot lookup property %s on null intermediate! Original path was: %s on %s.";
 
-			throw new MappingException(
-					String.format(nullIntermediateMessage, parentProperty, path.toDotPath(), getBean().getClass().getName()));
+			throw new MappingException(String.format(nullIntermediateMessage, parentProperty, path.toDotPath(),
+					getBean().getClass().getName()));
 		}
 
 		PersistentPropertyAccessor<?> accessor = parent == getBean() //
@@ -98,8 +102,8 @@ public interface PersistentPropertyAccessor<T> {
 	}
 
 	/**
-	 * Returns the value of the given {@link PersistentProperty} of the underlying bean instance.
-	 *
+	 * Returns the value of the given {@link PersistentProperty} of the underlying bean
+	 * instance.
 	 * @param property must not be {@literal null}.
 	 * @return can be {@literal null}.
 	 */
@@ -107,13 +111,13 @@ public interface PersistentPropertyAccessor<T> {
 	Object getProperty(PersistentProperty<?> property);
 
 	/**
-	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the given path is empty, the wrapped
-	 * bean is returned.
-	 *
+	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the
+	 * given path is empty, the wrapped bean is returned.
 	 * @param path must not be {@literal null}.
 	 * @return
 	 * @since 2.1
-	 * @deprecated since 2.3, use {@link PersistentPropertyPathAccessor#getProperty(PersistentPropertyPath)} instead
+	 * @deprecated since 2.3, use
+	 * {@link PersistentPropertyPathAccessor#getProperty(PersistentPropertyPath)} instead
 	 */
 	@Deprecated
 	@Nullable
@@ -122,18 +126,18 @@ public interface PersistentPropertyAccessor<T> {
 	}
 
 	/**
-	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the given path is empty, the wrapped
-	 * bean is returned. On each path segment value lookup, the resulting value is post-processed by handlers registered
-	 * on the given {@link TraversalContext} context. This can be used to unwrap container types that are encountered
-	 * during the traversal.
-	 *
+	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the
+	 * given path is empty, the wrapped bean is returned. On each path segment value
+	 * lookup, the resulting value is post-processed by handlers registered on the given
+	 * {@link TraversalContext} context. This can be used to unwrap container types that
+	 * are encountered during the traversal.
 	 * @param path must not be {@literal null}.
 	 * @param context must not be {@literal null}.
 	 * @return
 	 * @since 2.2
 	 * @deprecated since 2.3, use
-	 *             {@link PersistentPropertyPathAccessor#getProperty(PersistentPropertyPath, org.springframework.data.mapping.AccessOptions.GetOptions)}
-	 *             instead.
+	 * {@link PersistentPropertyPathAccessor#getProperty(PersistentPropertyPath, org.springframework.data.mapping.AccessOptions.GetOptions)}
+	 * instead.
 	 */
 	@Nullable
 	@Deprecated
@@ -168,8 +172,8 @@ public interface PersistentPropertyAccessor<T> {
 	/**
 	 * Returns the underlying bean. The actual instance may change between
 	 * {@link #setProperty(PersistentProperty, Object)} calls.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	T getBean();
+
 }

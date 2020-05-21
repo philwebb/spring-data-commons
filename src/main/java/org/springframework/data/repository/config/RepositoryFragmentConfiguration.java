@@ -25,7 +25,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Fragment configuration consisting of an interface name and the implementation class name.
+ * Fragment configuration consisting of an interface name and the implementation class
+ * name.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
@@ -34,12 +35,12 @@ import org.springframework.util.ObjectUtils;
 public final class RepositoryFragmentConfiguration {
 
 	private final String interfaceName, className;
+
 	private final Optional<AbstractBeanDefinition> beanDefinition;
 
 	/**
-	 * Creates a {@link RepositoryFragmentConfiguration} given {@code interfaceName} and {@code className} of the
-	 * implementation.
-	 *
+	 * Creates a {@link RepositoryFragmentConfiguration} given {@code interfaceName} and
+	 * {@code className} of the implementation.
 	 * @param interfaceName must not be {@literal null} or empty.
 	 * @param className must not be {@literal null} or empty.
 	 */
@@ -54,9 +55,8 @@ public final class RepositoryFragmentConfiguration {
 	}
 
 	/**
-	 * Creates a {@link RepositoryFragmentConfiguration} given {@code interfaceName} and {@link AbstractBeanDefinition} of
-	 * the implementation.
-	 *
+	 * Creates a {@link RepositoryFragmentConfiguration} given {@code interfaceName} and
+	 * {@link AbstractBeanDefinition} of the implementation.
 	 * @param interfaceName must not be {@literal null} or empty.
 	 * @param beanDefinition must not be {@literal null}.
 	 */
@@ -102,6 +102,7 @@ public final class RepositoryFragmentConfiguration {
 	public Optional<AbstractBeanDefinition> getBeanDefinition() {
 		return this.beanDefinition;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -124,6 +125,7 @@ public final class RepositoryFragmentConfiguration {
 
 		return ObjectUtils.nullSafeEquals(this.beanDefinition, that.beanDefinition);
 	}
+
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(this.interfaceName);
@@ -131,9 +133,11 @@ public final class RepositoryFragmentConfiguration {
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.beanDefinition);
 		return result;
 	}
+
 	@Override
 	public String toString() {
 		return "RepositoryFragmentConfiguration(interfaceName=" + this.getInterfaceName() + ", className="
 				+ this.getClassName() + ", beanDefinition=" + this.getBeanDefinition() + ")";
 	}
+
 }

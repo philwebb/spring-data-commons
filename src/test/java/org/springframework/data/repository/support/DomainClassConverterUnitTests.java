@@ -60,9 +60,11 @@ class DomainClassConverterUnitTests {
 	static final TypeDescriptor SUB_USER_TYPE = TypeDescriptor.valueOf(SubUser.class);
 	static final TypeDescriptor LONG_TYPE = TypeDescriptor.valueOf(Long.class);
 
-	@SuppressWarnings("rawtypes") DomainClassConverter converter;
+	@SuppressWarnings("rawtypes")
+	DomainClassConverter converter;
 
-	@Mock DefaultConversionService service;
+	@Mock
+	DefaultConversionService service;
 
 	@BeforeEach
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -208,15 +210,19 @@ class DomainClassConverterUnitTests {
 	static interface Wrapper {
 
 		void foo(@ModelAttribute User user);
+
 	}
 
 	private static class User {
 
 	}
 
-	private static class SubUser extends User {}
+	private static class SubUser extends User {
+
+	}
 
 	private static interface UserRepository extends CrudRepository<User, Long> {
 
 	}
+
 }

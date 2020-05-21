@@ -32,38 +32,36 @@ public interface MutablePersistentEntity<T, P extends PersistentProperty<P>> ext
 
 	/**
 	 * Adds a {@link PersistentProperty} to the entity.
-	 *
 	 * @param property
 	 */
 	void addPersistentProperty(P property);
 
 	/**
 	 * Adds an {@link Association} to the entity.
-	 *
 	 * @param association
 	 */
 	void addAssociation(Association<P> association);
 
 	/**
-	 * Callback method to trigger validation of the {@link PersistentEntity}. As {@link MutablePersistentEntity} is not
-	 * immutable there might be some verification steps necessary after the object has reached is final state.
-	 *
+	 * Callback method to trigger validation of the {@link PersistentEntity}. As
+	 * {@link MutablePersistentEntity} is not immutable there might be some verification
+	 * steps necessary after the object has reached is final state.
 	 * @throws MappingException in case the entity is invalid
 	 */
 	void verify() throws MappingException;
 
 	/**
-	 * Sets the {@link PersistentPropertyAccessorFactory} for the entity. A {@link PersistentPropertyAccessorFactory}
-	 * creates {@link PersistentPropertyAccessor}s for instances of this entity.
-	 *
+	 * Sets the {@link PersistentPropertyAccessorFactory} for the entity. A
+	 * {@link PersistentPropertyAccessorFactory} creates
+	 * {@link PersistentPropertyAccessor}s for instances of this entity.
 	 * @param factory must not be {@literal null}.
 	 */
 	void setPersistentPropertyAccessorFactory(PersistentPropertyAccessorFactory factory);
 
 	/**
 	 * Sets the {@link EvaluationContextProvider} to be used by the entity.
-	 * 
 	 * @param provider must not be {@literal null}.
 	 */
 	void setEvaluationContextProvider(EvaluationContextProvider provider);
+
 }

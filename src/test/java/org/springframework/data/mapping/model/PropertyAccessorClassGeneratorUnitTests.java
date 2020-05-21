@@ -42,5 +42,8 @@ class PropertyAccessorClassGeneratorUnitTests {
 				.doesNotThrowAnyException();
 	}
 
-	private static class Sample {}
+	private static class Sample {
+
+	}
+
 }

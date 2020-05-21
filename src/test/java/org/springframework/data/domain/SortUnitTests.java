@@ -37,8 +37,8 @@ import org.springframework.data.domain.Sort.Order;
 class SortUnitTests {
 
 	/**
-	 * Asserts that the class applies the default sort order if no order or {@code null} was provided.
-	 *
+	 * Asserts that the class applies the default sort order if no order or {@code null}
+	 * was provided.
 	 * @throws Exception
 	 */
 	@Test
@@ -48,7 +48,6 @@ class SortUnitTests {
 
 	/**
 	 * Asserts that the class rejects {@code null} as properties array.
-	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -59,7 +58,6 @@ class SortUnitTests {
 
 	/**
 	 * Asserts that the class rejects {@code null} values in the properties array.
-	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -69,7 +67,6 @@ class SortUnitTests {
 
 	/**
 	 * Asserts that the class rejects empty strings in the properties array.
-	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -79,7 +76,6 @@ class SortUnitTests {
 
 	/**
 	 * Asserts that the class rejects no properties given at all.
-	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -188,12 +184,18 @@ class SortUnitTests {
 
 	@Getter
 	static class Sample {
+
 		Nested nested;
+
 		Collection<Nested> nesteds;
+
 	}
 
 	@Getter
 	static class Nested {
+
 		String firstname;
+
 	}
+
 }

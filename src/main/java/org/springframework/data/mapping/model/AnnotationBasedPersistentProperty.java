@@ -56,6 +56,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	private static final String SPRING_DATA_PACKAGE = "org.springframework.data";
 
 	private final @Nullable String value;
+
 	private final Map<Class<? extends Annotation>, Optional<? extends Annotation>> annotationCache = new ConcurrentHashMap<>();
 
 	private final Lazy<Boolean> usePropertyAccess = Lazy.of(() -> {
@@ -70,13 +71,15 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 
 	private final Lazy<Boolean> isWritable = Lazy
 			.of(() -> !isTransient() && !isAnnotationPresent(ReadOnlyProperty.class));
+
 	private final Lazy<Boolean> isReference = Lazy.of(() -> !isTransient() && isAnnotationPresent(Reference.class));
+
 	private final Lazy<Boolean> isId = Lazy.of(() -> isAnnotationPresent(Id.class));
+
 	private final Lazy<Boolean> isVersion = Lazy.of(() -> isAnnotationPresent(Version.class));
 
 	/**
 	 * Creates a new {@link AnnotationBasedPersistentProperty}.
-	 *
 	 * @param property must not be {@literal null}.
 	 * @param owner must not be {@literal null}.
 	 */
@@ -93,11 +96,12 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	}
 
 	/**
-	 * Populates the annotation cache by eagerly accessing the annotations directly annotated to the accessors (if
-	 * available) and the backing field. Annotations override annotations found on field.
-	 *
+	 * Populates the annotation cache by eagerly accessing the annotations directly
+	 * annotated to the accessors (if available) and the backing field. Annotations
+	 * override annotations found on field.
 	 * @param property
-	 * @throws MappingException in case we find an ambiguous mapping on the accessor methods
+	 * @throws MappingException in case we find an ambiguous mapping on the accessor
+	 * methods
 	 */
 	private void populateAnnotationCache(Property property) {
 
@@ -124,7 +128,8 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 				Class<? extends Annotation> annotationType = annotation.annotationType();
 
 				validateAnnotation(annotation,
-						"Ambiguous mapping! Annotation %s configured " + "on field %s and one of its accessor methods in class %s!",
+						"Ambiguous mapping! Annotation %s configured "
+								+ "on field %s and one of its accessor methods in class %s!",
 						annotationType.getSimpleName(), it.getName(), getOwner().getType().getSimpleName());
 
 				this.annotationCache.put(annotationType,
@@ -134,9 +139,9 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	}
 
 	/**
-	 * Verifies the given annotation candidate detected. Will be rejected if it's a Spring Data annotation and we already
-	 * found another one with a different configuration setup (i.e. other attribute values).
-	 *
+	 * Verifies the given annotation candidate detected. Will be rejected if it's a Spring
+	 * Data annotation and we already found another one with a different configuration
+	 * setup (i.e. other attribute values).
 	 * @param candidate must not be {@literal null}.
 	 * @param message must not be {@literal null}.
 	 * @param arguments must not be {@literal null}.
@@ -156,8 +161,8 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	}
 
 	/**
-	 * Inspects a potentially available {@link Value} annotation at the property and returns the {@link String} value of
-	 * it.
+	 * Inspects a potentially available {@link Value} annotation at the property and
+	 * returns the {@link String} value of it.
 	 *
 	 * @see org.springframework.data.mapping.model.AbstractPersistentProperty#getSpelExpression()
 	 */
@@ -168,8 +173,8 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	}
 
 	/**
-	 * Considers plain transient fields, fields annotated with {@link Transient}, {@link Value} or {@link Autowired} as
-	 * transient.
+	 * Considers plain transient fields, fields annotated with {@link Transient},
+	 * {@link Value} or {@link Autowired} as transient.
 	 *
 	 * @see org.springframework.data.mapping.PersistentProperty#isTransient()
 	 */
@@ -177,30 +182,34 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	public boolean isTransient() {
 		return this.isTransient.get();
 	}
+
 	public boolean isIdProperty() {
 		return this.isId.get();
 	}
+
 	public boolean isVersionProperty() {
 		return this.isVersion.get();
 	}
 
 	/**
-	 * Considers the property an {@link Association} if it is annotated with {@link Reference}.
+	 * Considers the property an {@link Association} if it is annotated with
+	 * {@link Reference}.
 	 */
 	@Override
 	public boolean isAssociation() {
 		return this.isReference.get();
 	}
+
 	@Override
 	public boolean isWritable() {
 		return this.isWritable.get();
 	}
 
 	/**
-	 * Returns the annotation found for the current {@link AnnotationBasedPersistentProperty}. Will prefer getters or
-	 * setters annotations over ones found at the backing field as the former can be used to reconfigure the metadata in
-	 * subclasses.
-	 *
+	 * Returns the annotation found for the current
+	 * {@link AnnotationBasedPersistentProperty}. Will prefer getters or setters
+	 * annotations over ones found at the backing field as the former can be used to
+	 * reconfigure the metadata in subclasses.
 	 * @param annotationType must not be {@literal null}.
 	 * @return {@literal null} if annotation type not found on property.
 	 */
@@ -229,6 +238,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 					.findFirst();
 		});
 	}
+
 	@Nullable
 	@Override
 	public <A extends Annotation> A findPropertyOrOwnerAnnotation(Class<A> annotationType) {
@@ -240,17 +250,18 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 
 	/**
 	 * Returns whether the property carries the an annotation of the given type.
-	 *
 	 * @param annotationType the annotation type to look up.
 	 * @return
 	 */
 	public boolean isAnnotationPresent(Class<? extends Annotation> annotationType) {
 		return doFindAnnotation(annotationType).isPresent();
 	}
+
 	@Override
 	public boolean usePropertyAccess() {
 		return this.usePropertyAccess.get();
 	}
+
 	@Nullable
 	@Override
 	public Class<?> getAssociationTargetType() {
@@ -267,6 +278,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 				? isEntity() ? getActualType() : null //
 				: targetType;
 	}
+
 	@Override
 	public String toString() {
 
@@ -287,4 +299,5 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 		return Optionals.toStream(Optional.ofNullable(getGetter()), Optional.ofNullable(getSetter()),
 				Optional.ofNullable(getField()));
 	}
+
 }

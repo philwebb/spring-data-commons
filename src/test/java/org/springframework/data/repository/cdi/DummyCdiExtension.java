@@ -35,8 +35,8 @@ import org.springframework.data.repository.config.CustomRepositoryImplementation
 import org.springframework.data.repository.core.support.DummyRepositoryFactory;
 
 /**
- * Dummy extension of {@link CdiRepositoryExtensionSupport} to allow integration tests. Will create mocks for repository
- * interfaces being found.
+ * Dummy extension of {@link CdiRepositoryExtensionSupport} to allow integration tests.
+ * Will create mocks for repository interfaces being found.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -79,6 +79,7 @@ public class DummyCdiExtension extends CdiRepositoryExtensionSupport {
 
 			return create(() -> new DummyRepositoryFactory(mock), repositoryType);
 		}
+
 	}
 
 	@NormalScope
@@ -104,5 +105,7 @@ public class DummyCdiExtension extends CdiRepositoryExtensionSupport {
 		public boolean isActive() {
 			return true;
 		}
+
 	}
+
 }

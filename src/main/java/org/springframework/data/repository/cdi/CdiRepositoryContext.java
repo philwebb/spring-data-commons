@@ -40,8 +40,8 @@ import org.springframework.util.ClassUtils;
 
 /**
  * Context for CDI repositories. This class provides {@link ClassLoader} and
- * {@link org.springframework.data.repository.core.support.RepositoryFragment detection} which are commonly used within
- * CDI.
+ * {@link org.springframework.data.repository.core.support.RepositoryFragment detection}
+ * which are commonly used within CDI.
  *
  * @author Mark Paluch
  * @since 2.1
@@ -49,14 +49,16 @@ import org.springframework.util.ClassUtils;
 public class CdiRepositoryContext {
 
 	private final ClassLoader classLoader;
+
 	private final CustomRepositoryImplementationDetector detector;
+
 	private final MetadataReaderFactory metadataReaderFactory;
+
 	private final FragmentMetadata metdata;
 
 	/**
 	 * Create a new {@link CdiRepositoryContext} given {@link ClassLoader} and initialize
 	 * {@link CachingMetadataReaderFactory}.
-	 *
 	 * @param classLoader must not be {@literal null}.
 	 */
 	public CdiRepositoryContext(ClassLoader classLoader) {
@@ -67,7 +69,6 @@ public class CdiRepositoryContext {
 	/**
 	 * Create a new {@link CdiRepositoryContext} given {@link ClassLoader} and
 	 * {@link CustomRepositoryImplementationDetector}.
-	 *
 	 * @param classLoader must not be {@literal null}.
 	 * @param detector must not be {@literal null}.
 	 */
@@ -90,7 +91,6 @@ public class CdiRepositoryContext {
 
 	/**
 	 * Load a {@link Class} using the CDI {@link ClassLoader}.
-	 *
 	 * @param className
 	 * @return
 	 * @throws UnsatisfiedResolutionException if the class cannot be found.
@@ -99,17 +99,19 @@ public class CdiRepositoryContext {
 
 		try {
 			return ClassUtils.forName(className, this.classLoader);
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			throw new UnsatisfiedResolutionException(String.format("Unable to resolve class for '%s'", className), e);
 		}
 	}
 
 	/**
-	 * Discover {@link RepositoryFragmentConfiguration fragment configurations} for a {@link Class repository interface}.
-	 *
+	 * Discover {@link RepositoryFragmentConfiguration fragment configurations} for a
+	 * {@link Class repository interface}.
 	 * @param configuration must not be {@literal null}.
 	 * @param repositoryInterface must not be {@literal null}.
-	 * @return {@link Stream} of {@link RepositoryFragmentConfiguration fragment configurations}.
+	 * @return {@link Stream} of {@link RepositoryFragmentConfiguration fragment
+	 * configurations}.
 	 */
 	Stream<RepositoryFragmentConfiguration> getRepositoryFragments(CdiRepositoryConfiguration configuration,
 			Class<?> repositoryInterface) {
@@ -123,9 +125,9 @@ public class CdiRepositoryContext {
 	}
 
 	/**
-	 * Retrieves a custom repository interfaces from a repository type. This works for the whole class hierarchy and can
-	 * find also a custom repository which is inherited over many levels.
-	 *
+	 * Retrieves a custom repository interfaces from a repository type. This works for the
+	 * whole class hierarchy and can find also a custom repository which is inherited over
+	 * many levels.
 	 * @param repositoryType The class representing the repository.
 	 * @param cdiRepositoryConfiguration The configuration for CDI usage.
 	 * @return the interface class or {@literal null}.
@@ -142,8 +144,8 @@ public class CdiRepositoryContext {
 		return beanDefinition.map(this::loadBeanClass);
 	}
 
-	private Optional<RepositoryFragmentConfiguration> detectRepositoryFragmentConfiguration(String fragmentInterfaceName,
-			CdiImplementationDetectionConfiguration config) {
+	private Optional<RepositoryFragmentConfiguration> detectRepositoryFragmentConfiguration(
+			String fragmentInterfaceName, CdiImplementationDetectionConfiguration config) {
 
 		ImplementationLookupConfiguration lookup = config.forFragment(fragmentInterfaceName);
 		Optional<AbstractBeanDefinition> beanDefinition = this.detector.detectCustomImplementation(lookup);
@@ -162,6 +164,7 @@ public class CdiRepositoryContext {
 	private static class CdiImplementationDetectionConfiguration implements ImplementationDetectionConfiguration {
 
 		private final CdiRepositoryConfiguration configuration;
+
 		private final MetadataReaderFactory metadataReaderFactory;
 
 		CdiImplementationDetectionConfiguration(CdiRepositoryConfiguration configuration,
@@ -170,14 +173,17 @@ public class CdiRepositoryContext {
 			this.configuration = configuration;
 			this.metadataReaderFactory = metadataReaderFactory;
 		}
+
 		@Override
 		public String getImplementationPostfix() {
 			return this.configuration.getRepositoryImplementationPostfix();
 		}
+
 		@Override
 		public Streamable<String> getBasePackages() {
 			return Streamable.empty();
 		}
+
 		@Override
 		public Streamable<TypeFilter> getExcludeFilters() {
 			return Streamable.empty();
@@ -186,5 +192,7 @@ public class CdiRepositoryContext {
 		public MetadataReaderFactory getMetadataReaderFactory() {
 			return this.metadataReaderFactory;
 		}
+
 	}
+
 }

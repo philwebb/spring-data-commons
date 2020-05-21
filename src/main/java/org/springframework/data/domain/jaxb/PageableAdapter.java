@@ -27,12 +27,14 @@ import org.springframework.data.domain.jaxb.SpringDataJaxb.SortDto;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link XmlAdapter} to convert {@link Pageable} instances int a {@link PageRequestDto} and vice versa.
+ * {@link XmlAdapter} to convert {@link Pageable} instances int a {@link PageRequestDto}
+ * and vice versa.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
  */
 class PageableAdapter extends XmlAdapter<PageRequestDto, Pageable> {
+
 	@Nullable
 	@Override
 	public PageRequestDto marshal(@Nullable Pageable request) {
@@ -50,6 +52,7 @@ class PageableAdapter extends XmlAdapter<PageRequestDto, Pageable> {
 
 		return dto;
 	}
+
 	@Nonnull
 	@Override
 	public Pageable unmarshal(@Nullable PageRequestDto v) {
@@ -67,4 +70,5 @@ class PageableAdapter extends XmlAdapter<PageRequestDto, Pageable> {
 
 		return PageRequest.of(v.page, v.size, SortAdapter.INSTANCE.unmarshal(sortDto));
 	}
+
 }

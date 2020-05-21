@@ -16,12 +16,13 @@
 package org.springframework.data.mapping.model;
 
 /**
- * Factory to expose the new package-protected {@link EntityInstantiator} implementations for the legacy types. To be
- * removed in 2.4.
+ * Factory to expose the new package-protected {@link EntityInstantiator} implementations
+ * for the legacy types. To be removed in 2.4.
  *
  * @author Oliver Drotbohm
  * @since 2.3
- * @deprecated since 2.3 as it's only a bridge from the legacy types towards the new, package-protected implementation.
+ * @deprecated since 2.3 as it's only a bridge from the legacy types towards the new,
+ * package-protected implementation.
  */
 @Deprecated
 public class InternalEntityInstantiatorFactory {
@@ -37,4 +38,5 @@ public class InternalEntityInstantiatorFactory {
 	public static EntityInstantiator getReflectionEntityInstantiator() {
 		return ReflectionEntityInstantiator.INSTANCE;
 	}
+
 }

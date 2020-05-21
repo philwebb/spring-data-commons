@@ -65,9 +65,10 @@ import org.springframework.util.ConcurrentReferenceHashMap.ReferenceType;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Factory bean to create instances of a given repository interface. Creates a proxy implementing the configured
- * repository interface and apply an advice handing the control to the {@code QueryExecutorMethodInterceptor}. Query
- * detection strategy can be configured by setting {@link QueryLookupStrategy.Key}.
+ * Factory bean to create instances of a given repository interface. Creates a proxy
+ * implementing the configured repository interface and apply an advice handing the
+ * control to the {@code QueryExecutorMethodInterceptor}. Query detection strategy can be
+ * configured by setting {@link QueryLookupStrategy.Key}.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -108,6 +109,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	};
 
 	final static GenericConversionService CONVERSION_SERVICE = new DefaultConversionService();
+
 	private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(RepositoryFactorySupport.class);
 
 	static {
@@ -116,14 +118,21 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	private final Map<RepositoryInformationCacheKey, RepositoryInformation> repositoryInformationCache;
+
 	private final List<RepositoryProxyPostProcessor> postProcessors;
 
 	private Optional<Class<?>> repositoryBaseClass;
+
 	private @Nullable QueryLookupStrategy.Key queryLookupStrategyKey;
+
 	private List<QueryCreationListener<?>> queryPostProcessors;
+
 	private NamedQueries namedQueries;
+
 	private ClassLoader classLoader;
+
 	private QueryMethodEvaluationContextProvider evaluationContextProvider;
+
 	private BeanFactory beanFactory;
 
 	private final QueryCollectingQueryCreationListener collectingListener = new QueryCollectingQueryCreationListener();
@@ -144,7 +153,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	/**
 	 * Sets the strategy of how to lookup a query to execute finders.
-	 *
 	 * @param key
 	 */
 	public void setQueryLookupStrategyKey(Key key) {
@@ -152,39 +160,42 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Configures a {@link NamedQueries} instance to be handed to the {@link QueryLookupStrategy} for query creation.
-	 *
+	 * Configures a {@link NamedQueries} instance to be handed to the
+	 * {@link QueryLookupStrategy} for query creation.
 	 * @param namedQueries the namedQueries to set
 	 */
 	public void setNamedQueries(NamedQueries namedQueries) {
 		this.namedQueries = namedQueries == null ? PropertiesBasedNamedQueries.EMPTY : namedQueries;
 	}
+
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
-		this.classLoader = classLoader == null ? org.springframework.util.ClassUtils.getDefaultClassLoader() : classLoader;
+		this.classLoader = classLoader == null ? org.springframework.util.ClassUtils.getDefaultClassLoader()
+				: classLoader;
 	}
+
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
 	}
 
 	/**
-	 * Sets the {@link QueryMethodEvaluationContextProvider} to be used to evaluate SpEL expressions in manually defined
-	 * queries.
-	 *
+	 * Sets the {@link QueryMethodEvaluationContextProvider} to be used to evaluate SpEL
+	 * expressions in manually defined queries.
 	 * @param evaluationContextProvider can be {@literal null}, defaults to
-	 *          {@link DefaultQueryMethodEvaluationContextProvider#INSTANCE}.
+	 * {@link DefaultQueryMethodEvaluationContextProvider#INSTANCE}.
 	 */
 	public void setEvaluationContextProvider(QueryMethodEvaluationContextProvider evaluationContextProvider) {
-		this.evaluationContextProvider = evaluationContextProvider == null ? QueryMethodEvaluationContextProvider.DEFAULT
-				: evaluationContextProvider;
+		this.evaluationContextProvider = evaluationContextProvider == null
+				? QueryMethodEvaluationContextProvider.DEFAULT : evaluationContextProvider;
 	}
 
 	/**
-	 * Configures the repository base class to use when creating the repository proxy. If not set, the factory will use
-	 * the type returned by {@link #getRepositoryBaseClass(RepositoryMetadata)} by default.
-	 *
-	 * @param repositoryBaseClass the repository base class to back the repository proxy, can be {@literal null}.
+	 * Configures the repository base class to use when creating the repository proxy. If
+	 * not set, the factory will use the type returned by
+	 * {@link #getRepositoryBaseClass(RepositoryMetadata)} by default.
+	 * @param repositoryBaseClass the repository base class to back the repository proxy,
+	 * can be {@literal null}.
 	 * @since 1.11
 	 */
 	public void setRepositoryBaseClass(Class<?> repositoryBaseClass) {
@@ -192,9 +203,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Adds a {@link QueryCreationListener} to the factory to plug in functionality triggered right after creation of
-	 * {@link RepositoryQuery} instances.
-	 *
+	 * Adds a {@link QueryCreationListener} to the factory to plug in functionality
+	 * triggered right after creation of {@link RepositoryQuery} instances.
 	 * @param listener
 	 */
 	public void addQueryCreationListener(QueryCreationListener<?> listener) {
@@ -204,10 +214,10 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Adds {@link RepositoryProxyPostProcessor}s to the factory to allow manipulation of the {@link ProxyFactory} before
-	 * the proxy gets created. Note that the {@link QueryExecutorMethodInterceptor} will be added to the proxy
-	 * <em>after</em> the {@link RepositoryProxyPostProcessor}s are considered.
-	 *
+	 * Adds {@link RepositoryProxyPostProcessor}s to the factory to allow manipulation of
+	 * the {@link ProxyFactory} before the proxy gets created. Note that the
+	 * {@link QueryExecutorMethodInterceptor} will be added to the proxy <em>after</em>
+	 * the {@link RepositoryProxyPostProcessor}s are considered.
 	 * @param processor
 	 */
 	public void addRepositoryProxyPostProcessor(RepositoryProxyPostProcessor processor) {
@@ -217,8 +227,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Creates {@link RepositoryFragments} based on {@link RepositoryMetadata} to add repository-specific extensions.
-	 *
+	 * Creates {@link RepositoryFragments} based on {@link RepositoryMetadata} to add
+	 * repository-specific extensions.
 	 * @param metadata
 	 * @return
 	 */
@@ -227,8 +237,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Creates {@link RepositoryComposition} based on {@link RepositoryMetadata} for repository-specific method handling.
-	 *
+	 * Creates {@link RepositoryComposition} based on {@link RepositoryMetadata} for
+	 * repository-specific method handling.
 	 * @param metadata
 	 * @return
 	 */
@@ -246,7 +256,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	/**
 	 * Returns a repository instance for the given interface.
-	 *
 	 * @param repositoryInterface must not be {@literal null}.
 	 * @return
 	 */
@@ -255,9 +264,9 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Returns a repository instance for the given interface backed by a single instance providing implementation logic
-	 * for custom logic. For more advanced composition needs use {@link #getRepository(Class, RepositoryFragments)}.
-	 *
+	 * Returns a repository instance for the given interface backed by a single instance
+	 * providing implementation logic for custom logic. For more advanced composition
+	 * needs use {@link #getRepository(Class, RepositoryFragments)}.
 	 * @param repositoryInterface must not be {@literal null}.
 	 * @param customImplementation must not be {@literal null}.
 	 * @return
@@ -267,9 +276,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Returns a repository instance for the given interface backed by an instance providing implementation logic for
-	 * custom logic.
-	 *
+	 * Returns a repository instance for the given interface backed by an instance
+	 * providing implementation logic for custom logic.
 	 * @param repositoryInterface must not be {@literal null}.
 	 * @param fragments must not be {@literal null}.
 	 * @return
@@ -329,8 +337,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Returns the {@link ProjectionFactory} to be used with the repository instances created.
-	 *
+	 * Returns the {@link ProjectionFactory} to be used with the repository instances
+	 * created.
 	 * @param classLoader will never be {@literal null}.
 	 * @param beanFactory will never be {@literal null}.
 	 * @return will never be {@literal null}.
@@ -346,7 +354,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	/**
 	 * Returns the {@link RepositoryMetadata} for the given repository interface.
-	 *
 	 * @param repositoryInterface will never be {@literal null}.
 	 * @return
 	 */
@@ -355,21 +362,20 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Returns the {@link RepositoryInformation} for the given {@link RepositoryMetadata} and custom
-	 * {@link RepositoryFragments}.
-	 *
+	 * Returns the {@link RepositoryInformation} for the given {@link RepositoryMetadata}
+	 * and custom {@link RepositoryFragments}.
 	 * @param metadata must not be {@literal null}.
 	 * @param fragments must not be {@literal null}.
 	 * @return will never be {@literal null}.
 	 */
-	protected RepositoryInformation getRepositoryInformation(RepositoryMetadata metadata, RepositoryFragments fragments) {
+	protected RepositoryInformation getRepositoryInformation(RepositoryMetadata metadata,
+			RepositoryFragments fragments) {
 		return getRepositoryInformation(metadata, getRepositoryComposition(metadata, fragments));
 	}
 
 	/**
-	 * Returns the {@link RepositoryComposition} for the given {@link RepositoryMetadata} and extra
-	 * {@link RepositoryFragments}.
-	 *
+	 * Returns the {@link RepositoryComposition} for the given {@link RepositoryMetadata}
+	 * and extra {@link RepositoryFragments}.
 	 * @param metadata must not be {@literal null}.
 	 * @param fragments must not be {@literal null}.
 	 * @return will never be {@literal null}.
@@ -387,7 +393,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	/**
 	 * Returns the {@link RepositoryInformation} for the given repository interface.
-	 *
 	 * @param metadata
 	 * @param composition
 	 * @return
@@ -411,7 +416,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	/**
 	 * Returns the {@link EntityInformation} for the given domain class.
-	 *
 	 * @param <T> the entity type
 	 * @param <ID> the id type
 	 * @param domainClass
@@ -421,7 +425,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	/**
 	 * Create a repository instance as backing for the query proxy.
-	 *
 	 * @param metadata
 	 * @return
 	 */
@@ -429,19 +432,20 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	/**
 	 * Returns the base class backing the actual repository instance. Make sure
-	 * {@link #getTargetRepository(RepositoryInformation)} returns an instance of this class.
-	 *
+	 * {@link #getTargetRepository(RepositoryInformation)} returns an instance of this
+	 * class.
 	 * @param metadata
 	 * @return
 	 */
 	protected abstract Class<?> getRepositoryBaseClass(RepositoryMetadata metadata);
 
 	/**
-	 * Returns the {@link QueryLookupStrategy} for the given {@link Key} and {@link QueryMethodEvaluationContextProvider}.
-	 *
+	 * Returns the {@link QueryLookupStrategy} for the given {@link Key} and
+	 * {@link QueryMethodEvaluationContextProvider}.
 	 * @param key can be {@literal null}.
 	 * @param evaluationContextProvider will never be {@literal null}.
-	 * @return the {@link QueryLookupStrategy} to use or {@literal null} if no queries should be looked up.
+	 * @return the {@link QueryLookupStrategy} to use or {@literal null} if no queries
+	 * should be looked up.
 	 * @since 1.9
 	 */
 	protected Optional<QueryLookupStrategy> getQueryLookupStrategy(@Nullable Key key,
@@ -450,8 +454,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Validates the given repository interface as well as the given custom implementation.
-	 *
+	 * Validates the given repository interface as well as the given custom
+	 * implementation.
 	 * @param repositoryInformation
 	 * @param composition
 	 */
@@ -477,9 +481,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Creates a repository of the repository base class defined in the given {@link RepositoryInformation} using
-	 * reflection.
-	 *
+	 * Creates a repository of the repository base class defined in the given
+	 * {@link RepositoryInformation} using reflection.
 	 * @param information
 	 * @param constructorArguments
 	 * @return
@@ -492,9 +495,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	}
 
 	/**
-	 * Creates a repository of the repository base class defined in the given {@link RepositoryInformation} using
-	 * reflection.
-	 *
+	 * Creates a repository of the repository base class defined in the given
+	 * {@link RepositoryInformation} using reflection.
 	 * @param baseClass
 	 * @param constructorArguments
 	 * @return
@@ -506,7 +508,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		return constructor.map(it -> (R) BeanUtils.instantiateClass(it, constructorArguments))
 				.orElseThrow(() -> new IllegalStateException(String.format(
 						"No suitable constructor found on %s to match the given arguments: %s. Make sure you implement a constructor taking these",
-						baseClass, Arrays.stream(constructorArguments).map(Object::getClass).collect(Collectors.toList()))));
+						baseClass,
+						Arrays.stream(constructorArguments).map(Object::getClass).collect(Collectors.toList()))));
 	}
 
 	/**
@@ -521,6 +524,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		public ImplementationMethodExecutionInterceptor(RepositoryComposition composition) {
 			this.composition = composition;
 		}
+
 		@Nullable
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -530,17 +534,19 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 			try {
 				return this.composition.invoke(method, arguments);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				ClassUtils.unwrapReflectionException(e);
 			}
 
 			throw new IllegalStateException("Should not occur!");
 		}
+
 	}
 
 	/**
-	 * {@link QueryCreationListener} collecting the {@link QueryMethod}s created for all query methods of the repository
-	 * interface.
+	 * {@link QueryCreationListener} collecting the {@link QueryMethod}s created for all
+	 * query methods of the repository interface.
 	 *
 	 * @author Oliver Gierke
 	 */
@@ -551,8 +557,11 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		 */
 		private final List<QueryMethod> queryMethods = new ArrayList<>();
 
-		/* (non-Javadoc)
-		 * @see org.springframework.data.repository.core.support.QueryCreationListener#onCreation(org.springframework.data.repository.query.RepositoryQuery)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.springframework.data.repository.core.support.QueryCreationListener#
+		 * onCreation(org.springframework.data.repository.query.RepositoryQuery)
 		 */
 		@Override
 		public void onCreation(RepositoryQuery query) {
@@ -562,10 +571,12 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		public List<QueryMethod> getQueryMethods() {
 			return this.queryMethods;
 		}
+
 	}
 
 	/**
-	 * Simple value object to build up keys to cache {@link RepositoryInformation} instances.
+	 * Simple value object to build up keys to cache {@link RepositoryInformation}
+	 * instances.
 	 *
 	 * @author Oliver Gierke
 	 * @author Mark Paluch
@@ -573,11 +584,12 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	private static final class RepositoryInformationCacheKey {
 
 		private final String repositoryInterfaceName;
+
 		private final long compositionHash;
 
 		/**
-		 * Creates a new {@link RepositoryInformationCacheKey} for the given {@link RepositoryMetadata} and composition.
-		 *
+		 * Creates a new {@link RepositoryInformationCacheKey} for the given
+		 * {@link RepositoryMetadata} and composition.
 		 * @param metadata must not be {@literal null}.
 		 * @param composition must not be {@literal null}.
 		 */
@@ -599,6 +611,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		public long getCompositionHash() {
 			return this.compositionHash;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 			if (this == o) {
@@ -613,16 +626,20 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 			}
 			return ObjectUtils.nullSafeEquals(this.repositoryInterfaceName, that.repositoryInterfaceName);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.repositoryInterfaceName);
 			result = 31 * result + (int) (this.compositionHash ^ (this.compositionHash >>> 32));
 			return result;
 		}
+
 		@Override
 		public String toString() {
 			return "RepositoryFactorySupport.RepositoryInformationCacheKey(repositoryInterfaceName="
 					+ this.getRepositoryInterfaceName() + ", compositionHash=" + this.getCompositionHash() + ")";
 		}
+
 	}
+
 }

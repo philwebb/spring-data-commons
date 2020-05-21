@@ -28,7 +28,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
 
 /**
- * A {@link Collector} for building a {@link MultiValueMap} from a {@link java.util.stream.Stream}.
+ * A {@link Collector} for building a {@link MultiValueMap} from a
+ * {@link java.util.stream.Stream}.
  *
  * @author Jens Schauder
  * @since 2.0
@@ -36,6 +37,7 @@ import org.springframework.util.MultiValueMap;
 class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMap<K, V>, MultiValueMap<K, V>> {
 
 	private final Function<T, K> keyFunction;
+
 	private final Function<T, V> valueFunction;
 
 	private MultiValueMapCollector(Function<T, K> keyFunction, Function<T, V> valueFunction) {
@@ -46,14 +48,17 @@ class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMap<K, V
 	static <T, K, V> MultiValueMapCollector<T, K, V> of(Function<T, K> keyFunction, Function<T, V> valueFunction) {
 		return new MultiValueMapCollector<T, K, V>(keyFunction, valueFunction);
 	}
+
 	@Override
 	public Supplier<MultiValueMap<K, V>> supplier() {
 		return () -> CollectionUtils.toMultiValueMap(new HashMap<>());
 	}
+
 	@Override
 	public BiConsumer<MultiValueMap<K, V>, T> accumulator() {
 		return (map, t) -> map.add(this.keyFunction.apply(t), this.valueFunction.apply(t));
 	}
+
 	@Override
 	public BinaryOperator<MultiValueMap<K, V>> combiner() {
 
@@ -66,12 +71,15 @@ class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMap<K, V
 			return map1;
 		};
 	}
+
 	@Override
 	public Function<MultiValueMap<K, V>, MultiValueMap<K, V>> finisher() {
 		return Function.identity();
 	}
+
 	@Override
 	public Set<Characteristics> characteristics() {
 		return EnumSet.of(Characteristics.IDENTITY_FINISH, Characteristics.UNORDERED);
 	}
+
 }

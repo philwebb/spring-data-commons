@@ -48,7 +48,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.WebDataBinder;
 
 /**
- * A {@link WebDataBinder} that automatically binds all properties exposed in the given type using a {@link Map}.
+ * A {@link WebDataBinder} that automatically binds all properties exposed in the given
+ * type using a {@link Map}.
  *
  * @author Oliver Gierke
  * @since 1.10
@@ -56,13 +57,15 @@ import org.springframework.web.bind.WebDataBinder;
 class MapDataBinder extends WebDataBinder {
 
 	private final Class<?> type;
+
 	private final ConversionService conversionService;
 
 	/**
-	 * Creates a new {@link MapDataBinder} for the given type and {@link ConversionService}.
-	 *
+	 * Creates a new {@link MapDataBinder} for the given type and
+	 * {@link ConversionService}.
 	 * @param type target type to detect property that need to be bound.
-	 * @param conversionService the {@link ConversionService} to be used to preprocess values.
+	 * @param conversionService the {@link ConversionService} to be used to preprocess
+	 * values.
 	 */
 	public MapDataBinder(Class<?> type, ConversionService conversionService) {
 
@@ -71,6 +74,7 @@ class MapDataBinder extends WebDataBinder {
 		this.type = type;
 		this.conversionService = conversionService;
 	}
+
 	@NonNull
 	@Override
 	@SuppressWarnings("unchecked")
@@ -84,14 +88,15 @@ class MapDataBinder extends WebDataBinder {
 
 		return (Map<String, Object>) target;
 	}
+
 	@Override
 	protected ConfigurablePropertyAccessor getPropertyAccessor() {
 		return new MapPropertyAccessor(this.type, getTarget(), this.conversionService);
 	}
 
 	/**
-	 * {@link PropertyAccessor} to store and retrieve values in a {@link Map}. Uses Spring Expression language to create
-	 * deeply nested Map structures.
+	 * {@link PropertyAccessor} to store and retrieve values in a {@link Map}. Uses Spring
+	 * Expression language to create deeply nested Map structures.
 	 *
 	 * @author Oliver Gierke
 	 * @since 1.10
@@ -102,7 +107,9 @@ class MapDataBinder extends WebDataBinder {
 				new SpelParserConfiguration(false, true));
 
 		private final Class<?> type;
+
 		private final Map<String, Object> map;
+
 		private final ConversionService conversionService;
 
 		public MapPropertyAccessor(Class<?> type, Map<String, Object> map, ConversionService conversionService) {
@@ -111,24 +118,29 @@ class MapDataBinder extends WebDataBinder {
 			this.map = map;
 			this.conversionService = conversionService;
 		}
+
 		@Override
 		public boolean isReadableProperty(String propertyName) {
 			throw new UnsupportedOperationException();
 		}
+
 		@Override
 		public boolean isWritableProperty(String propertyName) {
 
 			try {
 				return getPropertyPath(propertyName) != null;
-			} catch (PropertyReferenceException o_O) {
+			}
+			catch (PropertyReferenceException o_O) {
 				return false;
 			}
 		}
+
 		@Nullable
 		@Override
 		public TypeDescriptor getPropertyTypeDescriptor(String propertyName) throws BeansException {
 			throw new UnsupportedOperationException();
 		}
+
 		@Nullable
 		@Override
 		public Object getPropertyValue(String propertyName) throws BeansException {
@@ -137,7 +149,10 @@ class MapDataBinder extends WebDataBinder {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.beans.AbstractPropertyAccessor#setPropertyValue(java.lang.String, java.lang.Object)
+		 * 
+		 * @see
+		 * org.springframework.beans.AbstractPropertyAccessor#setPropertyValue(java.lang.
+		 * String, java.lang.Object)
 		 */
 		@Override
 		public void setPropertyValue(String propertyName, @Nullable Object value) throws BeansException {
@@ -183,7 +198,8 @@ class MapDataBinder extends WebDataBinder {
 
 			try {
 				expression.setValue(context, value);
-			} catch (SpelEvaluationException o_O) {
+			}
+			catch (SpelEvaluationException o_O) {
 				throw new NotWritablePropertyException(this.type, propertyName, "Could not write property!", o_O);
 			}
 		}
@@ -204,8 +220,8 @@ class MapDataBinder extends WebDataBinder {
 		}
 
 		/**
-		 * A special {@link MapAccessor} that traverses properties on the configured type to automatically create nested Map
-		 * and collection values as necessary.
+		 * A special {@link MapAccessor} that traverses properties on the configured type
+		 * to automatically create nested Map and collection values as necessary.
 		 *
 		 * @author Oliver Gierke
 		 * @since 1.10
@@ -213,11 +229,12 @@ class MapDataBinder extends WebDataBinder {
 		private static final class PropertyTraversingMapAccessor extends MapAccessor {
 
 			private final ConversionService conversionService;
+
 			private Class<?> type;
 
 			/**
-			 * Creates a new {@link PropertyTraversingMapAccessor} for the given type and {@link ConversionService}.
-			 *
+			 * Creates a new {@link PropertyTraversingMapAccessor} for the given type and
+			 * {@link ConversionService}.
 			 * @param type must not be {@literal null}.
 			 * @param conversionService must not be {@literal null}.
 			 */
@@ -232,20 +249,28 @@ class MapDataBinder extends WebDataBinder {
 
 			/*
 			 * (non-Javadoc)
-			 * @see org.springframework.context.expression.MapAccessor#canRead(org.springframework.expression.EvaluationContext, java.lang.Object, java.lang.String)
+			 * 
+			 * @see org.springframework.context.expression.MapAccessor#canRead(org.
+			 * springframework.expression.EvaluationContext, java.lang.Object,
+			 * java.lang.String)
 			 */
 			@Override
-			public boolean canRead(EvaluationContext context, @Nullable Object target, String name) throws AccessException {
+			public boolean canRead(EvaluationContext context, @Nullable Object target, String name)
+					throws AccessException {
 				return true;
 			}
 
 			/*
 			 * (non-Javadoc)
-			 * @see org.springframework.context.expression.MapAccessor#read(org.springframework.expression.EvaluationContext, java.lang.Object, java.lang.String)
+			 * 
+			 * @see
+			 * org.springframework.context.expression.MapAccessor#read(org.springframework
+			 * .expression.EvaluationContext, java.lang.Object, java.lang.String)
 			 */
 			@Override
 			@SuppressWarnings("unchecked")
-			public TypedValue read(EvaluationContext context, @Nullable Object target, String name) throws AccessException {
+			public TypedValue read(EvaluationContext context, @Nullable Object target, String name)
+					throws AccessException {
 
 				if (target == null) {
 					return TypedValue.NULL;
@@ -255,7 +280,8 @@ class MapDataBinder extends WebDataBinder {
 
 				try {
 					return super.read(context, target, name);
-				} catch (AccessException o_O) {
+				}
+				catch (AccessException o_O) {
 
 					Object emptyResult = path.isCollection() ? CollectionFactory.createCollection(List.class, 0)
 							: CollectionFactory.createMap(Map.class, 0);
@@ -263,14 +289,15 @@ class MapDataBinder extends WebDataBinder {
 					((Map<String, Object>) target).put(name, emptyResult);
 
 					return new TypedValue(emptyResult, getDescriptor(path, emptyResult));
-				} finally {
+				}
+				finally {
 					this.type = path.getType();
 				}
 			}
 
 			/**
-			 * Returns the type descriptor for the given {@link PropertyPath} and empty value for that path.
-			 *
+			 * Returns the type descriptor for the given {@link PropertyPath} and empty
+			 * value for that path.
 			 * @param path must not be {@literal null}.
 			 * @param emptyValue must not be {@literal null}.
 			 * @return
@@ -280,13 +307,16 @@ class MapDataBinder extends WebDataBinder {
 				Class<?> actualPropertyType = path.getType();
 
 				TypeDescriptor valueDescriptor = this.conversionService.canConvert(String.class, actualPropertyType)
-						? TypeDescriptor.valueOf(String.class)
-						: TypeDescriptor.valueOf(HashMap.class);
+						? TypeDescriptor.valueOf(String.class) : TypeDescriptor.valueOf(HashMap.class);
 
 				return path.isCollection() ? TypeDescriptor.collection(emptyValue.getClass(), valueDescriptor)
-						: TypeDescriptor.map(emptyValue.getClass(), TypeDescriptor.valueOf(String.class), valueDescriptor);
+						: TypeDescriptor.map(emptyValue.getClass(), TypeDescriptor.valueOf(String.class),
+								valueDescriptor);
 
 			}
+
 		}
+
 	}
+
 }

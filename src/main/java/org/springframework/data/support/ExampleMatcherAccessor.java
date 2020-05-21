@@ -22,7 +22,8 @@ import org.springframework.data.domain.ExampleMatcher.PropertySpecifier;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 
 /**
- * Accessor for the {@link ExampleMatcher} to use in modules that support query by example (QBE) querying.
+ * Accessor for the {@link ExampleMatcher} to use in modules that support query by example
+ * (QBE) querying.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
@@ -40,18 +41,19 @@ public class ExampleMatcherAccessor {
 
 	/**
 	 * Returns the {@link PropertySpecifier}s of the underlying {@link ExampleMatcher}.
-	 *
-	 * @return unmodifiable {@link Collection} of {@link ExampleMatcher.PropertySpecifier}s.
+	 * @return unmodifiable {@link Collection} of
+	 * {@link ExampleMatcher.PropertySpecifier}s.
 	 */
 	public Collection<ExampleMatcher.PropertySpecifier> getPropertySpecifiers() {
 		return this.matcher.getPropertySpecifiers().getSpecifiers();
 	}
 
 	/**
-	 * Returns whether the underlying {@link ExampleMatcher} contains a {@link PropertySpecifier} for the given path.
-	 *
+	 * Returns whether the underlying {@link ExampleMatcher} contains a
+	 * {@link PropertySpecifier} for the given path.
 	 * @param path the dot-path identifying a property.
-	 * @return {@literal true} in case {@link ExampleMatcher.PropertySpecifier} defined for given path.
+	 * @return {@literal true} in case {@link ExampleMatcher.PropertySpecifier} defined
+	 * for given path.
 	 */
 	public boolean hasPropertySpecifier(String path) {
 		return this.matcher.getPropertySpecifiers().hasSpecifierForPath(path);
@@ -59,10 +61,11 @@ public class ExampleMatcherAccessor {
 
 	/**
 	 * Get the {@link ExampleMatcher.PropertySpecifier} for given path. <br />
-	 * Please check if {@link #hasPropertySpecifier(String)} to avoid running into {@literal null} values.
-	 *
+	 * Please check if {@link #hasPropertySpecifier(String)} to avoid running into
+	 * {@literal null} values.
 	 * @param path Dot-Path to property.
-	 * @return {@literal null} when no {@link ExampleMatcher.PropertySpecifier} defined for path.
+	 * @return {@literal null} when no {@link ExampleMatcher.PropertySpecifier} defined
+	 * for path.
 	 */
 	public ExampleMatcher.PropertySpecifier getPropertySpecifier(String path) {
 		return this.matcher.getPropertySpecifiers().getForPath(path);
@@ -76,8 +79,8 @@ public class ExampleMatcherAccessor {
 	}
 
 	/**
-	 * Get the {@link ExampleMatcher.StringMatcher} for a given path or return the default one if none defined.
-	 *
+	 * Get the {@link ExampleMatcher.StringMatcher} for a given path or return the default
+	 * one if none defined.
 	 * @param path
 	 * @return never {@literal null}.
 	 */
@@ -95,7 +98,6 @@ public class ExampleMatcherAccessor {
 
 	/**
 	 * Get defined null handling.
-	 *
 	 * @return never {@literal null}
 	 */
 	public ExampleMatcher.NullHandler getNullHandler() {
@@ -104,7 +106,6 @@ public class ExampleMatcherAccessor {
 
 	/**
 	 * Get defined {@link ExampleMatcher.StringMatcher}.
-	 *
 	 * @return never {@literal null}.
 	 */
 	public ExampleMatcher.StringMatcher getDefaultStringMatcher() {
@@ -112,7 +113,8 @@ public class ExampleMatcherAccessor {
 	}
 
 	/**
-	 * @return {@literal true} if {@link String} should be matched with ignore case option.
+	 * @return {@literal true} if {@link String} should be matched with ignore case
+	 * option.
 	 */
 	public boolean isIgnoreCaseEnabled() {
 		return this.matcher.isIgnoreCaseEnabled();
@@ -127,8 +129,8 @@ public class ExampleMatcherAccessor {
 	}
 
 	/**
-	 * Get the ignore case flag for a given path or return the default one if none defined.
-	 *
+	 * Get the ignore case flag for a given path or return the default one if none
+	 * defined.
 	 * @param path
 	 * @return never {@literal null}.
 	 */
@@ -145,9 +147,8 @@ public class ExampleMatcherAccessor {
 	}
 
 	/**
-	 * Get the ignore case flag for a given path or return {@link ExampleMatcher.NoOpPropertyValueTransformer} if none
-	 * defined.
-	 *
+	 * Get the ignore case flag for a given path or return
+	 * {@link ExampleMatcher.NoOpPropertyValueTransformer} if none defined.
 	 * @param path
 	 * @return never {@literal null}.
 	 */
@@ -159,4 +160,5 @@ public class ExampleMatcherAccessor {
 
 		return getPropertySpecifier(path).getPropertyValueTransformer();
 	}
+
 }

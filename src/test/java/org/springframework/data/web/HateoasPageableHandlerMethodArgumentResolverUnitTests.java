@@ -33,8 +33,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  *
  * @author Oliver Gierke
  */
-class HateoasPageableHandlerMethodArgumentResolverUnitTests
-		extends PageableHandlerMethodArgumentResolverUnitTests {
+class HateoasPageableHandlerMethodArgumentResolverUnitTests extends PageableHandlerMethodArgumentResolverUnitTests {
 
 	@Test
 	void buildsUpRequestParameters() {
@@ -144,4 +143,5 @@ class HateoasPageableHandlerMethodArgumentResolverUnitTests
 		HateoasPageableHandlerMethodArgumentResolver resolver = getResolver();
 		assertThat(resolver.getPaginationTemplateVariables(null, uriComponents).toString()).isEqualTo(expected);
 	}
+
 }

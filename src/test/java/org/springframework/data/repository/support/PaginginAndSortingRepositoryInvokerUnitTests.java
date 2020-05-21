@@ -64,7 +64,8 @@ class PaginginAndSortingRepositoryInvokerUnitTests {
 	@Test // DATACMNS-589
 	void invokesRedeclaredFindAllWithPageable() throws Exception {
 
-		RepositoryWithRedeclaredFindAllWithPageable repository = mock(RepositoryWithRedeclaredFindAllWithPageable.class);
+		RepositoryWithRedeclaredFindAllWithPageable repository = mock(
+				RepositoryWithRedeclaredFindAllWithPageable.class);
 		Method method = RepositoryWithRedeclaredFindAllWithPageable.class.getMethod("findAll", Pageable.class);
 
 		when(repository.findAll(any(Pageable.class))).thenReturn(Page.empty());
@@ -89,22 +90,28 @@ class PaginginAndSortingRepositoryInvokerUnitTests {
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(repository.getClass().getInterfaces()[0]);
 		GenericConversionService conversionService = new DefaultFormattingConversionService();
 
-		return new PagingAndSortingRepositoryInvoker((PagingAndSortingRepository) repository, metadata, conversionService);
+		return new PagingAndSortingRepositoryInvoker((PagingAndSortingRepository) repository, metadata,
+				conversionService);
 	}
 
 	private static RepositoryInvoker getInvokerFor(Object repository, VerifyingMethodInterceptor interceptor) {
 		return getInvokerFor(getVerifyingRepositoryProxy(repository, interceptor));
 	}
 
-	interface Repository extends PagingAndSortingRepository<Object, Long> {}
+	interface Repository extends PagingAndSortingRepository<Object, Long> {
+
+	}
 
 	interface RepositoryWithRedeclaredFindAllWithPageable extends PagingAndSortingRepository<Object, Long> {
 
 		Page<Object> findAll(Pageable pageable);
+
 	}
 
 	interface RepositoryWithRedeclaredFindAllWithSort extends PagingAndSortingRepository<Object, Long> {
 
 		Page<Object> findAll(Sort sort);
+
 	}
+
 }

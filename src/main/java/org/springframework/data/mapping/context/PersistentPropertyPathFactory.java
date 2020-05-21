@@ -39,7 +39,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A factory implementation to create {@link PersistentPropertyPath} instances in various ways.
+ * A factory implementation to create {@link PersistentPropertyPath} instances in various
+ * ways.
  *
  * @author Oliver Gierke
  * @since 2.1
@@ -49,6 +50,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	private static final Predicate<PersistentProperty<? extends PersistentProperty<?>>> IS_ENTITY = PersistentProperty::isEntity;
 
 	private final Map<TypeAndPath, PersistentPropertyPath<P>> propertyPaths = new ConcurrentReferenceHashMap<>();
+
 	private final MappingContext<E, P> context;
 
 	public PersistentPropertyPathFactory(MappingContext<E, P> context) {
@@ -56,8 +58,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	}
 
 	/**
-	 * Creates a new {@link PersistentPropertyPath} for the given property path on the given type.
-	 *
+	 * Creates a new {@link PersistentPropertyPath} for the given property path on the
+	 * given type.
 	 * @param type must not be {@literal null}.
 	 * @param propertyPath must not be {@literal null}.
 	 * @return
@@ -71,8 +73,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	}
 
 	/**
-	 * Creates a new {@link PersistentPropertyPath} for the given property path on the given type.
-	 *
+	 * Creates a new {@link PersistentPropertyPath} for the given property path on the
+	 * given type.
 	 * @param type must not be {@literal null}.
 	 * @param propertyPath must not be {@literal null}.
 	 * @return
@@ -87,7 +89,6 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 	/**
 	 * Creates a new {@link PersistentPropertyPath} for the given {@link PropertyPath}.
-	 *
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
@@ -99,9 +100,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	}
 
 	/**
-	 * Creates a new {@link PersistentPropertyPath} based on a given type and {@link Predicate} to select properties
-	 * matching it.
-	 *
+	 * Creates a new {@link PersistentPropertyPath} based on a given type and
+	 * {@link Predicate} to select properties matching it.
 	 * @param type must not be {@literal null}.
 	 * @param propertyFilter must not be {@literal null}.
 	 * @return
@@ -115,9 +115,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	}
 
 	/**
-	 * Creates a new {@link PersistentPropertyPath} based on a given type and {@link Predicate} to select properties
-	 * matching it.
-	 *
+	 * Creates a new {@link PersistentPropertyPath} based on a given type and
+	 * {@link Predicate} to select properties matching it.
 	 * @param type must not be {@literal null}.
 	 * @param propertyFilter must not be {@literal null}.
 	 * @param traversalGuard must not be {@literal null}.
@@ -134,9 +133,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	}
 
 	/**
-	 * Creates a new {@link PersistentPropertyPath} based on a given type and {@link Predicate} to select properties
-	 * matching it.
-	 *
+	 * Creates a new {@link PersistentPropertyPath} based on a given type and
+	 * {@link Predicate} to select properties matching it.
 	 * @param type must not be {@literal null}.
 	 * @param propertyFilter must not be {@literal null}.
 	 * @return
@@ -146,9 +144,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	}
 
 	/**
-	 * Creates a new {@link PersistentPropertyPath} based on a given type and {@link Predicate} to select properties
-	 * matching it.
-	 *
+	 * Creates a new {@link PersistentPropertyPath} based on a given type and
+	 * {@link Predicate} to select properties matching it.
 	 * @param type must not be {@literal null}.
 	 * @param propertyFilter must not be {@literal null}.
 	 * @param traversalGuard must not be {@literal null}.
@@ -172,8 +169,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	}
 
 	/**
-	 * Creates a {@link PersistentPropertyPath} for the given parts and {@link TypeInformation}.
-	 *
+	 * Creates a {@link PersistentPropertyPath} for the given parts and
+	 * {@link TypeInformation}.
 	 * @param propertyPath must not be {@literal null}.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -222,7 +219,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		}
 
 		TypeInformation<?> type = property.getTypeInformation().getRequiredActualType();
-		return Pair.of(path.append(property), iterator.hasNext() ? this.context.getRequiredPersistentEntity(type) : entity);
+		return Pair.of(path.append(property),
+				iterator.hasNext() ? this.context.getRequiredPersistentEntity(type) : entity);
 	}
 
 	private <T> Collection<PersistentPropertyPath<P>> from(TypeInformation<T> type, Predicate<? super P> filter,
@@ -259,7 +257,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 		entity.doWithProperties(propertyTester);
 
-		AssociationHandler<P> handler = association -> propertyTester.doWithPersistentProperty(association.getInverse());
+		AssociationHandler<P> handler = association -> propertyTester
+				.doWithPersistentProperty(association.getInverse());
 		entity.doWithAssociations(handler);
 
 		return properties;
@@ -268,6 +267,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	static final class TypeAndPath {
 
 		private final TypeInformation<?> type;
+
 		private final String path;
 
 		private TypeAndPath(TypeInformation<?> type, String path) {
@@ -286,6 +286,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		public String getPath() {
 			return this.path;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -305,16 +306,20 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 			return ObjectUtils.nullSafeEquals(this.path, that.path);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.type);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.path);
 			return result;
 		}
+
 		@Override
 		public String toString() {
-			return "PersistentPropertyPathFactory.TypeAndPath(type=" + this.getType() + ", path=" + this.getPath() + ")";
+			return "PersistentPropertyPathFactory.TypeAndPath(type=" + this.getType() + ", path=" + this.getPath()
+					+ ")";
 		}
+
 	}
 
 	static class DefaultPersistentPropertyPaths<T, P extends PersistentProperty<P>>
@@ -324,6 +329,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 				.comparingInt(PersistentPropertyPath::getLength);
 
 		private final TypeInformation<T> type;
+
 		private final Iterable<PersistentPropertyPath<P>> paths;
 
 		private DefaultPersistentPropertyPaths(TypeInformation<T> type, Iterable<PersistentPropertyPath<P>> paths) {
@@ -333,7 +339,6 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 		/**
 		 * Creates a new {@link DefaultPersistentPropertyPaths} instance
-		 *
 		 * @param type
 		 * @param paths
 		 * @return
@@ -347,14 +352,17 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 			return new DefaultPersistentPropertyPaths<>(type, sorted);
 		}
+
 		@Override
 		public Optional<PersistentPropertyPath<P>> getFirst() {
 			return isEmpty() ? Optional.empty() : Optional.of(iterator().next());
 		}
+
 		@Override
 		public boolean contains(String path) {
 			return contains(PropertyPath.from(path, this.type));
 		}
+
 		@Override
 		public boolean contains(PropertyPath path) {
 
@@ -368,10 +376,12 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 			return stream().anyMatch(it -> dotPath.equals(it.toDotPath()));
 		}
+
 		@Override
 		public Iterator<PersistentPropertyPath<P>> iterator() {
 			return this.paths.iterator();
 		}
+
 		@Override
 		public PersistentPropertyPaths<T, P> dropPathIfSegmentMatches(Predicate<? super P> predicate) {
 
@@ -383,15 +393,16 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 			return paths.equals(this.paths) ? this : new DefaultPersistentPropertyPaths<>(this.type, paths);
 		}
+
 		@Override
 		public String toString() {
-			return "PersistentPropertyPathFactory.DefaultPersistentPropertyPaths(type=" + this.type + ", paths=" + this.paths
-					+ ")";
+			return "PersistentPropertyPathFactory.DefaultPersistentPropertyPaths(type=" + this.type + ", paths="
+					+ this.paths + ")";
 		}
 
 		/**
-		 * Simple {@link Comparator} to sort {@link PersistentPropertyPath} instances by their property segment's name
-		 * length.
+		 * Simple {@link Comparator} to sort {@link PersistentPropertyPath} instances by
+		 * their property segment's name length.
 		 *
 		 * @author Oliver Gierke
 		 * @since 2.1
@@ -415,6 +426,9 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 						.findFirst() //
 						.orElse(0);
 			}
+
 		}
+
 	}
+
 }

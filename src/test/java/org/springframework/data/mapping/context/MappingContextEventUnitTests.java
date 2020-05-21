@@ -60,4 +60,5 @@ class MappingContextEventUnitTests<E extends PersistentEntity<?, P>, P extends P
 		assertThat(event.wasEmittedBy(this.mappingContext)).isTrue();
 		assertThat(event.wasEmittedBy(this.otherMappingContext)).isFalse();
 	}
+
 }

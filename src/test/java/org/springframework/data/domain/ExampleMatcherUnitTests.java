@@ -184,5 +184,7 @@ class ExampleMatcherUnitTests {
 	static class Person {
 
 		String firstname;
+
 	}
+
 }

@@ -36,7 +36,8 @@ import org.springframework.web.method.annotation.ModelAttributeMethodProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 /**
- * {@link HandlerMethodArgumentResolver} to create Proxy instances for interface based controller method parameters.
+ * {@link HandlerMethodArgumentResolver} to create Proxy instances for interface based
+ * controller method parameters.
  *
  * @author Oliver Gierke
  * @since 1.10
@@ -47,11 +48,12 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 	private static final List<String> IGNORED_PACKAGES = Arrays.asList("java", "org.springframework");
 
 	private final SpelAwareProxyProjectionFactory proxyFactory;
+
 	private final ObjectFactory<ConversionService> conversionService;
 
 	/**
-	 * Creates a new {@link PageableHandlerMethodArgumentResolver} using the given {@link ConversionService}.
-	 *
+	 * Creates a new {@link PageableHandlerMethodArgumentResolver} using the given
+	 * {@link ConversionService}.
 	 * @param conversionService must not be {@literal null}.
 	 */
 	public ProxyingHandlerMethodArgumentResolver(ObjectFactory<ConversionService> conversionService,
@@ -62,14 +64,17 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 		this.proxyFactory = new SpelAwareProxyProjectionFactory();
 		this.conversionService = conversionService;
 	}
+
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.proxyFactory.setBeanFactory(beanFactory);
 	}
+
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.proxyFactory.setBeanClassLoader(classLoader);
 	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 
@@ -101,11 +106,15 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.web.method.annotation.ModelAttributeMethodProcessor#createAttribute(java.lang.String, org.springframework.core.MethodParameter, org.springframework.web.bind.support.WebDataBinderFactory, org.springframework.web.context.request.NativeWebRequest)
+	 * 
+	 * @see org.springframework.web.method.annotation.ModelAttributeMethodProcessor#
+	 * createAttribute(java.lang.String, org.springframework.core.MethodParameter,
+	 * org.springframework.web.bind.support.WebDataBinderFactory,
+	 * org.springframework.web.context.request.NativeWebRequest)
 	 */
 	@Override
-	protected Object createAttribute(String attributeName, MethodParameter parameter, WebDataBinderFactory binderFactory,
-			NativeWebRequest request) throws Exception {
+	protected Object createAttribute(String attributeName, MethodParameter parameter,
+			WebDataBinderFactory binderFactory, NativeWebRequest request) throws Exception {
 
 		MapDataBinder binder = new MapDataBinder(parameter.getParameterType(), this.conversionService.getObject());
 		binder.bind(new MutablePropertyValues(request.getParameterMap()));
@@ -115,8 +124,13 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.web.method.annotation.ModelAttributeMethodProcessor#bindRequestParameters(org.springframework.web.bind.WebDataBinder, org.springframework.web.context.request.NativeWebRequest)
+	 * 
+	 * @see org.springframework.web.method.annotation.ModelAttributeMethodProcessor#
+	 * bindRequestParameters(org.springframework.web.bind.WebDataBinder,
+	 * org.springframework.web.context.request.NativeWebRequest)
 	 */
 	@Override
-	protected void bindRequestParameters(WebDataBinder binder, NativeWebRequest request) {}
+	protected void bindRequestParameters(WebDataBinder binder, NativeWebRequest request) {
+	}
+
 }

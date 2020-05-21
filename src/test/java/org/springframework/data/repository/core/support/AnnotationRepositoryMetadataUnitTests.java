@@ -54,6 +54,7 @@ class AnnotationRepositoryMetadataUnitTests {
 
 			return null;
 		}
+
 	}
 
 	@RepositoryDefinition(domainClass = User.class, idClass = Integer.class)
@@ -64,4 +65,5 @@ class AnnotationRepositoryMetadataUnitTests {
 	interface UnannotatedRepository {
 
 	}
+
 }

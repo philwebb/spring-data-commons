@@ -16,8 +16,8 @@
 package org.springframework.data.repository.support;
 
 /**
- * Interface for a factory to create {@link RepositoryInvoker} instances for repositories managing a particular domain
- * type.
+ * Interface for a factory to create {@link RepositoryInvoker} instances for repositories
+ * managing a particular domain type.
  *
  * @author Oliver Gierke
  * @since 1.10
@@ -25,10 +25,11 @@ package org.springframework.data.repository.support;
 public interface RepositoryInvokerFactory {
 
 	/**
-	 * Returns the {@link RepositoryInvoker} for a repository managing the given domain type.
-	 *
+	 * Returns the {@link RepositoryInvoker} for a repository managing the given domain
+	 * type.
 	 * @param domainType must not be {@literal null}.
 	 * @return
 	 */
 	RepositoryInvoker getInvokerFor(Class<?> domainType);
+
 }

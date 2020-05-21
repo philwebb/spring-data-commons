@@ -50,7 +50,8 @@ import org.springframework.data.repository.sample.ProductRepository;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class RepositoryConfigurationDelegateUnitTests {
 
-	@Mock RepositoryConfigurationExtension extension;
+	@Mock
+	RepositoryConfigurationExtension extension;
 
 	@Test // DATACMNS-892
 	void registersRepositoryBeanNameAsAttribute() {
@@ -62,7 +63,8 @@ class RepositoryConfigurationDelegateUnitTests {
 				new StandardAnnotationMetadata(TestConfig.class, true), EnableRepositories.class, context, environment,
 				context.getDefaultListableBeanFactory());
 
-		RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configSource, context, environment);
+		RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configSource, context,
+				environment);
 
 		for (BeanComponentDefinition definition : delegate.registerRepositoriesIn(context, this.extension)) {
 
@@ -107,17 +109,24 @@ class RepositoryConfigurationDelegateUnitTests {
 	}
 
 	@EnableRepositories(basePackageClasses = ProductRepository.class)
-	static class TestConfig {}
+	static class TestConfig {
+
+	}
 
 	@ComponentScan(basePackageClasses = AddressRepository.class)
 	@EnableRepositories(basePackageClasses = AddressRepository.class,
 			includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = AddressRepository.class),
 			bootstrapMode = BootstrapMode.LAZY)
-	static class LazyConfig {}
+	static class LazyConfig {
+
+	}
 
 	@ComponentScan(basePackageClasses = AddressRepository.class)
 	@EnableRepositories(basePackageClasses = AddressRepository.class,
 			includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = AddressRepository.class),
 			bootstrapMode = BootstrapMode.DEFERRED)
-	static class DeferredConfig {}
+	static class DeferredConfig {
+
+	}
+
 }

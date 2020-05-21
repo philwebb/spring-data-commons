@@ -48,7 +48,8 @@ import org.springframework.data.repository.core.support.EventPublishingRepositor
 import org.springframework.data.repository.core.support.EventPublishingRepositoryProxyPostProcessor.EventPublishingMethodInterceptor;
 
 /**
- * Unit tests for {@link EventPublishingRepositoryProxyPostProcessor} and contained classes.
+ * Unit tests for {@link EventPublishingRepositoryProxyPostProcessor} and contained
+ * classes.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -58,8 +59,11 @@ import org.springframework.data.repository.core.support.EventPublishingRepositor
 @MockitoSettings(strictness = Strictness.LENIENT)
 class EventPublishingRepositoryProxyPostProcessorUnitTests {
 
-	@Mock ApplicationEventPublisher publisher;
-	@Mock MethodInvocation invocation;
+	@Mock
+	ApplicationEventPublisher publisher;
+
+	@Mock
+	MethodInvocation invocation;
 
 	@Test // DATACMNS-928
 	void rejectsNullAggregateTypes() {
@@ -185,7 +189,8 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 			EventPublishingMethodInterceptor//
 					.of(EventPublishingMethod.of(OneEvent.class), this.publisher)//
 					.invoke(this.invocation);
-		} catch (IllegalStateException o_O) {
+		}
+		catch (IllegalStateException o_O) {
 			verify(this.publisher, never()).publishEvent(any(SomeEvent.class));
 		}
 	}
@@ -248,7 +253,8 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 		Method method = SampleRepository.class.getMethod("save", Object.class);
 		mockInvocation(this.invocation, method, parameter, returnValue);
 
-		EventPublishingMethodInterceptor.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher).invoke(this.invocation);
+		EventPublishingMethodInterceptor.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
+				.invoke(this.invocation);
 
 		verify(this.publisher, times(1)).publishEvent(event);
 	}
@@ -269,29 +275,43 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 
 	@Value(staticConstructor = "of")
 	static class MultipleEvents {
-		@Getter(onMethod = @__(@DomainEvents)) Collection<? extends Object> events;
+
+		@Getter(onMethod = @__(@DomainEvents))
+		Collection<? extends Object> events;
+
 	}
 
 	@RequiredArgsConstructor(staticName = "of")
 	static class EventsWithClearing {
-		@Getter(onMethod = @__(@DomainEvents)) final Collection<? extends Object> events;
+
+		@Getter(onMethod = @__(@DomainEvents))
+		final Collection<? extends Object> events;
 
 		@AfterDomainEventPublication
-		void clearDomainEvents() {}
+		void clearDomainEvents() {
+		}
+
 	}
 
 	@Value(staticConstructor = "of")
 	static class OneEvent {
-		@Getter(onMethod = @__(@DomainEvents)) Object event;
+
+		@Getter(onMethod = @__(@DomainEvents))
+		Object event;
+
 	}
 
 	@Value
 	static class SomeEvent {
+
 		UUID id = UUID.randomUUID();
+
 	}
 
 	interface SampleRepository extends CrudRepository<MultipleEvents, Long> {
 
 		MultipleEvents saveAndFlush(MultipleEvents events);
+
 	}
+
 }

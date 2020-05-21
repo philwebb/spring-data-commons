@@ -28,8 +28,7 @@ import org.springframework.data.web.ProjectingJackson2HttpMessageConverterUnitTe
 /**
  * Unit tests for {@link ProxyingHandlerMethodArgumentResolver}.
  *
- * @author Oliver Gierke
- *             https://www.youtube.com/watch?v=O7LZsqrnaaA)
+ * @author Oliver Gierke https://www.youtube.com/watch?v=O7LZsqrnaaA)
  */
 public class ProxyingHandlerMethodArgumentResolverUnitTests {
 
@@ -73,9 +72,13 @@ public class ProxyingHandlerMethodArgumentResolverUnitTests {
 	}
 
 	@ProjectedPayload
-	interface AnnotatedInterface {}
+	interface AnnotatedInterface {
 
-	interface UnannotatedInterface {}
+	}
+
+	interface UnannotatedInterface {
+
+	}
 
 	interface Controller {
 
@@ -86,5 +89,7 @@ public class ProxyingHandlerMethodArgumentResolverUnitTests {
 		void with(SampleInterface param);
 
 		void with(List<Object> param);
+
 	}
+
 }

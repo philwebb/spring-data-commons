@@ -32,12 +32,12 @@ import org.w3c.dom.Element;
 public class BeanComponentDefinitionBuilder {
 
 	private final Element defaultSource;
+
 	private final ParserContext context;
 
 	/**
-	 * Creates a new {@link BeanComponentDefinitionBuilder} using the given {@link Element} as default source and the
-	 * given {@link ParserContext}.
-	 *
+	 * Creates a new {@link BeanComponentDefinitionBuilder} using the given
+	 * {@link Element} as default source and the given {@link ParserContext}.
 	 * @param defaultSource must not be {@literal null}.
 	 * @param context must not be {@literal null}.
 	 */
@@ -51,8 +51,8 @@ public class BeanComponentDefinitionBuilder {
 	}
 
 	/**
-	 * Creates a {@link BeanComponentDefinition} from the given {@link BeanDefinitionBuilder}. Will generate a bean name.
-	 *
+	 * Creates a {@link BeanComponentDefinition} from the given
+	 * {@link BeanDefinitionBuilder}. Will generate a bean name.
 	 * @param builder must not be {@literal null}.
 	 * @return
 	 */
@@ -61,15 +61,16 @@ public class BeanComponentDefinitionBuilder {
 		Assert.notNull(builder, "Builder must not be null!");
 
 		AbstractBeanDefinition definition = builder.getRawBeanDefinition();
-		String name = BeanDefinitionReaderUtils.generateBeanName(definition, this.context.getRegistry(), this.context.isNested());
+		String name = BeanDefinitionReaderUtils.generateBeanName(definition, this.context.getRegistry(),
+				this.context.isNested());
 
 		return getComponent(builder, name);
 	}
 
 	/**
-	 * Creates a {@link BeanComponentDefinition} from the given {@link BeanDefinitionBuilder} and inspects the backing
-	 * {@link Element}s id attribute for a name. It will use this one if found or the given fallback if not.
-	 *
+	 * Creates a {@link BeanComponentDefinition} from the given
+	 * {@link BeanDefinitionBuilder} and inspects the backing {@link Element}s id
+	 * attribute for a name. It will use this one if found or the given fallback if not.
 	 * @param builder must not be {@literal null}.
 	 * @param fallback must not be {@literal null} or empty.
 	 * @return
@@ -83,8 +84,8 @@ public class BeanComponentDefinitionBuilder {
 	}
 
 	/**
-	 * Creates a {@link BeanComponentDefinition} from the given {@link BeanDefinitionBuilder} using the given name.
-	 *
+	 * Creates a {@link BeanComponentDefinition} from the given
+	 * {@link BeanDefinitionBuilder} using the given name.
 	 * @param builder must not be {@literal null}.
 	 * @param name must not be {@literal null} or empty.
 	 * @return
@@ -94,9 +95,8 @@ public class BeanComponentDefinitionBuilder {
 	}
 
 	/**
-	 * Creates a new {@link BeanComponentDefinition} from the given {@link BeanDefinitionBuilder} using the given name and
-	 * raw source object.
-	 *
+	 * Creates a new {@link BeanComponentDefinition} from the given
+	 * {@link BeanDefinitionBuilder} using the given name and raw source object.
 	 * @param builder must not be {@literal null}.
 	 * @param name must not be {@literal null}.
 	 * @param rawSource
@@ -112,4 +112,5 @@ public class BeanComponentDefinitionBuilder {
 
 		return new BeanComponentDefinition(definition, name);
 	}
+
 }

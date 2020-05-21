@@ -47,10 +47,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Value object to capture custom conversion. That is essentially a {@link List} of converters and some additional logic
- * around them. The converters build up two sets of types which store-specific basic types can be converted into and
- * from. These types will be considered simple ones (which means they neither need deeper inspection nor nested
- * conversion. Thus the {@link CustomConversions} also act as factory for {@link SimpleTypeHolder} .
+ * Value object to capture custom conversion. That is essentially a {@link List} of
+ * converters and some additional logic around them. The converters build up two sets of
+ * types which store-specific basic types can be converted into and from. These types will
+ * be considered simple ones (which means they neither need deeper inspection nor nested
+ * conversion. Thus the {@link CustomConversions} also act as factory for
+ * {@link SimpleTypeHolder} .
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
@@ -61,13 +63,20 @@ import org.springframework.util.ObjectUtils;
 public class CustomConversions {
 
 	private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(CustomConversions.class);
+
 	private static final String READ_CONVERTER_NOT_SIMPLE = "Registering converter from %s to %s as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.";
+
 	private static final String WRITE_CONVERTER_NOT_SIMPLE = "Registering converter from %s to %s as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.";
+
 	private static final String NOT_A_CONVERTER = "Converter %s is neither a Spring Converter, GenericConverter or ConverterFactory!";
+
 	private static final String CONVERTER_FILTER = "converter from %s to %s as %s converter.";
+
 	private static final String ADD_CONVERTER = "Adding %s" + CONVERTER_FILTER;
+
 	private static final String SKIP_CONVERTER = "Skipping " + CONVERTER_FILTER
 			+ " %s is not a store supported simple type!";
+
 	private static final List<Object> DEFAULT_CONVERTERS;
 
 	static {
@@ -82,12 +91,17 @@ public class CustomConversions {
 	}
 
 	private final SimpleTypeHolder simpleTypeHolder;
+
 	private final List<Object> converters;
 
 	private final Set<ConvertiblePair> readingPairs = new LinkedHashSet<>();
+
 	private final Set<ConvertiblePair> writingPairs = new LinkedHashSet<>();
+
 	private final Set<Class<?>> customSimpleTypes = new HashSet<>();
+
 	private final ConversionTargetsCache customReadTargetTypes = new ConversionTargetsCache();
+
 	private final ConversionTargetsCache customWriteTargetTypes = new ConversionTargetsCache();
 
 	private final ConverterConfiguration converterConfiguration;
@@ -126,11 +140,10 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Creates a new {@link CustomConversions} instance registering all given user defined converters and selecting
-	 * {@link Converter converters} from {@link StoreConversions} depending on
-	 * {@link StoreConversions#getSimpleTypeHolder() store simple types} only considering those that either convert
-	 * to/from a store supported type.
-	 *
+	 * Creates a new {@link CustomConversions} instance registering all given user defined
+	 * converters and selecting {@link Converter converters} from {@link StoreConversions}
+	 * depending on {@link StoreConversions#getSimpleTypeHolder() store simple types} only
+	 * considering those that either convert to/from a store supported type.
 	 * @param storeConversions must not be {@literal null}.
 	 * @param converters must not be {@literal null}.
 	 */
@@ -140,7 +153,6 @@ public class CustomConversions {
 
 	/**
 	 * Returns the underlying {@link SimpleTypeHolder}.
-	 *
 	 * @return
 	 */
 	public SimpleTypeHolder getSimpleTypeHolder() {
@@ -148,8 +160,9 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Returns whether the given type is considered to be simple. That means it's either a general simple type or we have
-	 * a writing {@link Converter} registered for a particular type.
+	 * Returns whether the given type is considered to be simple. That means it's either a
+	 * general simple type or we have a writing {@link Converter} registered for a
+	 * particular type.
 	 *
 	 * @see SimpleTypeHolder#isSimpleType(Class)
 	 * @param type
@@ -163,8 +176,8 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Populates the given {@link GenericConversionService} with the converters registered.
-	 *
+	 * Populates the given {@link GenericConversionService} with the converters
+	 * registered.
 	 * @param conversionService
 	 */
 	public void registerConvertersIn(ConverterRegistry conversionService) {
@@ -176,7 +189,6 @@ public class CustomConversions {
 
 	/**
 	 * Get all converters and add origin information
-	 *
 	 * @param storeConversions
 	 * @param converters
 	 * @return
@@ -210,7 +222,6 @@ public class CustomConversions {
 
 	/**
 	 * Registers the given converter in the given {@link GenericConversionService}.
-	 *
 	 * @param candidate must not be {@literal null}.
 	 * @param conversionService must not be {@literal null}.
 	 */
@@ -232,7 +243,8 @@ public class CustomConversions {
 		}
 
 		if (candidate instanceof ConverterAware) {
-			ConverterAware.class.cast(candidate).getConverters().forEach(it -> registerConverterIn(it, conversionService));
+			ConverterAware.class.cast(candidate).getConverters()
+					.forEach(it -> registerConverterIn(it, conversionService));
 			return;
 		}
 
@@ -240,9 +252,8 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Registers the given {@link ConvertiblePair} as reading or writing pair depending on the type sides being basic
-	 * types.
-	 *
+	 * Registers the given {@link ConvertiblePair} as reading or writing pair depending on
+	 * the type sides being basic types.
 	 * @param converterRegistration
 	 */
 	private Object register(ConverterRegistration converterRegistration) {
@@ -275,9 +286,10 @@ public class CustomConversions {
 
 	/**
 	 * Validate a given {@link ConverterRegistration} in a specific setup. <br />
-	 * Non {@link ReadingConverter reading} and user defined {@link Converter converters} are only considered supported if
-	 * the {@link ConverterRegistrationIntent#isSimpleTargetType() target type} is considered to be a store simple type.
-	 *
+	 * Non {@link ReadingConverter reading} and user defined {@link Converter converters}
+	 * are only considered supported if the
+	 * {@link ConverterRegistrationIntent#isSimpleTargetType() target type} is considered
+	 * to be a store simple type.
 	 * @param registrationIntent
 	 * @return {@literal true} if supported.
 	 * @since 2.3
@@ -294,10 +306,12 @@ public class CustomConversions {
 				LOG.debug(String.format(ADD_CONVERTER, registrationIntent.isUserConverter() ? "user defined " : "",
 						registrationIntent.getSourceType(), registrationIntent.getTargetType(),
 						registrationIntent.isReading() ? "reading" : "writing"));
-			} else {
-				LOG.debug(String.format(SKIP_CONVERTER, registrationIntent.getSourceType(), registrationIntent.getTargetType(),
-						registrationIntent.isReading() ? "reading" : "writing",
-						registrationIntent.isReading() ? registrationIntent.getSourceType() : registrationIntent.getTargetType()));
+			}
+			else {
+				LOG.debug(String.format(SKIP_CONVERTER, registrationIntent.getSourceType(),
+						registrationIntent.getTargetType(), registrationIntent.isReading() ? "reading" : "writing",
+						registrationIntent.isReading() ? registrationIntent.getSourceType()
+								: registrationIntent.getTargetType()));
 			}
 		}
 
@@ -306,7 +320,8 @@ public class CustomConversions {
 
 	/**
 	 * @param intent must not be {@literal null}.
-	 * @return {@literal false} if the given {@link ConverterRegistration} shall be skipped.
+	 * @return {@literal false} if the given {@link ConverterRegistration} shall be
+	 * skipped.
 	 * @since 2.3
 	 */
 	private boolean shouldRegister(ConverterRegistrationIntent intent) {
@@ -315,9 +330,8 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Returns the target type to convert to in case we have a custom conversion registered to convert the given source
-	 * type into a store native one.
-	 *
+	 * Returns the target type to convert to in case we have a custom conversion
+	 * registered to convert the given source type into a store native one.
 	 * @param sourceType must not be {@literal null}
 	 * @return
 	 */
@@ -331,10 +345,10 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Returns the target type we can read an inject of the given source type to. The returned type might be a subclass of
-	 * the given expected type though. If {@code requestedTargetType} is {@literal null} we will simply return the first
+	 * Returns the target type we can read an inject of the given source type to. The
+	 * returned type might be a subclass of the given expected type though. If
+	 * {@code requestedTargetType} is {@literal null} we will simply return the first
 	 * target type matching or {@literal null} if no conversion can be found.
-	 *
 	 * @param sourceType must not be {@literal null}
 	 * @param requestedTargetType must not be {@literal null}.
 	 * @return
@@ -344,15 +358,16 @@ public class CustomConversions {
 		Assert.notNull(sourceType, "Source type must not be null!");
 		Assert.notNull(requestedTargetType, "Target type must not be null!");
 
-		Class<?> target = this.customWriteTargetTypes.computeIfAbsent(sourceType, requestedTargetType, this.getWriteTarget);
+		Class<?> target = this.customWriteTargetTypes.computeIfAbsent(sourceType, requestedTargetType,
+				this.getWriteTarget);
 
 		return Void.class.equals(target) || target == null ? Optional.empty() : Optional.of(target);
 	}
 
 	/**
-	 * Returns whether we have a custom conversion registered to read {@code sourceType} into a native type. The returned
-	 * type might be a subclass of the given expected type though.
-	 *
+	 * Returns whether we have a custom conversion registered to read {@code sourceType}
+	 * into a native type. The returned type might be a subclass of the given expected
+	 * type though.
 	 * @param sourceType must not be {@literal null}
 	 * @return
 	 */
@@ -364,9 +379,8 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Returns whether we have a custom conversion registered to read an object of the given source type into an object of
-	 * the given native target type.
-	 *
+	 * Returns whether we have a custom conversion registered to read an object of the
+	 * given source type into an object of the given native target type.
 	 * @param sourceType must not be {@literal null}.
 	 * @param targetType must not be {@literal null}.
 	 * @return
@@ -380,8 +394,8 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Returns whether we have a custom conversion registered to read the given source into the given target type.
-	 *
+	 * Returns whether we have a custom conversion registered to read the given source
+	 * into the given target type.
 	 * @param sourceType must not be {@literal null}
 	 * @param targetType must not be {@literal null}
 	 * @return
@@ -395,9 +409,9 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Returns the actual target type for the given {@code sourceType} and {@code targetType}. Note that the returned
-	 * {@link Class} could be an assignable type to the given {@code targetType}.
-	 *
+	 * Returns the actual target type for the given {@code sourceType} and
+	 * {@code targetType}. Note that the returned {@link Class} could be an assignable
+	 * type to the given {@code targetType}.
 	 * @param sourceType must not be {@literal null}.
 	 * @param targetType must not be {@literal null}.
 	 * @return
@@ -408,9 +422,9 @@ public class CustomConversions {
 	}
 
 	/**
-	 * Inspects the given {@link ConvertiblePair ConvertiblePairs} for ones that have a source compatible type as source.
-	 * Additionally checks assignability of the target type if one is given.
-	 *
+	 * Inspects the given {@link ConvertiblePair ConvertiblePairs} for ones that have a
+	 * source compatible type as source. Additionally checks assignability of the target
+	 * type if one is given.
 	 * @param sourceType must not be {@literal null}.
 	 * @param targetType can be {@literal null}.
 	 * @param pairs must not be {@literal null}.
@@ -446,7 +460,8 @@ public class CustomConversions {
 		return pair.getSourceType().isAssignableFrom(sourceType);
 	}
 
-	private static boolean requestedTargetTypeIsAssignable(@Nullable Class<?> requestedTargetType, Class<?> targetType) {
+	private static boolean requestedTargetTypeIsAssignable(@Nullable Class<?> requestedTargetType,
+			Class<?> targetType) {
 		return requestedTargetType == null || targetType.isAssignableFrom(requestedTargetType);
 	}
 
@@ -460,10 +475,10 @@ public class CustomConversions {
 		private final Map<Class<?>, TargetTypes> customReadTargetTypes = new ConcurrentHashMap<>();
 
 		/**
-		 * Get or compute a target type given its {@code sourceType}. Returns a cached {@link Optional} if the value
-		 * (present/absent target) was computed once. Otherwise, uses a {@link Function mappingFunction} to determine a
-		 * possibly existing target type.
-		 *
+		 * Get or compute a target type given its {@code sourceType}. Returns a cached
+		 * {@link Optional} if the value (present/absent target) was computed once.
+		 * Otherwise, uses a {@link Function mappingFunction} to determine a possibly
+		 * existing target type.
 		 * @param sourceType must not be {@literal null}.
 		 * @param mappingFunction must not be {@literal null}.
 		 * @return the optional target type.
@@ -474,10 +489,10 @@ public class CustomConversions {
 		}
 
 		/**
-		 * Get or compute a target type given its {@code sourceType} and {@code targetType}. Returns a cached
-		 * {@link Optional} if the value (present/absent target) was computed once. Otherwise, uses a {@link Function
+		 * Get or compute a target type given its {@code sourceType} and
+		 * {@code targetType}. Returns a cached {@link Optional} if the value
+		 * (present/absent target) was computed once. Otherwise, uses a {@link Function
 		 * mappingFunction} to determine a possibly existing target type.
-		 *
 		 * @param sourceType must not be {@literal null}.
 		 * @param targetType must not be {@literal null}.
 		 * @param mappingFunction must not be {@literal null}.
@@ -499,17 +514,22 @@ public class CustomConversions {
 		/**
 		 * Marker type for absent target type caching.
 		 */
-		interface AbsentTargetTypeMarker {}
+		interface AbsentTargetTypeMarker {
+
+		}
+
 	}
 
 	/**
-	 * Value object for a specific {@code Class source type} to determine possible target conversion types.
+	 * Value object for a specific {@code Class source type} to determine possible target
+	 * conversion types.
 	 *
 	 * @author Mark Paluch
 	 */
 	static class TargetTypes {
 
 		private final Class<?> sourceType;
+
 		private final Map<Class<?>, Class<?>> conversionTargets = new ConcurrentHashMap<>();
 
 		TargetTypes(Class<?> sourceType) {
@@ -517,10 +537,10 @@ public class CustomConversions {
 		}
 
 		/**
-		 * Get or compute a target type given its {@code targetType}. Returns a cached {@link Optional} if the value
-		 * (present/absent target) was computed once. Otherwise, uses a {@link Function mappingFunction} to determine a
-		 * possibly existing target type.
-		 *
+		 * Get or compute a target type given its {@code targetType}. Returns a cached
+		 * {@link Optional} if the value (present/absent target) was computed once.
+		 * Otherwise, uses a {@link Function mappingFunction} to determine a possibly
+		 * existing target type.
 		 * @param targetType must not be {@literal null}.
 		 * @param mappingFunction must not be {@literal null}.
 		 * @return the optional target type.
@@ -537,11 +557,13 @@ public class CustomConversions {
 
 			return Void.class.equals(optionalTarget) ? null : optionalTarget;
 		}
+
 	}
 
 	/**
-	 * Value class tying together a {@link ConverterRegistration} and its {@link ConverterOrigin origin} to allow fine
-	 * grained registration based on store supported types.
+	 * Value class tying together a {@link ConverterRegistration} and its
+	 * {@link ConverterOrigin origin} to allow fine grained registration based on store
+	 * supported types.
 	 *
 	 * @since 2.3
 	 * @author Christoph Strobl
@@ -549,6 +571,7 @@ public class CustomConversions {
 	protected static class ConverterRegistrationIntent {
 
 		private final ConverterRegistration delegate;
+
 		private final ConverterOrigin origin;
 
 		ConverterRegistrationIntent(ConverterRegistration delegate, ConverterOrigin origin) {
@@ -613,8 +636,11 @@ public class CustomConversions {
 		}
 
 		protected enum ConverterOrigin {
+
 			DEFAULT, USER_DEFINED, STORE
+
 		}
+
 	}
 
 	/**
@@ -626,13 +652,17 @@ public class CustomConversions {
 	private static class ConverterRegistration {
 
 		private final Object converter;
+
 		private final ConvertiblePair convertiblePair;
+
 		private final StoreConversions storeConversions;
+
 		private final boolean reading;
+
 		private final boolean writing;
 
-		private ConverterRegistration(Object converter, ConvertiblePair convertiblePair, StoreConversions storeConversions,
-				boolean reading, boolean writing) {
+		private ConverterRegistration(Object converter, ConvertiblePair convertiblePair,
+				StoreConversions storeConversions, boolean reading, boolean writing) {
 			this.converter = converter;
 			this.convertiblePair = convertiblePair;
 			this.storeConversions = storeConversions;
@@ -642,7 +672,6 @@ public class CustomConversions {
 
 		/**
 		 * Returns whether the converter shall be used for writing.
-		 *
 		 * @return
 		 */
 		public boolean isWriting() {
@@ -651,7 +680,6 @@ public class CustomConversions {
 
 		/**
 		 * Returns whether the converter shall be used for reading.
-		 *
 		 * @return
 		 */
 		public boolean isReading() {
@@ -660,7 +688,6 @@ public class CustomConversions {
 
 		/**
 		 * Returns the actual conversion pair.
-		 *
 		 * @return
 		 */
 		public ConvertiblePair getConvertiblePair() {
@@ -669,7 +696,6 @@ public class CustomConversions {
 
 		/**
 		 * Returns whether the source type is a simple one.
-		 *
 		 * @return
 		 */
 		public boolean isSimpleSourceType() {
@@ -678,7 +704,6 @@ public class CustomConversions {
 
 		/**
 		 * Returns whether the target type is a simple one.
-		 *
 		 * @return
 		 */
 		public boolean isSimpleTargetType() {
@@ -691,19 +716,23 @@ public class CustomConversions {
 		Object getConverter() {
 			return this.converter;
 		}
+
 	}
 
 	/**
-	 * Value type to capture store-specific extensions to the {@link CustomConversions}. Allows to forward store specific
-	 * default conversions and a set of types that are supposed to be considered simple.
+	 * Value type to capture store-specific extensions to the {@link CustomConversions}.
+	 * Allows to forward store specific default conversions and a set of types that are
+	 * supposed to be considered simple.
 	 *
 	 * @author Oliver Gierke
 	 */
 	public static class StoreConversions {
 
-		public static final StoreConversions NONE = StoreConversions.of(SimpleTypeHolder.DEFAULT, Collections.emptyList());
+		public static final StoreConversions NONE = StoreConversions.of(SimpleTypeHolder.DEFAULT,
+				Collections.emptyList());
 
 		private final SimpleTypeHolder storeTypeHolder;
+
 		private final Collection<?> storeConverters;
 
 		private StoreConversions(SimpleTypeHolder storeTypeHolder, Collection<?> storeConverters) {
@@ -713,9 +742,8 @@ public class CustomConversions {
 		}
 
 		/**
-		 * Creates a new {@link StoreConversions} for the given store-specific {@link SimpleTypeHolder} and the given
-		 * converters.
-		 *
+		 * Creates a new {@link StoreConversions} for the given store-specific
+		 * {@link SimpleTypeHolder} and the given converters.
 		 * @param storeTypeHolder must not be {@literal null}.
 		 * @param converters must not be {@literal null}.
 		 * @return
@@ -729,9 +757,8 @@ public class CustomConversions {
 		}
 
 		/**
-		 * Creates a new {@link StoreConversions} for the given store-specific {@link SimpleTypeHolder} and the given
-		 * converters.
-		 *
+		 * Creates a new {@link StoreConversions} for the given store-specific
+		 * {@link SimpleTypeHolder} and the given converters.
 		 * @param storeTypeHolder must not be {@literal null}.
 		 * @param converters must not be {@literal null}.
 		 * @return
@@ -746,7 +773,6 @@ public class CustomConversions {
 
 		/**
 		 * Returns {@link ConverterRegistration}s for the given converter.
-		 *
 		 * @param converter must not be {@literal null}.
 		 * @return
 		 */
@@ -763,7 +789,8 @@ public class CustomConversions {
 				return Streamable.of(() -> ConverterAware.class.cast(converter).getConverters().stream()//
 						.flatMap(it -> getRegistrationsFor(it).stream()));
 
-			} else if (converter instanceof GenericConverter) {
+			}
+			else if (converter instanceof GenericConverter) {
 
 				Set<ConvertiblePair> convertibleTypes = GenericConverter.class.cast(converter).getConvertibleTypes();
 
@@ -771,15 +798,18 @@ public class CustomConversions {
 						? Streamable.empty() //
 						: Streamable.of(convertibleTypes).map(it -> register(converter, it, isReading, isWriting));
 
-			} else if (converter instanceof ConverterFactory) {
+			}
+			else if (converter instanceof ConverterFactory) {
 
 				return getRegistrationFor(converter, ConverterFactory.class, isReading, isWriting);
 
-			} else if (converter instanceof Converter) {
+			}
+			else if (converter instanceof Converter) {
 
 				return getRegistrationFor(converter, Converter.class, isReading, isWriting);
 
-			} else {
+			}
+			else {
 				throw new IllegalArgumentException(String.format("Unsupported converter type %s!", converter));
 			}
 		}
@@ -791,7 +821,8 @@ public class CustomConversions {
 			Class<?>[] arguments = GenericTypeResolver.resolveTypeArguments(converterType, type);
 
 			if (arguments == null) {
-				throw new IllegalStateException(String.format("Couldn't resolve type arguments for %s!", converterType));
+				throw new IllegalStateException(
+						String.format("Couldn't resolve type arguments for %s!", converterType));
 			}
 
 			return Streamable.of(register(converter, arguments[0], arguments[1], isReading, isWriting));
@@ -818,6 +849,7 @@ public class CustomConversions {
 		Collection<?> getStoreConverters() {
 			return this.storeConverters;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -836,21 +868,25 @@ public class CustomConversions {
 
 			return ObjectUtils.nullSafeEquals(this.storeConverters, that.storeConverters);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.storeTypeHolder);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.storeConverters);
 			return result;
 		}
+
 		@Override
 		public String toString() {
-			return "StoreConversions{" + "storeTypeHolder=" + this.storeTypeHolder + ", storeConverters=" + this.storeConverters + '}';
+			return "StoreConversions{" + "storeTypeHolder=" + this.storeTypeHolder + ", storeConverters="
+					+ this.storeConverters + '}';
 		}
+
 	}
 
 	/**
-	 * Value object holding the actual {@link StoreConversions} and custom {@link Converter converters} configured for
-	 * registration.
+	 * Value object holding the actual {@link StoreConversions} and custom
+	 * {@link Converter converters} configured for registration.
 	 *
 	 * @author Christoph Strobl
 	 * @since 2.3
@@ -858,28 +894,33 @@ public class CustomConversions {
 	protected static class ConverterConfiguration {
 
 		private final StoreConversions storeConversions;
+
 		private final List<?> userConverters;
+
 		private final Predicate<ConvertiblePair> converterRegistrationFilter;
 
 		/**
-		 * Create a new ConverterConfiguration holding the given {@link StoreConversions} and user defined converters.
-		 *
+		 * Create a new ConverterConfiguration holding the given {@link StoreConversions}
+		 * and user defined converters.
 		 * @param storeConversions must not be {@literal null}.
-		 * @param userConverters must not be {@literal null} use {@link Collections#emptyList()} instead.
+		 * @param userConverters must not be {@literal null} use
+		 * {@link Collections#emptyList()} instead.
 		 */
 		public ConverterConfiguration(StoreConversions storeConversions, List<?> userConverters) {
 			this(storeConversions, userConverters, it -> true);
 		}
 
 		/**
-		 * Create a new ConverterConfiguration holding the given {@link StoreConversions} and user defined converters as
-		 * well as a {@link Collection} of {@link ConvertiblePair} for which to skip the registration of default converters.
-		 * <br />
-		 * This allows store implementations to modify default converter registration based on specific needs and
-		 * configurations. User defined converters will are never subject of filtering.
-		 *
+		 * Create a new ConverterConfiguration holding the given {@link StoreConversions}
+		 * and user defined converters as well as a {@link Collection} of
+		 * {@link ConvertiblePair} for which to skip the registration of default
+		 * converters. <br />
+		 * This allows store implementations to modify default converter registration
+		 * based on specific needs and configurations. User defined converters will are
+		 * never subject of filtering.
 		 * @param storeConversions must not be {@literal null}.
-		 * @param userConverters must not be {@literal null} use {@link Collections#emptyList()} instead.
+		 * @param userConverters must not be {@literal null} use
+		 * {@link Collections#emptyList()} instead.
 		 * @param converterRegistrationFilter must not be {@literal null}..
 		 */
 		public ConverterConfiguration(StoreConversions storeConversions, List<?> userConverters,
@@ -910,5 +951,7 @@ public class CustomConversions {
 		boolean shouldRegister(ConvertiblePair candidate) {
 			return this.converterRegistrationFilter.test(candidate);
 		}
+
 	}
+
 }

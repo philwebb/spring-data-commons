@@ -38,8 +38,8 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * An {@link QueryMethodEvaluationContextProvider} that assembles an {@link EvaluationContext} from a list of
- * {@link EvaluationContextExtension} instances.
+ * An {@link QueryMethodEvaluationContextProvider} that assembles an
+ * {@link EvaluationContext} from a list of {@link EvaluationContextExtension} instances.
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
@@ -53,9 +53,8 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 
 	/**
 	 * Creates a new {@link ExtensionAwareQueryMethodEvaluationContextProvider}.
-	 *
-	 * @param beanFactory the {@link ListableBeanFactory} to lookup the {@link EvaluationContextExtension}s from, must not
-	 *          be {@literal null}.
+	 * @param beanFactory the {@link ListableBeanFactory} to lookup the
+	 * {@link EvaluationContextExtension}s from, must not be {@literal null}.
 	 */
 	public ExtensionAwareQueryMethodEvaluationContextProvider(ListableBeanFactory beanFactory) {
 
@@ -65,9 +64,8 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	}
 
 	/**
-	 * Creates a new {@link ExtensionAwareQueryMethodEvaluationContextProvider} using the given
-	 * {@link EvaluationContextExtension}s.
-	 *
+	 * Creates a new {@link ExtensionAwareQueryMethodEvaluationContextProvider} using the
+	 * given {@link EvaluationContextExtension}s.
 	 * @param extensions must not be {@literal null}.
 	 */
 	public ExtensionAwareQueryMethodEvaluationContextProvider(List<? extends EvaluationContextExtension> extensions) {
@@ -79,7 +77,11 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.query.QueryMethodEvaluationContextProvider#getEvaluationContext(org.springframework.data.repository.query.Parameters, java.lang.Object[])
+	 * 
+	 * @see
+	 * org.springframework.data.repository.query.QueryMethodEvaluationContextProvider#
+	 * getEvaluationContext(org.springframework.data.repository.query.Parameters,
+	 * java.lang.Object[])
 	 */
 	@Override
 	public <T extends Parameters<?, ?>> EvaluationContext getEvaluationContext(T parameters, Object[] parameterValues) {
@@ -92,9 +94,8 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	}
 
 	/**
-	 * Exposes variables for all named parameters for the given arguments. Also exposes non-bindable parameters under the
-	 * names of their types.
-	 *
+	 * Exposes variables for all named parameters for the given arguments. Also exposes
+	 * non-bindable parameters under the names of their types.
 	 * @param parameters must not be {@literal null}.
 	 * @param arguments must not be {@literal null}.
 	 * @return
@@ -120,9 +121,9 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 
 	/**
 	 * Looks up all {@link EvaluationContextExtension} and
-	 * {@link org.springframework.data.repository.query.spi.EvaluationContextExtension} instances from the given
-	 * {@link ListableBeanFactory} and wraps the latter into proxies so that they implement the former.
-	 *
+	 * {@link org.springframework.data.repository.query.spi.EvaluationContextExtension}
+	 * instances from the given {@link ListableBeanFactory} and wraps the latter into
+	 * proxies so that they implement the former.
 	 * @param beanFactory must not be {@literal null}.
 	 * @return
 	 */
@@ -135,8 +136,8 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	}
 
 	/**
-	 * A {@link MethodInterceptor} that forwards all invocations of methods (by name and parameter types) that are
-	 * available on a given target object
+	 * A {@link MethodInterceptor} that forwards all invocations of methods (by name and
+	 * parameter types) that are available on a given target object
 	 *
 	 * @author Oliver Gierke
 	 */
@@ -145,6 +146,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 		private static final Map<Method, Method> METHOD_CACHE = new ConcurrentReferenceHashMap<Method, Method>();
 
 		private final Object target;
+
 		private final Map<String, java.util.function.Function<Object, Object>> directMappings = new HashMap<>();
 
 		DelegatingMethodInterceptor(Object target) {
@@ -152,15 +154,15 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 		}
 
 		/**
-		 * Registers a result mapping for the method with the given name. Invocation results for matching methods will be
-		 * piped through the mapping.
-		 *
+		 * Registers a result mapping for the method with the given name. Invocation
+		 * results for matching methods will be piped through the mapping.
 		 * @param methodName
 		 * @param mapping
 		 */
 		public void registerResultMapping(String methodName, java.util.function.Function<Object, Object> mapping) {
 			this.directMappings.put(methodName, mapping);
 		}
+
 		@Nullable
 		@Override
 		public Object invoke(@Nullable MethodInvocation invocation) throws Throwable {
@@ -190,9 +192,12 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 
 			try {
 				return this.target.getClass().getMethod(method.getName(), method.getParameterTypes());
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				return null;
 			}
 		}
+
 	}
+
 }

@@ -154,7 +154,8 @@ class PartTreeUnitTests {
 	@Test
 	void supportToStringWithSortOrder() throws Exception {
 		PartTree tree = partTree("firstnameOrderByLastnameDesc");
-		assertThat(tree.toString()).isEqualTo("firstname SIMPLE_PROPERTY (1): [Is, Equals] NEVER Order By lastname: DESC");
+		assertThat(tree.toString())
+				.isEqualTo("firstname SIMPLE_PROPERTY (1): [Is, Equals] NEVER Order By lastname: DESC");
 	}
 
 	@Test
@@ -203,7 +204,8 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-78
 	void parsesGreaterThanEqualCorrectly() {
-		assertType(Arrays.asList("lastnameGreaterThanEqual", "lastnameIsGreaterThanEqual"), GREATER_THAN_EQUAL, "lastname");
+		assertType(Arrays.asList("lastnameGreaterThanEqual", "lastnameIsGreaterThanEqual"), GREATER_THAN_EQUAL,
+				"lastname");
 	}
 
 	@Test
@@ -253,12 +255,14 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-111
 	void parsesEndingWithKeywordCorrectly() {
-		assertType(asList("firstnameEndsWith", "firstnameEndingWith", "firstnameIsEndingWith"), ENDING_WITH, "firstname");
+		assertType(asList("firstnameEndsWith", "firstnameEndingWith", "firstnameIsEndingWith"), ENDING_WITH,
+				"firstname");
 	}
 
 	@Test // DATACMNS-111
 	void parsesContainingKeywordCorrectly() {
-		assertType(asList("firstnameIsContaining", "firstnameContains", "firstnameContaining"), CONTAINING, "firstname");
+		assertType(asList("firstnameIsContaining", "firstnameContains", "firstnameContaining"), CONTAINING,
+				"firstname");
 	}
 
 	@Test // DATACMNS-141
@@ -326,7 +330,8 @@ class PartTreeUnitTests {
 		PartTree tree = new PartTree( //
 				"findBy" + "이름" //
 						+ "And" + "OrderId" //
-						+ "And" + "Nested_이름" // we use _ here to mark the beginning of a new property reference "이름"
+						+ "And" + "Nested_이름" // we use _ here to mark the beginning of a
+												// new property reference "이름"
 						+ "Or" + "NestedOrderId" //
 						+ "OrderBy" + "생일" + "Asc",
 				DomainObjectWithSpecialChars.class);
@@ -355,7 +360,9 @@ class PartTreeUnitTests {
 						+ "And" + "Øre" //
 						+ "And" + "År" //
 						+ "Or" + "NestedOrderId" //
-						+ "And" + "Nested_property1" // we use _ here to mark the beginning of a new property reference "이름"
+						+ "And" + "Nested_property1" // we use _ here to mark the
+														// beginning of a new property
+														// reference "이름"
 						+ "And" + "Property1" //
 						+ "OrderBy" + "생일" + "Asc",
 				DomainObjectWithSpecialChars.class);
@@ -614,8 +621,9 @@ class PartTreeUnitTests {
 	}
 
 	/**
-	 * This test does not verify a desired behaviour but documents a limitation. If it starts failing and everything else
-	 * is green, remove the expectation to fail with an exception.
+	 * This test does not verify a desired behaviour but documents a limitation. If it
+	 * starts failing and everything else is green, remove the expectation to fail with an
+	 * exception.
 	 */
 	@Test // DATACMNS-1570
 	void specialCapitalizationInSubject() {
@@ -625,8 +633,9 @@ class PartTreeUnitTests {
 	}
 
 	/**
-	 * This test does not verify a desired behaviour but documents a limitation. If it starts failing and everything else
-	 * is green, remove the expectation to fail with an exception.
+	 * This test does not verify a desired behaviour but documents a limitation. If it
+	 * starts failing and everything else is green, remove the expectation to fail with an
+	 * exception.
 	 */
 	@Test // DATACMNS-1570
 	void specialCapitalizationInOrderBy() {
@@ -736,26 +745,39 @@ class PartTreeUnitTests {
 	}
 
 	class User {
+
 		String firstname;
+
 		String lastname;
+
 		double[] location;
+
 		boolean active;
+
 		Date birthday;
+
 		List<User> friends;
+
 		boolean empty;
+
 	}
 
 	class Organization {
 
 		String commonName;
+
 		String legalName;
+
 	}
 
 	class DomainObjectWithSpecialChars {
+
 		String øre;
+
 		String år;
 
 		String 생일; // Birthday
+
 		String 이름; // Name
 
 		int property1;
@@ -765,6 +787,7 @@ class PartTreeUnitTests {
 		Anders anders;
 
 		DomainObjectWithSpecialChars nested;
+
 	}
 
 	interface Product {
@@ -774,6 +797,7 @@ class PartTreeUnitTests {
 		Anders getAnders(); // constains And keyword
 
 		Category getCategory();
+
 	}
 
 	interface Category {
@@ -781,20 +805,25 @@ class PartTreeUnitTests {
 		Long getId();
 
 		String getSomeInfo();
+
 	}
 
 	interface Order {
 
 		Long getId();
+
 	}
 
 	interface Anders {
 
 		Long getId();
+
 	}
 
 	static class SpecialCapitalization {
+
 		int zIndex;
+
 		int URL;
 
 		int getZIndex() {
@@ -804,5 +833,7 @@ class PartTreeUnitTests {
 		int getURL() {
 			return this.URL;
 		}
+
 	}
+
 }

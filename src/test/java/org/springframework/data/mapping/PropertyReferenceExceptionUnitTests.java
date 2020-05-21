@@ -79,5 +79,7 @@ public class PropertyReferenceExceptionUnitTests {
 		public void setName(String name) {
 			this.name = name;
 		}
+
 	}
+
 }

@@ -38,8 +38,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * {@link MethodInterceptor} to delegate the invocation to a different {@link MethodInterceptor} but creating a
- * projecting proxy in case the returned value is not of the return type of the invoked method.
+ * {@link MethodInterceptor} to delegate the invocation to a different
+ * {@link MethodInterceptor} but creating a projecting proxy in case the returned value is
+ * not of the return type of the invoked method.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -48,7 +49,9 @@ import org.springframework.util.ObjectUtils;
 class ProjectingMethodInterceptor implements MethodInterceptor {
 
 	private final ProjectionFactory factory;
+
 	private final MethodInterceptor delegate;
+
 	private final ConversionService conversionService;
 
 	ProjectingMethodInterceptor(ProjectionFactory factory, MethodInterceptor delegate,
@@ -58,6 +61,7 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 		this.delegate = delegate;
 		this.conversionService = conversionService;
 	}
+
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") @Nonnull MethodInvocation invocation) throws Throwable {
@@ -73,19 +77,21 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 
 		if (type.isCollectionLike() && !ClassUtils.isPrimitiveArray(rawType)) {
 			return projectCollectionElements(asCollection(result), type);
-		} else if (type.isMap()) {
+		}
+		else if (type.isMap()) {
 			return projectMapValues((Map<?, ?>) result, type);
-		} else if (conversionRequiredAndPossible(result, rawType)) {
+		}
+		else if (conversionRequiredAndPossible(result, rawType)) {
 			return this.conversionService.convert(result, rawType);
-		} else {
+		}
+		else {
 			return getProjection(result, rawType);
 		}
 	}
 
 	/**
-	 * Creates projections of the given {@link Collection}'s elements if necessary and returns a new collection containing
-	 * the projection results.
-	 *
+	 * Creates projections of the given {@link Collection}'s elements if necessary and
+	 * returns a new collection containing the projection results.
 	 * @param sources must not be {@literal null}.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -102,16 +108,16 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 		}
 
 		if (rawType.isArray()) {
-			return result.toArray((Object[]) Array.newInstance(type.getRequiredComponentType().getType(), result.size()));
+			return result
+					.toArray((Object[]) Array.newInstance(type.getRequiredComponentType().getType(), result.size()));
 		}
 
 		return result;
 	}
 
 	/**
-	 * Creates projections of the given {@link Map}'s values if necessary and returns an new {@link Map} with the handled
-	 * values.
-	 *
+	 * Creates projections of the given {@link Map}'s values if necessary and returns an
+	 * new {@link Map} with the handled values.
 	 * @param sources must not be {@literal null}.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -134,9 +140,8 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	}
 
 	/**
-	 * Returns whether the source object needs to be converted to the given target type and whether we can convert it at
-	 * all.
-	 *
+	 * Returns whether the source object needs to be converted to the given target type
+	 * and whether we can convert it at all.
 	 * @param source can be {@literal null}.
 	 * @param targetType must not be {@literal null}.
 	 * @return
@@ -151,9 +156,8 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	}
 
 	/**
-	 * Turns the given value into a {@link Collection}. Will turn an array into a collection an wrap all other values into
-	 * a single-element collection.
-	 *
+	 * Turns the given value into a {@link Collection}. Will turn an array into a
+	 * collection an wrap all other values into a single-element collection.
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
@@ -163,10 +167,13 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 
 		if (source instanceof Collection) {
 			return (Collection<?>) source;
-		} else if (source.getClass().isArray()) {
+		}
+		else if (source.getClass().isArray()) {
 			return Arrays.asList(ObjectUtils.toObjectArray(source));
-		} else {
+		}
+		else {
 			return Collections.singleton(source);
 		}
 	}
+
 }

@@ -20,7 +20,8 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Optional;
 
 /**
- * Default {@link DateTimeProvider} simply creating new {@link LocalDateTime} instances for each method call.
+ * Default {@link DateTimeProvider} simply creating new {@link LocalDateTime} instances
+ * for each method call.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -29,8 +30,10 @@ import java.util.Optional;
 public enum CurrentDateTimeProvider implements DateTimeProvider {
 
 	INSTANCE;
+
 	@Override
 	public Optional<TemporalAccessor> getNow() {
 		return Optional.of(LocalDateTime.now());
 	}
+
 }

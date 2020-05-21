@@ -154,4 +154,5 @@ class VersionUnitTests {
 		assertThatIllegalArgumentException().isThrownBy(() -> Version.parse("1.RELEASE.2"))
 				.withMessageContaining("1.RELEASE.2");
 	}
+
 }

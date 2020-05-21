@@ -91,8 +91,8 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 		Customer customer = new Customer();
 		customer.firstname = "Dave";
 
-		ProjectionWithNotWriteableProperty projection = this.factory.createProjection(ProjectionWithNotWriteableProperty.class,
-				customer);
+		ProjectionWithNotWriteableProperty projection = this.factory
+				.createProjection(ProjectionWithNotWriteableProperty.class, customer);
 
 		assertThatExceptionOfType(NotWritablePropertyException.class).isThrownBy(() -> projection.setFirstName("Carl"));
 	}
@@ -100,6 +100,7 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 	static class Customer {
 
 		public String firstname, lastname;
+
 	}
 
 	interface CustomerExcerpt {
@@ -110,10 +111,13 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 		String getFirstname();
 
 		void setFirstname(String firstname);
+
 	}
 
 	interface ProjectionWithNotWriteableProperty {
 
 		void setFirstName(String firstname);
+
 	}
+
 }

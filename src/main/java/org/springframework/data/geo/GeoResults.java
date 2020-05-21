@@ -15,7 +15,6 @@
  */
 package org.springframework.data.geo;
 
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -38,12 +37,12 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 	private static final long serialVersionUID = 8347363491300219485L;
 
 	private final List<? extends GeoResult<T>> results;
+
 	private final Distance averageDistance;
 
 	/**
-	 * Creates a new {@link GeoResults} instance manually calculating the average distance from the distance values of the
-	 * given {@link GeoResult}s.
-	 *
+	 * Creates a new {@link GeoResults} instance manually calculating the average distance
+	 * from the distance values of the given {@link GeoResult}s.
 	 * @param results must not be {@literal null}.
 	 */
 	public GeoResults(List<? extends GeoResult<T>> results) {
@@ -51,9 +50,9 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 	}
 
 	/**
-	 * Creates a new {@link GeoResults} instance manually calculating the average distance in the given {@link Metric}
-	 * from the distance values of the given {@link GeoResult}s.
-	 *
+	 * Creates a new {@link GeoResults} instance manually calculating the average distance
+	 * in the given {@link Metric} from the distance values of the given
+	 * {@link GeoResult}s.
 	 * @param results must not be {@literal null}.
 	 * @param metric must not be {@literal null}.
 	 */
@@ -62,8 +61,8 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 	}
 
 	/**
-	 * Creates a new {@link GeoResults} instance from the given {@link GeoResult}s and average distance.
-	 *
+	 * Creates a new {@link GeoResults} instance from the given {@link GeoResult}s and
+	 * average distance.
 	 * @param results must not be {@literal null}.
 	 * @param averageDistance must not be {@literal null}.
 	 */
@@ -79,7 +78,6 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 
 	/**
 	 * Returns the average distance of all {@link GeoResult}s in this list.
-	 *
 	 * @return the averageDistance
 	 */
 	public Distance getAverageDistance() {
@@ -88,16 +86,17 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 
 	/**
 	 * Returns the actual content of the {@link GeoResults}.
-	 *
 	 * @return
 	 */
 	public List<GeoResult<T>> getContent() {
 		return Collections.unmodifiableList(this.results);
 	}
+
 	@SuppressWarnings("unchecked")
 	public Iterator<GeoResult<T>> iterator() {
 		return (Iterator<GeoResult<T>>) this.results.iterator();
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -117,12 +116,14 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 
 		return ObjectUtils.nullSafeEquals(this.averageDistance, that.averageDistance);
 	}
+
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(this.results);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.averageDistance);
 		return result;
 	}
+
 	@Override
 	public String toString() {
 		return String.format("GeoResults: [averageDistance: %s, results: %s]", this.averageDistance.toString(),
@@ -144,4 +145,5 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 
 		return new Distance(averageDistance, metric);
 	}
+
 }

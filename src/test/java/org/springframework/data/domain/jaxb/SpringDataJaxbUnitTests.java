@@ -56,11 +56,15 @@ import org.springframework.hateoas.Link;
 class SpringDataJaxbUnitTests {
 
 	Marshaller marshaller;
+
 	Unmarshaller unmarshaller;
 
 	Sort sort = Sort.by(Direction.ASC, "firstname", "lastname");
+
 	Pageable pageable = PageRequest.of(2, 15, this.sort);
+
 	Resource resource = new ClassPathResource("pageable.xml", this.getClass());
+
 	Resource schemaFile = new ClassPathResource("spring-data-jaxb.xsd", this.getClass());
 
 	String reference = readFile(this.resource);
@@ -126,7 +130,8 @@ class SpringDataJaxbUnitTests {
 
 			return builder.toString();
 
-		} catch (IOException o_O) {
+		}
+		catch (IOException o_O) {
 			throw new RuntimeException(o_O);
 		}
 	}
@@ -135,11 +140,15 @@ class SpringDataJaxbUnitTests {
 	@XmlAccessorType(XmlAccessType.FIELD)
 	static class Wrapper {
 
-		@XmlElement(name = "page-request", namespace = SpringDataJaxb.NAMESPACE) Pageable pageable;
+		@XmlElement(name = "page-request", namespace = SpringDataJaxb.NAMESPACE)
+		Pageable pageable;
 
-		@XmlElement(name = "page-request-without-sort", namespace = SpringDataJaxb.NAMESPACE) Pageable pageableWithoutSort;
+		@XmlElement(name = "page-request-without-sort", namespace = SpringDataJaxb.NAMESPACE)
+		Pageable pageableWithoutSort;
 
-		@XmlElement(name = "sort", namespace = SpringDataJaxb.NAMESPACE) Sort sort;
+		@XmlElement(name = "sort", namespace = SpringDataJaxb.NAMESPACE)
+		Sort sort;
+
 	}
 
 	@XmlRootElement(name = "wrapper", namespace = SpringDataJaxb.NAMESPACE)
@@ -147,13 +156,18 @@ class SpringDataJaxbUnitTests {
 
 		Page<Content> page;
 
-		@XmlElement(name = "page-with-links") @XmlJavaTypeAdapter(LinkedPageAdapter.class) Page<Content> pageWithLinks;
+		@XmlElement(name = "page-with-links")
+		@XmlJavaTypeAdapter(LinkedPageAdapter.class)
+		Page<Content> pageWithLinks;
+
 	}
 
 	@XmlRootElement
 	static class Content {
 
-		@XmlAttribute String name;
+		@XmlAttribute
+		String name;
+
 	}
 
 	static class LinkedPageAdapter extends PageAdapter {
@@ -163,5 +177,7 @@ class SpringDataJaxbUnitTests {
 			return Arrays.asList(Link.of(IanaLinkRelations.NEXT.value(), IanaLinkRelations.NEXT),
 					Link.of(IanaLinkRelations.PREV.value(), IanaLinkRelations.PREV));
 		}
+
 	}
+
 }

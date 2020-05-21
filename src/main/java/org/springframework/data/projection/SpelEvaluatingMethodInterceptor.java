@@ -39,8 +39,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link MethodInterceptor} to invoke a SpEL expression to compute the method result. Will forward the resolution to a
- * delegate {@link MethodInterceptor} if no {@link Value} annotation is found.
+ * {@link MethodInterceptor} to invoke a SpEL expression to compute the method result.
+ * Will forward the resolution to a delegate {@link MethodInterceptor} if no {@link Value}
+ * annotation is found.
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
@@ -52,15 +53,18 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 	private static final ParserContext PARSER_CONTEXT = new TemplateParserContext();
 
 	private final EvaluationContext evaluationContext;
+
 	private final MethodInterceptor delegate;
+
 	private final Map<Integer, Expression> expressions;
+
 	private final Object target;
 
 	/**
-	 * Creates a new {@link SpelEvaluatingMethodInterceptor} delegating to the given {@link MethodInterceptor} as fallback
-	 * and exposing the given target object via {@code target} to the SpEl expressions. If a {@link BeanFactory} is given,
-	 * bean references in SpEl expressions can be resolved as well.
-	 *
+	 * Creates a new {@link SpelEvaluatingMethodInterceptor} delegating to the given
+	 * {@link MethodInterceptor} as fallback and exposing the given target object via
+	 * {@code target} to the SpEl expressions. If a {@link BeanFactory} is given, bean
+	 * references in SpEl expressions can be resolved as well.
 	 * @param delegate must not be {@literal null}.
 	 * @param target must not be {@literal null}.
 	 * @param beanFactory can be {@literal null}.
@@ -93,10 +97,9 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 	}
 
 	/**
-	 * Eagerly parses {@link Expression} defined on {@link Value} annotations. Returns a map with
-	 * {@code method.hashCode()} as key and the parsed {@link Expression} or an {@link Collections#emptyMap()} if no
-	 * {@code Expressions} were found.
-	 *
+	 * Eagerly parses {@link Expression} defined on {@link Value} annotations. Returns a
+	 * map with {@code method.hashCode()} as key and the parsed {@link Expression} or an
+	 * {@link Collections#emptyMap()} if no {@code Expressions} were found.
 	 * @param parser must not be {@literal null}.
 	 * @param targetInterface must not be {@literal null}.
 	 * @return
@@ -115,7 +118,8 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 			Value value = method.getAnnotation(Value.class);
 
 			if (!StringUtils.hasText(value.value())) {
-				throw new IllegalStateException(String.format("@Value annotation on %s contains empty expression!", method));
+				throw new IllegalStateException(
+						String.format("@Value annotation on %s contains empty expression!", method));
 			}
 
 			expressions.put(method.hashCode(), parser.parseExpression(value.value(), PARSER_CONTEXT));
@@ -123,6 +127,7 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 
 		return Collections.unmodifiableMap(expressions);
 	}
+
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -144,6 +149,7 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 	static final class TargetWrapper {
 
 		private final Object target;
+
 		private final Object[] args;
 
 		private TargetWrapper(Object target, Object[] args) {
@@ -162,6 +168,7 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 		public Object[] getArgs() {
 			return this.args;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -181,16 +188,20 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 
 			return ObjectUtils.nullSafeEquals(this.args, that.args);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.target);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.args);
 			return result;
 		}
+
 		@Override
 		public String toString() {
 			return "SpelEvaluatingMethodInterceptor.TargetWrapper(target=" + this.getTarget() + ", args="
 					+ java.util.Arrays.deepToString(this.getArgs()) + ")";
 		}
+
 	}
+
 }

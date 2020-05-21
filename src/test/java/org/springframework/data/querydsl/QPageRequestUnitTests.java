@@ -29,7 +29,10 @@ public class QPageRequestUnitTests extends AbstractPageRequestUnitTests {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.AbstractPageRequestUnitTests#newPageRequest(int, int)
+	 * 
+	 * @see
+	 * org.springframework.data.domain.AbstractPageRequestUnitTests#newPageRequest(int,
+	 * int)
 	 */
 	@Override
 	public AbstractPageRequest newPageRequest(int page, int size) {
@@ -60,4 +63,5 @@ public class QPageRequestUnitTests extends AbstractPageRequestUnitTests {
 		assertThatExceptionOfType(IllegalArgumentException.class) //
 				.isThrownBy(() -> QPageRequest.of(0, 10, (QSort) null));
 	}
+
 }

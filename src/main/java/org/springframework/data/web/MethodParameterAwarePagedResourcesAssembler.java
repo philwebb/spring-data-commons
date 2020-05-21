@@ -23,7 +23,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.UriComponents;
 
 /**
- * Custom {@link PagedResourcesAssembler} that is aware of the {@link MethodParameter} it shall create links for.
+ * Custom {@link PagedResourcesAssembler} that is aware of the {@link MethodParameter} it
+ * shall create links for.
  *
  * @author Oliver Gierke
  * @since 1.7
@@ -33,9 +34,9 @@ class MethodParameterAwarePagedResourcesAssembler<T> extends PagedResourcesAssem
 	private final MethodParameter parameter;
 
 	/**
-	 * Creates a new {@link MethodParameterAwarePagedResourcesAssembler} using the given {@link MethodParameter},
-	 * {@link HateoasPageableHandlerMethodArgumentResolver} and base URI.
-	 *
+	 * Creates a new {@link MethodParameterAwarePagedResourcesAssembler} using the given
+	 * {@link MethodParameter}, {@link HateoasPageableHandlerMethodArgumentResolver} and
+	 * base URI.
 	 * @param parameter must not be {@literal null}.
 	 * @param resolver can be {@literal null}.
 	 * @param baseUri can be {@literal null}.
@@ -48,9 +49,11 @@ class MethodParameterAwarePagedResourcesAssembler<T> extends PagedResourcesAssem
 		Assert.notNull(parameter, "Method parameter must not be null!");
 		this.parameter = parameter;
 	}
+
 	@Nonnull
 	@Override
 	protected MethodParameter getMethodParameter() {
 		return this.parameter;
 	}
+
 }

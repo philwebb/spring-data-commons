@@ -23,12 +23,13 @@ import java.lang.annotation.Target;
 import org.springframework.data.repository.Repository;
 
 /**
- * Meta-Annotation to mark a store specific annotation as a query annotation. This allows generic special handing of
- * finder methods on {@link Repository} interfaces.
+ * Meta-Annotation to mark a store specific annotation as a query annotation. This allows
+ * generic special handing of finder methods on {@link Repository} interfaces.
  *
  * @author Thomas Darimont
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface QueryAnnotation {
+
 }

@@ -28,9 +28,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link TypeInformationMapper} implementation that can be either set up using a {@link MappingContext} or manually set
- * up {@link Map} of {@link String} aliases to types. If a {@link MappingContext} is used the {@link Map} will be build
- * inspecting the {@link PersistentEntity} instances for type alias information.
+ * {@link TypeInformationMapper} implementation that can be either set up using a
+ * {@link MappingContext} or manually set up {@link Map} of {@link String} aliases to
+ * types. If a {@link MappingContext} is used the {@link Map} will be build inspecting the
+ * {@link PersistentEntity} instances for type alias information.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -38,12 +39,13 @@ import org.springframework.util.Assert;
 public class MappingContextTypeInformationMapper implements TypeInformationMapper {
 
 	private final Map<ClassTypeInformation<?>, Alias> typeMap;
+
 	private final MappingContext<? extends PersistentEntity<?, ?>, ?> mappingContext;
 
 	/**
-	 * Creates a {@link MappingContextTypeInformationMapper} from the given {@link MappingContext}. Inspects all
-	 * {@link PersistentEntity} instances for alias information and builds a {@link Map} of aliases to types from it.
-	 *
+	 * Creates a {@link MappingContextTypeInformationMapper} from the given
+	 * {@link MappingContext}. Inspects all {@link PersistentEntity} instances for alias
+	 * information and builds a {@link Map} of aliases to types from it.
 	 * @param mappingContext must not be {@literal null}.
 	 */
 	public MappingContextTypeInformationMapper(MappingContext<? extends PersistentEntity<?, ?>, ?> mappingContext) {
@@ -57,6 +59,7 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 			verify(entity.getTypeInformation().getRawTypeInformation(), entity.getTypeAlias());
 		}
 	}
+
 	public Alias createAliasFor(TypeInformation<?> type) {
 
 		return this.typeMap.computeIfAbsent(type.getRawTypeInformation(), key -> {
@@ -73,7 +76,6 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 
 	/**
 	 * Adds the given alias to the cache in a {@literal null}-safe manner.
-	 *
 	 * @param key must not be {@literal null}.
 	 * @param alias can be {@literal null}.
 	 */
@@ -86,8 +88,8 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 		if (existingAlias.isPresentButDifferent(alias)) {
 
 			throw new IllegalArgumentException(
-					String.format("Trying to register alias '%s', but found already registered alias '%s' for type %s!", alias,
-							existingAlias, key));
+					String.format("Trying to register alias '%s', but found already registered alias '%s' for type %s!",
+							alias, existingAlias, key));
 		}
 
 		// Reject second type for same alias
@@ -99,13 +101,14 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 					.findFirst().ifPresent(it -> {
 
 						throw new IllegalArgumentException(String.format(
-								"Detected existing type mapping of %s to alias '%s' but attempted to bind the same alias to %s!", key,
-								alias, it.getKey()));
+								"Detected existing type mapping of %s to alias '%s' but attempted to bind the same alias to %s!",
+								key, alias, it.getKey()));
 					});
 		}
 
 		return alias;
 	}
+
 	@Nullable
 	@Override
 	public TypeInformation<?> resolveTypeFrom(Alias alias) {
@@ -125,4 +128,5 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 
 		return null;
 	}
+
 }

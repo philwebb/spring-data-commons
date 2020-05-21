@@ -60,10 +60,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLoaderAware {
 
 	private final ApplicationContext context;
+
 	private final ObjectFactory<ConversionService> conversionService;
+
 	private @Nullable ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
 	private @Autowired Optional<PageableHandlerMethodArgumentResolverCustomizer> pageableResolverCustomizer;
+
 	private @Autowired Optional<SortHandlerMethodArgumentResolverCustomizer> sortResolverCustomizer;
 
 	public SpringDataWebConfiguration(ApplicationContext context,
@@ -75,10 +78,12 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		this.context = context;
 		this.conversionService = conversionService;
 	}
+
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.beanClassLoader = classLoader;
 	}
+
 	@Bean
 	public PageableHandlerMethodArgumentResolver pageableResolver() {
 
@@ -87,6 +92,7 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		customizePageableResolver(pageableResolver);
 		return pageableResolver;
 	}
+
 	@Bean
 	public SortHandlerMethodArgumentResolver sortResolver() {
 
@@ -94,6 +100,7 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		customizeSortResolver(sortResolver);
 		return sortResolver;
 	}
+
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 
@@ -109,18 +116,21 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		DomainClassConverter<FormattingConversionService> converter = new DomainClassConverter<>(conversionService);
 		converter.setApplicationContext(this.context);
 	}
+
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 
 		argumentResolvers.add(sortResolver());
 		argumentResolvers.add(pageableResolver());
 
-		ProxyingHandlerMethodArgumentResolver resolver = new ProxyingHandlerMethodArgumentResolver(this.conversionService, true);
+		ProxyingHandlerMethodArgumentResolver resolver = new ProxyingHandlerMethodArgumentResolver(
+				this.conversionService, true);
 		resolver.setBeanFactory(this.context);
 		forwardBeanClassLoader(resolver);
 
 		argumentResolvers.add(resolver);
 	}
+
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 
@@ -159,9 +169,9 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 	}
 
 	/**
-	 * Returns the uniquely available bean of the given type from the given {@link ApplicationContext} or the one provided
-	 * by the given {@link Supplier} in case the initial lookup fails.
-	 *
+	 * Returns the uniquely available bean of the given type from the given
+	 * {@link ApplicationContext} or the one provided by the given {@link Supplier} in
+	 * case the initial lookup fails.
 	 * @param type must not be {@literal null}.
 	 * @param context must not be {@literal null}.
 	 * @param fallback must not be {@literal null}.
@@ -171,8 +181,10 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 
 		try {
 			return context.getBean(type);
-		} catch (NoSuchBeanDefinitionException o_O) {
+		}
+		catch (NoSuchBeanDefinitionException o_O) {
 			return fallback.get();
 		}
 	}
+
 }

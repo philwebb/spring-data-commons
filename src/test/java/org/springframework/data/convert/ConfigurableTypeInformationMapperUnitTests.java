@@ -74,4 +74,5 @@ class ConfigurableTypeInformationMapperUnitTests<T extends PersistentProperty<T>
 		assertThat(this.mapper.resolveTypeFrom(Alias.of("1"))).isEqualTo(ClassTypeInformation.from(String.class));
 		assertThat(this.mapper.resolveTypeFrom(Alias.of("unmapped"))).isNull();
 	}
+
 }

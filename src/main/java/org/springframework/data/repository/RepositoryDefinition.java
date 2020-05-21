@@ -25,8 +25,9 @@ import java.lang.annotation.Target;
 import org.springframework.stereotype.Indexed;
 
 /**
- * Annotation to demarcate interfaces a repository proxy shall be created for. Annotating an interface with
- * {@link RepositoryDefinition} will cause the same behaviour as extending {@link Repository}.
+ * Annotation to demarcate interfaces a repository proxy shall be created for. Annotating
+ * an interface with {@link RepositoryDefinition} will cause the same behaviour as
+ * extending {@link Repository}.
  *
  * @see Repository
  * @author Oliver Gierke
@@ -39,7 +40,8 @@ import org.springframework.stereotype.Indexed;
 public @interface RepositoryDefinition {
 
 	/**
-	 * The domain class the repository manages. Equivalent to the T type parameter in {@link Repository}.
+	 * The domain class the repository manages. Equivalent to the T type parameter in
+	 * {@link Repository}.
 	 *
 	 * @see Repository
 	 * @return
@@ -47,10 +49,12 @@ public @interface RepositoryDefinition {
 	Class<?> domainClass();
 
 	/**
-	 * The id class of the entity the repository manages. Equivalent to the ID type parameter in {@link Repository}.
+	 * The id class of the entity the repository manages. Equivalent to the ID type
+	 * parameter in {@link Repository}.
 	 *
 	 * @see Repository
 	 * @return
 	 */
 	Class<?> idClass();
+
 }

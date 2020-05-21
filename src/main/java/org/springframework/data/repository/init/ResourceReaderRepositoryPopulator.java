@@ -35,7 +35,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * A {@link RepositoryPopulator} using a {@link ResourceReader} to read objects from the configured {@link Resource}s.
+ * A {@link RepositoryPopulator} using a {@link ResourceReader} to read objects from the
+ * configured {@link Resource}s.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -46,15 +47,18 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 	private static final Logger logger = LoggerFactory.getLogger(ResourceReaderRepositoryPopulator.class);
 
 	private final ResourceReader reader;
+
 	private final @Nullable ClassLoader classLoader;
+
 	private final ResourcePatternResolver resolver;
 
 	private @Nullable ApplicationEventPublisher publisher;
+
 	private Collection<Resource> resources = Collections.emptySet();
 
 	/**
-	 * Creates a new {@link ResourceReaderRepositoryPopulator} using the given {@link ResourceReader}.
-	 *
+	 * Creates a new {@link ResourceReaderRepositoryPopulator} using the given
+	 * {@link ResourceReader}.
 	 * @param reader must not be {@literal null}.
 	 */
 	public ResourceReaderRepositoryPopulator(ResourceReader reader) {
@@ -62,9 +66,8 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 	}
 
 	/**
-	 * Creates a new {@link ResourceReaderRepositoryPopulator} using the given {@link ResourceReader} and
-	 * {@link ClassLoader}.
-	 *
+	 * Creates a new {@link ResourceReaderRepositoryPopulator} using the given
+	 * {@link ResourceReader} and {@link ClassLoader}.
 	 * @param reader must not be {@literal null}.
 	 * @param classLoader can be {@literal null}.
 	 */
@@ -79,8 +82,8 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 	}
 
 	/**
-	 * Configures the location of the {@link Resource}s to be used to initialize the repositories.
-	 *
+	 * Configures the location of the {@link Resource}s to be used to initialize the
+	 * repositories.
 	 * @param location must not be {@literal null} or empty.
 	 * @throws IOException
 	 */
@@ -91,15 +94,16 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 
 	/**
 	 * Configures the {@link Resource}s to be used to initialize the repositories.
-	 *
 	 * @param resources
 	 */
 	public void setResources(Resource... resources) {
 		this.resources = Arrays.asList(resources);
 	}
+
 	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
 		this.publisher = publisher;
 	}
+
 	public void populate(Repositories repositories) {
 
 		Assert.notNull(repositories, "Repositories must not be null!");
@@ -116,11 +120,13 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 				for (Object element : (Collection<?>) result) {
 					if (element != null) {
 						persist(element, invokerFactory);
-					} else {
+					}
+					else {
 						logger.info("Skipping null element found in unmarshal result!");
 					}
 				}
-			} else {
+			}
+			else {
 				persist(result, invokerFactory);
 			}
 		}
@@ -131,22 +137,22 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 	}
 
 	/**
-	 * Reads the given resource into an {@link Object} using the configured {@link ResourceReader}.
-	 *
+	 * Reads the given resource into an {@link Object} using the configured
+	 * {@link ResourceReader}.
 	 * @param resource must not be {@literal null}.
 	 * @return
 	 */
 	private Object readObjectFrom(Resource resource) {
 		try {
 			return this.reader.readFrom(resource, this.classLoader);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	/**
 	 * Persists the given {@link Object} using a suitable repository.
-	 *
 	 * @param object must not be {@literal null}.
 	 * @param invokerFactory must not be {@literal null}.
 	 */
@@ -156,4 +162,5 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 		logger.debug(String.format("Persisting %s using repository %s", object, invoker));
 		invoker.invokeSave(object);
 	}
+
 }

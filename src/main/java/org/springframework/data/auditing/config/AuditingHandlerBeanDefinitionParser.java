@@ -35,7 +35,8 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 /**
- * {@link BeanDefinitionParser} that parses an {@link AuditingHandler} {@link BeanDefinition}
+ * {@link BeanDefinitionParser} that parses an {@link AuditingHandler}
+ * {@link BeanDefinition}
  *
  * @author Oliver Gierke
  * @since 1.5
@@ -45,12 +46,12 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	private static final String AUDITOR_AWARE_REF = "auditor-aware-ref";
 
 	private final String mappingContextBeanName;
+
 	private String resolvedBeanName;
 
 	/**
-	 * Creates a new {@link AuditingHandlerBeanDefinitionParser} to point to a {@link MappingContext} with the given bean
-	 * name.
-	 *
+	 * Creates a new {@link AuditingHandlerBeanDefinitionParser} to point to a
+	 * {@link MappingContext} with the given bean name.
 	 * @param mappingContextBeanName must not be {@literal null} or empty.
 	 */
 	@SuppressWarnings("null")
@@ -61,18 +62,20 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	}
 
 	/**
-	 * Returns the name of the bean definition the {@link AuditingHandler} was registered under.
-	 *
+	 * Returns the name of the bean definition the {@link AuditingHandler} was registered
+	 * under.
 	 * @return the resolvedBeanName
 	 */
 	public String getResolvedBeanName() {
 		return this.resolvedBeanName;
 	}
+
 	@Nonnull
 	@Override
 	protected Class<?> getBeanClass(Element element) {
 		return AuditingHandler.class;
 	}
+
 	@Override
 	protected boolean shouldGenerateId() {
 		return true;
@@ -80,7 +83,11 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser#doParse(org.w3c.dom.Element, org.springframework.beans.factory.support.BeanDefinitionBuilder)
+	 * 
+	 * @see
+	 * org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser#doParse(
+	 * org.w3c.dom.Element,
+	 * org.springframework.beans.factory.support.BeanDefinitionBuilder)
 	 */
 	@Override
 	protected void doParse(Element element, BeanDefinitionBuilder builder) {
@@ -100,7 +107,11 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.xml.AbstractBeanDefinitionParser#resolveId(org.w3c.dom.Element, org.springframework.beans.factory.support.AbstractBeanDefinition, org.springframework.beans.factory.xml.ParserContext)
+	 * 
+	 * @see
+	 * org.springframework.beans.factory.xml.AbstractBeanDefinitionParser#resolveId(org.
+	 * w3c.dom.Element, org.springframework.beans.factory.support.AbstractBeanDefinition,
+	 * org.springframework.beans.factory.xml.ParserContext)
 	 */
 	@Override
 	protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {
@@ -119,4 +130,5 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 
 		return builder.getBeanDefinition();
 	}
+
 }

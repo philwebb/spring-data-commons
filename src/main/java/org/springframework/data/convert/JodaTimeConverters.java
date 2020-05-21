@@ -32,8 +32,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.ClassUtils;
 
 /**
- * Helper class to register JodaTime specific {@link Converter} implementations in case the library is present on the
- * classpath.
+ * Helper class to register JodaTime specific {@link Converter} implementations in case
+ * the library is present on the classpath.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -47,8 +47,8 @@ public abstract class JodaTimeConverters {
 	private static final boolean JODA_TIME_IS_PRESENT = ClassUtils.isPresent("org.joda.time.LocalDate", null);
 
 	/**
-	 * Returns the converters to be registered. Will only return converters in case JodaTime is present on the class.
-	 *
+	 * Returns the converters to be registered. Will only return converters in case
+	 * JodaTime is present on the class.
 	 * @return
 	 */
 	public static Collection<Converter<?, ?>> getConvertersToRegister() {
@@ -87,6 +87,7 @@ public abstract class JodaTimeConverters {
 		public java.time.LocalDateTime convert(LocalDateTime source) {
 			return java.time.LocalDateTime.ofInstant(source.toDate().toInstant(), ZoneId.systemDefault());
 		}
+
 	}
 
 	@Deprecated
@@ -99,6 +100,7 @@ public abstract class JodaTimeConverters {
 		public Date convert(LocalDate source) {
 			return source.toDate();
 		}
+
 	}
 
 	@Deprecated
@@ -111,6 +113,7 @@ public abstract class JodaTimeConverters {
 		public Date convert(LocalDateTime source) {
 			return source.toDate();
 		}
+
 	}
 
 	@Deprecated
@@ -123,6 +126,7 @@ public abstract class JodaTimeConverters {
 		public Date convert(DateTime source) {
 			return source.toDate();
 		}
+
 	}
 
 	@Deprecated
@@ -135,6 +139,7 @@ public abstract class JodaTimeConverters {
 		public LocalDate convert(Date source) {
 			return new LocalDate(source.getTime());
 		}
+
 	}
 
 	@Deprecated
@@ -147,6 +152,7 @@ public abstract class JodaTimeConverters {
 		public LocalDateTime convert(Date source) {
 			return new LocalDateTime(source.getTime());
 		}
+
 	}
 
 	@Deprecated
@@ -159,6 +165,7 @@ public abstract class JodaTimeConverters {
 		public DateTime convert(Date source) {
 			return new DateTime(source.getTime());
 		}
+
 	}
 
 	@ReadingConverter
@@ -172,6 +179,7 @@ public abstract class JodaTimeConverters {
 		public LocalDateTime convert(java.time.LocalDateTime source) {
 			return LocalDateTime.fromDateFields(Jsr310Converters.LocalDateTimeToDateConverter.INSTANCE.convert(source));
 		}
+
 	}
 
 	@Deprecated
@@ -184,6 +192,7 @@ public abstract class JodaTimeConverters {
 		public LocalDateTime convert(java.time.Instant source) {
 			return LocalDateTime.fromDateFields(new Date(source.toEpochMilli()));
 		}
+
 	}
 
 	@Deprecated
@@ -196,6 +205,7 @@ public abstract class JodaTimeConverters {
 		public Instant convert(LocalDateTime source) {
 			return Instant.ofEpochMilli(source.toDateTime().getMillis());
 		}
+
 	}
 
 	@Deprecated
@@ -208,5 +218,7 @@ public abstract class JodaTimeConverters {
 		public DateTime convert(java.time.LocalDateTime source) {
 			return new DateTime(Jsr310Converters.LocalDateTimeToDateConverter.INSTANCE.convert(source));
 		}
+
 	}
+
 }

@@ -26,30 +26,34 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * A {@link PersistentPropertyAccessor} that will use an entity's {@link PersistenceConstructor} to create a new
- * instance of it to apply a new value for a given {@link PersistentProperty}. Will only be used if the
- * {@link PersistentProperty} is to be applied on a completely immutable entity type exposing a persistence constructor.
+ * A {@link PersistentPropertyAccessor} that will use an entity's
+ * {@link PersistenceConstructor} to create a new instance of it to apply a new value for
+ * a given {@link PersistentProperty}. Will only be used if the {@link PersistentProperty}
+ * is to be applied on a completely immutable entity type exposing a persistence
+ * constructor.
  *
  * @author Oliver Drotbohm
  */
 public class InstantiationAwarePropertyAccessor<T> implements PersistentPropertyAccessor<T> {
 
 	private static final String NO_SETTER_OR_CONSTRUCTOR = "Cannot set property %s because no setter, wither or copy constructor exists for %s!";
+
 	private static final String NO_CONSTRUCTOR_PARAMETER = "Cannot set property %s because no setter, no wither and it's not part of the persistence constructor %s!";
 
 	private final PersistentPropertyAccessor<T> delegate;
+
 	private final EntityInstantiators instantiators;
 
 	private T bean;
 
 	/**
-	 * Creates an {@link InstantiationAwarePropertyAccessor} using the given delegate {@link PersistentPropertyAccessor}
-	 * and {@link EntityInstantiators}.
-	 *
+	 * Creates an {@link InstantiationAwarePropertyAccessor} using the given delegate
+	 * {@link PersistentPropertyAccessor} and {@link EntityInstantiators}.
 	 * @param delegate must not be {@literal null}.
 	 * @param instantiators must not be {@literal null}.
 	 */
-	public InstantiationAwarePropertyAccessor(PersistentPropertyAccessor<T> delegate, EntityInstantiators instantiators) {
+	public InstantiationAwarePropertyAccessor(PersistentPropertyAccessor<T> delegate,
+			EntityInstantiators instantiators) {
 
 		Assert.notNull(delegate, "Delegate PersistenPropertyAccessor must not be null!");
 		Assert.notNull(instantiators, "EntityInstantiators must not be null!");
@@ -61,7 +65,9 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.springframework.data.mapping.PersistentProperty, java.lang.Object)
+	 * 
+	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
+	 * springframework.data.mapping.PersistentProperty, java.lang.Object)
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -80,7 +86,8 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 		PreferredConstructor<?, ?> constructor = owner.getPersistenceConstructor();
 
 		if (constructor == null) {
-			throw new IllegalStateException(String.format(NO_SETTER_OR_CONSTRUCTOR, property.getName(), owner.getType()));
+			throw new IllegalStateException(
+					String.format(NO_SETTER_OR_CONSTRUCTOR, property.getName(), owner.getType()));
 		}
 
 		if (!constructor.isConstructorParameter(property)) {
@@ -105,18 +112,21 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 			public Object getParameterValue(Parameter parameter) {
 
 				return property.getName().equals(parameter.getName()) //
-						? value
-						: InstantiationAwarePropertyAccessor.this.delegate.getProperty(owner.getRequiredPersistentProperty(parameter.getName()));
+						? value : InstantiationAwarePropertyAccessor.this.delegate
+								.getProperty(owner.getRequiredPersistentProperty(parameter.getName()));
 			}
 		});
 	}
+
 	@Nullable
 	@Override
 	public Object getProperty(PersistentProperty<?> property) {
 		return this.delegate.getProperty(property);
 	}
+
 	@Override
 	public T getBean() {
 		return this.bean;
 	}
+
 }

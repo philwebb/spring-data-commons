@@ -25,8 +25,8 @@ import java.lang.annotation.Target;
 import org.springframework.data.mapping.PersistentEntity;
 
 /**
- * Annotation to allow {@link String} based type aliases to be used when writing type information for
- * {@link PersistentEntity}s.
+ * Annotation to allow {@link String} based type aliases to be used when writing type
+ * information for {@link PersistentEntity}s.
  *
  * @author Oliver Gierke
  */
@@ -39,8 +39,8 @@ public @interface TypeAlias {
 
 	/**
 	 * The type alias to be used when persisting
-	 *
 	 * @return
 	 */
 	String value();
+
 }

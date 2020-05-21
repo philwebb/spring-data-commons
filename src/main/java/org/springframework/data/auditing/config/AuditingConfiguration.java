@@ -29,29 +29,28 @@ public interface AuditingConfiguration {
 
 	/**
 	 * Returns the bean name of the {@link AuditorAware} instance to be used..
-	 *
 	 * @return
 	 */
 	String getAuditorAwareRef();
 
 	/**
-	 * Returns whether the creation and modification dates shall be set. Defaults to {@literal true}.
-	 *
+	 * Returns whether the creation and modification dates shall be set. Defaults to
+	 * {@literal true}.
 	 * @return
 	 */
 	boolean isSetDates();
 
 	/**
-	 * Returns whether the entity shall be marked as modified on creation. Defaults to {@literal true}.
-	 *
+	 * Returns whether the entity shall be marked as modified on creation. Defaults to
+	 * {@literal true}.
 	 * @return
 	 */
 	boolean isModifyOnCreate();
 
 	/**
 	 * Returns the bean name of the {@link DateTimeProvider} to be used.
-	 *
 	 * @return
 	 */
 	String getDateTimeProviderRef();
+
 }

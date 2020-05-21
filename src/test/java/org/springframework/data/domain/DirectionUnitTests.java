@@ -23,4 +23,5 @@ class DirectionUnitTests {
 	void rejectsInvalidString() {
 		assertThatIllegalArgumentException().isThrownBy(() -> Direction.fromString("foo"));
 	}
+
 }

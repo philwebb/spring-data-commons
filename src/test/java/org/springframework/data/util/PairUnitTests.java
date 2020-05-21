@@ -66,4 +66,5 @@ class PairUnitTests {
 		assertThat(first.hashCode()).isEqualTo(second.hashCode());
 		assertThat(first.hashCode()).isNotEqualTo(third.hashCode());
 	}
+
 }

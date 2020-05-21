@@ -71,7 +71,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 @ExtendWith(MockitoExtension.class)
 class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
-	@Mock T property, anotherProperty;
+	@Mock
+	T property, anotherProperty;
 
 	@Test
 	void assertInvariants() {
@@ -85,7 +86,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Test
 	void rejectsNullProperty() {
-		assertThatIllegalArgumentException().isThrownBy(() -> createEntity(Person.class, null).addPersistentProperty(null));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> createEntity(Person.class, null).addPersistentProperty(null));
 	}
 
 	@Test
@@ -156,7 +158,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 		when(this.anotherProperty.getName()).thenReturn("another");
 
 		entity.addPersistentProperty(this.property);
-		assertThatExceptionOfType(MappingException.class).isThrownBy(() -> entity.addPersistentProperty(this.anotherProperty));
+		assertThatExceptionOfType(MappingException.class)
+				.isThrownBy(() -> entity.addPersistentProperty(this.anotherProperty));
 	}
 
 	@Test // DATACMNS-365
@@ -199,7 +202,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 		assertThat(accessor).isInstanceOfSatisfying(InstantiationAwarePropertyAccessor.class, it -> {
 
-			PersistentPropertyAccessor delegate = (PersistentPropertyAccessor) ReflectionTestUtils.getField(it, "delegate");
+			PersistentPropertyAccessor delegate = (PersistentPropertyAccessor) ReflectionTestUtils.getField(it,
+					"delegate");
 
 			assertThat(delegate.getClass().getName()).contains("_Accessor_");
 			assertThat(delegate.getBean()).isEqualTo(value);
@@ -272,7 +276,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 		PersistentEntity<AliasEntityUsingComposedAnnotation, T> entity = createEntity(
 				AliasEntityUsingComposedAnnotation.class);
 
-		assertThatThrownBy(() -> entity.getRequiredAnnotation(Document.class)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> entity.getRequiredAnnotation(Document.class))
+				.isInstanceOf(IllegalStateException.class);
 	}
 
 	@Test // DATACMNS-1210
@@ -291,7 +296,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 				try {
 					syncLatch.await();
-				} catch (InterruptedException e) {
+				}
+				catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 
@@ -303,9 +309,11 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 			try {
 				entity.findAnnotation(AccessType.class);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				failed.set(true);
-			} finally {
+			}
+			finally {
 				latch.countDown();
 			}
 		};
@@ -314,9 +322,11 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 			try {
 				entity.findAnnotation(Persistent.class);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				failed.set(true);
-			} finally {
+			}
+			finally {
 				latch.countDown();
 			}
 		};
@@ -348,7 +358,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	@Test // DATACMNS-1366
 	void exposesPropertyPopulationRequired() {
 
-		assertThat(createPopulatedPersistentEntity(PropertyPopulationRequired.class).requiresPropertyPopulation()).isTrue();
+		assertThat(createPopulatedPersistentEntity(PropertyPopulationRequired.class).requiresPropertyPopulation())
+				.isTrue();
 	}
 
 	@Test // DATACMNS-1366
@@ -379,7 +390,9 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	static class Entity {
 
-		@LastModifiedBy String field;
+		@LastModifiedBy
+		String field;
+
 		String property;
 
 		/**
@@ -389,6 +402,7 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 		public String getProperty() {
 			return this.property;
 		}
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -397,12 +411,17 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 		@AliasFor(annotation = TypeAlias.class, attribute = "value")
 		String name() default "bar";
+
 	}
 
 	@ComposedTypeAlias
-	private static class AliasEntityUsingComposedAnnotation {}
+	private static class AliasEntityUsingComposedAnnotation {
 
-	private static class Subtype extends Entity {}
+	}
+
+	private static class Subtype extends Entity {
+
+	}
 
 	@AccessType(Type.PROPERTY)
 	private static class EntityWithAnnotation {
@@ -414,18 +433,23 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	static class PersistableEntity implements Persistable<Long> {
 
 		private final Long id = 42L;
+
 		@Override
 		public Long getId() {
 			return 4711L;
 		}
+
 		@Override
 		public boolean isNew() {
 			return false;
 		}
+
 	}
 
 	@Immutable
-	private static class SomeValue {}
+	private static class SomeValue {
+
+	}
 
 	// DATACMNS-1366
 
@@ -433,19 +457,25 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	private static class PropertyPopulationRequired {
 
 		private final String firstname, lastname;
+
 		private String email;
+
 	}
 
 	@RequiredArgsConstructor
 	private static class PropertyPopulationNotRequired {
 
 		private final String firstname, lastname;
+
 	}
 
 	@RequiredArgsConstructor
 	private static class PropertyPopulationNotRequiredWithTransient {
 
 		private final String firstname, lastname;
+
 		private @Transient String email;
+
 	}
+
 }

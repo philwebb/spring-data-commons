@@ -69,7 +69,8 @@ class QuerydslDefaultBindingUnitTests {
 	@Test // DATACMNS-669
 	void shouldCreatePredicateWithInWhenPropertyIsAnObjectAndValueIsACollection() {
 
-		Optional<Predicate> predicate = this.binding.bind(QUser.user.firstname, Arrays.asList("dragon reborn", "shadowkiller"));
+		Optional<Predicate> predicate = this.binding.bind(QUser.user.firstname,
+				Arrays.asList("dragon reborn", "shadowkiller"));
 
 		assertThat(predicate).hasValue(QUser.user.firstname.in(Arrays.asList("dragon reborn", "shadowkiller")));
 	}
@@ -88,4 +89,5 @@ class QuerydslDefaultBindingUnitTests {
 			assertThat(it.toString()).isEqualTo(QUser.user.address.city.isNull().toString());
 		});
 	}
+
 }

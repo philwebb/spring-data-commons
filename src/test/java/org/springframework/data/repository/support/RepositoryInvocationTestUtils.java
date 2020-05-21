@@ -26,8 +26,9 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
- * Utility methods to create {@link RepositoryInvoker} instances that get a verifying proxy attached so that the
- * invocation of a given target methods or type can be verified.
+ * Utility methods to create {@link RepositoryInvoker} instances that get a verifying
+ * proxy attached so that the invocation of a given target methods or type can be
+ * verified.
  *
  * @author Oliver Gierke
  */
@@ -61,6 +62,7 @@ class RepositoryInvocationTestUtils {
 	static final class VerifyingMethodInterceptor implements MethodInterceptor {
 
 		private final Class expectedInvocationTarget;
+
 		private final List<Method> methods;
 
 		private VerifyingMethodInterceptor(Class<?> expectedInvocationTarget, Method... methods) {
@@ -73,15 +75,18 @@ class RepositoryInvocationTestUtils {
 
 			if (!this.methods.isEmpty()) {
 				assertThat(this.methods).contains(invocation.getMethod());
-			} else {
+			}
+			else {
 
 				Class<?> type = invocation.getMethod().getDeclaringClass();
 
-				assertThat(type).as("Expected methods invocation on %s but was invoked on %s!", this.expectedInvocationTarget, type)
-						.isEqualTo(this.expectedInvocationTarget);
+				assertThat(type).as("Expected methods invocation on %s but was invoked on %s!",
+						this.expectedInvocationTarget, type).isEqualTo(this.expectedInvocationTarget);
 			}
 
 			return invocation.proceed();
 		}
+
 	}
+
 }

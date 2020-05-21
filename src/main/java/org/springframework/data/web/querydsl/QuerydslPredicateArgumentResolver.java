@@ -44,8 +44,8 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 
 /**
- * {@link HandlerMethodArgumentResolver} to allow injection of {@link com.querydsl.core.types.Predicate} into Spring MVC
- * controller methods.
+ * {@link HandlerMethodArgumentResolver} to allow injection of
+ * {@link com.querydsl.core.types.Predicate} into Spring MVC controller methods.
  *
  * @author Christoph Strobl
  * @author Oliver Gierke
@@ -54,17 +54,20 @@ import com.querydsl.core.types.Predicate;
 public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private static final ResolvableType PREDICATE = ResolvableType.forClass(Predicate.class);
+
 	private static final ResolvableType OPTIONAL_OF_PREDICATE = ResolvableType.forClassWithGenerics(Optional.class,
 			PREDICATE);
 
 	private final QuerydslBindingsFactory bindingsFactory;
+
 	private final QuerydslPredicateBuilder predicateBuilder;
 
 	/**
-	 * Creates a new {@link QuerydslPredicateArgumentResolver} using the given {@link ConversionService}.
-	 *
+	 * Creates a new {@link QuerydslPredicateArgumentResolver} using the given
+	 * {@link ConversionService}.
 	 * @param factory
-	 * @param conversionService defaults to {@link DefaultConversionService} if {@literal null}.
+	 * @param conversionService defaults to {@link DefaultConversionService} if
+	 * {@literal null}.
 	 */
 	public QuerydslPredicateArgumentResolver(QuerydslBindingsFactory factory,
 			Optional<ConversionService> conversionService) {
@@ -73,6 +76,7 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 		this.predicateBuilder = new QuerydslPredicateBuilder(conversionService.orElseGet(DefaultConversionService::new),
 				factory.getEntityPathResolver());
 	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 
@@ -83,8 +87,9 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 		}
 
 		if (parameter.hasParameterAnnotation(QuerydslPredicate.class)) {
-			throw new IllegalArgumentException(String.format("Parameter at position %s must be of type Predicate but was %s.",
-					parameter.getParameterIndex(), parameter.getParameterType()));
+			throw new IllegalArgumentException(
+					String.format("Parameter at position %s must be of type Predicate but was %s.",
+							parameter.getParameterIndex(), parameter.getParameterType()));
 		}
 
 		return false;
@@ -92,7 +97,12 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#resolveArgument(org.springframework.core.MethodParameter, org.springframework.web.method.support.ModelAndViewContainer, org.springframework.web.context.request.NativeWebRequest, org.springframework.web.bind.support.WebDataBinderFactory)
+	 * 
+	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#
+	 * resolveArgument(org.springframework.core.MethodParameter,
+	 * org.springframework.web.method.support.ModelAndViewContainer,
+	 * org.springframework.web.context.request.NativeWebRequest,
+	 * org.springframework.web.bind.support.WebDataBinderFactory)
 	 */
 	@Nullable
 	@Override
@@ -129,9 +139,9 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 	}
 
 	/**
-	 * Obtains the domain type information from the given method parameter. Will favor an explicitly registered on through
-	 * {@link QuerydslPredicate#root()} but use the actual type of the method's return type as fallback.
-	 *
+	 * Obtains the domain type information from the given method parameter. Will favor an
+	 * explicitly registered on through {@link QuerydslPredicate#root()} but use the
+	 * actual type of the method's return type as fallback.
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 */
@@ -141,7 +151,7 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 				.ofNullable(parameter.getParameterAnnotation(QuerydslPredicate.class));
 
 		return annotation.filter(it -> !Object.class.equals(it.root()))//
-				.<TypeInformation<?>> map(it -> ClassTypeInformation.from(it.root()))//
+				.<TypeInformation<?>>map(it -> ClassTypeInformation.from(it.root()))//
 				.orElseGet(() -> detectDomainType(parameter));
 	}
 
@@ -178,4 +188,5 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 
 		return detectDomainType(source.getRequiredComponentType());
 	}
+
 }

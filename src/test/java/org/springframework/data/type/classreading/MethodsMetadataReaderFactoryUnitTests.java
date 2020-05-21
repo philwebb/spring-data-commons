@@ -56,7 +56,8 @@ class MethodsMetadataReaderFactoryUnitTests {
 
 		MethodsMetadataReaderFactory factory = new MethodsMetadataReaderFactory(new URLClassLoader(new URL[0], null));
 
-		assertThatThrownBy(() -> factory.getMetadataReader(getClass().getName())).isInstanceOf(FileNotFoundException.class);
+		assertThatThrownBy(() -> factory.getMetadataReader(getClass().getName()))
+				.isInstanceOf(FileNotFoundException.class);
 	}
 
 	@Test // DATACMNS-1206
@@ -67,4 +68,5 @@ class MethodsMetadataReaderFactoryUnitTests {
 
 		assertThat(reader).isNotNull();
 	}
+
 }

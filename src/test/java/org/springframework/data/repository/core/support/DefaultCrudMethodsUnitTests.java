@@ -119,7 +119,8 @@ class DefaultCrudMethodsUnitTests {
 
 	@Test // DATACMNS-464
 	void detectsCustomSaveMethod() throws Exception {
-		assertSaveMethodOn(RepositoryWithCustomSave.class, RepositoryWithCustomSave.class.getMethod("save", Domain.class));
+		assertSaveMethodOn(RepositoryWithCustomSave.class,
+				RepositoryWithCustomSave.class.getMethod("save", Domain.class));
 	}
 
 	@Test // DATACMNS-539
@@ -134,9 +135,8 @@ class DefaultCrudMethodsUnitTests {
 
 		CrudMethods methods = getMethodsFor(RepositoryWithAllCrudMethodOverloaded.class);
 
-		Arrays
-				.asList(methods.getSaveMethod(), methods.getDeleteMethod(), methods.getFindAllMethod(),
-						methods.getFindOneMethod())//
+		Arrays.asList(methods.getSaveMethod(), methods.getDeleteMethod(), methods.getFindAllMethod(),
+				methods.getFindOneMethod())//
 				.forEach(method -> assertThat(method).hasValueSatisfying(it -> assertThat(it.isAccessible()).isTrue()));
 	}
 
@@ -193,15 +193,22 @@ class DefaultCrudMethodsUnitTests {
 		assertThat(methods.getSaveMethod().isPresent()).isEqualTo(present);
 	}
 
-	interface Domain {}
+	interface Domain {
 
-	interface DomainCrudRepository extends CrudRepository<Domain, Long> {}
+	}
 
-	interface DomainPagingAndSortingRepository extends PagingAndSortingRepository<Domain, Long> {}
+	interface DomainCrudRepository extends CrudRepository<Domain, Long> {
+
+	}
+
+	interface DomainPagingAndSortingRepository extends PagingAndSortingRepository<Domain, Long> {
+
+	}
 
 	interface RepositoryWithCustomSave extends Repository<Domain, Serializable> {
 
 		Domain save(Domain domain);
+
 	}
 
 	interface RepositoryWithCustomSortingAndPagingFindAll extends Repository<Domain, Serializable> {
@@ -209,17 +216,20 @@ class DefaultCrudMethodsUnitTests {
 		Iterable<Domain> findAll(Sort sort);
 
 		Iterable<Domain> findAll(Pageable pageable);
+
 	}
 
 	// DATACMNS-393
 	interface RepositoryWithCustomSortingFindAll extends Repository<Domain, Serializable> {
 
 		Iterable<Domain> findAll(Sort sort);
+
 	}
 
 	interface RepositoryWithInvalidPagingFindAll extends Repository<Domain, Serializable> {
 
 		Iterable<Domain> findAll(Object pageable);
+
 	}
 
 	// DATACMNS-393
@@ -228,11 +238,13 @@ class DefaultCrudMethodsUnitTests {
 		Iterable<Domain> findAll(Object pageable);
 
 		Iterable<Domain> findAll(Sort sort);
+
 	}
 
 	interface RepositoryWithIterableDeleteOnly extends Repository<Domain, Serializable> {
 
 		void delete(Iterable<? extends Domain> entities);
+
 	}
 
 	// DATACMNS-393
@@ -245,6 +257,7 @@ class DefaultCrudMethodsUnitTests {
 		void deleteById(Long id);
 
 		Optional<Domain> findById(Long id);
+
 	}
 
 	// DATACMNS-393
@@ -257,11 +270,14 @@ class DefaultCrudMethodsUnitTests {
 		void delete(String o);
 
 		Domain findById(Domain o);
+
 	}
 
 	// DATACMNS-539
 	interface RepositoryWithDeleteMethodForEntityOverloaded extends CrudRepository<Domain, Long> {
 
 		void delete(Domain entity);
+
 	}
+
 }

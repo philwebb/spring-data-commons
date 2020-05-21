@@ -27,4 +27,5 @@ class AnnotatedUser {
 
 	@LastModifiedDate
 	Date lastModifiedDate;
+
 }

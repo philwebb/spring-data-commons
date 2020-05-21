@@ -19,8 +19,8 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.data.type.MethodsMetadata;
 
 /**
- * Extension to {@link MetadataReader} for accessing class metadata and method metadata as read by an ASM
- * {@link org.springframework.asm.ClassReader}.
+ * Extension to {@link MetadataReader} for accessing class metadata and method metadata as
+ * read by an ASM {@link org.springframework.asm.ClassReader}.
  *
  * @author Mark Paluch
  * @since 2.1
@@ -31,4 +31,5 @@ public interface MethodsMetadataReader extends MetadataReader {
 	 * @return the {@link MethodsMetadata} for methods in the class file.
 	 */
 	MethodsMetadata getMethodsMetadata();
+
 }

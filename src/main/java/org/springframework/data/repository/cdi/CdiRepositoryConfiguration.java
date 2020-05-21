@@ -27,7 +27,8 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
 
 /**
- * Interface containing the configurable options for the Spring Data repository subsystem using CDI.
+ * Interface containing the configurable options for the Spring Data repository subsystem
+ * using CDI.
  *
  * @author Mark Paluch
  * @author Fabian Henniges
@@ -36,10 +37,10 @@ import org.springframework.data.repository.query.QueryMethodEvaluationContextPro
 public interface CdiRepositoryConfiguration {
 
 	/**
-	 * Return the {@link QueryMethodEvaluationContextProvider} to use. Can be {@link Optional#empty()} .
-	 *
-	 * @return the optional {@link QueryMethodEvaluationContextProvider} base to use, can be {@link Optional#empty()},
-	 *         must not be {@literal null}.
+	 * Return the {@link QueryMethodEvaluationContextProvider} to use. Can be
+	 * {@link Optional#empty()} .
+	 * @return the optional {@link QueryMethodEvaluationContextProvider} base to use, can
+	 * be {@link Optional#empty()}, must not be {@literal null}.
 	 * @since 2.1
 	 */
 	default Optional<QueryMethodEvaluationContextProvider> getEvaluationContextProvider() {
@@ -48,8 +49,8 @@ public interface CdiRepositoryConfiguration {
 
 	/**
 	 * Return the {@link NamedQueries} to use. Can be {@link Optional#empty()}.
-	 *
-	 * @return the optional named queries to use, can be {@link Optional#empty()}, must not be {@literal null}.
+	 * @return the optional named queries to use, can be {@link Optional#empty()}, must
+	 * not be {@literal null}.
 	 * @since 2.1
 	 */
 	default Optional<NamedQueries> getNamedQueries() {
@@ -57,9 +58,10 @@ public interface CdiRepositoryConfiguration {
 	}
 
 	/**
-	 * Return the {@link QueryLookupStrategy.Key} to lookup queries. Can be {@link Optional#empty()}.
-	 *
-	 * @return the lookup strategy to use, can be {@link Optional#empty()}, must not be {@literal null}.
+	 * Return the {@link QueryLookupStrategy.Key} to lookup queries. Can be
+	 * {@link Optional#empty()}.
+	 * @return the lookup strategy to use, can be {@link Optional#empty()}, must not be
+	 * {@literal null}.
 	 * @since 2.1
 	 */
 	default Optional<QueryLookupStrategy.Key> getQueryLookupStrategy() {
@@ -67,9 +69,10 @@ public interface CdiRepositoryConfiguration {
 	}
 
 	/**
-	 * Return the {@link Class repository base class} to use. Can be {@link Optional#empty()} .
-	 *
-	 * @return the optional repository base to use, can be {@link Optional#empty()}, must not be {@literal null}.
+	 * Return the {@link Class repository base class} to use. Can be
+	 * {@link Optional#empty()} .
+	 * @return the optional repository base to use, can be {@link Optional#empty()}, must
+	 * not be {@literal null}.
 	 * @since 2.1
 	 */
 	default Optional<Class<?>> getRepositoryBeanClass() {
@@ -77,8 +80,8 @@ public interface CdiRepositoryConfiguration {
 	}
 
 	/**
-	 * Returns the configured postfix to be used for looking up custom implementation classes.
-	 *
+	 * Returns the configured postfix to be used for looking up custom implementation
+	 * classes.
 	 * @return the postfix to use, must not be {@literal null}.
 	 */
 	default String getRepositoryImplementationPostfix() {
@@ -86,11 +89,10 @@ public interface CdiRepositoryConfiguration {
 	}
 
 	/**
-	 * Returns the list of {@link RepositoryProxyPostProcessor} to be used during repository proxy creation. Can be
-	 * {@link Collections#emptyList()} .
-	 * 
-	 * @return the list of repository proxy post processors to use, can be {@link Collections#emptyList()}, must not be
-	 *         {@literal null}.
+	 * Returns the list of {@link RepositoryProxyPostProcessor} to be used during
+	 * repository proxy creation. Can be {@link Collections#emptyList()} .
+	 * @return the list of repository proxy post processors to use, can be
+	 * {@link Collections#emptyList()}, must not be {@literal null}.
 	 * @since 2.2
 	 */
 	default List<RepositoryProxyPostProcessor> getRepositoryProxyPostProcessors() {
@@ -98,14 +100,14 @@ public interface CdiRepositoryConfiguration {
 	}
 
 	/**
-	 * Returns the list of {@link QueryCreationListener} to be used during repository proxy creation. Can be
-	 * {@link Collections#emptyList()} .
-	 * 
-	 * @return the list query creation listeners to use, can be {@link Collections#emptyList()}, must not be
-	 *         {@literal null}.
+	 * Returns the list of {@link QueryCreationListener} to be used during repository
+	 * proxy creation. Can be {@link Collections#emptyList()} .
+	 * @return the list query creation listeners to use, can be
+	 * {@link Collections#emptyList()}, must not be {@literal null}.
 	 * @since 2.2
 	 */
 	default List<QueryCreationListener<?>> getQueryCreationListeners() {
 		return Collections.emptyList();
 	}
+
 }

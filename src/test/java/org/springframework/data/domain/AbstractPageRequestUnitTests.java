@@ -84,4 +84,5 @@ public abstract class AbstractPageRequestUnitTests {
 
 		assertThat(request.getOffset()).isGreaterThan(Integer.MAX_VALUE);
 	}
+
 }

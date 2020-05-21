@@ -43,9 +43,13 @@ import org.springframework.util.ConcurrentReferenceHashMap.ReferenceType;
 public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 
 	public static final ClassTypeInformation<Collection> COLLECTION = new ClassTypeInformation(Collection.class);
+
 	public static final ClassTypeInformation<List> LIST = new ClassTypeInformation(List.class);
+
 	public static final ClassTypeInformation<Set> SET = new ClassTypeInformation(Set.class);
+
 	public static final ClassTypeInformation<Map> MAP = new ClassTypeInformation(Map.class);
+
 	public static final ClassTypeInformation<Object> OBJECT = new ClassTypeInformation(Object.class);
 
 	private static final Map<Class<?>, ClassTypeInformation<?>> CACHE = new ConcurrentReferenceHashMap<>(64,
@@ -58,8 +62,8 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 	private final Class<S> type;
 
 	/**
-	 * Simple factory method to easily create new instances of {@link ClassTypeInformation}.
-	 *
+	 * Simple factory method to easily create new instances of
+	 * {@link ClassTypeInformation}.
 	 * @param <S>
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -73,7 +77,6 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 
 	/**
 	 * Creates a {@link TypeInformation} from the given method's return type.
-	 *
 	 * @param method must not be {@literal null}.
 	 * @return
 	 */
@@ -86,7 +89,6 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 
 	/**
 	 * Creates {@link ClassTypeInformation} for the given type.
-	 *
 	 * @param type
 	 */
 	ClassTypeInformation(Class<S> type) {
@@ -95,8 +97,8 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 	}
 
 	/**
-	 * Little helper to allow us to create a generified map, actually just to satisfy the compiler.
-	 *
+	 * Little helper to allow us to create a generified map, actually just to satisfy the
+	 * compiler.
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -108,7 +110,8 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 
 		if (visited.contains(type)) {
 			return Collections.emptyMap();
-		} else {
+		}
+		else {
 			visited.add(type);
 		}
 
@@ -122,7 +125,8 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 
 			if (value instanceof Class) {
 
-				for (Entry<TypeVariable<?>, Type> nestedEntry : getTypeVariableMap((Class<?>) value, visited).entrySet()) {
+				for (Entry<TypeVariable<?>, Type> nestedEntry : getTypeVariableMap((Class<?>) value, visited)
+						.entrySet()) {
 					if (!map.containsKey(nestedEntry.getKey())) {
 						map.put(nestedEntry.getKey(), nestedEntry.getValue());
 					}
@@ -132,24 +136,30 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 
 		return map;
 	}
+
 	@Override
 	public Class<S> getType() {
 		return this.type;
 	}
+
 	@Override
 	public ClassTypeInformation<?> getRawTypeInformation() {
 		return this;
 	}
+
 	@Override
 	public boolean isAssignableFrom(TypeInformation<?> target) {
 		return getType().isAssignableFrom(target.getType());
 	}
+
 	@Override
 	public TypeInformation<? extends S> specialize(ClassTypeInformation<?> type) {
 		return (TypeInformation<? extends S>) type;
 	}
+
 	@Override
 	public String toString() {
 		return this.type.getName();
 	}
+
 }

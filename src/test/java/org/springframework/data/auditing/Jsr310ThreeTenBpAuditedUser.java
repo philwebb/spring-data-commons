@@ -25,6 +25,10 @@ import org.springframework.data.annotation.LastModifiedDate;
  */
 class Jsr310ThreeTenBpAuditedUser {
 
-	@CreatedDate LocalDateTime createdDate;
-	@LastModifiedDate org.threeten.bp.LocalDateTime lastModifiedDate;
+	@CreatedDate
+	LocalDateTime createdDate;
+
+	@LastModifiedDate
+	org.threeten.bp.LocalDateTime lastModifiedDate;
+
 }

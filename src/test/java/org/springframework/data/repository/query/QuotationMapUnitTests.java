@@ -129,4 +129,5 @@ class QuotationMapUnitTests {
 					.isTrue();
 		}
 	}
+
 }

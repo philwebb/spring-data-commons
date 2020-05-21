@@ -5,8 +5,8 @@ import org.springframework.data.mapping.model.Property;
 import org.springframework.data.mapping.model.SimpleTypeHolder;
 import org.springframework.data.util.TypeInformation;
 
-public class SampleMappingContext
-		extends AbstractMappingContext<BasicPersistentEntity<Object, SamplePersistentProperty>, SamplePersistentProperty> {
+public class SampleMappingContext extends
+		AbstractMappingContext<BasicPersistentEntity<Object, SamplePersistentProperty>, SamplePersistentProperty> {
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -21,4 +21,5 @@ public class SampleMappingContext
 
 		return new SamplePersistentProperty(property, owner, simpleTypeHolder);
 	}
+
 }

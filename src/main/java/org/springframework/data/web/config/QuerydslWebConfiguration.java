@@ -36,8 +36,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.querydsl.core.types.Predicate;
 
 /**
- * Querydsl-specific web configuration for Spring Data. Registers a {@link HandlerMethodArgumentResolver} that builds up
- * {@link Predicate}s from web requests.
+ * Querydsl-specific web configuration for Spring Data. Registers a
+ * {@link HandlerMethodArgumentResolver} that builds up {@link Predicate}s from web
+ * requests.
  *
  * @author Oliver Gierke
  * @since 1.11
@@ -45,19 +46,23 @@ import com.querydsl.core.types.Predicate;
 @Configuration
 public class QuerydslWebConfiguration implements WebMvcConfigurer {
 
-	@Autowired @Qualifier("mvcConversionService") ObjectFactory<ConversionService> conversionService;
-	@Autowired ObjectProvider<EntityPathResolver> resolver;
+	@Autowired
+	@Qualifier("mvcConversionService")
+	ObjectFactory<ConversionService> conversionService;
+
+	@Autowired
+	ObjectProvider<EntityPathResolver> resolver;
 
 	/**
-	 * Default {@link QuerydslPredicateArgumentResolver} to create Querydsl {@link Predicate} instances for Spring MVC
-	 * controller methods.
-	 *
+	 * Default {@link QuerydslPredicateArgumentResolver} to create Querydsl
+	 * {@link Predicate} instances for Spring MVC controller methods.
 	 * @return
 	 */
 	@Lazy
 	@Bean
 	public QuerydslPredicateArgumentResolver querydslPredicateArgumentResolver() {
-		return new QuerydslPredicateArgumentResolver(querydslBindingsFactory(), Optional.of(this.conversionService.getObject()));
+		return new QuerydslPredicateArgumentResolver(querydslBindingsFactory(),
+				Optional.of(this.conversionService.getObject()));
 	}
 
 	@Lazy
@@ -65,8 +70,10 @@ public class QuerydslWebConfiguration implements WebMvcConfigurer {
 	public QuerydslBindingsFactory querydslBindingsFactory() {
 		return new QuerydslBindingsFactory(this.resolver.getIfUnique(() -> SimpleEntityPathResolver.INSTANCE));
 	}
+
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(0, querydslPredicateArgumentResolver());
 	}
+
 }

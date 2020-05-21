@@ -24,8 +24,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Special {@link TypeDiscoverer} to determine the actual type for a {@link TypeVariable}. Will consider the context the
- * {@link TypeVariable} is being used in.
+ * Special {@link TypeDiscoverer} to determine the actual type for a {@link TypeVariable}.
+ * Will consider the context the {@link TypeVariable} is being used in.
  *
  * @author Oliver Gierke
  */
@@ -34,9 +34,8 @@ class TypeVariableTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 	private final TypeVariable<?> variable;
 
 	/**
-	 * Creates a new {@link TypeVariableTypeInformation} for the given {@link TypeVariable} owning {@link Type} and parent
-	 * {@link TypeDiscoverer}.
-	 *
+	 * Creates a new {@link TypeVariableTypeInformation} for the given
+	 * {@link TypeVariable} owning {@link Type} and parent {@link TypeDiscoverer}.
 	 * @param variable must not be {@literal null}
 	 * @param owningType must not be {@literal null}
 	 * @param parent
@@ -49,6 +48,7 @@ class TypeVariableTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 
 		this.variable = variable;
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -64,6 +64,7 @@ class TypeVariableTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 
 		return getType().equals(that.getType());
 	}
+
 	@Override
 	public int hashCode() {
 
@@ -73,8 +74,10 @@ class TypeVariableTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 
 		return result;
 	}
+
 	@Override
 	public String toString() {
 		return this.variable.getName();
 	}
+
 }

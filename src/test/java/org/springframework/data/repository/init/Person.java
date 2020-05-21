@@ -21,5 +21,7 @@ package org.springframework.data.repository.init;
 class Person {
 
 	String firstname;
+
 	String lastname;
+
 }

@@ -30,6 +30,7 @@ import org.springframework.util.CollectionUtils;
 class CapturingEntityCallback implements EntityCallback<Person> {
 
 	final List<Person> captured = new ArrayList<>(3);
+
 	final @Nullable Person returnValue;
 
 	CapturingEntityCallback() {
@@ -60,11 +61,13 @@ class CapturingEntityCallback implements EntityCallback<Person> {
 		public int getOrder() {
 			return 1;
 		}
+
 	}
 
 	static class SecondCallback extends CapturingEntityCallback implements Ordered {
 
-		public SecondCallback() {}
+		public SecondCallback() {
+		}
 
 		public SecondCallback(Person returnValue) {
 			super(returnValue);
@@ -74,6 +77,7 @@ class CapturingEntityCallback implements EntityCallback<Person> {
 		public int getOrder() {
 			return 2;
 		}
+
 	}
 
 	static class ThirdCallback extends CapturingEntityCallback implements Ordered {
@@ -82,5 +86,7 @@ class CapturingEntityCallback implements EntityCallback<Person> {
 		public int getOrder() {
 			return 3;
 		}
+
 	}
+
 }

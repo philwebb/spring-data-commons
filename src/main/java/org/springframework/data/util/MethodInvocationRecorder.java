@@ -48,8 +48,8 @@ public class MethodInvocationRecorder {
 	private Optional<RecordingMethodInterceptor> interceptor;
 
 	/**
-	 * Creates a new {@link MethodInvocationRecorder}. For ad-hoc instantation prefer the static
-	 * {@link #forProxyOf(Class)}.
+	 * Creates a new {@link MethodInvocationRecorder}. For ad-hoc instantation prefer the
+	 * static {@link #forProxyOf(Class)}.
 	 */
 	private MethodInvocationRecorder() {
 		this(Optional.empty());
@@ -61,7 +61,6 @@ public class MethodInvocationRecorder {
 
 	/**
 	 * Creates a new {@link Recorded} for the given type.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -74,8 +73,8 @@ public class MethodInvocationRecorder {
 	}
 
 	/**
-	 * Creates a new {@link Recorded} for the given type based on the current {@link MethodInvocationRecorder} setup.
-	 *
+	 * Creates a new {@link Recorded} for the given type based on the current
+	 * {@link MethodInvocationRecorder} setup.
 	 * @param type
 	 * @return
 	 */
@@ -90,7 +89,8 @@ public class MethodInvocationRecorder {
 		if (!type.isInterface()) {
 			proxyFactory.setTargetClass(type);
 			proxyFactory.setProxyTargetClass(true);
-		} else {
+		}
+		else {
 			proxyFactory.addInterface(type);
 		}
 
@@ -106,6 +106,7 @@ public class MethodInvocationRecorder {
 	private class RecordingMethodInterceptor implements org.aopalliance.intercept.MethodInterceptor {
 
 		private InvocationInformation information = InvocationInformation.NOT_INVOKED;
+
 		@Override
 		@SuppressWarnings("null")
 		public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -157,6 +158,7 @@ public class MethodInvocationRecorder {
 
 			return this.information = information;
 		}
+
 	}
 
 	private static final class InvocationInformation {
@@ -164,7 +166,9 @@ public class MethodInvocationRecorder {
 		private static final InvocationInformation NOT_INVOKED = new InvocationInformation(new Unrecorded(), null);
 
 		private final Recorded<?> recorded;
-		@Nullable private final Method invokedMethod;
+
+		@Nullable
+		private final Method invokedMethod;
 
 		public InvocationInformation(Recorded<?> recorded, Method invokedMethod) {
 			this.recorded = recorded;
@@ -208,6 +212,7 @@ public class MethodInvocationRecorder {
 		public Method getInvokedMethod() {
 			return this.invokedMethod;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -227,23 +232,27 @@ public class MethodInvocationRecorder {
 
 			return ObjectUtils.nullSafeEquals(this.invokedMethod, that.invokedMethod);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.recorded);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.invokedMethod);
 			return result;
 		}
+
 		@Override
 		public String toString() {
 			return "MethodInvocationRecorder.InvocationInformation(recorded=" + this.getRecorded() + ", invokedMethod="
 					+ this.getInvokedMethod() + ")";
 		}
+
 	}
 
 	public interface PropertyNameDetectionStrategy {
 
 		@Nullable
 		String getPropertyName(Method method);
+
 	}
 
 	private enum DefaultPropertyNameDetectionStrategy implements PropertyNameDetectionStrategy {
@@ -266,11 +275,13 @@ public class MethodInvocationRecorder {
 		private static String getPatternFor(Class<?> type) {
 			return type.equals(boolean.class) ? "^(is)" : "^(get|set)";
 		}
+
 	}
 
 	public static class Recorded<T> {
 
 		private final @Nullable T currentInstance;
+
 		private final @Nullable MethodInvocationRecorder recorder;
 
 		public Recorded(T currentInstance, MethodInvocationRecorder recorder) {
@@ -297,8 +308,8 @@ public class MethodInvocationRecorder {
 		}
 
 		/**
-		 * Applies the given Converter to the recorded value and remembers the property accessed.
-		 *
+		 * Applies the given Converter to the recorded value and remembers the property
+		 * accessed.
 		 * @param converter must not be {@literal null}.
 		 * @return
 		 */
@@ -311,7 +322,6 @@ public class MethodInvocationRecorder {
 
 		/**
 		 * Record the method invocation traversing to a collection property.
-		 *
 		 * @param converter must not be {@literal null}.
 		 * @return
 		 */
@@ -324,7 +334,6 @@ public class MethodInvocationRecorder {
 
 		/**
 		 * Record the method invocation traversing to a map property.
-		 *
 		 * @param converter must not be {@literal null}.
 		 * @return
 		 */
@@ -334,15 +343,21 @@ public class MethodInvocationRecorder {
 
 			return new Recorded<S>(converter.apply(this.currentInstance).values().iterator().next(), this.recorder);
 		}
+
 		@Override
 		public String toString() {
-			return "MethodInvocationRecorder.Recorded(currentInstance=" + this.currentInstance + ", recorder=" + this.recorder
-					+ ")";
+			return "MethodInvocationRecorder.Recorded(currentInstance=" + this.currentInstance + ", recorder="
+					+ this.recorder + ")";
 		}
 
-		public interface ToCollectionConverter<T, S> extends Function<T, Collection<S>> {}
+		public interface ToCollectionConverter<T, S> extends Function<T, Collection<S>> {
 
-		public interface ToMapConverter<T, S> extends Function<T, Map<?, S>> {}
+		}
+
+		public interface ToMapConverter<T, S> extends Function<T, Map<?, S>> {
+
+		}
+
 	}
 
 	static class Unrecorded extends Recorded<Object> {
@@ -351,9 +366,12 @@ public class MethodInvocationRecorder {
 		private Unrecorded() {
 			super(null, null);
 		}
+
 		@Override
 		public Optional<String> getPropertyPath(List<PropertyNameDetectionStrategy> strategies) {
 			return Optional.empty();
 		}
+
 	}
+
 }

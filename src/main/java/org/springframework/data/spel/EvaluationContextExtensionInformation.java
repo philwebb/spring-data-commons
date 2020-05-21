@@ -43,13 +43,14 @@ import org.springframework.util.ReflectionUtils.FieldFilter;
 import org.springframework.util.ReflectionUtils.MethodFilter;
 
 /**
- * Inspects the configured {@link EvaluationContextExtension} type for static methods and fields to avoid repeated
- * reflection lookups. Also inspects the return type of the {@link EvaluationContextExtension#getRootObject()} method
- * and captures the methods declared on it as {@link Function}s.
+ * Inspects the configured {@link EvaluationContextExtension} type for static methods and
+ * fields to avoid repeated reflection lookups. Also inspects the return type of the
+ * {@link EvaluationContextExtension#getRootObject()} method and captures the methods
+ * declared on it as {@link Function}s.
  * <p>
  * The type basically allows us to cache the type based information within
- * {@link ExtensionAwareEvaluationContextProvider} to avoid repeated reflection lookups for every creation of an
- * {@link org.springframework.expression.EvaluationContext}.
+ * {@link ExtensionAwareEvaluationContextProvider} to avoid repeated reflection lookups
+ * for every creation of an {@link org.springframework.expression.EvaluationContext}.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -59,19 +60,19 @@ import org.springframework.util.ReflectionUtils.MethodFilter;
 class EvaluationContextExtensionInformation {
 
 	private final ExtensionTypeInformation extensionTypeInformation;
+
 	private final Optional<RootObjectInformation> rootObjectInformation;
 
 	/**
 	 * Creates a new {@link EvaluationContextExtension} for the given extension type.
-	 *
 	 * @param type must not be {@literal null}.
 	 */
 	public EvaluationContextExtensionInformation(Class<? extends EvaluationContextExtension> type) {
 
 		Assert.notNull(type, "Extension type must not be null!");
 
-		Class<?> rootObjectType = org.springframework.data.util.ReflectionUtils.findRequiredMethod(type, "getRootObject")
-				.getReturnType();
+		Class<?> rootObjectType = org.springframework.data.util.ReflectionUtils
+				.findRequiredMethod(type, "getRootObject").getReturnType();
 
 		this.rootObjectInformation = Optional
 				.ofNullable(Object.class.equals(rootObjectType) ? null : new RootObjectInformation(rootObjectType));
@@ -80,7 +81,6 @@ class EvaluationContextExtensionInformation {
 
 	/**
 	 * Returns the {@link ExtensionTypeInformation} for the extension.
-	 *
 	 * @return
 	 */
 	public ExtensionTypeInformation getExtensionTypeInformation() {
@@ -88,9 +88,8 @@ class EvaluationContextExtensionInformation {
 	}
 
 	/**
-	 * Returns the {@link RootObjectInformation} for the given target object. If the information has been pre-computed
-	 * earlier, the existing one will be used.
-	 *
+	 * Returns the {@link RootObjectInformation} for the given target object. If the
+	 * information has been pre-computed earlier, the existing one will be used.
 	 * @param target
 	 * @return
 	 */
@@ -101,8 +100,9 @@ class EvaluationContextExtensionInformation {
 	}
 
 	/**
-	 * Static information about the given {@link EvaluationContextExtension} type. Discovers public static methods and
-	 * fields. The fields' values are obtained directly, the methods are exposed {@link Function} invocations.
+	 * Static information about the given {@link EvaluationContextExtension} type.
+	 * Discovers public static methods and fields. The fields' values are obtained
+	 * directly, the methods are exposed {@link Function} invocations.
 	 *
 	 * @author Oliver Gierke
 	 */
@@ -110,21 +110,18 @@ class EvaluationContextExtensionInformation {
 
 		/**
 		 * The statically defined properties of the extension type.
-		 *
 		 * @return the properties will never be {@literal null}.
 		 */
 		private final Map<String, Object> properties;
 
 		/**
 		 * The statically exposed functions of the extension type.
-		 *
 		 * @return the functions will never be {@literal null}.
 		 */
 		private final MultiValueMap<String, Function> functions;
 
 		/**
 		 * Creates a new {@link ExtensionTypeInformation} fir the given type.
-		 *
 		 * @param type must not be {@literal null}.
 		 */
 		public ExtensionTypeInformation(Class<? extends EvaluationContextExtension> type) {
@@ -157,6 +154,7 @@ class EvaluationContextExtensionInformation {
 		static class PublicMethodAndFieldFilter implements MethodFilter, FieldFilter {
 
 			public static final PublicMethodAndFieldFilter STATIC = new PublicMethodAndFieldFilter(true);
+
 			public static final PublicMethodAndFieldFilter NON_STATIC = new PublicMethodAndFieldFilter(false);
 
 			private final boolean staticOnly;
@@ -164,6 +162,7 @@ class EvaluationContextExtensionInformation {
 			public PublicMethodAndFieldFilter(boolean staticOnly) {
 				this.staticOnly = staticOnly;
 			}
+
 			@Override
 			public boolean matches(Method method) {
 
@@ -176,6 +175,7 @@ class EvaluationContextExtensionInformation {
 
 				return Modifier.isPublic(method.getModifiers()) && staticMatch;
 			}
+
 			@Override
 			public boolean matches(Field field) {
 
@@ -184,7 +184,9 @@ class EvaluationContextExtensionInformation {
 
 				return Modifier.isPublic(field.getModifiers()) && staticMatch;
 			}
+
 		}
+
 	}
 
 	/**
@@ -197,13 +199,14 @@ class EvaluationContextExtensionInformation {
 		private static final RootObjectInformation NONE = new RootObjectInformation(Object.class);
 
 		private final Map<String, Method> accessors;
+
 		private final Collection<Method> methods;
+
 		private final Collection<Field> fields;
 
 		/**
-		 * Creates a new {@link RootObjectInformation} for the given type. Inspects public methods and fields to register
-		 * them as {@link Function}s and properties.
-		 *
+		 * Creates a new {@link RootObjectInformation} for the given type. Inspects public
+		 * methods and fields to register them as {@link Function}s and properties.
 		 * @param type must not be {@literal null}.
 		 */
 		public RootObjectInformation(Class<?> type) {
@@ -230,12 +233,13 @@ class EvaluationContextExtensionInformation {
 
 			}, PublicMethodAndFieldFilter.NON_STATIC);
 
-			ReflectionUtils.doWithFields(type, RootObjectInformation.this.fields::add, PublicMethodAndFieldFilter.NON_STATIC);
+			ReflectionUtils.doWithFields(type, RootObjectInformation.this.fields::add,
+					PublicMethodAndFieldFilter.NON_STATIC);
 		}
 
 		/**
-		 * Returns {@link Function} instances that wrap method invocations on the given target object.
-		 *
+		 * Returns {@link Function} instances that wrap method invocations on the given
+		 * target object.
 		 * @param target can be {@literal null}.
 		 * @return the methods
 		 */
@@ -248,9 +252,9 @@ class EvaluationContextExtensionInformation {
 		}
 
 		/**
-		 * Returns the properties of the target object. This will also include {@link Function} instances for all properties
-		 * with accessor methods that need to be resolved downstream.
-		 *
+		 * Returns the properties of the target object. This will also include
+		 * {@link Function} instances for all properties with accessor methods that need
+		 * to be resolved downstream.
 		 * @return the properties
 		 */
 		public Map<String, Object> getProperties(Optional<Object> target) {
@@ -261,12 +265,14 @@ class EvaluationContextExtensionInformation {
 
 				this.accessors.entrySet().stream()
 						.forEach(method -> properties.put(method.getKey(), new Function(method.getValue(), it)));
-				this.fields.stream().forEach(field -> properties.put(field.getName(), ReflectionUtils.getField(field, it)));
+				this.fields.stream()
+						.forEach(field -> properties.put(field.getName(), ReflectionUtils.getField(field, it)));
 
 				return Collections.unmodifiableMap(properties);
 
 			}).orElseGet(Collections::emptyMap);
 		}
+
 	}
 
 	private static Map<String, Object> discoverDeclaredProperties(Class<?> type) {
@@ -278,4 +284,5 @@ class EvaluationContextExtensionInformation {
 
 		return map.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(map);
 	}
+
 }

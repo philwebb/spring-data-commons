@@ -16,8 +16,9 @@
 package org.springframework.data.mapping.model;
 
 /**
- * {@link FieldNamingStrategy} that abbreviates field names by using the very first letter of the camel case parts of
- * the {@link org.springframework.data.mapping.PersistentProperty}'s name.
+ * {@link FieldNamingStrategy} that abbreviates field names by using the very first letter
+ * of the camel case parts of the
+ * {@link org.springframework.data.mapping.PersistentProperty}'s name.
  *
  * @since 1.9
  * @author Oliver Gierke
@@ -30,8 +31,10 @@ public class CamelCaseAbbreviatingFieldNamingStrategy extends CamelCaseSplitting
 	public CamelCaseAbbreviatingFieldNamingStrategy() {
 		super("");
 	}
+
 	@Override
 	protected String preparePart(String part) {
 		return part.substring(0, 1);
 	}
+
 }

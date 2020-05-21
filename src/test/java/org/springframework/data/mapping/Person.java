@@ -21,7 +21,9 @@ package org.springframework.data.mapping;
 public abstract class Person {
 
 	private Integer ssn;
+
 	private String firstName;
+
 	private String lastName;
 
 	protected Person(Integer ssn, String firstName, String lastName) {

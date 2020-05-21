@@ -25,7 +25,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
- * Proxy type detection utilities, extensible via {@link ProxyDetector} registered via Spring factories.
+ * Proxy type detection utilities, extensible via {@link ProxyDetector} registered via
+ * Spring factories.
  *
  * @author Oliver Gierke
  */
@@ -40,11 +41,11 @@ public abstract class ProxyUtils {
 		DETECTORS.add(ClassUtils::getUserClass);
 	}
 
-	private ProxyUtils() {}
+	private ProxyUtils() {
+	}
 
 	/**
 	 * Returns the user class for the given type.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -66,7 +67,6 @@ public abstract class ProxyUtils {
 
 	/**
 	 * Returns the user class for the given source object.
-	 *
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
@@ -86,10 +86,11 @@ public abstract class ProxyUtils {
 
 		/**
 		 * Returns the user class for the given type.
-		 *
 		 * @param type will never be {@literal null}.
 		 * @return
 		 */
 		Class<?> getUserType(Class<?> type);
+
 	}
+
 }

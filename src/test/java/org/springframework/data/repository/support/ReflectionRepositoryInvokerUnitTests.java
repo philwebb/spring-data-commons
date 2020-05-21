@@ -219,8 +219,8 @@ class ReflectionRepositoryInvokerUnitTests {
 			Method method = PersonRepository.class.getMethod("findByIdIn", Collection.class);
 			PersonRepository repository = mock(PersonRepository.class);
 
-			getInvokerFor(repository, expectInvocationOf(method)).invokeQueryMethod(method, parameters, Pageable.unpaged(),
-					Sort.unsorted());
+			getInvokerFor(repository, expectInvocationOf(method)).invokeQueryMethod(method, parameters,
+					Pageable.unpaged(), Sort.unsorted());
 		}
 	}
 
@@ -236,7 +236,8 @@ class ReflectionRepositoryInvokerUnitTests {
 
 		try {
 			invoker.invokeQueryMethod(method, parameters, Pageable.unpaged(), Sort.unsorted());
-		} catch (QueryMethodParameterConversionException o_O) {
+		}
+		catch (QueryMethodParameterConversionException o_O) {
 
 			assertThat(o_O.getParameter()).isEqualTo(new MethodParameters(method).getParameters().get(0));
 			assertThat(o_O.getSource()).isEqualTo("value");
@@ -307,15 +308,23 @@ class ReflectionRepositoryInvokerUnitTests {
 		return getInvokerFor(getVerifyingRepositoryProxy(repository, interceptor));
 	}
 
-	interface MyRepo extends CustomRepo, CrudRepository<Domain, Long> {}
+	interface MyRepo extends CustomRepo, CrudRepository<Domain, Long> {
 
-	class Domain {}
-
-	interface CustomRepo {
-		void deleteById(Long id);
 	}
 
-	interface EmptyRepository extends Repository<Domain, Long> {}
+	class Domain {
+
+	}
+
+	interface CustomRepo {
+
+		void deleteById(Long id);
+
+	}
+
+	interface EmptyRepository extends Repository<Domain, Long> {
+
+	}
 
 	interface ManualCrudRepository extends Repository<Domain, Long> {
 
@@ -326,21 +335,25 @@ class ReflectionRepositoryInvokerUnitTests {
 		<T extends Domain> T save(T entity);
 
 		void deleteById(Long id);
+
 	}
 
 	interface RepoWithFindAllWithoutParameters extends Repository<Domain, Long> {
 
 		List<Domain> findAll();
+
 	}
 
 	interface RepoWithFindAllWithPageable extends Repository<Domain, Long> {
 
 		Page<Domain> findAll(Pageable pageable);
+
 	}
 
 	interface RepoWithFindAllWithSort extends Repository<Domain, Long> {
 
 		Page<Domain> findAll(Sort sort);
+
 	}
 
 	interface RepoWithDomainDeleteAndFindOne extends Repository<Domain, Long> {
@@ -348,30 +361,42 @@ class ReflectionRepositoryInvokerUnitTests {
 		Domain findById(Long id);
 
 		void delete(Domain entity);
+
 	}
 
 	interface SimpleRepository extends Repository<Domain, Long> {
 
 		Domain findByClass(@Param("value") int value);
+
 	}
 
 	interface GuavaRepository extends Repository<Domain, Long> {
 
 		com.google.common.base.Optional<Domain> findById(Long id);
+
 	}
 
 	// DATACMNS-1277
 	interface DeleteByEntityOverrideRepository<T, ID> extends CrudRepository<T, ID> {
+
 		@Override
 		void delete(T entity);
+
 	}
 
-	interface DeleteByEntityOverrideSubRepository extends DeleteByEntityOverrideRepository<Domain, Long> {}
+	interface DeleteByEntityOverrideSubRepository extends DeleteByEntityOverrideRepository<Domain, Long> {
+
+	}
 
 	// DATACMNS-1277
 	interface DeleteByIdOverrideRepository<T, ID> extends Repository<T, ID> {
+
 		void deleteById(ID entity);
+
 	}
 
-	interface DeleteByIdOverrideSubRepository extends DeleteByIdOverrideRepository<Domain, Long> {}
+	interface DeleteByIdOverrideSubRepository extends DeleteByIdOverrideRepository<Domain, Long> {
+
+	}
+
 }

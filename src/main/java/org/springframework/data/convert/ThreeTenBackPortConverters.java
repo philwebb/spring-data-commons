@@ -39,14 +39,15 @@ import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZoneOffset;
 
 /**
- * Helper class to register {@link Converter} implementations for the ThreeTen Backport project in case it's present on
- * the classpath.
+ * Helper class to register {@link Converter} implementations for the ThreeTen Backport
+ * project in case it's present on the classpath.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
  * @author Jens Schauder
  * @author Mark Paluch
- * @see <a href="https://www.threeten.org/threetenbp">https://www.threeten.org/threetenbp</a>
+ * @see <a href=
+ * "https://www.threeten.org/threetenbp">https://www.threeten.org/threetenbp</a>
  * @since 1.10
  * @deprecated since 2.3, use JSR-310 types as replacement for ThreeTenBackport.
  */
@@ -55,18 +56,20 @@ public abstract class ThreeTenBackPortConverters {
 
 	private static final boolean THREE_TEN_BACK_PORT_IS_PRESENT = ClassUtils.isPresent("org.threeten.bp.LocalDateTime",
 			ThreeTenBackPortConverters.class.getClassLoader());
+
 	private static final Collection<Class<?>> SUPPORTED_TYPES;
 
 	static {
 
 		SUPPORTED_TYPES = THREE_TEN_BACK_PORT_IS_PRESENT //
-				? Arrays.asList(LocalDateTime.class, LocalDate.class, LocalTime.class, Instant.class, java.time.Instant.class)
+				? Arrays.asList(LocalDateTime.class, LocalDate.class, LocalTime.class, Instant.class,
+						java.time.Instant.class)
 				: Collections.emptySet();
 	}
 
 	/**
-	 * Returns the converters to be registered. Will only return converters in case we're running on Java 8.
-	 *
+	 * Returns the converters to be registered. Will only return converters in case we're
+	 * running on Java 8.
 	 * @return
 	 */
 	public static Collection<Converter<?, ?>> getConvertersToRegister() {
@@ -102,6 +105,7 @@ public abstract class ThreeTenBackPortConverters {
 			implements Converter<LocalDateTime, java.time.LocalDateTime> {
 
 		INSTANCE;
+
 		@Nonnull
 		@Override
 		public java.time.LocalDateTime convert(LocalDateTime source) {
@@ -110,6 +114,7 @@ public abstract class ThreeTenBackPortConverters {
 
 			return Jsr310Converters.DateToLocalDateTimeConverter.INSTANCE.convert(date);
 		}
+
 	}
 
 	@Deprecated
@@ -122,6 +127,7 @@ public abstract class ThreeTenBackPortConverters {
 		public LocalDateTime convert(Date source) {
 			return ofInstant(toInstant(source), systemDefault());
 		}
+
 	}
 
 	@Deprecated
@@ -134,6 +140,7 @@ public abstract class ThreeTenBackPortConverters {
 		public Date convert(LocalDateTime source) {
 			return toDate(source.atZone(systemDefault()).toInstant());
 		}
+
 	}
 
 	@Deprecated
@@ -146,6 +153,7 @@ public abstract class ThreeTenBackPortConverters {
 		public LocalDate convert(Date source) {
 			return ofInstant(ofEpochMilli(source.getTime()), systemDefault()).toLocalDate();
 		}
+
 	}
 
 	@Deprecated
@@ -158,6 +166,7 @@ public abstract class ThreeTenBackPortConverters {
 		public Date convert(LocalDate source) {
 			return toDate(source.atStartOfDay(systemDefault()).toInstant());
 		}
+
 	}
 
 	@Deprecated
@@ -170,6 +179,7 @@ public abstract class ThreeTenBackPortConverters {
 		public LocalTime convert(Date source) {
 			return ofInstant(ofEpochMilli(source.getTime()), systemDefault()).toLocalTime();
 		}
+
 	}
 
 	@Deprecated
@@ -182,6 +192,7 @@ public abstract class ThreeTenBackPortConverters {
 		public Date convert(LocalTime source) {
 			return toDate(source.atDate(LocalDate.now()).atZone(systemDefault()).toInstant());
 		}
+
 	}
 
 	@Deprecated
@@ -194,6 +205,7 @@ public abstract class ThreeTenBackPortConverters {
 		public Instant convert(Date source) {
 			return toInstant(source);
 		}
+
 	}
 
 	@Deprecated
@@ -206,6 +218,7 @@ public abstract class ThreeTenBackPortConverters {
 		public Date convert(Instant source) {
 			return toDate(source.atZone(systemDefault()).toInstant());
 		}
+
 	}
 
 	@Deprecated
@@ -218,6 +231,7 @@ public abstract class ThreeTenBackPortConverters {
 		public java.time.Instant convert(LocalDateTime source) {
 			return java.time.Instant.ofEpochMilli(source.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
 		}
+
 	}
 
 	@Deprecated
@@ -230,6 +244,7 @@ public abstract class ThreeTenBackPortConverters {
 		public LocalDateTime convert(java.time.Instant source) {
 			return LocalDateTime.ofInstant(Instant.ofEpochMilli(source.toEpochMilli()), ZoneOffset.systemDefault());
 		}
+
 	}
 
 	@WritingConverter
@@ -243,6 +258,7 @@ public abstract class ThreeTenBackPortConverters {
 		public String convert(ZoneId source) {
 			return source.toString();
 		}
+
 	}
 
 	@ReadingConverter
@@ -256,6 +272,7 @@ public abstract class ThreeTenBackPortConverters {
 		public ZoneId convert(String source) {
 			return ZoneId.of(source);
 		}
+
 	}
 
 }

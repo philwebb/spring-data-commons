@@ -28,22 +28,28 @@ import org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentR
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Reactive {@link HandlerMethodArgumentResolver} to create {@link Sort} instances from query string parameters or
- * {@link SortDefault} annotations.
+ * Reactive {@link HandlerMethodArgumentResolver} to create {@link Sort} instances from
+ * query string parameters or {@link SortDefault} annotations.
  *
  * @since 2.2
  * @author Mark Paluch
  */
 public class ReactiveSortHandlerMethodArgumentResolver extends SortHandlerMethodArgumentResolverSupport
 		implements SyncHandlerMethodArgumentResolver {
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return Sort.class.equals(parameter.getParameterType());
 	}
 
 	/*
-	 *(non-Javadoc)
-	 * @see org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentResolver#resolveArgumentValue(org.springframework.core.MethodParameter, org.springframework.web.reactive.BindingContext, org.springframework.web.server.ServerWebExchange)
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentResolver#
+	 * resolveArgumentValue(org.springframework.core.MethodParameter,
+	 * org.springframework.web.reactive.BindingContext,
+	 * org.springframework.web.server.ServerWebExchange)
 	 */
 	@Nonnull
 	@Override
@@ -64,4 +70,5 @@ public class ReactiveSortHandlerMethodArgumentResolver extends SortHandlerMethod
 
 		return parseParameterIntoSort(directionParameter, getPropertyDelimiter());
 	}
+
 }

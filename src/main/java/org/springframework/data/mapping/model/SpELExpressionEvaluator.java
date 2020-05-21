@@ -26,10 +26,10 @@ public interface SpELExpressionEvaluator {
 
 	/**
 	 * Evaluates the given expression.
-	 *
 	 * @param expression
 	 * @return
 	 */
 	@Nullable
 	<T> T evaluate(String expression);
+
 }

@@ -28,15 +28,18 @@ import org.springframework.util.ReflectionUtils;
 /**
  * Value object representing a repository fragment.
  * <p />
- * Repository fragments are individual parts that contribute method signatures. They are used to form a
- * {@link RepositoryComposition}. Fragments can be purely structural or backed with an implementation.
+ * Repository fragments are individual parts that contribute method signatures. They are
+ * used to form a {@link RepositoryComposition}. Fragments can be purely structural or
+ * backed with an implementation.
  * <p/>
- * {@link #structural(Class) Structural} fragments are not backed by an implementation and are primarily used to
- * discover the structure of a repository composition and to perform validations.
+ * {@link #structural(Class) Structural} fragments are not backed by an implementation and
+ * are primarily used to discover the structure of a repository composition and to perform
+ * validations.
  * <p/>
- * {@link #implemented(Object) Implemented} repository fragments consist of a signature contributor and the implementing
- * object. A signature contributor may be {@link #implemented(Class, Object) an interface} or
- * {@link #implemented(Object) just the implementing object} providing the available signatures for a repository.
+ * {@link #implemented(Object) Implemented} repository fragments consist of a signature
+ * contributor and the implementing object. A signature contributor may be
+ * {@link #implemented(Class, Object) an interface} or {@link #implemented(Object) just
+ * the implementing object} providing the available signatures for a repository.
  * <p/>
  * Fragments are immutable.
  *
@@ -47,8 +50,8 @@ import org.springframework.util.ReflectionUtils;
 public interface RepositoryFragment<T> {
 
 	/**
-	 * Create an implemented {@link RepositoryFragment} backed by the {@code implementation} object.
-	 *
+	 * Create an implemented {@link RepositoryFragment} backed by the
+	 * {@code implementation} object.
 	 * @param implementation must not be {@literal null}.
 	 * @return
 	 */
@@ -57,9 +60,8 @@ public interface RepositoryFragment<T> {
 	}
 
 	/**
-	 * Create an implemented {@link RepositoryFragment} from a {@code interfaceClass} backed by the {@code implementation}
-	 * object.
-	 *
+	 * Create an implemented {@link RepositoryFragment} from a {@code interfaceClass}
+	 * backed by the {@code implementation} object.
 	 * @param implementation must not be {@literal null}.
 	 * @return
 	 */
@@ -68,8 +70,8 @@ public interface RepositoryFragment<T> {
 	}
 
 	/**
-	 * Create a structural {@link RepositoryFragment} given {@code interfaceOrImplementation}.
-	 *
+	 * Create a structural {@link RepositoryFragment} given
+	 * {@code interfaceOrImplementation}.
 	 * @param interfaceOrImplementation must not be {@literal null}.
 	 * @return
 	 */
@@ -78,21 +80,21 @@ public interface RepositoryFragment<T> {
 	}
 
 	/**
-	 * Attempt to find the {@link Method} by name and exact parameters. Returns {@literal true} if the method was found or
-	 * {@literal false} otherwise.
-	 *
+	 * Attempt to find the {@link Method} by name and exact parameters. Returns
+	 * {@literal true} if the method was found or {@literal false} otherwise.
 	 * @param method must not be {@literal null}.
 	 * @return {@literal true} if the method was found or {@literal false} otherwise
 	 */
 	default boolean hasMethod(Method method) {
 
 		Assert.notNull(method, "Method must not be null!");
-		return ReflectionUtils.findMethod(getSignatureContributor(), method.getName(), method.getParameterTypes()) != null;
+		return ReflectionUtils.findMethod(getSignatureContributor(), method.getName(),
+				method.getParameterTypes()) != null;
 	}
 
 	/**
-	 * @return the optional implementation. Only available for implemented fragments. Structural fragments return always
-	 *         {@link Optional#empty()}.
+	 * @return the optional implementation. Only available for implemented fragments.
+	 * Structural fragments return always {@link Optional#empty()}.
 	 */
 	default Optional<T> getImplementation() {
 		return Optional.empty();
@@ -106,14 +108,14 @@ public interface RepositoryFragment<T> {
 	}
 
 	/**
-	 * @return the class/interface providing signatures for this {@link RepositoryFragment}.
+	 * @return the class/interface providing signatures for this
+	 * {@link RepositoryFragment}.
 	 */
 	Class<?> getSignatureContributor();
 
 	/**
-	 * Implement a structural {@link RepositoryFragment} given its {@code implementation} object. Returns an implemented
-	 * {@link RepositoryFragment}.
-	 *
+	 * Implement a structural {@link RepositoryFragment} given its {@code implementation}
+	 * object. Returns an implemented {@link RepositoryFragment}.
 	 * @param implementation must not be {@literal null}.
 	 * @return a new implemented {@link RepositoryFragment} for {@code implementation}.
 	 */
@@ -126,18 +128,23 @@ public interface RepositoryFragment<T> {
 		public StructuralRepositoryFragment(Class<T> interfaceOrImplementation) {
 			this.interfaceOrImplementation = interfaceOrImplementation;
 		}
+
 		@Override
 		public Class<?> getSignatureContributor() {
 			return this.interfaceOrImplementation;
 		}
+
 		@Override
 		public RepositoryFragment<T> withImplementation(T implementation) {
 			return new ImplementedRepositoryFragment<>(Optional.of(this.interfaceOrImplementation), implementation);
 		}
+
 		@Override
 		public String toString() {
-			return String.format("StructuralRepositoryFragment %s", ClassUtils.getShortName(this.interfaceOrImplementation));
+			return String.format("StructuralRepositoryFragment %s",
+					ClassUtils.getShortName(this.interfaceOrImplementation));
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -152,21 +159,25 @@ public interface RepositoryFragment<T> {
 			StructuralRepositoryFragment<?> that = (StructuralRepositoryFragment<?>) o;
 			return ObjectUtils.nullSafeEquals(this.interfaceOrImplementation, that.interfaceOrImplementation);
 		}
+
 		@Override
 		public int hashCode() {
 			return ObjectUtils.nullSafeHashCode(this.interfaceOrImplementation);
 		}
+
 	}
 
 	class ImplementedRepositoryFragment<T> implements RepositoryFragment<T> {
 
 		private final Optional<Class<T>> interfaceClass;
+
 		private final T implementation;
+
 		private final Optional<T> optionalImplementation;
 
 		/**
-		 * Creates a new {@link ImplementedRepositoryFragment} for the given interface class and implementation.
-		 *
+		 * Creates a new {@link ImplementedRepositoryFragment} for the given interface
+		 * class and implementation.
 		 * @param interfaceClass must not be {@literal null}.
 		 * @param implementation must not be {@literal null}.
 		 */
@@ -179,25 +190,30 @@ public interface RepositoryFragment<T> {
 
 				Assert.isTrue(ClassUtils.isAssignableValue(it, implementation),
 						() -> String.format("Fragment implementation %s does not implement %s!",
-								ClassUtils.getQualifiedName(implementation.getClass()), ClassUtils.getQualifiedName(it)));
+								ClassUtils.getQualifiedName(implementation.getClass()),
+								ClassUtils.getQualifiedName(it)));
 			});
 
 			this.interfaceClass = interfaceClass;
 			this.implementation = implementation;
 			this.optionalImplementation = Optional.of(implementation);
 		}
+
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public Class<?> getSignatureContributor() {
 			return this.interfaceClass.orElse((Class) this.implementation.getClass());
 		}
+
 		@Override
 		public Optional<T> getImplementation() {
 			return this.optionalImplementation;
 		}
+
 		@Override
 		public RepositoryFragment<T> withImplementation(T implementation) {
 			return new ImplementedRepositoryFragment<>(this.interfaceClass, implementation);
 		}
+
 		@Override
 		public String toString() {
 
@@ -205,6 +221,7 @@ public interface RepositoryFragment<T> {
 					this.interfaceClass.map(ClassUtils::getShortName).map(it -> it + ":").orElse(""),
 					ClassUtils.getShortName(this.implementation.getClass()));
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -228,6 +245,7 @@ public interface RepositoryFragment<T> {
 
 			return ObjectUtils.nullSafeEquals(this.optionalImplementation, that.optionalImplementation);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.interfaceClass);
@@ -235,5 +253,7 @@ public interface RepositoryFragment<T> {
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.optionalImplementation);
 			return result;
 		}
+
 	}
+
 }

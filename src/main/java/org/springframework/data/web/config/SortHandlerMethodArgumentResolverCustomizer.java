@@ -29,8 +29,9 @@ public interface SortHandlerMethodArgumentResolverCustomizer {
 
 	/**
 	 * Customize the given {@link SortHandlerMethodArgumentResolver}.
-	 *
-	 * @param sortResolver the {@link SortHandlerMethodArgumentResolver} to customize, will never be {@literal null}.
+	 * @param sortResolver the {@link SortHandlerMethodArgumentResolver} to customize,
+	 * will never be {@literal null}.
 	 */
 	void customize(SortHandlerMethodArgumentResolver sortResolver);
+
 }

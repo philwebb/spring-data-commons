@@ -26,4 +26,5 @@ public class MyCdiConfiguration implements CdiRepositoryConfiguration {
 	public String getRepositoryImplementationPostfix() {
 		return "Foo";
 	}
+
 }

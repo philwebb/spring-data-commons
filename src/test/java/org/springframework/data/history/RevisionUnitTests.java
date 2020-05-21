@@ -38,7 +38,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class RevisionUnitTests {
 
-	@Mock RevisionMetadata<Integer> firstMetadata, secondMetadata;
+	@Mock
+	RevisionMetadata<Integer> firstMetadata, secondMetadata;
 
 	@Test
 	void comparesCorrectly() {
@@ -77,4 +78,5 @@ class RevisionUnitTests {
 	void returnsRevisionMetadata() {
 		assertThat(Revision.of(this.firstMetadata, new Object()).getMetadata()).isEqualTo(this.firstMetadata);
 	}
+
 }

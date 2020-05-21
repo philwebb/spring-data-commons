@@ -51,7 +51,6 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 	/**
 	 * Discovers the {@link PreferredConstructor} for the given type.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return the {@link PreferredConstructor} if found or {@literal null}.
 	 */
@@ -65,8 +64,8 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 	}
 
 	/**
-	 * Discovers the {@link PreferredConstructorDiscoverer} for the given {@link PersistentEntity}.
-	 *
+	 * Discovers the {@link PreferredConstructorDiscoverer} for the given
+	 * {@link PersistentEntity}.
 	 * @param entity must not be {@literal null}.
 	 * @return the {@link PreferredConstructor} if found or {@literal null}.
 	 */
@@ -97,7 +96,11 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 			/*
 			 * (non-Javadoc)
-			 * @see org.springframework.data.mapping.model.PreferredConstructorDiscoverers#discover(org.springframework.data.util.TypeInformation, org.springframework.data.mapping.PersistentEntity)
+			 * 
+			 * @see
+			 * org.springframework.data.mapping.model.PreferredConstructorDiscoverers#
+			 * discover(org.springframework.data.util.TypeInformation,
+			 * org.springframework.data.mapping.PersistentEntity)
 			 */
 			@Nullable
 			@Override
@@ -121,7 +124,8 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 					if (candidate.getParameterCount() == 0) {
 						noArg = candidate;
-					} else {
+					}
+					else {
 						candidates.add(candidate);
 					}
 				}
@@ -142,7 +146,11 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 			/*
 			 * (non-Javadoc)
-			 * @see org.springframework.data.mapping.model.PreferredConstructorDiscoverers#discover(org.springframework.data.util.TypeInformation, org.springframework.data.mapping.PersistentEntity)
+			 * 
+			 * @see
+			 * org.springframework.data.mapping.model.PreferredConstructorDiscoverers#
+			 * discover(org.springframework.data.util.TypeInformation,
+			 * org.springframework.data.mapping.PersistentEntity)
 			 */
 			@Nullable
 			@Override
@@ -152,9 +160,13 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 				Class<?> rawOwningType = type.getType();
 
 				return Arrays.stream(rawOwningType.getDeclaredConstructors()) //
-						.filter(it -> !it.isSynthetic()) // Synthetic constructors should not be considered
-						.filter(it -> it.isAnnotationPresent(PersistenceConstructor.class)) // Explicitly defined constructor trumps
-																																								// all
+						.filter(it -> !it.isSynthetic()) // Synthetic constructors should
+															// not be considered
+						.filter(it -> it.isAnnotationPresent(PersistenceConstructor.class)) // Explicitly
+																							// defined
+																							// constructor
+																							// trumps
+																							// all
 						.map(it -> buildPreferredConstructor(it, type, entity)) //
 						.findFirst() //
 						.orElseGet(() -> {
@@ -168,7 +180,8 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 							Constructor<T> javaConstructor = ReflectJvmMapping.getJavaConstructor(primaryConstructor);
 
-							return javaConstructor != null ? buildPreferredConstructor(javaConstructor, type, entity) : null;
+							return javaConstructor != null ? buildPreferredConstructor(javaConstructor, type, entity)
+									: null;
 						});
 			}
 		};
@@ -177,7 +190,6 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 		/**
 		 * Find the appropriate discoverer for {@code type}.
-		 *
 		 * @param type must not be {@literal null}.
 		 * @return the appropriate discoverer for {@code type}.
 		 */
@@ -187,7 +199,6 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 		/**
 		 * Discovers a constructor for the given type.
-		 *
 		 * @param type must not be {@literal null}.
 		 * @param entity may be {@literal null}.
 		 * @return the {@link PreferredConstructor} if found or {@literal null}.
@@ -198,7 +209,8 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		private static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> buildPreferredConstructor(
-				Constructor<?> constructor, TypeInformation<T> typeInformation, @Nullable PersistentEntity<T, P> entity) {
+				Constructor<?> constructor, TypeInformation<T> typeInformation,
+				@Nullable PersistentEntity<T, P> entity) {
 
 			if (constructor.getParameterCount() == 0) {
 				return new PreferredConstructor<>((Constructor<T>) constructor);
@@ -221,5 +233,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 			return new PreferredConstructor<>((Constructor<T>) constructor, parameters);
 		}
+
 	}
+
 }

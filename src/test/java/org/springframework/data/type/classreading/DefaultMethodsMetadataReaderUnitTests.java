@@ -87,8 +87,10 @@ class DefaultMethodsMetadataReaderUnitTests {
 		return metadataReader.getMethodsMetadata();
 	}
 
-	// Create a scenario with a cyclic dependency to mix up methods reported by class.getDeclaredMethods()
-	// That's not exactly deterministic because it depends on when the compiler sees the classes.
+	// Create a scenario with a cyclic dependency to mix up methods reported by
+	// class.getDeclaredMethods()
+	// That's not exactly deterministic because it depends on when the compiler sees the
+	// classes.
 	abstract class Foo {
 
 		abstract void one(Foo b);
@@ -96,6 +98,7 @@ class DefaultMethodsMetadataReaderUnitTests {
 		abstract void two(Bar b);
 
 		abstract void three(Foo b);
+
 	}
 
 	interface Baz {
@@ -105,6 +108,7 @@ class DefaultMethodsMetadataReaderUnitTests {
 		void two(Bar b);
 
 		void three(Baz b);
+
 	}
 
 	abstract class Bar {
@@ -112,5 +116,7 @@ class DefaultMethodsMetadataReaderUnitTests {
 		abstract void dependOnFoo(Foo f);
 
 		abstract void dependOnBaz(Baz f);
+
 	}
+
 }

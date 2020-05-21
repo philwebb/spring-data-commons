@@ -100,10 +100,12 @@ class SpringDataWebConfigurationIntegrationTests {
 			List<HttpMessageConverter<?>> converters = new ArrayList<>();
 			it.extendMessageConverters(converters);
 
-			// Converters contains ProjectingJackson2HttpMessageConverter with custom ObjectMapper
+			// Converters contains ProjectingJackson2HttpMessageConverter with custom
+			// ObjectMapper
 			assertThat(converters).anySatisfy(converter -> {
 				assertThat(converter).isInstanceOfSatisfying(ProjectingJackson2HttpMessageConverter.class, __ -> {
-					assertThat(ReflectionTestUtils.getField(converter, "objectMapper")).isSameAs(SomeConfiguration.MAPPER);
+					assertThat(ReflectionTestUtils.getField(converter, "objectMapper"))
+							.isSameAs(SomeConfiguration.MAPPER);
 				});
 			});
 
@@ -140,11 +142,11 @@ class SpringDataWebConfigurationIntegrationTests {
 	}
 
 	/**
-	 * Creates a {@link Condition} that checks if an object is an instance of a class with the same name as the provided
-	 * class. This is necessary since we are dealing with multiple classloaders which would make a simple instanceof fail
-	 * all the time
-	 *
-	 * @param expectedClass the class that is expected (possibly loaded by a different classloader).
+	 * Creates a {@link Condition} that checks if an object is an instance of a class with
+	 * the same name as the provided class. This is necessary since we are dealing with
+	 * multiple classloaders which would make a simple instanceof fail all the time
+	 * @param expectedClass the class that is expected (possibly loaded by a different
+	 * classloader).
 	 * @return a {@link Condition}
 	 */
 	private static Condition<Object> instanceWithClassName(Class<?> expectedClass) {
@@ -162,5 +164,7 @@ class SpringDataWebConfigurationIntegrationTests {
 		ObjectMapper mapper() {
 			return MAPPER;
 		}
+
 	}
+
 }

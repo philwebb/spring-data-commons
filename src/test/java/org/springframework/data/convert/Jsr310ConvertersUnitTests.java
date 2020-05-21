@@ -226,4 +226,5 @@ class Jsr310ConvertersUnitTests {
 		assertThat(CONVERSION_SERVICE.convert(target, String.class)).isEqualTo(string);
 		assertThat(CONVERSION_SERVICE.convert(string, target.getClass())).isEqualTo(target);
 	}
+
 }

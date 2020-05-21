@@ -42,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Jackson2ResourceReader implements ResourceReader {
 
 	private static final String DEFAULT_TYPE_KEY = "_class";
+
 	private static final ObjectMapper DEFAULT_MAPPER = new ObjectMapper();
 
 	static {
@@ -49,6 +50,7 @@ public class Jackson2ResourceReader implements ResourceReader {
 	}
 
 	private final ObjectMapper mapper;
+
 	private String typeKey = DEFAULT_TYPE_KEY;
 
 	/**
@@ -60,7 +62,6 @@ public class Jackson2ResourceReader implements ResourceReader {
 
 	/**
 	 * Creates a new {@link Jackson2ResourceReader} using the given {@link ObjectMapper}.
-	 *
 	 * @param mapper
 	 */
 	public Jackson2ResourceReader(@Nullable ObjectMapper mapper) {
@@ -68,9 +69,8 @@ public class Jackson2ResourceReader implements ResourceReader {
 	}
 
 	/**
-	 * Configures the JSON document's key to lookup the type to instantiate the object. Defaults to
-	 * {@link Jackson2ResourceReader#DEFAULT_TYPE_KEY}.
-	 *
+	 * Configures the JSON document's key to lookup the type to instantiate the object.
+	 * Defaults to {@link Jackson2ResourceReader#DEFAULT_TYPE_KEY}.
 	 * @param typeKey
 	 */
 	public void setTypeKey(@Nullable String typeKey) {
@@ -79,7 +79,9 @@ public class Jackson2ResourceReader implements ResourceReader {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.init.ResourceReader#readFrom(org.springframework.core.io.Resource, java.lang.ClassLoader)
+	 * 
+	 * @see org.springframework.data.repository.init.ResourceReader#readFrom(org.
+	 * springframework.core.io.Resource, java.lang.ClassLoader)
 	 */
 	public Object readFrom(Resource resource, @Nullable ClassLoader classLoader) throws Exception {
 
@@ -105,8 +107,8 @@ public class Jackson2ResourceReader implements ResourceReader {
 	}
 
 	/**
-	 * Reads the given {@link JsonNode} into an instance of the type encoded in it using the configured type key.
-	 *
+	 * Reads the given {@link JsonNode} into an instance of the type encoded in it using
+	 * the configured type key.
 	 * @param node must not be {@literal null}.
 	 * @param classLoader can be {@literal null}.
 	 * @return
@@ -124,4 +126,5 @@ public class Jackson2ResourceReader implements ResourceReader {
 
 		return this.mapper.readerFor(type).readValue(node);
 	}
+
 }

@@ -42,6 +42,7 @@ import org.springframework.data.mapping.context.SampleMappingContext;
 class AuditingHandlerUnitTests {
 
 	AuditingHandler handler;
+
 	AuditorAware<AuditedUser> auditorAware;
 
 	AuditedUser user;
@@ -61,7 +62,8 @@ class AuditingHandlerUnitTests {
 	}
 
 	/**
-	 * Checks that the advice does not set auditor on the target entity if no {@code AuditorAware} was configured.
+	 * Checks that the advice does not set auditor on the target entity if no
+	 * {@code AuditorAware} was configured.
 	 */
 	@Test
 	void doesNotSetAuditorIfNotConfigured() {
@@ -76,7 +78,8 @@ class AuditingHandlerUnitTests {
 	}
 
 	/**
-	 * Checks that the advice sets the auditor on the target entity if an {@code AuditorAware} was configured.
+	 * Checks that the advice sets the auditor on the target entity if an
+	 * {@code AuditorAware} was configured.
 	 */
 	@Test
 	void setsAuditorIfConfigured() {
@@ -95,7 +98,8 @@ class AuditingHandlerUnitTests {
 	}
 
 	/**
-	 * Checks that the advice does not set modification information on creation if the falg is set to {@code false}.
+	 * Checks that the advice does not set modification information on creation if the
+	 * falg is set to {@code false}.
 	 */
 	@Test
 	void honoursModifiedOnCreationFlag() {
@@ -179,15 +183,28 @@ class AuditingHandlerUnitTests {
 
 	static abstract class AbstractModel {
 
-		@CreatedDate Instant created;
-		@CreatedBy String creator;
-		@LastModifiedDate Instant modified;
-		@LastModifiedBy String modifier;
+		@CreatedDate
+		Instant created;
+
+		@CreatedBy
+		String creator;
+
+		@LastModifiedDate
+		Instant modified;
+
+		@LastModifiedBy
+		String modifier;
+
 	}
 
 	static class MyModel extends AbstractModel {
+
 		List<MyModel> models;
+
 	}
 
-	static class MyDocument extends MyModel {}
+	static class MyDocument extends MyModel {
+
+	}
+
 }

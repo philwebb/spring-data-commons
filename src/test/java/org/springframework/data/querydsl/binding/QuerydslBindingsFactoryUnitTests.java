@@ -113,6 +113,7 @@ class QuerydslBindingsFactoryUnitTests {
 
 			bindings.excluding(user.address);
 		}
+
 	}
 
 	static class SampleRepo implements QuerydslBinderCustomizer<QUser> {
@@ -121,5 +122,7 @@ class QuerydslBindingsFactoryUnitTests {
 		public void customize(QuerydslBindings bindings, QUser user) {
 			bindings.bind(QUser.user.firstname).firstOptional((path, value) -> value.map(path::contains));
 		}
+
 	}
+
 }

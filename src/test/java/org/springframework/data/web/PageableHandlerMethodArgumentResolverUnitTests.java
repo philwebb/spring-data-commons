@@ -30,8 +30,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
- * Unit tests for {@link PageableHandlerMethodArgumentResolver}. Pulls in defaulting tests from
- * {@link PageableDefaultUnitTests}.
+ * Unit tests for {@link PageableHandlerMethodArgumentResolver}. Pulls in defaulting tests
+ * from {@link PageableDefaultUnitTests}.
  *
  * @author Oliver Gierke
  * @author Nick Williams
@@ -42,7 +42,8 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 
 	@BeforeEach
 	void setUp() throws Exception {
-		this.supportedMethodParameter = new MethodParameter(Sample.class.getMethod("supportedMethod", Pageable.class), 0);
+		this.supportedMethodParameter = new MethodParameter(Sample.class.getMethod("supportedMethod", Pageable.class),
+				0);
 	}
 
 	@Test // DATACMNS-335
@@ -105,8 +106,8 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 	@Test // DATACMNS-377
 	void rejectsInvalidCustomDefaultForPageSize() throws Exception {
 
-		MethodParameter parameter = new MethodParameter(Sample.class.getMethod("invalidDefaultPageSize", Pageable.class),
-				0);
+		MethodParameter parameter = new MethodParameter(
+				Sample.class.getMethod("invalidDefaultPageSize", Pageable.class), 0);
 
 		assertThatIllegalStateException().isThrownBy(() -> assertSupportedAndResult(parameter, DEFAULT_PAGE_REQUEST)) //
 				.withMessageContaining("invalidDefaultPageSize");
@@ -184,9 +185,8 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("page", "1");
 
-		assertThat(
-				resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null).getPageNumber())
-						.isEqualTo(0);
+		assertThat(resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null)
+				.getPageNumber()).isEqualTo(0);
 	}
 
 	@Test // DATACMNS-640
@@ -199,7 +199,8 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		request.addParameter("page", "0");
 		request.addParameter("size", "10");
 
-		Pageable result = resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null);
+		Pageable result = resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request),
+				null);
 
 		assertThat(result.getPageNumber()).isEqualTo(0);
 		assertThat(result.getPageSize()).isEqualTo(10);
@@ -215,7 +216,8 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("page", "0");
 
-		Pageable result = resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null);
+		Pageable result = resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request),
+				null);
 
 		assertThat(result.getPageNumber()).isEqualTo(0);
 	}
@@ -229,7 +231,8 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("size", "10");
 
-		Pageable result = resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null);
+		Pageable result = resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request),
+				null);
 
 		assertThat(result.getPageSize()).isEqualTo(10);
 	}
@@ -266,8 +269,8 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 
 		void simpleDefault(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) Pageable pageable);
 
-		void simpleDefaultWithSort(
-				@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER, sort = { "firstname", "lastname" }) Pageable pageable);
+		void simpleDefaultWithSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER,
+				sort = { "firstname", "lastname" }) Pageable pageable);
 
 		void simpleDefaultWithSortAndDirection(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER,
 				sort = { "firstname", "lastname" }, direction = Direction.DESC) Pageable pageable);
@@ -283,5 +286,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		void validQualifier(@Qualifier("foo") Pageable pageable);
 
 		void noQualifiers(Pageable first, Pageable second);
+
 	}
+
 }

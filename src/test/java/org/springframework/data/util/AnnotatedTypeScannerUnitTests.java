@@ -39,4 +39,5 @@ public class AnnotatedTypeScannerUnitTests {
 	static class Type {
 
 	}
+
 }

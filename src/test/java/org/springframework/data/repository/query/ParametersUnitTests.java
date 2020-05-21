@@ -229,7 +229,11 @@ class ParametersUnitTests {
 		void methodWithSingle(Single<String> single);
 
 		Page<Object> customPageable(SomePageable pageable);
+
 	}
 
-	interface SomePageable extends Pageable {}
+	interface SomePageable extends Pageable {
+
+	}
+
 }

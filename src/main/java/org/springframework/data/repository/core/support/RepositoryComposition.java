@@ -43,14 +43,17 @@ import org.springframework.util.ReflectionUtils;
 /**
  * Composite implementation to back repository method implementations.
  * <p />
- * A {@link RepositoryComposition} represents an ordered collection of {@link RepositoryFragment fragments}. Each
- * fragment contributes executable method signatures that are used by this composition to route method calls into the
- * according {@link RepositoryFragment}.
+ * A {@link RepositoryComposition} represents an ordered collection of
+ * {@link RepositoryFragment fragments}. Each fragment contributes executable method
+ * signatures that are used by this composition to route method calls into the according
+ * {@link RepositoryFragment}.
  * <p />
- * Fragments are allowed to contribute multiple implementations for a single method signature exposed through the
- * repository interface. {@link #withMethodLookup(MethodLookup) MethodLookup} selects the first matching method for
- * invocation. A composition also supports argument conversion between the repository method signature and fragment
- * implementation method through {@link #withArgumentConverter(BiFunction)}. Use argument conversion with a single
+ * Fragments are allowed to contribute multiple implementations for a single method
+ * signature exposed through the repository interface.
+ * {@link #withMethodLookup(MethodLookup) MethodLookup} selects the first matching method
+ * for invocation. A composition also supports argument conversion between the repository
+ * method signature and fragment implementation method through
+ * {@link #withArgumentConverter(BiFunction)}. Use argument conversion with a single
  * implementation method that can be exposed accepting convertible types.
  * <p />
  * Composition objects are immutable and thread-safe.
@@ -62,12 +65,16 @@ import org.springframework.util.ReflectionUtils;
 public class RepositoryComposition {
 
 	private static final BiFunction<Method, Object[], Object[]> PASSTHRU_ARG_CONVERTER = (methodParameter, o) -> o;
+
 	private static final RepositoryComposition EMPTY = new RepositoryComposition(RepositoryFragments.empty(),
 			MethodLookups.direct(), PASSTHRU_ARG_CONVERTER);
 
 	private final Map<Method, Method> methodCache = new ConcurrentReferenceHashMap<>();
+
 	private final RepositoryFragments fragments;
+
 	private final MethodLookup methodLookup;
+
 	private final BiFunction<Method, Object[], Object[]> argumentConverter;
 
 	private RepositoryComposition(RepositoryFragments fragments, MethodLookup methodLookup,
@@ -79,7 +86,6 @@ public class RepositoryComposition {
 
 	/**
 	 * Create an empty {@link RepositoryComposition}.
-	 *
 	 * @return an empty {@link RepositoryComposition}.
 	 */
 	public static RepositoryComposition empty() {
@@ -87,9 +93,8 @@ public class RepositoryComposition {
 	}
 
 	/**
-	 * Create a {@link RepositoryComposition} for just a single {@code implementation} with {@link MethodLookups#direct())
-	 * method lookup.
-	 *
+	 * Create a {@link RepositoryComposition} for just a single {@code implementation}
+	 * with {@link MethodLookups#direct()) method lookup.
 	 * @param implementation must not be {@literal null}.
 	 * @return the {@link RepositoryComposition} for a single {@code implementation}.
 	 */
@@ -99,22 +104,22 @@ public class RepositoryComposition {
 	}
 
 	/**
-	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments} with
-	 * {@link MethodLookups#direct()) method lookup.
-	 *
+	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments}
+	 * with {@link MethodLookups#direct()) method lookup.
 	 * @param fragments must not be {@literal null}.
-	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment fragments}.
+	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment
+	 * fragments}.
 	 */
 	public static RepositoryComposition of(RepositoryFragment<?>... fragments) {
 		return of(Arrays.asList(fragments));
 	}
 
 	/**
-	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments} with
-	 * {@link MethodLookups#direct()) method lookup.
-	 *
+	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments}
+	 * with {@link MethodLookups#direct()) method lookup.
 	 * @param fragments must not be {@literal null}.
-	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment fragments}.
+	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment
+	 * fragments}.
 	 */
 	public static RepositoryComposition of(List<RepositoryFragment<?>> fragments) {
 		return new RepositoryComposition(RepositoryFragments.from(fragments), MethodLookups.direct(),
@@ -122,20 +127,20 @@ public class RepositoryComposition {
 	}
 
 	/**
-	 * Create a {@link RepositoryComposition} from {@link RepositoryFragments} and {@link RepositoryMetadata} with
-	 * {@link MethodLookups#direct()) method lookup.
-	 *
+	 * Create a {@link RepositoryComposition} from {@link RepositoryFragments} and
+	 * {@link RepositoryMetadata} with {@link MethodLookups#direct()) method lookup.
 	 * @param fragments must not be {@literal null}.
-	 * @return the {@link RepositoryComposition} from {@link RepositoryFragments fragments}.
+	 * @return the {@link RepositoryComposition} from {@link RepositoryFragments
+	 * fragments}.
 	 */
 	public static RepositoryComposition of(RepositoryFragments fragments) {
 		return new RepositoryComposition(fragments, MethodLookups.direct(), PASSTHRU_ARG_CONVERTER);
 	}
 
 	/**
-	 * Create a new {@link RepositoryComposition} retaining current configuration and append {@link RepositoryFragment} to
-	 * the new composition. The resulting composition contains the appended {@link RepositoryFragment} as last element.
-	 *
+	 * Create a new {@link RepositoryComposition} retaining current configuration and
+	 * append {@link RepositoryFragment} to the new composition. The resulting composition
+	 * contains the appended {@link RepositoryFragment} as last element.
 	 * @param fragment must not be {@literal null}.
 	 * @return the new {@link RepositoryComposition}.
 	 */
@@ -144,10 +149,9 @@ public class RepositoryComposition {
 	}
 
 	/**
-	 * Create a new {@link RepositoryComposition} retaining current configuration and append {@link RepositoryFragments}
-	 * to the new composition. The resulting composition contains the appended {@link RepositoryFragments} as last
-	 * element.
-	 *
+	 * Create a new {@link RepositoryComposition} retaining current configuration and
+	 * append {@link RepositoryFragments} to the new composition. The resulting
+	 * composition contains the appended {@link RepositoryFragments} as last element.
 	 * @param fragments must not be {@literal null}.
 	 * @return the new {@link RepositoryComposition}.
 	 */
@@ -156,8 +160,8 @@ public class RepositoryComposition {
 	}
 
 	/**
-	 * Create a new {@link RepositoryComposition} retaining current configuration and set {@code argumentConverter}.
-	 *
+	 * Create a new {@link RepositoryComposition} retaining current configuration and set
+	 * {@code argumentConverter}.
 	 * @param argumentConverter must not be {@literal null}.
 	 * @return the new {@link RepositoryComposition}.
 	 */
@@ -166,8 +170,8 @@ public class RepositoryComposition {
 	}
 
 	/**
-	 * Create a new {@link RepositoryComposition} retaining current configuration and set {@code methodLookup}.
-	 *
+	 * Create a new {@link RepositoryComposition} retaining current configuration and set
+	 * {@code methodLookup}.
 	 * @param methodLookup must not be {@literal null}.
 	 * @return the new {@link RepositoryComposition}.
 	 */
@@ -176,17 +180,18 @@ public class RepositoryComposition {
 	}
 
 	/**
-	 * Return {@literal true} if this {@link RepositoryComposition} contains no {@link RepositoryFragment fragments}.
-	 *
-	 * @return {@literal true} if this {@link RepositoryComposition} contains no {@link RepositoryFragment fragments}.
+	 * Return {@literal true} if this {@link RepositoryComposition} contains no
+	 * {@link RepositoryFragment fragments}.
+	 * @return {@literal true} if this {@link RepositoryComposition} contains no
+	 * {@link RepositoryFragment fragments}.
 	 */
 	public boolean isEmpty() {
 		return this.fragments.isEmpty();
 	}
 
 	/**
-	 * Invoke a method on the repository by routing the invocation to the appropriate {@link RepositoryFragment}.
-	 *
+	 * Invoke a method on the repository by routing the invocation to the appropriate
+	 * {@link RepositoryFragment}.
 	 * @param method
 	 * @param args
 	 * @return
@@ -206,8 +211,8 @@ public class RepositoryComposition {
 	}
 
 	/**
-	 * Find the implementation method for the given {@link Method} invoked on the composite interface.
-	 *
+	 * Find the implementation method for the given {@link Method} invoked on the
+	 * composite interface.
 	 * @param method must not be {@literal null}.
 	 * @return
 	 */
@@ -216,8 +221,8 @@ public class RepositoryComposition {
 	}
 
 	/**
-	 * Find the implementation method for the given {@link Method} invoked on the composite interface.
-	 *
+	 * Find the implementation method for the given {@link Method} invoked on the
+	 * composite interface.
 	 * @param method must not be {@literal null}.
 	 * @return
 	 * @since 2.2
@@ -225,8 +230,8 @@ public class RepositoryComposition {
 	@Nullable
 	Method getMethod(Method method) {
 
-		return this.methodCache.computeIfAbsent(method,
-				key -> RepositoryFragments.findMethod(InvokedMethod.of(key), this.methodLookup, this.fragments::methods));
+		return this.methodCache.computeIfAbsent(method, key -> RepositoryFragments.findMethod(InvokedMethod.of(key),
+				this.methodLookup, this.fragments::methods));
 	}
 
 	/**
@@ -238,6 +243,7 @@ public class RepositoryComposition {
 				.orElseThrow(() -> new IllegalStateException(String.format("Fragment %s has no implementation.",
 						ClassUtils.getQualifiedName(it.getSignatureContributor())))));
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -252,6 +258,7 @@ public class RepositoryComposition {
 		RepositoryComposition that = (RepositoryComposition) o;
 		return ObjectUtils.nullSafeEquals(this.fragments, that.fragments);
 	}
+
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(this.fragments);
@@ -279,7 +286,9 @@ public class RepositoryComposition {
 		static final RepositoryFragments EMPTY = new RepositoryFragments(Collections.emptyList());
 
 		private final Map<Method, RepositoryFragment<?>> fragmentCache = new ConcurrentReferenceHashMap<>();
+
 		private final Map<Method, ImplementationInvocationMetadata> invocationMetadataCache = new ConcurrentHashMap<>();
+
 		private final List<RepositoryFragment<?>> fragments;
 
 		private RepositoryFragments(List<RepositoryFragment<?>> fragments) {
@@ -288,7 +297,6 @@ public class RepositoryComposition {
 
 		/**
 		 * Create empty {@link RepositoryFragments}.
-		 *
 		 * @return empty {@link RepositoryFragments}.
 		 */
 		public static RepositoryFragments empty() {
@@ -297,7 +305,6 @@ public class RepositoryComposition {
 
 		/**
 		 * Create {@link RepositoryFragments} from just implementation objects.
-		 *
 		 * @param implementations must not be {@literal null}.
 		 * @return the {@link RepositoryFragments} for {@code implementations}.
 		 */
@@ -312,7 +319,6 @@ public class RepositoryComposition {
 
 		/**
 		 * Create {@link RepositoryFragments} from {@link RepositoryFragments fragments}.
-		 *
 		 * @param fragments must not be {@literal null}.
 		 * @return the {@link RepositoryFragments} for {@code implementations}.
 		 */
@@ -325,8 +331,8 @@ public class RepositoryComposition {
 		}
 
 		/**
-		 * Create {@link RepositoryFragments} from a {@link List} of {@link RepositoryFragment fragments}.
-		 *
+		 * Create {@link RepositoryFragments} from a {@link List} of
+		 * {@link RepositoryFragment fragments}.
 		 * @param fragments must not be {@literal null}.
 		 * @return the {@link RepositoryFragments} for {@code implementations}.
 		 */
@@ -338,11 +344,11 @@ public class RepositoryComposition {
 		}
 
 		/**
-		 * Create new {@link RepositoryFragments} from the current content appending {@link RepositoryFragment}.
-		 *
+		 * Create new {@link RepositoryFragments} from the current content appending
+		 * {@link RepositoryFragment}.
 		 * @param fragment must not be {@literal null}
-		 * @return the new {@link RepositoryFragments} containing all existing fragments and the given
-		 *         {@link RepositoryFragment} as last element.
+		 * @return the new {@link RepositoryFragments} containing all existing fragments
+		 * and the given {@link RepositoryFragment} as last element.
 		 */
 		public RepositoryFragments append(RepositoryFragment<?> fragment) {
 
@@ -352,11 +358,11 @@ public class RepositoryComposition {
 		}
 
 		/**
-		 * Create new {@link RepositoryFragments} from the current content appending {@link RepositoryFragments}.
-		 *
+		 * Create new {@link RepositoryFragments} from the current content appending
+		 * {@link RepositoryFragments}.
 		 * @param fragments must not be {@literal null}
-		 * @return the new {@link RepositoryFragments} containing all existing fragments and the given
-		 *         {@link RepositoryFragments} as last elements.
+		 * @return the new {@link RepositoryFragments} containing all existing fragments
+		 * and the given {@link RepositoryFragments} as last elements.
 		 */
 		public RepositoryFragments append(RepositoryFragments fragments) {
 
@@ -365,9 +371,11 @@ public class RepositoryComposition {
 			return concat(stream(), fragments.stream());
 		}
 
-		private static RepositoryFragments concat(Stream<RepositoryFragment<?>> left, Stream<RepositoryFragment<?>> right) {
+		private static RepositoryFragments concat(Stream<RepositoryFragment<?>> left,
+				Stream<RepositoryFragment<?>> right) {
 			return from(Stream.concat(left, right).collect(Collectors.toList()));
 		}
+
 		@Override
 		public Iterator<RepositoryFragment<?>> iterator() {
 			return this.fragments.iterator();
@@ -382,7 +390,6 @@ public class RepositoryComposition {
 
 		/**
 		 * Invoke {@link Method} by resolving the
-		 *
 		 * @param invokedMethod invoked method as per invocation on the interface.
 		 * @param methodToCall backend method that is backing the call.
 		 * @param args
@@ -392,11 +399,13 @@ public class RepositoryComposition {
 		@Nullable
 		public Object invoke(Method invokedMethod, Method methodToCall, Object[] args) throws Throwable {
 
-			RepositoryFragment<?> fragment = this.fragmentCache.computeIfAbsent(methodToCall, this::findImplementationFragment);
+			RepositoryFragment<?> fragment = this.fragmentCache.computeIfAbsent(methodToCall,
+					this::findImplementationFragment);
 			Optional<?> optional = fragment.getImplementation();
 
 			if (!optional.isPresent()) {
-				throw new IllegalArgumentException(String.format("No implementation found for method %s", methodToCall));
+				throw new IllegalArgumentException(
+						String.format("No implementation found for method %s", methodToCall));
 			}
 
 			ImplementationInvocationMetadata invocationMetadata = this.invocationMetadataCache.get(invokedMethod);
@@ -413,8 +422,8 @@ public class RepositoryComposition {
 
 			return stream().filter(it -> it.hasMethod(key)) //
 					.filter(it -> it.getImplementation().isPresent()) //
-					.findFirst()
-					.orElseThrow(() -> new IllegalArgumentException(String.format("No fragment found for method %s", key)));
+					.findFirst().orElseThrow(
+							() -> new IllegalArgumentException(String.format("No fragment found for method %s", key)));
 		}
 
 		@Nullable
@@ -434,10 +443,12 @@ public class RepositoryComposition {
 
 			return null;
 		}
+
 		@Override
 		public String toString() {
 			return this.fragments.toString();
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -461,6 +472,7 @@ public class RepositoryComposition {
 
 			return ObjectUtils.nullSafeEquals(this.fragments, that.fragments);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.fragmentCache);
@@ -468,5 +480,7 @@ public class RepositoryComposition {
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.fragments);
 			return result;
 		}
+
 	}
+
 }

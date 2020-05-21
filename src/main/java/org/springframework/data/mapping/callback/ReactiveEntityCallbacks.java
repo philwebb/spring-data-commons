@@ -21,8 +21,8 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.Assert;
 
 /**
- * Interface to be implemented by objects that can manage a number of {@link EntityCallback} objects and invoke these
- * with a specific entity.
+ * Interface to be implemented by objects that can manage a number of
+ * {@link EntityCallback} objects and invoke these with a specific entity.
  *
  * @author Christoph Strobl
  * @since 2.2
@@ -31,18 +31,16 @@ import org.springframework.util.Assert;
 public interface ReactiveEntityCallbacks {
 
 	/**
-	 * Add the given {@link EntityCallback callback} using generic type argument detection for identification of supported
-	 * types.
-	 *
+	 * Add the given {@link EntityCallback callback} using generic type argument detection
+	 * for identification of supported types.
 	 * @param callback must not be {@literal null}.
 	 * @throws IllegalArgumentException if the required argument is {@literal null}.
 	 */
 	void addEntityCallback(EntityCallback<?> callback);
 
 	/**
-	 * On {@link Mono#subscribe() subscribe} invoke the matching {@link EntityCallback entity callbacks} with given
-	 * arguments.
-	 *
+	 * On {@link Mono#subscribe() subscribe} invoke the matching {@link EntityCallback
+	 * entity callbacks} with given arguments.
 	 * @param callbackType must not be {@literal null}.
 	 * @param entity must not be {@literal null}.
 	 * @param args optional arguments.
@@ -53,8 +51,10 @@ public interface ReactiveEntityCallbacks {
 	<T> Mono<T> callback(Class<? extends EntityCallback> callbackType, T entity, Object... args);
 
 	/**
-	 * Create a new {@link ReactiveEntityCallbacks} instance with given {@link EntityCallback callbacks}. <br />
-	 * The provided {@link EntityCallback callbacks} are immediately {@link #addEntityCallback(EntityCallback) added}.
+	 * Create a new {@link ReactiveEntityCallbacks} instance with given
+	 * {@link EntityCallback callbacks}. <br />
+	 * The provided {@link EntityCallback callbacks} are immediately
+	 * {@link #addEntityCallback(EntityCallback) added}.
 	 */
 	static ReactiveEntityCallbacks create(EntityCallback<?>... callbacks) {
 
@@ -76,9 +76,10 @@ public interface ReactiveEntityCallbacks {
 	/**
 	 * Obtain a new {@link ReactiveEntityCallbacks} instance.
 	 * <p />
-	 * {@link EntityCallback callbacks} are pre loaded from the given {@link BeanFactory}. <br />
-	 * Use {@link #addEntityCallback(EntityCallback)} to register additional callbacks manually.
-	 *
+	 * {@link EntityCallback callbacks} are pre loaded from the given {@link BeanFactory}.
+	 * <br />
+	 * Use {@link #addEntityCallback(EntityCallback)} to register additional callbacks
+	 * manually.
 	 * @param beanFactory must not be {@literal null}.
 	 * @throws IllegalArgumentException if a required argument is {@literal null}.
 	 */
@@ -87,4 +88,5 @@ public interface ReactiveEntityCallbacks {
 		Assert.notNull(beanFactory, "Context must not be null!");
 		return new DefaultReactiveEntityCallbacks(beanFactory);
 	}
+
 }

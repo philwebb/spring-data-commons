@@ -18,4 +18,6 @@
  * @author Oliver Gierke
  * @see org.springframework.data.web.ProxyingHandlerMethodArgumentResolverUnitTests
  */
-public interface SampleInterface {}
+public interface SampleInterface {
+
+}

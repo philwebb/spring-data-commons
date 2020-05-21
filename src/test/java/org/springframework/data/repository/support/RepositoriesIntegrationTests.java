@@ -36,8 +36,11 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig(classes = SampleConfiguration.class)
 class RepositoriesIntegrationTests {
 
-	@Autowired Repositories repositories;
-	@Autowired ProductRepository productRepository;
+	@Autowired
+	Repositories repositories;
+
+	@Autowired
+	ProductRepository productRepository;
 
 	@Test
 	void detectsRepositories() {
@@ -53,4 +56,5 @@ class RepositoriesIntegrationTests {
 		User user = mock(User.class);
 		assertThat(this.repositories.getPersistentEntity(user.getClass())).isNotNull();
 	}
+
 }

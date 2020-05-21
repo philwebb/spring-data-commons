@@ -35,7 +35,8 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Domain service to allow accessing the values of {@link PersistentProperty}s on a given bean.
+ * Domain service to allow accessing the values of {@link PersistentProperty}s on a given
+ * bean.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -46,7 +47,6 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 
 	/**
 	 * Creates a new {@link BeanWrapper} for the given bean.
-	 *
 	 * @param bean must not be {@literal null}.
 	 */
 	protected BeanWrapper(T bean) {
@@ -57,7 +57,9 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.springframework.data.mapping.PersistentProperty, java.util.Optional)
+	 * 
+	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
+	 * springframework.data.mapping.PersistentProperty, java.util.Optional)
 	 */
 	@SuppressWarnings("unchecked")
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
@@ -83,8 +85,8 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 					return;
 				}
 
-				throw new UnsupportedOperationException(
-						String.format("Cannot set immutable property %s.%s!", property.getOwner().getName(), property.getName()));
+				throw new UnsupportedOperationException(String.format("Cannot set immutable property %s.%s!",
+						property.getOwner().getName(), property.getName()));
 			}
 
 			if (!property.usePropertyAccess()) {
@@ -101,18 +103,20 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 			ReflectionUtils.makeAccessible(setter);
 			ReflectionUtils.invokeMethod(setter, this.bean, value);
 
-		} catch (IllegalStateException e) {
+		}
+		catch (IllegalStateException e) {
 			throw new MappingException("Could not set object property!", e);
 		}
 	}
+
 	@Nullable
 	public Object getProperty(PersistentProperty<?> property) {
 		return getProperty(property, property.getType());
 	}
 
 	/**
-	 * Returns the value of the given {@link PersistentProperty} potentially converted to the given type.
-	 *
+	 * Returns the value of the given {@link PersistentProperty} potentially converted to
+	 * the given type.
 	 * @param <S>
 	 * @param property must not be {@literal null}.
 	 * @param type can be {@literal null}.
@@ -139,11 +143,13 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 			ReflectionUtils.makeAccessible(getter);
 			return ReflectionUtils.invokeMethod(getter, this.bean);
 
-		} catch (IllegalStateException e) {
+		}
+		catch (IllegalStateException e) {
 			throw new MappingException(
 					String.format("Could not read property %s of %s!", property.toString(), this.bean.toString()), e);
 		}
 	}
+
 	public T getBean() {
 		return this.bean;
 	}
@@ -158,8 +164,9 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 		private static final Map<Class<?>, KCallable<?>> COPY_METHOD_CACHE = new ConcurrentReferenceHashMap<>();
 
 		/**
-		 * Set a single property by calling {@code copy(…)} on a Kotlin data class. Copying creates a new instance that
-		 * holds all values of the original instance and the newly set {@link PersistentProperty} value.
+		 * Set a single property by calling {@code copy(…)} on a Kotlin data class.
+		 * Copying creates a new instance that holds all values of the original instance
+		 * and the newly set {@link PersistentProperty} value.
 		 *
 		 * @see KCallable#callBy(Map)
 		 */
@@ -202,5 +209,7 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 			return KotlinCopyMethod.findCopyMethod(type).filter(it -> it.supportsProperty(property))
 					.map(KotlinCopyMethod::getCopyFunction).orElse(null);
 		}
+
 	}
+
 }

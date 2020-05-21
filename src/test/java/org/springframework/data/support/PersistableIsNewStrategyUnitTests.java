@@ -56,5 +56,7 @@ class PersistableIsNewStrategyUnitTests {
 		public boolean isNew() {
 			return this.isNew;
 		}
+
 	}
+
 }

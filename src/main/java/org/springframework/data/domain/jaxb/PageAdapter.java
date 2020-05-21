@@ -26,11 +26,13 @@ import org.springframework.hateoas.Link;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link XmlAdapter} to convert {@link Page} instances into {@link PageDto} instances and vice versa.
+ * {@link XmlAdapter} to convert {@link Page} instances into {@link PageDto} instances and
+ * vice versa.
  *
  * @author Oliver Gierke
  */
 public class PageAdapter extends XmlAdapter<PageDto, Page<Object>> {
+
 	@Nullable
 	@Override
 	public PageDto marshal(@Nullable Page<Object> source) {
@@ -45,6 +47,7 @@ public class PageAdapter extends XmlAdapter<PageDto, Page<Object>> {
 
 		return dto;
 	}
+
 	@Nullable
 	@Override
 	public Page<Object> unmarshal(@Nullable PageDto v) {
@@ -53,11 +56,11 @@ public class PageAdapter extends XmlAdapter<PageDto, Page<Object>> {
 
 	/**
 	 * Return additional links that shall be added to the {@link PageDto}.
-	 *
 	 * @param source the source {@link Page}.
 	 * @return
 	 */
 	protected List<Link> getLinks(Page<?> source) {
 		return Collections.emptyList();
 	}
+
 }

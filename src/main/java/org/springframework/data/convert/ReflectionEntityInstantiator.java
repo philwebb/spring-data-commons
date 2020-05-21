@@ -22,12 +22,13 @@ import org.springframework.data.mapping.model.InternalEntityInstantiatorFactory;
 import org.springframework.data.mapping.model.ParameterValueProvider;
 
 /**
- * {@link EntityInstantiator} that uses the {@link PersistentEntity}'s {@link PreferredConstructor} to instantiate an
- * instance of the entity via reflection.
+ * {@link EntityInstantiator} that uses the {@link PersistentEntity}'s
+ * {@link PreferredConstructor} to instantiate an instance of the entity via reflection.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
- * @deprecated since 2.3, use {@link org.springframework.data.mapping.model.ReflectionEntityInstantiator} instead.
+ * @deprecated since 2.3, use
+ * {@link org.springframework.data.mapping.model.ReflectionEntityInstantiator} instead.
  */
 public enum ReflectionEntityInstantiator implements EntityInstantiator {
 
@@ -38,4 +39,5 @@ public enum ReflectionEntityInstantiator implements EntityInstantiator {
 
 		return InternalEntityInstantiatorFactory.getReflectionEntityInstantiator().createInstance(entity, provider);
 	}
+
 }

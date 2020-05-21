@@ -53,7 +53,9 @@ import org.springframework.util.ReflectionUtils;
 public class AbstractPersistentPropertyUnitTests {
 
 	private TypeInformation<TestClassComplex> typeInfo;
+
 	private PersistentEntity<TestClassComplex, SamplePersistentProperty> entity;
+
 	private SimpleTypeHolder typeHolder;
 
 	@BeforeEach
@@ -235,10 +237,12 @@ public class AbstractPersistentPropertyUnitTests {
 		Optional<PropertyDescriptor> descriptor = getPropertyDescriptor(type, name);
 
 		Property property = Optionals.firstNonEmpty( //
-				() -> Optionals.mapIfAllPresent(field, descriptor, (left, right) -> Property.of(typeInformation, left, right)), //
+				() -> Optionals.mapIfAllPresent(field, descriptor,
+						(left, right) -> Property.of(typeInformation, left, right)), //
 				() -> field.map(it -> Property.of(typeInformation, it)), //
 				() -> descriptor.map(it -> Property.of(typeInformation, it))) //
-				.orElseThrow(() -> new IllegalArgumentException(String.format("Couldn't find property %s on %s!", name, type)));
+				.orElseThrow(() -> new IllegalArgumentException(
+						String.format("Couldn't find property %s on %s!", name, type)));
 
 		return new SamplePersistentProperty(property, getEntity(type), this.typeHolder);
 	}
@@ -251,12 +255,14 @@ public class AbstractPersistentPropertyUnitTests {
 					.filter(it -> it.getName().equals(propertyName))//
 					.findFirst();
 
-		} catch (IntrospectionException o_O) {
+		}
+		catch (IntrospectionException o_O) {
 			throw new RuntimeException(o_O);
 		}
 	}
 
 	class Generic<T> {
+
 		T genericField;
 
 	}
@@ -272,29 +278,42 @@ public class AbstractPersistentPropertyUnitTests {
 	@Getter
 	@Setter
 	class GenericGetter<T> {
+
 		T genericField;
+
 	}
 
-	class ConcreteGetter extends GenericGetter<String> {}
+	class ConcreteGetter extends GenericGetter<String> {
+
+	}
 
 	@SuppressWarnings("serial")
-	class TestClassSet extends TreeSet<Object> {}
+	class TestClassSet extends TreeSet<Object> {
+
+	}
 
 	@SuppressWarnings("rawtypes")
 	class TestClassComplex {
 
 		String id;
+
 		TestClassSet testClassSet;
+
 		Map map;
+
 		Collection collection;
+
 		transient Object transientField;
+
 		String var_name_with_underscores;
+
 	}
 
 	class AccessorTestClass {
 
 		// Valid getters and setters
 		Long id;
+
 		// Invalid getters and setters
 		Long anotherId;
 
@@ -327,6 +346,7 @@ public class AbstractPersistentPropertyUnitTests {
 		public void setYetYetAnotherId(Object yetYetAnotherId) {
 			this.yetYetAnotherId = null;
 		}
+
 	}
 
 	class SamplePersistentProperty extends AbstractPersistentProperty<SamplePersistentProperty> {
@@ -373,18 +393,27 @@ public class AbstractPersistentPropertyUnitTests {
 		public Class<?> getAssociationTargetType() {
 			return null;
 		}
+
 	}
 
 	static class Sample {
 
 		Person person;
+
 		Collection<Person> persons;
+
 		Person[] personArray;
+
 		Map<String, Person> personMap;
+
 		Collection<String> strings;
+
 	}
 
 	class TreeMapWrapper {
+
 		TreeMap<String, TreeMap<String, String>> map;
+
 	}
+
 }

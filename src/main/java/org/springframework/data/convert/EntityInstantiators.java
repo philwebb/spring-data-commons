@@ -24,28 +24,30 @@ import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.model.InternalEntityInstantiatorFactory;
 
 /**
- * Simple value object allowing access to {@link EntityInstantiator} instances for a given type falling back to a
- * default one.
+ * Simple value object allowing access to {@link EntityInstantiator} instances for a given
+ * type falling back to a default one.
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
  * @author Christoph Strobl
  * @author Mark Paluch
- * @deprecated since 2.3, use {@link org.springframework.data.mapping.model.EntityInstantiators} instead.
+ * @deprecated since 2.3, use
+ * {@link org.springframework.data.mapping.model.EntityInstantiators} instead.
  */
 @Deprecated
 public class EntityInstantiators extends org.springframework.data.mapping.model.EntityInstantiators {
 
 	/**
-	 * Creates a new {@link EntityInstantiators} using the default fallback instantiator and no custom ones.
+	 * Creates a new {@link EntityInstantiators} using the default fallback instantiator
+	 * and no custom ones.
 	 */
 	public EntityInstantiators() {
 		super();
 	}
 
 	/**
-	 * Creates a new {@link EntityInstantiators} using the given {@link EntityInstantiator} as fallback.
-	 *
+	 * Creates a new {@link EntityInstantiators} using the given
+	 * {@link EntityInstantiator} as fallback.
 	 * @param fallback must not be {@literal null}.
 	 */
 	public EntityInstantiators(EntityInstantiator fallback) {
@@ -53,8 +55,8 @@ public class EntityInstantiators extends org.springframework.data.mapping.model.
 	}
 
 	/**
-	 * Creates a new {@link EntityInstantiators} using the default fallback instantiator and the given custom ones.
-	 *
+	 * Creates a new {@link EntityInstantiators} using the default fallback instantiator
+	 * and the given custom ones.
 	 * @param customInstantiators must not be {@literal null}.
 	 */
 	public EntityInstantiators(Map<Class<?>, EntityInstantiator> customInstantiators) {
@@ -63,9 +65,8 @@ public class EntityInstantiators extends org.springframework.data.mapping.model.
 	}
 
 	/**
-	 * Creates a new {@link EntityInstantiator} using the given fallback {@link EntityInstantiator} and the given custom
-	 * ones.
-	 *
+	 * Creates a new {@link EntityInstantiator} using the given fallback
+	 * {@link EntityInstantiator} and the given custom ones.
 	 * @param defaultInstantiator must not be {@literal null}.
 	 * @param customInstantiators must not be {@literal null}.
 	 */
@@ -73,6 +74,7 @@ public class EntityInstantiators extends org.springframework.data.mapping.model.
 			Map<Class<?>, EntityInstantiator> customInstantiators) {
 		super(defaultInstantiator, adaptFromLegacy(customInstantiators));
 	}
+
 	@Override
 	public EntityInstantiator getInstantiatorFor(PersistentEntity<?, ?> entity) {
 		return new EntityInstantiatorAdapter(super.getInstantiatorFor(entity));
@@ -86,4 +88,5 @@ public class EntityInstantiators extends org.springframework.data.mapping.model.
 				: instantiators.entrySet().stream() //
 						.collect(Collectors.toMap(Entry::getKey, e -> new EntityInstantiatorAdapter(e.getValue())));
 	}
+
 }

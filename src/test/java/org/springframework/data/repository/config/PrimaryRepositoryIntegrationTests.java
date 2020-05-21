@@ -44,12 +44,21 @@ class PrimaryRepositoryIntegrationTests {
 	@Configuration
 	@EnableRepositories(considerNestedRepositories = true, //
 			includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = Marker.class))
-	static class Config {}
+	static class Config {
 
-	interface Marker {}
+	}
+
+	interface Marker {
+
+	}
 
 	@Primary
-	interface FirstRepository<T> extends CrudRepository<T, Long>, Marker {}
+	interface FirstRepository<T> extends CrudRepository<T, Long>, Marker {
 
-	interface SecondRepository extends FirstRepository<Object>, Marker {}
+	}
+
+	interface SecondRepository extends FirstRepository<Object>, Marker {
+
+	}
+
 }

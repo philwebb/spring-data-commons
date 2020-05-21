@@ -40,7 +40,9 @@ import org.springframework.data.querydsl.SimpleEntityPathResolver;
 @ExtendWith(MockitoExtension.class)
 public class BeanLookupUnitTests {
 
-	@Mock ListableBeanFactory beanFactory;
+	@Mock
+	ListableBeanFactory beanFactory;
+
 	Map<String, EntityPathResolver> beans;
 
 	@BeforeEach
@@ -77,4 +79,5 @@ public class BeanLookupUnitTests {
 				.withMessageContaining("bar") //
 				.withMessageContaining(EntityPathResolver.class.getName());
 	}
+
 }

@@ -39,8 +39,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 
 /**
- * {@link HttpMessageConverter} implementation to enable projected JSON binding to interfaces annotated with
- * {@link ProjectedPayload}.
+ * {@link HttpMessageConverter} implementation to enable projected JSON binding to
+ * interfaces annotated with {@link ProjectedPayload}.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -50,18 +50,20 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 		implements BeanClassLoaderAware, BeanFactoryAware {
 
 	private final SpelAwareProxyProjectionFactory projectionFactory;
+
 	private final Map<Class<?>, Boolean> supportedTypesCache = new ConcurrentReferenceHashMap<>();
 
 	/**
-	 * Creates a new {@link ProjectingJackson2HttpMessageConverter} using a default {@link ObjectMapper}.
+	 * Creates a new {@link ProjectingJackson2HttpMessageConverter} using a default
+	 * {@link ObjectMapper}.
 	 */
 	public ProjectingJackson2HttpMessageConverter() {
 		this.projectionFactory = initProjectionFactory(getObjectMapper());
 	}
 
 	/**
-	 * Creates a new {@link ProjectingJackson2HttpMessageConverter} for the given {@link ObjectMapper}.
-	 *
+	 * Creates a new {@link ProjectingJackson2HttpMessageConverter} for the given
+	 * {@link ObjectMapper}.
 	 * @param mapper must not be {@literal null}.
 	 */
 	public ProjectingJackson2HttpMessageConverter(ObjectMapper mapper) {
@@ -72,9 +74,9 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 	}
 
 	/**
-	 * Creates a new {@link SpelAwareProxyProjectionFactory} with the {@link JsonProjectingMethodInterceptorFactory}
-	 * registered for the given {@link ObjectMapper}.
-	 *
+	 * Creates a new {@link SpelAwareProxyProjectionFactory} with the
+	 * {@link JsonProjectingMethodInterceptorFactory} registered for the given
+	 * {@link ObjectMapper}.
 	 * @param mapper must not be {@literal null}.
 	 * @return
 	 */
@@ -83,15 +85,17 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 		Assert.notNull(mapper, "ObjectMapper must not be null!");
 
 		SpelAwareProxyProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
-		projectionFactory
-				.registerMethodInvokerFactory(new JsonProjectingMethodInterceptorFactory(new JacksonMappingProvider(mapper)));
+		projectionFactory.registerMethodInvokerFactory(
+				new JsonProjectingMethodInterceptorFactory(new JacksonMappingProvider(mapper)));
 
 		return projectionFactory;
 	}
+
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.projectionFactory.setBeanClassLoader(classLoader);
 	}
+
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.projectionFactory.setBeanFactory(beanFactory);
@@ -99,7 +103,10 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter#canRead(java.lang.reflect.Type, java.lang.Class, org.springframework.http.MediaType)
+	 * 
+	 * @see org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter#
+	 * canRead(java.lang.reflect.Type, java.lang.Class,
+	 * org.springframework.http.MediaType)
 	 */
 	@Override
 	public boolean canRead(Type type, @Nullable Class<?> contextClass, @Nullable MediaType mediaType) {
@@ -124,7 +131,9 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter#canWrite(java.lang.Class, org.springframework.http.MediaType)
+	 * 
+	 * @see org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter#
+	 * canWrite(java.lang.Class, org.springframework.http.MediaType)
 	 */
 	@Override
 	public boolean canWrite(Class<?> clazz, @Nullable MediaType mediaType) {
@@ -133,7 +142,10 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter#read(java.lang.reflect.Type, java.lang.Class, org.springframework.http.HttpInputMessage)
+	 * 
+	 * @see
+	 * org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter#read(
+	 * java.lang.reflect.Type, java.lang.Class, org.springframework.http.HttpInputMessage)
 	 */
 	@Override
 	public Object read(Type type, @Nullable Class<?> contextClass, HttpInputMessage inputMessage)
@@ -141,4 +153,5 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 		return this.projectionFactory.createProjection(ResolvableType.forType(type).resolve(Object.class),
 				inputMessage.getBody());
 	}
+
 }

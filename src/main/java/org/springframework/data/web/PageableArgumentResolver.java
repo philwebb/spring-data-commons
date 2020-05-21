@@ -27,10 +27,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Argument resolver to extract a {@link Pageable} object from a {@link NativeWebRequest} for a particular
- * {@link MethodParameter}. A {@link PageableArgumentResolver} can either resolve {@link Pageable} itself or wrap
- * another {@link PageableArgumentResolver} to post-process {@link Pageable}. {@link Pageable} resolution yields either
- * in a {@link Pageable} object or {@literal null} if {@link Pageable} cannot be resolved.
+ * Argument resolver to extract a {@link Pageable} object from a {@link NativeWebRequest}
+ * for a particular {@link MethodParameter}. A {@link PageableArgumentResolver} can either
+ * resolve {@link Pageable} itself or wrap another {@link PageableArgumentResolver} to
+ * post-process {@link Pageable}. {@link Pageable} resolution yields either in a
+ * {@link Pageable} object or {@literal null} if {@link Pageable} cannot be resolved.
  *
  * @author Mark Paluch
  * @since 1.13
@@ -39,10 +40,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public interface PageableArgumentResolver extends HandlerMethodArgumentResolver {
 
 	/**
-	 * Resolves a {@link Pageable} method parameter into an argument value from a given request.
-	 *
-	 * @param parameter the method parameter to resolve. This parameter must have previously been passed to
-	 *          {@link #supportsParameter} which must have returned {@code true}.
+	 * Resolves a {@link Pageable} method parameter into an argument value from a given
+	 * request.
+	 * @param parameter the method parameter to resolve. This parameter must have
+	 * previously been passed to {@link #supportsParameter} which must have returned
+	 * {@code true}.
 	 * @param mavContainer the ModelAndViewContainer for the current request
 	 * @param webRequest the current request
 	 * @param binderFactory a factory for creating {@link WebDataBinder} instances
@@ -52,4 +54,5 @@ public interface PageableArgumentResolver extends HandlerMethodArgumentResolver 
 	@Override
 	Pageable resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory);
+
 }

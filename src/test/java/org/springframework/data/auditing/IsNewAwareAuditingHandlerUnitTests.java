@@ -105,8 +105,13 @@ class IsNewAwareAuditingHandlerUnitTests extends AuditingHandlerUnitTests {
 
 	static class Domain {
 
-		@Id Long id;
+		@Id
+		Long id;
+
 	}
 
-	static class EntityWithoutId {}
+	static class EntityWithoutId {
+
+	}
+
 }

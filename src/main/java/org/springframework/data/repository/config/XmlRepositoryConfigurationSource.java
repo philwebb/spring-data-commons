@@ -38,7 +38,8 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 /**
- * XML based {@link RepositoryConfigurationSource}. Uses configuration defined on {@link Element} attributes.
+ * XML based {@link RepositoryConfigurationSource}. Uses configuration defined on
+ * {@link Element} attributes.
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
@@ -49,23 +50,32 @@ import org.w3c.dom.Element;
 public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSourceSupport {
 
 	private static final String QUERY_LOOKUP_STRATEGY = "query-lookup-strategy";
+
 	private static final String BASE_PACKAGE = "base-package";
+
 	private static final String NAMED_QUERIES_LOCATION = "named-queries-location";
+
 	private static final String REPOSITORY_IMPL_POSTFIX = "repository-impl-postfix";
+
 	private static final String REPOSITORY_FACTORY_BEAN_CLASS_NAME = "factory-class";
+
 	private static final String REPOSITORY_BASE_CLASS_NAME = "base-class";
+
 	private static final String CONSIDER_NESTED_REPOSITORIES = "consider-nested-repositories";
+
 	private static final String BOOTSTRAP_MODE = "bootstrap-mode";
 
 	private final Element element;
+
 	private final ParserContext context;
 
 	private final Collection<TypeFilter> includeFilters;
+
 	private final Collection<TypeFilter> excludeFilters;
 
 	/**
-	 * Creates a new {@link XmlRepositoryConfigurationSource} using the given {@link Element} and {@link ParserContext}.
-	 *
+	 * Creates a new {@link XmlRepositoryConfigurationSource} using the given
+	 * {@link Element} and {@link ParserContext}.
 	 * @param element must not be {@literal null}.
 	 * @param context must not be {@literal null}.
 	 * @param environment must not be {@literal null}.
@@ -84,53 +94,64 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 		this.includeFilters = parser.parseTypeFilters(element, Type.INCLUDE);
 		this.excludeFilters = parser.parseTypeFilters(element, Type.EXCLUDE);
 	}
+
 	@Nullable
 	public Object getSource() {
 		return this.context.extractSource(this.element);
 	}
+
 	public Streamable<String> getBasePackages() {
 
 		String attribute = this.element.getAttribute(BASE_PACKAGE);
 
 		return Streamable.of(StringUtils.delimitedListToStringArray(attribute, ",", " "));
 	}
+
 	public Optional<Object> getQueryLookupStrategyKey() {
 		return getNullDefaultedAttribute(this.element, QUERY_LOOKUP_STRATEGY).map(Key::create);
 	}
+
 	public Optional<String> getNamedQueryLocation() {
 		return getNullDefaultedAttribute(this.element, NAMED_QUERIES_LOCATION);
 	}
 
 	/**
 	 * Returns the XML element backing the configuration.
-	 *
 	 * @return the element
 	 */
 	public Element getElement() {
 		return this.element;
 	}
+
 	@Override
 	public Streamable<TypeFilter> getExcludeFilters() {
 		return Streamable.of(this.excludeFilters);
 	}
+
 	@Override
 	protected Iterable<TypeFilter> getIncludeFilters() {
 		return this.includeFilters;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#getRepositoryImplementationPostfix()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#
+	 * getRepositoryImplementationPostfix()
 	 */
 	public Optional<String> getRepositoryImplementationPostfix() {
 		return getNullDefaultedAttribute(this.element, REPOSITORY_IMPL_POSTFIX);
 	}
+
 	public Optional<String> getRepositoryFactoryBeanName() {
 		return getNullDefaultedAttribute(this.element, REPOSITORY_FACTORY_BEAN_CLASS_NAME);
 	}
+
 	@Override
 	public Optional<String> getRepositoryBaseClassName() {
 		return getNullDefaultedAttribute(this.element, REPOSITORY_BASE_CLASS_NAME);
 	}
+
 	@Override
 	public Optional<String> getRepositoryFactoryBeanClassName() {
 		return getNullDefaultedAttribute(this.element, REPOSITORY_FACTORY_BEAN_CLASS_NAME);
@@ -141,10 +162,13 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 		String attribute = element.getAttribute(attributeName);
 		return StringUtils.hasText(attribute) ? Optional.of(attribute) : Optional.empty();
 	}
+
 	@Override
 	public boolean shouldConsiderNestedRepositories() {
-		return getNullDefaultedAttribute(this.element, CONSIDER_NESTED_REPOSITORIES).map(Boolean::parseBoolean).orElse(false);
+		return getNullDefaultedAttribute(this.element, CONSIDER_NESTED_REPOSITORIES).map(Boolean::parseBoolean)
+				.orElse(false);
 	}
+
 	@Override
 	public Optional<String> getAttribute(String name) {
 
@@ -156,7 +180,9 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#getAttribute(java.lang.String, java.lang.Class)
+	 * 
+	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#
+	 * getAttribute(java.lang.String, java.lang.Class)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -166,10 +192,12 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 
 		return (Optional<T>) getAttribute(name);
 	}
+
 	@Override
 	public boolean usesExplicitFilters() {
 		return !(this.includeFilters.isEmpty() && this.excludeFilters.isEmpty());
 	}
+
 	@Override
 	public BootstrapMode getBootstrapMode() {
 
@@ -179,6 +207,7 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 				? BootstrapMode.valueOf(attribute.toUpperCase(Locale.US)) //
 				: BootstrapMode.DEFAULT;
 	}
+
 	@Override
 	@NonNull
 	public String getResourceDescription() {
@@ -189,10 +218,10 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	}
 
 	/**
-	 * Returns the {@link BeanNameGenerator} to use falling back to an {@link AnnotationBeanNameGenerator} if either the
-	 * given generator is {@literal null} or it's {@link DefaultBeanNameGenerator} in particular. This is to make sure we
-	 * only use the given {@link BeanNameGenerator} if it was customized.
-	 *
+	 * Returns the {@link BeanNameGenerator} to use falling back to an
+	 * {@link AnnotationBeanNameGenerator} if either the given generator is
+	 * {@literal null} or it's {@link DefaultBeanNameGenerator} in particular. This is to
+	 * make sure we only use the given {@link BeanNameGenerator} if it was customized.
 	 * @param generator can be {@literal null}.
 	 * @return
 	 * @since 2.2
@@ -203,4 +232,5 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 				? new AnnotationBeanNameGenerator() //
 				: generator;
 	}
+
 }

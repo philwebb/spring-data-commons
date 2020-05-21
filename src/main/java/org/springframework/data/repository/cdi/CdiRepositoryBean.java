@@ -63,34 +63,39 @@ import org.springframework.util.StringUtils;
 public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapable {
 
 	private static final Logger logger = LoggerFactory.getLogger(CdiRepositoryBean.class);
+
 	private static final CdiRepositoryConfiguration DEFAULT_CONFIGURATION = DefaultCdiRepositoryConfiguration.INSTANCE;
 
 	private final Set<Annotation> qualifiers;
+
 	private final Class<T> repositoryType;
+
 	private final CdiRepositoryContext context;
+
 	private final BeanManager beanManager;
+
 	private final String passivationId;
 
 	private transient @Nullable T repoInstance;
 
 	/**
 	 * Creates a new {@link CdiRepositoryBean}.
-	 *
 	 * @param qualifiers must not be {@literal null}.
 	 * @param repositoryType has to be an interface must not be {@literal null}.
 	 * @param beanManager the CDI {@link BeanManager}, must not be {@literal null}.
 	 */
 	public CdiRepositoryBean(Set<Annotation> qualifiers, Class<T> repositoryType, BeanManager beanManager) {
-		this(qualifiers, repositoryType, beanManager, new CdiRepositoryContext(CdiRepositoryBean.class.getClassLoader()));
+		this(qualifiers, repositoryType, beanManager,
+				new CdiRepositoryContext(CdiRepositoryBean.class.getClassLoader()));
 	}
 
 	/**
 	 * Creates a new {@link CdiRepositoryBean}.
-	 *
 	 * @param qualifiers must not be {@literal null}.
 	 * @param repositoryType has to be an interface must not be {@literal null}.
 	 * @param beanManager the CDI {@link BeanManager}, must not be {@literal null}.
-	 * @param detector detector for the custom repository implementations {@link CustomRepositoryImplementationDetector}.
+	 * @param detector detector for the custom repository implementations
+	 * {@link CustomRepositoryImplementationDetector}.
 	 */
 	public CdiRepositoryBean(Set<Annotation> qualifiers, Class<T> repositoryType, BeanManager beanManager,
 			Optional<CustomRepositoryImplementationDetector> detector) {
@@ -103,18 +108,18 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 		this.qualifiers = qualifiers;
 		this.repositoryType = repositoryType;
 		this.beanManager = beanManager;
-		this.context = new CdiRepositoryContext(getClass().getClassLoader(), detector
-				.orElseThrow(() -> new IllegalArgumentException("CustomRepositoryImplementationDetector must be present!")));
+		this.context = new CdiRepositoryContext(getClass().getClassLoader(), detector.orElseThrow(
+				() -> new IllegalArgumentException("CustomRepositoryImplementationDetector must be present!")));
 		this.passivationId = createPassivationId(qualifiers, repositoryType);
 	}
 
 	/**
 	 * Creates a new {@link CdiRepositoryBean}.
-	 *
 	 * @param qualifiers must not be {@literal null}.
 	 * @param repositoryType has to be an interface must not be {@literal null}.
 	 * @param beanManager the CDI {@link BeanManager}, must not be {@literal null}.
-	 * @param context CDI context encapsulating class loader, metadata scanning and fragment detection.
+	 * @param context CDI context encapsulating class loader, metadata scanning and
+	 * fragment detection.
 	 * @since 2.1
 	 */
 	public CdiRepositoryBean(Set<Annotation> qualifiers, Class<T> repositoryType, BeanManager beanManager,
@@ -133,8 +138,8 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	}
 
 	/**
-	 * Creates a unique identifier for the given repository type and the given annotations.
-	 *
+	 * Creates a unique identifier for the given repository type and the given
+	 * annotations.
 	 * @param qualifiers must not be {@literal null} or contain {@literal null} values.
 	 * @param repositoryType must not be {@literal null}.
 	 * @return
@@ -150,6 +155,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 		Collections.sort(qualifierNames);
 		return StringUtils.collectionToDelimitedString(qualifierNames, ":") + ":" + repositoryType.getName();
 	}
+
 	@SuppressWarnings("rawtypes")
 	public Set<Type> getTypes() {
 
@@ -162,7 +168,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 	/**
 	 * Returns an instance of an the given {@link Bean}.
-	 *
 	 * @param bean the {@link Bean} about to create an instance for.
 	 * @return the actual component instance.
 	 * @see Bean#getTypes()
@@ -172,13 +177,13 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	}
 
 	/**
-	 * Returns an instance of an the given {@link Bean} and allows to be specific about the type that is about to be
-	 * created.
-	 *
+	 * Returns an instance of an the given {@link Bean} and allows to be specific about
+	 * the type that is about to be created.
 	 * @param bean the {@link Bean} about to create an instance for.
-	 * @param type the expected type of the component instance created for that {@link Bean}. We need to hand this
-	 *          parameter explicitly as the {@link Bean} might carry multiple types but the primary one might not be the
-	 *          first, i.e. the one returned by {@link Bean#getBeanClass()}.
+	 * @param type the expected type of the component instance created for that
+	 * {@link Bean}. We need to hand this parameter explicitly as the {@link Bean} might
+	 * carry multiple types but the primary one might not be the first, i.e. the one
+	 * returned by {@link Bean#getBeanClass()}.
 	 * @return the actual component instance.
 	 * @see Bean#getTypes()
 	 */
@@ -194,6 +199,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	public final void initialize() {
 		create(this.beanManager.createCreationalContext(this));
 	}
+
 	public final T create(@SuppressWarnings("null") CreationalContext<T> creationalContext) {
 
 		T repoInstance = this.repoInstance;
@@ -212,7 +218,9 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 	/*
 	 * (non-Javadoc)
-	 * @see javax.enterprise.context.spi.Contextual#destroy(java.lang.Object, javax.enterprise.context.spi.CreationalContext)
+	 * 
+	 * @see javax.enterprise.context.spi.Contextual#destroy(java.lang.Object,
+	 * javax.enterprise.context.spi.CreationalContext)
 	 */
 	public void destroy(@SuppressWarnings("null") T instance,
 			@SuppressWarnings("null") CreationalContext<T> creationalContext) {
@@ -224,12 +232,15 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 		creationalContext.release();
 	}
+
 	public Set<Annotation> getQualifiers() {
 		return this.qualifiers;
 	}
+
 	public String getName() {
 		return this.repositoryType.getName();
 	}
+
 	public Set<Class<? extends Annotation>> getStereotypes() {
 
 		return Arrays.stream(this.repositoryType.getAnnotations())//
@@ -237,28 +248,33 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 				.filter(it -> it.isAnnotationPresent(Stereotype.class))//
 				.collect(Collectors.toSet());
 	}
+
 	public Class<?> getBeanClass() {
 		return this.repositoryType;
 	}
+
 	public boolean isAlternative() {
 		return this.repositoryType.isAnnotationPresent(Alternative.class);
 	}
+
 	public boolean isNullable() {
 		return false;
 	}
+
 	public Set<InjectionPoint> getInjectionPoints() {
 		return Collections.emptySet();
 	}
+
 	public Class<? extends Annotation> getScope() {
 		return ApplicationScoped.class;
 	}
+
 	public String getId() {
 		return this.passivationId;
 	}
 
 	/**
 	 * Creates the actual component instance.
-	 *
 	 * @param creationalContext will never be {@literal null}.
 	 * @param repositoryType will never be {@literal null}.
 	 * @return
@@ -275,10 +291,11 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	}
 
 	/**
-	 * Creates the actual component instance given a {@link RepositoryFactorySupport repository factory supplier} and the
-	 * repository {@link Class type}. This method is an utility for to create a repository. This method will obtain a
-	 * {@link RepositoryFactorySupport repository factory} and configure it with {@link CdiRepositoryConfiguration}.
-	 *
+	 * Creates the actual component instance given a {@link RepositoryFactorySupport
+	 * repository factory supplier} and the repository {@link Class type}. This method is
+	 * an utility for to create a repository. This method will obtain a
+	 * {@link RepositoryFactorySupport repository factory} and configure it with
+	 * {@link CdiRepositoryConfiguration}.
 	 * @param factorySupplier must not be {@literal null}.
 	 * @param repositoryType must not be {@literal null}.
 	 * @return
@@ -298,7 +315,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 	/**
 	 * Lookup repository fragments for a {@link Class repository interface}.
-	 *
 	 * @param repositoryType must not be {@literal null}.
 	 * @return the {@link RepositoryFragments}.
 	 * @since 2.1
@@ -339,7 +355,8 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 		return fragmentConfigurations.flatMap(it -> {
 
-			Class<Object> interfaceClass = (Class<Object>) lookupFragmentInterface(repositoryType, it.getInterfaceName());
+			Class<Object> interfaceClass = (Class<Object>) lookupFragmentInterface(repositoryType,
+					it.getInterfaceName());
 			Class<?> implementationClass = this.context.loadClass(it.getClassName());
 			Optional<Bean<?>> bean = getBean(implementationClass, this.beanManager, this.qualifiers);
 
@@ -354,19 +371,19 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 		return Arrays.stream(repositoryType.getInterfaces()) //
 				.filter(it -> it.getName().equals(interfaceName)) //
 				.findFirst() //
-				.orElseThrow(() -> new IllegalArgumentException(String.format("Did not find type %s in %s!", interfaceName,
-						Arrays.asList(repositoryType.getInterfaces()))));
+				.orElseThrow(() -> new IllegalArgumentException(String.format("Did not find type %s in %s!",
+						interfaceName, Arrays.asList(repositoryType.getInterfaces()))));
 	}
 
 	/**
 	 * Creates the actual component instance.
-	 *
 	 * @param creationalContext will never be {@literal null}.
 	 * @param repositoryType will never be {@literal null}.
 	 * @param customImplementation can be {@literal null}.
 	 * @return
-	 * @deprecated since 2.1, override {@link #create(CreationalContext, Class)} in which you create a repository factory
-	 *             and call {@link #create(RepositoryFactorySupport, Class, RepositoryFragments)}.
+	 * @deprecated since 2.1, override {@link #create(CreationalContext, Class)} in which
+	 * you create a repository factory and call
+	 * {@link #create(RepositoryFactorySupport, Class, RepositoryFragments)}.
 	 */
 	@Deprecated
 	protected T create(CreationalContext<T> creationalContext, Class<T> repositoryType,
@@ -377,22 +394,23 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	}
 
 	/**
-	 * Looks up an instance of a {@link CdiRepositoryConfiguration}. In case the instance cannot be found within the CDI
-	 * scope, a default configuration is used.
-	 *
-	 * @return an available CdiRepositoryConfiguration instance or a default configuration.
+	 * Looks up an instance of a {@link CdiRepositoryConfiguration}. In case the instance
+	 * cannot be found within the CDI scope, a default configuration is used.
+	 * @return an available CdiRepositoryConfiguration instance or a default
+	 * configuration.
 	 */
 	protected CdiRepositoryConfiguration lookupConfiguration(BeanManager beanManager, Set<Annotation> qualifiers) {
 
-		return beanManager.getBeans(CdiRepositoryConfiguration.class, getQualifiersArray(qualifiers)).stream().findFirst()//
+		return beanManager.getBeans(CdiRepositoryConfiguration.class, getQualifiersArray(qualifiers)).stream()
+				.findFirst()//
 				.map(it -> (CdiRepositoryConfiguration) getDependencyInstance(it)) //
 				.orElse(DEFAULT_CONFIGURATION);
 	}
 
 	/**
-	 * Try to lookup a custom implementation for a {@link org.springframework.data.repository.Repository}. Can only be
-	 * used when a {@code CustomRepositoryImplementationDetector} is provided.
-	 *
+	 * Try to lookup a custom implementation for a
+	 * {@link org.springframework.data.repository.Repository}. Can only be used when a
+	 * {@code CustomRepositoryImplementationDetector} is provided.
 	 * @param repositoryType
 	 * @param cdiRepositoryConfiguration
 	 * @return the custom implementation instance or null
@@ -405,9 +423,8 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	}
 
 	/**
-	 * Applies the configuration from {@link CdiRepositoryConfiguration} to {@link RepositoryFactorySupport} by looking up
-	 * the actual configuration.
-	 *
+	 * Applies the configuration from {@link CdiRepositoryConfiguration} to
+	 * {@link RepositoryFactorySupport} by looking up the actual configuration.
 	 * @param repositoryFactory will never be {@literal null}.
 	 * @since 2.1
 	 */
@@ -416,9 +433,8 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	}
 
 	/**
-	 * Applies the configuration from {@link CdiRepositoryConfiguration} to {@link RepositoryFactorySupport} by looking up
-	 * the actual configuration.
-	 *
+	 * Applies the configuration from {@link CdiRepositoryConfiguration} to
+	 * {@link RepositoryFactorySupport} by looking up the actual configuration.
 	 * @param repositoryFactory will never be {@literal null}.
 	 * @param configuration will never be {@literal null}.
 	 * @since 2.1
@@ -436,7 +452,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 	/**
 	 * Creates the actual repository instance.
-	 *
 	 * @param repositoryType will never be {@literal null}.
 	 * @param repositoryFragments will never be {@literal null}.
 	 * @return
@@ -453,6 +468,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	private static Annotation[] getQualifiersArray(Set<Annotation> qualifiers) {
 		return qualifiers.toArray(new Annotation[qualifiers.size()]);
 	}
+
 	@Override
 	public String toString() {
 		return String.format("CdiRepositoryBean: type='%s', qualifiers=%s", this.repositoryType.getName(),
@@ -460,6 +476,9 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	}
 
 	enum DefaultCdiRepositoryConfiguration implements CdiRepositoryConfiguration {
+
 		INSTANCE;
+
 	}
+
 }

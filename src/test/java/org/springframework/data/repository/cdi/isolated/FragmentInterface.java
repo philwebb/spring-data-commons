@@ -21,4 +21,5 @@ package org.springframework.data.repository.cdi.isolated;
 interface FragmentInterface {
 
 	int getPriority();
+
 }

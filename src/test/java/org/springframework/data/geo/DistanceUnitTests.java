@@ -34,7 +34,9 @@ import org.springframework.util.SerializationUtils;
 class DistanceUnitTests {
 
 	private static final Offset<Double> EPS = Offset.offset(0.000000001);
+
 	private static final double TEN_MILES_NORMALIZED = 0.002523219294755161;
+
 	private static final double TEN_KM_NORMALIZED = 0.001567855942887398;
 
 	@Test // DATACMNS-437
@@ -160,4 +162,5 @@ class DistanceUnitTests {
 		assertThat(twoKilometers.compareTo(tenKilometers)).isLessThan(0);
 		assertThat(tenKilometers.compareTo(twoKilometers)).isGreaterThan(0);
 	}
+
 }

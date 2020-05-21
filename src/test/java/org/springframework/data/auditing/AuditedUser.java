@@ -31,9 +31,13 @@ class AuditedUser implements Auditable<AuditedUser, Long, LocalDateTime> {
 	private static final long serialVersionUID = -840865084027597951L;
 
 	Long id;
+
 	AuditedUser createdBy;
+
 	AuditedUser modifiedBy;
+
 	LocalDateTime createdDate;
+
 	LocalDateTime modifiedDate;
 
 	public Long getId() {
@@ -75,4 +79,5 @@ class AuditedUser implements Auditable<AuditedUser, Long, LocalDateTime> {
 	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
 		this.modifiedDate = lastModifiedDate;
 	}
+
 }

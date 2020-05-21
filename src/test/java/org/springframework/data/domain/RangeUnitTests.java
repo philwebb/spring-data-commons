@@ -209,4 +209,5 @@ class RangeUnitTests {
 	void createsSingleValueRange() {
 		assertThat(Range.just(10L).contains(10L)).isTrue();
 	}
+
 }

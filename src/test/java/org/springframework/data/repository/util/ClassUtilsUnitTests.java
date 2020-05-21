@@ -64,12 +64,14 @@ class ClassUtilsUnitTests {
 
 			return null;
 		}
+
 	}
 
 	static interface UserRepository extends Repository<User, Integer> {
 
 		@Async
 		Future<Page<User>> findAsync(Pageable pageable);
+
 	}
 
 	interface SomeDao extends Serializable, UserRepository {
@@ -79,9 +81,11 @@ class ClassUtilsUnitTests {
 		GenericType<User> someMethod();
 
 		List<Map<String, Object>> anotherMethod();
+
 	}
 
 	class GenericType<T> {
 
 	}
+
 }

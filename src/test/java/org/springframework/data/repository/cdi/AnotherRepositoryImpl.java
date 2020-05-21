@@ -24,4 +24,5 @@ class AnotherRepositoryImpl implements AnotherRepositoryCustom {
 	public int returnZero() {
 		return 0;
 	}
+
 }

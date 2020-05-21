@@ -47,7 +47,6 @@ class PropertyPathInformation implements PathInformation {
 
 	/**
 	 * Creates a new {@link PropertyPathInformation} for the given path and type.
-	 *
 	 * @param path must not be {@literal null} or empty.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -57,8 +56,8 @@ class PropertyPathInformation implements PathInformation {
 	}
 
 	/**
-	 * Creates a new {@link PropertyPathInformation} for the given path and {@link TypeInformation}.
-	 *
+	 * Creates a new {@link PropertyPathInformation} for the given path and
+	 * {@link TypeInformation}.
 	 * @param path must not be {@literal null} or empty.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -70,27 +69,33 @@ class PropertyPathInformation implements PathInformation {
 	private static PropertyPathInformation of(PropertyPath path) {
 		return new PropertyPathInformation(path);
 	}
+
 	@Override
 	public Class<?> getLeafType() {
 		return this.path.getLeafProperty().getType();
 	}
+
 	@Override
 	public Class<?> getLeafParentType() {
 		return this.path.getLeafProperty().getOwningType().getType();
 	}
+
 	@Override
 	public String getLeafProperty() {
 		return this.path.getLeafProperty().getSegment();
 	}
+
 	@Nullable
 	@Override
 	public PropertyDescriptor getLeafPropertyDescriptor() {
 		return BeanUtils.getPropertyDescriptor(getLeafParentType(), getLeafProperty());
 	}
+
 	@Override
 	public String toDotPath() {
 		return this.path.toDotPath();
 	}
+
 	@Override
 	public Path<?> reifyPath(EntityPathResolver resolver) {
 		return reifyPath(resolver, this.path, Optional.empty());
@@ -120,6 +125,7 @@ class PropertyPathInformation implements PathInformation {
 			return (Path<?>) value;
 		});
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -134,12 +140,15 @@ class PropertyPathInformation implements PathInformation {
 		PropertyPathInformation that = (PropertyPathInformation) o;
 		return ObjectUtils.nullSafeEquals(this.path, that.path);
 	}
+
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(this.path);
 	}
+
 	@Override
 	public String toString() {
 		return "PropertyPathInformation(path=" + this.path + ")";
 	}
+
 }

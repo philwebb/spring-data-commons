@@ -40,9 +40,16 @@ class RepositoryFragmentUnitTests {
 		assertThat(RepositoryFragment.implemented(CustomFragment.class, new CustomFragmentImpl())).isNotNull();
 	}
 
-	interface CustomFragment {}
+	interface CustomFragment {
 
-	private static class CustomFragmentImpl implements CustomFragment {}
+	}
 
-	private static class UnrelatedImpl {}
+	private static class CustomFragmentImpl implements CustomFragment {
+
+	}
+
+	private static class UnrelatedImpl {
+
+	}
+
 }

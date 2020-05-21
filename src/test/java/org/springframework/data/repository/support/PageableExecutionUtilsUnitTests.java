@@ -40,7 +40,8 @@ import org.springframework.data.domain.Pageable;
 @ExtendWith(MockitoExtension.class)
 class PageableExecutionUtilsUnitTests {
 
-	@Mock LongSupplier totalSupplierMock;
+	@Mock
+	LongSupplier totalSupplierMock;
 
 	@Test // DATAMCNS-884
 	void firstPageRequestIsLessThanOneFullPageDoesNotRequireTotal() {
@@ -56,7 +57,8 @@ class PageableExecutionUtilsUnitTests {
 	@Test // DATAMCNS-884
 	void noPageableRequestDoesNotRequireTotal() {
 
-		Page<Integer> page = PageableExecutionUtils.getPage(Arrays.asList(1, 2, 3), Pageable.unpaged(), this.totalSupplierMock);
+		Page<Integer> page = PageableExecutionUtils.getPage(Arrays.asList(1, 2, 3), Pageable.unpaged(),
+				this.totalSupplierMock);
 
 		assertThat(page).contains(1, 2, 3);
 		assertThat(page.getTotalElements()).isEqualTo(3L);
@@ -108,11 +110,12 @@ class PageableExecutionUtilsUnitTests {
 	void subsequentPageRequestWithoutResultRequiresRequireTotal() {
 
 		doReturn(7L).when(this.totalSupplierMock).getAsLong();
-		Page<Integer> page = PageableExecutionUtils.getPage(Collections.<Integer> emptyList(), PageRequest.of(5, 10),
+		Page<Integer> page = PageableExecutionUtils.getPage(Collections.<Integer>emptyList(), PageRequest.of(5, 10),
 				this.totalSupplierMock);
 
 		assertThat(page.getTotalElements()).isEqualTo(7L);
 
 		verify(this.totalSupplierMock).getAsLong();
 	}
+
 }

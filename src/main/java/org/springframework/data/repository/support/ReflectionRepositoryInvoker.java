@@ -38,7 +38,8 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Base {@link RepositoryInvoker} using reflection to invoke methods on Spring Data Repositories.
+ * Base {@link RepositoryInvoker} using reflection to invoke methods on Spring Data
+ * Repositories.
  *
  * @author Oliver Gierke
  * @since 1.10
@@ -46,17 +47,20 @@ import org.springframework.util.StringUtils;
 class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	private static final AnnotationAttribute PARAM_ANNOTATION = new AnnotationAttribute(Param.class);
+
 	private static final String NAME_NOT_FOUND = "Unable to detect parameter names for query method %s! Use @Param or compile with -parameters on JDK 8.";
 
 	private final Object repository;
+
 	private final CrudMethods methods;
+
 	private final Class<?> idType;
+
 	private final ConversionService conversionService;
 
 	/**
-	 * Creates a new {@link ReflectionRepositoryInvoker} for the given repository, {@link RepositoryMetadata} and
-	 * {@link ConversionService}.
-	 *
+	 * Creates a new {@link ReflectionRepositoryInvoker} for the given repository,
+	 * {@link RepositoryMetadata} and {@link ConversionService}.
 	 * @param repository must not be {@literal null}.
 	 * @param metadata must not be {@literal null}.
 	 * @param conversionService must not be {@literal null}.
@@ -73,22 +77,27 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 		this.idType = metadata.getIdType();
 		this.conversionService = conversionService;
 	}
+
 	@Override
 	public boolean hasFindAllMethod() {
 		return this.methods.hasFindAllMethod();
 	}
+
 	@Override
 	public Iterable<Object> invokeFindAll(Sort sort) {
 		return invokeFindAllReflectively(sort);
 	}
+
 	@Override
 	public Iterable<Object> invokeFindAll(Pageable pageable) {
 		return invokeFindAllReflectively(pageable);
 	}
+
 	@Override
 	public boolean hasSaveMethod() {
 		return this.methods.hasSaveMethod();
 	}
+
 	@Override
 	public <T> T invokeSave(T object) {
 
@@ -97,10 +106,12 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 		return invokeForNonNullResult(method, object);
 	}
+
 	@Override
 	public boolean hasFindOneMethod() {
 		return this.methods.hasFindOneMethod();
 	}
+
 	@Override
 	public <T> Optional<T> invokeFindById(Object id) {
 
@@ -109,10 +120,12 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 		return returnAsOptional(invoke(method, convertId(id)));
 	}
+
 	@Override
 	public boolean hasDeleteMethod() {
 		return this.methods.hasDelete();
 	}
+
 	@Override
 	public void invokeDeleteById(Object id) {
 
@@ -123,18 +136,23 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 		if (method.getName().endsWith("ById")) {
 			invoke(method, convertId(id));
-		} else {
-			invoke(method, this.<Object> invokeFindById(id).orElse(null));
+		}
+		else {
+			invoke(method, this.<Object>invokeFindById(id).orElse(null));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.rest.core.invoke.RepositoryInvoker#invokeQueryMethod(java.lang.reflect.Method, java.util.Map, org.springframework.data.domain.Pageable, org.springframework.data.domain.Sort)
+	 * 
+	 * @see
+	 * org.springframework.data.rest.core.invoke.RepositoryInvoker#invokeQueryMethod(java.
+	 * lang.reflect.Method, java.util.Map, org.springframework.data.domain.Pageable,
+	 * org.springframework.data.domain.Sort)
 	 */
 	@Override
-	public Optional<Object> invokeQueryMethod(Method method, MultiValueMap<String, ?> parameters,
-			Pageable pageable, Sort sort) {
+	public Optional<Object> invokeQueryMethod(Method method, MultiValueMap<String, ?> parameters, Pageable pageable,
+			Sort sort) {
 
 		Assert.notNull(method, "Method must not be null!");
 		Assert.notNull(parameters, "Parameters must not be null!");
@@ -146,8 +164,8 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 		return returnAsOptional(invoke(method, prepareParameters(method, parameters, pageable, sort)));
 	}
 
-	private Object[] prepareParameters(Method method, MultiValueMap<String, ?> rawParameters,
-			Pageable pageable, Sort sort) {
+	private Object[] prepareParameters(Method method, MultiValueMap<String, ?> rawParameters, Pageable pageable,
+			Sort sort) {
 
 		List<MethodParameter> parameters = new MethodParameters(method, Optional.of(PARAM_ANNOTATION)).getParameters();
 
@@ -165,14 +183,17 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 			if (Pageable.class.isAssignableFrom(targetType)) {
 				result[i] = pageable;
-			} else if (Sort.class.isAssignableFrom(targetType)) {
+			}
+			else if (Sort.class.isAssignableFrom(targetType)) {
 				result[i] = sortToUse;
-			} else {
+			}
+			else {
 
 				String parameterName = param.getParameterName();
 
 				if (!StringUtils.hasText(parameterName)) {
-					throw new IllegalArgumentException(String.format(NAME_NOT_FOUND, ClassUtils.getQualifiedMethodName(method)));
+					throw new IllegalArgumentException(
+							String.format(NAME_NOT_FOUND, ClassUtils.getQualifiedMethodName(method)));
 				}
 
 				Object value = unwrapSingleElement(rawParameters.get(parameterName));
@@ -192,15 +213,16 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 		}
 
 		try {
-			return this.conversionService.convert(value, TypeDescriptor.forObject(value), new TypeDescriptor(parameter));
-		} catch (ConversionException o_O) {
+			return this.conversionService.convert(value, TypeDescriptor.forObject(value),
+					new TypeDescriptor(parameter));
+		}
+		catch (ConversionException o_O) {
 			throw new QueryMethodParameterConversionException(value, parameter, o_O);
 		}
 	}
 
 	/**
 	 * Invokes the given method with the given arguments on the backing repository.
-	 *
 	 * @param method
 	 * @param arguments
 	 * @return
@@ -216,8 +238,9 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 		T result = invoke(method, arguments);
 
 		if (result == null) {
-			throw new IllegalStateException(String.format("Invocation of method %s(%s) on %s unexpectedly returned null!",
-					method, Arrays.toString(arguments), this.repository));
+			throw new IllegalStateException(
+					String.format("Invocation of method %s(%s) on %s unexpectedly returned null!", method,
+							Arrays.toString(arguments), this.repository));
 		}
 
 		return result;
@@ -233,7 +256,6 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	/**
 	 * Converts the given id into the id type of the backing repository.
-	 *
 	 * @param id must not be {@literal null}.
 	 * @return
 	 */
@@ -283,7 +305,6 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	/**
 	 * Unwraps the first item if the given source has exactly one element.
-	 *
 	 * @param source can be {@literal null}.
 	 * @return
 	 */
@@ -291,4 +312,5 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	private static Object unwrapSingleElement(@Nullable List<? extends Object> source) {
 		return source == null ? null : source.size() == 1 ? source.get(0) : source;
 	}
+
 }

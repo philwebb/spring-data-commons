@@ -32,7 +32,8 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Value object to abstract the concept of a property backed by a {@link Field} and / or a {@link PropertyDescriptor}.
+ * Value object to abstract the concept of a property backed by a {@link Field} and / or a
+ * {@link PropertyDescriptor}.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -41,15 +42,21 @@ import org.springframework.util.StringUtils;
 public class Property {
 
 	private final Optional<Field> field;
+
 	private final Optional<PropertyDescriptor> descriptor;
 
 	private final Class<?> rawType;
+
 	private final Lazy<Integer> hashCode;
+
 	private final Optional<Method> getter;
+
 	private final Optional<Method> setter;
 
 	private final Lazy<String> name;
+
 	private final Lazy<String> toString;
+
 	private final Lazy<Optional<Method>> wither;
 
 	private Property(TypeInformation<?> type, Optional<Field> field, Optional<PropertyDescriptor> descriptor) {
@@ -82,7 +89,6 @@ public class Property {
 
 	/**
 	 * Creates a new {@link Property} backed by the given field.
-	 *
 	 * @param type the owning type, must not be {@literal null}.
 	 * @param field must not be {@literal null}.
 	 * @return
@@ -95,8 +101,8 @@ public class Property {
 	}
 
 	/**
-	 * Creates a new {@link Property} backed by the given {@link Field} and {@link PropertyDescriptor}.
-	 *
+	 * Creates a new {@link Property} backed by the given {@link Field} and
+	 * {@link PropertyDescriptor}.
 	 * @param type the owning type, must not be {@literal null}.
 	 * @param field must not be {@literal null}.
 	 * @param descriptor must not be {@literal null}.
@@ -111,9 +117,8 @@ public class Property {
 	}
 
 	/**
-	 * Creates a new {@link Property} for the given {@link PropertyDescriptor}. The creation might fail if the given
-	 * property is not representing a proper property.
-	 *
+	 * Creates a new {@link Property} for the given {@link PropertyDescriptor}. The
+	 * creation might fail if the given property is not representing a proper property.
 	 * @param type the owning type, must not be {@literal null}.
 	 * @param descriptor must not be {@literal null}.
 	 * @return
@@ -127,9 +132,8 @@ public class Property {
 	}
 
 	/**
-	 * Returns whether the given {@link PropertyDescriptor} is supported in for standalone creation of a {@link Property}
-	 * instance.
-	 *
+	 * Returns whether the given {@link PropertyDescriptor} is supported in for standalone
+	 * creation of a {@link Property} instance.
 	 * @param descriptor
 	 * @return
 	 */
@@ -142,7 +146,6 @@ public class Property {
 
 	/**
 	 * Returns whether the property is backed by a field.
-	 *
 	 * @return
 	 */
 	public boolean isFieldBacked() {
@@ -150,8 +153,8 @@ public class Property {
 	}
 
 	/**
-	 * Returns the getter of the property if available and if it matches the type of the property.
-	 *
+	 * Returns the getter of the property if available and if it matches the type of the
+	 * property.
 	 * @return will never be {@literal null}.
 	 */
 	public Optional<Method> getGetter() {
@@ -159,8 +162,8 @@ public class Property {
 	}
 
 	/**
-	 * Returns the setter of the property if available and if its first (only) parameter matches the type of the property.
-	 *
+	 * Returns the setter of the property if available and if its first (only) parameter
+	 * matches the type of the property.
 	 * @return will never be {@literal null}.
 	 */
 	public Optional<Method> getSetter() {
@@ -168,8 +171,8 @@ public class Property {
 	}
 
 	/**
-	 * Returns the wither of the property if available and if its first (only) parameter matches the type of the property.
-	 *
+	 * Returns the wither of the property if available and if its first (only) parameter
+	 * matches the type of the property.
 	 * @return will never be {@literal null}.
 	 */
 	public Optional<Method> getWither() {
@@ -177,8 +180,8 @@ public class Property {
 	}
 
 	/**
-	 * Returns the field of the property if available and if its first (only) parameter matches the type of the property.
-	 *
+	 * Returns the field of the property if available and if its first (only) parameter
+	 * matches the type of the property.
 	 * @return will never be {@literal null}.
 	 */
 	public Optional<Field> getField() {
@@ -187,7 +190,6 @@ public class Property {
 
 	/**
 	 * Returns whether the property exposes a getter or a setter.
-	 *
 	 * @return
 	 */
 	public boolean hasAccessor() {
@@ -196,7 +198,6 @@ public class Property {
 
 	/**
 	 * Returns the name of the property.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public String getName() {
@@ -205,12 +206,12 @@ public class Property {
 
 	/**
 	 * Returns the type of the property.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public Class<?> getType() {
 		return this.rawType;
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -226,18 +227,20 @@ public class Property {
 
 		return this.field.isPresent() ? this.field.equals(that.field) : this.descriptor.equals(that.descriptor);
 	}
+
 	@Override
 	public int hashCode() {
 		return this.hashCode.get();
 	}
+
 	@Override
 	public String toString() {
 		return this.toString.get();
 	}
 
 	/**
-	 * Maps the backing {@link Field} or {@link PropertyDescriptor} using the given {@link Function}.
-	 *
+	 * Maps the backing {@link Field} or {@link PropertyDescriptor} using the given
+	 * {@link Function}.
 	 * @param function must not be {@literal null}.
 	 * @return
 	 */
@@ -246,8 +249,8 @@ public class Property {
 	}
 
 	/**
-	 * Maps the backing {@link Field} or {@link PropertyDescriptor} using the given functions.
-	 *
+	 * Maps the backing {@link Field} or {@link PropertyDescriptor} using the given
+	 * functions.
 	 * @param field must not be {@literal null}.
 	 * @param descriptor must not be {@literal null}.
 	 * @return
@@ -258,7 +261,8 @@ public class Property {
 		return Optionals.firstNonEmpty(//
 				() -> this.field.map(field), //
 				() -> this.descriptor.map(descriptor))//
-				.orElseThrow(() -> new IllegalStateException("Should not occur! Either field or descriptor has to be given"));
+				.orElseThrow(() -> new IllegalStateException(
+						"Should not occur! Either field or descriptor has to be given"));
 	}
 
 	private static Optional<Method> findWither(TypeInformation<?> owner, String propertyName, Class<?> rawType) {
@@ -283,4 +287,5 @@ public class Property {
 				&& method.getName().equals(name) //
 				&& method.getParameterTypes()[0].equals(type);
 	}
+
 }

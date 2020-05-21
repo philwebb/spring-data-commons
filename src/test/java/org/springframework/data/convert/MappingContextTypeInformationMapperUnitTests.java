@@ -38,6 +38,7 @@ import org.springframework.data.util.ClassTypeInformation;
 class MappingContextTypeInformationMapperUnitTests {
 
 	SampleMappingContext mappingContext;
+
 	TypeInformationMapper mapper;
 
 	@BeforeEach
@@ -124,12 +125,16 @@ class MappingContextTypeInformationMapperUnitTests {
 	static class ConcreteWrapper {
 
 		GenericType<String> stringGeneric;
+
 		GenericType<Integer> integerGeneric;
+
 	}
 
 	@TypeAlias("genericWrapper")
 	static class GenericWrapper<T> {
 
 		GenericType<T> genericGeneric;
+
 	}
+
 }

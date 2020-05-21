@@ -21,24 +21,26 @@ import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.util.Assert;
 
 /**
- * Base implementation of an {@link ApplicationEvent} refering to a {@link PersistentEntity}.
+ * Base implementation of an {@link ApplicationEvent} refering to a
+ * {@link PersistentEntity}.
  *
  * @author Oliver Gierke
  * @author Jon Brisbin
  * @param <E> the {@link PersistentEntity} the context was created for
  * @param <P> the {@link PersistentProperty} the {@link PersistentEntity} consists of
  */
-public class MappingContextEvent<E extends PersistentEntity<?, P>, P extends PersistentProperty<P>> extends
-		ApplicationEvent {
+public class MappingContextEvent<E extends PersistentEntity<?, P>, P extends PersistentProperty<P>>
+		extends ApplicationEvent {
 
 	private static final long serialVersionUID = 1336466833846092490L;
 
 	private final MappingContext<?, ?> source;
+
 	private final E entity;
 
 	/**
-	 * Creates a new {@link MappingContextEvent} for the given {@link MappingContext} and {@link PersistentEntity}.
-	 *
+	 * Creates a new {@link MappingContextEvent} for the given {@link MappingContext} and
+	 * {@link PersistentEntity}.
 	 * @param source must not be {@literal null}.
 	 * @param entity must not be {@literal null}.
 	 */
@@ -55,7 +57,6 @@ public class MappingContextEvent<E extends PersistentEntity<?, P>, P extends Per
 
 	/**
 	 * Returns the {@link PersistentEntity} the event was created for.
-	 *
 	 * @return
 	 */
 	public E getPersistentEntity() {
@@ -63,12 +64,13 @@ public class MappingContextEvent<E extends PersistentEntity<?, P>, P extends Per
 	}
 
 	/**
-	 * Returns whether the {@link MappingContextEvent} was triggered by the given {@link MappingContext}.
-	 *
+	 * Returns whether the {@link MappingContextEvent} was triggered by the given
+	 * {@link MappingContext}.
 	 * @param context the {@link MappingContext} that potentially created the event.
 	 * @return
 	 */
 	public boolean wasEmittedBy(MappingContext<?, ?> context) {
 		return this.source.equals(context);
 	}
+
 }

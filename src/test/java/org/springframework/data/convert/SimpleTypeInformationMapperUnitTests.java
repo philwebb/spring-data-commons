@@ -63,4 +63,5 @@ class SimpleTypeInformationMapperUnitTests {
 		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(String.class)))
 				.isEqualTo(Alias.of(String.class.getName()));
 	}
+
 }

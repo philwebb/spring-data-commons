@@ -35,18 +35,21 @@ public @interface EnableAuditing {
 	String auditorAwareRef() default "";
 
 	/**
-	 * @return Configures whether the creation and modification dates are set and defaults to {@literal true}.
+	 * @return Configures whether the creation and modification dates are set and defaults
+	 * to {@literal true}.
 	 */
 	boolean setDates() default true;
 
 	/**
-	 * @return Configures whether the entity shall be marked as modified on creation and defaults to {@literal true}.
+	 * @return Configures whether the entity shall be marked as modified on creation and
+	 * defaults to {@literal true}.
 	 */
 	boolean modifyOnCreate() default true;
 
 	/**
-	 * @return Configures a {@link DateTimeProvider} that allows customizing which DateTime shall be used for setting
-	 *         creation and modification dates.
+	 * @return Configures a {@link DateTimeProvider} that allows customizing which
+	 * DateTime shall be used for setting creation and modification dates.
 	 */
 	String dateTimeProviderRef() default "";
+
 }

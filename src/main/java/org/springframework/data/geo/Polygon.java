@@ -15,7 +15,6 @@
  */
 package org.springframework.data.geo;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,7 +41,6 @@ public class Polygon implements Iterable<Point>, Shape {
 
 	/**
 	 * Creates a new {@link Polygon} for the given Points.
-	 *
 	 * @param x must not be {@literal null}.
 	 * @param y must not be {@literal null}.
 	 * @param z must not be {@literal null}.
@@ -64,7 +62,6 @@ public class Polygon implements Iterable<Point>, Shape {
 
 	/**
 	 * Creates a new {@link Polygon} for the given Points.
-	 *
 	 * @param points must not be {@literal null}.
 	 */
 	@PersistenceConstructor
@@ -85,15 +82,16 @@ public class Polygon implements Iterable<Point>, Shape {
 
 	/**
 	 * Returns all {@link Point}s the {@link Polygon} is made of.
-	 *
 	 * @return
 	 */
 	public List<Point> getPoints() {
 		return this.points;
 	}
+
 	public Iterator<Point> iterator() {
 		return this.points.iterator();
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -108,12 +106,15 @@ public class Polygon implements Iterable<Point>, Shape {
 		Polygon that = (Polygon) o;
 		return ObjectUtils.nullSafeEquals(this.points, that.points);
 	}
+
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(this.points);
 	}
+
 	@Override
 	public String toString() {
 		return String.format("Polygon: [%s]", StringUtils.collectionToCommaDelimitedString(this.points));
 	}
+
 }

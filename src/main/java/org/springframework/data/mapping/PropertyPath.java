@@ -47,22 +47,31 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	private static final String PARSE_DEPTH_EXCEEDED = "Trying to parse a path with depth greater than 1000! This has been disabled for security reasons to prevent parsing overflows.";
 
 	private static final String DELIMITERS = "_\\.";
+
 	private static final String ALL_UPPERCASE = "[A-Z0-9._$]+";
+
 	private static final Pattern SPLITTER = Pattern.compile("(?:[%s]?([%s]*?[^%s]+))".replaceAll("%s", DELIMITERS));
-	private static final Pattern SPLITTER_FOR_QUOTED = Pattern.compile("(?:[%s]?([%s]*?[^%s]+))".replaceAll("%s", "\\."));
+
+	private static final Pattern SPLITTER_FOR_QUOTED = Pattern
+			.compile("(?:[%s]?([%s]*?[^%s]+))".replaceAll("%s", "\\."));
+
 	private static final Map<Key, PropertyPath> CACHE = new ConcurrentReferenceHashMap<>();
 
 	private final TypeInformation<?> owningType;
+
 	private final String name;
+
 	private final TypeInformation<?> typeInformation;
+
 	private final TypeInformation<?> actualTypeInformation;
+
 	private final boolean isCollection;
 
 	private @Nullable PropertyPath next;
 
 	/**
-	 * Creates a leaf {@link PropertyPath} (no nested ones) with the given name inside the given owning type.
-	 *
+	 * Creates a leaf {@link PropertyPath} (no nested ones) with the given name inside the
+	 * given owning type.
 	 * @param name must not be {@literal null} or empty.
 	 * @param owningType must not be {@literal null}.
 	 */
@@ -71,8 +80,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 
 	/**
-	 * Creates a leaf {@link PropertyPath} (no nested ones with the given name and owning type.
-	 *
+	 * Creates a leaf {@link PropertyPath} (no nested ones with the given name and owning
+	 * type.
 	 * @param name must not be {@literal null} or empty.
 	 * @param owningType must not be {@literal null}.
 	 * @param base the {@link PropertyPath} previously found.
@@ -100,7 +109,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns the owning type of the {@link PropertyPath}.
-	 *
 	 * @return the owningType will never be {@literal null}.
 	 */
 	public TypeInformation<?> getOwningType() {
@@ -109,7 +117,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns the name of the {@link PropertyPath}.
-	 *
 	 * @return the name will never be {@literal null}.
 	 */
 	public String getSegment() {
@@ -118,7 +125,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns the leaf property of the {@link PropertyPath}.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public PropertyPath getLeafProperty() {
@@ -134,7 +140,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns the type of the leaf property of the current {@link PropertyPath}.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public Class<?> getLeafType() {
@@ -142,9 +147,9 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 
 	/**
-	 * Returns the type of the property will return the plain resolved type for simple properties, the component type for
-	 * any {@link Iterable} or the value type of a {@link java.util.Map} if the property is one.
-	 *
+	 * Returns the type of the property will return the plain resolved type for simple
+	 * properties, the component type for any {@link Iterable} or the value type of a
+	 * {@link java.util.Map} if the property is one.
 	 * @return
 	 */
 	public Class<?> getType() {
@@ -157,8 +162,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns the next nested {@link PropertyPath}.
-	 *
-	 * @return the next nested {@link PropertyPath} or {@literal null} if no nested {@link PropertyPath} available.
+	 * @return the next nested {@link PropertyPath} or {@literal null} if no nested
+	 * {@link PropertyPath} available.
 	 * @see #hasNext()
 	 */
 	@Nullable
@@ -167,9 +172,9 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 
 	/**
-	 * Returns whether there is a nested {@link PropertyPath}. If this returns {@literal true} you can expect
-	 * {@link #next()} to return a non- {@literal null} value.
-	 *
+	 * Returns whether there is a nested {@link PropertyPath}. If this returns
+	 * {@literal true} you can expect {@link #next()} to return a non- {@literal null}
+	 * value.
 	 * @return
 	 */
 	public boolean hasNext() {
@@ -178,7 +183,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns the {@link PropertyPath} in dot notation.
-	 *
 	 * @return
 	 */
 	public String toDotPath() {
@@ -192,7 +196,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns whether the {@link PropertyPath} is actually a collection.
-	 *
 	 * @return
 	 */
 	public boolean isCollection() {
@@ -201,7 +204,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns the {@link PropertyPath} for the path nested under the current property.
-	 *
 	 * @param path must not be {@literal null} or empty.
 	 * @return will never be {@literal null}.
 	 */
@@ -213,6 +215,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 		return PropertyPath.from(lookup, this.owningType);
 	}
+
 	public Iterator<PropertyPath> iterator() {
 
 		return new Iterator<PropertyPath>() {
@@ -241,6 +244,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 			}
 		};
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -276,6 +280,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 		return ObjectUtils.nullSafeEquals(this.next, that.next);
 	}
+
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(this.owningType);
@@ -289,7 +294,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns the next {@link PropertyPath}.
-	 *
 	 * @return
 	 * @throws IllegalStateException it there's no next one.
 	 */
@@ -306,8 +310,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 
 	/**
-	 * Extracts the {@link PropertyPath} chain from the given source {@link String} and type.
-	 *
+	 * Extracts the {@link PropertyPath} chain from the given source {@link String} and
+	 * type.
 	 * @param source
 	 * @param type
 	 * @return
@@ -317,10 +321,10 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 
 	/**
-	 * Extracts the {@link PropertyPath} chain from the given source {@link String} and {@link TypeInformation}. <br />
-	 * Uses {@link #SPLITTER} by default and {@link #SPLITTER_FOR_QUOTED} for {@link Pattern#quote(String) quoted}
-	 * literals.
-	 *
+	 * Extracts the {@link PropertyPath} chain from the given source {@link String} and
+	 * {@link TypeInformation}. <br />
+	 * Uses {@link #SPLITTER} by default and {@link #SPLITTER_FOR_QUOTED} for
+	 * {@link Pattern#quote(String) quoted} literals.
 	 * @param source must not be {@literal null}.
 	 * @param type
 	 * @return
@@ -334,7 +338,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 			List<String> iteratorSource = new ArrayList<>();
 
-			Matcher matcher = isQuoted(it.path) ? SPLITTER_FOR_QUOTED.matcher(it.path.replace("\\Q", "").replace("\\E", ""))
+			Matcher matcher = isQuoted(it.path)
+					? SPLITTER_FOR_QUOTED.matcher(it.path.replace("\\Q", "").replace("\\E", ""))
 					: SPLITTER.matcher("_" + it.path);
 
 			while (matcher.find()) {
@@ -350,7 +355,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 				if (result == null) {
 					result = create(parts.next(), it.type, current);
 					current.push(result);
-				} else {
+				}
+				else {
 					current.push(create(parts.next(), current));
 				}
 			}
@@ -369,8 +375,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 
 	/**
-	 * Creates a new {@link PropertyPath} as subordinary of the given {@link PropertyPath}.
-	 *
+	 * Creates a new {@link PropertyPath} as subordinary of the given
+	 * {@link PropertyPath}.
 	 * @param source
 	 * @param base
 	 * @return
@@ -385,11 +391,12 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 
 	/**
-	 * Factory method to create a new {@link PropertyPath} for the given {@link String} and owning type. It will inspect
-	 * the given source for camel-case parts and traverse the {@link String} along its parts starting with the entire one
-	 * and chewing off parts from the right side then. Whenever a valid property for the given class is found, the tail
-	 * will be traversed for subordinary properties of the just found one and so on.
-	 *
+	 * Factory method to create a new {@link PropertyPath} for the given {@link String}
+	 * and owning type. It will inspect the given source for camel-case parts and traverse
+	 * the {@link String} along its parts starting with the entire one and chewing off
+	 * parts from the right side then. Whenever a valid property for the given class is
+	 * found, the tail will be traversed for subordinary properties of the just found one
+	 * and so on.
 	 * @param source
 	 * @param type
 	 * @return
@@ -399,16 +406,17 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 
 	/**
-	 * Tries to look up a chain of {@link PropertyPath}s by trying the given source first. If that fails it will split the
-	 * source apart at camel case borders (starting from the right side) and try to look up a {@link PropertyPath} from
-	 * the calculated head and recombined new tail and additional tail.
-	 *
+	 * Tries to look up a chain of {@link PropertyPath}s by trying the given source first.
+	 * If that fails it will split the source apart at camel case borders (starting from
+	 * the right side) and try to look up a {@link PropertyPath} from the calculated head
+	 * and recombined new tail and additional tail.
 	 * @param source
 	 * @param type
 	 * @param addTail
 	 * @return
 	 */
-	private static PropertyPath create(String source, TypeInformation<?> type, String addTail, List<PropertyPath> base) {
+	private static PropertyPath create(String source, TypeInformation<?> type, String addTail,
+			List<PropertyPath> base) {
 
 		if (base.size() > 1000) {
 			throw new IllegalArgumentException(PARSE_DEPTH_EXCEEDED);
@@ -434,7 +442,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 			return current;
 
-		} catch (PropertyReferenceException e) {
+		}
+		catch (PropertyReferenceException e) {
 
 			if (current != null) {
 				throw e;
@@ -454,13 +463,15 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 			try {
 				return create(head, type, tail + addTail, base);
-			} catch (PropertyReferenceException e) {
+			}
+			catch (PropertyReferenceException e) {
 				throw e.hasDeeperResolutionDepthThan(exception) ? e : exception;
 			}
 		}
 
 		throw exception;
 	}
+
 	@Override
 	public String toString() {
 		return String.format("%s.%s", this.owningType.getType().getSimpleName(), toDotPath());
@@ -469,6 +480,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	private static final class Key {
 
 		private final TypeInformation<?> type;
+
 		private final String path;
 
 		private Key(TypeInformation<?> type, String path) {
@@ -487,6 +499,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 		public String getPath() {
 			return this.path;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -506,15 +519,19 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 			return ObjectUtils.nullSafeEquals(this.path, key.path);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.type);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.path);
 			return result;
 		}
+
 		@Override
 		public String toString() {
 			return "PropertyPath.Key(type=" + this.getType() + ", path=" + this.getPath() + ")";
 		}
+
 	}
+
 }

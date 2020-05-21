@@ -14,7 +14,8 @@ import org.springframework.data.repository.support.Repositories;
 @Configuration
 public class SampleConfiguration {
 
-	@Autowired ApplicationContext context;
+	@Autowired
+	ApplicationContext context;
 
 	@Bean
 	Repositories repositories() {
@@ -42,4 +43,5 @@ public class SampleConfiguration {
 	ProductRepository productRepository() {
 		return mock(ProductRepository.class);
 	}
+
 }

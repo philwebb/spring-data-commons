@@ -34,4 +34,5 @@ public class Users {
 
 		USERS = Arrays.asList(OLIVER, CHRISTOPH);
 	}
+
 }

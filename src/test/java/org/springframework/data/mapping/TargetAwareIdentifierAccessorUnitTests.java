@@ -44,4 +44,5 @@ public class TargetAwareIdentifierAccessorUnitTests {
 				.isThrownBy(accessor::getRequiredIdentifier)//
 				.withMessageContaining(sample.toString());
 	}
+
 }

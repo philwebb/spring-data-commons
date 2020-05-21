@@ -19,7 +19,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Default implementation of {@link Example} holing instances of {@literal probe} and {@link ExampleMatcher}.
+ * Default implementation of {@link Example} holing instances of {@literal probe} and
+ * {@link ExampleMatcher}.
  *
  * @author Christoph Strobl
  * @since 2.0
@@ -27,6 +28,7 @@ import org.springframework.util.ObjectUtils;
 class TypedExample<T> implements Example<T> {
 
 	private final T probe;
+
 	private final ExampleMatcher matcher;
 
 	TypedExample(T probe, ExampleMatcher matcher) {
@@ -45,6 +47,7 @@ class TypedExample<T> implements Example<T> {
 	public ExampleMatcher getMatcher() {
 		return this.matcher;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -63,14 +66,17 @@ class TypedExample<T> implements Example<T> {
 
 		return ObjectUtils.nullSafeEquals(this.matcher, that.matcher);
 	}
+
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(this.probe);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.matcher);
 		return result;
 	}
+
 	@Override
 	public String toString() {
 		return "TypedExample{" + "probe=" + this.probe + ", matcher=" + this.matcher + '}';
 	}
+
 }

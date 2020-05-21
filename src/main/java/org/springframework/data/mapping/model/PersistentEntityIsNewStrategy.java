@@ -24,19 +24,19 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * An {@link IsNewStrategy} to use a {@link PersistentEntity}'s version property followed by it
+ * An {@link IsNewStrategy} to use a {@link PersistentEntity}'s version property followed
+ * by it
  * 
- * @author Oliver Gierke
- *             https://www.youtube.com/watch?v=syGlBNVGEqU
+ * @author Oliver Gierke https://www.youtube.com/watch?v=syGlBNVGEqU
  */
 class PersistentEntityIsNewStrategy implements IsNewStrategy {
 
 	private final Function<Object, Object> valueLookup;
+
 	private final @Nullable Class<?> valueType;
 
 	/**
 	 * Creates a new {@link PersistentEntityIsNewStrategy} for the given entity.
-	 * 
 	 * @param entity must not be {@literal null}.
 	 */
 	private PersistentEntityIsNewStrategy(PersistentEntity<?, ?> entity, boolean idOnly) {
@@ -57,15 +57,16 @@ class PersistentEntityIsNewStrategy implements IsNewStrategy {
 
 			if (!ClassUtils.isAssignable(Number.class, type)) {
 
-				throw new IllegalArgumentException(String
-						.format("Only numeric primitives are supported as identifier / version field types! Got: %s.", this.valueType));
+				throw new IllegalArgumentException(String.format(
+						"Only numeric primitives are supported as identifier / version field types! Got: %s.",
+						this.valueType));
 			}
 		}
 	}
 
 	/**
-	 * Creates a new {@link PersistentEntityIsNewStrategy} to only consider the identifier of the given entity.
-	 * 
+	 * Creates a new {@link PersistentEntityIsNewStrategy} to only consider the identifier
+	 * of the given entity.
 	 * @param entity must not be {@literal null}.
 	 * @return
 	 */
@@ -74,15 +75,15 @@ class PersistentEntityIsNewStrategy implements IsNewStrategy {
 	}
 
 	/**
-	 * Creates a new {@link PersistentEntityIsNewStrategy} to consider version properties before falling back to the
-	 * identifier.
-	 * 
+	 * Creates a new {@link PersistentEntityIsNewStrategy} to consider version properties
+	 * before falling back to the identifier.
 	 * @param entity must not be {@literal null}.
 	 * @return
 	 */
 	public static PersistentEntityIsNewStrategy of(PersistentEntity<?, ?> entity) {
 		return new PersistentEntityIsNewStrategy(entity, false);
 	}
+
 	@Override
 	public boolean isNew(Object entity) {
 
@@ -100,7 +101,8 @@ class PersistentEntityIsNewStrategy implements IsNewStrategy {
 			return ((Number) value).longValue() == 0;
 		}
 
-		throw new IllegalArgumentException(
-				String.format("Could not determine whether %s is new! Unsupported identifier or version property!", entity));
+		throw new IllegalArgumentException(String
+				.format("Could not determine whether %s is new! Unsupported identifier or version property!", entity));
 	}
+
 }

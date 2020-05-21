@@ -36,6 +36,7 @@ import org.springframework.util.ObjectUtils;
 public final class Pair<S, T> {
 
 	private final S first;
+
 	private final T second;
 
 	private Pair(S first, T second) {
@@ -49,7 +50,6 @@ public final class Pair<S, T> {
 
 	/**
 	 * Creates a new {@link Pair} for the given elements.
-	 *
 	 * @param first must not be {@literal null}.
 	 * @param second must not be {@literal null}.
 	 * @return
@@ -60,7 +60,6 @@ public final class Pair<S, T> {
 
 	/**
 	 * Returns the first element of the {@link Pair}.
-	 *
 	 * @return
 	 */
 	public S getFirst() {
@@ -69,7 +68,6 @@ public final class Pair<S, T> {
 
 	/**
 	 * Returns the second element of the {@link Pair}.
-	 *
 	 * @return
 	 */
 	public T getSecond() {
@@ -78,12 +76,12 @@ public final class Pair<S, T> {
 
 	/**
 	 * A collector to create a {@link Map} from a {@link Stream} of {@link Pair}s.
-	 *
 	 * @return
 	 */
 	public static <S, T> Collector<Pair<S, T>, ?, Map<S, T>> toMap() {
 		return Collectors.toMap(Pair::getFirst, Pair::getSecond);
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -103,14 +101,17 @@ public final class Pair<S, T> {
 
 		return ObjectUtils.nullSafeEquals(this.second, pair.second);
 	}
+
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(this.first);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.second);
 		return result;
 	}
+
 	@Override
 	public String toString() {
 		return String.format("%s->%s", this.first, this.second);
 	}
+
 }

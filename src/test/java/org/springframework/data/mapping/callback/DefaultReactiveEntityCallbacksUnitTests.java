@@ -135,7 +135,9 @@ class DefaultReactiveEntityCallbacksUnitTests {
 	}
 
 	interface ReactiveBeforeSaveCallback<T> extends EntityCallback<T> {
+
 		Mono<T> onBeforeSave(T object);
+
 	}
 
 	static class MyReactiveBeforeSaveCallback implements ReactiveBeforeSaveCallback<Person> {
@@ -148,6 +150,7 @@ class DefaultReactiveEntityCallbacksUnitTests {
 
 			return Mono.just(result);
 		}
+
 	}
 
 	static class GenericPersonCallback implements EntityCallback<Person> {
@@ -157,5 +160,7 @@ class DefaultReactiveEntityCallbacksUnitTests {
 			value.setSsn(value.getFirstName().length());
 			return value;
 		}
+
 	}
+
 }

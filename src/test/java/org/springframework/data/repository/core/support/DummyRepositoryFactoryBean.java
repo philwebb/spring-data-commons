@@ -37,8 +37,10 @@ public class DummyRepositoryFactoryBean<T extends Repository<S, ID>, S, ID exten
 		this.repository = mock(repositoryInterface);
 		setMappingContext(new SampleMappingContext());
 	}
+
 	@Override
 	protected RepositoryFactorySupport createRepositoryFactory() {
 		return new DummyRepositoryFactory(this.repository);
 	}
+
 }

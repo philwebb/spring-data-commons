@@ -35,11 +35,11 @@ public class Point implements Serializable {
 	private static final long serialVersionUID = 3583151228933783558L;
 
 	private final double x;
+
 	private final double y;
 
 	/**
 	 * Creates a {@link Point} from the given {@code x}, {@code y} coordinate.
-	 *
 	 * @param x
 	 * @param y
 	 */
@@ -51,7 +51,6 @@ public class Point implements Serializable {
 
 	/**
 	 * Creates a {@link Point} from the given {@link Point} coordinate.
-	 *
 	 * @param point must not be {@literal null}.
 	 */
 	public Point(Point point) {
@@ -64,7 +63,6 @@ public class Point implements Serializable {
 
 	/**
 	 * Returns the x-coordinate of the {@link Point}.
-	 *
 	 * @return
 	 */
 	public double getX() {
@@ -73,12 +71,12 @@ public class Point implements Serializable {
 
 	/**
 	 * Returns the y-coordinate of the {@link Point}.
-	 *
 	 * @return
 	 */
 	public double getY() {
 		return this.y;
 	}
+
 	@Override
 	public int hashCode() {
 
@@ -92,6 +90,7 @@ public class Point implements Serializable {
 
 		return result;
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -115,8 +114,10 @@ public class Point implements Serializable {
 
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return String.format(Locale.ENGLISH, "Point [x=%f, y=%f]", this.x, this.y);
 	}
+
 }

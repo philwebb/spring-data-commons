@@ -29,20 +29,21 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
 
 /**
- * {@link TypeInformationMapper} implementation that can be either set up using a {@link MappingContext} or manually set
- * up {@link Map} of {@link String} aliases to types. If a {@link MappingContext} is used the {@link Map} will be build
- * inspecting the {@link PersistentEntity} instances for type alias information.
+ * {@link TypeInformationMapper} implementation that can be either set up using a
+ * {@link MappingContext} or manually set up {@link Map} of {@link String} aliases to
+ * types. If a {@link MappingContext} is used the {@link Map} will be build inspecting the
+ * {@link PersistentEntity} instances for type alias information.
  *
  * @author Oliver Gierke
  */
 public class ConfigurableTypeInformationMapper implements TypeInformationMapper {
 
 	private final Map<ClassTypeInformation<?>, Alias> typeToAlias;
+
 	private final Map<Alias, ClassTypeInformation<?>> aliasToType;
 
 	/**
 	 * Creates a new {@link ConfigurableTypeInformationMapper} for the given type map.
-	 *
 	 * @param sourceTypeMap must not be {@literal null}.
 	 */
 	public ConfigurableTypeInformationMapper(Map<? extends Class<?>, String> sourceTypeMap) {
@@ -58,20 +59,23 @@ public class ConfigurableTypeInformationMapper implements TypeInformationMapper 
 			Alias alias = Alias.of(entry.getValue());
 
 			if (this.typeToAlias.containsValue(alias)) {
-				throw new IllegalArgumentException(
-						String.format("Detected mapping ambiguity! String %s cannot be mapped to more than one type!", alias));
+				throw new IllegalArgumentException(String.format(
+						"Detected mapping ambiguity! String %s cannot be mapped to more than one type!", alias));
 			}
 
 			this.typeToAlias.put(type, alias);
 			this.aliasToType.put(alias, type);
 		}
 	}
+
 	public Alias createAliasFor(TypeInformation<?> type) {
 		return this.typeToAlias.getOrDefault(type, Alias.NONE);
 	}
+
 	@Nullable
 	@Override
 	public TypeInformation<?> resolveTypeFrom(Alias alias) {
 		return this.aliasToType.get(alias);
 	}
+
 }

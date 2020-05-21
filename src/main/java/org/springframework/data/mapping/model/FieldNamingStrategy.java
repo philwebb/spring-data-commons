@@ -18,7 +18,8 @@ package org.springframework.data.mapping.model;
 import org.springframework.data.mapping.PersistentProperty;
 
 /**
- * SPI to determine how to name document fields in cases the field name is not manually defined.
+ * SPI to determine how to name document fields in cases the field name is not manually
+ * defined.
  *
  * @see PropertyNameFieldNamingStrategy
  * @see CamelCaseAbbreviatingFieldNamingStrategy
@@ -30,9 +31,9 @@ public interface FieldNamingStrategy {
 
 	/**
 	 * Returns the field name to be used for the given {@link PersistentProperty}.
-	 *
 	 * @param property must not be {@literal null} or empty;
 	 * @return
 	 */
 	String getFieldName(PersistentProperty<?> property);
+
 }

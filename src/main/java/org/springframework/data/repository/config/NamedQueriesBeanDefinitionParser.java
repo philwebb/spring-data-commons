@@ -32,19 +32,20 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 /**
- * {@link BeanDefinitionParser} to create {@link BeanDefinition}s of {@link NamedQueries} instances looking up a
- * {@link Properties} file fom the given location.
+ * {@link BeanDefinitionParser} to create {@link BeanDefinition}s of {@link NamedQueries}
+ * instances looking up a {@link Properties} file fom the given location.
  *
  * @author Oliver Gierke
  */
 public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 
 	private static final String ATTRIBUTE = "named-queries-location";
+
 	private final String defaultLocation;
 
 	/**
-	 * Creates a new {@link NamedQueriesBeanDefinitionParser} using the given default location.
-	 *
+	 * Creates a new {@link NamedQueriesBeanDefinitionParser} using the given default
+	 * location.
 	 * @param defaultLocation must be non-empty
 	 */
 	public NamedQueriesBeanDefinitionParser(String defaultLocation) {
@@ -54,7 +55,9 @@ public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.xml.BeanDefinitionParser#parse(org.w3c.dom.Element, org.springframework.beans.factory.xml.ParserContext)
+	 * 
+	 * @see org.springframework.beans.factory.xml.BeanDefinitionParser#parse(org.w3c.dom.
+	 * Element, org.springframework.beans.factory.xml.ParserContext)
 	 */
 	@Nonnull
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
@@ -69,7 +72,8 @@ public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 		AbstractBeanDefinition propertiesDefinition = properties.getBeanDefinition();
 		propertiesDefinition.setSource(parserContext.extractSource(element));
 
-		BeanDefinitionBuilder namedQueries = BeanDefinitionBuilder.rootBeanDefinition(PropertiesBasedNamedQueries.class);
+		BeanDefinitionBuilder namedQueries = BeanDefinitionBuilder
+				.rootBeanDefinition(PropertiesBasedNamedQueries.class);
 		namedQueries.addConstructorArgValue(propertiesDefinition);
 
 		AbstractBeanDefinition namedQueriesDefinition = namedQueries.getBeanDefinition();
@@ -80,7 +84,6 @@ public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 
 	/**
 	 * Returns whether we should use the default location.
-	 *
 	 * @param element
 	 * @return
 	 */
@@ -89,8 +92,8 @@ public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	/**
-	 * Returns the location to look for {@link Properties} if configured or the default one if not.
-	 *
+	 * Returns the location to look for {@link Properties} if configured or the default
+	 * one if not.
 	 * @param element
 	 * @return
 	 */
@@ -99,4 +102,5 @@ public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 		String locations = element.getAttribute(ATTRIBUTE);
 		return StringUtils.hasText(locations) ? locations : this.defaultLocation;
 	}
+
 }

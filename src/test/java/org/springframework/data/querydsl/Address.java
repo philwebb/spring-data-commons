@@ -24,10 +24,12 @@ import com.querydsl.core.annotations.QueryEntity;
 public class Address {
 
 	public String street, city;
+
 	public Double[] lonLat;
 
 	public Address(String street, String city) {
 		this.street = street;
 		this.city = city;
 	}
+
 }

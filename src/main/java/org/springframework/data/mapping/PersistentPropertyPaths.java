@@ -31,34 +31,35 @@ public interface PersistentPropertyPaths<T, P extends PersistentProperty<P>>
 
 	/**
 	 * Returns the first {@link PersistentPropertyPath}.
-	 * 
 	 * @return
 	 */
 	Optional<PersistentPropertyPath<P>> getFirst();
 
 	/**
-	 * Returns whether the given path is contained in the current {@link PersistentPropertyPaths}.
-	 * 
+	 * Returns whether the given path is contained in the current
+	 * {@link PersistentPropertyPaths}.
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
 	boolean contains(String path);
 
 	/**
-	 * Returns whether the given {@link PropertyPath} is contained in the current {@link PersistentPropertyPaths}.
-	 * 
+	 * Returns whether the given {@link PropertyPath} is contained in the current
+	 * {@link PersistentPropertyPaths}.
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
 	boolean contains(PropertyPath path);
 
 	/**
-	 * Drops {@link PersistentPropertyPath}s that contain a path segment matching the given predicate.
-	 *
+	 * Drops {@link PersistentPropertyPath}s that contain a path segment matching the
+	 * given predicate.
 	 * @param predicate must not be {@literal null}.
-	 * @return a {@link PersistentPropertyPaths} instance with all {@link PersistentPropertyPath} instances removed that
-	 *         contain path segments matching the given predicate.
+	 * @return a {@link PersistentPropertyPaths} instance with all
+	 * {@link PersistentPropertyPath} instances removed that contain path segments
+	 * matching the given predicate.
 	 * @since 2.1.4 / 2.2.2
 	 */
 	PersistentPropertyPaths<T, P> dropPathIfSegmentMatches(Predicate<? super P> predicate);
+
 }

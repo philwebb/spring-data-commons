@@ -30,7 +30,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Value object to represent {@link MethodParameters} to allow to easily find the ones with a given annotation.
+ * Value object to represent {@link MethodParameters} to allow to easily find the ones
+ * with a given annotation.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -39,11 +40,11 @@ import org.springframework.util.Assert;
 class MethodParameters {
 
 	private final ParameterNameDiscoverer discoverer = new DefaultParameterNameDiscoverer();
+
 	private final List<MethodParameter> parameters;
 
 	/**
 	 * Creates a new {@link MethodParameters} from the given {@link Method}.
-	 *
 	 * @param method must not be {@literal null}.
 	 */
 	public MethodParameters(Method method) {
@@ -51,9 +52,9 @@ class MethodParameters {
 	}
 
 	/**
-	 * Creates a new {@link MethodParameters} for the given {@link Method} and {@link AnnotationAttribute}. If the latter
-	 * is given, method parameter names will be looked up from the annotation attribute if present.
-	 *
+	 * Creates a new {@link MethodParameters} for the given {@link Method} and
+	 * {@link AnnotationAttribute}. If the latter is given, method parameter names will be
+	 * looked up from the annotation attribute if present.
 	 * @param method must not be {@literal null}.
 	 * @param namingAnnotation must not be {@literal null}.
 	 */
@@ -72,7 +73,6 @@ class MethodParameters {
 
 	/**
 	 * Returns all {@link MethodParameter}s.
-	 *
 	 * @return
 	 */
 	public List<MethodParameter> getParameters() {
@@ -80,8 +80,8 @@ class MethodParameters {
 	}
 
 	/**
-	 * Returns the {@link MethodParameter} with the given name or {@literal null} if none found.
-	 *
+	 * Returns the {@link MethodParameter} with the given name or {@literal null} if none
+	 * found.
 	 * @param name must not be {@literal null} or empty.
 	 * @return
 	 */
@@ -95,7 +95,6 @@ class MethodParameters {
 
 	/**
 	 * Returns all parameters of the given type.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 * @since 0.9
@@ -111,7 +110,6 @@ class MethodParameters {
 
 	/**
 	 * Returns all {@link MethodParameter}s annotated with the given annotation type.
-	 *
 	 * @param annotation must not be {@literal null}.
 	 * @return
 	 */
@@ -125,25 +123,26 @@ class MethodParameters {
 	}
 
 	/**
-	 * Custom {@link MethodParameter} extension that will favor the name configured in the {@link AnnotationAttribute} if
-	 * set over discovering it.
+	 * Custom {@link MethodParameter} extension that will favor the name configured in the
+	 * {@link AnnotationAttribute} if set over discovering it.
 	 *
 	 * @author Oliver Gierke
 	 */
 	private static class AnnotationNamingMethodParameter extends MethodParameter {
 
 		private final Optional<AnnotationAttribute> attribute;
+
 		private final Lazy<String> name;
 
 		/**
-		 * Creates a new {@link AnnotationNamingMethodParameter} for the given {@link Method}'s parameter with the given
-		 * index.
-		 *
+		 * Creates a new {@link AnnotationNamingMethodParameter} for the given
+		 * {@link Method}'s parameter with the given index.
 		 * @param method must not be {@literal null}.
 		 * @param parameterIndex
 		 * @param attribute can be {@literal null}
 		 */
-		public AnnotationNamingMethodParameter(Method method, int parameterIndex, Optional<AnnotationAttribute> attribute) {
+		public AnnotationNamingMethodParameter(Method method, int parameterIndex,
+				Optional<AnnotationAttribute> attribute) {
 
 			super(method, parameterIndex);
 
@@ -152,10 +151,13 @@ class MethodParameters {
 					flatMap(it -> it.getValueFrom(this).map(Object::toString)).//
 					orElseGet(super::getParameterName));
 		}
+
 		@Nullable
 		@Override
 		public String getParameterName() {
 			return this.name.orElse(null);
 		}
+
 	}
+
 }

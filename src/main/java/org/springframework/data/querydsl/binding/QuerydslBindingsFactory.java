@@ -44,14 +44,16 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	private static final String INVALID_DOMAIN_TYPE = "Unable to find Querydsl root type for detected domain type %s! User @%s's root attribute to define the domain type manually!";
 
 	private final EntityPathResolver entityPathResolver;
+
 	private final Map<TypeInformation<?>, EntityPath<?>> entityPaths;
 
 	private Optional<AutowireCapableBeanFactory> beanFactory;
+
 	private Optional<Repositories> repositories;
 
 	/**
-	 * Creates a new {@link QuerydslBindingsFactory} using the given {@link EntityPathResolver}.
-	 *
+	 * Creates a new {@link QuerydslBindingsFactory} using the given
+	 * {@link EntityPathResolver}.
 	 * @param entityPathResolver must not be {@literal null}.
 	 */
 	public QuerydslBindingsFactory(EntityPathResolver entityPathResolver) {
@@ -63,6 +65,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 		this.beanFactory = Optional.empty();
 		this.repositories = Optional.empty();
 	}
+
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
@@ -72,7 +75,6 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 
 	/**
 	 * Returns the {@link EntityPathResolver} used by the factory.
-	 *
 	 * @return the entityPathResolver
 	 */
 	public EntityPathResolver getEntityPathResolver() {
@@ -80,9 +82,8 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	}
 
 	/**
-	 * Creates the {@link QuerydslBindings} to be used using for the given domain type. A {@link QuerydslBinderCustomizer}
-	 * will be auto-detected.
-	 *
+	 * Creates the {@link QuerydslBindings} to be used using for the given domain type. A
+	 * {@link QuerydslBinderCustomizer} will be auto-detected.
 	 * @param domainType must not be {@literal null}.
 	 * @return will never be {@literal null}.
 	 */
@@ -91,11 +92,11 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	}
 
 	/**
-	 * Creates the {@link QuerydslBindings} to be used using for the given domain type and a pre-defined
-	 * {@link QuerydslBinderCustomizer}.
-	 *
+	 * Creates the {@link QuerydslBindings} to be used using for the given domain type and
+	 * a pre-defined {@link QuerydslBinderCustomizer}.
 	 * @param domainType must not be {@literal null}.
-	 * @param customizer the {@link QuerydslBinderCustomizer} to use, must not be {@literal null}.
+	 * @param customizer the {@link QuerydslBinderCustomizer} to use, must not be
+	 * {@literal null}.
 	 * @return will never be {@literal null}.
 	 */
 	public QuerydslBindings createBindingsFor(TypeInformation<?> domainType,
@@ -104,12 +105,13 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	}
 
 	/**
-	 * Creates the {@link QuerydslBindings} to be used using for the given domain type and a pre-defined
-	 * {@link QuerydslBinderCustomizer}. If no customizer is given, auto-detection will be applied.
-	 *
+	 * Creates the {@link QuerydslBindings} to be used using for the given domain type and
+	 * a pre-defined {@link QuerydslBinderCustomizer}. If no customizer is given,
+	 * auto-detection will be applied.
 	 * @param domainType must not be {@literal null}.
-	 * @param customizer the {@link QuerydslBinderCustomizer} to use. If an empty {@link Optional} is given customizer
-	 *          detection for the given domain type will be applied.
+	 * @param customizer the {@link QuerydslBinderCustomizer} to use. If an empty
+	 * {@link Optional} is given customizer detection for the given domain type will be
+	 * applied.
 	 * @return
 	 */
 	private QuerydslBindings createBindingsFor(TypeInformation<?> domainType,
@@ -127,11 +129,11 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	}
 
 	/**
-	 * Tries to detect a Querydsl query type for the given domain type candidate via the configured
-	 * {@link EntityPathResolver}.
-	 *
+	 * Tries to detect a Querydsl query type for the given domain type candidate via the
+	 * configured {@link EntityPathResolver}.
 	 * @param candidate must not be {@literal null}.
-	 * @throws IllegalStateException to indicate the query type can't be found and manual configuration is necessary.
+	 * @throws IllegalStateException to indicate the query type can't be found and manual
+	 * configuration is necessary.
 	 */
 	private EntityPath<?> verifyEntityPathPresent(TypeInformation<?> candidate) {
 
@@ -139,17 +141,19 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 
 			try {
 				return this.entityPathResolver.createPath(key.getType());
-			} catch (IllegalArgumentException o_O) {
+			}
+			catch (IllegalArgumentException o_O) {
 				throw new IllegalStateException(
-						String.format(INVALID_DOMAIN_TYPE, key.getType(), QuerydslPredicate.class.getSimpleName()), o_O);
+						String.format(INVALID_DOMAIN_TYPE, key.getType(), QuerydslPredicate.class.getSimpleName()),
+						o_O);
 			}
 		});
 	}
 
 	/**
-	 * Obtains the {@link QuerydslBinderCustomizer} for the given domain type. Will inspect the given annotation for a
-	 * dedicatedly configured one or consider the domain types's repository.
-	 *
+	 * Obtains the {@link QuerydslBinderCustomizer} for the given domain type. Will
+	 * inspect the given annotation for a dedicatedly configured one or consider the
+	 * domain types's repository.
 	 * @param annotation
 	 * @param domainType
 	 * @return
@@ -162,16 +166,18 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 				.filter(it -> !QuerydslBinderCustomizer.class.equals(it))//
 				.map(this::createQuerydslBinderCustomizer)
 				.orElseGet(() -> this.repositories.flatMap(it -> it.getRepositoryFor(domainType))//
-						.map(it -> it instanceof QuerydslBinderCustomizer ? (QuerydslBinderCustomizer<EntityPath<?>>) it : null)//
+						.map(it -> it instanceof QuerydslBinderCustomizer ? (QuerydslBinderCustomizer<EntityPath<?>>) it
+								: null)//
 						.orElse(NoOpCustomizer.INSTANCE));
 	}
 
 	/**
-	 * Obtains a {@link QuerydslBinderCustomizer} for the given type. Will try to obtain a bean from the
-	 * {@link org.springframework.beans.factory.BeanFactory} first or fall back to create a fresh instance through the
-	 * {@link org.springframework.beans.factory.BeanFactory} or finally falling back to a plain instantiation if no
-	 * {@link org.springframework.beans.factory.BeanFactory} is present.
-	 *
+	 * Obtains a {@link QuerydslBinderCustomizer} for the given type. Will try to obtain a
+	 * bean from the {@link org.springframework.beans.factory.BeanFactory} first or fall
+	 * back to create a fresh instance through the
+	 * {@link org.springframework.beans.factory.BeanFactory} or finally falling back to a
+	 * plain instantiation if no {@link org.springframework.beans.factory.BeanFactory} is
+	 * present.
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -183,7 +189,8 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 
 			try {
 				return it.getBean(type);
-			} catch (NoSuchBeanDefinitionException e) {
+			}
+			catch (NoSuchBeanDefinitionException e) {
 				return it.createBean(type);
 			}
 		}).orElseGet(() -> BeanUtils.instantiateClass(type));
@@ -194,6 +201,9 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 		INSTANCE;
 
 		@Override
-		public void customize(QuerydslBindings bindings, EntityPath<?> root) {}
+		public void customize(QuerydslBindings bindings, EntityPath<?> root) {
+		}
+
 	}
+
 }

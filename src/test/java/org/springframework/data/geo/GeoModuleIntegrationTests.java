@@ -87,4 +87,5 @@ class GeoModuleIntegrationTests {
 		assertThat(this.mapper.readValue(json, Polygon.class)).isEqualTo(reference);
 		assertThat(this.mapper.writeValueAsString(reference)).isEqualTo(json);
 	}
+
 }

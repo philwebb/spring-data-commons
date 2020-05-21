@@ -45,9 +45,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
- * This {@link MethodInterceptor} intercepts calls to methods of the custom implementation and delegates the to it if
- * configured. Furthermore it resolves method calls to finders and triggers execution of them. You can rely on having a
- * custom repository implementation instance set if this returns true.
+ * This {@link MethodInterceptor} intercepts calls to methods of the custom implementation
+ * and delegates the to it if configured. Furthermore it resolves method calls to finders
+ * and triggers execution of them. You can rely on having a custom repository
+ * implementation instance set if this returns true.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -55,18 +56,22 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 class QueryExecutorMethodInterceptor implements MethodInterceptor {
 
 	private final Map<Method, RepositoryQuery> queries;
+
 	private final Map<Method, QueryMethodInvoker> invocationMetadataCache = new ConcurrentReferenceHashMap<>();
+
 	private final QueryExecutionResultHandler resultHandler;
+
 	private final NamedQueries namedQueries;
+
 	private final List<QueryCreationListener<?>> queryPostProcessors;
 
 	/**
-	 * Creates a new {@link QueryExecutorMethodInterceptor}. Builds a model of {@link QueryMethod}s to be invoked on
-	 * execution of repository interface methods.
+	 * Creates a new {@link QueryExecutorMethodInterceptor}. Builds a model of
+	 * {@link QueryMethod}s to be invoked on execution of repository interface methods.
 	 */
 	public QueryExecutorMethodInterceptor(RepositoryInformation repositoryInformation,
-			ProjectionFactory projectionFactory, Optional<QueryLookupStrategy> queryLookupStrategy, NamedQueries namedQueries,
-			List<QueryCreationListener<?>> queryPostProcessors) {
+			ProjectionFactory projectionFactory, Optional<QueryLookupStrategy> queryLookupStrategy,
+			NamedQueries namedQueries, List<QueryCreationListener<?>> queryPostProcessors) {
 
 		this.namedQueries = namedQueries;
 		this.queryPostProcessors = queryPostProcessors;
@@ -112,6 +117,7 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 			}
 		}
 	}
+
 	@Override
 	@Nullable
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -152,7 +158,6 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 
 	/**
 	 * Returns whether we know of a query to execute for the given {@link Method};
-	 *
 	 * @param method
 	 * @return
 	 */
@@ -166,7 +171,9 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 	static class QueryMethodInvoker {
 
 		private final boolean suspendedDeclaredMethod;
+
 		private final Class<?> returnedType;
+
 		private final boolean returnsReactiveType;
 
 		QueryMethodInvoker(Method invokedMethod) {
@@ -176,7 +183,8 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 				this.suspendedDeclaredMethod = KotlinReflectionUtils.isSuspend(invokedMethod);
 				this.returnedType = this.suspendedDeclaredMethod ? KotlinReflectionUtils.getReturnType(invokedMethod)
 						: invokedMethod.getReturnType();
-			} else {
+			}
+			else {
 
 				this.suspendedDeclaredMethod = false;
 				this.returnedType = invokedMethod.getReturnType();
@@ -195,10 +203,11 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 		private Object invokeReactiveToSuspend(RepositoryQuery query, Object[] args) {
 
 			/*
-			* Kotlin suspended functions are invoked with a synthetic Continuation parameter that keeps track of the Coroutine context.
-			* We're invoking a method without Continuation as we expect the method to return any sort of reactive type,
-			* therefore we need to strip the Continuation parameter.
-			*/
+			 * Kotlin suspended functions are invoked with a synthetic Continuation
+			 * parameter that keeps track of the Coroutine context. We're invoking a
+			 * method without Continuation as we expect the method to return any sort of
+			 * reactive type, therefore we need to strip the Continuation parameter.
+			 */
 			Continuation<Object> continuation = (Continuation) args[args.length - 1];
 			args[args.length - 1] = null;
 			Object result = query.execute(args);
@@ -212,5 +221,7 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 
 			return AwaitKt.awaitFirstOrNull(publisher, continuation);
 		}
+
 	}
+
 }

@@ -53,4 +53,5 @@ public @interface EnableRepositories {
 	boolean limitImplementationBasePackages() default true;
 
 	BootstrapMode bootstrapMode() default BootstrapMode.DEFAULT;
+
 }

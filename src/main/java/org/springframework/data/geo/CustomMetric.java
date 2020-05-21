@@ -29,11 +29,11 @@ public class CustomMetric implements Metric {
 	private static final long serialVersionUID = -2972074177454114228L;
 
 	private final double multiplier;
+
 	private final String abbreviation;
 
 	/**
 	 * Creates a custom {@link Metric} using the given multiplier.
-	 *
 	 * @param multiplier
 	 */
 	public CustomMetric(double multiplier) {
@@ -43,7 +43,6 @@ public class CustomMetric implements Metric {
 
 	/**
 	 * Creates a custom {@link Metric} using the given multiplier and abbreviation.
-	 *
 	 * @param multiplier
 	 * @param abbreviation must not be {@literal null}.
 	 */
@@ -54,11 +53,14 @@ public class CustomMetric implements Metric {
 		this.multiplier = multiplier;
 		this.abbreviation = abbreviation;
 	}
+
 	public double getMultiplier() {
 		return this.multiplier;
 	}
+
 	@Override
 	public String getAbbreviation() {
 		return this.abbreviation;
 	}
+
 }

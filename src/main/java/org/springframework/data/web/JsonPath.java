@@ -33,10 +33,11 @@ import java.lang.annotation.Target;
 public @interface JsonPath {
 
 	/**
-	 * The JSON Path expressions to be evaluated when the annotated method is invoked. If multiple ones are defined, the
-	 * value of the first one actually present in the payload will be returned.
-	 *
+	 * The JSON Path expressions to be evaluated when the annotated method is invoked. If
+	 * multiple ones are defined, the value of the first one actually present in the
+	 * payload will be returned.
 	 * @return
 	 */
 	String[] value();
+
 }

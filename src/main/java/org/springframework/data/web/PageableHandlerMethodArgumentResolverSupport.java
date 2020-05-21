@@ -30,9 +30,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Base class providing methods for handler method argument resolvers to create paging information from web requests and
- * thus allows injecting {@link Pageable} instances into controller methods. Request properties to be parsed can be
- * configured. Default configuration uses request parameters beginning with
+ * Base class providing methods for handler method argument resolvers to create paging
+ * information from web requests and thus allows injecting {@link Pageable} instances into
+ * controller methods. Request properties to be parsed can be configured. Default
+ * configuration uses request parameters beginning with
  * {@link #DEFAULT_PAGE_PARAMETER}{@link #DEFAULT_QUALIFIER_DELIMITER}.
  *
  * @since 2.2
@@ -45,30 +46,40 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	private static final String INVALID_DEFAULT_PAGE_SIZE = "Invalid default page size configured for method %s! Must not be less than one!";
 
 	private static final String DEFAULT_PAGE_PARAMETER = "page";
+
 	private static final String DEFAULT_SIZE_PARAMETER = "size";
+
 	private static final String DEFAULT_PREFIX = "";
+
 	private static final String DEFAULT_QUALIFIER_DELIMITER = "_";
+
 	private static final int DEFAULT_MAX_PAGE_SIZE = 2000;
 	static final Pageable DEFAULT_PAGE_REQUEST = PageRequest.of(0, 20);
 
 	private Pageable fallbackPageable = DEFAULT_PAGE_REQUEST;
+
 	private String pageParameterName = DEFAULT_PAGE_PARAMETER;
+
 	private String sizeParameterName = DEFAULT_SIZE_PARAMETER;
+
 	private String prefix = DEFAULT_PREFIX;
+
 	private String qualifierDelimiter = DEFAULT_QUALIFIER_DELIMITER;
+
 	private int maxPageSize = DEFAULT_MAX_PAGE_SIZE;
+
 	private boolean oneIndexedParameters = false;
 
 	/**
-	 * Configures the {@link Pageable} to be used as fallback in case no {@link PageableDefault} or
-	 * {@link PageableDefault} (the latter only supported in legacy mode) can be found at the method parameter to be
-	 * resolved.
+	 * Configures the {@link Pageable} to be used as fallback in case no
+	 * {@link PageableDefault} or {@link PageableDefault} (the latter only supported in
+	 * legacy mode) can be found at the method parameter to be resolved.
 	 * <p>
-	 * If you set this to {@literal Optional#empty()}, be aware that you controller methods will get {@literal null}
-	 * handed into them in case no {@link Pageable} data can be found in the request. Note, that doing so will require you
-	 * supply bot the page <em>and</em> the size parameter with the requests as there will be no default for any of the
-	 * parameters available.
-	 *
+	 * If you set this to {@literal Optional#empty()}, be aware that you controller
+	 * methods will get {@literal null} handed into them in case no {@link Pageable} data
+	 * can be found in the request. Note, that doing so will require you supply bot the
+	 * page <em>and</em> the size parameter with the requests as there will be no default
+	 * for any of the parameters available.
 	 * @param fallbackPageable the {@link Pageable} to be used as general fallback.
 	 */
 	public void setFallbackPageable(Pageable fallbackPageable) {
@@ -80,7 +91,6 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 
 	/**
 	 * Returns whether the given {@link Pageable} is the fallback one.
-	 *
 	 * @param pageable can be {@literal null}.
 	 * @return
 	 */
@@ -89,9 +99,9 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Configures the maximum page size to be accepted. This allows to put an upper boundary of the page size to prevent
-	 * potential attacks trying to issue an {@link OutOfMemoryError}. Defaults to {@link #DEFAULT_MAX_PAGE_SIZE}.
-	 *
+	 * Configures the maximum page size to be accepted. This allows to put an upper
+	 * boundary of the page size to prevent potential attacks trying to issue an
+	 * {@link OutOfMemoryError}. Defaults to {@link #DEFAULT_MAX_PAGE_SIZE}.
 	 * @param maxPageSize the maxPageSize to set
 	 */
 	public void setMaxPageSize(int maxPageSize) {
@@ -99,9 +109,9 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Retrieves the maximum page size to be accepted. This allows to put an upper boundary of the page size to prevent
-	 * potential attacks trying to issue an {@link OutOfMemoryError}. Defaults to {@link #DEFAULT_MAX_PAGE_SIZE}.
-	 *
+	 * Retrieves the maximum page size to be accepted. This allows to put an upper
+	 * boundary of the page size to prevent potential attacks trying to issue an
+	 * {@link OutOfMemoryError}. Defaults to {@link #DEFAULT_MAX_PAGE_SIZE}.
 	 * @return the maximum page size allowed.
 	 */
 	protected int getMaxPageSize() {
@@ -109,9 +119,10 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Configures the parameter name to be used to find the page number in the request. Defaults to {@code page}.
-	 *
-	 * @param pageParameterName the parameter name to be used, must not be {@literal null} or empty.
+	 * Configures the parameter name to be used to find the page number in the request.
+	 * Defaults to {@code page}.
+	 * @param pageParameterName the parameter name to be used, must not be {@literal null}
+	 * or empty.
 	 */
 	public void setPageParameterName(String pageParameterName) {
 
@@ -120,8 +131,8 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Retrieves the parameter name to be used to find the page number in the request. Defaults to {@code page}.
-	 *
+	 * Retrieves the parameter name to be used to find the page number in the request.
+	 * Defaults to {@code page}.
 	 * @return the parameter name to be used, never {@literal null} or empty.
 	 */
 	protected String getPageParameterName() {
@@ -129,9 +140,10 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Configures the parameter name to be used to find the page size in the request. Defaults to {@code size}.
-	 *
-	 * @param sizeParameterName the parameter name to be used, must not be {@literal null} or empty.
+	 * Configures the parameter name to be used to find the page size in the request.
+	 * Defaults to {@code size}.
+	 * @param sizeParameterName the parameter name to be used, must not be {@literal null}
+	 * or empty.
 	 */
 	public void setSizeParameterName(String sizeParameterName) {
 
@@ -140,8 +152,8 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Retrieves the parameter name to be used to find the page size in the request. Defaults to {@code size}.
-	 *
+	 * Retrieves the parameter name to be used to find the page size in the request.
+	 * Defaults to {@code size}.
 	 * @return the parameter name to be used, never {@literal null} or empty.
 	 */
 	protected String getSizeParameterName() {
@@ -149,9 +161,9 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Configures a general prefix to be prepended to the page number and page size parameters. Useful to namespace the
-	 * property names used in case they are clashing with ones used by your application. By default, no prefix is used.
-	 *
+	 * Configures a general prefix to be prepended to the page number and page size
+	 * parameters. Useful to namespace the property names used in case they are clashing
+	 * with ones used by your application. By default, no prefix is used.
 	 * @param prefix the prefix to be used or {@literal null} to reset to the default.
 	 */
 	public void setPrefix(String prefix) {
@@ -159,20 +171,21 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * The delimiter to be used between the qualifier and the actual page number and size properties. Defaults to
-	 * {@code _}. So a qualifier of {@code foo} will result in a page number parameter of {@code foo_page}.
-	 *
-	 * @param qualifierDelimiter the delimiter to be used or {@literal null} to reset to the default.
+	 * The delimiter to be used between the qualifier and the actual page number and size
+	 * properties. Defaults to {@code _}. So a qualifier of {@code foo} will result in a
+	 * page number parameter of {@code foo_page}.
+	 * @param qualifierDelimiter the delimiter to be used or {@literal null} to reset to
+	 * the default.
 	 */
 	public void setQualifierDelimiter(String qualifierDelimiter) {
 		this.qualifierDelimiter = qualifierDelimiter == null ? DEFAULT_QUALIFIER_DELIMITER : qualifierDelimiter;
 	}
 
 	/**
-	 * Configures whether to expose and assume 1-based page number indexes in the request parameters. Defaults to
-	 * {@literal false}, meaning a page number of 0 in the request equals the first page. If this is set to
-	 * {@literal true}, a page number of 1 in the request will be considered the first page.
-	 *
+	 * Configures whether to expose and assume 1-based page number indexes in the request
+	 * parameters. Defaults to {@literal false}, meaning a page number of 0 in the request
+	 * equals the first page. If this is set to {@literal true}, a page number of 1 in the
+	 * request will be considered the first page.
 	 * @param oneIndexedParameters the oneIndexedParameters to set
 	 */
 	public void setOneIndexedParameters(boolean oneIndexedParameters) {
@@ -180,10 +193,10 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Indicates whether to expose and assume 1-based page number indexes in the request parameters. Defaults to
-	 * {@literal false}, meaning a page number of 0 in the request equals the first page. If this is set to
-	 * {@literal true}, a page number of 1 in the request will be considered the first page.
-	 *
+	 * Indicates whether to expose and assume 1-based page number indexes in the request
+	 * parameters. Defaults to {@literal false}, meaning a page number of 0 in the request
+	 * equals the first page. If this is set to {@literal true}, a page number of 1 in the
+	 * request will be considered the first page.
 	 * @return whether to assume 1-based page number indexes in the request parameters.
 	 */
 	protected boolean isOneIndexedParameters() {
@@ -203,8 +216,8 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 			return Pageable.unpaged();
 		}
 
-		int p = page
-				.orElseGet(() -> defaultOrFallback.map(Pageable::getPageNumber).orElseThrow(IllegalStateException::new));
+		int p = page.orElseGet(
+				() -> defaultOrFallback.map(Pageable::getPageNumber).orElseThrow(IllegalStateException::new));
 		int ps = pageSize
 				.orElseGet(() -> defaultOrFallback.map(Pageable::getPageSize).orElseThrow(IllegalStateException::new));
 
@@ -217,9 +230,9 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Returns the name of the request parameter to find the {@link Pageable} information in. Inspects the given
-	 * {@link MethodParameter} for {@link Qualifier} present and prefixes the given source parameter name with it.
-	 *
+	 * Returns the name of the request parameter to find the {@link Pageable} information
+	 * in. Inspects the given {@link MethodParameter} for {@link Qualifier} present and
+	 * prefixes the given source parameter name with it.
 	 * @param source the basic parameter name.
 	 * @param parameter the {@link MethodParameter} potentially qualified.
 	 * @return the name of the request parameter.
@@ -267,12 +280,12 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	}
 
 	/**
-	 * Tries to parse the given {@link String} into an integer and applies the given boundaries. Will return 0 if the
-	 * {@link String} cannot be parsed.
-	 *
+	 * Tries to parse the given {@link String} into an integer and applies the given
+	 * boundaries. Will return 0 if the {@link String} cannot be parsed.
 	 * @param parameter the parameter value.
 	 * @param upper the upper bound to be applied.
-	 * @param shiftIndex whether to shift the index if {@link #oneIndexedParameters} is set to true.
+	 * @param shiftIndex whether to shift the index if {@link #oneIndexedParameters} is
+	 * set to true.
 	 * @return
 	 */
 	private Optional<Integer> parseAndApplyBoundaries(@Nullable String parameter, int upper, boolean shiftIndex) {
@@ -284,8 +297,10 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 		try {
 			int parsed = Integer.parseInt(parameter) - (this.oneIndexedParameters && shiftIndex ? 1 : 0);
 			return Optional.of(parsed < 0 ? 0 : parsed > upper ? upper : parsed);
-		} catch (NumberFormatException e) {
+		}
+		catch (NumberFormatException e) {
 			return Optional.of(0);
 		}
 	}
+
 }

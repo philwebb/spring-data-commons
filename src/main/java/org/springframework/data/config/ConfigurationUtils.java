@@ -21,8 +21,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 
 /**
- * Helper class to centralize common functionality that needs to be used in various places of the configuration
- * implementation.
+ * Helper class to centralize common functionality that needs to be used in various places
+ * of the configuration implementation.
  *
  * @author Oliver Gierke
  * @since 2.0
@@ -31,10 +31,10 @@ public interface ConfigurationUtils {
 
 	/**
 	 * Returns the {@link ResourceLoader} from the given {@link XmlReaderContext}.
-	 *
 	 * @param context must not be {@literal null}.
 	 * @return
-	 * @throws IllegalArgumentException if no {@link ResourceLoader} can be obtained from the {@link XmlReaderContext}.
+	 * @throws IllegalArgumentException if no {@link ResourceLoader} can be obtained from
+	 * the {@link XmlReaderContext}.
 	 */
 	public static ResourceLoader getRequiredResourceLoader(XmlReaderContext context) {
 
@@ -51,10 +51,10 @@ public interface ConfigurationUtils {
 
 	/**
 	 * Returns the {@link ClassLoader} used by the given {@link XmlReaderContext}.
-	 *
 	 * @param context must not be {@literal null}.
 	 * @return
-	 * @throws IllegalArgumentException if no {@link ClassLoader} can be obtained from the given {@link XmlReaderContext}.
+	 * @throws IllegalArgumentException if no {@link ClassLoader} can be obtained from the
+	 * given {@link XmlReaderContext}.
 	 */
 	public static ClassLoader getRequiredClassLoader(XmlReaderContext context) {
 		return getRequiredClassLoader(getRequiredResourceLoader(context));
@@ -62,10 +62,10 @@ public interface ConfigurationUtils {
 
 	/**
 	 * Returns the {@link ClassLoader} used by the given {@link ResourceLoader}.
-	 *
 	 * @param resourceLoader must not be {@literal null}.
 	 * @return
-	 * @throws IllegalArgumentException if the given {@link ResourceLoader} does not expose a {@link ClassLoader}.
+	 * @throws IllegalArgumentException if the given {@link ResourceLoader} does not
+	 * expose a {@link ClassLoader}.
 	 */
 	public static ClassLoader getRequiredClassLoader(ResourceLoader resourceLoader) {
 
@@ -82,10 +82,10 @@ public interface ConfigurationUtils {
 
 	/**
 	 * Returns the bean class name of the given {@link BeanDefinition}.
-	 *
 	 * @param beanDefinition must not be {@literal null}.
 	 * @return
-	 * @throws IllegalArgumentException if the given {@link BeanDefinition} does not contain a bean class name.
+	 * @throws IllegalArgumentException if the given {@link BeanDefinition} does not
+	 * contain a bean class name.
 	 */
 	public static String getRequiredBeanClassName(BeanDefinition beanDefinition) {
 
@@ -100,4 +100,5 @@ public interface ConfigurationUtils {
 
 		return result;
 	}
+
 }

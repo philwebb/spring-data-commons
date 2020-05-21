@@ -28,8 +28,8 @@ import org.springframework.data.mapping.PreferredConstructor;
 import org.springframework.data.mapping.PreferredConstructor.Parameter;
 
 /**
- * {@link EntityInstantiator} that uses the {@link PersistentEntity}'s {@link PreferredConstructor} to instantiate an
- * instance of the entity via reflection.
+ * {@link EntityInstantiator} that uses the {@link PersistentEntity}'s
+ * {@link PreferredConstructor} to instantiate an instance of the entity via reflection.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -58,10 +58,12 @@ enum ReflectionEntityInstantiator implements EntityInstantiator {
 						dims++;
 					}
 					return (T) Array.newInstance(clazz, dims);
-				} else {
+				}
+				else {
 					return BeanUtils.instantiateClass(entity.getType());
 				}
-			} catch (BeanInstantiationException e) {
+			}
+			catch (BeanInstantiationException e) {
 				throw new MappingInstantiationException(entity, Collections.emptyList(), e);
 			}
 		}
@@ -75,8 +77,10 @@ enum ReflectionEntityInstantiator implements EntityInstantiator {
 
 		try {
 			return BeanUtils.instantiateClass(constructor.getConstructor(), params);
-		} catch (BeanInstantiationException e) {
+		}
+		catch (BeanInstantiationException e) {
 			throw new MappingInstantiationException(entity, new ArrayList<>(Arrays.asList(params)), e);
 		}
 	}
+
 }

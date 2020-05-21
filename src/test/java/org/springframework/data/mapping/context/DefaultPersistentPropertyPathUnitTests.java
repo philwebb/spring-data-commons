@@ -40,11 +40,14 @@ import org.springframework.data.mapping.PersistentPropertyPath;
 @ExtendWith(MockitoExtension.class)
 class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
-	@Mock P first, second;
+	@Mock
+	P first, second;
 
-	@Mock Converter<P, String> converter;
+	@Mock
+	Converter<P, String> converter;
 
 	PersistentPropertyPath<P> oneLeg;
+
 	PersistentPropertyPath<P> twoLegs;
 
 	@BeforeEach
@@ -155,4 +158,5 @@ class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
 		assertThat(path.getBaseProperty()).isNull();
 	}
+
 }

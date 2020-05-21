@@ -37,6 +37,7 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 	public static final ConvertiblePair CONVERTIBLE = new ConvertiblePair(String.class, Point.class);
 
 	private static final String INVALID_FORMAT = "Expected two doubles separated by a comma but got '%s'!";
+
 	@Nonnull
 	@Override
 	public Point convert(String source) {
@@ -54,13 +55,15 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 
 			return new Point(longitude, latitude);
 
-		} catch (NumberFormatException o_O) {
+		}
+		catch (NumberFormatException o_O) {
 			throw new IllegalArgumentException(String.format(INVALID_FORMAT, source), o_O);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.format.Printer#print(java.lang.Object, java.util.Locale)
 	 */
 	@Override
@@ -70,10 +73,12 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.format.Parser#parse(java.lang.String, java.util.Locale)
 	 */
 	@Override
 	public Point parse(String text, Locale locale) throws ParseException {
 		return convert(text);
 	}
+
 }

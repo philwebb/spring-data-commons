@@ -18,7 +18,8 @@ package org.springframework.data.convert;
 import org.springframework.data.mapping.Alias;
 
 /**
- * Interface to abstract implementations of how to access a type alias from a given source or sink.
+ * Interface to abstract implementations of how to access a type alias from a given source
+ * or sink.
  *
  * @author Oliver Gierke
  */
@@ -26,7 +27,6 @@ public interface TypeAliasAccessor<S> {
 
 	/**
 	 * Reads the type alias to be used from the given source.
-	 *
 	 * @param source
 	 * @return can be {@literal null} in case no alias was found.
 	 */
@@ -34,9 +34,9 @@ public interface TypeAliasAccessor<S> {
 
 	/**
 	 * Writes the given type alias to the given sink.
-	 *
 	 * @param sink
 	 * @param alias
 	 */
 	void writeTypeTo(S sink, Object alias);
+
 }

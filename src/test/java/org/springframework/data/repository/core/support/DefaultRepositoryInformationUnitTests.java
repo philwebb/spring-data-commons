@@ -59,9 +59,11 @@ import org.springframework.data.repository.core.support.DefaultRepositoryMetadat
 @MockitoSettings(strictness = Strictness.LENIENT)
 class DefaultRepositoryInformationUnitTests {
 
-	@SuppressWarnings("rawtypes") static final Class<DummyGenericRepositorySupport> REPOSITORY = DummyGenericRepositorySupport.class;
+	@SuppressWarnings("rawtypes")
+	static final Class<DummyGenericRepositorySupport> REPOSITORY = DummyGenericRepositorySupport.class;
 
-	@Mock FooRepositoryCustom customImplementation;
+	@Mock
+	FooRepositoryCustom customImplementation;
 
 	@Test
 	void discoversRepositoryBaseClassMethod() throws Exception {
@@ -235,7 +237,8 @@ class DefaultRepositoryInformationUnitTests {
 		GenericsSaveRepositoryImpl customImplementation = new GenericsSaveRepositoryImpl();
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(GenericsSaveRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, RepositoryFactorySupport.class,
-				RepositoryComposition.just(customImplementation).withMethodLookup(MethodLookups.forRepositoryTypes(metadata)));
+				RepositoryComposition.just(customImplementation)
+						.withMethodLookup(MethodLookups.forRepositoryTypes(metadata)));
 
 		Method customBaseRepositoryMethod = GenericsSaveRepository.class.getMethod("save", Object.class);
 		assertThat(information.isCustomMethod(customBaseRepositoryMethod)).isTrue();
@@ -284,7 +287,8 @@ class DefaultRepositoryInformationUnitTests {
 		SimpleSaveRepositoryImpl customImplementation = new SimpleSaveRepositoryImpl();
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(SimpleSaveRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, RepositoryFactorySupport.class,
-				RepositoryComposition.just(customImplementation).withMethodLookup(MethodLookups.forRepositoryTypes(metadata)));
+				RepositoryComposition.just(customImplementation)
+						.withMethodLookup(MethodLookups.forRepositoryTypes(metadata)));
 
 		Method customBaseRepositoryMethod = SimpleSaveRepository.class.getMethod("save", Object.class);
 		assertThat(information.isCustomMethod(customBaseRepositoryMethod)).isTrue();
@@ -302,6 +306,7 @@ class DefaultRepositoryInformationUnitTests {
 	@Retention(RetentionPolicy.RUNTIME)
 	@QueryAnnotation
 	@interface MyQuery {
+
 	}
 
 	interface FooRepository extends CrudRepository<User, Integer>, FooRepositoryCustom {
@@ -312,17 +317,24 @@ class DefaultRepositoryInformationUnitTests {
 		// Not a redeclared method
 		User findById(Long primaryKey);
 
-		static void staticMethod() {}
+		static void staticMethod() {
+		}
 
-		default void defaultMethod() {}
+		default void defaultMethod() {
+		}
+
 	}
 
 	interface FooSuperInterfaceWithGenerics<T> {
+
 		boolean exists(T id);
+
 	}
 
 	interface FooRepositoryCustom extends FooSuperInterfaceWithGenerics<User> {
+
 		User save(User user);
+
 	}
 
 	@SuppressWarnings("unused")
@@ -334,14 +346,16 @@ class DefaultRepositoryInformationUnitTests {
 
 			return null;
 		}
+
 	}
 
 	static class Boss implements Iterable<User> {
 
 		@Override
 		public Iterator<User> iterator() {
-			return Collections.<User> emptySet().iterator();
+			return Collections.<User>emptySet().iterator();
 		}
+
 	}
 
 	interface BaseRepository<S, ID> extends CrudRepository<S, ID> {
@@ -356,6 +370,7 @@ class DefaultRepositoryInformationUnitTests {
 
 		@MyQuery
 		Optional<S> findById(ID id);
+
 	}
 
 	interface ConcreteRepository extends BaseRepository<User, Integer> {
@@ -363,6 +378,7 @@ class DefaultRepositoryInformationUnitTests {
 		User findBySomethingDifferent(String somethingDifferent);
 
 		User genericMethodToOverride(String something);
+
 	}
 
 	interface ReadOnlyRepository<T, ID> extends Repository<T, ID> {
@@ -378,53 +394,69 @@ class DefaultRepositoryInformationUnitTests {
 		boolean existsById(ID id);
 
 		long count();
+
 	}
 
 	interface CustomRepository extends ReadOnlyRepository<Object, Long> {
 
 		Object save(Object object);
+
 	}
 
-	interface BossRepository extends CrudRepository<Boss, Long> {}
+	interface BossRepository extends CrudRepository<Boss, Long> {
+
+	}
 
 	interface CustomDefaultRepositoryMethodsRepository extends CrudRepository<User, Integer> {
 
 		@MyQuery
 		List<User> findAll();
+
 	}
 
 	// DATACMNS-854, DATACMNS-912
 
-	interface GenericsSaveRepository extends CrudRepository<Sample, Long> {}
+	interface GenericsSaveRepository extends CrudRepository<Sample, Long> {
+
+	}
 
 	static class GenericsSaveRepositoryImpl {
 
 		public <T extends Sample> T save(T entity) {
 			return entity;
 		}
+
 	}
 
-	static class Sample {}
+	static class Sample {
+
+	}
 
 	interface DummyRepository extends CrudRepository<User, Integer> {
 
 		@Override
 		<S extends User> List<S> saveAll(Iterable<S> entites);
+
 	}
 
 	static class DummyRepositoryImpl<T, ID> implements CrudRepository<T, ID> {
 
 		private @Delegate CrudRepository<T, ID> delegate;
+
 	}
 
 	// DATACMNS-1008, DATACMNS-854, DATACMNS-912
 
-	interface SimpleSaveRepository extends CrudRepository<Sample, Long> {}
+	interface SimpleSaveRepository extends CrudRepository<Sample, Long> {
+
+	}
 
 	static class SimpleSaveRepositoryImpl {
 
 		public Sample save(Sample entity) {
 			return entity;
 		}
+
 	}
+
 }

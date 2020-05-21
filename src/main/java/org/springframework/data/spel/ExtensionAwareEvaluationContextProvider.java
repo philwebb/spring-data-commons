@@ -49,8 +49,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * An {@link EvaluationContextProvider} that assembles an {@link EvaluationContext} from a list of
- * {@link EvaluationContextExtension} instances.
+ * An {@link EvaluationContextProvider} that assembles an {@link EvaluationContext} from a
+ * list of {@link EvaluationContextExtension} instances.
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
@@ -63,6 +63,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	private final Map<Class<?>, EvaluationContextExtensionInformation> extensionInformationCache = new ConcurrentHashMap<>();
 
 	private final Lazy<? extends Collection<? extends EvaluationContextExtension>> extensions;
+
 	private ListableBeanFactory beanFactory;
 
 	ExtensionAwareEvaluationContextProvider() {
@@ -70,9 +71,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	}
 
 	/**
-	 * Creates a new {@link ExtensionAwareEvaluationContextProvider} with extensions looked up lazily from the given
-	 * {@link BeanFactory}.
-	 *
+	 * Creates a new {@link ExtensionAwareEvaluationContextProvider} with extensions
+	 * looked up lazily from the given {@link BeanFactory}.
 	 * @param beanFactory the {@link ListableBeanFactory} to lookup extensions from.
 	 */
 	public ExtensionAwareEvaluationContextProvider(ListableBeanFactory beanFactory) {
@@ -83,8 +83,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	}
 
 	/**
-	 * Creates a new {@link ExtensionAwareEvaluationContextProvider} for the given {@link EvaluationContextExtension}s.
-	 *
+	 * Creates a new {@link ExtensionAwareEvaluationContextProvider} for the given
+	 * {@link EvaluationContextExtension}s.
 	 * @param extensions must not be {@literal null}.
 	 */
 	public ExtensionAwareEvaluationContextProvider(Collection<? extends EvaluationContextExtension> extensions) {
@@ -96,8 +96,11 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		this.extensions = extensions;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.data.jpa.repository.support.EvaluationContextProvider#getEvaluationContext()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.data.jpa.repository.support.EvaluationContextProvider#
+	 * getEvaluationContext()
 	 */
 	@Override
 	public StandardEvaluationContext getEvaluationContext(Object rootObject) {
@@ -122,8 +125,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	}
 
 	/**
-	 * Looks up all {@link EvaluationContextExtension} instances from the given {@link ListableBeanFactory}.
-	 *
+	 * Looks up all {@link EvaluationContextExtension} instances from the given
+	 * {@link ListableBeanFactory}.
 	 * @param beanFactory must not be {@literal null}.
 	 * @return
 	 */
@@ -132,9 +135,9 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	}
 
 	/**
-	 * Looks up the {@link EvaluationContextExtensionInformation} for the given {@link EvaluationContextExtension} from
-	 * the cache or creates a new one and caches that for later lookup.
-	 *
+	 * Looks up the {@link EvaluationContextExtensionInformation} for the given
+	 * {@link EvaluationContextExtension} from the cache or creates a new one and caches
+	 * that for later lookup.
 	 * @param extension must not be {@literal null}.
 	 * @return
 	 */
@@ -147,8 +150,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	}
 
 	/**
-	 * Creates {@link EvaluationContextExtensionAdapter}s for the given {@link EvaluationContextExtension}s.
-	 *
+	 * Creates {@link EvaluationContextExtensionAdapter}s for the given
+	 * {@link EvaluationContextExtension}s.
 	 * @param extensions
 	 * @return
 	 */
@@ -169,11 +172,12 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	private class ExtensionAwarePropertyAccessor implements PropertyAccessor, MethodResolver {
 
 		private final List<EvaluationContextExtensionAdapter> adapters;
+
 		private final Map<String, EvaluationContextExtensionAdapter> adapterMap;
 
 		/**
-		 * Creates a new {@link ExtensionAwarePropertyAccessor} for the given {@link EvaluationContextExtension}s.
-		 *
+		 * Creates a new {@link ExtensionAwarePropertyAccessor} for the given
+		 * {@link EvaluationContextExtension}s.
 		 * @param extensions must not be {@literal null}.
 		 */
 		public ExtensionAwarePropertyAccessor(Collection<? extends EvaluationContextExtension> extensions) {
@@ -189,7 +193,11 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ExtensionAwareEvaluationContextProvider.ReadOnlyPropertyAccessor#canRead(org.springframework.expression.EvaluationContext, java.lang.Object, java.lang.String)
+		 * 
+		 * @see org.springframework.data.repository.query.
+		 * ExtensionAwareEvaluationContextProvider.ReadOnlyPropertyAccessor#canRead(org.
+		 * springframework.expression.EvaluationContext, java.lang.Object,
+		 * java.lang.String)
 		 */
 		@Override
 		public boolean canRead(EvaluationContext context, @Nullable Object target, String name) {
@@ -207,7 +215,9 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.expression.PropertyAccessor#read(org.springframework.expression.EvaluationContext, java.lang.Object, java.lang.String)
+		 * 
+		 * @see org.springframework.expression.PropertyAccessor#read(org.springframework.
+		 * expression.EvaluationContext, java.lang.Object, java.lang.String)
 		 */
 		@Override
 		public TypedValue read(EvaluationContext context, @Nullable Object target, String name) {
@@ -228,7 +238,10 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.expression.MethodResolver#resolve(org.springframework.expression.EvaluationContext, java.lang.Object, java.lang.String, java.util.List)
+		 * 
+		 * @see org.springframework.expression.MethodResolver#resolve(org.springframework.
+		 * expression.EvaluationContext, java.lang.Object, java.lang.String,
+		 * java.util.List)
 		 */
 		@Nullable
 		@Override
@@ -246,7 +259,10 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.expression.PropertyAccessor#canWrite(org.springframework.expression.EvaluationContext, java.lang.Object, java.lang.String)
+		 * 
+		 * @see
+		 * org.springframework.expression.PropertyAccessor#canWrite(org.springframework.
+		 * expression.EvaluationContext, java.lang.Object, java.lang.String)
 		 */
 		@Override
 		public boolean canWrite(EvaluationContext context, @Nullable Object target, String name) {
@@ -255,12 +271,16 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.expression.PropertyAccessor#write(org.springframework.expression.EvaluationContext, java.lang.Object, java.lang.String, java.lang.Object)
+		 * 
+		 * @see org.springframework.expression.PropertyAccessor#write(org.springframework.
+		 * expression.EvaluationContext, java.lang.Object, java.lang.String,
+		 * java.lang.Object)
 		 */
 		@Override
 		public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue) {
 			// noop
 		}
+
 		@Nullable
 		@Override
 		public Class<?>[] getSpecificTargetClasses() {
@@ -268,8 +288,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		}
 
 		/**
-		 * Returns a {@link MethodExecutor} wrapping a function from the adapter passed in as an argument.
-		 *
+		 * Returns a {@link MethodExecutor} wrapping a function from the adapter passed in
+		 * as an argument.
 		 * @param adapter the source of functions to consider.
 		 * @param name the name of the function
 		 * @param argumentTypes the types of the arguments that the function must accept.
@@ -281,9 +301,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		}
 
 		/**
-		 * Looks up the property value for the property of the given name from the given extension. Takes care of resolving
-		 * {@link Function} values transitively.
-		 *
+		 * Looks up the property value for the property of the given name from the given
+		 * extension. Takes care of resolving {@link Function} values transitively.
 		 * @param extension must not be {@literal null}.
 		 * @param name must not be {@literal null} or empty.
 		 * @return a {@link TypedValue} matching the given parameters.
@@ -300,11 +319,13 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 			try {
 				return new TypedValue(function.invoke(new Object[0]));
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				throw new SpelEvaluationException(e, SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED, name,
 						function.getDeclaringClass());
 			}
 		}
+
 	}
 
 	/**
@@ -323,24 +344,30 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.expression.MethodExecutor#execute(org.springframework.expression.EvaluationContext, java.lang.Object, java.lang.Object[])
+		 * 
+		 * @see org.springframework.expression.MethodExecutor#execute(org.springframework.
+		 * expression.EvaluationContext, java.lang.Object, java.lang.Object[])
 		 */
 		@Override
-		public TypedValue execute(EvaluationContext context, Object target, Object... arguments) throws AccessException {
+		public TypedValue execute(EvaluationContext context, Object target, Object... arguments)
+				throws AccessException {
 
 			try {
 				return new TypedValue(this.function.invoke(arguments));
-			} catch (Exception e) {
-				throw new SpelEvaluationException(e, SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED, this.function.getName(),
-						this.function.getDeclaringClass());
+			}
+			catch (Exception e) {
+				throw new SpelEvaluationException(e, SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED,
+						this.function.getName(), this.function.getDeclaringClass());
 			}
 		}
+
 	}
 
 	/**
-	 * Adapter to expose a unified view on {@link EvaluationContextExtension} based on some reflective inspection of the
-	 * extension (see {@link EvaluationContextExtensionInformation}) as well as the values exposed by the extension
-	 * itself.
+	 * Adapter to expose a unified view on {@link EvaluationContextExtension} based on
+	 * some reflective inspection of the extension (see
+	 * {@link EvaluationContextExtensionInformation}) as well as the values exposed by the
+	 * extension itself.
 	 *
 	 * @author Oliver Gierke
 	 * @since 1.9
@@ -350,12 +377,13 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		private final EvaluationContextExtension extension;
 
 		private final Functions functions = new Functions();
+
 		private final Map<String, Object> properties;
 
 		/**
-		 * Creates a new {@link EvaluationContextExtensionAdapter} for the given {@link EvaluationContextExtension} and
+		 * Creates a new {@link EvaluationContextExtensionAdapter} for the given
+		 * {@link EvaluationContextExtension} and
 		 * {@link EvaluationContextExtensionInformation}.
-		 *
 		 * @param extension must not be {@literal null}.
 		 * @param information must not be {@literal null}.
 		 */
@@ -383,7 +411,6 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/**
 		 * Returns the extension identifier.
-		 *
 		 * @return the id of the extension
 		 */
 		String getExtensionId() {
@@ -392,7 +419,6 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/**
 		 * Returns all functions exposed.
-		 *
 		 * @return all exposed functions.
 		 */
 		Functions getFunctions() {
@@ -400,12 +426,14 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		}
 
 		/**
-		 * Returns all properties exposed. Note, the value of a property can be a {@link Function} in turn
-		 *
+		 * Returns all properties exposed. Note, the value of a property can be a
+		 * {@link Function} in turn
 		 * @return a map from property name to property value.
 		 */
 		public Map<String, Object> getProperties() {
 			return this.properties;
 		}
+
 	}
+
 }

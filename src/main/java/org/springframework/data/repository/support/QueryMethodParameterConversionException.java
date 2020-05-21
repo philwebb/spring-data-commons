@@ -20,7 +20,8 @@ import org.springframework.core.convert.ConversionException;
 import org.springframework.util.Assert;
 
 /**
- * Exception to represent a failed attempt to convert a source value into a query method parameter.
+ * Exception to represent a failed attempt to convert a source value into a query method
+ * parameter.
  *
  * @author Oliver Gierke
  * @since 1.11
@@ -30,17 +31,19 @@ public class QueryMethodParameterConversionException extends RuntimeException {
 	private static final long serialVersionUID = -5818002272039533066L;
 
 	private final Object source;
+
 	private final MethodParameter parameter;
 
 	/**
-	 * Creates a new {@link QueryMethodParameterConversionException} for the given source object, {@link MethodParameter}
-	 * and root cause {@link ConversionException}.
-	 *
+	 * Creates a new {@link QueryMethodParameterConversionException} for the given source
+	 * object, {@link MethodParameter} and root cause {@link ConversionException}.
 	 * @param source can be {@literal null}.
-	 * @param parameter the {@link MethodParameter} the value should've been converted for, must not be {@literal null}..
+	 * @param parameter the {@link MethodParameter} the value should've been converted
+	 * for, must not be {@literal null}..
 	 * @param cause the original {@link ConversionException}, must not be {@literal null}.
 	 */
-	public QueryMethodParameterConversionException(Object source, MethodParameter parameter, ConversionException cause) {
+	public QueryMethodParameterConversionException(Object source, MethodParameter parameter,
+			ConversionException cause) {
 
 		super(String.format("Failed to convert %s into %s!", source, parameter.getParameterType().getName()), cause);
 
@@ -53,7 +56,6 @@ public class QueryMethodParameterConversionException extends RuntimeException {
 
 	/**
 	 * Returns the source value that we failed converting.
-	 *
 	 * @return the source can be {@literal null}.
 	 */
 	public Object getSource() {
@@ -62,11 +64,11 @@ public class QueryMethodParameterConversionException extends RuntimeException {
 
 	/**
 	 * Returns the {@link MethodParameter} we tried to convert the source value for.
-	 *
 	 * @return the parameter will never be {@literal null}.
 	 * @see #getSource()
 	 */
 	public MethodParameter getParameter() {
 		return this.parameter;
 	}
+
 }

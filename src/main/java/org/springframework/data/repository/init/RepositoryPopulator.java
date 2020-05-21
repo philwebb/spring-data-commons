@@ -27,8 +27,8 @@ public interface RepositoryPopulator {
 
 	/**
 	 * Populates the given {@link Repositories}.
-	 *
 	 * @param repositories must not be {@literal null}.
 	 */
 	void populate(Repositories repositories);
+
 }

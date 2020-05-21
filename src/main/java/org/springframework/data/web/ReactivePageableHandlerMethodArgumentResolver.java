@@ -28,9 +28,10 @@ import org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentR
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Extracts paging information from web requests and thus allows injecting {@link Pageable} instances into WebFlux
- * controller methods. Request properties to be parsed can be configured. Default configuration uses request parameters
- * beginning with {@link #DEFAULT_PAGE_PARAMETER}{@link #DEFAULT_QUALIFIER_DELIMITER}.
+ * Extracts paging information from web requests and thus allows injecting
+ * {@link Pageable} instances into WebFlux controller methods. Request properties to be
+ * parsed can be configured. Default configuration uses request parameters beginning with
+ * {@link #DEFAULT_PAGE_PARAMETER}{@link #DEFAULT_QUALIFIER_DELIMITER}.
  *
  * @since 2.2
  * @author Mark Paluch
@@ -43,15 +44,16 @@ public class ReactivePageableHandlerMethodArgumentResolver extends PageableHandl
 	private ReactiveSortHandlerMethodArgumentResolver sortResolver;
 
 	/**
-	 * Constructs an instance of this resolved with a default {@link ReactiveSortHandlerMethodArgumentResolver}.
+	 * Constructs an instance of this resolved with a default
+	 * {@link ReactiveSortHandlerMethodArgumentResolver}.
 	 */
 	public ReactivePageableHandlerMethodArgumentResolver() {
 		this(DEFAULT_SORT_RESOLVER);
 	}
 
 	/**
-	 * Constructs an instance of this resolver with the specified {@link SortArgumentResolver}.
-	 *
+	 * Constructs an instance of this resolver with the specified
+	 * {@link SortArgumentResolver}.
 	 * @param sortResolver the sort resolver to use.
 	 */
 	public ReactivePageableHandlerMethodArgumentResolver(ReactiveSortHandlerMethodArgumentResolver sortResolver) {
@@ -60,6 +62,7 @@ public class ReactivePageableHandlerMethodArgumentResolver extends PageableHandl
 
 		this.sortResolver = sortResolver;
 	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return Pageable.class.equals(parameter.getParameterType());
@@ -67,7 +70,12 @@ public class ReactivePageableHandlerMethodArgumentResolver extends PageableHandl
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentResolver#resolveArgumentValue(org.springframework.core.MethodParameter, org.springframework.web.reactive.BindingContext, org.springframework.web.server.ServerWebExchange)
+	 * 
+	 * @see
+	 * org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentResolver#
+	 * resolveArgumentValue(org.springframework.core.MethodParameter,
+	 * org.springframework.web.reactive.BindingContext,
+	 * org.springframework.web.server.ServerWebExchange)
 	 */
 	@Nonnull
 	@Override
@@ -84,4 +92,5 @@ public class ReactivePageableHandlerMethodArgumentResolver extends PageableHandl
 
 		return sort.isSorted() ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort) : pageable;
 	}
+
 }

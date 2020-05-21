@@ -27,11 +27,12 @@ import org.springframework.lang.Nullable;
 public interface ParameterValueProvider<P extends PersistentProperty<P>> {
 
 	/**
-	 * Returns the value to be used for the given {@link Parameter} (usually when entity instances are created).
-	 *
+	 * Returns the value to be used for the given {@link Parameter} (usually when entity
+	 * instances are created).
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 */
 	@Nullable
 	<T> T getParameterValue(Parameter<T, P> parameter);
+
 }

@@ -21,8 +21,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be used on a method of a Spring Data managed aggregate to get invoked after the events of an aggregate
- * have been published.
+ * Annotation to be used on a method of a Spring Data managed aggregate to get invoked
+ * after the events of an aggregate have been published.
  *
  * @author Oliver Gierke
  * @see DomainEvents

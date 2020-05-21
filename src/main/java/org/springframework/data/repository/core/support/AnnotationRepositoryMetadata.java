@@ -20,8 +20,8 @@ import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.util.Assert;
 
 /**
- * {@link RepositoryMetadata} implementation inspecting the given repository interface for a
- * {@link RepositoryDefinition} annotation.
+ * {@link RepositoryMetadata} implementation inspecting the given repository interface for
+ * a {@link RepositoryDefinition} annotation.
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
@@ -32,12 +32,12 @@ public class AnnotationRepositoryMetadata extends AbstractRepositoryMetadata {
 			RepositoryDefinition.class.getName());
 
 	private final Class<?> idType;
+
 	private final Class<?> domainType;
 
 	/**
-	 * Creates a new {@link AnnotationRepositoryMetadata} instance looking up repository types from a
-	 * {@link RepositoryDefinition} annotation.
-	 *
+	 * Creates a new {@link AnnotationRepositoryMetadata} instance looking up repository
+	 * types from a {@link RepositoryDefinition} annotation.
 	 * @param repositoryInterface must not be {@literal null}.
 	 */
 	public AnnotationRepositoryMetadata(Class<?> repositoryInterface) {
@@ -50,10 +50,12 @@ public class AnnotationRepositoryMetadata extends AbstractRepositoryMetadata {
 		this.idType = resolveIdType(repositoryInterface);
 		this.domainType = resolveDomainType(repositoryInterface);
 	}
+
 	@Override
 	public Class<?> getIdType() {
 		return this.idType;
 	}
+
 	@Override
 	public Class<?> getDomainType() {
 		return this.domainType;
@@ -75,9 +77,11 @@ public class AnnotationRepositoryMetadata extends AbstractRepositoryMetadata {
 		RepositoryDefinition annotation = repositoryInterface.getAnnotation(RepositoryDefinition.class);
 
 		if (annotation == null || annotation.domainClass() == null) {
-			throw new IllegalArgumentException(String.format("Could not resolve domain type of %s!", repositoryInterface));
+			throw new IllegalArgumentException(
+					String.format("Could not resolve domain type of %s!", repositoryInterface));
 		}
 
 		return annotation.domainClass();
 	}
+
 }

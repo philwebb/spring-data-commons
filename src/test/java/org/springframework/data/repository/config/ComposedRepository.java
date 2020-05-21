@@ -21,4 +21,6 @@ import org.springframework.data.repository.config.AnnotationRepositoryConfigurat
 /**
  * @author Mark Paluch
  */
-interface ComposedRepository extends Repository<Person, Long>, Mixin {}
+interface ComposedRepository extends Repository<Person, Long>, Mixin {
+
+}

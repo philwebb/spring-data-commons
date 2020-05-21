@@ -68,8 +68,11 @@ class CdiRepositoryBeanUnitTests {
 	static final Set<Annotation> SINGLE_ANNOTATION = singleton(
 			new CdiRepositoryExtensionSupport.DefaultAnnotationLiteral());
 
-	@Mock BeanManager beanManager;
-	@Mock RepositoryFactorySupport repositoryFactory;
+	@Mock
+	BeanManager beanManager;
+
+	@Mock
+	RepositoryFactorySupport repositoryFactory;
 
 	@Test
 	void voidRejectsNullQualifiers() {
@@ -92,8 +95,8 @@ class CdiRepositoryBeanUnitTests {
 	@Test
 	void returnsBasicMetadata() {
 
-		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, SampleRepository.class,
-				this.beanManager);
+		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS,
+				SampleRepository.class, this.beanManager);
 
 		assertThat(bean.getBeanClass()).isEqualTo(SampleRepository.class);
 		assertThat(bean.getName()).isEqualTo(SampleRepository.class.getName());
@@ -103,8 +106,8 @@ class CdiRepositoryBeanUnitTests {
 	@Test
 	void returnsAllImplementedTypes() {
 
-		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, SampleRepository.class,
-				this.beanManager);
+		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS,
+				SampleRepository.class, this.beanManager);
 
 		Set<Type> types = bean.getTypes();
 		assertThat(types).containsExactlyInAnyOrder(SampleRepository.class, Repository.class);
@@ -124,7 +127,8 @@ class CdiRepositoryBeanUnitTests {
 	@SuppressWarnings("rawtypes")
 	void scopeDefaultsToApplicationScoped() {
 
-		Bean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, SampleRepository.class, this.beanManager);
+		Bean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, SampleRepository.class,
+				this.beanManager);
 		assertThat(bean.getScope()).isEqualTo(ApplicationScoped.class);
 	}
 
@@ -171,8 +175,10 @@ class CdiRepositoryBeanUnitTests {
 
 		ImplementationLookupConfiguration configuration = captor.getValue();
 
-		assertThat(configuration.getImplementationBeanName()).isEqualTo("cdiRepositoryBeanUnitTests.SampleRepositoryImpl");
-		assertThat(configuration.getImplementationClassName()).isEqualTo("CdiRepositoryBeanUnitTests.SampleRepositoryImpl");
+		assertThat(configuration.getImplementationBeanName())
+				.isEqualTo("cdiRepositoryBeanUnitTests.SampleRepositoryImpl");
+		assertThat(configuration.getImplementationClassName())
+				.isEqualTo("CdiRepositoryBeanUnitTests.SampleRepositoryImpl");
 	}
 
 	@Test // DATACMNS-1233
@@ -207,6 +213,7 @@ class CdiRepositoryBeanUnitTests {
 				Optional<Object> customImplementation) {
 			return null;
 		}
+
 	}
 
 	@Named("namedRepository")
@@ -260,7 +267,9 @@ class CdiRepositoryBeanUnitTests {
 		static final DummyRepositoryProxyPostProcessor INSTANCE = new DummyRepositoryProxyPostProcessor();
 
 		@Override
-		public void postProcess(ProxyFactory factory, RepositoryInformation repositoryInformation) {}
+		public void postProcess(ProxyFactory factory, RepositoryInformation repositoryInformation) {
+		}
+
 	}
 
 	static class DummyQueryCreationListener implements QueryCreationListener<RepositoryQuery> {
@@ -268,6 +277,9 @@ class CdiRepositoryBeanUnitTests {
 		static final DummyQueryCreationListener INSTANCE = new DummyQueryCreationListener();
 
 		@Override
-		public void onCreation(RepositoryQuery query) {}
+		public void onCreation(RepositoryQuery query) {
+		}
+
 	}
+
 }

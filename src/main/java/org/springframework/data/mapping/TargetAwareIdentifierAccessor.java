@@ -16,8 +16,9 @@
 package org.springframework.data.mapping;
 
 /**
- * {@link IdentifierAccessor} that is aware of the target bean to obtain the identifier from so that it can generate a
- * more meaningful exception in case of an absent identifier and a call to {@link #getRequiredIdentifier()}.
+ * {@link IdentifierAccessor} that is aware of the target bean to obtain the identifier
+ * from so that it can generate a more meaningful exception in case of an absent
+ * identifier and a call to {@link #getRequiredIdentifier()}.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -30,6 +31,7 @@ public abstract class TargetAwareIdentifierAccessor implements IdentifierAccesso
 	public TargetAwareIdentifierAccessor(Object target) {
 		this.target = target;
 	}
+
 	@Override
 	public Object getRequiredIdentifier() {
 
@@ -41,4 +43,5 @@ public abstract class TargetAwareIdentifierAccessor implements IdentifierAccesso
 
 		throw new IllegalStateException(String.format("Could not obtain identifier from %s!", this.target));
 	}
+
 }

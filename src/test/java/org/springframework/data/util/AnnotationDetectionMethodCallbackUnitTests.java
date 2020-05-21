@@ -58,6 +58,7 @@ public class AnnotationDetectionMethodCallbackUnitTests {
 
 		@Value("#{null}")
 		Object getValue();
+
 	}
 
 	interface Multiple {
@@ -67,5 +68,7 @@ public class AnnotationDetectionMethodCallbackUnitTests {
 
 		@Value("#{null}")
 		Object getOtherValue();
+
 	}
+
 }

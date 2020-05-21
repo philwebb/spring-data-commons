@@ -37,7 +37,8 @@ class SimpleParameterAccessorUnitTests {
 
 		this.parameters = new DefaultParameters(Sample.class.getMethod("sample", String.class));
 		this.sortParameters = new DefaultParameters(Sample.class.getMethod("sample1", String.class, Sort.class));
-		this.pageableParameters = new DefaultParameters(Sample.class.getMethod("sample2", String.class, Pageable.class));
+		this.pageableParameters = new DefaultParameters(
+				Sample.class.getMethod("sample2", String.class, Pageable.class));
 	}
 
 	@Test
@@ -57,7 +58,8 @@ class SimpleParameterAccessorUnitTests {
 
 	@Test
 	void rejectsTooLittleNumberOfArguments() {
-		assertThatIllegalArgumentException().isThrownBy(() -> new ParametersParameterAccessor(this.parameters, new Object[0]));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> new ParametersParameterAccessor(this.parameters, new Object[0]));
 	}
 
 	@Test
@@ -79,7 +81,8 @@ class SimpleParameterAccessorUnitTests {
 	void returnsSortIfAvailable() {
 
 		Sort sort = Sort.by("foo");
-		ParameterAccessor accessor = new ParametersParameterAccessor(this.sortParameters, new Object[] { "test", sort });
+		ParameterAccessor accessor = new ParametersParameterAccessor(this.sortParameters,
+				new Object[] { "test", sort });
 
 		assertThat(accessor.getSort()).isEqualTo(sort);
 		assertThat(accessor.getPageable().isPaged()).isFalse();
@@ -89,7 +92,8 @@ class SimpleParameterAccessorUnitTests {
 	void returnsPageableIfAvailable() {
 
 		Pageable pageable = PageRequest.of(0, 10);
-		ParameterAccessor accessor = new ParametersParameterAccessor(this.pageableParameters, new Object[] { "test", pageable });
+		ParameterAccessor accessor = new ParametersParameterAccessor(this.pageableParameters,
+				new Object[] { "test", pageable });
 
 		assertThat(accessor.getPageable()).isEqualTo(pageable);
 		assertThat(accessor.getSort().isSorted()).isFalse();
@@ -100,7 +104,8 @@ class SimpleParameterAccessorUnitTests {
 
 		Sort sort = Sort.by("foo");
 		Pageable pageable = PageRequest.of(0, 10, sort);
-		ParameterAccessor accessor = new ParametersParameterAccessor(this.pageableParameters, new Object[] { "test", pageable });
+		ParameterAccessor accessor = new ParametersParameterAccessor(this.pageableParameters,
+				new Object[] { "test", pageable });
 
 		assertThat(accessor.getPageable()).isEqualTo(pageable);
 		assertThat(accessor.getSort()).isEqualTo(sort);
@@ -113,5 +118,7 @@ class SimpleParameterAccessorUnitTests {
 		void sample1(String firstname, Sort sort);
 
 		void sample2(String firstname, Pageable pageable);
+
 	}
+
 }

@@ -88,17 +88,23 @@ class AbstractEntityInformationUnitTests {
 
 	static class PrimitiveIdEntity {
 
-		@Id long id;
+		@Id
+		long id;
+
 	}
 
 	static class PrimitiveWrapperIdEntity {
 
-		@Id Long id;
+		@Id
+		Long id;
+
 	}
 
 	static class UnsupportedPrimitiveIdEntity {
 
-		@Id boolean id;
+		@Id
+		boolean id;
+
 	}
 
 	static class CustomEntityInformation<T, ID> extends AbstractEntityInformation<T, ID> {
@@ -121,5 +127,7 @@ class AbstractEntityInformationUnitTests {
 		public Class<ID> getIdType() {
 			return (Class<ID>) ReflectionUtils.findField(this.type, "id").getType();
 		}
+
 	}
+
 }

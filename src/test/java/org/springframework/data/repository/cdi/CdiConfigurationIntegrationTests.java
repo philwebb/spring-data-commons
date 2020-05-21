@@ -56,4 +56,5 @@ class CdiConfigurationIntegrationTests {
 	static void tearDown() {
 		container.close();
 	}
+
 }

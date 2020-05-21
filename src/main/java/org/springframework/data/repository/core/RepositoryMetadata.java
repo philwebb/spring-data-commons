@@ -30,29 +30,26 @@ public interface RepositoryMetadata {
 
 	/**
 	 * Returns the id class the given class is declared for.
-	 *
 	 * @return the id class of the entity managed by the repository.
 	 */
 	Class<?> getIdType();
 
 	/**
 	 * Returns the domain class the repository is declared for.
-	 *
 	 * @return the domain class the repository is handling.
 	 */
 	Class<?> getDomainType();
 
 	/**
 	 * Returns the repository interface.
-	 *
 	 * @return
 	 */
 	Class<?> getRepositoryInterface();
 
 	/**
-	 * Returns the domain class returned by the given {@link Method}. Will extract the type from {@link Collection}s and
-	 * {@link org.springframework.data.domain.Page} as well.
-	 *
+	 * Returns the domain class returned by the given {@link Method}. Will extract the
+	 * type from {@link Collection}s and {@link org.springframework.data.domain.Page} as
+	 * well.
 	 * @param method
 	 * @return
 	 */
@@ -60,34 +57,33 @@ public interface RepositoryMetadata {
 
 	/**
 	 * Returns {@link CrudMethods} meta information for the repository.
-	 *
 	 * @return
 	 */
 	CrudMethods getCrudMethods();
 
 	/**
 	 * Returns whether the repository is a paging one.
-	 *
 	 * @return
 	 */
 	boolean isPagingRepository();
 
 	/**
-	 * Returns the set of types the repository shall be discoverable for when trying to look up a repository by domain
-	 * type.
+	 * Returns the set of types the repository shall be discoverable for when trying to
+	 * look up a repository by domain type.
 	 *
 	 * @see Repositories#getRepositoryFor(Class)
-	 * @return the set of types the repository shall be discoverable for when trying to look up a repository by domain
-	 *         type, must not be {@literal null}.
+	 * @return the set of types the repository shall be discoverable for when trying to
+	 * look up a repository by domain type, must not be {@literal null}.
 	 * @since 1.11
 	 */
 	Set<Class<?>> getAlternativeDomainTypes();
 
 	/**
-	 * Returns whether the repository is a reactive one, i.e. if it uses reactive types in one of its methods.
-	 *
+	 * Returns whether the repository is a reactive one, i.e. if it uses reactive types in
+	 * one of its methods.
 	 * @return
 	 * @since 2.0
 	 */
 	boolean isReactiveRepository();
+
 }

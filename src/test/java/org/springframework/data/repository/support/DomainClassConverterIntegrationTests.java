@@ -46,9 +46,15 @@ import org.springframework.data.repository.core.support.RepositoryFactoryInforma
 @ExtendWith(MockitoExtension.class)
 class DomainClassConverterIntegrationTests {
 
-	@Mock @SuppressWarnings("rawtypes") RepositoryFactoryBeanSupport factory;
-	@Mock PersonRepository repository;
-	@Mock RepositoryInformation information;
+	@Mock
+	@SuppressWarnings("rawtypes")
+	RepositoryFactoryBeanSupport factory;
+
+	@Mock
+	PersonRepository repository;
+
+	@Mock
+	RepositoryInformation information;
 
 	@Test
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -57,7 +63,9 @@ class DomainClassConverterIntegrationTests {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory() {
 			@Override
 			protected BeanWrapper instantiateBean(String beanName, RootBeanDefinition mbd) {
-				return beanName.equals("repoFactory") ? new BeanWrapperImpl(DomainClassConverterIntegrationTests.this.factory) : super.instantiateBean(beanName, mbd);
+				return beanName.equals("repoFactory")
+						? new BeanWrapperImpl(DomainClassConverterIntegrationTests.this.factory)
+						: super.instantiateBean(beanName, mbd);
 			}
 		};
 
@@ -76,7 +84,8 @@ class DomainClassConverterIntegrationTests {
 		DomainClassConverter converter = new DomainClassConverter(new DefaultConversionService());
 		converter.setApplicationContext(context);
 
-		assertThat(converter.matches(TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(Person.class))).isTrue();
+		assertThat(converter.matches(TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(Person.class)))
+				.isTrue();
 	}
 
 	static class Person {
@@ -93,5 +102,7 @@ class DomainClassConverterIntegrationTests {
 		public Class<?> predictBeanType(Class<?> beanClass, String beanName) {
 			return RepositoryFactoryBeanSupport.class.equals(beanClass) ? PersonRepository.class : null;
 		}
+
 	}
+
 }

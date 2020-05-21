@@ -31,11 +31,11 @@ public class Box implements Shape {
 	private static final long serialVersionUID = 8198095179084040711L;
 
 	private final Point first;
+
 	private final Point second;
 
 	/**
 	 * Creates a new Box spanning from the given first to the second {@link Point}.
-	 *
 	 * @param first must not be {@literal null}.
 	 * @param second must not be {@literal null}.
 	 */
@@ -49,8 +49,8 @@ public class Box implements Shape {
 	}
 
 	/**
-	 * Creates a new Box from the given {@code first} to the {@code second} point represented as the {@literal double[]}.
-	 *
+	 * Creates a new Box from the given {@code first} to the {@code second} point
+	 * represented as the {@literal double[]}.
 	 * @param first must not be {@literal null} and contain exactly 2 doubles.
 	 * @param second must not be {@literal null} and contain exactly 2 doubles.
 	 */
@@ -65,7 +65,6 @@ public class Box implements Shape {
 
 	/**
 	 * Returns the first {@link Point} making up the {@link Box}.
-	 *
 	 * @return
 	 */
 	public Point getFirst() {
@@ -74,16 +73,17 @@ public class Box implements Shape {
 
 	/**
 	 * Returns the second {@link Point} making up the {@link Box}.
-	 *
 	 * @return
 	 */
 	public Point getSecond() {
 		return this.second;
 	}
+
 	@Override
 	public String toString() {
 		return String.format("Box [%s, %s]", this.first, this.second);
 	}
+
 	@Override
 	public int hashCode() {
 
@@ -94,6 +94,7 @@ public class Box implements Shape {
 
 		return result;
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -109,4 +110,5 @@ public class Box implements Shape {
 
 		return this.first.equals(that.first) && this.second.equals(that.second);
 	}
+
 }

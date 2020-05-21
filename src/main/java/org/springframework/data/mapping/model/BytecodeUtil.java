@@ -31,7 +31,8 @@ import org.springframework.asm.Type;
  */
 abstract class BytecodeUtil {
 
-	private BytecodeUtil() {}
+	private BytecodeUtil() {
+	}
 
 	/**
 	 * Returns the appropriate autoboxing type.
@@ -79,7 +80,6 @@ abstract class BytecodeUtil {
 
 	/**
 	 * Auto-box/Auto-unbox primitives to object and vice versa.
-	 *
 	 * @param in the input type
 	 * @param out the expected output type
 	 * @param visitor must not be {@literal null}.
@@ -152,8 +152,8 @@ abstract class BytecodeUtil {
 	}
 
 	/**
-	 * Checks whether the class is accessible by inspecting modifiers (i.e. whether the class is {@code private}).
-	 *
+	 * Checks whether the class is accessible by inspecting modifiers (i.e. whether the
+	 * class is {@code private}).
 	 * @param type must not be {@literal null}.
 	 * @return {@literal true} if the {@link Class} is accessible.
 	 * @see Modifier#isPrivate(int)
@@ -163,8 +163,8 @@ abstract class BytecodeUtil {
 	}
 
 	/**
-	 * Checks whether the class is accessible by inspecting modifiers (i.e. whether the class is {@code private}).
-	 *
+	 * Checks whether the class is accessible by inspecting modifiers (i.e. whether the
+	 * class is {@code private}).
 	 * @param type must not be {@literal null}.
 	 * @return {@literal true} if the {@code modifiers} do not indicate the private flag.
 	 * @see Modifier#isPrivate(int)
@@ -176,7 +176,6 @@ abstract class BytecodeUtil {
 	/**
 	 * Checks whether the modifiers express {@literal default} (not
 	 * {@literal private}/{@literal protected}/{@literal public}).
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return {@literal true} if the {@code modifiers} indicate {@literal default}.
 	 * @see Modifier#isPrivate(int)
@@ -187,7 +186,6 @@ abstract class BytecodeUtil {
 
 	/**
 	 * Create a reference type name in the form of {@literal Ljava/lang/Object;}.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return reference type name in the form of {@literal Ljava/lang/Object;}.
 	 */
@@ -197,7 +195,6 @@ abstract class BytecodeUtil {
 
 	/**
 	 * Create a reference type name in the form of {@literal Ljava/lang/Object;}.
-	 *
 	 * @param internalTypeName must not be {@literal null}.
 	 * @return reference type name in the form of {@literal Ljava/lang/Object;}.
 	 */
@@ -207,7 +204,6 @@ abstract class BytecodeUtil {
 
 	/**
 	 * Returns the signature type for a {@link Class} including primitives.
-	 *
 	 * @param type must not be {@literal null}
 	 * @return
 	 */
@@ -253,9 +249,8 @@ abstract class BytecodeUtil {
 	}
 
 	/**
-	 * Create a byte code instruction that puts a default value for {@link Class} on the stack. Primitive types default to
-	 * zero, reference types use {@literal null}.
-	 *
+	 * Create a byte code instruction that puts a default value for {@link Class} on the
+	 * stack. Primitive types default to zero, reference types use {@literal null}.
 	 * @param parameterType must not be {@literal null}.
 	 * @param mv must not be {@literal null}.
 	 */
@@ -282,8 +277,10 @@ abstract class BytecodeUtil {
 			if (parameterType == Character.TYPE || parameterType == Byte.TYPE) {
 				mv.visitIntInsn(Opcodes.BIPUSH, 0);
 			}
-		} else {
+		}
+		else {
 			mv.visitInsn(Opcodes.ACONST_NULL);
 		}
 	}
+
 }

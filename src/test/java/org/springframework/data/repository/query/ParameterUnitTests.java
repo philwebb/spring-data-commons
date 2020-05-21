@@ -65,4 +65,5 @@ class ParameterUnitTests {
 	<T> Stream<T> dynamicProjectionWithStream(Class<T> type) {
 		return Stream.empty();
 	}
+
 }

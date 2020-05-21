@@ -33,8 +33,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * A {@link ResultProcessor} to expose metadata about query result element projection and eventually post processing raw
- * query results into projections and data transfer objects.
+ * A {@link ResultProcessor} to expose metadata about query result element projection and
+ * eventually post processing raw query results into projections and data transfer
+ * objects.
  *
  * @author Oliver Gierke
  * @author John Blum
@@ -45,13 +46,16 @@ import org.springframework.util.Assert;
 public class ResultProcessor {
 
 	private final QueryMethod method;
+
 	private final ProjectingConverter converter;
+
 	private final ProjectionFactory factory;
+
 	private final ReturnedType type;
 
 	/**
-	 * Creates a new {@link ResultProcessor} from the given {@link QueryMethod} and {@link ProjectionFactory}.
-	 *
+	 * Creates a new {@link ResultProcessor} from the given {@link QueryMethod} and
+	 * {@link ProjectionFactory}.
 	 * @param method must not be {@literal null}.
 	 * @param factory must not be {@literal null}.
 	 */
@@ -60,8 +64,8 @@ public class ResultProcessor {
 	}
 
 	/**
-	 * Creates a new {@link ResultProcessor} for the given {@link QueryMethod}, {@link ProjectionFactory} and type.
-	 *
+	 * Creates a new {@link ResultProcessor} for the given {@link QueryMethod},
+	 * {@link ProjectionFactory} and type.
 	 * @param method must not be {@literal null}.
 	 * @param factory must not be {@literal null}.
 	 * @param type must not be {@literal null}.
@@ -87,8 +91,8 @@ public class ResultProcessor {
 	}
 
 	/**
-	 * Returns a new {@link ResultProcessor} with a new projection type obtained from the given {@link ParameterAccessor}.
-	 *
+	 * Returns a new {@link ResultProcessor} with a new projection type obtained from the
+	 * given {@link ParameterAccessor}.
 	 * @param accessor must not be {@literal null}.
 	 * @return
 	 */
@@ -105,7 +109,6 @@ public class ResultProcessor {
 
 	/**
 	 * Returns the {@link ReturnedType}.
-	 *
 	 * @return
 	 */
 	public ReturnedType getReturnedType() {
@@ -114,7 +117,6 @@ public class ResultProcessor {
 
 	/**
 	 * Post-processes the given query result.
-	 *
 	 * @param source can be {@literal null}.
 	 * @return
 	 */
@@ -124,9 +126,8 @@ public class ResultProcessor {
 	}
 
 	/**
-	 * Post-processes the given query result using the given preparing {@link Converter} to potentially prepare collection
-	 * elements.
-	 *
+	 * Post-processes the given query result using the given preparing {@link Converter}
+	 * to potentially prepare collection elements.
 	 * @param source can be {@literal null}.
 	 * @param preparingConverter must not be {@literal null}.
 	 * @return
@@ -141,7 +142,8 @@ public class ResultProcessor {
 
 		Assert.notNull(preparingConverter, "Preparing converter must not be null!");
 
-		ChainingConverter converter = ChainingConverter.of(this.type.getReturnedType(), preparingConverter).and(this.converter);
+		ChainingConverter converter = ChainingConverter.of(this.type.getReturnedType(), preparingConverter)
+				.and(this.converter);
 
 		if (source instanceof Slice && this.method.isPageQuery() || this.method.isSliceQuery()) {
 			return (T) ((Slice<?>) source).map(converter::convert);
@@ -177,9 +179,9 @@ public class ResultProcessor {
 	}
 
 	/**
-	 * Creates a new {@link Collection} for the given source. Will try to create an instance of the source collection's
-	 * type first falling back to creating an approximate collection if the former fails.
-	 *
+	 * Creates a new {@link Collection} for the given source. Will try to create an
+	 * instance of the source collection's type first falling back to creating an
+	 * approximate collection if the former fails.
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
@@ -187,7 +189,8 @@ public class ResultProcessor {
 
 		try {
 			return CollectionFactory.createCollection(source.getClass(), source.size());
-		} catch (RuntimeException o_O) {
+		}
+		catch (RuntimeException o_O) {
 			return CollectionFactory.createApproximateCollection(source, source.size());
 		}
 	}
@@ -195,6 +198,7 @@ public class ResultProcessor {
 	private static class ChainingConverter implements Converter<Object, Object> {
 
 		private final Class<?> targetType;
+
 		private final Converter<Object, Object> delegate;
 
 		private ChainingConverter(Class<?> targetType, Converter<Object, Object> delegate) {
@@ -207,9 +211,8 @@ public class ResultProcessor {
 		}
 
 		/**
-		 * Returns a new {@link ChainingConverter} that hands the elements resulting from the current conversion to the
-		 * given {@link Converter}.
-		 *
+		 * Returns a new {@link ChainingConverter} that hands the elements resulting from
+		 * the current conversion to the given {@link Converter}.
 		 * @param converter must not be {@literal null}.
 		 * @return
 		 */
@@ -225,11 +228,13 @@ public class ResultProcessor {
 						: converter.convert(intermediate);
 			});
 		}
+
 		@Nullable
 		@Override
 		public Object convert(Object source) {
 			return this.delegate.convert(source);
 		}
+
 	}
 
 	/**
@@ -241,21 +246,25 @@ public class ResultProcessor {
 	private static enum NoOpConverter implements Converter<Object, Object> {
 
 		INSTANCE;
+
 		@Override
 		public Object convert(Object source) {
 			return source;
 		}
+
 	}
 
 	private static class ProjectingConverter implements Converter<Object, Object> {
 
 		private final ReturnedType type;
+
 		private final ProjectionFactory factory;
+
 		private final ConversionService conversionService;
 
 		/**
-		 * Creates a new {@link ProjectingConverter} for the given {@link ReturnedType} and {@link ProjectionFactory}.
-		 *
+		 * Creates a new {@link ProjectingConverter} for the given {@link ReturnedType}
+		 * and {@link ProjectionFactory}.
 		 * @param type must not be {@literal null}.
 		 * @param factory must not be {@literal null}.
 		 */
@@ -271,7 +280,6 @@ public class ResultProcessor {
 
 		/**
 		 * Creates a new {@link ProjectingConverter} for the given {@link ReturnedType}.
-		 *
 		 * @param type must not be {@literal null}.
 		 * @return
 		 */
@@ -281,6 +289,7 @@ public class ResultProcessor {
 
 			return new ProjectingConverter(type, this.factory, this.conversionService);
 		}
+
 		@Nullable
 		@Override
 		public Object convert(Object source) {
@@ -318,5 +327,7 @@ public class ResultProcessor {
 
 			return result;
 		}
+
 	}
+
 }

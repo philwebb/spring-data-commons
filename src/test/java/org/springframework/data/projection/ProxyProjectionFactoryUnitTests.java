@@ -86,7 +86,8 @@ class ProxyProjectionFactoryUnitTests {
 
 	@Test // DATAREST-221, DATACMNS-630
 	void rejectsNonInterfacesAsProjectionTarget() {
-		assertThatIllegalArgumentException().isThrownBy(() -> this.factory.createProjection(Object.class, new Object()));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> this.factory.createProjection(Object.class, new Object()));
 	}
 
 	@Test // DATACMNS-630
@@ -218,21 +219,30 @@ class ProxyProjectionFactoryUnitTests {
 		assertThat(this.factory.createProjection(Contact.class, customer)).isSameAs(customer);
 	}
 
-	interface Contact {}
+	interface Contact {
+
+	}
 
 	static class Customer implements Contact {
 
 		Long id;
+
 		String firstname, lastname;
+
 		Address address;
+
 		byte[] picture;
+
 		Address[] shippingAddresses;
+
 		Map<String, Object> data;
+
 	}
 
 	static class Address {
 
 		String zipCode, city;
+
 	}
 
 	interface CustomerExcerpt {
@@ -248,11 +258,13 @@ class ProxyProjectionFactoryUnitTests {
 		byte[] getPicture();
 
 		Map<String, Object> getData();
+
 	}
 
 	interface AddressExcerpt {
 
 		String getZipCode();
+
 	}
 
 	interface CustomerProxy {
@@ -260,5 +272,7 @@ class ProxyProjectionFactoryUnitTests {
 		String getFirstname();
 
 		void setFirstname(String firstname);
+
 	}
+
 }

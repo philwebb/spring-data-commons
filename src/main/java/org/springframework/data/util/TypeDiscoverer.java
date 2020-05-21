@@ -46,7 +46,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Basic {@link TypeDiscoverer} that contains basic functionality to discover property types.
+ * Basic {@link TypeDiscoverer} that contains basic functionality to discover property
+ * types.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -65,23 +66,30 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		try {
 			mapTypes.add(ClassUtils.forName("io.vavr.collection.Map", classLoader));
-		} catch (ClassNotFoundException o_O) {}
+		}
+		catch (ClassNotFoundException o_O) {
+		}
 
 		MAP_TYPES = mapTypes.toArray(new Class[0]);
 	}
 
 	private final Type type;
+
 	private final Map<TypeVariable<?>, Type> typeVariableMap;
+
 	private final Map<String, Optional<TypeInformation<?>>> fieldTypes = new ConcurrentHashMap<>();
+
 	private final int hashCode;
 
 	private final Lazy<Class<S>> resolvedType;
+
 	private final Lazy<TypeInformation<?>> componentType;
+
 	private final Lazy<TypeInformation<?>> valueType;
 
 	/**
-	 * Creates a new {@link TypeDiscoverer} for the given type, type variable map and parent.
-	 *
+	 * Creates a new {@link TypeDiscoverer} for the given type, type variable map and
+	 * parent.
 	 * @param type must not be {@literal null}.
 	 * @param typeVariableMap must not be {@literal null}.
 	 */
@@ -100,7 +108,6 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 	/**
 	 * Returns the type variable map.
-	 *
 	 * @return
 	 */
 	protected Map<TypeVariable<?>, Type> getTypeVariableMap() {
@@ -109,7 +116,6 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 	/**
 	 * Creates {@link TypeInformation} for the given {@link Type}.
-	 *
 	 * @param fieldType must not be {@literal null}.
 	 * @return
 	 */
@@ -163,7 +169,6 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 	/**
 	 * Resolves the given type into a plain {@link Class}.
-	 *
 	 * @param type
 	 * @return
 	 */
@@ -175,6 +180,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		return (Class<S>) GenericTypeResolver.resolveType(type, map);
 	}
+
 	public List<TypeInformation<?>> getParameterTypes(Constructor<?> constructor) {
 
 		Assert.notNull(constructor, "Constructor must not be null!");
@@ -188,6 +194,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		return result;
 	}
+
 	@Nullable
 	public TypeInformation<?> getProperty(String fieldname) {
 
@@ -208,8 +215,9 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	}
 
 	/**
-	 * Returns the {@link TypeInformation} for the given atomic field. Will inspect fields first and return the type of a
-	 * field if available. Otherwise it will fall back to a {@link PropertyDescriptor}.
+	 * Returns the {@link TypeInformation} for the given atomic field. Will inspect fields
+	 * first and return the type of a field if available. Otherwise it will fall back to a
+	 * {@link PropertyDescriptor}.
 	 *
 	 * @see #getGenericType(PropertyDescriptor)
 	 * @param fieldname
@@ -229,8 +237,8 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	}
 
 	/**
-	 * Finds the {@link PropertyDescriptor} for the property with the given name on the given type.
-	 *
+	 * Finds the {@link PropertyDescriptor} for the property with the given name on the
+	 * given type.
 	 * @param type must not be {@literal null}.
 	 * @param fieldname must not be {@literal null} or empty.
 	 * @return
@@ -253,9 +261,8 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	}
 
 	/**
-	 * Returns the generic type for the given {@link PropertyDescriptor}. Will inspect its read method followed by the
-	 * first parameter of the write method.
-	 *
+	 * Returns the generic type for the given {@link PropertyDescriptor}. Will inspect its
+	 * read method followed by the first parameter of the write method.
 	 * @param descriptor must not be {@literal null}
 	 * @return
 	 */
@@ -277,13 +284,16 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		Type[] parameterTypes = method.getGenericParameterTypes();
 		return parameterTypes.length == 0 ? null : parameterTypes[0];
 	}
+
 	public Class<S> getType() {
 		return this.resolvedType.get();
 	}
+
 	@Override
 	public ClassTypeInformation<?> getRawTypeInformation() {
 		return ClassTypeInformation.from(getType()).getRawTypeInformation();
 	}
+
 	@Nullable
 	public TypeInformation<?> getActualType() {
 
@@ -297,6 +307,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		return this;
 	}
+
 	public boolean isMap() {
 
 		Class<S> type = getType();
@@ -309,6 +320,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		return false;
 	}
+
 	@Nullable
 	public TypeInformation<?> getMapValueType() {
 		return this.valueType.orElse(null);
@@ -319,6 +331,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return isMap() ? getTypeArgument(getBaseType(MAP_TYPES), 1)
 				: getTypeArguments().stream().skip(1).findFirst().orElse(null);
 	}
+
 	public boolean isCollectionLike() {
 
 		Class<?> rawType = getType();
@@ -328,6 +341,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 				|| Collection.class.isAssignableFrom(rawType) //
 				|| Streamable.class.isAssignableFrom(rawType);
 	}
+
 	@Nullable
 	public final TypeInformation<?> getComponentType() {
 		return this.componentType.orElse(null);
@@ -354,11 +368,13 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		return arguments.size() > 0 ? arguments.get(0) : null;
 	}
+
 	public TypeInformation<?> getReturnType(Method method) {
 
 		Assert.notNull(method, "Method must not be null!");
 		return createInfo(method.getGenericReturnType());
 	}
+
 	public List<TypeInformation<?>> getParameterTypes(Method method) {
 
 		Assert.notNull(method, "Method most not be null!");
@@ -367,6 +383,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 				.map(this::createInfo)//
 				.collect(Collectors.toList());
 	}
+
 	@Nullable
 	public TypeInformation<?> getSuperTypeInformation(Class<?> superType) {
 
@@ -395,7 +412,8 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 			if (superType.equals(candidateInfo.getType())) {
 				return candidateInfo;
-			} else {
+			}
+			else {
 
 				TypeInformation<?> nestedSuperType = candidateInfo.getSuperTypeInformation(superType);
 
@@ -407,12 +425,17 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		return null;
 	}
+
 	public List<TypeInformation<?>> getTypeArguments() {
 		return Collections.emptyList();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.data.util.TypeInformation#isAssignableFrom(org.springframework.data.util.TypeInformation)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.data.util.TypeInformation#isAssignableFrom(org.springframework.
+	 * data.util.TypeInformation)
 	 */
 	public boolean isAssignableFrom(TypeInformation<?> target) {
 
@@ -420,6 +443,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		return superTypeInformation == null ? false : superTypeInformation.equals(this);
 	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public TypeInformation<? extends S> specialize(ClassTypeInformation<?> type) {
@@ -461,6 +485,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		throw new IllegalArgumentException(String.format("Type %s not contained in candidates %s!", type, candidates));
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -488,6 +513,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		return this.typeVariableMap.equals(that.typeVariableMap);
 	}
+
 	@Override
 	public int hashCode() {
 		return this.hashCode;
@@ -502,21 +528,26 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	private static class SyntheticParamterizedType implements ParameterizedType {
 
 		private final ClassTypeInformation<?> typeInformation;
+
 		private final List<TypeInformation<?>> typeParameters;
 
-		public SyntheticParamterizedType(ClassTypeInformation<?> typeInformation, List<TypeInformation<?>> typeParameters) {
+		public SyntheticParamterizedType(ClassTypeInformation<?> typeInformation,
+				List<TypeInformation<?>> typeParameters) {
 			this.typeInformation = typeInformation;
 			this.typeParameters = typeParameters;
 		}
+
 		@Override
 		public Type getRawType() {
 			return this.typeInformation.getType();
 		}
+
 		@Override
 		@Nullable
 		public Type getOwnerType() {
 			return null;
 		}
+
 		@Override
 		public Type[] getActualTypeArguments() {
 
@@ -528,6 +559,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 			return result;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -547,11 +579,14 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 			return ObjectUtils.nullSafeEquals(this.typeParameters, that.typeParameters);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.typeInformation);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.typeParameters);
 			return result;
 		}
+
 	}
+
 }

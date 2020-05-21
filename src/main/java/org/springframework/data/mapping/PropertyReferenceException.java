@@ -37,20 +37,27 @@ import org.springframework.util.StringUtils;
 public class PropertyReferenceException extends RuntimeException {
 
 	private static final long serialVersionUID = -5254424051438976570L;
+
 	private static final String ERROR_TEMPLATE = "No property %s found for type %s!";
+
 	private static final String HINTS_TEMPLATE = " Did you mean %s?";
 
 	private final String propertyName;
+
 	private final TypeInformation<?> type;
+
 	private final List<PropertyPath> alreadyResolvedPath;
+
 	private final Lazy<Set<String>> propertyMatches;
 
 	/**
 	 * Creates a new {@link PropertyReferenceException}.
-	 *
-	 * @param propertyName the name of the property not found on the given type, must not be {@literal null} or empty.
-	 * @param type the type the property could not be found on, must not be {@literal null}.
-	 * @param alreadyResolvedPah the previously calculated {@link PropertyPath}s, must not be {@literal null}.
+	 * @param propertyName the name of the property not found on the given type, must not
+	 * be {@literal null} or empty.
+	 * @param type the type the property could not be found on, must not be
+	 * {@literal null}.
+	 * @param alreadyResolvedPah the previously calculated {@link PropertyPath}s, must not
+	 * be {@literal null}.
 	 */
 	public PropertyReferenceException(String propertyName, TypeInformation<?> type,
 			List<PropertyPath> alreadyResolvedPah) {
@@ -67,7 +74,6 @@ public class PropertyReferenceException extends RuntimeException {
 
 	/**
 	 * Returns the name of the property not found.
-	 *
 	 * @return will not be {@literal null} or empty.
 	 */
 	public String getPropertyName() {
@@ -76,7 +82,6 @@ public class PropertyReferenceException extends RuntimeException {
 
 	/**
 	 * Returns the type the property could not be found on.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public TypeInformation<?> getType() {
@@ -84,13 +89,14 @@ public class PropertyReferenceException extends RuntimeException {
 	}
 
 	/**
-	 * Returns the properties that the invalid property might have been meant to be referred to.
-	 *
+	 * Returns the properties that the invalid property might have been meant to be
+	 * referred to.
 	 * @return will never be {@literal null}.
 	 */
 	Collection<String> getPropertyMatches() {
 		return this.propertyMatches.get();
 	}
+
 	@Override
 	public String getMessage() {
 
@@ -114,18 +120,18 @@ public class PropertyReferenceException extends RuntimeException {
 
 	/**
 	 * Returns the {@link PropertyPath} which could be resolved so far.
-	 *
 	 * @return
 	 */
 	@Nullable
 	public PropertyPath getBaseProperty() {
-		return this.alreadyResolvedPath.isEmpty() ? null : this.alreadyResolvedPath.get(this.alreadyResolvedPath.size() - 1);
+		return this.alreadyResolvedPath.isEmpty() ? null
+				: this.alreadyResolvedPath.get(this.alreadyResolvedPath.size() - 1);
 	}
 
 	/**
-	 * Returns whether the given {@link PropertyReferenceException} has a deeper resolution depth (i.e. a longer path of
-	 * already resolved properties) than the current exception.
-	 *
+	 * Returns whether the given {@link PropertyReferenceException} has a deeper
+	 * resolution depth (i.e. a longer path of already resolved properties) than the
+	 * current exception.
 	 * @param exception must not be {@literal null}.
 	 * @return
 	 */
@@ -135,7 +141,6 @@ public class PropertyReferenceException extends RuntimeException {
 
 	/**
 	 * Detects all potential matches for the given property name and type.
-	 *
 	 * @param propertyName must not be {@literal null} or empty.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -148,4 +153,5 @@ public class PropertyReferenceException extends RuntimeException {
 
 		return result;
 	}
+
 }

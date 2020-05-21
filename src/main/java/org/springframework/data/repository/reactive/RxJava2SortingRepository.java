@@ -21,8 +21,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.NoRepositoryBean;
 
 /**
- * Extension of {@link RxJava2CrudRepository} to provide additional methods to retrieve entities using the sorting
- * abstraction.
+ * Extension of {@link RxJava2CrudRepository} to provide additional methods to retrieve
+ * entities using the sorting abstraction.
  *
  * @author Mark Paluch
  * @since 2.0
@@ -35,9 +35,9 @@ public interface RxJava2SortingRepository<T, ID> extends RxJava2CrudRepository<T
 
 	/**
 	 * Returns all entities sorted by the given options.
-	 *
 	 * @param sort must not be {@literal null}.
 	 * @return all entities sorted by the given options.
 	 */
 	Flowable<T> findAll(Sort sort);
+
 }

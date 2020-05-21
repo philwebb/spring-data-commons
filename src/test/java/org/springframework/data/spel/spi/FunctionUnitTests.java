@@ -64,5 +64,7 @@ class FunctionUnitTests {
 		String onePlusObjectVarargs(String string, Object... args) {
 			return null;
 		}
+
 	}
+
 }

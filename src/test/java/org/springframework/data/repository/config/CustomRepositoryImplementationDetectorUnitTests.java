@@ -42,8 +42,11 @@ import org.springframework.mock.env.MockEnvironment;
 class CustomRepositoryImplementationDetectorUnitTests {
 
 	MetadataReaderFactory metadataFactory = new SimpleMetadataReaderFactory();
+
 	Environment environment = new MockEnvironment();
+
 	ResourceLoader resourceLoader = new DefaultResourceLoader();
+
 	ImplementationDetectionConfiguration configuration = mock(ImplementationDetectionConfiguration.class,
 			Answers.RETURNS_MOCKS);
 
@@ -97,8 +100,8 @@ class CustomRepositoryImplementationDetectorUnitTests {
 				.forRepositoryConfiguration(configFor(CanonicalSampleRepository.class));
 
 		assertThat(this.detector.detectCustomImplementation(lookup)) //
-				.hasValueSatisfying(
-						it -> assertThat(it.getBeanClassName()).isEqualTo(CanonicalSampleRepositoryTestImpl.class.getName()));
+				.hasValueSatisfying(it -> assertThat(it.getBeanClassName())
+						.isEqualTo(CanonicalSampleRepositoryTestImpl.class.getName()));
 	}
 
 	@Test // DATACMNS-764, DATACMNS-1371
@@ -128,23 +131,40 @@ class CustomRepositoryImplementationDetectorUnitTests {
 
 	// No implementation
 
-	interface NoImplementationRepository {}
+	interface NoImplementationRepository {
+
+	}
 
 	// Single implementation
 
-	interface SingleSampleRepository {}
+	interface SingleSampleRepository {
 
-	static class SingleSampleRepositoryTestImpl implements SingleSampleRepository {}
+	}
+
+	static class SingleSampleRepositoryTestImpl implements SingleSampleRepository {
+
+	}
 
 	// Multiple implementations
 
-	interface CanonicalSampleRepository {}
+	interface CanonicalSampleRepository {
+
+	}
 
 	static class First {
-		static class CanonicalSampleRepositoryTestImpl implements CanonicalSampleRepository {}
+
+		static class CanonicalSampleRepositoryTestImpl implements CanonicalSampleRepository {
+
+		}
+
 	}
 
 	static class Second {
-		static class CanonicalSampleRepositoryTestImpl implements CanonicalSampleRepository {}
+
+		static class CanonicalSampleRepositoryTestImpl implements CanonicalSampleRepository {
+
+		}
+
 	}
+
 }

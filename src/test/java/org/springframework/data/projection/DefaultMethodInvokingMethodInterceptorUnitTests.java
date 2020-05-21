@@ -48,4 +48,5 @@ class DefaultMethodInvokingMethodInterceptorUnitTests {
 		assertThat(MethodHandleLookup.OPEN.isAvailable()).isTrue();
 		assertThat(MethodHandleLookup.ENCAPSULATED.isAvailable()).isFalse();
 	}
+
 }

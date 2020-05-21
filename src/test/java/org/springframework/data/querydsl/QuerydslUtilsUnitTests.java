@@ -39,4 +39,5 @@ class QuerydslUtilsUnitTests {
 				.isEqualTo("specialProperty");
 		assertThat(toDotPath(QUser.user.as(QSpecialUser.class).specialProperty)).isEqualTo("specialProperty");
 	}
+
 }

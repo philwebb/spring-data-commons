@@ -19,7 +19,8 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 
 /**
- * Interface to define strategies how to store type information in a store specific sink or source.
+ * Interface to define strategies how to store type information in a store specific sink
+ * or source.
  *
  * @author Oliver Gierke
  */
@@ -27,7 +28,6 @@ public interface TypeMapper<S> {
 
 	/**
 	 * Reads the {@link TypeInformation} from the given source.
-	 *
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
@@ -35,8 +35,8 @@ public interface TypeMapper<S> {
 	TypeInformation<?> readType(S source);
 
 	/**
-	 * Returns the {@link TypeInformation} from the given source if it is a more concrete type than the given default one.
-	 *
+	 * Returns the {@link TypeInformation} from the given source if it is a more concrete
+	 * type than the given default one.
 	 * @param source must not be {@literal null}.
 	 * @param defaultType must not be {@literal null}.
 	 * @return
@@ -45,7 +45,6 @@ public interface TypeMapper<S> {
 
 	/**
 	 * Writes type information for the given type into the given sink.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @param dbObject must not be {@literal null}.
 	 */
@@ -53,9 +52,9 @@ public interface TypeMapper<S> {
 
 	/**
 	 * Writes type information for the given {@link TypeInformation} into the given sink.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @param dbObject must not be {@literal null}.
 	 */
 	void writeType(TypeInformation<?> type, S dbObject);
+
 }

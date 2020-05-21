@@ -37,10 +37,12 @@ class DefaultImplementationLookupConfigurationUnitTests {
 		assertThat(getImplementationBeanName(idcMock, "com.acme.UdpRepository")).isEqualTo("udpRepositoryImpl");
 	}
 
-	private static String getImplementationBeanName(ImplementationDetectionConfiguration idcMock, String interfaceName) {
+	private static String getImplementationBeanName(ImplementationDetectionConfiguration idcMock,
+			String interfaceName) {
 
 		DefaultImplementationLookupConfiguration configuration = new DefaultImplementationLookupConfiguration(idcMock,
 				interfaceName);
 		return configuration.getImplementationBeanName();
 	}
+
 }

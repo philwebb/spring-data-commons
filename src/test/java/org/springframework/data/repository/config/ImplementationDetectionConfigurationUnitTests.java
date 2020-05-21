@@ -67,5 +67,7 @@ class ImplementationDetectionConfigurationUnitTests {
 		public MetadataReaderFactory getMetadataReaderFactory() {
 			return new SimpleMetadataReaderFactory();
 		}
+
 	}
+
 }

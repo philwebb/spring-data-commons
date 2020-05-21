@@ -40,8 +40,7 @@ public class InstantiationAwarePersistentPropertyAccessorUnitTests {
 
 		PersistentPropertyAccessor<Sample> accessor = entity.getPropertyAccessor(new Sample("Dave", "Matthews", 42));
 
-		PersistentPropertyAccessor<Sample> wrapper = new InstantiationAwarePropertyAccessor<>(accessor,
-				instantiators);
+		PersistentPropertyAccessor<Sample> wrapper = new InstantiationAwarePropertyAccessor<>(accessor, instantiators);
 
 		wrapper.setProperty(entity.getRequiredPersistentProperty("firstname"), "Oliver August");
 
@@ -52,6 +51,9 @@ public class InstantiationAwarePersistentPropertyAccessorUnitTests {
 	static class Sample {
 
 		String firstname, lastname;
+
 		int age;
+
 	}
+
 }

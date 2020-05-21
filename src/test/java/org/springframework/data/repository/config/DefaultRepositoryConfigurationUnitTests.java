@@ -46,7 +46,8 @@ import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class DefaultRepositoryConfigurationUnitTests {
 
-	@Mock RepositoryConfigurationSource source;
+	@Mock
+	RepositoryConfigurationSource source;
 
 	RepositoryConfigurationExtension extension = new SimplerRepositoryConfigurationExtension("factory", "module");
 
@@ -93,7 +94,9 @@ class DefaultRepositoryConfigurationUnitTests {
 	@Value
 	@EqualsAndHashCode(callSuper = true)
 	private static class SimplerRepositoryConfigurationExtension extends RepositoryConfigurationExtensionSupport {
+
 		String repositoryFactoryBeanClassName, modulePrefix;
+
 	}
 
 	private static RootBeanDefinition createBeanDefinition(String repositoryInterfaceName) {
@@ -107,5 +110,8 @@ class DefaultRepositoryConfigurationUnitTests {
 		return beanDefinition;
 	}
 
-	private interface NestedInterface {}
+	private interface NestedInterface {
+
+	}
+
 }

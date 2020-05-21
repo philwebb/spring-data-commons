@@ -119,7 +119,8 @@ public class PropertyPathUnitTests {
 		try {
 			PropertyPath.from("usersMame", Bar.class);
 			fail("Expected PropertyReferenceException!");
-		} catch (PropertyReferenceException e) {
+		}
+		catch (PropertyReferenceException e) {
 			assertThat(e.getPropertyName()).isEqualTo("mame");
 			assertThat(e.getBaseProperty()).isEqualTo(PropertyPath.from("users", Bar.class));
 		}
@@ -396,59 +397,88 @@ public class PropertyPathUnitTests {
 	private class Foo {
 
 		String userName;
+
 		String _email;
+
 		String UUID;
+
 		String var_name_with_underscore;
+
 	}
 
 	private class Bar {
 
 		private FooBar user;
+
 		private Set<FooBar> users;
+
 		private Map<String, FooBar> userMap;
+
 		private FooBar[] userArray;
+
 	}
 
 	private class FooBar {
 
 		private String name;
+
 	}
 
 	private class Sample {
 
 		private String userName;
+
 		private FooBar user;
+
 		private Bar bar;
+
 	}
 
 	private class Sample2 {
 
 		private String userNameWhatever;
+
 		private FooBar user;
+
 		private Foo _foo;
+
 	}
 
 	// DATACMNS-1285
 
 	private class Left {
+
 		Right foo;
+
 	}
 
 	private class Right {
+
 		Left bar;
+
 	}
 
 	// DATACMNS-1304
 	private class Product {
+
 		Category category;
+
 		Category categoryB;
+
 		Category categoryAB;
+
 	}
 
 	private class Category {
+
 		B b;
+
 		String id;
+
 	}
 
-	private class B {}
+	private class B {
+
+	}
+
 }

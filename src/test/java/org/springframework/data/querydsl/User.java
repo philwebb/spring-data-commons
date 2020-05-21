@@ -32,10 +32,15 @@ import com.querydsl.core.annotations.QueryEntity;
 public class User {
 
 	public String firstname, lastname;
+
 	public @DateTimeFormat(iso = ISO.DATE) Date dateOfBirth;
+
 	public Address address;
+
 	public List<Address> addresses;
+
 	public List<String> nickNames;
+
 	public Long inceptionYear;
 
 	public User(String firstname, String lastname, Address address) {
@@ -44,6 +49,7 @@ public class User {
 		this.lastname = lastname;
 		this.address = address;
 	}
+
 }
 
 @QueryEntity
@@ -54,9 +60,12 @@ class SpecialUser extends User {
 	public SpecialUser(String firstname, String lastname, Address address) {
 		super(firstname, lastname, address);
 	}
+
 }
 
 @QueryEntity
 class UserWrapper {
+
 	public User user;
+
 }

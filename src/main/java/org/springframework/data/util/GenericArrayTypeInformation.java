@@ -31,9 +31,8 @@ class GenericArrayTypeInformation<S> extends ParentTypeAwareTypeInformation<S> {
 	private final GenericArrayType type;
 
 	/**
-	 * Creates a new {@link GenericArrayTypeInformation} for the given {@link GenericArrayTypeInformation} and
-	 * {@link TypeDiscoverer}.
-	 *
+	 * Creates a new {@link GenericArrayTypeInformation} for the given
+	 * {@link GenericArrayTypeInformation} and {@link TypeDiscoverer}.
 	 * @param type must not be {@literal null}.
 	 * @param parent must not be {@literal null}.
 	 */
@@ -42,11 +41,13 @@ class GenericArrayTypeInformation<S> extends ParentTypeAwareTypeInformation<S> {
 		super(type, parent);
 		this.type = type;
 	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<S> getType() {
 		return (Class<S>) Array.newInstance(resolveType(this.type.getGenericComponentType()), 0).getClass();
 	}
+
 	@Override
 	@Nonnull
 	protected TypeInformation<?> doGetComponentType() {
@@ -54,8 +55,10 @@ class GenericArrayTypeInformation<S> extends ParentTypeAwareTypeInformation<S> {
 		Type componentType = this.type.getGenericComponentType();
 		return createInfo(componentType);
 	}
+
 	@Override
 	public String toString() {
 		return this.type.toString();
 	}
+
 }

@@ -79,13 +79,20 @@ class RepositoryFactorySupportUnitTests {
 
 	DummyRepositoryFactory factory;
 
-	@Mock PagingAndSortingRepository<Object, Object> backingRepo;
-	@Mock ObjectRepositoryCustom customImplementation;
+	@Mock
+	PagingAndSortingRepository<Object, Object> backingRepo;
 
-	@Mock MyQueryCreationListener listener;
-	@Mock PlainQueryCreationListener otherListener;
+	@Mock
+	ObjectRepositoryCustom customImplementation;
 
-	@Mock RepositoryProxyPostProcessor repositoryPostProcessor;
+	@Mock
+	MyQueryCreationListener listener;
+
+	@Mock
+	PlainQueryCreationListener otherListener;
+
+	@Mock
+	RepositoryProxyPostProcessor repositoryPostProcessor;
 
 	@BeforeEach
 	void setUp() {
@@ -97,8 +104,9 @@ class RepositoryFactorySupportUnitTests {
 
 		Mockito.reset(this.factory.strategy);
 
-		when(this.factory.strategy.resolveQuery(any(Method.class), any(RepositoryMetadata.class), any(ProjectionFactory.class),
-				any(NamedQueries.class))).thenReturn(this.factory.queryOne, this.factory.queryTwo);
+		when(this.factory.strategy.resolveQuery(any(Method.class), any(RepositoryMetadata.class),
+				any(ProjectionFactory.class), any(NamedQueries.class))).thenReturn(this.factory.queryOne,
+						this.factory.queryTwo);
 
 		this.factory.addQueryCreationListener(this.listener);
 		this.factory.addQueryCreationListener(this.otherListener);
@@ -115,7 +123,8 @@ class RepositoryFactorySupportUnitTests {
 		this.factory.addRepositoryProxyPostProcessor(this.repositoryPostProcessor);
 		this.factory.getRepository(ObjectRepository.class);
 
-		verify(this.repositoryPostProcessor, times(1)).postProcess(any(ProxyFactory.class), any(RepositoryInformation.class));
+		verify(this.repositoryPostProcessor, times(1)).postProcess(any(ProxyFactory.class),
+				any(RepositoryInformation.class));
 	}
 
 	@Test
@@ -174,7 +183,8 @@ class RepositoryFactorySupportUnitTests {
 	void usesDefaultClassLoaderIfNullConfigured() {
 
 		this.factory.setBeanClassLoader(null);
-		assertThat(ReflectionTestUtils.getField(this.factory, "classLoader")).isEqualTo(ClassUtils.getDefaultClassLoader());
+		assertThat(ReflectionTestUtils.getField(this.factory, "classLoader"))
+				.isEqualTo(ClassUtils.getDefaultClassLoader());
 	}
 
 	@Test // DATACMNS-489
@@ -393,7 +403,9 @@ class RepositoryFactorySupportUnitTests {
 		verify(this.factory.queryOne, times(1)).execute(any(Object[].class));
 	}
 
-	interface SimpleRepository extends Repository<Object, Serializable> {}
+	interface SimpleRepository extends Repository<Object, Serializable> {
+
+	}
 
 	interface ObjectRepository extends Repository<Object, Object>, ObjectRepositoryCustom {
 
@@ -413,6 +425,7 @@ class RepositoryFactorySupportUnitTests {
 		default String staticMethodDelegate() {
 			return staticMethod();
 		}
+
 	}
 
 	interface ObjectRepositoryCustom {
@@ -421,6 +434,7 @@ class RepositoryFactorySupportUnitTests {
 		Object findById(Object id);
 
 		void deleteAll();
+
 	}
 
 	interface PlainQueryCreationListener extends QueryCreationListener<RepositoryQuery> {
@@ -444,6 +458,7 @@ class RepositoryFactorySupportUnitTests {
 		boolean existsById(ID id);
 
 		long count();
+
 	}
 
 	interface CustomRepository extends ReadOnlyRepository<Object, Long> {
@@ -479,10 +494,14 @@ class RepositoryFactorySupportUnitTests {
 		// DATACMNS-714
 		@Async
 		ListenableFuture<List<User>> readAllByLastname(String lastname);
+
 	}
 
 	static class CustomRepositoryBaseClass {
 
-		CustomRepositoryBaseClass(EntityInformation<?, ?> information) {}
+		CustomRepositoryBaseClass(EntityInformation<?, ?> information) {
+		}
+
 	}
+
 }

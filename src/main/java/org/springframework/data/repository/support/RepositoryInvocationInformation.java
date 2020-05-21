@@ -25,29 +25,26 @@ public interface RepositoryInvocationInformation {
 
 	/**
 	 * Returns whether the repository has a method to save objects.
-	 *
 	 * @return
 	 */
 	boolean hasSaveMethod();
 
 	/**
 	 * Returns whether the repository has a method to delete objects.
-	 *
 	 * @return
 	 */
 	boolean hasDeleteMethod();
 
 	/**
 	 * Returns whether the repository has a method to find a single object.
-	 *
 	 * @return
 	 */
 	boolean hasFindOneMethod();
 
 	/**
 	 * Returns whether the repository has a method to find all objects.
-	 *
 	 * @return
 	 */
 	boolean hasFindAllMethod();
+
 }

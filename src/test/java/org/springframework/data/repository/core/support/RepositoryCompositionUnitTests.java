@@ -45,8 +45,11 @@ import org.springframework.util.ReflectionUtils;
 @ExtendWith(MockitoExtension.class)
 class RepositoryCompositionUnitTests {
 
-	@Mock QueryByExampleExecutor<Person> queryByExampleExecutor;
-	@Mock PersonRepository backingRepo;
+	@Mock
+	QueryByExampleExecutor<Person> queryByExampleExecutor;
+
+	@Mock
+	PersonRepository backingRepo;
 
 	RepositoryComposition repositoryComposition;
 
@@ -55,7 +58,8 @@ class RepositoryCompositionUnitTests {
 	void before() {
 
 		RepositoryInformation repositoryInformation = new DefaultRepositoryInformation(
-				new DefaultRepositoryMetadata(PersonRepository.class), this.backingRepo.getClass(), RepositoryComposition.empty());
+				new DefaultRepositoryMetadata(PersonRepository.class), this.backingRepo.getClass(),
+				RepositoryComposition.empty());
 
 		RepositoryFragment<QueryByExampleExecutor> mixin = RepositoryFragment.implemented(QueryByExampleExecutor.class,
 				this.queryByExampleExecutor);
@@ -118,7 +122,8 @@ class RepositoryCompositionUnitTests {
 	void shouldCallMethodsInOrder() throws Throwable {
 
 		RepositoryInformation repositoryInformation = new DefaultRepositoryInformation(
-				new DefaultRepositoryMetadata(OrderedRepository.class), OrderedRepository.class, RepositoryComposition.empty());
+				new DefaultRepositoryMetadata(OrderedRepository.class), OrderedRepository.class,
+				RepositoryComposition.empty());
 
 		RepositoryFragment<?> foo = RepositoryFragment.implemented(FooMixinImpl.INSTANCE);
 		RepositoryFragment<?> bar = RepositoryFragment.implemented(BarMixinImpl.INSTANCE);
@@ -139,7 +144,8 @@ class RepositoryCompositionUnitTests {
 	@Test // DATACMNS-102
 	void shouldValidateStructuralFragments() {
 
-		RepositoryComposition mixed = RepositoryComposition.of(RepositoryFragment.structural(QueryByExampleExecutor.class),
+		RepositoryComposition mixed = RepositoryComposition.of(
+				RepositoryFragment.structural(QueryByExampleExecutor.class),
 				RepositoryFragment.implemented(this.backingRepo));
 
 		assertThatExceptionOfType(IllegalStateException.class) //
@@ -161,7 +167,8 @@ class RepositoryCompositionUnitTests {
 	void shouldAppendCorrectly() {
 
 		RepositoryFragment<PersonRepository> initial = RepositoryFragment.implemented(this.backingRepo);
-		RepositoryFragment<QueryByExampleExecutor> structural = RepositoryFragment.structural(QueryByExampleExecutor.class);
+		RepositoryFragment<QueryByExampleExecutor> structural = RepositoryFragment
+				.structural(QueryByExampleExecutor.class);
 
 		assertThat(RepositoryComposition.of(initial).append(structural).getFragments()).containsSequence(initial,
 				structural);
@@ -176,18 +183,23 @@ class RepositoryCompositionUnitTests {
 		Person save(Object entity);
 
 		Person findOne(Person entity);
+
 	}
 
 	@Data
 	static class Person {
 
-		@Id String id;
+		@Id
+		String id;
+
 	}
 
 	@Data
 	static class Contact {
 
-		@Id String id;
+		@Id
+		String id;
+
 	}
 
 	interface OrderedRepository extends Repository<Person, String>, FooMixin, BarMixin {
@@ -197,28 +209,35 @@ class RepositoryCompositionUnitTests {
 	interface FooMixin {
 
 		String getString();
+
 	}
 
 	enum FooMixinImpl implements FooMixin {
+
 		INSTANCE;
 
 		@Override
 		public String getString() {
 			return "foo";
 		}
+
 	}
 
 	interface BarMixin {
 
 		String getString();
+
 	}
 
 	enum BarMixinImpl implements BarMixin {
+
 		INSTANCE;
 
 		@Override
 		public String getString() {
 			return "bar";
 		}
+
 	}
+
 }

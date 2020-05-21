@@ -21,10 +21,11 @@ import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 
 /**
- * Simple extension to Spring's {@link AnnotationBeanNameGenerator} to work without a {@link BeanDefinitionRegistry}.
- * Although he API of the extended class requires a non-{@literal null} registry it can actually work without one unless
- * {@link AnnotationBeanNameGenerator#buildDefaultBeanName} is overridden and expecting a non-{@literal null} value
- * here.
+ * Simple extension to Spring's {@link AnnotationBeanNameGenerator} to work without a
+ * {@link BeanDefinitionRegistry}. Although he API of the extended class requires a
+ * non-{@literal null} registry it can actually work without one unless
+ * {@link AnnotationBeanNameGenerator#buildDefaultBeanName} is overridden and expecting a
+ * non-{@literal null} value here.
  *
  * @author Oliver Gierke
  * @since 2.0
@@ -39,7 +40,6 @@ class SpringDataAnnotationBeanNameGenerator {
 
 	/**
 	 * Generates a bean name for the given {@link BeanDefinition}.
-	 *
 	 * @param definition must not be {@literal null}.
 	 * @return
 	 */
@@ -47,4 +47,5 @@ class SpringDataAnnotationBeanNameGenerator {
 	public String generateBeanName(BeanDefinition definition) {
 		return this.delegate.generateBeanName(definition, null);
 	}
+
 }

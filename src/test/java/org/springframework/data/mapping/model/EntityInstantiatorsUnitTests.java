@@ -36,8 +36,11 @@ import org.springframework.data.mapping.PersistentEntity;
 @ExtendWith(MockitoExtension.class)
 class EntityInstantiatorsUnitTests {
 
-	@Mock PersistentEntity<?, ?> entity;
-	@Mock EntityInstantiator customInstantiator;
+	@Mock
+	PersistentEntity<?, ?> entity;
+
+	@Mock
+	EntityInstantiator customInstantiator;
 
 	@Test
 	void rejectsNullFallbackInstantiator() {
@@ -56,7 +59,8 @@ class EntityInstantiatorsUnitTests {
 
 		doReturn(String.class).when(this.entity).getType();
 
-		Map<Class<?>, EntityInstantiator> customInstantiators = Collections.singletonMap(String.class, this.customInstantiator);
+		Map<Class<?>, EntityInstantiator> customInstantiators = Collections.singletonMap(String.class,
+				this.customInstantiator);
 
 		EntityInstantiators instantiators = new EntityInstantiators(customInstantiators);
 		assertThat(instantiators.getInstantiatorFor(this.entity)).isEqualTo(this.customInstantiator);
@@ -78,4 +82,5 @@ class EntityInstantiatorsUnitTests {
 		doReturn(String.class).when(this.entity).getType();
 		assertThat(instantiators.getInstantiatorFor(this.entity)).isEqualTo(ReflectionEntityInstantiator.INSTANCE);
 	}
+
 }

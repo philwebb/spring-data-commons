@@ -72,5 +72,7 @@ public class DirectFieldAccessFallbackBeanWrapperUnitTests {
 	static class Sample {
 
 		String firstname;
+
 	}
+
 }

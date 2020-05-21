@@ -27,7 +27,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Base class for query creators that create criteria based queries from a {@link PartTree}.
+ * Base class for query creators that create criteria based queries from a
+ * {@link PartTree}.
  *
  * @param <T> the actual query type to be created
  * @param <S> the intermediate criteria type
@@ -38,12 +39,13 @@ import org.springframework.util.Assert;
 public abstract class AbstractQueryCreator<T, S> {
 
 	private final Optional<ParameterAccessor> parameters;
+
 	private final PartTree tree;
 
 	/**
-	 * Creates a new {@link AbstractQueryCreator} for the given {@link PartTree}. This will cause {@literal null} be
-	 * handed for the {@link Iterator} in the callback methods.
-	 *
+	 * Creates a new {@link AbstractQueryCreator} for the given {@link PartTree}. This
+	 * will cause {@literal null} be handed for the {@link Iterator} in the callback
+	 * methods.
 	 * @param tree must not be {@literal null}.
 	 * @since 2.0
 	 */
@@ -52,10 +54,10 @@ public abstract class AbstractQueryCreator<T, S> {
 	}
 
 	/**
-	 * Creates a new {@link AbstractQueryCreator} for the given {@link PartTree} and {@link ParametersParameterAccessor}.
-	 * The latter is used to hand actual parameter values into the callback methods as well as to apply dynamic sorting
-	 * via a {@link Sort} parameter.
-	 *
+	 * Creates a new {@link AbstractQueryCreator} for the given {@link PartTree} and
+	 * {@link ParametersParameterAccessor}. The latter is used to hand actual parameter
+	 * values into the callback methods as well as to apply dynamic sorting via a
+	 * {@link Sort} parameter.
 	 * @param tree must not be {@literal null}.
 	 * @param parameters must not be {@literal null}.
 	 */
@@ -74,7 +76,6 @@ public abstract class AbstractQueryCreator<T, S> {
 
 	/**
 	 * Creates the actual query object.
-	 *
 	 * @return
 	 */
 	public T createQuery() {
@@ -83,9 +84,9 @@ public abstract class AbstractQueryCreator<T, S> {
 	}
 
 	/**
-	 * Creates the actual query object applying the given {@link Sort} parameter. Use this method in case you haven't
-	 * provided a {@link ParameterAccessor} in the first place but want to apply dynamic sorting nevertheless.
-	 *
+	 * Creates the actual query object applying the given {@link Sort} parameter. Use this
+	 * method in case you haven't provided a {@link ParameterAccessor} in the first place
+	 * but want to apply dynamic sorting nevertheless.
 	 * @param dynamicSort must not be {@literal null}.
 	 * @return
 	 */
@@ -96,9 +97,8 @@ public abstract class AbstractQueryCreator<T, S> {
 	}
 
 	/**
-	 * Actual query building logic. Traverses the {@link PartTree} and invokes callback methods to delegate actual
-	 * criteria creation and concatenation.
-	 *
+	 * Actual query building logic. Traverses the {@link PartTree} and invokes callback
+	 * methods to delegate actual criteria creation and concatenation.
 	 * @param tree must not be {@literal null}.
 	 * @return
 	 */
@@ -106,7 +106,8 @@ public abstract class AbstractQueryCreator<T, S> {
 	private S createCriteria(PartTree tree) {
 
 		S base = null;
-		Iterator<Object> iterator = this.parameters.map(ParameterAccessor::iterator).orElse(Collections.emptyIterator());
+		Iterator<Object> iterator = this.parameters.map(ParameterAccessor::iterator)
+				.orElse(Collections.emptyIterator());
 
 		for (OrPart node : tree) {
 
@@ -130,7 +131,6 @@ public abstract class AbstractQueryCreator<T, S> {
 
 	/**
 	 * Creates a new atomic instance of the criteria object.
-	 *
 	 * @param part must not be {@literal null}.
 	 * @param iterator must not be {@literal null}.
 	 * @return
@@ -138,8 +138,8 @@ public abstract class AbstractQueryCreator<T, S> {
 	protected abstract S create(Part part, Iterator<Object> iterator);
 
 	/**
-	 * Creates a new criteria object from the given part and and-concatenates it to the given base criteria.
-	 *
+	 * Creates a new criteria object from the given part and and-concatenates it to the
+	 * given base criteria.
 	 * @param part must not be {@literal null}.
 	 * @param base will never be {@literal null}.
 	 * @param iterator must not be {@literal null}.
@@ -149,7 +149,6 @@ public abstract class AbstractQueryCreator<T, S> {
 
 	/**
 	 * Or-concatenates the given base criteria to the given new criteria.
-	 *
 	 * @param base must not be {@literal null}.
 	 * @param criteria must not be {@literal null}.
 	 * @return
@@ -157,11 +156,12 @@ public abstract class AbstractQueryCreator<T, S> {
 	protected abstract S or(S base, S criteria);
 
 	/**
-	 * Actually creates the query object applying the given criteria object and {@link Sort} definition.
-	 *
+	 * Actually creates the query object applying the given criteria object and
+	 * {@link Sort} definition.
 	 * @param criteria can be {@literal null}.
 	 * @param sort must not be {@literal null}.
 	 * @return
 	 */
 	protected abstract T complete(@Nullable S criteria, Sort sort);
+
 }

@@ -44,6 +44,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 
 	private final ClassGeneratingPropertyAccessorFactory factory = new ClassGeneratingPropertyAccessorFactory();
+
 	private final SampleMappingContext mappingContext = new SampleMappingContext();
 
 	static List<Object[]> parameters() throws Exception {
@@ -149,47 +150,73 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	public static class FieldAccess {
 
 		int primitiveInteger;
+
 		int primitiveIntegerArray[];
+
 		Integer boxedInteger;
+
 		Integer boxedIntegerArray[];
 
 		short primitiveShort;
+
 		short primitiveShortArray[];
+
 		Short boxedShort;
+
 		Short boxedShortArray[];
 
 		byte primitiveByte;
+
 		byte primitiveByteArray[];
+
 		Byte boxedByte;
+
 		Byte boxedByteArray[];
 
 		char primitiveChar;
+
 		char primitiveCharArray[];
+
 		Character boxedChar;
+
 		Character boxedCharArray[];
 
 		boolean primitiveBoolean;
+
 		boolean primitiveBooleanArray[];
+
 		Boolean boxedBoolean;
+
 		Boolean boxedBooleanArray[];
 
 		float primitiveFloat;
+
 		float primitiveFloatArray[];
+
 		Float boxedFloat;
+
 		Float boxedFloatArray[];
 
 		double primitiveDouble;
+
 		double primitiveDoubleArray[];
+
 		Double boxedDouble;
+
 		Double boxedDoubleArray[];
 
 		long primitiveLong;
+
 		long primitiveLongArray[];
+
 		Long boxedLong;
+
 		Long boxedLongArray[];
 
 		String string;
+
 		String stringArray[];
+
 	}
 
 	// DATACMNS-809
@@ -198,47 +225,73 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	public static class PropertyAccess {
 
 		int primitiveInteger;
+
 		int primitiveIntegerArray[];
+
 		Integer boxedInteger;
+
 		Integer boxedIntegerArray[];
 
 		short primitiveShort;
+
 		short primitiveShortArray[];
+
 		Short boxedShort;
+
 		Short boxedShortArray[];
 
 		byte primitiveByte;
+
 		byte primitiveByteArray[];
+
 		Byte boxedByte;
+
 		Byte boxedByteArray[];
 
 		char primitiveChar;
+
 		char primitiveCharArray[];
+
 		Character boxedChar;
+
 		Character boxedCharArray[];
 
 		boolean primitiveBoolean;
+
 		boolean primitiveBooleanArray[];
+
 		Boolean boxedBoolean;
+
 		Boolean boxedBooleanArray[];
 
 		float primitiveFloat;
+
 		float primitiveFloatArray[];
+
 		Float boxedFloat;
+
 		Float boxedFloatArray[];
 
 		double primitiveDouble;
+
 		double primitiveDoubleArray[];
+
 		Double boxedDouble;
+
 		Double boxedDoubleArray[];
 
 		long primitiveLong;
+
 		long primitiveLongArray[];
+
 		Long boxedLong;
+
 		Long boxedLongArray[];
 
 		String string;
+
 		String stringArray[];
+
 	}
 
 	// DATACMNS-916
@@ -246,47 +299,73 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	private final static class PrivateFinalFieldAccess {
 
 		int primitiveInteger;
+
 		int primitiveIntegerArray[];
+
 		Integer boxedInteger;
+
 		Integer boxedIntegerArray[];
 
 		short primitiveShort;
+
 		short primitiveShortArray[];
+
 		Short boxedShort;
+
 		Short boxedShortArray[];
 
 		byte primitiveByte;
+
 		byte primitiveByteArray[];
+
 		Byte boxedByte;
+
 		Byte boxedByteArray[];
 
 		char primitiveChar;
+
 		char primitiveCharArray[];
+
 		Character boxedChar;
+
 		Character boxedCharArray[];
 
 		boolean primitiveBoolean;
+
 		boolean primitiveBooleanArray[];
+
 		Boolean boxedBoolean;
+
 		Boolean boxedBooleanArray[];
 
 		float primitiveFloat;
+
 		float primitiveFloatArray[];
+
 		Float boxedFloat;
+
 		Float boxedFloatArray[];
 
 		double primitiveDouble;
+
 		double primitiveDoubleArray[];
+
 		Double boxedDouble;
+
 		Double boxedDoubleArray[];
 
 		long primitiveLong;
+
 		long primitiveLongArray[];
+
 		Long boxedLong;
+
 		Long boxedLongArray[];
 
 		String string;
+
 		String stringArray[];
+
 	}
 
 	// DATACMNS-916
@@ -295,46 +374,73 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	private final static class PrivateFinalPropertyAccess {
 
 		int primitiveInteger;
+
 		int primitiveIntegerArray[];
+
 		Integer boxedInteger;
+
 		Integer boxedIntegerArray[];
 
 		short primitiveShort;
+
 		short primitiveShortArray[];
+
 		Short boxedShort;
+
 		Short boxedShortArray[];
 
 		byte primitiveByte;
+
 		byte primitiveByteArray[];
+
 		Byte boxedByte;
+
 		Byte boxedByteArray[];
 
 		char primitiveChar;
+
 		char primitiveCharArray[];
+
 		Character boxedChar;
+
 		Character boxedCharArray[];
 
 		boolean primitiveBoolean;
+
 		boolean primitiveBooleanArray[];
+
 		Boolean boxedBoolean;
+
 		Boolean boxedBooleanArray[];
 
 		float primitiveFloat;
+
 		float primitiveFloatArray[];
+
 		Float boxedFloat;
+
 		Float boxedFloatArray[];
 
 		double primitiveDouble;
+
 		double primitiveDoubleArray[];
+
 		Double boxedDouble;
+
 		Double boxedDoubleArray[];
 
 		long primitiveLong;
+
 		long primitiveLongArray[];
+
 		Long boxedLong;
+
 		Long boxedLongArray[];
 
 		String string;
+
 		String stringArray[];
+
 	}
+
 }

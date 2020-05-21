@@ -36,7 +36,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class RevisionsUnitTests {
 
-	@Mock RevisionMetadata<Integer> first, second;
+	@Mock
+	RevisionMetadata<Integer> first, second;
+
 	Revision<Integer, Object> firstRevision, secondRevision;
 
 	@BeforeEach
@@ -99,4 +101,5 @@ class RevisionsUnitTests {
 		assertThat(iterator.next()).isEqualTo(this.secondRevision);
 		assertThat(iterator.hasNext()).isFalse();
 	}
+
 }

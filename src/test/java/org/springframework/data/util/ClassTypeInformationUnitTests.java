@@ -61,7 +61,8 @@ public class ClassTypeInformationUnitTests {
 
 		assertThat(discoverer.getProperty("wrapped")).satisfies(it -> {
 			assertThat(it.getType()).isEqualTo(GenericType.class);
-			assertThat(it.getProperty("content")).satisfies(nested -> assertThat(nested.getType()).isEqualTo(String.class));
+			assertThat(it.getProperty("content"))
+					.satisfies(nested -> assertThat(nested.getType()).isEqualTo(String.class));
 		});
 
 		assertThat(discoverer.getProperty("wrapped.content"))
@@ -231,7 +232,8 @@ public class ClassTypeInformationUnitTests {
 		assertThat(stringInfo.getSuperTypeInformation(GenericInterface.class)).isEqualTo(parameterType);
 		assertThat(parameterType.isAssignableFrom(from(LongImplementation.class))).isFalse();
 		assertThat(parameterType
-				.isAssignableFrom(from(StringImplementation.class).getSuperTypeInformation(GenericInterface.class))).isTrue();
+				.isAssignableFrom(from(StringImplementation.class).getSuperTypeInformation(GenericInterface.class)))
+						.isTrue();
 	}
 
 	@Test
@@ -245,7 +247,8 @@ public class ClassTypeInformationUnitTests {
 		assertThat(parameterType.isAssignableFrom(from(StringImplementation.class))).isFalse();
 		assertThat(parameterType.isAssignableFrom(from(LongImplementation.class))).isTrue();
 		assertThat(parameterType
-				.isAssignableFrom(from(StringImplementation.class).getSuperTypeInformation(GenericInterface.class))).isFalse();
+				.isAssignableFrom(from(StringImplementation.class).getSuperTypeInformation(GenericInterface.class)))
+						.isFalse();
 	}
 
 	@Test
@@ -259,7 +262,8 @@ public class ClassTypeInformationUnitTests {
 		assertThat(parameterType.isAssignableFrom(from(StringImplementation.class))).isFalse();
 		assertThat(parameterType.isAssignableFrom(from(LongImplementation.class))).isTrue();
 		assertThat(parameterType
-				.isAssignableFrom(from(StringImplementation.class).getSuperTypeInformation(GenericInterface.class))).isFalse();
+				.isAssignableFrom(from(StringImplementation.class).getSuperTypeInformation(GenericInterface.class)))
+						.isFalse();
 	}
 
 	@Test
@@ -308,7 +312,8 @@ public class ClassTypeInformationUnitTests {
 
 		assertThat(seriously.getMapValueType().getMapValueType()).satisfies(nestedValue -> {
 			assertThat(nestedValue.getType()).isEqualTo(List.class);
-			assertThat(nestedValue.getComponentType()).satisfies(it -> assertThat(it.getType()).isEqualTo(Person.class));
+			assertThat(nestedValue.getComponentType())
+					.satisfies(it -> assertThat(it.getType()).isEqualTo(Person.class));
 		});
 	}
 
@@ -330,8 +335,8 @@ public class ClassTypeInformationUnitTests {
 	@Test // DATACMNS-594
 	public void considersGenericsOfTypeBounds() {
 
-		assertThat(from(ConcreteRootIntermediate.class)
-				.getProperty("intermediate.content.intermediate.content").getType())//
+		assertThat(
+				from(ConcreteRootIntermediate.class).getProperty("intermediate.content.intermediate.content").getType())//
 						.isEqualTo(Leaf.class);
 	}
 
@@ -343,8 +348,8 @@ public class ClassTypeInformationUnitTests {
 		assertThat(root.getProperty("abstractBar").specialize(from(Bar.class)))//
 				.satisfies(it -> {
 					assertThat(it.getType()).isEqualTo(Bar.class);
-							assertThat(it.getProperty("field").getType()).isEqualTo(Character.class);
-							assertThat(it.getProperty("anotherField").getType()).isEqualTo(Integer.class);
+					assertThat(it.getProperty("field").getType()).isEqualTo(Character.class);
+					assertThat(it.getProperty("anotherField").getType()).isEqualTo(Integer.class);
 				});
 	}
 
@@ -448,8 +453,11 @@ public class ClassTypeInformationUnitTests {
 	}
 
 	static class MapContainer<T> {
+
 		Map<String, T> genericMap;
+
 		Map<String, Calendar> map;
+
 	}
 
 	static class StringCollectionContainer extends CollectionContainer<String> {
@@ -460,18 +468,25 @@ public class ClassTypeInformationUnitTests {
 	static class CollectionContainer<T> {
 
 		T[] array;
+
 		Collection<T>[] foo;
+
 		Set<String> set;
+
 		Set rawSet;
+
 	}
 
 	static class GenericTypeWithBound<T extends Person> {
 
 		T person;
+
 	}
 
 	static class AnotherGenericType<T extends Person, S extends GenericTypeWithBound<T>> {
+
 		S nested;
+
 	}
 
 	static class SpecialGenericTypeWithBound extends GenericTypeWithBound<SpecialPerson> {
@@ -479,15 +494,19 @@ public class ClassTypeInformationUnitTests {
 	}
 
 	static abstract class SpecialPerson extends Person {
+
 		protected SpecialPerson(Integer ssn, String firstName, String lastName) {
 			super(ssn, firstName, lastName);
 		}
+
 	}
 
 	static class GenericType<T, S> {
 
 		Long index;
+
 		T content;
+
 	}
 
 	static class ConcreteType extends GenericType<String, Object> {
@@ -497,6 +516,7 @@ public class ClassTypeInformationUnitTests {
 	static class GenericWrapper<S> {
 
 		GenericType<S, Object> wrapped;
+
 	}
 
 	static class ConcreteWrapper extends GenericWrapper<String> {
@@ -508,16 +528,21 @@ public class ClassTypeInformationUnitTests {
 	}
 
 	static class PropertyGetter {
+
 		private String _name;
 
 		public byte[] getName() {
 			return this._name.getBytes();
 		}
+
 	}
 
 	static class ClassWithWildCardBound {
+
 		List<? extends String> wildcard;
+
 		List<? extends Collection<? extends String>> complexWildcard;
+
 	}
 
 	static class Base<T> {
@@ -529,6 +554,7 @@ public class ClassTypeInformationUnitTests {
 		public Base<GenericWrapper<T>> foo(Base<GenericWrapper<T>> param) {
 			return null;
 		}
+
 	}
 
 	static class SecondExtension extends FirstExtension<Long> {
@@ -546,6 +572,7 @@ public class ClassTypeInformationUnitTests {
 		void longMethod(GenericInterface<Long> param);
 
 		void boundToNumberMethod(GenericInterface<? extends Number> param);
+
 	}
 
 	class StringImplementation implements GenericInterface<String> {
@@ -557,7 +584,9 @@ public class ClassTypeInformationUnitTests {
 	}
 
 	interface Product {
+
 		Category getCategory();
+
 	}
 
 	interface Category extends Identifiable {
@@ -565,120 +594,190 @@ public class ClassTypeInformationUnitTests {
 	}
 
 	interface Identifiable {
+
 		Long getId();
+
 	}
 
 	@SuppressWarnings("rawtypes")
-	interface MyRawIterable extends Iterable {}
+	interface MyRawIterable extends Iterable {
 
-	interface MyIterable<T> extends Iterable<T> {}
+	}
+
+	interface MyIterable<T> extends Iterable<T> {
+
+	}
 
 	static class SuperGenerics {
 
 		SortedMap<String, ? extends SortedMap<String, List<Person>>> seriously;
+
 	}
 
 	// DATACMNS-590
 
 	static abstract class GenericRoot<T extends GenericSub<?>> {
+
 		List<T> subs;
+
 	}
 
 	static abstract class GenericSub<T extends GenericSubSub> {
+
 		T subSub;
+
 	}
 
-	static abstract class GenericSubSub {}
+	static abstract class GenericSubSub {
 
-	static class ConcreteRoot extends GenericRoot<ConcreteSub> {}
+	}
 
-	static class ConcreteSub extends GenericSub<ConcreteSubSub> {}
+	static class ConcreteRoot extends GenericRoot<ConcreteSub> {
+
+	}
+
+	static class ConcreteSub extends GenericSub<ConcreteSubSub> {
+
+	}
 
 	static class ConcreteSubSub extends GenericSubSub {
+
 		String content;
+
 	}
 
 	// DATACMNS-594
 
 	static class Intermediate<T> {
+
 		T content;
+
 	}
 
 	static abstract class GenericRootIntermediate<T> {
+
 		Intermediate<T> intermediate;
+
 	}
 
 	static abstract class GenericInnerIntermediate<T> {
+
 		Intermediate<T> intermediate;
+
 	}
 
-	static class ConcreteRootIntermediate extends GenericRootIntermediate<ConcreteInnerIntermediate> {}
+	static class ConcreteRootIntermediate extends GenericRootIntermediate<ConcreteInnerIntermediate> {
 
-	static class ConcreteInnerIntermediate extends GenericInnerIntermediate<Leaf> {}
+	}
 
-	static class Leaf {}
+	static class ConcreteInnerIntermediate extends GenericInnerIntermediate<Leaf> {
+
+	}
+
+	static class Leaf {
+
+	}
 
 	static class TypeWithAbstractGenericType<T, S> {
+
 		AbstractBar<T, S> abstractBar;
+
 		Object object;
+
 	}
 
-	static class Foo extends TypeWithAbstractGenericType<Character, Integer> {}
+	static class Foo extends TypeWithAbstractGenericType<Character, Integer> {
 
-	static abstract class AbstractBar<T, S> {}
+	}
+
+	static abstract class AbstractBar<T, S> {
+
+	}
 
 	static class Bar<T, S> extends AbstractBar<T, S> {
+
 		T field;
+
 		S anotherField;
+
 	}
 
 	// DATACMNS-896
 
 	static class SomeType<T> {
+
 		T field;
+
 	}
 
-	static class Nested extends SomeType<String> {}
+	static class Nested extends SomeType<String> {
 
-	static class Concrete extends SomeType<Nested> {}
+	}
 
-	static interface SampleTraversable extends Traversable<Integer> {}
+	static class Concrete extends SomeType<Nested> {
 
-	static interface SampleMap extends io.vavr.collection.Map<String, Integer> {}
+	}
+
+	static interface SampleTraversable extends Traversable<Integer> {
+
+	}
+
+	static interface SampleMap extends io.vavr.collection.Map<String, Integer> {
+
+	}
 
 	// DATACMNS-1138
 
 	static class SomeGeneric<T> {
+
 		T value;
+
 	}
 
-	static class SomeConcrete extends SomeGeneric<String> {}
+	static class SomeConcrete extends SomeGeneric<String> {
+
+	}
 
 	static class WildcardedWrapper {
+
 		SomeGeneric<?> wildcarded;
+
 	}
 
 	// DATACMNS-1571
 
-	interface Aggregate {}
+	interface Aggregate {
+
+	}
 
 	static class StoredEvent<A extends Aggregate, ID> {
+
 		DomainEvent<A, ID> event;
+
 	}
 
 	static abstract class DomainEvent<T extends Aggregate, ID> {
 
 		ID aggregateId;
+
 		T root;
+
 	}
 
 	static class OfferDetails implements Aggregate {
+
 		String name;
+
 	}
 
 	// A domain type fully binding all generics
-	static class OfferCreated extends DomainEvent<OfferDetails, Long> {}
+	static class OfferCreated extends DomainEvent<OfferDetails, Long> {
+
+	}
 
 	// A domain type partially binding generics
-	static class GenericEvent<T extends Aggregate> extends DomainEvent<T, Long> {}
+	static class GenericEvent<T extends Aggregate> extends DomainEvent<T, Long> {
+
+	}
+
 }

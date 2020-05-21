@@ -24,4 +24,5 @@ class FragmentInterfaceFoo implements FragmentInterface {
 	public int getPriority() {
 		return 42;
 	}
+
 }

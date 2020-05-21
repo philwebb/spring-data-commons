@@ -37,7 +37,9 @@ import org.springframework.data.support.ExampleMatcherAccessor;
 class ExampleSpecificationAccessorUnitTests {
 
 	Person person;
+
 	ExampleMatcher specification;
+
 	ExampleMatcherAccessor exampleSpecificationAccessor;
 
 	@BeforeEach
@@ -89,7 +91,8 @@ class ExampleSpecificationAccessorUnitTests {
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 
-		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname")).isEqualTo(StringMatcher.CONTAINING);
+		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
+				.isEqualTo(StringMatcher.CONTAINING);
 	}
 
 	@Test // DATACMNS-810
@@ -124,7 +127,8 @@ class ExampleSpecificationAccessorUnitTests {
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 
-		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname")).isEqualTo(StringMatcher.STARTING);
+		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
+				.isEqualTo(StringMatcher.STARTING);
 	}
 
 	@Test // DATACMNS-810
@@ -135,7 +139,8 @@ class ExampleSpecificationAccessorUnitTests {
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 
-		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname")).isEqualTo(StringMatcher.CONTAINING);
+		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
+				.isEqualTo(StringMatcher.CONTAINING);
 	}
 
 	@Test // DATACMNS-810
@@ -146,7 +151,8 @@ class ExampleSpecificationAccessorUnitTests {
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 
-		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname")).isEqualTo(StringMatcher.REGEX);
+		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
+				.isEqualTo(StringMatcher.REGEX);
 	}
 
 	@Test // DATACMNS-810
@@ -159,9 +165,12 @@ class ExampleSpecificationAccessorUnitTests {
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 
 		assertThat(this.exampleSpecificationAccessor.getPropertySpecifiers()).hasSize(3);
-		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname")).isEqualTo(StringMatcher.CONTAINING);
-		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("lastname")).isEqualTo(StringMatcher.ENDING);
-		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("unknownProperty")).isEqualTo(StringMatcher.ENDING);
+		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
+				.isEqualTo(StringMatcher.CONTAINING);
+		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("lastname"))
+				.isEqualTo(StringMatcher.ENDING);
+		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("unknownProperty"))
+				.isEqualTo(StringMatcher.ENDING);
 	}
 
 	@Test // DATACMNS-810
@@ -173,7 +182,8 @@ class ExampleSpecificationAccessorUnitTests {
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 
-		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname")).isEqualTo(StringMatcher.STARTING);
+		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
+				.isEqualTo(StringMatcher.STARTING);
 		assertThat(this.exampleSpecificationAccessor.isIgnoreCaseForPath("firstname")).isTrue();
 		assertThat(this.exampleSpecificationAccessor.isIgnoreCaseForPath("unknownProperty")).isFalse();
 	}
@@ -255,6 +265,9 @@ class ExampleSpecificationAccessorUnitTests {
 	}
 
 	static class Person {
+
 		String firstname;
+
 	}
+
 }

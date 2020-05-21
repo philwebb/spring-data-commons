@@ -29,8 +29,9 @@ import org.springframework.util.MultiValueMap;
 
 /**
  * {@link MultiValueMap} like data structure to keep lists of
- * {@link org.springframework.data.repository.query.spi.Function}s indexed by name and argument list length, where the
- * value lists are actually unique with respect to the signature.
+ * {@link org.springframework.data.repository.query.spi.Function}s indexed by name and
+ * argument list length, where the value lists are actually unique with respect to the
+ * signature.
  *
  * @author Jens Schauder
  * @author Oliver Gierke
@@ -72,14 +73,15 @@ class Functions {
 	}
 
 	/**
-	 * Gets the function that best matches the parameters given. The {@code name} must match, and the
-	 * {@code argumentTypes} must be compatible with parameter list of the function. In order to resolve ambiguity it
-	 * checks for a method with exactly matching parameter list.
-	 *
+	 * Gets the function that best matches the parameters given. The {@code name} must
+	 * match, and the {@code argumentTypes} must be compatible with parameter list of the
+	 * function. In order to resolve ambiguity it checks for a method with exactly
+	 * matching parameter list.
 	 * @param name the name of the method
 	 * @param argumentTypes types of arguments that the method must be able to accept
-	 * @return a {@code Function} if a unique on gets found. {@code Optional.empty} if none matches. Throws
-	 *         {@link IllegalStateException} if multiple functions match the parameters.
+	 * @return a {@code Function} if a unique on gets found. {@code Optional.empty} if
+	 * none matches. Throws {@link IllegalStateException} if multiple functions match the
+	 * parameters.
 	 */
 	Optional<Function> get(String name, List<TypeDescriptor> argumentTypes) {
 
@@ -122,4 +124,5 @@ class Functions {
 
 		return String.format(MESSAGE_TEMPLATE, candidates.get(0).getName(), argumentTypeString);
 	}
+
 }

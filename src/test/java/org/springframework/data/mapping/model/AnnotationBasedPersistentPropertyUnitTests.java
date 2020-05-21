@@ -53,6 +53,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBasedPersistentProperty<P>> {
 
 	BasicPersistentEntity<Object, SamplePersistentProperty> entity;
+
 	SampleMappingContext context;
 
 	@BeforeEach
@@ -106,7 +107,8 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 		try {
 			this.context.getPersistentEntity(InvalidSample.class);
 			fail("Expected MappingException!");
-		} catch (MappingException o_O) {
+		}
+		catch (MappingException o_O) {
 			assertThat(this.context.hasPersistentEntityFor(InvalidSample.class)).isFalse();
 		}
 	}
@@ -114,7 +116,8 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@Test // DATACMNS-243
 	public void defaultsToFieldAccess() {
 
-		assertThat(getProperty(FieldAccess.class, "name")).satisfies(it -> assertThat(it.usePropertyAccess()).isFalse());
+		assertThat(getProperty(FieldAccess.class, "name"))
+				.satisfies(it -> assertThat(it.usePropertyAccess()).isFalse());
 	}
 
 	@Test // DATACMNS-243
@@ -218,11 +221,12 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@Test // DATACMNS-867
 	public void revisedAnnotationWithAliasShouldHaveSynthesizedAttributeValues() {
 
-		assertThat(this.entity.getPersistentProperty("setter")).satisfies(
-				property -> assertThat(property.findAnnotation(RevisedAnnnotationWithAliasFor.class)).satisfies(annotation -> {
-					assertThat(annotation.name()).isEqualTo("my-value");
-					assertThat(annotation.value()).isEqualTo("my-value");
-				}));
+		assertThat(this.entity.getPersistentProperty("setter"))
+				.satisfies(property -> assertThat(property.findAnnotation(RevisedAnnnotationWithAliasFor.class))
+						.satisfies(annotation -> {
+							assertThat(annotation.name()).isEqualTo("my-value");
+							assertThat(annotation.value()).isEqualTo("my-value");
+						}));
 	}
 
 	@Test // DATACMNS-1141
@@ -238,7 +242,8 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		PersistentProperty property = getProperty(Sample.class, "id");
 
-		assertThatThrownBy(() -> property.getRequiredAnnotation(Transient.class)).isInstanceOf(IllegalStateException.class);
+		assertThatThrownBy(() -> property.getRequiredAnnotation(Transient.class))
+				.isInstanceOf(IllegalStateException.class);
 	}
 
 	@Test // DATACMNS-1318
@@ -314,16 +319,24 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 	static class Sample {
 
-		@MyId String id;
+		@MyId
+		String id;
 
-		@MyAnnotation String field;
+		@MyAnnotation
+		String field;
+
 		String getter;
-		@RevisedAnnnotationWithAliasFor(value = "my-value") String setter;
+
+		@RevisedAnnnotationWithAliasFor(value = "my-value")
+		String setter;
+
 		String doubleMapping;
 
-		@MyAnnotationAsMeta String meta;
+		@MyAnnotationAsMeta
+		String meta;
 
-		@MyComposedAnnotationUsingAliasFor String metaAliased;
+		@MyComposedAnnotationUsingAliasFor
+		String metaAliased;
 
 		@MyAnnotation
 		public String getGetter() {
@@ -350,7 +363,9 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 			return null;
 		}
 
-		public void setGetterWithoutField(Object object) {}
+		public void setGetterWithoutField(Object object) {
+		}
+
 	}
 
 	static class InvalidSample {
@@ -366,22 +381,27 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 		public void setMeta(String meta) {
 			this.meta = meta;
 		}
+
 	}
 
 	static class AnotherInvalidSample {
 
-		@MyAnnotation String property;
+		@MyAnnotation
+		String property;
 
 		@MyAnnotation
 		public String getProperty() {
 			return this.property;
 		}
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
 	public @interface MyAnnotation {
+
 		String value() default "";
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -398,6 +418,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		@AliasFor(annotation = MyAnnotation.class, attribute = "value")
 		String name() default "spring";
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -409,23 +430,29 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		@AliasFor("name")
 		String value() default "";
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
 	@Id
 	public @interface MyId {
+
 	}
 
 	static class FieldAccess {
+
 		String name;
+
 	}
 
 	@AccessType(Type.PROPERTY)
 	static class PropertyAccess {
 
 		String firstname, lastname;
-		@AccessType(Type.FIELD) String emailAddress;
+
+		@AccessType(Type.FIELD)
+		String emailAddress;
 
 		public String getFirstname() {
 			return this.firstname;
@@ -435,27 +462,34 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 		public String getLastname() {
 			return this.lastname;
 		}
+
 	}
 
 	static class ClassWithReadOnlyProperties {
 
 		String noAnnotations;
 
-		@Transient String transientProperty;
+		@Transient
+		String transientProperty;
 
-		@ReadOnlyProperty String readOnlyProperty;
+		@ReadOnlyProperty
+		String readOnlyProperty;
 
-		@CustomReadOnly String customReadOnlyProperty;
+		@CustomReadOnly
+		String customReadOnlyProperty;
+
 	}
 
 	static class TypeWithCustomAnnotationsOnBothFieldAndAccessor {
 
-		@Nullable String field;
+		@Nullable
+		String field;
 
 		@Nullable
 		public String getField() {
 			return this.field;
 		}
+
 	}
 
 	@ReadOnlyProperty
@@ -467,14 +501,23 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 	static class WithReferences {
 
-		@Reference(to = Sample.class) String toSample;
-		@Reference(Sample.class) String toSample2;
-		@Reference Sample sample;
+		@Reference(to = Sample.class)
+		String toSample;
+
+		@Reference(Sample.class)
+		String toSample2;
+
+		@Reference
+		Sample sample;
+
 		Sample withoutAnnotation;
+
 	}
 
 	interface NoField {
 
 		String getFirstname();
+
 	}
+
 }

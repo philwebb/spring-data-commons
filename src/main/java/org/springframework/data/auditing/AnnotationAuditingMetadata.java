@@ -36,8 +36,9 @@ import org.springframework.data.util.ReflectionUtils.AnnotationFieldFilter;
 import org.springframework.util.Assert;
 
 /**
- * Inspects the given {@link Class} for fields annotated by {@link CreatedBy}, {@link CreatedDate},
- * {@link LastModifiedBy} , and {@link LastModifiedDate}. Only one field per annotation is stored.
+ * Inspects the given {@link Class} for fields annotated by {@link CreatedBy},
+ * {@link CreatedDate}, {@link LastModifiedBy} , and {@link LastModifiedDate}. Only one
+ * field per annotation is stored.
  *
  * @author Ranie Jade Ramiso
  * @author Oliver Gierke
@@ -47,8 +48,12 @@ import org.springframework.util.Assert;
 final class AnnotationAuditingMetadata {
 
 	private static final AnnotationFieldFilter CREATED_BY_FILTER = new AnnotationFieldFilter(CreatedBy.class);
+
 	private static final AnnotationFieldFilter CREATED_DATE_FILTER = new AnnotationFieldFilter(CreatedDate.class);
-	private static final AnnotationFieldFilter LAST_MODIFIED_BY_FILTER = new AnnotationFieldFilter(LastModifiedBy.class);
+
+	private static final AnnotationFieldFilter LAST_MODIFIED_BY_FILTER = new AnnotationFieldFilter(
+			LastModifiedBy.class);
+
 	private static final AnnotationFieldFilter LAST_MODIFIED_DATE_FILTER = new AnnotationFieldFilter(
 			LastModifiedDate.class);
 
@@ -72,13 +77,15 @@ final class AnnotationAuditingMetadata {
 	}
 
 	private final Optional<Field> createdByField;
+
 	private final Optional<Field> createdDateField;
+
 	private final Optional<Field> lastModifiedByField;
+
 	private final Optional<Field> lastModifiedDateField;
 
 	/**
 	 * Creates a new {@link AnnotationAuditingMetadata} instance for the given type.
-	 *
 	 * @param type must not be {@literal null}.
 	 */
 	private AnnotationAuditingMetadata(Class<?> type) {
@@ -96,7 +103,6 @@ final class AnnotationAuditingMetadata {
 
 	/**
 	 * Checks whether the given field has a type that is a supported date type.
-	 *
 	 * @param field
 	 */
 	private void assertValidDateFieldType(Optional<Field> field) {
@@ -114,14 +120,13 @@ final class AnnotationAuditingMetadata {
 			}
 
 			throw new IllegalStateException(String.format(
-					"Found created/modified date field with type %s but only %s as well as java.time types are supported!", type,
-					SUPPORTED_DATE_TYPES));
+					"Found created/modified date field with type %s but only %s as well as java.time types are supported!",
+					type, SUPPORTED_DATE_TYPES));
 		});
 	}
 
 	/**
 	 * Return a {@link AnnotationAuditingMetadata} for the given {@link Class}.
-	 *
 	 * @param type the type to inspect, must not be {@literal null}.
 	 */
 	public static AnnotationAuditingMetadata getMetadata(Class<?> type) {
@@ -132,7 +137,8 @@ final class AnnotationAuditingMetadata {
 	 * Returns whether the {@link Class} represented in this instance is auditable or not.
 	 */
 	public boolean isAuditable() {
-		return Optionals.isAnyPresent(this.createdByField, this.createdDateField, this.lastModifiedByField, this.lastModifiedDateField);
+		return Optionals.isAnyPresent(this.createdByField, this.createdDateField, this.lastModifiedByField,
+				this.lastModifiedDateField);
 	}
 
 	/**
@@ -162,4 +168,5 @@ final class AnnotationAuditingMetadata {
 	public Optional<Field> getLastModifiedDateField() {
 		return this.lastModifiedDateField;
 	}
+
 }

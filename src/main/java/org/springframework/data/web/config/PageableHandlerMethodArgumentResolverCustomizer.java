@@ -30,9 +30,9 @@ public interface PageableHandlerMethodArgumentResolverCustomizer {
 
 	/**
 	 * Customize the given {@link PageableHandlerMethodArgumentResolver}.
-	 *
-	 * @param pageableResolver the {@link PageableHandlerMethodArgumentResolver} to customize, will never be
-	 *          {@literal null}.
+	 * @param pageableResolver the {@link PageableHandlerMethodArgumentResolver} to
+	 * customize, will never be {@literal null}.
 	 */
 	void customize(PageableHandlerMethodArgumentResolver pageableResolver);
+
 }

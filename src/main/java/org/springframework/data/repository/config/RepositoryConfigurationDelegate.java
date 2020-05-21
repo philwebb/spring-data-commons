@@ -44,10 +44,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.StopWatch;
 
 /**
- * Delegate for configuration integration to reuse the general way of detecting repositories. Customization is done by
- * providing a configuration format specific {@link RepositoryConfigurationSource} (currently either XML or annotations
- * are supported). The actual registration can then be triggered for different {@link RepositoryConfigurationExtension}
- * s.
+ * Delegate for configuration integration to reuse the general way of detecting
+ * repositories. Customization is done by providing a configuration format specific
+ * {@link RepositoryConfigurationSource} (currently either XML or annotations are
+ * supported). The actual registration can then be triggered for different
+ * {@link RepositoryConfigurationExtension} s.
  *
  * @author Oliver Gierke
  * @author Jens Schauder
@@ -56,7 +57,9 @@ import org.springframework.util.StopWatch;
 public class RepositoryConfigurationDelegate {
 
 	private static final String REPOSITORY_REGISTRATION = "Spring Data {} - Registering repository: {} - Interface: {} - Factory: {}";
+
 	private static final String MULTIPLE_MODULES = "Multiple Spring Data modules found, entering strict repository configuration mode!";
+
 	private static final String NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER = "Non-default AutowireCandidateResolver ({}) detected. Skipping the registration of LazyRepositoryInjectionPointResolver. Lazy repository injection will not be working!";
 
 	static final String FACTORY_BEAN_OBJECT_TYPE = "factoryBeanObjectType";
@@ -64,15 +67,19 @@ public class RepositoryConfigurationDelegate {
 	private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(RepositoryConfigurationDelegate.class);
 
 	private final RepositoryConfigurationSource configurationSource;
+
 	private final ResourceLoader resourceLoader;
+
 	private final Environment environment;
+
 	private final boolean isXml;
+
 	private final boolean inMultiStoreMode;
 
 	/**
-	 * Creates a new {@link RepositoryConfigurationDelegate} for the given {@link RepositoryConfigurationSource} and
-	 * {@link ResourceLoader} and {@link Environment}.
-	 *
+	 * Creates a new {@link RepositoryConfigurationDelegate} for the given
+	 * {@link RepositoryConfigurationSource} and {@link ResourceLoader} and
+	 * {@link Environment}.
 	 * @param configurationSource must not be {@literal null}.
 	 * @param resourceLoader must not be {@literal null}.
 	 * @param environment must not be {@literal null}.
@@ -94,9 +101,8 @@ public class RepositoryConfigurationDelegate {
 	}
 
 	/**
-	 * Defaults the environment in case the given one is null. Used as fallback, in case the legacy constructor was
-	 * invoked.
-	 *
+	 * Defaults the environment in case the given one is null. Used as fallback, in case
+	 * the legacy constructor was invoked.
 	 * @param environment can be {@literal null}.
 	 * @param resourceLoader can be {@literal null}.
 	 * @return
@@ -114,7 +120,6 @@ public class RepositoryConfigurationDelegate {
 
 	/**
 	 * Registers the found repositories in the given {@link BeanDefinitionRegistry}.
-	 *
 	 * @param registry
 	 * @param extension
 	 * @return {@link BeanComponentDefinition}s for all repository bean definitions found.
@@ -158,8 +163,10 @@ public class RepositoryConfigurationDelegate {
 
 			if (this.isXml) {
 				extension.postProcess(definitionBuilder, (XmlRepositoryConfigurationSource) this.configurationSource);
-			} else {
-				extension.postProcess(definitionBuilder, (AnnotationRepositoryConfigurationSource) this.configurationSource);
+			}
+			else {
+				extension.postProcess(definitionBuilder,
+						(AnnotationRepositoryConfigurationSource) this.configurationSource);
 			}
 
 			AbstractBeanDefinition beanDefinition = definitionBuilder.getBeanDefinition();
@@ -168,8 +175,8 @@ public class RepositoryConfigurationDelegate {
 			String beanName = this.configurationSource.generateBeanName(beanDefinition);
 
 			if (LOG.isTraceEnabled()) {
-				LOG.trace(REPOSITORY_REGISTRATION, extension.getModuleName(), beanName, configuration.getRepositoryInterface(),
-						configuration.getRepositoryFactoryBeanClassName());
+				LOG.trace(REPOSITORY_REGISTRATION, extension.getModuleName(), beanName,
+						configuration.getRepositoryInterface(), configuration.getRepositoryFactoryBeanClassName());
 			}
 
 			beanDefinition.setAttribute(FACTORY_BEAN_OBJECT_TYPE, configuration.getRepositoryInterface());
@@ -178,7 +185,8 @@ public class RepositoryConfigurationDelegate {
 			definitions.add(new BeanComponentDefinition(beanDefinition, beanName));
 		}
 
-		potentiallyLazifyRepositories(configurationsByRepositoryName, registry, this.configurationSource.getBootstrapMode());
+		potentiallyLazifyRepositories(configurationsByRepositoryName, registry,
+				this.configurationSource.getBootstrapMode());
 
 		watch.stop();
 
@@ -192,9 +200,10 @@ public class RepositoryConfigurationDelegate {
 
 	/**
 	 * Registers a {@link LazyRepositoryInjectionPointResolver} over the default
-	 * {@link ContextAnnotationAutowireCandidateResolver} to make injection points of lazy repositories lazy, too. Will
-	 * augment the {@link LazyRepositoryInjectionPointResolver}'s configuration if there already is one configured.
-	 *
+	 * {@link ContextAnnotationAutowireCandidateResolver} to make injection points of lazy
+	 * repositories lazy, too. Will augment the
+	 * {@link LazyRepositoryInjectionPointResolver}'s configuration if there already is
+	 * one configured.
 	 * @param configurations must not be {@literal null}.
 	 * @param registry must not be {@literal null}.
 	 */
@@ -233,10 +242,9 @@ public class RepositoryConfigurationDelegate {
 	}
 
 	/**
-	 * Scans {@code repository.support} packages for implementations of {@link RepositoryFactorySupport}. Finding more
-	 * than a single type is considered a multi-store configuration scenario which will trigger stricter repository
-	 * scanning.
-	 *
+	 * Scans {@code repository.support} packages for implementations of
+	 * {@link RepositoryFactorySupport}. Finding more than a single type is considered a
+	 * multi-store configuration scenario which will trigger stricter repository scanning.
 	 * @return
 	 */
 	private boolean multipleStoresDetected() {
@@ -252,8 +260,8 @@ public class RepositoryConfigurationDelegate {
 	}
 
 	/**
-	 * Customer {@link ContextAnnotationAutowireCandidateResolver} that also considers all injection points for lazy
-	 * repositories lazy.
+	 * Customer {@link ContextAnnotationAutowireCandidateResolver} that also considers all
+	 * injection points for lazy repositories lazy.
 	 *
 	 * @author Oliver Gierke
 	 * @since 2.1
@@ -261,6 +269,7 @@ public class RepositoryConfigurationDelegate {
 	static class LazyRepositoryInjectionPointResolver extends ContextAnnotationAutowireCandidateResolver {
 
 		private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(LazyRepositoryInjectionPointResolver.class);
+
 		private final Map<String, RepositoryConfiguration<?>> configurations;
 
 		public LazyRepositoryInjectionPointResolver(Map<String, RepositoryConfiguration<?>> configurations) {
@@ -268,9 +277,8 @@ public class RepositoryConfigurationDelegate {
 		}
 
 		/**
-		 * Returns a new {@link LazyRepositoryInjectionPointResolver} that will have its configurations augmented with the
-		 * given ones.
-		 *
+		 * Returns a new {@link LazyRepositoryInjectionPointResolver} that will have its
+		 * configurations augmented with the given ones.
 		 * @param configurations must not be {@literal null}.
 		 * @return
 		 */
@@ -282,6 +290,7 @@ public class RepositoryConfigurationDelegate {
 
 			return new LazyRepositoryInjectionPointResolver(map);
 		}
+
 		@Override
 		protected boolean isLazy(DependencyDescriptor descriptor) {
 
@@ -301,5 +310,7 @@ public class RepositoryConfigurationDelegate {
 
 			return lazyInit;
 		}
+
 	}
+
 }

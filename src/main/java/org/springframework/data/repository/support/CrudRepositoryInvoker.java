@@ -26,8 +26,9 @@ import org.springframework.data.repository.core.CrudMethods;
 import org.springframework.data.repository.core.RepositoryMetadata;
 
 /**
- * {@link RepositoryInvoker} to shortcut execution of CRUD methods into direct calls on a {@link CrudRepository}. Used
- * to avoid reflection overhead introduced by the base class if we know we work with a {@link CrudRepository}.
+ * {@link RepositoryInvoker} to shortcut execution of CRUD methods into direct calls on a
+ * {@link CrudRepository}. Used to avoid reflection overhead introduced by the base class
+ * if we know we work with a {@link CrudRepository}.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -38,14 +39,16 @@ class CrudRepositoryInvoker extends ReflectionRepositoryInvoker {
 	private final CrudRepository<Object, Object> repository;
 
 	private final boolean customSaveMethod;
+
 	private final boolean customFindOneMethod;
+
 	private final boolean customFindAllMethod;
+
 	private final boolean customDeleteMethod;
 
 	/**
-	 * Creates a new {@link CrudRepositoryInvoker} for the given {@link CrudRepository}, {@link RepositoryMetadata} and
-	 * {@link ConversionService}.
-	 *
+	 * Creates a new {@link CrudRepositoryInvoker} for the given {@link CrudRepository},
+	 * {@link RepositoryMetadata} and {@link ConversionService}.
 	 * @param repository must not be {@literal null}.
 	 * @param metadata must not be {@literal null}.
 	 * @param conversionService must not be {@literal null}.
@@ -63,29 +66,36 @@ class CrudRepositoryInvoker extends ReflectionRepositoryInvoker {
 		this.customFindAllMethod = isRedeclaredMethod(crudMethods.getFindAllMethod());
 		this.repository = repository;
 	}
+
 	@Override
 	public Iterable<Object> invokeFindAll(Sort sort) {
 		return this.customFindAllMethod ? super.invokeFindAll(sort) : this.repository.findAll();
 	}
+
 	@Override
 	public Iterable<Object> invokeFindAll(Pageable pageable) {
 		return this.customFindAllMethod ? super.invokeFindAll(pageable) : this.repository.findAll();
 	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Optional<T> invokeFindById(Object id) {
-		return this.customFindOneMethod ? super.invokeFindById(id) : (Optional<T>) this.repository.findById(convertId(id));
+		return this.customFindOneMethod ? super.invokeFindById(id)
+				: (Optional<T>) this.repository.findById(convertId(id));
 	}
+
 	@Override
 	public <T> T invokeSave(T entity) {
 		return this.customSaveMethod ? super.invokeSave(entity) : this.repository.save(entity);
 	}
+
 	@Override
 	public void invokeDeleteById(Object id) {
 
 		if (this.customDeleteMethod) {
 			super.invokeDeleteById(id);
-		} else {
+		}
+		else {
 			this.repository.deleteById(convertId(id));
 		}
 	}
@@ -93,4 +103,5 @@ class CrudRepositoryInvoker extends ReflectionRepositoryInvoker {
 	private static boolean isRedeclaredMethod(Optional<Method> method) {
 		return method.map(it -> !it.getDeclaringClass().equals(CrudRepository.class)).orElse(false);
 	}
+
 }

@@ -43,10 +43,15 @@ import org.springframework.test.util.ReflectionTestUtils;
 public class ParameterizedKotlinInstantiatorUnitTests {
 
 	private final String valueToSet = "THE VALUE";
+
 	private final PersistentEntity<Object, SamplePersistentProperty> entity;
+
 	private final int propertyCount;
+
 	private final int propertyUnderTestIndex;
+
 	private final String propertyUnderTestName;
+
 	private final EntityInstantiator entityInstantiator;
 
 	public ParameterizedKotlinInstantiatorUnitTests(PersistentEntity<Object, SamplePersistentProperty> entity,
@@ -79,7 +84,8 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 	private static List<Object[]> createFixture(SampleMappingContext context, Class<?> entityType, int propertyCount,
 			EntityInstantiator entityInstantiator) {
 
-		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = context.getPersistentEntity(entityType);
+		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = context
+				.getPersistentEntity(entityType);
 
 		return IntStream.range(0, propertyCount).mapToObj(i -> {
 
@@ -100,7 +106,8 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 
 			if (this.propertyUnderTestIndex == i) {
 				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo(this.valueToSet);
-			} else {
+			}
+			else {
 				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo("");
 			}
 		}
@@ -117,7 +124,8 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 
 			if (this.propertyUnderTestIndex == i) {
 				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo("");
-			} else {
+			}
+			else {
 				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo(Integer.toString(i));
 			}
 		}
@@ -136,6 +144,7 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 			}
 			return null;
 		}
+
 	}
 
 	/**
@@ -151,5 +160,7 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 			}
 			return null;
 		}
+
 	}
+
 }

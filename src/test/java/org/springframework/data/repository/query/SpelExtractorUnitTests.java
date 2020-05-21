@@ -113,4 +113,5 @@ class SpelExtractorUnitTests {
 		this.softly.assertThat(extractor.getQueryString()).describedAs(query).isEqualTo(query);
 		this.softly.assertThat(extractor.getParameterMap()).describedAs(query).isEmpty();
 	}
+
 }

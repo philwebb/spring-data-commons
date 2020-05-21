@@ -70,6 +70,9 @@ class SampleController {
 			String getZipCode();
 
 			String getCity();
+
 		}
+
 	}
+
 }

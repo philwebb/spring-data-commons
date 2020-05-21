@@ -39,4 +39,5 @@ class Jackson2ResourceReaderIntegrationTests {
 		assertThat(result).isInstanceOf(Collection.class);
 		assertThat((Collection<?>) result).hasSize(1);
 	}
+
 }

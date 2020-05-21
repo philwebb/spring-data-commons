@@ -56,7 +56,8 @@ class ResultProcessorUnitTests {
 	@Test // DATACMNS-89
 	void leavesNonProjectingResultUntouched() throws Exception {
 
-		ResultProcessor information = new ResultProcessor(getQueryMethod("findAll"), new SpelAwareProxyProjectionFactory());
+		ResultProcessor information = new ResultProcessor(getQueryMethod("findAll"),
+				new SpelAwareProxyProjectionFactory());
 
 		Sample sample = new Sample("Dave", "Matthews");
 		List<Sample> result = new ArrayList<>(Collections.singletonList(sample));
@@ -356,27 +357,36 @@ class ResultProcessorUnitTests {
 		Observable<SampleProjection> findObservableProjection();
 
 		Flowable<SampleProjection> findFlowableProjection();
+
 	}
 
 	static class Sample {
+
 		public String firstname, lastname;
 
 		public Sample(String firstname, String lastname) {
 			this.firstname = firstname;
 			this.lastname = lastname;
 		}
+
 	}
 
-	static class SampleDto {}
+	static class SampleDto {
+
+	}
 
 	@lombok.Value
 	// Needs to be public until https://jira.spring.io/browse/SPR-14304 is resolved
 	public static class WrappingDto {
+
 		Sample sample;
+
 	}
 
 	interface SampleProjection {
+
 		String getLastname();
+
 	}
 
 	interface OpenProjection {
@@ -385,12 +395,16 @@ class ResultProcessorUnitTests {
 
 		@Value("#{target.firstname + ' ' + target.lastname}")
 		String getFullName();
+
 	}
 
 	static class SpecialList<E> extends ArrayList<E> {
 
 		private static final long serialVersionUID = -6539525376878522158L;
 
-		public SpecialList(Object dummy) {}
+		public SpecialList(Object dummy) {
+		}
+
 	}
+
 }

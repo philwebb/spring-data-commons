@@ -36,7 +36,8 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
 
 /**
- * Class to abstract a single parameter of a query method. It is held in the context of a {@link Parameters} instance.
+ * Class to abstract a single parameter of a query method. It is held in the context of a
+ * {@link Parameters} instance.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -47,18 +48,23 @@ public class Parameter {
 	static final List<Class<?>> TYPES;
 
 	private static final String NAMED_PARAMETER_TEMPLATE = ":%s";
+
 	private static final String POSITION_PARAMETER_TEMPLATE = "?%s";
 
 	private final MethodParameter parameter;
+
 	private final Class<?> parameterType;
+
 	private final boolean isDynamicProjectionParameter;
+
 	private final Lazy<Optional<String>> name;
 
 	static {
 
 		List<Class<?>> types = new ArrayList<>(Arrays.asList(Pageable.class, Sort.class));
 
-		// consider Kotlin Coroutines Continuation a special parameter. That parameter is synthetic and should not get
+		// consider Kotlin Coroutines Continuation a special parameter. That parameter is
+		// synthetic and should not get
 		// bound to any query.
 
 		ClassUtils.ifPresent("kotlin.coroutines.Continuation", Parameter.class.getClassLoader(), types::add);
@@ -68,7 +74,6 @@ public class Parameter {
 
 	/**
 	 * Creates a new {@link Parameter} for the given {@link MethodParameter}.
-	 *
 	 * @param parameter must not be {@literal null}.
 	 */
 	protected Parameter(MethodParameter parameter) {
@@ -86,7 +91,6 @@ public class Parameter {
 
 	/**
 	 * Returns whether the parameter is a special parameter.
-	 *
 	 * @return
 	 * @see #TYPES
 	 */
@@ -96,7 +100,6 @@ public class Parameter {
 
 	/**
 	 * Returns whether the {@link Parameter} is to be bound to a query.
-	 *
 	 * @return
 	 */
 	public boolean isBindable() {
@@ -104,8 +107,8 @@ public class Parameter {
 	}
 
 	/**
-	 * Returns whether the current {@link Parameter} is the one used for dynamic projections.
-	 *
+	 * Returns whether the current {@link Parameter} is the one used for dynamic
+	 * projections.
 	 * @return
 	 */
 	public boolean isDynamicProjectionParameter() {
@@ -113,22 +116,23 @@ public class Parameter {
 	}
 
 	/**
-	 * Returns the placeholder to be used for the parameter. Can either be a named one or positional.
-	 *
+	 * Returns the placeholder to be used for the parameter. Can either be a named one or
+	 * positional.
 	 * @return
 	 */
 	public String getPlaceholder() {
 
 		if (isNamedParameter()) {
 			return format(NAMED_PARAMETER_TEMPLATE, getName().get());
-		} else {
+		}
+		else {
 			return format(POSITION_PARAMETER_TEMPLATE, getIndex());
 		}
 	}
 
 	/**
-	 * Returns the position index the parameter is bound to in the context of its surrounding {@link Parameters}.
-	 *
+	 * Returns the position index the parameter is bound to in the context of its
+	 * surrounding {@link Parameters}.
 	 * @return
 	 */
 	public int getIndex() {
@@ -137,7 +141,6 @@ public class Parameter {
 
 	/**
 	 * Returns whether the parameter is annotated with {@link Param}.
-	 *
 	 * @return
 	 */
 	public boolean isNamedParameter() {
@@ -146,7 +149,6 @@ public class Parameter {
 
 	/**
 	 * Returns the name of the parameter (through {@link Param} annotation).
-	 *
 	 * @return
 	 */
 	public Optional<String> getName() {
@@ -155,7 +157,6 @@ public class Parameter {
 
 	/**
 	 * Returns the type of the {@link Parameter}.
-	 *
 	 * @return the type
 	 */
 	public Class<?> getType() {
@@ -163,14 +164,15 @@ public class Parameter {
 	}
 
 	/**
-	 * Returns whether the parameter is named explicitly, i.e. annotated with {@link Param}.
-	 *
+	 * Returns whether the parameter is named explicitly, i.e. annotated with
+	 * {@link Param}.
 	 * @return
 	 * @since 1.11
 	 */
 	public boolean isExplicitlyNamed() {
 		return this.parameter.hasParameterAnnotation(Param.class);
 	}
+
 	@Override
 	public String toString() {
 		return format("%s:%s", isNamedParameter() ? getName() : "#" + getIndex(), getType().getName());
@@ -178,7 +180,6 @@ public class Parameter {
 
 	/**
 	 * Returns whether the {@link Parameter} is a {@link Pageable} parameter.
-	 *
 	 * @return
 	 */
 	boolean isPageable() {
@@ -187,7 +188,6 @@ public class Parameter {
 
 	/**
 	 * Returns whether the {@link Parameter} is a {@link Sort} parameter.
-	 *
 	 * @return
 	 */
 	boolean isSort() {
@@ -195,13 +195,13 @@ public class Parameter {
 	}
 
 	/**
-	 * Returns whether the given {@link MethodParameter} is a dynamic projection parameter, which means it carries a
-	 * dynamic type parameter which is identical to the type parameter of the actually returned type.
+	 * Returns whether the given {@link MethodParameter} is a dynamic projection
+	 * parameter, which means it carries a dynamic type parameter which is identical to
+	 * the type parameter of the actually returned type.
 	 * <p>
 	 * <code>
 	 * <T> Collection<T> findBy…(…, Class<T> type);
 	 * </code>
-	 *
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 */
@@ -228,7 +228,6 @@ public class Parameter {
 
 	/**
 	 * Returns whether the {@link MethodParameter} is wrapped in a wrapper type.
-	 *
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 * @see QueryExecutionConverters
@@ -239,7 +238,6 @@ public class Parameter {
 
 	/**
 	 * Returns whether the {@link MethodParameter} should be unwrapped.
-	 *
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 * @see QueryExecutionConverters
@@ -249,9 +247,8 @@ public class Parameter {
 	}
 
 	/**
-	 * Returns the component type if the given {@link MethodParameter} is a wrapper type and the wrapper should be
-	 * unwrapped.
-	 *
+	 * Returns the component type if the given {@link MethodParameter} is a wrapper type
+	 * and the wrapper should be unwrapped.
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 */
@@ -265,4 +262,5 @@ public class Parameter {
 
 		return originalType;
 	}
+
 }

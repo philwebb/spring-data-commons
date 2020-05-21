@@ -32,13 +32,16 @@ public class Version implements Comparable<Version> {
 	private static final String VERSION_PARSE_ERROR = "Invalid version string! Could not parse segment %s within %s.";
 
 	private final int major;
+
 	private final int minor;
+
 	private final int bugfix;
+
 	private final int build;
 
 	/**
-	 * Creates a new {@link Version} from the given integer values. At least one value has to be given but a maximum of 4.
-	 *
+	 * Creates a new {@link Version} from the given integer values. At least one value has
+	 * to be given but a maximum of 4.
 	 * @param parts must not be {@literal null} or empty.
 	 */
 	public Version(int... parts) {
@@ -60,7 +63,6 @@ public class Version implements Comparable<Version> {
 
 	/**
 	 * Parses the given string representation of a version into a {@link Version} object.
-	 *
 	 * @param version must not be {@literal null} or empty.
 	 * @return
 	 */
@@ -78,7 +80,8 @@ public class Version implements Comparable<Version> {
 			if (StringUtils.hasText(input)) {
 				try {
 					intParts[i] = Integer.parseInt(input);
-				} catch (IllegalArgumentException o_O) {
+				}
+				catch (IllegalArgumentException o_O) {
 					throw new IllegalArgumentException(String.format(VERSION_PARSE_ERROR, input, version), o_O);
 				}
 			}
@@ -89,7 +92,6 @@ public class Version implements Comparable<Version> {
 
 	/**
 	 * Returns the Java version of the running JVM.
-	 * 
 	 * @return will never be {@literal null}.
 	 */
 	public static Version javaVersion() {
@@ -98,7 +100,6 @@ public class Version implements Comparable<Version> {
 
 	/**
 	 * Returns whether the current {@link Version} is greater (newer) than the given one.
-	 *
 	 * @param version
 	 * @return
 	 */
@@ -107,8 +108,8 @@ public class Version implements Comparable<Version> {
 	}
 
 	/**
-	 * Returns whether the current {@link Version} is greater (newer) or the same as the given one.
-	 *
+	 * Returns whether the current {@link Version} is greater (newer) or the same as the
+	 * given one.
 	 * @param version
 	 * @return
 	 */
@@ -118,7 +119,6 @@ public class Version implements Comparable<Version> {
 
 	/**
 	 * Returns whether the current {@link Version} is the same as the given one.
-	 *
 	 * @param version
 	 * @return
 	 */
@@ -128,7 +128,6 @@ public class Version implements Comparable<Version> {
 
 	/**
 	 * Returns whether the current {@link Version} is less (older) than the given one.
-	 *
 	 * @param version
 	 * @return
 	 */
@@ -137,14 +136,15 @@ public class Version implements Comparable<Version> {
 	}
 
 	/**
-	 * Returns whether the current {@link Version} is less (older) or equal to the current one.
-	 *
+	 * Returns whether the current {@link Version} is less (older) or equal to the current
+	 * one.
 	 * @param version
 	 * @return
 	 */
 	public boolean isLessThanOrEqualTo(Version version) {
 		return compareTo(version) <= 0;
 	}
+
 	public int compareTo(@SuppressWarnings("null") Version that) {
 
 		if (this.major != that.major) {
@@ -165,6 +165,7 @@ public class Version implements Comparable<Version> {
 
 		return 0;
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -181,6 +182,7 @@ public class Version implements Comparable<Version> {
 		return this.major == that.major && this.minor == that.minor && this.bugfix == that.bugfix
 				&& this.build == that.build;
 	}
+
 	@Override
 	public int hashCode() {
 
@@ -191,6 +193,7 @@ public class Version implements Comparable<Version> {
 		result += 31 * this.build;
 		return result;
 	}
+
 	@Override
 	public String toString() {
 
@@ -208,4 +211,5 @@ public class Version implements Comparable<Version> {
 
 		return StringUtils.collectionToDelimitedString(digits, ".");
 	}
+
 }

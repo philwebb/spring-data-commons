@@ -69,12 +69,14 @@ class EntityCallbackDiscovererUnitTests {
 
 		EntityCallbackDiscoverer discoverer = new EntityCallbackDiscoverer();
 
-		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(Person.class))).isTrue();
+		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(Person.class)))
+				.isTrue();
 		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(Child.class))).isTrue();
 		assertThat(discoverer.supportsEvent(BeforeSaveCallback.class, ResolvableType.forClass(PersonDocument.class)))
 				.isTrue();
 
-		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(Object.class))).isFalse();
+		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(Object.class)))
+				.isFalse();
 		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(User.class))).isFalse();
 	}
 
@@ -126,6 +128,7 @@ class EntityCallbackDiscovererUnitTests {
 		Object namedCallback() {
 			return new MyOtherCallback();
 		}
+
 	}
 
 	@Configuration
@@ -158,6 +161,7 @@ class EntityCallbackDiscovererUnitTests {
 			Person beforeSave(Person object) {
 				return object;
 			}
+
 		}
 
 		static class Second implements EntityCallback<Person>, Ordered {
@@ -170,6 +174,7 @@ class EntityCallbackDiscovererUnitTests {
 			public int getOrder() {
 				return 2;
 			}
+
 		}
 
 		@Order(1)
@@ -178,11 +183,15 @@ class EntityCallbackDiscovererUnitTests {
 			Person beforeSave(Person object) {
 				return object;
 			}
+
 		}
+
 	}
 
 	interface BeforeSaveCallback<T> extends EntityCallback<T> {
+
 		T onBeforeSave(T object);
+
 	}
 
 	static class MyBeforeSaveCallback implements BeforeSaveCallback<Person> {
@@ -193,6 +202,7 @@ class EntityCallbackDiscovererUnitTests {
 			object.setSsn(object.getFirstName().length());
 			return object;
 		}
+
 	}
 
 	static class MyOtherCallback implements BeforeSaveCallback<Person> {
@@ -201,7 +211,11 @@ class EntityCallbackDiscovererUnitTests {
 		public Person onBeforeSave(Person object) {
 			return object;
 		}
+
 	}
 
-	static class User {}
+	static class User {
+
+	}
+
 }

@@ -36,10 +36,14 @@ import org.springframework.data.util.TypeInformation;
 @ExtendWith(MockitoExtension.class)
 class ParameterUnitTests<P extends PersistentProperty<P>> {
 
-	@Mock PersistentEntity<Object, P> entity;
-	@Mock PersistentEntity<String, P> stringEntity;
+	@Mock
+	PersistentEntity<Object, P> entity;
+
+	@Mock
+	PersistentEntity<String, P> stringEntity;
 
 	private TypeInformation<Object> type = ClassTypeInformation.from(Object.class);
+
 	private Annotation[] annotations = new Annotation[0];
 
 	@Test
@@ -90,4 +94,5 @@ class ParameterUnitTests<P extends PersistentProperty<P>> {
 
 		assertThat(left).isNotEqualTo(right);
 	}
+
 }

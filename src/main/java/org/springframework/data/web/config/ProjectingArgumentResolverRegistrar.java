@@ -34,7 +34,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 /**
- * Configuration class to register a {@link BeanPostProcessor} to augment {@link RequestMappingHandlerAdapter} with a
+ * Configuration class to register a {@link BeanPostProcessor} to augment
+ * {@link RequestMappingHandlerAdapter} with a
  * {@link ProxyingHandlerMethodArgumentResolver}.
  *
  * @author Oliver Gierke
@@ -43,12 +44,12 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 public class ProjectingArgumentResolverRegistrar {
 
 	/**
-	 * Registers a {@link BeanPostProcessor} to modify {@link RequestMappingHandlerAdapter} beans in the application
-	 * context to get a {@link ProxyingHandlerMethodArgumentResolver} configured as first
+	 * Registers a {@link BeanPostProcessor} to modify
+	 * {@link RequestMappingHandlerAdapter} beans in the application context to get a
+	 * {@link ProxyingHandlerMethodArgumentResolver} configured as first
 	 * {@link HandlerMethodArgumentResolver}.
-	 *
-	 * @param conversionService the Spring MVC {@link ConversionService} in a lazy fashion, so that its initialization is
-	 *          not triggered yet.
+	 * @param conversionService the Spring MVC {@link ConversionService} in a lazy
+	 * fashion, so that its initialization is not triggered yet.
 	 * @return
 	 */
 	@Bean
@@ -58,31 +59,35 @@ public class ProjectingArgumentResolverRegistrar {
 	}
 
 	/**
-	 * A {@link BeanPostProcessor} to modify {@link RequestMappingHandlerAdapter} beans in the application context to get
-	 * a {@link ProxyingHandlerMethodArgumentResolver} configured as first {@link HandlerMethodArgumentResolver}.
+	 * A {@link BeanPostProcessor} to modify {@link RequestMappingHandlerAdapter} beans in
+	 * the application context to get a {@link ProxyingHandlerMethodArgumentResolver}
+	 * configured as first {@link HandlerMethodArgumentResolver}.
 	 *
 	 * @author Oliver Gierke
-		 */
+	 */
 	private static class ProjectingArgumentResolverBeanPostProcessor
 			implements BeanPostProcessor, BeanFactoryAware, BeanClassLoaderAware {
 
 		private ProxyingHandlerMethodArgumentResolver resolver;
 
 		/**
-		 * A {@link BeanPostProcessor} to modify {@link RequestMappingHandlerAdapter} beans in the application context to
-		 * get a {@link ProxyingHandlerMethodArgumentResolver} configured as first {@link HandlerMethodArgumentResolver}.
-		 *
-		 * @param conversionService the Spring MVC {@link ConversionService} in a lazy fashion, so that its initialization
-		 *          is not triggered yet.
+		 * A {@link BeanPostProcessor} to modify {@link RequestMappingHandlerAdapter}
+		 * beans in the application context to get a
+		 * {@link ProxyingHandlerMethodArgumentResolver} configured as first
+		 * {@link HandlerMethodArgumentResolver}.
+		 * @param conversionService the Spring MVC {@link ConversionService} in a lazy
+		 * fashion, so that its initialization is not triggered yet.
 		 */
 		public ProjectingArgumentResolverBeanPostProcessor(
 				@Qualifier("mvcConversionService") ObjectFactory<ConversionService> conversionService) {
 			this.resolver = new ProxyingHandlerMethodArgumentResolver(conversionService, false);
 		}
+
 		@Override
 		public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 			this.resolver.setBeanFactory(beanFactory);
 		}
+
 		@Override
 		public void setBeanClassLoader(ClassLoader classLoader) {
 			this.resolver.setBeanClassLoader(classLoader);
@@ -90,7 +95,9 @@ public class ProjectingArgumentResolverRegistrar {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization(java.lang.Object, java.lang.String)
+		 * 
+		 * @see org.springframework.beans.factory.config.BeanPostProcessor#
+		 * postProcessBeforeInitialization(java.lang.Object, java.lang.String)
 		 */
 		@Nullable
 		@Override
@@ -100,7 +107,9 @@ public class ProjectingArgumentResolverRegistrar {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization(java.lang.Object, java.lang.String)
+		 * 
+		 * @see org.springframework.beans.factory.config.BeanPostProcessor#
+		 * postProcessAfterInitialization(java.lang.Object, java.lang.String)
 		 */
 		@Nullable
 		@Override
@@ -114,8 +123,8 @@ public class ProjectingArgumentResolverRegistrar {
 			List<HandlerMethodArgumentResolver> currentResolvers = adapter.getArgumentResolvers();
 
 			if (currentResolvers == null) {
-				throw new IllegalStateException(
-						String.format("No HandlerMethodArgumentResolvers found in RequestMappingHandlerAdapter %s!", beanName));
+				throw new IllegalStateException(String.format(
+						"No HandlerMethodArgumentResolvers found in RequestMappingHandlerAdapter %s!", beanName));
 			}
 
 			List<HandlerMethodArgumentResolver> newResolvers = new ArrayList<HandlerMethodArgumentResolver>(
@@ -127,5 +136,7 @@ public class ProjectingArgumentResolverRegistrar {
 
 			return adapter;
 		}
+
 	}
+
 }

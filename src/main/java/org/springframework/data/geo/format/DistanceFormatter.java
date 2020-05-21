@@ -31,9 +31,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * Converter to create {@link Distance} instances from {@link String} representations. The supported format is a decimal
- * followed by whitespace and a metric abbreviation. We currently support the following abbreviations:
- * {@value #SUPPORTED_METRICS}.
+ * Converter to create {@link Distance} instances from {@link String} representations. The
+ * supported format is a decimal followed by whitespace and a metric abbreviation. We
+ * currently support the following abbreviations: {@value #SUPPORTED_METRICS}.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -43,6 +43,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 	INSTANCE;
 
 	private static final Map<String, Metric> SUPPORTED_METRICS;
+
 	private static final String INVALID_DISTANCE = "Expected double amount optionally followed by a metrics abbreviation (%s) but got '%s'!";
 
 	static {
@@ -56,6 +57,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
 		SUPPORTED_METRICS = Collections.unmodifiableMap(metrics);
 	}
+
 	@Nullable
 	@Override
 	public final Distance convert(String source) {
@@ -64,15 +66,18 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.format.Printer#print(java.lang.Object, java.util.Locale)
 	 */
 	@Override
 	public String print(Distance distance, Locale locale) {
-		return distance == null ? null : String.format("%s%s", distance.getValue(), distance.getUnit().toLowerCase(locale));
+		return distance == null ? null
+				: String.format("%s%s", distance.getValue(), distance.getUnit().toLowerCase(locale));
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.format.Parser#parse(java.lang.String, java.util.Locale)
 	 */
 	@Override
@@ -81,9 +86,8 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 	}
 
 	/**
-	 * Converts the given {@link String} source into a distance. Expects the source to reflect the {@link Metric} as held
-	 * in the {@link #SUPPORTED_METRICS} map.
-	 *
+	 * Converts the given {@link String} source into a distance. Expects the source to
+	 * reflect the {@link Metric} as held in the {@link #SUPPORTED_METRICS} map.
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
@@ -97,17 +101,19 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
 		try {
 			return new Distance(Double.parseDouble(source));
-		} catch (NumberFormatException o_O) {
+		}
+		catch (NumberFormatException o_O) {
 			throw new IllegalArgumentException(String.format(INVALID_DISTANCE,
 					StringUtils.collectionToCommaDelimitedString(SUPPORTED_METRICS.keySet()), source));
 		}
 	}
 
 	/**
-	 * Creates a {@link Distance} from the given source String and the {@link Metric} detected.
-	 *
+	 * Creates a {@link Distance} from the given source String and the {@link Metric}
+	 * detected.
 	 * @param source the raw source {@link String}, must not be {@literal null} or empty.
-	 * @param metric the {@link Metric} detected keyed by the keyword it was detected for, must not be {@literal null}.
+	 * @param metric the {@link Metric} detected keyed by the keyword it was detected for,
+	 * must not be {@literal null}.
 	 * @return
 	 */
 	private static Distance fromString(String source, Entry<String, Metric> metric) {
@@ -116,9 +122,11 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
 		try {
 			return new Distance(Double.parseDouble(amountString), metric.getValue());
-		} catch (NumberFormatException o_O) {
+		}
+		catch (NumberFormatException o_O) {
 			throw new IllegalArgumentException(String.format(INVALID_DISTANCE,
 					StringUtils.collectionToCommaDelimitedString(SUPPORTED_METRICS.keySet()), source));
 		}
 	}
+
 }

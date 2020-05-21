@@ -102,5 +102,8 @@ class AbstractAggregateRootUnitTests {
 				.isThrownBy(() -> new SampleAggregate().andEventsFrom(null));
 	}
 
-	static class SampleAggregate extends AbstractAggregateRoot<SampleAggregate> {}
+	static class SampleAggregate extends AbstractAggregateRoot<SampleAggregate> {
+
+	}
+
 }

@@ -27,11 +27,12 @@ import org.springframework.lang.Nullable;
 public class Association<P extends PersistentProperty<P>> {
 
 	private final P inverse;
+
 	private final @Nullable P obverse;
 
 	/**
-	 * Creates a new {@link Association} between the two given {@link PersistentProperty}s.
-	 *
+	 * Creates a new {@link Association} between the two given
+	 * {@link PersistentProperty}s.
 	 * @param inverse
 	 * @param obverse
 	 */
@@ -48,4 +49,5 @@ public class Association<P extends PersistentProperty<P>> {
 	public P getObverse() {
 		return this.obverse;
 	}
+
 }

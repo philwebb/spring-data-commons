@@ -32,10 +32,12 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.TypeUtils;
 
 /**
- * Abstraction over a list of parameter value types. Allows to check whether a list of parameter values with the given
- * type setup is a candidate for the invocation of a given {@link Method} (see {@link #areValidFor(Method)}). This is
- * necessary to properly match parameter values against methods declaring varargs arguments. The implementation favors
- * direct matches and only computes the alternative sets of types to be considered if the primary one doesn't match.
+ * Abstraction over a list of parameter value types. Allows to check whether a list of
+ * parameter values with the given type setup is a candidate for the invocation of a given
+ * {@link Method} (see {@link #areValidFor(Method)}). This is necessary to properly match
+ * parameter values against methods declaring varargs arguments. The implementation favors
+ * direct matches and only computes the alternative sets of types to be considered if the
+ * primary one doesn't match.
  *
  * @author Oliver Drotbohm
  * @since 2.1.7
@@ -43,14 +45,15 @@ import org.springframework.util.TypeUtils;
 public class ParameterTypes {
 
 	private static final TypeDescriptor OBJECT_DESCRIPTOR = TypeDescriptor.valueOf(Object.class);
+
 	private static final ConcurrentMap<List<TypeDescriptor>, ParameterTypes> CACHE = new ConcurrentReferenceHashMap<>();
 
 	private final List<TypeDescriptor> types;
+
 	private final Lazy<Collection<ParameterTypes>> alternatives;
 
 	/**
 	 * Creates a new {@link ParameterTypes} for the given types.
-	 *
 	 * @param types
 	 */
 	private ParameterTypes(List<TypeDescriptor> types) {
@@ -66,7 +69,6 @@ public class ParameterTypes {
 
 	/**
 	 * Returns the {@link ParameterTypes} for the given list of {@link TypeDescriptor}s.
-	 *
 	 * @param types must not be {@literal null}.
 	 * @return
 	 */
@@ -79,7 +81,6 @@ public class ParameterTypes {
 
 	/**
 	 * Returns the {@link ParameterTypes} for the given {@link Class}es.
-	 *
 	 * @param types must not be {@literal null}.
 	 * @return
 	 */
@@ -94,9 +95,9 @@ public class ParameterTypes {
 	}
 
 	/**
-	 * Returns whether the parameter types are valid for the given {@link Method}. That means, a parameter value list with
-	 * the given type arrangement is a valid list to invoke the given method.
-	 *
+	 * Returns whether the parameter types are valid for the given {@link Method}. That
+	 * means, a parameter value list with the given type arrangement is a valid list to
+	 * invoke the given method.
 	 * @param method must not be {@literal null}.
 	 * @return
 	 */
@@ -113,9 +114,8 @@ public class ParameterTypes {
 	}
 
 	/**
-	 * Returns whether we have a valid alternative variant (making use of varargs) that will match the given method's
-	 * signature.
-	 *
+	 * Returns whether we have a valid alternative variant (making use of varargs) that
+	 * will match the given method's signature.
 	 * @param method
 	 * @return
 	 */
@@ -127,7 +127,6 @@ public class ParameterTypes {
 
 	/**
 	 * Returns all suitable alternatives to the current {@link ParameterTypes}.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	List<ParameterTypes> getAllAlternatives() {
@@ -142,7 +141,6 @@ public class ParameterTypes {
 
 	/**
 	 * Returns whether the {@link ParameterTypes} consists of the given types.
-	 *
 	 * @param types must not be {@literal null}.
 	 * @return
 	 */
@@ -157,9 +155,8 @@ public class ParameterTypes {
 	}
 
 	/**
-	 * Returns whether the current parameter types match the given {@link Method}'s parameters exactly, i.e. they're
-	 * equal, not only assignable.
-	 *
+	 * Returns whether the current parameter types match the given {@link Method}'s
+	 * parameters exactly, i.e. they're equal, not only assignable.
 	 * @param method must not be {@literal null}.
 	 * @return
 	 */
@@ -179,6 +176,7 @@ public class ParameterTypes {
 
 		return true;
 	}
+
 	@Override
 	public String toString() {
 
@@ -243,8 +241,8 @@ public class ParameterTypes {
 	}
 
 	/**
-	 * Returns whether the current type list makes up valid arguments for the given method.
-	 *
+	 * Returns whether the current type list makes up valid arguments for the given
+	 * method.
 	 * @param method must not be {@literal null}.
 	 * @return
 	 */
@@ -270,6 +268,7 @@ public class ParameterTypes {
 	private TypeDescriptor getTail() {
 		return this.types.get(this.types.size() - 1);
 	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -281,14 +280,15 @@ public class ParameterTypes {
 		ParameterTypes that = (ParameterTypes) o;
 		return ObjectUtils.nullSafeEquals(this.types, that.types);
 	}
+
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(this.types);
 	}
 
 	/**
-	 * Extension of {@link ParameterTypes} that remembers the seed tail and only adds typed varargs if the current tail is
-	 * assignable to the seed one.
+	 * Extension of {@link ParameterTypes} that remembers the seed tail and only adds
+	 * typed varargs if the current tail is assignable to the seed one.
 	 *
 	 * @author Oliver Drotbohm
 	 */
@@ -305,10 +305,12 @@ public class ParameterTypes {
 		public static ParentParameterTypes of(List<TypeDescriptor> types, TypeDescriptor tail) {
 			return new ParentParameterTypes(types, tail);
 		}
+
 		@Override
 		protected Optional<ParameterTypes> getParent() {
 			return super.getParent(this.tail);
 		}
+
 		@Override
 		protected Optional<ParameterTypes> withLastVarArgs() {
 
@@ -316,6 +318,7 @@ public class ParameterTypes {
 					? Optional.empty() //
 					: super.withLastVarArgs();
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -334,11 +337,14 @@ public class ParameterTypes {
 			ParentParameterTypes that = (ParentParameterTypes) o;
 			return ObjectUtils.nullSafeEquals(this.tail, that.tail);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = super.hashCode();
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.tail);
 			return result;
 		}
+
 	}
+
 }

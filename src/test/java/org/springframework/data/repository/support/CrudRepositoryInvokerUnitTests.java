@@ -54,8 +54,11 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 @ExtendWith(MockitoExtension.class)
 class CrudRepositoryInvokerUnitTests {
 
-	@Mock PersonRepository personRepository;
-	@Mock OrderRepository orderRepository;
+	@Mock
+	PersonRepository personRepository;
+
+	@Mock
+	OrderRepository orderRepository;
 
 	@Test // DATACMNS-589, DATAREST-216
 	void invokesRedeclaredSave() {
@@ -139,7 +142,9 @@ class CrudRepositoryInvokerUnitTests {
 		return new CrudRepositoryInvoker((CrudRepository) proxy, metadata, conversionService);
 	}
 
-	static class Order {}
+	static class Order {
+
+	}
 
 	interface OrderRepository extends CrudRepository<Order, Long> {
 
@@ -151,9 +156,12 @@ class CrudRepositoryInvokerUnitTests {
 
 		@Override
 		void deleteById(Long id);
+
 	}
 
-	static class Person {}
+	static class Person {
+
+	}
 
 	interface PersonRepository extends PagingAndSortingRepository<Person, Long> {
 
@@ -163,20 +171,25 @@ class CrudRepositoryInvokerUnitTests {
 				Pageable pageable);
 
 		List<Person> findByIdIn(@Param("ids") Collection<Long> ids);
+
 	}
 
 	interface CrudWithFindAllWithSort extends CrudRepository<Order, Long> {
 
 		List<Order> findAll(Sort sort);
+
 	}
 
 	interface CrudWithFindAllWithPageable extends CrudRepository<Order, Long> {
 
 		List<Order> findAll(Pageable sort);
+
 	}
 
 	interface CrudWithRedeclaredDelete extends CrudRepository<Order, Long> {
 
 		void deleteById(Long id);
+
 	}
+
 }

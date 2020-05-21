@@ -62,31 +62,43 @@ import org.springframework.util.StringUtils;
 public class AnnotationRepositoryConfigurationSource extends RepositoryConfigurationSourceSupport {
 
 	private static final String REPOSITORY_IMPLEMENTATION_POSTFIX = "repositoryImplementationPostfix";
+
 	private static final String BASE_PACKAGES = "basePackages";
+
 	private static final String BASE_PACKAGE_CLASSES = "basePackageClasses";
+
 	private static final String NAMED_QUERIES_LOCATION = "namedQueriesLocation";
+
 	private static final String QUERY_LOOKUP_STRATEGY = "queryLookupStrategy";
+
 	private static final String REPOSITORY_FACTORY_BEAN_CLASS = "repositoryFactoryBeanClass";
+
 	private static final String REPOSITORY_BASE_CLASS = "repositoryBaseClass";
+
 	private static final String CONSIDER_NESTED_REPOSITORIES = "considerNestedRepositories";
+
 	private static final String BOOTSTRAP_MODE = "bootstrapMode";
 
 	private final AnnotationMetadata configMetadata;
+
 	private final AnnotationMetadata enableAnnotationMetadata;
+
 	private final AnnotationAttributes attributes;
+
 	private final ResourceLoader resourceLoader;
+
 	private final boolean hasExplicitFilters;
 
 	/**
-	 * Creates a new {@link AnnotationRepositoryConfigurationSource} from the given {@link AnnotationMetadata} and
-	 * annotation.
-	 *
+	 * Creates a new {@link AnnotationRepositoryConfigurationSource} from the given
+	 * {@link AnnotationMetadata} and annotation.
 	 * @param metadata must not be {@literal null}.
 	 * @param annotation must not be {@literal null}.
 	 * @param resourceLoader must not be {@literal null}.
 	 * @param environment must not be {@literal null}.
 	 * @param registry must not be {@literal null}.
-	 * @deprecated since 2.2. Prefer to use overload taking a {@link BeanNameGenerator} additionally.
+	 * @deprecated since 2.2. Prefer to use overload taking a {@link BeanNameGenerator}
+	 * additionally.
 	 */
 	@Deprecated
 	public AnnotationRepositoryConfigurationSource(AnnotationMetadata metadata, Class<? extends Annotation> annotation,
@@ -95,9 +107,8 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	}
 
 	/**
-	 * Creates a new {@link AnnotationRepositoryConfigurationSource} from the given {@link AnnotationMetadata} and
-	 * annotation.
-	 *
+	 * Creates a new {@link AnnotationRepositoryConfigurationSource} from the given
+	 * {@link AnnotationMetadata} and annotation.
 	 * @param metadata must not be {@literal null}.
 	 * @param annotation must not be {@literal null}.
 	 * @param resourceLoader must not be {@literal null}.
@@ -119,7 +130,8 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(annotation.getName());
 
 		if (annotationAttributes == null) {
-			throw new IllegalStateException(String.format("Unable to obtain annotation attributes for %s!", annotation));
+			throw new IllegalStateException(
+					String.format("Unable to obtain annotation attributes for %s!", annotation));
 		}
 
 		this.attributes = new AnnotationAttributes(annotationAttributes);
@@ -128,6 +140,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		this.resourceLoader = resourceLoader;
 		this.hasExplicitFilters = hasExplicitFilters(this.attributes);
 	}
+
 	public Streamable<String> getBasePackages() {
 
 		String[] value = this.attributes.getStringArray("value");
@@ -151,31 +164,39 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 		return Streamable.of(packages);
 	}
+
 	public Optional<Object> getQueryLookupStrategyKey() {
 		return Optional.ofNullable(this.attributes.get(QUERY_LOOKUP_STRATEGY));
 	}
+
 	public Optional<String> getNamedQueryLocation() {
 		return getNullDefaultedAttribute(NAMED_QUERIES_LOCATION);
 	}
+
 	public Optional<String> getRepositoryImplementationPostfix() {
 		return getNullDefaultedAttribute(REPOSITORY_IMPLEMENTATION_POSTFIX);
 	}
+
 	@Nonnull
 	public Object getSource() {
 		return this.configMetadata;
 	}
+
 	@Override
 	protected Iterable<TypeFilter> getIncludeFilters() {
 		return parseFilters("includeFilters");
 	}
+
 	@Override
 	public Streamable<TypeFilter> getExcludeFilters() {
 		return parseFilters("excludeFilters");
 	}
+
 	@Override
 	public Optional<String> getRepositoryFactoryBeanClassName() {
 		return Optional.of(this.attributes.getClass(REPOSITORY_FACTORY_BEAN_CLASS).getName());
 	}
+
 	@Override
 	public Optional<String> getRepositoryBaseClassName() {
 
@@ -190,7 +211,6 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	/**
 	 * Returns the {@link AnnotationAttributes} of the annotation configured.
-	 *
 	 * @return the attributes will never be {@literal null}.
 	 */
 	public AnnotationAttributes getAttributes() {
@@ -198,17 +218,20 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	}
 
 	/**
-	 * Returns the {@link AnnotationMetadata} for the {@code @Enable} annotation that triggered the configuration.
-	 *
+	 * Returns the {@link AnnotationMetadata} for the {@code @Enable} annotation that
+	 * triggered the configuration.
 	 * @return the enableAnnotationMetadata
 	 */
 	public AnnotationMetadata getEnableAnnotationMetadata() {
 		return this.enableAnnotationMetadata;
 	}
+
 	@Override
 	public boolean shouldConsiderNestedRepositories() {
-		return this.attributes.containsKey(CONSIDER_NESTED_REPOSITORIES) && this.attributes.getBoolean(CONSIDER_NESTED_REPOSITORIES);
+		return this.attributes.containsKey(CONSIDER_NESTED_REPOSITORIES)
+				&& this.attributes.getBoolean(CONSIDER_NESTED_REPOSITORIES);
 	}
+
 	@Override
 	public Optional<String> getAttribute(String name) {
 		return getAttribute(name, String.class);
@@ -216,7 +239,9 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#getAttribute(java.lang.String, java.lang.Class)
+	 * 
+	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#
+	 * getAttribute(java.lang.String, java.lang.Class)
 	 */
 	@Override
 	public <T> Optional<T> getAttribute(String name, Class<T> type) {
@@ -241,19 +266,23 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 		return Optional.ofNullable(type.cast(result));
 	}
+
 	@Override
 	public boolean usesExplicitFilters() {
 		return this.hasExplicitFilters;
 	}
+
 	@Override
 	public BootstrapMode getBootstrapMode() {
 
 		try {
 			return this.attributes.getEnum(BOOTSTRAP_MODE);
-		} catch (IllegalArgumentException o_O) {
+		}
+		catch (IllegalArgumentException o_O) {
 			return BootstrapMode.DEFAULT;
 		}
 	}
+
 	@Override
 	public String getResourceDescription() {
 
@@ -271,9 +300,8 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	}
 
 	/**
-	 * Returns the {@link String} attribute with the given name and defaults it to {@literal Optional#empty()} in case
-	 * it's empty.
-	 *
+	 * Returns the {@link String} attribute with the given name and defaults it to
+	 * {@literal Optional#empty()} in case it's empty.
 	 * @param attributeName
 	 * @return
 	 */
@@ -286,7 +314,6 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	/**
 	 * Copy of {@code ComponentScanAnnotationParser#typeFiltersFor}.
-	 *
 	 * @param filterAttributes
 	 * @return
 	 */
@@ -297,23 +324,23 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 		for (Class<?> filterClass : filterAttributes.getClassArray("value")) {
 			switch (filterType) {
-				case ANNOTATION:
-					Assert.isAssignable(Annotation.class, filterClass,
-							"An error occured when processing a @ComponentScan " + "ANNOTATION type filter: ");
-					@SuppressWarnings("unchecked")
-					Class<Annotation> annoClass = (Class<Annotation>) filterClass;
-					typeFilters.add(new AnnotationTypeFilter(annoClass));
-					break;
-				case ASSIGNABLE_TYPE:
-					typeFilters.add(new AssignableTypeFilter(filterClass));
-					break;
-				case CUSTOM:
-					Assert.isAssignable(TypeFilter.class, filterClass,
-							"An error occured when processing a @ComponentScan " + "CUSTOM type filter: ");
-					typeFilters.add(BeanUtils.instantiateClass(filterClass, TypeFilter.class));
-					break;
-				default:
-					throw new IllegalArgumentException("Unknown filter type " + filterType);
+			case ANNOTATION:
+				Assert.isAssignable(Annotation.class, filterClass,
+						"An error occured when processing a @ComponentScan " + "ANNOTATION type filter: ");
+				@SuppressWarnings("unchecked")
+				Class<Annotation> annoClass = (Class<Annotation>) filterClass;
+				typeFilters.add(new AnnotationTypeFilter(annoClass));
+				break;
+			case ASSIGNABLE_TYPE:
+				typeFilters.add(new AssignableTypeFilter(filterClass));
+				break;
+			case CUSTOM:
+				Assert.isAssignable(TypeFilter.class, filterClass,
+						"An error occured when processing a @ComponentScan " + "CUSTOM type filter: ");
+				typeFilters.add(BeanUtils.instantiateClass(filterClass, TypeFilter.class));
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown filter type " + filterType);
 			}
 		}
 
@@ -323,9 +350,11 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 			if ("REGEX".equals(rawName)) {
 				typeFilters.add(new RegexPatternTypeFilter(Pattern.compile(expression)));
-			} else if ("ASPECTJ".equals(rawName)) {
+			}
+			else if ("ASPECTJ".equals(rawName)) {
 				typeFilters.add(new AspectJTypeFilter(expression, this.resourceLoader.getClassLoader()));
-			} else {
+			}
+			else {
 				throw new IllegalArgumentException("Unknown filter type " + filterType);
 			}
 		}
@@ -334,9 +363,9 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	}
 
 	/**
-	 * Safely reads the {@code pattern} attribute from the given {@link AnnotationAttributes} and returns an empty list if
-	 * the attribute is not present.
-	 *
+	 * Safely reads the {@code pattern} attribute from the given
+	 * {@link AnnotationAttributes} and returns an empty list if the attribute is not
+	 * present.
 	 * @param filterAttributes must not be {@literal null}.
 	 * @return
 	 */
@@ -344,14 +373,14 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 		try {
 			return filterAttributes.getStringArray("pattern");
-		} catch (IllegalArgumentException o_O) {
+		}
+		catch (IllegalArgumentException o_O) {
 			return new String[0];
 		}
 	}
 
 	/**
 	 * Returns whether there's explicit configuration of include- or exclude filters.
-	 *
 	 * @param attributes must not be {@literal null}.
 	 * @return
 	 */
@@ -362,11 +391,11 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	}
 
 	/**
-	 * Returns the {@link BeanNameGenerator} to use falling back to an {@link AnnotationBeanNameGenerator} if either the
-	 * given generator is {@literal null} or it's the one locally declared in {@link ConfigurationClassPostProcessor}'s
-	 * {@code importBeanNameGenerator}. This is to make sure we only use the given {@link BeanNameGenerator} if it was
-	 * customized.
-	 *
+	 * Returns the {@link BeanNameGenerator} to use falling back to an
+	 * {@link AnnotationBeanNameGenerator} if either the given generator is
+	 * {@literal null} or it's the one locally declared in
+	 * {@link ConfigurationClassPostProcessor}'s {@code importBeanNameGenerator}. This is
+	 * to make sure we only use the given {@link BeanNameGenerator} if it was customized.
 	 * @param generator can be {@literal null}.
 	 * @return
 	 * @since 2.2
@@ -377,4 +406,5 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 				? new AnnotationBeanNameGenerator() //
 				: generator;
 	}
+
 }

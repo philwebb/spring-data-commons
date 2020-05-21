@@ -23,8 +23,8 @@ import org.springframework.data.repository.support.Repositories;
 import org.springframework.util.Assert;
 
 /**
- * {@link ApplicationEvent} being thrown after a {@link RepositoryPopulator} has finished populating the
- * {@link Repositories} available in the {@link ApplicationContext}.
+ * {@link ApplicationEvent} being thrown after a {@link RepositoryPopulator} has finished
+ * populating the {@link Repositories} available in the {@link ApplicationContext}.
  *
  * @author Oliver Gierke
  */
@@ -35,11 +35,12 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 	private final Repositories repositories;
 
 	/**
-	 * Creates a new {@link RepositoriesPopulatedEvent} using the given {@link RepositoryPopulator} and
-	 * {@link Repositories}.
-	 *
-	 * @param populator the {@link RepositoryPopulator} that threw the event, must not be {@literal null}.
-	 * @param repositories the {@link Repositories} that were populated, must not be {@literal null}.
+	 * Creates a new {@link RepositoriesPopulatedEvent} using the given
+	 * {@link RepositoryPopulator} and {@link Repositories}.
+	 * @param populator the {@link RepositoryPopulator} that threw the event, must not be
+	 * {@literal null}.
+	 * @param repositories the {@link Repositories} that were populated, must not be
+	 * {@literal null}.
 	 */
 	public RepositoriesPopulatedEvent(RepositoryPopulator populator, Repositories repositories) {
 
@@ -50,6 +51,7 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 
 		this.repositories = repositories;
 	}
+
 	@Override
 	public RepositoryPopulator getSource() {
 		return (RepositoryPopulator) super.getSource();
@@ -57,12 +59,12 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 
 	/**
 	 * Returns the {@link Repositories} that were populated.
-	 *
 	 * @return the repositories will never be {@literal null}.
 	 */
 	public Repositories getRepositories() {
 		return this.repositories;
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -77,6 +79,7 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 		RepositoriesPopulatedEvent that = (RepositoriesPopulatedEvent) obj;
 		return this.source.equals(that.source) && this.repositories.equals(that.repositories);
 	}
+
 	@Override
 	public int hashCode() {
 
@@ -86,4 +89,5 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 
 		return result;
 	}
+
 }

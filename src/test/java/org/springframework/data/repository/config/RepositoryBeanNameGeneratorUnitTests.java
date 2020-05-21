@@ -45,6 +45,7 @@ class RepositoryBeanNameGeneratorUnitTests {
 	static final String SAMPLE_IMPLEMENTATION_BEAN_NAME = "repositoryBeanNameGeneratorUnitTests.SomeImplementation";
 
 	RepositoryBeanNameGenerator generator;
+
 	BeanDefinitionRegistry registry;
 
 	@BeforeEach
@@ -60,7 +61,8 @@ class RepositoryBeanNameGeneratorUnitTests {
 
 	@Test
 	void usesAnnotationValueIfAnnotationPresent() {
-		assertThat(this.generator.generateBeanName(getBeanDefinitionFor(AnnotatedInterface.class))).isEqualTo("specialName");
+		assertThat(this.generator.generateBeanName(getBeanDefinitionFor(AnnotatedInterface.class)))
+				.isEqualTo("specialName");
 	}
 
 	@Test // DATACMNS-1115
@@ -89,10 +91,17 @@ class RepositoryBeanNameGeneratorUnitTests {
 		return builder.getBeanDefinition();
 	}
 
-	interface PlainInterface {}
+	interface PlainInterface {
+
+	}
 
 	@Named("specialName")
-	interface AnnotatedInterface {}
+	interface AnnotatedInterface {
 
-	static class SomeImplementation {}
+	}
+
+	static class SomeImplementation {
+
+	}
+
 }

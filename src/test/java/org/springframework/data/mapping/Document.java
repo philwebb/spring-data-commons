@@ -29,4 +29,5 @@ import org.springframework.data.annotation.Persistent;
 @Target({ ElementType.TYPE, ElementType.FIELD })
 @Persistent
 public @interface Document {
+
 }

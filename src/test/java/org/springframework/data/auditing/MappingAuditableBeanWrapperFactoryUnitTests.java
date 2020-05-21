@@ -293,38 +293,62 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 	static class Sample {
 
 		private @CreatedBy Object createdBy;
+
 		private Object lastModifiedBy;
+
 		private @LastModifiedDate Object lastModifiedDate;
 
 		@LastModifiedBy
 		public Object getLastModifiedBy() {
 			return this.lastModifiedBy;
 		}
+
 	}
 
 	static class SampleWithInstant {
 
-		@CreatedDate Instant created;
-		@LastModifiedDate Instant modified;
+		@CreatedDate
+		Instant created;
+
+		@LastModifiedDate
+		Instant modified;
+
 	}
 
-	static class NoAuditing {}
+	static class NoAuditing {
 
-	static abstract class ExtendingAuditable implements Auditable<Object, Long, LocalDateTime> {}
+	}
+
+	static abstract class ExtendingAuditable implements Auditable<Object, Long, LocalDateTime> {
+
+	}
 
 	// DATACMNS-1274
 
 	static class Embedded {
 
-		@CreatedDate Instant created;
-		@CreatedBy String creator;
-		@LastModifiedDate Instant modified;
-		@LastModifiedBy String modifier;
+		@CreatedDate
+		Instant created;
+
+		@CreatedBy
+		String creator;
+
+		@LastModifiedDate
+		Instant modified;
+
+		@LastModifiedBy
+		String modifier;
+
 	}
 
 	static class WithEmbedded {
+
 		Embedded embedded;
+
 		Collection<Embedded> embeddeds;
+
 		Map<String, Embedded> embeddedMap;
+
 	}
+
 }

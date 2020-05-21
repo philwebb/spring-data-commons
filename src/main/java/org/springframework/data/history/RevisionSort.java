@@ -21,8 +21,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
 
 /**
- * A dedicated {@link Sort} implementation that allows the definition of the ordering of revisions independently of the
- * property name the revision number is held in.
+ * A dedicated {@link Sort} implementation that allows the definition of the ordering of
+ * revisions independently of the property name the revision number is held in.
  *
  * @author Oliver Gierke
  * @since 1.13
@@ -32,12 +32,14 @@ public class RevisionSort extends Sort {
 	private static final long serialVersionUID = 618238321589063537L;
 
 	private static final String PROPERTY = "__revisionNumber__";
+
 	private static final RevisionSort ASC = new RevisionSort(Direction.ASC);
+
 	private static final RevisionSort DESC = new RevisionSort(Direction.DESC);
 
 	/**
-	 * Creates a new {@link RevisionSort} using the given direction for sorting by revision number.
-	 *
+	 * Creates a new {@link RevisionSort} using the given direction for sorting by
+	 * revision number.
 	 * @param direction must not be {@literal null}.
 	 */
 	private RevisionSort(Direction direction) {
@@ -45,9 +47,8 @@ public class RevisionSort extends Sort {
 	}
 
 	/**
-	 * Creates a {@link RevisionSort} with ascending order for the revision number property, i.e. more recent revisions
-	 * will come last.
-	 *
+	 * Creates a {@link RevisionSort} with ascending order for the revision number
+	 * property, i.e. more recent revisions will come last.
 	 * @return
 	 */
 	public static RevisionSort asc() {
@@ -55,9 +56,8 @@ public class RevisionSort extends Sort {
 	}
 
 	/**
-	 * Creates a {@link RevisionSort} with descending order for the revision number property, i.e. more recent revisions
-	 * will come first.
-	 *
+	 * Creates a {@link RevisionSort} with descending order for the revision number
+	 * property, i.e. more recent revisions will come first.
 	 * @return
 	 */
 	public static RevisionSort desc() {
@@ -65,9 +65,8 @@ public class RevisionSort extends Sort {
 	}
 
 	/**
-	 * Returns in which direction to sort revisions for the given {@link Sort} instance. Defaults to
-	 * {@link Direction#ASC}.
-	 *
+	 * Returns in which direction to sort revisions for the given {@link Sort} instance.
+	 * Defaults to {@link Direction#ASC}.
 	 * @param sort must not be {@literal null}.
 	 * @return
 	 */
@@ -78,4 +77,5 @@ public class RevisionSort extends Sort {
 		Order order = sort.getOrderFor(PROPERTY);
 		return order == null ? Direction.ASC : order.getDirection();
 	}
+
 }

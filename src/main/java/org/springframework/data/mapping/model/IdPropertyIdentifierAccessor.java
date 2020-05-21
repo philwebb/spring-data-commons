@@ -33,12 +33,12 @@ import org.springframework.util.Assert;
 public class IdPropertyIdentifierAccessor extends TargetAwareIdentifierAccessor {
 
 	private final PersistentPropertyAccessor<?> accessor;
+
 	private final PersistentProperty<?> idProperty;
 
 	/**
-	 * Creates a new {@link IdPropertyIdentifierAccessor} for the given {@link PersistentEntity} and
-	 * {@link ConvertingPropertyAccessor}.
-	 *
+	 * Creates a new {@link IdPropertyIdentifierAccessor} for the given
+	 * {@link PersistentEntity} and {@link ConvertingPropertyAccessor}.
 	 * @param entity must not be {@literal null}.
 	 * @param target must not be {@literal null}.
 	 */
@@ -53,8 +53,10 @@ public class IdPropertyIdentifierAccessor extends TargetAwareIdentifierAccessor 
 		this.idProperty = entity.getRequiredIdProperty();
 		this.accessor = entity.getPropertyAccessor(target);
 	}
+
 	@Nullable
 	public Object getIdentifier() {
 		return this.accessor.getProperty(this.idProperty);
 	}
+
 }

@@ -35,7 +35,8 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Value object to encapsulate the constructor to be used when mapping persistent data to objects.
+ * Value object to encapsulate the constructor to be used when mapping persistent data to
+ * objects.
  *
  * @author Oliver Gierke
  * @author Jon Brisbin
@@ -46,16 +47,20 @@ import org.springframework.util.StringUtils;
 public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 	private final Constructor<T> constructor;
+
 	private final List<Parameter<Object, P>> parameters;
+
 	private final Map<PersistentProperty<?>, Boolean> isPropertyParameterCache = new HashMap<>();
 
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
 	private final Lock read = this.lock.readLock();
+
 	private final Lock write = this.lock.writeLock();
 
 	/**
-	 * Creates a new {@link PreferredConstructor} from the given {@link Constructor} and {@link Parameter}s.
-	 *
+	 * Creates a new {@link PreferredConstructor} from the given {@link Constructor} and
+	 * {@link Parameter}s.
 	 * @param constructor must not be {@literal null}.
 	 * @param parameters must not be {@literal null}.
 	 */
@@ -72,7 +77,6 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 	/**
 	 * Returns the underlying {@link Constructor}.
-	 *
 	 * @return
 	 */
 	public Constructor<T> getConstructor() {
@@ -81,7 +85,6 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 	/**
 	 * Returns the {@link Parameter}s of the constructor.
-	 *
 	 * @return
 	 */
 	public List<Parameter<Object, P>> getParameters() {
@@ -109,8 +112,8 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	}
 
 	/**
-	 * Returns whether the constructor was explicitly selected (by {@link PersistenceConstructor}).
-	 *
+	 * Returns whether the constructor was explicitly selected (by
+	 * {@link PersistenceConstructor}).
 	 * @return
 	 */
 	public boolean isExplicitlyAnnotated() {
@@ -118,9 +121,8 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	}
 
 	/**
-	 * Returns whether the given {@link PersistentProperty} is referenced in a constructor argument of the
-	 * {@link PersistentEntity} backing this {@link PreferredConstructor}.
-	 *
+	 * Returns whether the given {@link PersistentProperty} is referenced in a constructor
+	 * argument of the {@link PersistentEntity} backing this {@link PreferredConstructor}.
 	 * @param property must not be {@literal null}.
 	 * @return
 	 */
@@ -137,7 +139,8 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 				return cached;
 			}
 
-		} finally {
+		}
+		finally {
 			this.read.unlock();
 		}
 
@@ -155,16 +158,17 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 			this.isPropertyParameterCache.put(property, false);
 			return false;
 
-		} finally {
+		}
+		finally {
 			this.write.unlock();
 		}
 	}
 
 	/**
-	 * Returns whether the given {@link Parameter} is one referring to an enclosing class. That is in case the class this
-	 * {@link PreferredConstructor} belongs to is a member class actually. If that's the case the compiler creates a first
-	 * constructor argument of the enclosing class type.
-	 *
+	 * Returns whether the given {@link Parameter} is one referring to an enclosing class.
+	 * That is in case the class this {@link PreferredConstructor} belongs to is a member
+	 * class actually. If that's the case the compiler creates a first constructor
+	 * argument of the enclosing class type.
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 */
@@ -188,18 +192,21 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	public static class Parameter<T, P extends PersistentProperty<P>> {
 
 		private final @Nullable String name;
+
 		private final TypeInformation<T> type;
+
 		private final String key;
+
 		private final @Nullable PersistentEntity<T, P> entity;
 
 		private final Lazy<Boolean> enclosingClassCache;
+
 		private final Lazy<Boolean> hasSpelExpression;
 
 		/**
-		 * Creates a new {@link Parameter} with the given name, {@link TypeInformation} as well as an array of
-		 * {@link Annotation}s. Will inspect the annotations for an {@link Value} annotation to lookup a key or an SpEL
-		 * expression to be evaluated.
-		 *
+		 * Creates a new {@link Parameter} with the given name, {@link TypeInformation} as
+		 * well as an array of {@link Annotation}s. Will inspect the annotations for an
+		 * {@link Value} annotation to lookup a key or an SpEL expression to be evaluated.
 		 * @param name the name of the parameter, can be {@literal null}
 		 * @param type must not be {@literal null}
 		 * @param annotations must not be {@literal null} but can be empty
@@ -239,7 +246,6 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 		/**
 		 * Returns the name of the parameter.
-		 *
 		 * @return
 		 */
 		@Nullable
@@ -249,7 +255,6 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 		/**
 		 * Returns the {@link TypeInformation} of the parameter.
-		 *
 		 * @return
 		 */
 		public TypeInformation<T> getType() {
@@ -258,7 +263,6 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 		/**
 		 * Returns the raw resolved type of the parameter.
-		 *
 		 * @return
 		 */
 		public Class<T> getRawType() {
@@ -266,8 +270,8 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		}
 
 		/**
-		 * Returns the key to be used when looking up a source data structure to populate the actual parameter value.
-		 *
+		 * Returns the key to be used when looking up a source data structure to populate
+		 * the actual parameter value.
 		 * @return
 		 */
 		public String getSpelExpression() {
@@ -276,12 +280,12 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 		/**
 		 * Returns whether the constructor parameter is equipped with a SpEL expression.
-		 *
 		 * @return
 		 */
 		public boolean hasSpelExpression() {
 			return this.hasSpelExpression.get();
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -309,6 +313,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 			return ObjectUtils.nullSafeEquals(this.entity, parameter.entity);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.name);
@@ -319,8 +324,8 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		}
 
 		/**
-		 * Returns whether the {@link Parameter} maps the given {@link PersistentProperty}.
-		 *
+		 * Returns whether the {@link Parameter} maps the given
+		 * {@link PersistentProperty}.
 		 * @param property
 		 * @return
 		 */
@@ -337,5 +342,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		private boolean isEnclosingClassParameter() {
 			return this.enclosingClassCache.get();
 		}
+
 	}
+
 }

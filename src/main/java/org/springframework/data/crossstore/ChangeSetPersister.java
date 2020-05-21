@@ -18,7 +18,8 @@ package org.springframework.data.crossstore;
 import org.springframework.dao.DataAccessException;
 
 /**
- * Interface to be implemented by classes that can synchronize between data stores and ChangeSets.
+ * Interface to be implemented by classes that can synchronize between data stores and
+ * ChangeSets.
  *
  * @param <K> entity key
  * @author Rod Johnson
@@ -26,6 +27,7 @@ import org.springframework.dao.DataAccessException;
 public interface ChangeSetPersister<K> {
 
 	String ID_KEY = "_id";
+
 	String CLASS_KEY = "_class";
 
 	/**
@@ -36,7 +38,6 @@ public interface ChangeSetPersister<K> {
 
 	/**
 	 * Return id
-	 *
 	 * @param entity
 	 * @param cs
 	 * @return
@@ -46,7 +47,6 @@ public interface ChangeSetPersister<K> {
 
 	/**
 	 * Return key
-	 *
 	 * @param entity
 	 * @param cs Key may be null if not persistent
 	 * @return
@@ -55,11 +55,13 @@ public interface ChangeSetPersister<K> {
 	K persistState(ChangeSetBacked entity, ChangeSet cs) throws DataAccessException;
 
 	/**
-	 * Exception thrown in alternate control flow if getPersistentState finds no entity data.
+	 * Exception thrown in alternate control flow if getPersistentState finds no entity
+	 * data.
 	 */
 	class NotFoundException extends Exception {
 
 		private static final long serialVersionUID = -8604207973816331140L;
+
 	}
 
 }

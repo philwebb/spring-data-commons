@@ -32,14 +32,14 @@ class IdPropertyIdentifierAccessorUnitTests {
 
 	@Test // DATACMNS-599
 	void rejectsEntityWithoutIdentifierProperty() {
-		assertThatIllegalArgumentException().isThrownBy(
-				() -> new IdPropertyIdentifierAccessor(this.mappingContext.getRequiredPersistentEntity(Sample.class), new Sample()));
+		assertThatIllegalArgumentException().isThrownBy(() -> new IdPropertyIdentifierAccessor(
+				this.mappingContext.getRequiredPersistentEntity(Sample.class), new Sample()));
 	}
 
 	@Test // DATACMNS-599
 	void rejectsNullBean() {
-		assertThatIllegalArgumentException().isThrownBy(
-				() -> new IdPropertyIdentifierAccessor(this.mappingContext.getRequiredPersistentEntity(SampleWithId.class), null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new IdPropertyIdentifierAccessor(
+				this.mappingContext.getRequiredPersistentEntity(SampleWithId.class), null));
 	}
 
 	@Test // DATACMNS-599
@@ -54,9 +54,15 @@ class IdPropertyIdentifierAccessorUnitTests {
 		assertThat(accessor.getIdentifier()).isEqualTo(sample.id);
 	}
 
-	private static class Sample {}
+	private static class Sample {
+
+	}
 
 	static class SampleWithId {
-		@Id Long id;
+
+		@Id
+		Long id;
+
 	}
+
 }

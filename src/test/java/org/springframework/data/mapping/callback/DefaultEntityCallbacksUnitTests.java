@@ -72,7 +72,8 @@ class DefaultEntityCallbacksUnitTests {
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
 		callbacks.addEntityCallback(new GenericPersonCallback());
 
-		Person afterCallback = callbacks.callback(GenericPersonCallback.class, new PersonDocument(null, "Walter", null));
+		Person afterCallback = callbacks.callback(GenericPersonCallback.class,
+				new PersonDocument(null, "Walter", null));
 
 		assertThat(afterCallback.getSsn()).isEqualTo(6);
 	}
@@ -93,11 +94,12 @@ class DefaultEntityCallbacksUnitTests {
 	void invokeInvalidEvent() {
 
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
-		callbacks.addEntityCallback(new InvalidEntityCallback() {});
+		callbacks.addEntityCallback(new InvalidEntityCallback() {
+		});
 
 		assertThatExceptionOfType(IllegalStateException.class)
-				.isThrownBy(() -> callbacks.callback(InvalidEntityCallback.class, new PersonDocument(null, "Walter", null),
-						"agr0", Float.POSITIVE_INFINITY));
+				.isThrownBy(() -> callbacks.callback(InvalidEntityCallback.class,
+						new PersonDocument(null, "Walter", null), "agr0", Float.POSITIVE_INFINITY));
 	}
 
 	@Test // DATACMNS-1467
@@ -155,7 +157,8 @@ class DefaultEntityCallbacksUnitTests {
 	@Test // DATACMNS-1467
 	void detectsMultipleCallbacksWithinOneClass() {
 
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MultipleCallbacksInOneClassConfig.class);
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
+				MultipleCallbacksInOneClassConfig.class);
 
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks(ctx);
 
@@ -182,6 +185,7 @@ class DefaultEntityCallbacksUnitTests {
 		Object namedCallback() {
 			return new MyOtherCallback();
 		}
+
 	}
 
 	@Configuration
@@ -200,6 +204,7 @@ class DefaultEntityCallbacksUnitTests {
 				return object;
 			};
 		}
+
 	}
 
 	@Configuration
@@ -209,19 +214,24 @@ class DefaultEntityCallbacksUnitTests {
 		MultipleCallbacks callbacks() {
 			return new MultipleCallbacks();
 		}
+
 	}
 
 	interface BeforeConvertCallback<T> extends EntityCallback<T>, Ordered {
+
 		T onBeforeConvert(T object);
 
 		@Override
 		default int getOrder() {
 			return 0;
 		}
+
 	}
 
 	interface BeforeSaveCallback<T> extends EntityCallback<T> {
+
 		T onBeforeSave(T object);
+
 	}
 
 	static class MyBeforeSaveCallback implements BeforeSaveCallback<Person> {
@@ -232,6 +242,7 @@ class DefaultEntityCallbacksUnitTests {
 			object.setSsn(object.getFirstName().length());
 			return object;
 		}
+
 	}
 
 	static class MyOtherCallback implements BeforeSaveCallback<Person> {
@@ -240,9 +251,12 @@ class DefaultEntityCallbacksUnitTests {
 		public Person onBeforeSave(Person object) {
 			return object;
 		}
+
 	}
 
-	static class User {}
+	static class User {
+
+	}
 
 	static class GenericPersonCallback implements EntityCallback<Person> {
 
@@ -251,6 +265,7 @@ class DefaultEntityCallbacksUnitTests {
 			value.setSsn(value.getFirstName().length());
 			return value;
 		}
+
 	}
 
 	static class GenericPersonCallbackWithArgs implements EntityCallback<Person> {
@@ -260,6 +275,7 @@ class DefaultEntityCallbacksUnitTests {
 			value.setSsn(value.getFirstName().length());
 			return value;
 		}
+
 	}
 
 	interface InvalidEntityCallback extends EntityCallback<Person> {
@@ -267,6 +283,7 @@ class DefaultEntityCallbacksUnitTests {
 		default Person onBeforeSave(String value, Person entity) {
 			return entity;
 		}
+
 	}
 
 	static class MultipleCallbacks implements BeforeConvertCallback<Person>, BeforeSaveCallback<Person> {
@@ -286,6 +303,7 @@ class DefaultEntityCallbacksUnitTests {
 			this.invocations.add("save");
 			return object;
 		}
+
 	}
 
 }

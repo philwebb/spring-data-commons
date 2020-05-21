@@ -22,10 +22,10 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * {@link MethodInterceptor} detecting whether a transaction is already running and exposing that fact via
- * {@link #isSurroundingTransactionActive()}. Useful in case subsequent interceptors might create transactions
- * themselves but downstream components have to find out whether there was one running before the call entered the
- * proxy.
+ * {@link MethodInterceptor} detecting whether a transaction is already running and
+ * exposing that fact via {@link #isSurroundingTransactionActive()}. Useful in case
+ * subsequent interceptors might create transactions themselves but downstream components
+ * have to find out whether there was one running before the call entered the proxy.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -38,13 +38,14 @@ public enum SurroundingTransactionDetectorMethodInterceptor implements MethodInt
 	private final ThreadLocal<Boolean> SURROUNDING_TX_ACTIVE = new ThreadLocal<>();
 
 	/**
-	 * Returns whether a transaction was active before the method call entered the repository proxy.
-	 *
+	 * Returns whether a transaction was active before the method call entered the
+	 * repository proxy.
 	 * @return
 	 */
 	public boolean isSurroundingTransactionActive() {
 		return Boolean.TRUE == this.SURROUNDING_TX_ACTIVE.get();
 	}
+
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -53,8 +54,10 @@ public enum SurroundingTransactionDetectorMethodInterceptor implements MethodInt
 
 		try {
 			return invocation.proceed();
-		} finally {
+		}
+		finally {
 			this.SURROUNDING_TX_ACTIVE.remove();
 		}
 	}
+
 }

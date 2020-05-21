@@ -34,14 +34,16 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 	private static final String MULTIPLE_FOUND = "Found annotation %s both on %s and %s! Make sure only one of them is annotated with it!";
 
 	private final boolean enforceUniqueness;
+
 	private final Class<A> annotationType;
 
 	private @Nullable Method foundMethod;
+
 	private @Nullable A annotation;
 
 	/**
-	 * Creates a new {@link AnnotationDetectionMethodCallback} for the given annotation type.
-	 *
+	 * Creates a new {@link AnnotationDetectionMethodCallback} for the given annotation
+	 * type.
 	 * @param annotationType must not be {@literal null}.
 	 */
 	public AnnotationDetectionMethodCallback(Class<A> annotationType) {
@@ -49,10 +51,11 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 	}
 
 	/**
-	 * Creates a new {@link AnnotationDetectionMethodCallback} for the given annotation type.
-	 *
+	 * Creates a new {@link AnnotationDetectionMethodCallback} for the given annotation
+	 * type.
 	 * @param annotationType must not be {@literal null}.
-	 * @param enforceUniqueness whether to fail if multiple methods with the annotation are found.
+	 * @param enforceUniqueness whether to fail if multiple methods with the annotation
+	 * are found.
 	 */
 	public AnnotationDetectionMethodCallback(Class<A> annotationType, boolean enforceUniqueness) {
 
@@ -72,9 +75,9 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 
 	/**
 	 * Returns the method with the configured annotation.
-	 *
 	 * @return
-	 * @throws IllegalStateException in case no method with the configured annotation was found.
+	 * @throws IllegalStateException in case no method with the configured annotation was
+	 * found.
 	 */
 	public Method getRequiredMethod() {
 
@@ -97,12 +100,12 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 
 	/**
 	 * Returns whether an annotation was found.
-	 *
 	 * @return
 	 */
 	public boolean hasFoundAnnotation() {
 		return this.annotation != null;
 	}
+
 	@Override
 	public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
 
@@ -123,4 +126,5 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 			this.foundMethod = method;
 		}
 	}
+
 }

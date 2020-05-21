@@ -29,7 +29,9 @@ import org.springframework.util.SerializationUtils;
 class BoxUnitTests {
 
 	Box first = new Box(new Point(1d, 1d), new Point(2d, 2d));
+
 	Box second = new Box(new Point(1d, 1d), new Point(2d, 2d));
+
 	Box third = new Box(new Point(3d, 3d), new Point(1d, 1d));
 
 	@Test // DATACMNS-437
@@ -50,7 +52,8 @@ class BoxUnitTests {
 	@Test // DATACMNS-437
 	void testToString() {
 
-		assertThat(this.first.toString()).isEqualTo("Box [Point [x=1.000000, y=1.000000], Point [x=2.000000, y=2.000000]]");
+		assertThat(this.first.toString())
+				.isEqualTo("Box [Point [x=1.000000, y=1.000000], Point [x=2.000000, y=2.000000]]");
 	}
 
 	@Test // DATACMNS-482
@@ -59,4 +62,5 @@ class BoxUnitTests {
 		Box serialized = (Box) SerializationUtils.deserialize(SerializationUtils.serialize(this.first));
 		assertThat(serialized).isEqualTo(this.first);
 	}
+
 }

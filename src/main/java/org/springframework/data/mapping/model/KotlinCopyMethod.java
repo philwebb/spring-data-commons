@@ -45,14 +45,18 @@ import org.springframework.util.Assert;
 class KotlinCopyMethod {
 
 	private final Method publicCopyMethod;
+
 	private final Method syntheticCopyMethod;
+
 	private final int parameterCount;
+
 	private final KFunction<?> copyFunction;
 
 	/**
-	 * @param publicCopyMethod Compiler-generated public {@code copy} method accepting all properties.
-	 * @param syntheticCopyMethod Compiler-generated synthetic {@code copy$default} variant of the copy method accepting
-	 *          the original instance and defaulting masks.
+	 * @param publicCopyMethod Compiler-generated public {@code copy} method accepting all
+	 * properties.
+	 * @param syntheticCopyMethod Compiler-generated synthetic {@code copy$default}
+	 * variant of the copy method accepting the original instance and defaulting masks.
 	 */
 	private KotlinCopyMethod(Method publicCopyMethod, Method syntheticCopyMethod) {
 
@@ -63,9 +67,8 @@ class KotlinCopyMethod {
 	}
 
 	/**
-	 * Attempt to lookup the Kotlin {@code copy} method. Lookup happens in two stages: Find the synthetic copy method and
-	 * then attempt to resolve its public variant.
-	 *
+	 * Attempt to lookup the Kotlin {@code copy} method. Lookup happens in two stages:
+	 * Find the synthetic copy method and then attempt to resolve its public variant.
 	 * @param type the class.
 	 * @return {@link Optional} {@link KotlinCopyMethod}.
 	 */
@@ -101,8 +104,8 @@ class KotlinCopyMethod {
 	}
 
 	/**
-	 * Check whether the {@link PersistentProperty} is accepted as part of the copy method.
-	 *
+	 * Check whether the {@link PersistentProperty} is accepted as part of the copy
+	 * method.
 	 * @param property
 	 * @return
 	 */
@@ -112,7 +115,6 @@ class KotlinCopyMethod {
 
 	/**
 	 * Create metadata for {@literal copy$default} invocation.
-	 *
 	 * @param property
 	 * @return
 	 */
@@ -236,7 +238,9 @@ class KotlinCopyMethod {
 	static class KotlinCopyByProperty {
 
 		private final int parameterPosition;
+
 		private final int parameterCount;
+
 		private final KotlinDefaultMask defaultMask;
 
 		KotlinCopyByProperty(KFunction<?> copyFunction, PersistentProperty<?> property) {
@@ -268,5 +272,7 @@ class KotlinCopyMethod {
 		public KotlinDefaultMask getDefaultMask() {
 			return this.defaultMask;
 		}
+
 	}
+
 }

@@ -38,7 +38,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link MethodsMetadataReader} implementation based on an ASM {@link org.springframework.asm.ClassReader}.
+ * {@link MethodsMetadataReader} implementation based on an ASM
+ * {@link org.springframework.asm.ClassReader}.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
@@ -47,8 +48,11 @@ import org.springframework.util.Assert;
 class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 
 	private final Resource resource;
+
 	private final ClassMetadata classMetadata;
+
 	private final AnnotationMetadata annotationMetadata;
+
 	private final MethodsMetadata methodsMetadata;
 
 	DefaultMethodsMetadataReader(Resource resource, @Nullable ClassLoader classLoader) throws IOException {
@@ -68,9 +72,12 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 
 			return new ClassReader(is);
 
-		} catch (IllegalArgumentException ex) {
-			throw new NestedIOException("ASM ClassReader failed to parse class file - "
-					+ "probably due to a new Java class file version that isn't supported yet: " + resource, ex);
+		}
+		catch (IllegalArgumentException ex) {
+			throw new NestedIOException(
+					"ASM ClassReader failed to parse class file - "
+							+ "probably due to a new Java class file version that isn't supported yet: " + resource,
+					ex);
 		}
 	}
 
@@ -91,8 +98,9 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 	}
 
 	/**
-	 * ASM class visitor which looks for the class name and implemented types as well as for the methods defined in the
-	 * class, exposing them through the {@link MethodsMetadata} interface.
+	 * ASM class visitor which looks for the class name and implemented types as well as
+	 * for the methods defined in the class, exposing them through the
+	 * {@link MethodsMetadata} interface.
 	 *
 	 * @author Mark Paluch
 	 * @since 2.1
@@ -104,8 +112,8 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 			implements MethodsMetadata {
 
 		/**
-		 * Construct a new {@link MethodsMetadataReadingVisitor} given {@link ClassLoader}.
-		 *
+		 * Construct a new {@link MethodsMetadataReadingVisitor} given
+		 * {@link ClassLoader}.
 		 * @param classLoader may be {@literal null}.
 		 */
 		MethodsMetadataReadingVisitor(@Nullable ClassLoader classLoader) {
@@ -114,7 +122,11 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.core.type.classreading.AnnotationMetadataReadingVisitor#visitMethod(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String[])
+		 * 
+		 * @see
+		 * org.springframework.core.type.classreading.AnnotationMetadataReadingVisitor#
+		 * visitMethod(int, java.lang.String, java.lang.String, java.lang.String,
+		 * java.lang.String[])
 		 */
 		@Override
 		@SuppressWarnings("null")
@@ -137,10 +149,12 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 			this.methodMetadataSet.add(visitor);
 			return visitor;
 		}
+
 		@Override
 		public Set<MethodMetadata> getMethods() {
 			return Collections.unmodifiableSet(this.methodMetadataSet);
 		}
+
 		@Override
 		public Set<MethodMetadata> getMethods(String name) {
 
@@ -150,5 +164,7 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 					.filter(it -> it.getMethodName().equals(name)) //
 					.collect(StreamUtils.toUnmodifiableSet());
 		}
+
 	}
+
 }

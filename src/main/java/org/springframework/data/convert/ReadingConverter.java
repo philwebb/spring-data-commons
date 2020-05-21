@@ -25,8 +25,8 @@ import java.lang.annotation.Target;
 import org.springframework.core.convert.converter.Converter;
 
 /**
- * Annotation to clarify intended usage of a {@link Converter} as reading converter in case the conversion types leave
- * room for disambiguation.
+ * Annotation to clarify intended usage of a {@link Converter} as reading converter in
+ * case the conversion types leave room for disambiguation.
  *
  * @author Oliver Gierke
  */

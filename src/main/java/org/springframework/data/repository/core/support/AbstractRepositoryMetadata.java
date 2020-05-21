@@ -44,12 +44,13 @@ import org.springframework.util.Assert;
 public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 
 	private final TypeInformation<?> typeInformation;
+
 	private final Class<?> repositoryInterface;
+
 	private final Lazy<CrudMethods> crudMethods;
 
 	/**
 	 * Creates a new {@link AbstractRepositoryMetadata}.
-	 *
 	 * @param repositoryInterface must not be {@literal null} and must be an interface.
 	 */
 	public AbstractRepositoryMetadata(Class<?> repositoryInterface) {
@@ -64,7 +65,6 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 
 	/**
 	 * Creates a new {@link RepositoryMetadata} for the given repository interface.
-	 *
 	 * @param repositoryInterface must not be {@literal null}.
 	 * @since 1.9
 	 * @return
@@ -73,15 +73,18 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 
 		Assert.notNull(repositoryInterface, "Repository interface must not be null!");
 
-		return Repository.class.isAssignableFrom(repositoryInterface) ? new DefaultRepositoryMetadata(repositoryInterface)
+		return Repository.class.isAssignableFrom(repositoryInterface)
+				? new DefaultRepositoryMetadata(repositoryInterface)
 				: new AnnotationRepositoryMetadata(repositoryInterface);
 	}
+
 	public Class<?> getReturnedDomainClass(Method method) {
 
 		TypeInformation<?> returnType = null;
 		if (KotlinDetector.isKotlinType(method.getDeclaringClass()) && KotlinReflectionUtils.isSuspend(method)) {
 
-			// the last parameter is Continuation<? super T> or Continuation<? super Flow<? super T>>
+			// the last parameter is Continuation<? super T> or Continuation<? super
+			// Flow<? super T>>
 			List<TypeInformation<?>> types = this.typeInformation.getParameterTypes(method);
 			returnType = types.get(types.size() - 1).getComponentType();
 		}
@@ -92,13 +95,16 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 
 		return QueryExecutionConverters.unwrapWrapperTypes(returnType).getType();
 	}
+
 	public Class<?> getRepositoryInterface() {
 		return this.repositoryInterface;
 	}
+
 	@Override
 	public CrudMethods getCrudMethods() {
 		return this.crudMethods.get();
 	}
+
 	@Override
 	public boolean isPagingRepository() {
 
@@ -106,12 +112,15 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 				.map(it -> Arrays.asList(it.getParameterTypes()).contains(Pageable.class))//
 				.orElse(false);
 	}
+
 	@Override
 	public Set<Class<?>> getAlternativeDomainTypes() {
 		return Collections.emptySet();
 	}
+
 	@Override
 	public boolean isReactiveRepository() {
 		return ReactiveWrappers.usesReactiveType(this.repositoryInterface);
 	}
+
 }

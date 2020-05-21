@@ -23,7 +23,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
 
 /**
- * Interface to access method parameters. Allows dedicated access to parameters of special types
+ * Interface to access method parameters. Allows dedicated access to parameters of special
+ * types
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -31,23 +32,23 @@ import org.springframework.lang.Nullable;
 public interface ParameterAccessor extends Iterable<Object> {
 
 	/**
-	 * Returns the {@link Pageable} of the parameters, if available. Returns {@code null} otherwise.
-	 *
+	 * Returns the {@link Pageable} of the parameters, if available. Returns {@code null}
+	 * otherwise.
 	 * @return
 	 */
 	Pageable getPageable();
 
 	/**
-	 * Returns the sort instance to be used for query creation. Will use a {@link Sort} parameter if available or the
-	 * {@link Sort} contained in a {@link Pageable} if available. Returns {@code null} if no {@link Sort} can be found.
-	 *
+	 * Returns the sort instance to be used for query creation. Will use a {@link Sort}
+	 * parameter if available or the {@link Sort} contained in a {@link Pageable} if
+	 * available. Returns {@code null} if no {@link Sort} can be found.
 	 * @return
 	 */
 	Sort getSort();
 
 	/**
-	 * Returns the dynamic projection type to be used when executing the query or {@literal null} if none is defined.
-	 *
+	 * Returns the dynamic projection type to be used when executing the query or
+	 * {@literal null} if none is defined.
 	 * @return
 	 * @since 1.12
 	 * @deprecated use {@link #findDynamicProjection()} instead.
@@ -56,8 +57,8 @@ public interface ParameterAccessor extends Iterable<Object> {
 	Optional<Class<?>> getDynamicProjection();
 
 	/**
-	 * Returns the dynamic projection type to be used when executing the query or {@literal null} if none is defined.
-	 *
+	 * Returns the dynamic projection type to be used when executing the query or
+	 * {@literal null} if none is defined.
 	 * @return
 	 * @since 2.2
 	 */
@@ -65,10 +66,10 @@ public interface ParameterAccessor extends Iterable<Object> {
 	Class<?> findDynamicProjection();
 
 	/**
-	 * Returns the bindable value with the given index. Bindable means, that {@link Pageable} and {@link Sort} values are
-	 * skipped without noticed in the index. For a method signature taking {@link String}, {@link Pageable} ,
-	 * {@link String}, {@code #getBindableParameter(1)} would return the second {@link String} value.
-	 *
+	 * Returns the bindable value with the given index. Bindable means, that
+	 * {@link Pageable} and {@link Sort} values are skipped without noticed in the index.
+	 * For a method signature taking {@link String}, {@link Pageable} , {@link String},
+	 * {@code #getBindableParameter(1)} would return the second {@link String} value.
 	 * @param index
 	 * @return
 	 */
@@ -76,16 +77,16 @@ public interface ParameterAccessor extends Iterable<Object> {
 
 	/**
 	 * Returns whether one of the bindable parameter values is {@literal null}.
-	 *
 	 * @return
 	 */
 	boolean hasBindableNullValue();
 
 	/**
-	 * Returns an iterator over all <em>bindable</em> parameters. This means parameters implementing {@link Pageable} or
-	 * {@link Sort} will not be included in this {@link Iterator}.
-	 *
+	 * Returns an iterator over all <em>bindable</em> parameters. This means parameters
+	 * implementing {@link Pageable} or {@link Sort} will not be included in this
+	 * {@link Iterator}.
 	 * @return
 	 */
 	Iterator<Object> iterator();
+
 }

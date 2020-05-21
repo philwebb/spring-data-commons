@@ -155,6 +155,7 @@ public class SimpleTypeHolderUnitTests {
 	enum SimpleEnum {
 
 		FOO;
+
 	}
 
 	enum ComplexEnum {
@@ -167,6 +168,7 @@ public class SimpleTypeHolderUnitTests {
 		};
 
 		abstract boolean method();
+
 	}
 
 	static class Person {
@@ -177,7 +179,12 @@ public class SimpleTypeHolderUnitTests {
 
 	}
 
-	interface SomeInterface {}
+	interface SomeInterface {
 
-	enum InterfacedEnum implements SomeInterface {}
+	}
+
+	enum InterfacedEnum implements SomeInterface {
+
+	}
+
 }

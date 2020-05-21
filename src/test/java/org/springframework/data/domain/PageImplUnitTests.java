@@ -135,12 +135,14 @@ class PageImplUnitTests {
 
 	@Test // DATACMNS-713
 	void adaptsTotalForLastPageOnIntermediateDeletion() {
-		assertThat(new PageImpl<>(Arrays.asList("foo", "bar"), PageRequest.of(0, 5), 3).getTotalElements()).isEqualTo(2L);
+		assertThat(new PageImpl<>(Arrays.asList("foo", "bar"), PageRequest.of(0, 5), 3).getTotalElements())
+				.isEqualTo(2L);
 	}
 
 	@Test // DATACMNS-713
 	void adaptsTotalForLastPageOnIntermediateInsertion() {
-		assertThat(new PageImpl<>(Arrays.asList("foo", "bar"), PageRequest.of(0, 5), 1).getTotalElements()).isEqualTo(2L);
+		assertThat(new PageImpl<>(Arrays.asList("foo", "bar"), PageRequest.of(0, 5), 1).getTotalElements())
+				.isEqualTo(2L);
 	}
 
 	@Test // DATACMNS-713
@@ -158,7 +160,7 @@ class PageImplUnitTests {
 	@Test // DATACMNS-713
 	void doesNotAdapttotalIfPageIsEmpty() {
 
-		assertThat(new PageImpl<>(Collections.<String> emptyList(), PageRequest.of(1, 10), 0).getTotalElements())
+		assertThat(new PageImpl<>(Collections.<String>emptyList(), PageRequest.of(1, 10), 0).getTotalElements())
 				.isEqualTo(0L);
 	}
 
@@ -185,4 +187,5 @@ class PageImplUnitTests {
 		assertThat(page.hasPrevious()).isFalse();
 		assertThat(page.hasNext()).isFalse();
 	}
+
 }

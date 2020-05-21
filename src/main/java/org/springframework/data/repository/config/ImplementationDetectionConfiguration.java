@@ -25,7 +25,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Expresses configuration to be used to detect implementation classes for repositories and repository fragments.
+ * Expresses configuration to be used to detect implementation classes for repositories
+ * and repository fragments.
  *
  * @author Oliver Gierke
  * @since 2.1
@@ -34,35 +35,31 @@ public interface ImplementationDetectionConfiguration {
 
 	/**
 	 * Returns the postfix to be used to calculate the implementation type's name.
-	 * 
 	 * @return must not be {@literal null}.
 	 */
 	String getImplementationPostfix();
 
 	/**
 	 * Return the base packages to be scanned for implementation types.
-	 * 
 	 * @return must not be {@literal null}.
 	 */
 	Streamable<String> getBasePackages();
 
 	/**
 	 * Returns the exclude filters to be used for the implementation class scanning.
-	 * 
 	 * @return must not be {@literal null}.
 	 */
 	Streamable<TypeFilter> getExcludeFilters();
 
 	/**
-	 * Returns the {@link MetadataReaderFactory} to be used for implementation class scanning.
-	 * 
+	 * Returns the {@link MetadataReaderFactory} to be used for implementation class
+	 * scanning.
 	 * @return must not be {@literal null}.
 	 */
 	MetadataReaderFactory getMetadataReaderFactory();
 
 	/**
 	 * Generate the bean name for the given {@link BeanDefinition}.
-	 * 
 	 * @param definition must not be {@literal null}.
 	 * @return
 	 */
@@ -80,8 +77,8 @@ public interface ImplementationDetectionConfiguration {
 	}
 
 	/**
-	 * Returns the final lookup configuration for the given fully-qualified fragment interface name.
-	 * 
+	 * Returns the final lookup configuration for the given fully-qualified fragment
+	 * interface name.
 	 * @param fragmentInterfaceName must not be {@literal null} or empty.
 	 * @return
 	 */
@@ -93,8 +90,8 @@ public interface ImplementationDetectionConfiguration {
 	}
 
 	/**
-	 * Returns the final lookup configuration for the given {@link RepositoryConfiguration}.
-	 * 
+	 * Returns the final lookup configuration for the given
+	 * {@link RepositoryConfiguration}.
 	 * @param config must not be {@literal null}.
 	 * @return
 	 */
@@ -109,4 +106,5 @@ public interface ImplementationDetectionConfiguration {
 			}
 		};
 	}
+
 }

@@ -42,7 +42,7 @@ public class AnnotationDetectionFieldCallbackUnitTests {
 		ReflectionUtils.doWithFields(Sample.class, callback);
 
 		assertThat(callback.getType()).isEqualTo(String.class);
-		assertThat(callback.<Object> getValue(new Sample("foo"))).isEqualTo("foo");
+		assertThat(callback.<Object>getValue(new Sample("foo"))).isEqualTo("foo");
 	}
 
 	@Test // DATACMNS-616
@@ -52,13 +52,19 @@ public class AnnotationDetectionFieldCallbackUnitTests {
 		ReflectionUtils.doWithFields(Empty.class, callback);
 
 		assertThat(callback.getType()).isNull();
-		assertThat(callback.<Object> getValue(new Empty())).isNull();
+		assertThat(callback.<Object>getValue(new Empty())).isNull();
 	}
 
 	@Value
 	static class Sample {
-		@Autowired String value;
+
+		@Autowired
+		String value;
+
 	}
 
-	static class Empty {}
+	static class Empty {
+
+	}
+
 }

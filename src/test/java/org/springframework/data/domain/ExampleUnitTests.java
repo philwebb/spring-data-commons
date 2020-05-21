@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 class ExampleUnitTests {
 
 	Person person;
+
 	Example<Person> example;
 
 	@BeforeEach
@@ -68,6 +69,9 @@ class ExampleUnitTests {
 	}
 
 	static class Person {
+
 		String firstname;
+
 	}
+
 }

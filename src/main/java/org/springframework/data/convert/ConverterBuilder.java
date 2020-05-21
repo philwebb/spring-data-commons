@@ -24,9 +24,10 @@ import org.springframework.core.convert.converter.GenericConverter.ConvertiblePa
 import org.springframework.util.Assert;
 
 /**
- * API to easily set up {@link GenericConverter} instances using Java 8 lambdas, mostly in bidirectional fashion for
- * easy registration as custom type converters of the Spring Data mapping subsystem. The registration starts either with
- * the definition of a reading or writing converter that can then be completed.
+ * API to easily set up {@link GenericConverter} instances using Java 8 lambdas, mostly in
+ * bidirectional fashion for easy registration as custom type converters of the Spring
+ * Data mapping subsystem. The registration starts either with the definition of a reading
+ * or writing converter that can then be completed.
  *
  * @author Oliver Gierke
  * @since 2.0
@@ -36,9 +37,8 @@ import org.springframework.util.Assert;
 public interface ConverterBuilder {
 
 	/**
-	 * Creates a new {@link ReadingConverterBuilder} to produce a converter to read values of the given source (the store
-	 * type) into the given target (the domain type).
-	 *
+	 * Creates a new {@link ReadingConverterBuilder} to produce a converter to read values
+	 * of the given source (the store type) into the given target (the domain type).
 	 * @param source must not be {@literal null}.
 	 * @param target must not be {@literal null}.
 	 * @param function must not be {@literal null}.
@@ -51,13 +51,14 @@ public interface ConverterBuilder {
 		Assert.notNull(target, "Target type must not be null!");
 		Assert.notNull(function, "Conversion function must not be null!");
 
-		return new DefaultConverterBuilder<>(new ConvertiblePair(source, target), Optional.empty(), Optional.of(function));
+		return new DefaultConverterBuilder<>(new ConvertiblePair(source, target), Optional.empty(),
+				Optional.of(function));
 	}
 
 	/**
-	 * Creates a new {@link WritingConverterBuilder} to produce a converter to write values of the given source (the
-	 * domain type) into the given target (the store type).
-	 *
+	 * Creates a new {@link WritingConverterBuilder} to produce a converter to write
+	 * values of the given source (the domain type) into the given target (the store
+	 * type).
 	 * @param source must not be {@literal null}.
 	 * @param target must not be {@literal null}.
 	 * @param function must not be {@literal null}.
@@ -70,12 +71,13 @@ public interface ConverterBuilder {
 		Assert.notNull(target, "Target type must not be null!");
 		Assert.notNull(function, "Conversion function must not be null!");
 
-		return new DefaultConverterBuilder<>(new ConvertiblePair(target, source), Optional.of(function), Optional.empty());
+		return new DefaultConverterBuilder<>(new ConvertiblePair(target, source), Optional.of(function),
+				Optional.empty());
 	}
 
 	/**
-	 * Returns all {@link GenericConverter} instances to be registered for the current {@link ConverterBuilder}.
-	 *
+	 * Returns all {@link GenericConverter} instances to be registered for the current
+	 * {@link ConverterBuilder}.
 	 * @return
 	 */
 	Set<GenericConverter> getConverters();
@@ -90,10 +92,10 @@ public interface ConverterBuilder {
 
 		/**
 		 * Returns the writing converter already created.
-		 *
 		 * @return
 		 */
 		GenericConverter getWritingConverter();
+
 	}
 
 	/**
@@ -106,14 +108,15 @@ public interface ConverterBuilder {
 
 		/**
 		 * Returns the reading converter already created.
-		 *
 		 * @return
 		 */
 		GenericConverter getReadingConverter();
+
 	}
 
 	/**
-	 * Interface to represent an intermediate setup step of {@link ConverterAware} defining a reading converter first.
+	 * Interface to represent an intermediate setup step of {@link ConverterAware}
+	 * defining a reading converter first.
 	 *
 	 * @author Oliver Gierke
 	 * @since 2.0
@@ -121,16 +124,18 @@ public interface ConverterBuilder {
 	interface ReadingConverterBuilder<T, S> extends ConverterBuilder, ReadingConverterAware {
 
 		/**
-		 * Creates a new {@link ConverterAware} by registering the given {@link Function} to add a write converter.
-		 *
+		 * Creates a new {@link ConverterAware} by registering the given {@link Function}
+		 * to add a write converter.
 		 * @param function must not be {@literal null}.
 		 * @return
 		 */
 		ConverterAware andWriting(Function<? super S, ? extends T> function);
+
 	}
 
 	/**
-	 * Interface to represent an intermediate setup step of {@link ConverterAware} defining a writing converter first.
+	 * Interface to represent an intermediate setup step of {@link ConverterAware}
+	 * defining a writing converter first.
 	 *
 	 * @author Oliver Gierke
 	 * @since 2.0
@@ -138,12 +143,13 @@ public interface ConverterBuilder {
 	interface WritingConverterBuilder<S, T> extends ConverterBuilder, WritingConverterAware {
 
 		/**
-		 * Creates a new {@link ConverterAware} by registering the given {@link Function} to add a write converter.
-		 *
+		 * Creates a new {@link ConverterAware} by registering the given {@link Function}
+		 * to add a write converter.
 		 * @param function must not be {@literal null}.
 		 * @return
 		 */
 		ConverterAware andReading(Function<? super T, ? extends S> function);
+
 	}
 
 	/**
@@ -152,5 +158,8 @@ public interface ConverterBuilder {
 	 * @author Oliver Gierke
 	 * @since 2.0
 	 */
-	interface ConverterAware extends ConverterBuilder, ReadingConverterAware, WritingConverterAware {}
+	interface ConverterAware extends ConverterBuilder, ReadingConverterAware, WritingConverterAware {
+
+	}
+
 }

@@ -28,8 +28,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * A {@link RevisionMetadata} implementation that inspects the given object for fields with the configured annotations
- * and returns the field's values on calls to {@link #getRevisionDate()}, {@link #getRevisionInstant()} and
+ * A {@link RevisionMetadata} implementation that inspects the given object for fields
+ * with the configured annotations and returns the field's values on calls to
+ * {@link #getRevisionDate()}, {@link #getRevisionInstant()} and
  * {@link #getRevisionNumber()}.
  *
  * @author Oliver Gierke
@@ -38,15 +39,18 @@ import org.springframework.util.ReflectionUtils;
 public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implements RevisionMetadata<N> {
 
 	private final Object entity;
+
 	private final Lazy<Optional<N>> revisionNumber;
+
 	private final Lazy<Optional<Object>> revisionDate;
+
 	private final RevisionType revisionType;
 
 	/**
-	 * Creates a new {@link AnnotationRevisionMetadata} inspecting the given entity for the given annotations. If no
-	 * annotations will be provided these values will not be looked up from the entity and return {@literal null}. The
-	 * revisionType will be set to {@literal unknown}
-	 *
+	 * Creates a new {@link AnnotationRevisionMetadata} inspecting the given entity for
+	 * the given annotations. If no annotations will be provided these values will not be
+	 * looked up from the entity and return {@literal null}. The revisionType will be set
+	 * to {@literal unknown}
 	 * @param entity must not be {@literal null}.
 	 * @param revisionNumberAnnotation must not be {@literal null}.
 	 * @param revisionTimeStampAnnotation must not be {@literal null}.
@@ -58,9 +62,9 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 	}
 
 	/**
-	 * Creates a new {@link AnnotationRevisionMetadata} inspecting the given entity for the given annotations. If no
-	 * annotations will be provided these values will not be looked up from the entity and return {@literal null}.
-	 *
+	 * Creates a new {@link AnnotationRevisionMetadata} inspecting the given entity for
+	 * the given annotations. If no annotations will be provided these values will not be
+	 * looked up from the entity and return {@literal null}.
 	 * @param entity must not be {@literal null}.
 	 * @param revisionNumberAnnotation must not be {@literal null}.
 	 * @param revisionTimeStampAnnotation must not be {@literal null}.
@@ -80,15 +84,19 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 		this.revisionDate = detectAnnotation(entity, revisionTimeStampAnnotation);
 		this.revisionType = revisionType;
 	}
+
 	public Optional<N> getRevisionNumber() {
 		return this.revisionNumber.get();
 	}
+
 	public Optional<Instant> getRevisionInstant() {
 		return this.revisionDate.get().map(AnnotationRevisionMetadata::convertToInstant);
 	}
+
 	public RevisionType getRevisionType() {
 		return this.revisionType;
 	}
+
 	@SuppressWarnings("unchecked")
 	public <T> T getDelegate() {
 		return (T) this.entity;
@@ -124,4 +132,5 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 
 		throw new IllegalArgumentException(String.format("Can't convert %s to Instant!", timestamp));
 	}
+
 }

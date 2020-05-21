@@ -58,22 +58,26 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 	@Test // DATACMNS-351
 	void fallbackToGivenDefaultSort() {
 
-		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod", String.class);
+		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod",
+				String.class);
 		SortHandlerMethodArgumentResolver resolver = new SortHandlerMethodArgumentResolver();
 		Sort fallbackSort = Sort.by(Direction.ASC, "ID");
 		resolver.setFallbackSort(fallbackSort);
 
-		Sort sort = resolver.resolveArgument(parameter, null, new ServletWebRequest(new MockHttpServletRequest()), null);
+		Sort sort = resolver.resolveArgument(parameter, null, new ServletWebRequest(new MockHttpServletRequest()),
+				null);
 		assertThat(sort).isEqualTo(fallbackSort);
 	}
 
 	@Test // DATACMNS-351
 	void fallbackToDefaultDefaultSort() {
 
-		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod", String.class);
+		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod",
+				String.class);
 		SortHandlerMethodArgumentResolver resolver = new SortHandlerMethodArgumentResolver();
 
-		Sort sort = resolver.resolveArgument(parameter, null, new ServletWebRequest(new MockHttpServletRequest()), null);
+		Sort sort = resolver.resolveArgument(parameter, null, new ServletWebRequest(new MockHttpServletRequest()),
+				null);
 		assertThat(sort.isSorted()).isFalse();
 	}
 
@@ -184,8 +188,8 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("sort", "property1,property2,DESC,IgnoreCase");
 
-		assertThat(resolveSort(request, PARAMETER))
-				.isEqualTo(Sort.by(new Order(DESC, "property1").ignoreCase(), new Order(DESC, "property2").ignoreCase()));
+		assertThat(resolveSort(request, PARAMETER)).isEqualTo(
+				Sort.by(new Order(DESC, "property1").ignoreCase(), new Order(DESC, "property2").ignoreCase()));
 	}
 
 	@Test // DATACMNS-658
@@ -204,8 +208,8 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("sort", "");
 
-		assertThat(resolveSort(request, getParameterOfMethod("simpleDefaultWithDirectionCaseInsensitive")))
-				.isEqualTo(Sort.by(new Order(DESC, "firstname").ignoreCase(), new Order(DESC, "lastname").ignoreCase()));
+		assertThat(resolveSort(request, getParameterOfMethod("simpleDefaultWithDirectionCaseInsensitive"))).isEqualTo(
+				Sort.by(new Order(DESC, "firstname").ignoreCase(), new Order(DESC, "lastname").ignoreCase()));
 	}
 
 	@Test // DATACMNS-379
@@ -223,7 +227,8 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("sort", "");
 
-		assertThat(resolveSort(request, getParameterOfMethod("simpleDefault"))).isEqualTo(Sort.by("firstname", "lastname"));
+		assertThat(resolveSort(request, getParameterOfMethod("simpleDefault")))
+				.isEqualTo(Sort.by("firstname", "lastname"));
 		assertThat(resolveSort(request, getParameterOfMethod("containeredDefault"))).isEqualTo(Sort.by("foo", "bar"));
 	}
 
@@ -254,7 +259,8 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 
 		try {
 			assertThat(resolver.resolveArgument(parameter, null, request, null)).isEqualTo(sort);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -300,11 +306,13 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 		void simpleDefaultWithDirection(
 				@SortDefault(sort = { "firstname", "lastname" }, direction = Direction.DESC) Sort sort);
 
-		void simpleDefaultWithDirectionCaseInsensitive(
-				@SortDefault(sort = { "firstname", "lastname" }, direction = Direction.DESC, caseSensitive = false) Sort sort);
+		void simpleDefaultWithDirectionCaseInsensitive(@SortDefault(sort = { "firstname", "lastname" },
+				direction = Direction.DESC, caseSensitive = false) Sort sort);
 
 		void containeredDefault(@SortDefaults(@SortDefault({ "foo", "bar" })) Sort sort);
 
 		void invalid(@SortDefaults(@SortDefault({ "foo", "bar" })) @SortDefault({ "bar", "foo" }) Sort sort);
+
 	}
+
 }

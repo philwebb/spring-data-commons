@@ -24,8 +24,8 @@ import org.springframework.core.Ordered;
 import org.springframework.data.repository.Repository;
 
 /**
- * {@link ApplicationListener} to trigger the initialization of Spring Data repositories right before the application
- * context is started.
+ * {@link ApplicationListener} to trigger the initialization of Spring Data repositories
+ * right before the application context is started.
  *
  * @author Oliver Gierke
  * @since 2.1
@@ -33,11 +33,13 @@ import org.springframework.data.repository.Repository;
 class DeferredRepositoryInitializationListener implements ApplicationListener<ContextRefreshedEvent>, Ordered {
 
 	private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(DeferredRepositoryInitializationListener.class);
+
 	private final ListableBeanFactory beanFactory;
 
 	DeferredRepositoryInitializationListener(ListableBeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
+
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 
@@ -47,8 +49,10 @@ class DeferredRepositoryInitializationListener implements ApplicationListener<Co
 
 		LOG.info("Spring Data repositories initialized!");
 	}
+
 	@Override
 	public int getOrder() {
 		return Ordered.HIGHEST_PRECEDENCE;
 	}
+
 }

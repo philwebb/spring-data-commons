@@ -62,8 +62,8 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 	}
 
 	/**
-	 * Returns an {@link AuditableBeanWrapper} if the given object is capable of being equipped with auditing information.
-	 *
+	 * Returns an {@link AuditableBeanWrapper} if the given object is capable of being
+	 * equipped with auditing information.
 	 * @param source the auditing candidate.
 	 * @return
 	 */
@@ -76,7 +76,8 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		return Optional.of(source).map(it -> {
 
 			if (it instanceof Auditable) {
-				return (AuditableBeanWrapper<T>) new AuditableInterfaceBeanWrapper(this.conversionService, (Auditable<Object, ?, TemporalAccessor>) it);
+				return (AuditableBeanWrapper<T>) new AuditableInterfaceBeanWrapper(this.conversionService,
+						(Auditable<Object, ?, TemporalAccessor>) it);
 			}
 
 			AnnotationAuditingMetadata metadata = AnnotationAuditingMetadata.getMetadata(it.getClass());
@@ -98,30 +99,36 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 			extends DateConvertingAuditableBeanWrapper<Auditable<Object, ?, TemporalAccessor>> {
 
 		private final Auditable<Object, ?, TemporalAccessor> auditable;
+
 		private final Class<? extends TemporalAccessor> type;
 
 		@SuppressWarnings("unchecked")
-		public AuditableInterfaceBeanWrapper(ConversionService conversionService, Auditable<Object, ?, TemporalAccessor> auditable) {
+		public AuditableInterfaceBeanWrapper(ConversionService conversionService,
+				Auditable<Object, ?, TemporalAccessor> auditable) {
 
 			super(conversionService);
 
 			this.auditable = auditable;
-			this.type = (Class<? extends TemporalAccessor>) ResolvableType.forClass(Auditable.class, auditable.getClass())
-					.getGeneric(2).resolve(TemporalAccessor.class);
+			this.type = (Class<? extends TemporalAccessor>) ResolvableType
+					.forClass(Auditable.class, auditable.getClass()).getGeneric(2).resolve(TemporalAccessor.class);
 		}
+
 		@Override
 		public Object setCreatedBy(Object value) {
 
 			this.auditable.setCreatedBy(value);
 			return value;
 		}
+
 		@Override
 		public TemporalAccessor setCreatedDate(TemporalAccessor value) {
 
-			this.auditable.setCreatedDate(getAsTemporalAccessor(Optional.of(value), this.type).orElseThrow(IllegalStateException::new));
+			this.auditable.setCreatedDate(
+					getAsTemporalAccessor(Optional.of(value), this.type).orElseThrow(IllegalStateException::new));
 
 			return value;
 		}
+
 		@Override
 		public Object setLastModifiedBy(Object value) {
 
@@ -129,27 +136,32 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 			return value;
 		}
+
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
 			return getAsTemporalAccessor(this.auditable.getLastModifiedDate(), TemporalAccessor.class);
 		}
+
 		@Override
 		public TemporalAccessor setLastModifiedDate(TemporalAccessor value) {
 
-			this.auditable
-					.setLastModifiedDate(getAsTemporalAccessor(Optional.of(value), this.type).orElseThrow(IllegalStateException::new));
+			this.auditable.setLastModifiedDate(
+					getAsTemporalAccessor(Optional.of(value), this.type).orElseThrow(IllegalStateException::new));
 
 			return value;
 		}
+
 		@Override
 		public Auditable<Object, ?, TemporalAccessor> getBean() {
 			return this.auditable;
 		}
+
 	}
 
 	/**
-	 * Base class for {@link AuditableBeanWrapper} implementations that might need to convert {@link TemporalAccessor} values into
-	 * compatible types when setting date/time information.
+	 * Base class for {@link AuditableBeanWrapper} implementations that might need to
+	 * convert {@link TemporalAccessor} values into compatible types when setting
+	 * date/time information.
 	 *
 	 * @author Oliver Gierke
 	 * @since 1.8
@@ -164,7 +176,6 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 		/**
 		 * Returns the {@link TemporalAccessor} in a type, compatible to the given field.
-		 *
 		 * @param value can be {@literal null}.
 		 * @param targetType must not be {@literal null}.
 		 * @param source must not be {@literal null}.
@@ -185,8 +196,8 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 				if (!this.conversionService.canConvert(value.getClass(), Date.class)) {
 					throw new IllegalArgumentException(
-							String.format("Cannot convert date type for member %s! From %s to java.util.Date to %s.", source,
-									value.getClass(), targetType));
+							String.format("Cannot convert date type for member %s! From %s to java.util.Date to %s.",
+									source, value.getClass(), targetType));
 				}
 
 				Date date = this.conversionService.convert(value, Date.class);
@@ -198,7 +209,6 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 		/**
 		 * Returns the given object as {@link TemporalAccessor}.
-		 *
 		 * @param source can be {@literal null}.
 		 * @param target must not be {@literal null}.
 		 * @return
@@ -217,11 +227,13 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 						.filter(type -> target.isAssignableFrom(type))//
 						.filter(type -> this.conversionService.canConvert(it.getClass(), type))//
 						.findFirst() //
-						.orElseThrow(() -> rejectUnsupportedType(source.map(Object.class::cast).orElseGet(() -> source)));
+						.orElseThrow(
+								() -> rejectUnsupportedType(source.map(Object.class::cast).orElseGet(() -> source)));
 
 				return (S) this.conversionService.convert(it, typeToConvertTo);
 			});
 		}
+
 	}
 
 	private static IllegalArgumentException rejectUnsupportedType(Object source) {
@@ -230,18 +242,20 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 	}
 
 	/**
-	 * An {@link AuditableBeanWrapper} implementation that sets values on the target object using reflection.
+	 * An {@link AuditableBeanWrapper} implementation that sets values on the target
+	 * object using reflection.
 	 *
 	 * @author Oliver Gierke
 	 */
 	static class ReflectionAuditingBeanWrapper<T> extends DateConvertingAuditableBeanWrapper<T> {
 
 		private final AnnotationAuditingMetadata metadata;
+
 		private final T target;
 
 		/**
-		 * Creates a new {@link ReflectionAuditingBeanWrapper} to set auditing data on the given target object.
-		 *
+		 * Creates a new {@link ReflectionAuditingBeanWrapper} to set auditing data on the
+		 * given target object.
 		 * @param conversionService conversion service for date value type conversions
 		 * @param target must not be {@literal null}.
 		 */
@@ -253,19 +267,23 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 			this.metadata = AnnotationAuditingMetadata.getMetadata(target.getClass());
 			this.target = target;
 		}
+
 		@Override
 		public Object setCreatedBy(Object value) {
 			return setField(this.metadata.getCreatedByField(), value);
 		}
+
 		@Override
 		public TemporalAccessor setCreatedDate(TemporalAccessor value) {
 
 			return setDateField(this.metadata.getCreatedDateField(), value);
 		}
+
 		@Override
 		public Object setLastModifiedBy(Object value) {
 			return setField(this.metadata.getLastModifiedByField(), value);
 		}
+
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
 
@@ -276,10 +294,12 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 			}), TemporalAccessor.class);
 		}
+
 		@Override
 		public TemporalAccessor setLastModifiedDate(TemporalAccessor value) {
 			return setDateField(this.metadata.getLastModifiedDateField(), value);
 		}
+
 		@Override
 		public T getBean() {
 			return this.target;
@@ -287,7 +307,6 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 		/**
 		 * Sets the given field to the given value if present.
-		 *
 		 * @param field
 		 * @param value
 		 */
@@ -300,15 +319,17 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 		/**
 		 * Sets the given field to the given value if the field is not {@literal null}.
-		 *
 		 * @param field
 		 * @param value
 		 */
 		private TemporalAccessor setDateField(Optional<Field> field, TemporalAccessor value) {
 
-			field.ifPresent(it -> ReflectionUtils.setField(it, this.target, getDateValueToSet(value, it.getType(), it)));
+			field.ifPresent(
+					it -> ReflectionUtils.setField(it, this.target, getDateValueToSet(value, it.getType(), it)));
 
 			return value;
 		}
+
 	}
+
 }

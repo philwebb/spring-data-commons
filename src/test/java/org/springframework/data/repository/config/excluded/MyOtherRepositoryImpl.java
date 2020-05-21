@@ -23,4 +23,5 @@ public class MyOtherRepositoryImpl implements MyOtherRepositoryExtensions {
 	public String getImplementationId() {
 		return getClass().getName();
 	}
+
 }

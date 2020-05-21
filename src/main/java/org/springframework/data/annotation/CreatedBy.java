@@ -22,7 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Declares a field as the one representing the principal that created the entity containing the field.
+ * Declares a field as the one representing the principal that created the entity
+ * containing the field.
  *
  * @author Ranie Jade Ramiso
  * @author Oliver Gierke
@@ -31,4 +32,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
 public @interface CreatedBy {
+
 }

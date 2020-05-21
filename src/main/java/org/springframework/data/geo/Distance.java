@@ -45,8 +45,8 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	private final Metric metric;
 
 	/**
-	 * Creates a new {@link Distance} with a neutral metric. This means the provided value needs to be in normalized form.
-	 *
+	 * Creates a new {@link Distance} with a neutral metric. This means the provided value
+	 * needs to be in normalized form.
 	 * @param value
 	 */
 	public Distance(double value) {
@@ -55,7 +55,6 @@ public final class Distance implements Serializable, Comparable<Distance> {
 
 	/**
 	 * Creates a new {@link Distance} with the given {@link Metric}.
-	 *
 	 * @param value
 	 * @param metric must not be {@literal null}.
 	 */
@@ -69,7 +68,6 @@ public final class Distance implements Serializable, Comparable<Distance> {
 
 	/**
 	 * Creates a {@link Range} between the given {@link Distance}.
-	 *
 	 * @param min can be {@literal null}.
 	 * @param max can be {@literal null}.
 	 * @return will never be {@literal null}.
@@ -79,8 +77,8 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	}
 
 	/**
-	 * Creates a new {@link Range} by creating minimum and maximum {@link Distance} from the given values.
-	 *
+	 * Creates a new {@link Range} by creating minimum and maximum {@link Distance} from
+	 * the given values.
 	 * @param minValue
 	 * @param minMetric can be {@literal null}.
 	 * @param maxValue
@@ -93,7 +91,6 @@ public final class Distance implements Serializable, Comparable<Distance> {
 
 	/**
 	 * Returns the normalized value regarding the underlying {@link Metric}.
-	 *
 	 * @return
 	 */
 	public double getNormalizedValue() {
@@ -102,7 +99,6 @@ public final class Distance implements Serializable, Comparable<Distance> {
 
 	/**
 	 * Returns a {@link String} representation of the unit the distance is in.
-	 *
 	 * @return the unit
 	 * @see Metric#getAbbreviation()
 	 */
@@ -111,9 +107,8 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	}
 
 	/**
-	 * Adds the given distance to the current one. The resulting {@link Distance} will be in the same metric as the
-	 * current one.
-	 *
+	 * Adds the given distance to the current one. The resulting {@link Distance} will be
+	 * in the same metric as the current one.
 	 * @param other must not be {@literal null}.
 	 * @return
 	 */
@@ -127,8 +122,8 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	}
 
 	/**
-	 * Adds the given {@link Distance} to the current one and forces the result to be in a given {@link Metric}.
-	 *
+	 * Adds the given {@link Distance} to the current one and forces the result to be in a
+	 * given {@link Metric}.
 	 * @param other must not be {@literal null}.
 	 * @param metric must not be {@literal null}.
 	 * @return
@@ -145,9 +140,8 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	}
 
 	/**
-	 * Returns a new {@link Distance} in the given {@link Metric}. This means that the returned instance will have the
-	 * same normalized value as the original instance.
-	 *
+	 * Returns a new {@link Distance} in the given {@link Metric}. This means that the
+	 * returned instance will have the same normalized value as the original instance.
 	 * @param metric must not be {@literal null}.
 	 * @return
 	 */
@@ -157,6 +151,7 @@ public final class Distance implements Serializable, Comparable<Distance> {
 
 		return this.metric.equals(metric) ? this : new Distance(getNormalizedValue() * metric.getMultiplier(), metric);
 	}
+
 	@Override
 	public int compareTo(@Nullable Distance that) {
 
@@ -168,6 +163,7 @@ public final class Distance implements Serializable, Comparable<Distance> {
 
 		return difference == 0 ? 0 : difference > 0 ? 1 : -1;
 	}
+
 	@Override
 	public String toString() {
 
@@ -188,6 +184,7 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	public Metric getMetric() {
 		return this.metric;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -206,6 +203,7 @@ public final class Distance implements Serializable, Comparable<Distance> {
 		}
 		return ObjectUtils.nullSafeEquals(this.metric, distance.metric);
 	}
+
 	@Override
 	public int hashCode() {
 		int result;
@@ -215,4 +213,5 @@ public final class Distance implements Serializable, Comparable<Distance> {
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.metric);
 		return result;
 	}
+
 }

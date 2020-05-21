@@ -78,4 +78,5 @@ class SpelQueryContextUnitTests {
 		assertThat(extractor.isQuoted(extractor.getQueryString().indexOf(":__$synthetic$__0"))).isFalse();
 		assertThat(extractor.isQuoted(extractor.getQueryString().indexOf(":__$synthetic$__1"))).isFalse();
 	}
+
 }

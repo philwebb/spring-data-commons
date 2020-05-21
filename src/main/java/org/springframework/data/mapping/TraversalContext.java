@@ -26,11 +26,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * A context object for lookups of values for {@link PersistentPropertyPaths} via a {@link PersistentPropertyAccessor}.
- * It allows to register functions to post-process the objects returned for a particular property, so that the
- * subsequent traversal would rather use the processed object. This is especially helpful if you need to traverse paths
- * that contain {@link Collection}s and {@link Map} that usually need indices and keys to reasonably traverse nested
- * properties.
+ * A context object for lookups of values for {@link PersistentPropertyPaths} via a
+ * {@link PersistentPropertyAccessor}. It allows to register functions to post-process the
+ * objects returned for a particular property, so that the subsequent traversal would
+ * rather use the processed object. This is especially helpful if you need to traverse
+ * paths that contain {@link Collection}s and {@link Map} that usually need indices and
+ * keys to reasonably traverse nested properties.
  *
  * @author Oliver Drotbohm
  * @since 2.2
@@ -41,7 +42,6 @@ public class TraversalContext {
 
 	/**
 	 * Registers a {@link Function} to post-process values for the given property.
-	 *
 	 * @param property must not be {@literal null}.
 	 * @param handler must not be {@literal null}.
 	 * @return
@@ -57,8 +57,8 @@ public class TraversalContext {
 	}
 
 	/**
-	 * Registers a {@link Function} to handle {@link Collection} values for the given property.
-	 *
+	 * Registers a {@link Function} to handle {@link Collection} values for the given
+	 * property.
 	 * @param property must not be {@literal null}.
 	 * @param handler must not be {@literal null}.
 	 * @return
@@ -71,7 +71,6 @@ public class TraversalContext {
 
 	/**
 	 * Registers a {@link Function} to handle {@link List} values for the given property.
-	 *
 	 * @param property must not be {@literal null}.
 	 * @param handler must not be {@literal null}.
 	 * @return
@@ -84,19 +83,18 @@ public class TraversalContext {
 
 	/**
 	 * Registers a {@link Function} to handle {@link Set} values for the given property.
-	 *
 	 * @param property must not be {@literal null}.
 	 * @param handler must not be {@literal null}.
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public TraversalContext registerSetHandler(PersistentProperty<?> property, Function<? super Set<?>, Object> handler) {
+	public TraversalContext registerSetHandler(PersistentProperty<?> property,
+			Function<? super Set<?>, Object> handler) {
 		return registerHandler(property, Set.class, (Function<Object, Object>) handler);
 	}
 
 	/**
 	 * Registers a {@link Function} to handle {@link Map} values for the given property.
-	 *
 	 * @param property must not be {@literal null}.
 	 * @param handler must not be {@literal null}.
 	 * @return
@@ -108,9 +106,8 @@ public class TraversalContext {
 	}
 
 	/**
-	 * Registers the given {@link Function} to post-process values obtained for the given {@link PersistentProperty} for
-	 * the given type.
-	 *
+	 * Registers the given {@link Function} to post-process values obtained for the given
+	 * {@link PersistentProperty} for the given type.
 	 * @param <T> the type of the value to handle.
 	 * @param property must not be {@literal null}.
 	 * @param type must not be {@literal null}.
@@ -120,8 +117,9 @@ public class TraversalContext {
 	public <T> TraversalContext registerHandler(PersistentProperty<?> property, Class<T> type,
 			Function<? super T, Object> handler) {
 
-		Assert.isTrue(type.isAssignableFrom(property.getType()), () -> String
-				.format("Cannot register a property handler for %s on a property of type %s!", type, property.getType()));
+		Assert.isTrue(type.isAssignableFrom(property.getType()),
+				() -> String.format("Cannot register a property handler for %s on a property of type %s!", type,
+						property.getType()));
 
 		Function<Object, T> caster = it -> type.cast(it);
 
@@ -129,8 +127,8 @@ public class TraversalContext {
 	}
 
 	/**
-	 * Post-processes the value obtained for the given {@link PersistentProperty} using the registered handler.
-	 *
+	 * Post-processes the value obtained for the given {@link PersistentProperty} using
+	 * the registered handler.
 	 * @param property must not be {@literal null}.
 	 * @param value can be {@literal null}.
 	 * @return the post-processed value or the value itself if no handlers registered.
@@ -142,4 +140,5 @@ public class TraversalContext {
 
 		return handler == null ? value : handler.apply(value);
 	}
+
 }

@@ -36,7 +36,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class MapAccessingMethodInterceptorUnitTests {
 
-	@Mock MethodInvocation invocation;
+	@Mock
+	MethodInvocation invocation;
 
 	@Test // DATACMNS-630
 	void rejectsNullMap() {
@@ -109,5 +110,7 @@ class MapAccessingMethodInterceptorUnitTests {
 		void setName(String name);
 
 		void someMethod();
+
 	}
+
 }

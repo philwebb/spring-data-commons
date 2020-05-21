@@ -50,8 +50,9 @@ import org.springframework.util.ClassUtils;
  * Conversion support for reactive wrapper types. This class is a reactive extension to
  * {@link QueryExecutionConverters}.
  * <p>
- * This class discovers reactive wrapper availability and their conversion support based on the class path. Reactive
- * wrapper types might be supported/on the class path but conversion may require additional dependencies.
+ * This class discovers reactive wrapper availability and their conversion support based
+ * on the class path. Reactive wrapper types might be supported/on the class path but
+ * conversion may require additional dependencies.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
@@ -62,6 +63,7 @@ import org.springframework.util.ClassUtils;
 public abstract class ReactiveWrapperConverters {
 
 	private static final List<ReactiveTypeWrapper<?>> REACTIVE_WRAPPERS = new ArrayList<>();
+
 	private static final GenericConversionService GENERIC_CONVERSION_SERVICE = new GenericConversionService();
 
 	static {
@@ -90,11 +92,11 @@ public abstract class ReactiveWrapperConverters {
 		registerConvertersIn(GENERIC_CONVERSION_SERVICE);
 	}
 
-	private ReactiveWrapperConverters() {}
+	private ReactiveWrapperConverters() {
+	}
 
 	/**
 	 * Registers converters for wrapper types found on the classpath.
-	 *
 	 * @param conversionService must not be {@literal null}.
 	 */
 	private static ConversionService registerConvertersIn(ConfigurableConversionService conversionService) {
@@ -121,10 +123,10 @@ public abstract class ReactiveWrapperConverters {
 	/**
 	 * Returns whether the given type is supported for wrapper type conversion.
 	 * <p>
-	 * NOTE: A reactive wrapper type might be supported in general by {@link ReactiveWrappers#supports(Class)} but not
-	 * necessarily for conversion using this method.
+	 * NOTE: A reactive wrapper type might be supported in general by
+	 * {@link ReactiveWrappers#supports(Class)} but not necessarily for conversion using
+	 * this method.
 	 * </p>
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return {@literal true} if the {@code type} is a supported reactive wrapper type.
 	 */
@@ -135,7 +137,6 @@ public abstract class ReactiveWrapperConverters {
 
 	/**
 	 * Casts or adopts the given wrapper type to a target wrapper type.
-	 *
 	 * @param reactiveObject the stream, must not be {@literal null}.
 	 * @param targetWrapperType must not be {@literal null}.
 	 * @return
@@ -156,7 +157,6 @@ public abstract class ReactiveWrapperConverters {
 
 	/**
 	 * Maps elements of a reactive element stream to other elements.
-	 *
 	 * @param reactiveObject must not be {@literal null}.
 	 * @param converter must not be {@literal null}.
 	 * @return
@@ -171,12 +171,13 @@ public abstract class ReactiveWrapperConverters {
 				.filter(it -> ClassUtils.isAssignable(it.getWrapperClass(), reactiveObject.getClass()))//
 				.findFirst()//
 				.map(it -> (T) it.map(reactiveObject, converter))//
-				.orElseThrow(() -> new IllegalStateException(String.format("Cannot apply converter to %s", reactiveObject)));
+				.orElseThrow(
+						() -> new IllegalStateException(String.format("Cannot apply converter to %s", reactiveObject)));
 	}
 
 	/**
-	 * Return {@literal true} if objects of {@code sourceType} can be converted to the {@code targetType}.
-	 *
+	 * Return {@literal true} if objects of {@code sourceType} can be converted to the
+	 * {@code targetType}.
 	 * @param sourceType must not be {@literal null}.
 	 * @param targetType must not be {@literal null}.
 	 * @return {@literal true} if a conversion can be performed.
@@ -194,7 +195,8 @@ public abstract class ReactiveWrapperConverters {
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Wrapper descriptor that can apply a {@link Function} to map items inside its stream.
+	 * Wrapper descriptor that can apply a {@link Function} to map items inside its
+	 * stream.
 	 *
 	 * @author Mark Paluch
 	 * @author Christoph Strobl
@@ -208,12 +210,12 @@ public abstract class ReactiveWrapperConverters {
 
 		/**
 		 * Apply a {@link Function} to a reactive type.
-		 *
 		 * @param wrapper the reactive type, must not be {@literal null}.
 		 * @param function the converter, must not be {@literal null}.
 		 * @return the reactive type applying conversion.
 		 */
 		Object map(Object wrapper, Function<Object, Object> function);
+
 	}
 
 	/**
@@ -232,6 +234,7 @@ public abstract class ReactiveWrapperConverters {
 		public Mono<?> map(Object wrapper, Function<Object, Object> function) {
 			return ((Mono<?>) wrapper).map(function::apply);
 		}
+
 	}
 
 	/**
@@ -249,6 +252,7 @@ public abstract class ReactiveWrapperConverters {
 		public Flux<?> map(Object wrapper, Function<Object, Object> function) {
 			return ((Flux<?>) wrapper).map(function::apply);
 		}
+
 	}
 
 	/**
@@ -276,6 +280,7 @@ public abstract class ReactiveWrapperConverters {
 
 			return FluxWrapper.INSTANCE.map(Flux.from((Publisher<?>) wrapper), function);
 		}
+
 	}
 
 	/**
@@ -294,6 +299,7 @@ public abstract class ReactiveWrapperConverters {
 		public Single<?> map(Object wrapper, Function<Object, Object> function) {
 			return ((Single<?>) wrapper).map(function::apply);
 		}
+
 	}
 
 	/**
@@ -312,6 +318,7 @@ public abstract class ReactiveWrapperConverters {
 		public Observable<?> map(Object wrapper, Function<Object, Object> function) {
 			return ((Observable<?>) wrapper).map(function::apply);
 		}
+
 	}
 
 	/**
@@ -330,6 +337,7 @@ public abstract class ReactiveWrapperConverters {
 		public io.reactivex.Single<?> map(Object wrapper, Function<Object, Object> function) {
 			return ((io.reactivex.Single<?>) wrapper).map(function::apply);
 		}
+
 	}
 
 	/**
@@ -348,6 +356,7 @@ public abstract class ReactiveWrapperConverters {
 		public io.reactivex.Maybe<?> map(Object wrapper, Function<Object, Object> function) {
 			return ((io.reactivex.Maybe<?>) wrapper).map(function::apply);
 		}
+
 	}
 
 	/**
@@ -366,6 +375,7 @@ public abstract class ReactiveWrapperConverters {
 		public io.reactivex.Observable<?> map(Object wrapper, Function<Object, Object> function) {
 			return ((io.reactivex.Observable<?>) wrapper).map(function::apply);
 		}
+
 	}
 
 	/**
@@ -384,6 +394,7 @@ public abstract class ReactiveWrapperConverters {
 		public io.reactivex.Flowable<?> map(Object wrapper, Function<Object, Object> function) {
 			return ((io.reactivex.Flowable<?>) wrapper).map(function::apply);
 		}
+
 	}
 
 	// -------------------------------------------------------------------------
@@ -405,6 +416,7 @@ public abstract class ReactiveWrapperConverters {
 		public Flux<?> convert(Publisher<?> source) {
 			return Flux.from(source);
 		}
+
 	}
 
 	/**
@@ -422,6 +434,7 @@ public abstract class ReactiveWrapperConverters {
 		public Mono<?> convert(Publisher<?> source) {
 			return Mono.from(source);
 		}
+
 	}
 
 	// -------------------------------------------------------------------------
@@ -443,10 +456,12 @@ public abstract class ReactiveWrapperConverters {
 		public Flow<?> convert(Publisher<?> source) {
 			return ReactiveFlowKt.asFlow(source);
 		}
+
 	}
 
 	/**
-	 * A {@link ConverterFactory} that adapts between reactive types using {@link ReactiveAdapterRegistry}.
+	 * A {@link ConverterFactory} that adapts between reactive types using
+	 * {@link ReactiveAdapterRegistry}.
 	 */
 	private static enum ReactiveAdapterConverterFactory
 			implements ConverterFactory<Object, Object>, ConditionalConverter {
@@ -469,13 +484,15 @@ public abstract class ReactiveWrapperConverters {
 			return source -> {
 
 				Publisher<?> publisher = source instanceof Publisher ? (Publisher<?>) source
-						: RegistryHolder.REACTIVE_ADAPTER_REGISTRY.getAdapter(Publisher.class, source).toPublisher(source);
+						: RegistryHolder.REACTIVE_ADAPTER_REGISTRY.getAdapter(Publisher.class, source)
+								.toPublisher(source);
 
 				ReactiveAdapter adapter = RegistryHolder.REACTIVE_ADAPTER_REGISTRY.getAdapter(targetType);
 
 				return (T) adapter.fromPublisher(publisher);
 			};
 		}
+
 	}
 
 	/**
@@ -492,9 +509,12 @@ public abstract class ReactiveWrapperConverters {
 
 			if (ReactiveWrappers.isAvailable(ReactiveLibrary.PROJECT_REACTOR)) {
 				REACTIVE_ADAPTER_REGISTRY = new ReactiveAdapterRegistry();
-			} else {
+			}
+			else {
 				REACTIVE_ADAPTER_REGISTRY = null;
 			}
 		}
+
 	}
+
 }

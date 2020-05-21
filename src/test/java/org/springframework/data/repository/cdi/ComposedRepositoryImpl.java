@@ -29,4 +29,5 @@ class ComposedRepositoryImpl implements ComposedRepositoryCustom {
 	public int getShadowed() {
 		return 1;
 	}
+
 }

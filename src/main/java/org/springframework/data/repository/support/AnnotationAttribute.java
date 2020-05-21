@@ -33,11 +33,12 @@ import org.springframework.util.Assert;
 class AnnotationAttribute {
 
 	private final Class<? extends Annotation> annotationType;
+
 	private final Optional<String> attributeName;
 
 	/**
-	 * Creates a new {@link AnnotationAttribute} to the {@code value} attribute of the given {@link Annotation} type.
-	 *
+	 * Creates a new {@link AnnotationAttribute} to the {@code value} attribute of the
+	 * given {@link Annotation} type.
 	 * @param annotationType must not be {@literal null}.
 	 */
 	public AnnotationAttribute(Class<? extends Annotation> annotationType) {
@@ -55,7 +56,6 @@ class AnnotationAttribute {
 
 	/**
 	 * Returns the annotation type.
-	 *
 	 * @return the annotationType
 	 */
 	public Class<? extends Annotation> getAnnotationType() {
@@ -63,8 +63,8 @@ class AnnotationAttribute {
 	}
 
 	/**
-	 * Reads the {@link Annotation} attribute's value from the given {@link MethodParameter}.
-	 *
+	 * Reads the {@link Annotation} attribute's value from the given
+	 * {@link MethodParameter}.
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 */
@@ -77,8 +77,8 @@ class AnnotationAttribute {
 	}
 
 	/**
-	 * Reads the {@link Annotation} attribute's value from the given {@link AnnotatedElement}.
-	 *
+	 * Reads the {@link Annotation} attribute's value from the given
+	 * {@link AnnotatedElement}.
 	 * @param annotatedElement must not be {@literal null}.
 	 * @return
 	 */
@@ -92,7 +92,6 @@ class AnnotationAttribute {
 
 	/**
 	 * Returns the {@link Annotation} attribute's value from the given {@link Annotation}.
-	 *
 	 * @param annotation must not be {@literal null}.
 	 * @return
 	 */
@@ -102,4 +101,5 @@ class AnnotationAttribute {
 		return this.attributeName.map(it -> AnnotationUtils.getValue(annotation, it))
 				.orElseGet(() -> AnnotationUtils.getValue(annotation));
 	}
+
 }

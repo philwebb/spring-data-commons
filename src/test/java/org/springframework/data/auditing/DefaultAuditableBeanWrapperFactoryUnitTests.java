@@ -155,8 +155,12 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 
 	public static class LongBasedAuditable {
 
-		@CreatedDate public Long dateCreated;
+		@CreatedDate
+		public Long dateCreated;
 
-		@LastModifiedDate public Long dateModified;
+		@LastModifiedDate
+		public Long dateModified;
+
 	}
+
 }

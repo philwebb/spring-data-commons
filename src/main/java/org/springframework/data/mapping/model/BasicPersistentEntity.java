@@ -63,29 +63,41 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	private static final String TYPE_MISMATCH = "Target bean of type %s is not of type of the persistent entity (%s)!";
 
 	private final @Nullable PreferredConstructor<T, P> constructor;
+
 	private final TypeInformation<T> information;
+
 	private final List<P> properties;
+
 	private final List<P> persistentPropertiesCache;
+
 	private final @Nullable Comparator<P> comparator;
+
 	private final Set<Association<P>> associations;
 
 	private final Map<String, P> propertyCache;
+
 	private final Map<Class<? extends Annotation>, Optional<Annotation>> annotationCache;
+
 	private final MultiValueMap<Class<? extends Annotation>, P> propertyAnnotationCache;
 
 	private @Nullable P idProperty;
+
 	private @Nullable P versionProperty;
+
 	private PersistentPropertyAccessorFactory propertyAccessorFactory;
+
 	private EvaluationContextProvider evaluationContextProvider = EvaluationContextProvider.DEFAULT;
 
 	private final Lazy<Alias> typeAlias;
+
 	private final Lazy<IsNewStrategy> isNewStrategy;
+
 	private final Lazy<Boolean> isImmutable;
+
 	private final Lazy<Boolean> requiresPropertyPopulation;
 
 	/**
 	 * Creates a new {@link BasicPersistentEntity} from the given {@link TypeInformation}.
-	 *
 	 * @param information must not be {@literal null}.
 	 */
 	public BasicPersistentEntity(TypeInformation<T> information) {
@@ -93,10 +105,9 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	}
 
 	/**
-	 * Creates a new {@link BasicPersistentEntity} for the given {@link TypeInformation} and {@link Comparator}. The given
-	 * {@link Comparator} will be used to define the order of the {@link PersistentProperty} instances added to the
-	 * entity.
-	 *
+	 * Creates a new {@link BasicPersistentEntity} for the given {@link TypeInformation}
+	 * and {@link Comparator}. The given {@link Comparator} will be used to define the
+	 * order of the {@link PersistentProperty} instances added to the entity.
 	 * @param information must not be {@literal null}.
 	 * @param comparator can be {@literal null}.
 	 */
@@ -109,7 +120,8 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		this.persistentPropertiesCache = new ArrayList<>();
 		this.comparator = comparator;
 		this.constructor = PreferredConstructorDiscoverer.discover(this);
-		this.associations = comparator == null ? new HashSet<>() : new TreeSet<>(new AssociationComparator<>(comparator));
+		this.associations = comparator == null ? new HashSet<>()
+				: new TreeSet<>(new AssociationComparator<>(comparator));
 
 		this.propertyCache = new HashMap<>(16, 1f);
 		this.annotationCache = new ConcurrentReferenceHashMap<>(16, ReferenceType.WEAK);
@@ -118,43 +130,52 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		this.propertyAccessorFactory = BeanWrapperPropertyAccessorFactory.INSTANCE;
 		this.typeAlias = Lazy.of(() -> getAliasFromAnnotation(getType()));
 		this.isNewStrategy = Lazy.of(() -> Persistable.class.isAssignableFrom(information.getType()) //
-				? PersistableIsNewStrategy.INSTANCE
-				: getFallbackIsNewStrategy());
+				? PersistableIsNewStrategy.INSTANCE : getFallbackIsNewStrategy());
 
 		this.isImmutable = Lazy.of(() -> isAnnotationPresent(Immutable.class));
 		this.requiresPropertyPopulation = Lazy.of(() -> !isImmutable() && this.properties.stream() //
 				.anyMatch(it -> !(isConstructorArgument(it) || it.isTransient())));
 	}
+
 	@Nullable
 	public PreferredConstructor<T, P> getPersistenceConstructor() {
 		return this.constructor;
 	}
+
 	public boolean isConstructorArgument(PersistentProperty<?> property) {
 		return this.constructor != null && this.constructor.isConstructorParameter(property);
 	}
+
 	public boolean isIdProperty(PersistentProperty<?> property) {
 		return this.idProperty != null && this.idProperty.equals(property);
 	}
+
 	public boolean isVersionProperty(PersistentProperty<?> property) {
 		return this.versionProperty != null && this.versionProperty.equals(property);
 	}
+
 	public String getName() {
 		return getType().getName();
 	}
+
 	@Nullable
 	public P getIdProperty() {
 		return this.idProperty;
 	}
+
 	@Nullable
 	public P getVersionProperty() {
 		return this.versionProperty;
 	}
+
 	public boolean hasIdProperty() {
 		return this.idProperty != null;
 	}
+
 	public boolean hasVersionProperty() {
 		return this.versionProperty != null;
 	}
+
 	public void addPersistentProperty(P property) {
 
 		Assert.notNull(property, "Property must not be null!");
@@ -183,26 +204,27 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 			if (versionProperty != null) {
 
-				throw new MappingException(
-						String.format(
-								"Attempt to add version property %s but already have property %s registered "
-										+ "as version. Check your mapping configuration!",
-								property.getField(), versionProperty.getField()));
+				throw new MappingException(String.format(
+						"Attempt to add version property %s but already have property %s registered "
+								+ "as version. Check your mapping configuration!",
+						property.getField(), versionProperty.getField()));
 			}
 
 			this.versionProperty = property;
 		}
 	}
+
 	@Override
 	public void setEvaluationContextProvider(EvaluationContextProvider provider) {
 		this.evaluationContextProvider = provider;
 	}
 
 	/**
-	 * Returns the given property if it is a better candidate for the id property than the current id property.
-	 *
+	 * Returns the given property if it is a better candidate for the id property than the
+	 * current id property.
 	 * @param property the new id property candidate, will never be {@literal null}.
-	 * @return the given id property or {@literal null} if the given property is not an id property.
+	 * @return the given id property or {@literal null} if the given property is not an id
+	 * property.
 	 */
 	@Nullable
 	protected P returnPropertyIfBetterIdPropertyCandidateOrNull(P property) {
@@ -214,23 +236,29 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		P idProperty = this.idProperty;
 
 		if (idProperty != null) {
-			throw new MappingException(String.format("Attempt to add id property %s but already have property %s registered "
-					+ "as id. Check your mapping configuration!", property.getField(), idProperty.getField()));
+			throw new MappingException(
+					String.format(
+							"Attempt to add id property %s but already have property %s registered "
+									+ "as id. Check your mapping configuration!",
+							property.getField(), idProperty.getField()));
 		}
 
 		return property;
 	}
+
 	public void addAssociation(Association<P> association) {
 
 		Assert.notNull(association, "Association must not be null!");
 
 		this.associations.add(association);
 	}
+
 	@Override
 	@Nullable
 	public P getPersistentProperty(String name) {
 		return this.propertyCache.get(name);
 	}
+
 	@Override
 	public Iterable<P> getPersistentProperties(Class<? extends Annotation> annotationType) {
 
@@ -252,15 +280,19 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 				.map(Association::getInverse) //
 				.filter(it -> it.isAnnotationPresent(annotationType)).collect(Collectors.toList());
 	}
+
 	public Class<T> getType() {
 		return this.information.getType();
 	}
+
 	public Alias getTypeAlias() {
 		return this.typeAlias.get();
 	}
+
 	public TypeInformation<T> getTypeInformation() {
 		return this.information;
 	}
+
 	public void doWithProperties(PropertyHandler<P> handler) {
 
 		Assert.notNull(handler, "PropertyHandler must not be null!");
@@ -269,6 +301,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 			handler.doWithPersistentProperty(property);
 		}
 	}
+
 	@Override
 	public void doWithProperties(SimplePropertyHandler handler) {
 
@@ -278,6 +311,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 			handler.doWithPersistentProperty(property);
 		}
 	}
+
 	public void doWithAssociations(AssociationHandler<P> handler) {
 
 		Assert.notNull(handler, "Handler must not be null!");
@@ -286,6 +320,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 			handler.doWithAssociation(association);
 		}
 	}
+
 	public void doWithAssociations(SimpleAssociationHandler handler) {
 
 		Assert.notNull(handler, "Handler must not be null!");
@@ -294,11 +329,13 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 			handler.doWithAssociation(association);
 		}
 	}
+
 	@Nullable
 	@Override
 	public <A extends Annotation> A findAnnotation(Class<A> annotationType) {
 		return doFindAnnotation(annotationType).orElse(null);
 	}
+
 	@Override
 	public <A extends Annotation> boolean isAnnotationPresent(Class<A> annotationType) {
 		return doFindAnnotation(annotationType).isPresent();
@@ -310,6 +347,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType,
 				it -> Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(getType(), it)));
 	}
+
 	public void verify() {
 
 		if (this.comparator != null) {
@@ -317,10 +355,12 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 			this.persistentPropertiesCache.sort(this.comparator);
 		}
 	}
+
 	@Override
 	public void setPersistentPropertyAccessorFactory(PersistentPropertyAccessorFactory factory) {
 		this.propertyAccessorFactory = factory;
 	}
+
 	@Override
 	public <B> PersistentPropertyAccessor<B> getPropertyAccessor(B bean) {
 
@@ -328,10 +368,12 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		return this.propertyAccessorFactory.getPropertyAccessor(this, bean);
 	}
+
 	@Override
 	public <B> PersistentPropertyPathAccessor<B> getPropertyPathAccessor(B bean) {
 		return new SimplePersistentPropertyPathAccessor<>(getPropertyAccessor(bean));
 	}
+
 	@Override
 	public IdentifierAccessor getIdentifierAccessor(Object bean) {
 
@@ -343,6 +385,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		return hasIdProperty() ? new IdPropertyIdentifierAccessor(this, bean) : new AbsentIdentifierAccessor(bean);
 	}
+
 	@Override
 	public boolean isNew(Object bean) {
 
@@ -350,14 +393,17 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		return this.isNewStrategy.get().isNew(bean);
 	}
+
 	@Override
 	public boolean isImmutable() {
 		return this.isImmutable.get();
 	}
+
 	@Override
 	public boolean requiresPropertyPopulation() {
 		return this.requiresPropertyPopulation.get();
 	}
+
 	@Override
 	public Iterator<P> iterator() {
 
@@ -382,10 +428,10 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	}
 
 	/**
-	 * Returns the default {@link IsNewStrategy} to be used. Will be a {@link PersistentEntityIsNewStrategy} by default.
-	 * Note, that this strategy only gets used if the entity doesn't implement {@link Persistable} as this indicates the
+	 * Returns the default {@link IsNewStrategy} to be used. Will be a
+	 * {@link PersistentEntityIsNewStrategy} by default. Note, that this strategy only
+	 * gets used if the entity doesn't implement {@link Persistable} as this indicates the
 	 * user wants to be in control over whether an entity is new or not.
-	 *
 	 * @return
 	 * @since 2.1
 	 */
@@ -394,8 +440,8 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	}
 
 	/**
-	 * Verifies the given bean type to no be {@literal null} and of the type of the current {@link PersistentEntity}.
-	 *
+	 * Verifies the given bean type to no be {@literal null} and of the type of the
+	 * current {@link PersistentEntity}.
 	 * @param bean must not be {@literal null}.
 	 */
 	private void verifyBeanType(Object bean) {
@@ -407,7 +453,6 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 	/**
 	 * Calculates the {@link Alias} to be used for the given type.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -422,8 +467,8 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	}
 
 	/**
-	 * A null-object implementation of {@link IdentifierAccessor} to be able to return an accessor for entities that do
-	 * not have an identifier property.
+	 * A null-object implementation of {@link IdentifierAccessor} to be able to return an
+	 * accessor for entities that do not have an identifier property.
 	 *
 	 * @author Oliver Gierke
 	 */
@@ -432,15 +477,18 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		public AbsentIdentifierAccessor(Object target) {
 			super(target);
 		}
+
 		@Override
 		@Nullable
 		public Object getIdentifier() {
 			return null;
 		}
+
 	}
 
 	/**
-	 * Simple {@link Comparator} adaptor to delegate ordering to the inverse properties of the association.
+	 * Simple {@link Comparator} adaptor to delegate ordering to the inverse properties of
+	 * the association.
 	 *
 	 * @author Oliver Gierke
 	 */
@@ -448,6 +496,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 			implements Comparator<Association<P>>, Serializable {
 
 		private static final long serialVersionUID = 4508054194886854513L;
+
 		private final Comparator<P> delegate;
 
 		AssociationComparator(Comparator<P> delegate) {
@@ -456,6 +505,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
 		public int compare(@Nullable Association<P> left, @Nullable Association<P> right) {
@@ -470,5 +520,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 			return this.delegate.compare(left.getInverse(), right.getInverse());
 		}
+
 	}
+
 }

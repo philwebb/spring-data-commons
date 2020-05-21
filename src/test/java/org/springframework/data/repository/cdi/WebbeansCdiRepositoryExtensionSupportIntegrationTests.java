@@ -27,8 +27,7 @@ import org.junit.jupiter.api.BeforeAll;
  * @author Oliver Gierke
  * @author Mark Paluch
  */
-class WebbeansCdiRepositoryExtensionSupportIntegrationTests
-		extends CdiRepositoryExtensionSupportIntegrationTests {
+class WebbeansCdiRepositoryExtensionSupportIntegrationTests extends CdiRepositoryExtensionSupportIntegrationTests {
 
 	private static SeContainer container;
 
@@ -50,4 +49,5 @@ class WebbeansCdiRepositoryExtensionSupportIntegrationTests
 	static void tearDown() {
 		container.close();
 	}
+
 }

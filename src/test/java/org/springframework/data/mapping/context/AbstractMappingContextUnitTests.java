@@ -67,7 +67,8 @@ class AbstractMappingContextUnitTests {
 	@Test // DATACMNS-92
 	void doesNotAddInvalidEntity() {
 
-		this.context = TypeRejectingMappingContext.rejecting(() -> new MappingException("Not supported!"), Unsupported.class);
+		this.context = TypeRejectingMappingContext.rejecting(() -> new MappingException("Not supported!"),
+				Unsupported.class);
 
 		assertThatExceptionOfType(MappingException.class) //
 				.isThrownBy(() -> this.context.getPersistentEntity(Unsupported.class));
@@ -101,7 +102,8 @@ class AbstractMappingContextUnitTests {
 
 	@Test // DATACMNS-214
 	void rejectsNullValueForGetPersistentEntityOfTypeInformation() {
-		assertThatIllegalArgumentException().isThrownBy(() -> this.context.getPersistentEntity((TypeInformation<?>) null));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> this.context.getPersistentEntity((TypeInformation<?>) null));
 	}
 
 	@Test // DATACMNS-228
@@ -195,7 +197,8 @@ class AbstractMappingContextUnitTests {
 	@Test // DATACMNS-1214
 	void doesNotReturnPersistentEntityForCustomSimpleTypeProperty() {
 
-		PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getRequiredPersistentEntity(Person.class);
+		PersistentEntity<Object, SamplePersistentProperty> entity = this.context
+				.getRequiredPersistentEntity(Person.class);
 		SamplePersistentProperty property = entity.getRequiredPersistentProperty("date");
 
 		assertThat(this.context.getPersistentEntity(property)).isNull();
@@ -210,7 +213,8 @@ class AbstractMappingContextUnitTests {
 		assertThatExceptionOfType(RuntimeException.class) //
 				.isThrownBy(() -> context.getPersistentEntity(Unsupported.class));
 
-		// Second lookup still throws the exception as the temporarily created entity was not cached
+		// Second lookup still throws the exception as the temporarily created entity was
+		// not cached
 
 		assertThatExceptionOfType(RuntimeException.class) //
 				.isThrownBy(() -> context.getPersistentEntity(Unsupported.class));
@@ -233,8 +237,11 @@ class AbstractMappingContextUnitTests {
 	}
 
 	class Person {
+
 		String name;
+
 		LocalDateTime date;
+
 	}
 
 	class Unsupported {
@@ -244,20 +251,29 @@ class AbstractMappingContextUnitTests {
 	class Sample {
 
 		MetaClass metaClass;
+
 		List<Person> persons;
+
 		TreeMap<String, Person> personMap;
+
 	}
 
 	static class Base {
+
 		String foo;
+
 	}
 
 	static class Extension extends Base {
-		@Id String foo;
+
+		@Id
+		String foo;
+
 	}
 
 	/**
-	 * Extension of {@link SampleMappingContext} to reject the creation of certain types with a configurable exception.
+	 * Extension of {@link SampleMappingContext} to reject the creation of certain types
+	 * with a configurable exception.
 	 *
 	 * @author Oliver Drotbohm
 	 */
@@ -267,12 +283,12 @@ class AbstractMappingContextUnitTests {
 	private static class TypeRejectingMappingContext extends SampleMappingContext {
 
 		Supplier<? extends RuntimeException> exception;
+
 		Collection<Class<?>> rejectedTypes;
 
 		/**
-		 * Creates a new {@link TypeRejectingMappingContext} producing the given exceptions if any of the given types is
-		 * encountered.
-		 *
+		 * Creates a new {@link TypeRejectingMappingContext} producing the given
+		 * exceptions if any of the given types is encountered.
 		 * @param <T>
 		 * @param exception must not be {@literal null}.
 		 * @param types must not be {@literal null}.
@@ -282,18 +298,23 @@ class AbstractMappingContextUnitTests {
 				Class<?>... types) {
 			return new TypeRejectingMappingContext(exception, Arrays.asList(types));
 		}
+
 		@Override
 		protected <S> BasicPersistentEntity<Object, SamplePersistentProperty> createPersistentEntity(
 				TypeInformation<S> typeInformation) {
 
-			return new BasicPersistentEntity<Object, SamplePersistentProperty>((TypeInformation<Object>) typeInformation) {
+			return new BasicPersistentEntity<Object, SamplePersistentProperty>(
+					(TypeInformation<Object>) typeInformation) {
 				@Override
 				public void verify() {
-					if (TypeRejectingMappingContext.this.rejectedTypes.stream().anyMatch(it -> it.isAssignableFrom(getType()))) {
+					if (TypeRejectingMappingContext.this.rejectedTypes.stream()
+							.anyMatch(it -> it.isAssignableFrom(getType()))) {
 						throw TypeRejectingMappingContext.this.exception.get();
 					}
 				}
 			};
 		}
+
 	}
+
 }

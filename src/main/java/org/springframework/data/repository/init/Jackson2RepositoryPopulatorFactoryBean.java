@@ -21,7 +21,8 @@ import org.springframework.lang.Nullable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * {@link FactoryBean} to set up a {@link ResourceReaderRepositoryPopulator} with a {@link Jackson2ResourceReader}.
+ * {@link FactoryBean} to set up a {@link ResourceReaderRepositoryPopulator} with a
+ * {@link Jackson2ResourceReader}.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -33,14 +34,15 @@ public class Jackson2RepositoryPopulatorFactoryBean extends AbstractRepositoryPo
 
 	/**
 	 * Configures the {@link ObjectMapper} to be used.
-	 *
 	 * @param mapper can be {@literal null}.
 	 */
 	public void setMapper(@Nullable ObjectMapper mapper) {
 		this.mapper = mapper;
 	}
+
 	@Override
 	protected ResourceReader getResourceReader() {
 		return new Jackson2ResourceReader(this.mapper);
 	}
+
 }

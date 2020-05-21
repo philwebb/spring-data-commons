@@ -25,8 +25,8 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of {@link RepositoryMetadata}. Will inspect generic types of {@link Repository} to find out
- * about domain and id class.
+ * Default implementation of {@link RepositoryMetadata}. Will inspect generic types of
+ * {@link Repository} to find out about domain and id class.
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
@@ -37,11 +37,11 @@ public class DefaultRepositoryMetadata extends AbstractRepositoryMetadata {
 			Repository.class);
 
 	private final Class<?> idType;
+
 	private final Class<?> domainType;
 
 	/**
 	 * Creates a new {@link DefaultRepositoryMetadata} for the given repository interface.
-	 *
 	 * @param repositoryInterface must not be {@literal null}.
 	 */
 	public DefaultRepositoryMetadata(Class<?> repositoryInterface) {
@@ -76,4 +76,5 @@ public class DefaultRepositoryMetadata extends AbstractRepositoryMetadata {
 	public Class<?> getDomainType() {
 		return this.domainType;
 	}
+
 }

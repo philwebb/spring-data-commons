@@ -51,8 +51,8 @@ import org.springframework.util.ObjectUtils;
 interface MethodLookups {
 
 	/**
-	 * Direct method lookup filtering on exact method name, parameter count and parameter types.
-	 *
+	 * Direct method lookup filtering on exact method name, parameter count and parameter
+	 * types.
 	 * @return direct method lookup.
 	 */
 	static MethodLookup direct() {
@@ -65,11 +65,12 @@ interface MethodLookups {
 	}
 
 	/**
-	 * Repository type-aware method lookup composed of {@link #direct()} and {@link RepositoryAwareMethodLookup}.
+	 * Repository type-aware method lookup composed of {@link #direct()} and
+	 * {@link RepositoryAwareMethodLookup}.
 	 * <p/>
-	 * Repository-aware lookups resolve generic types from the repository declaration to verify assignability to Id/domain
-	 * types. This lookup also permits assignable method signatures but prefers {@link #direct()} matches.
-	 *
+	 * Repository-aware lookups resolve generic types from the repository declaration to
+	 * verify assignability to Id/domain types. This lookup also permits assignable method
+	 * signatures but prefers {@link #direct()} matches.
 	 * @param repositoryMetadata must not be {@literal null}.
 	 * @return the composed, repository-aware method lookup.
 	 * @see #direct()
@@ -79,13 +80,14 @@ interface MethodLookups {
 	}
 
 	/**
-	 * Repository type-aware method lookup composed of {@link #direct()} and {@link ReactiveTypeInteropMethodLookup}.
+	 * Repository type-aware method lookup composed of {@link #direct()} and
+	 * {@link ReactiveTypeInteropMethodLookup}.
 	 * <p/>
-	 * This method lookup considers adaptability of reactive types in method signatures. Repository methods accepting a
-	 * reactive type can be possibly called with a different reactive type if the reactive type can be adopted to the
-	 * target type. This lookup also permits assignable method signatures and resolves repository id/entity types but
-	 * prefers {@link #direct()} matches.
-	 *
+	 * This method lookup considers adaptability of reactive types in method signatures.
+	 * Repository methods accepting a reactive type can be possibly called with a
+	 * different reactive type if the reactive type can be adopted to the target type.
+	 * This lookup also permits assignable method signatures and resolves repository
+	 * id/entity types but prefers {@link #direct()} matches.
 	 * @param repositoryMetadata must not be {@literal null}.
 	 * @return the composed, repository-aware method lookup.
 	 * @see #direct()
@@ -96,24 +98,27 @@ interface MethodLookups {
 	}
 
 	/**
-	 * Default {@link MethodLookup} considering repository Id and entity types permitting calls to methods with assignable
-	 * arguments.
+	 * Default {@link MethodLookup} considering repository Id and entity types permitting
+	 * calls to methods with assignable arguments.
 	 *
 	 * @author Mark Paluch
 	 */
 	class RepositoryAwareMethodLookup implements MethodLookup {
 
-		@SuppressWarnings("rawtypes") private static final TypeVariable<Class<Repository>>[] PARAMETERS = Repository.class
-				.getTypeParameters();
+		@SuppressWarnings("rawtypes")
+		private static final TypeVariable<Class<Repository>>[] PARAMETERS = Repository.class.getTypeParameters();
+
 		private static final String DOMAIN_TYPE_NAME = PARAMETERS[0].getName();
+
 		private static final String ID_TYPE_NAME = PARAMETERS[1].getName();
 
 		private final ResolvableType entityType, idType;
+
 		private final Class<?> repositoryInterface;
 
 		/**
-		 * Creates a new {@link RepositoryAwareMethodLookup} for the given {@link RepositoryMetadata}.
-		 *
+		 * Creates a new {@link RepositoryAwareMethodLookup} for the given
+		 * {@link RepositoryMetadata}.
 		 * @param repositoryMetadata must not be {@literal null}.
 		 */
 		public RepositoryAwareMethodLookup(RepositoryMetadata repositoryMetadata) {
@@ -124,23 +129,27 @@ interface MethodLookups {
 			this.idType = ResolvableType.forClass(repositoryMetadata.getIdType());
 			this.repositoryInterface = repositoryMetadata.getRepositoryInterface();
 		}
+
 		@Override
 		public List<MethodPredicate> getLookups() {
 
 			MethodPredicate detailedComparison = (invoked, candidate) -> Optional.of(candidate)
-					.filter(baseClassMethod -> baseClassMethod.getName().equals(invoked.getName()))// Right name
+					.filter(baseClassMethod -> baseClassMethod.getName().equals(invoked.getName()))// Right
+																									// name
 					.filter(baseClassMethod -> baseClassMethod.getParameterCount() == invoked.getParameterCount())
-					.filter(baseClassMethod -> parametersMatch(invoked.getMethod(), baseClassMethod))// All parameters match
+					.filter(baseClassMethod -> parametersMatch(invoked.getMethod(), baseClassMethod))// All
+																										// parameters
+																										// match
 					.isPresent();
 
 			return Collections.singletonList(detailedComparison);
 		}
 
 		/**
-		 * Checks whether the given parameter type matches the generic type of the given parameter. Thus when {@literal PK}
-		 * is declared, the method ensures that given method parameter is the primary key type declared in the given
-		 * repository interface e.g.
-		 *
+		 * Checks whether the given parameter type matches the generic type of the given
+		 * parameter. Thus when {@literal PK} is declared, the method ensures that given
+		 * method parameter is the primary key type declared in the given repository
+		 * interface e.g.
 		 * @param variable must not be {@literal null}.
 		 * @param parameterType must not be {@literal null}.
 		 * @return
@@ -171,9 +180,9 @@ interface MethodLookups {
 		}
 
 		/**
-		 * Checks the given method's parameters to match the ones of the given base class method. Matches generic arguments
-		 * against the ones bound in the given repository interface.
-		 *
+		 * Checks the given method's parameters to match the ones of the given base class
+		 * method. Matches generic arguments against the ones bound in the given
+		 * repository interface.
 		 * @param invokedMethod
 		 * @param candidate
 		 * @return
@@ -193,7 +202,8 @@ interface MethodLookups {
 
 				if (genericType instanceof TypeVariable<?>) {
 
-					if (!matchesGenericType((TypeVariable<?>) genericType, ResolvableType.forMethodParameter(parameter))) {
+					if (!matchesGenericType((TypeVariable<?>) genericType,
+							ResolvableType.forMethodParameter(parameter))) {
 						return false;
 					}
 
@@ -211,11 +221,12 @@ interface MethodLookups {
 
 			return true;
 		}
+
 	}
 
 	/**
-	 * Extension to {@link RepositoryAwareMethodLookup} considering reactive type adoption and entity types permitting
-	 * calls to methods with assignable arguments.
+	 * Extension to {@link RepositoryAwareMethodLookup} considering reactive type adoption
+	 * and entity types permitting calls to methods with assignable arguments.
 	 *
 	 * @author Mark Paluch
 	 */
@@ -228,6 +239,7 @@ interface MethodLookups {
 			super(repositoryMetadata);
 			this.repositoryMetadata = repositoryMetadata;
 		}
+
 		@Override
 		public List<MethodPredicate> getLookups() {
 
@@ -243,16 +255,18 @@ interface MethodLookups {
 				return suppliers.stream().anyMatch(supplier -> supplier.get().isPresent());
 			};
 
-			MethodPredicate detailedComparison = (invokedMethod, candidate) -> getMethodCandidate(invokedMethod, candidate,
-					matchParameterOrComponentType(this.repositoryMetadata.getRepositoryInterface())).isPresent();
+			MethodPredicate detailedComparison = (invokedMethod,
+					candidate) -> getMethodCandidate(invokedMethod, candidate,
+							matchParameterOrComponentType(this.repositoryMetadata.getRepositoryInterface()))
+									.isPresent();
 
 			return Arrays.asList(convertibleComparison, detailedComparison);
 		}
 
 		/**
-		 * {@link Predicate} to check parameter assignability between a parameters in which the declared parameter may be
-		 * wrapped but supports unwrapping. Usually types like {@link Optional} or {@link java.util.stream.Stream}.
-		 *
+		 * {@link Predicate} to check parameter assignability between a parameters in
+		 * which the declared parameter may be wrapped but supports unwrapping. Usually
+		 * types like {@link Optional} or {@link java.util.stream.Stream}.
 		 * @param repositoryInterface
 		 * @return
 		 * @see QueryExecutionConverters
@@ -279,8 +293,8 @@ interface MethodLookups {
 		}
 
 		/**
-		 * Checks whether the type is a wrapper without unwrapping support. Reactive wrappers don't like to be unwrapped.
-		 *
+		 * Checks whether the type is a wrapper without unwrapping support. Reactive
+		 * wrappers don't like to be unwrapped.
 		 * @param parameterType must not be {@literal null}.
 		 * @return
 		 */
@@ -293,8 +307,8 @@ interface MethodLookups {
 		}
 
 		/**
-		 * Returns whether the given {@link Method} uses a reactive wrapper type as parameter.
-		 *
+		 * Returns whether the given {@link Method} uses a reactive wrapper type as
+		 * parameter.
 		 * @param method must not be {@literal null}.
 		 * @return
 		 */
@@ -307,9 +321,8 @@ interface MethodLookups {
 		}
 
 		/**
-		 * Returns a candidate method from the base class for the given one or the method given in the first place if none
-		 * one the base class matches.
-		 *
+		 * Returns a candidate method from the base class for the given one or the method
+		 * given in the first place if none one the base class matches.
 		 * @param method must not be {@literal null}.
 		 * @param baseClass must not be {@literal null}.
 		 * @param predicate must not be {@literal null}.
@@ -325,9 +338,9 @@ interface MethodLookups {
 		}
 
 		/**
-		 * Checks the given method's parameters to match the ones of the given base class method. Matches generic arguments
-		 * against the ones bound in the given repository interface.
-		 *
+		 * Checks the given method's parameters to match the ones of the given base class
+		 * method. Matches generic arguments against the ones bound in the given
+		 * repository interface.
 		 * @param declaredMethod must not be {@literal null}.
 		 * @param baseClassMethod must not be {@literal null}.
 		 * @param predicate must not be {@literal null}.
@@ -339,24 +352,25 @@ interface MethodLookups {
 		}
 
 		/**
-		 * {@link Predicate} to check whether a method parameter is a {@link #isNonUnwrappingWrapper(Class)} and can be
-		 * converted into a different wrapper. Usually {@link rx.Observable} to {@link org.reactivestreams.Publisher}
+		 * {@link Predicate} to check whether a method parameter is a
+		 * {@link #isNonUnwrappingWrapper(Class)} and can be converted into a different
+		 * wrapper. Usually {@link rx.Observable} to {@link org.reactivestreams.Publisher}
 		 * conversion.
-		 *
 		 * @return
 		 */
 		private static Predicate<ParameterOverrideCriteria> wrapperConversionMatch() {
 
 			return (parameterCriteria) -> isNonUnwrappingWrapper(parameterCriteria.getBaseType()) //
 					&& isNonUnwrappingWrapper(parameterCriteria.getDeclaredType()) //
-					&& ReactiveWrapperConverters.canConvert(parameterCriteria.getDeclaredType(), parameterCriteria.getBaseType());
+					&& ReactiveWrapperConverters.canConvert(parameterCriteria.getDeclaredType(),
+							parameterCriteria.getBaseType());
 		}
 
 		/**
-		 * {@link Predicate} to check parameter assignability between a {@link #isNonUnwrappingWrapper(Class)} parameter and
-		 * a declared parameter. Usually {@link reactor.core.publisher.Flux} vs. {@link org.reactivestreams.Publisher}
-		 * conversion.
-		 *
+		 * {@link Predicate} to check parameter assignability between a
+		 * {@link #isNonUnwrappingWrapper(Class)} parameter and a declared parameter.
+		 * Usually {@link reactor.core.publisher.Flux} vs.
+		 * {@link org.reactivestreams.Publisher} conversion.
 		 * @return
 		 */
 		private static Predicate<ParameterOverrideCriteria> assignableWrapperMatch() {
@@ -373,20 +387,23 @@ interface MethodLookups {
 			return invocationMetadata.canInvoke(invokedMethod.getMethod(), baseClassMethod);
 		}
 
-		private static Stream<ParameterOverrideCriteria> methodParameters(Method invokedMethod, Method baseClassMethod) {
+		private static Stream<ParameterOverrideCriteria> methodParameters(Method invokedMethod,
+				Method baseClassMethod) {
 			return IntStream.range(0, baseClassMethod.getParameterCount()) //
 					.mapToObj(index -> ParameterOverrideCriteria.of(new MethodParameter(invokedMethod, index),
 							new MethodParameter(baseClassMethod, index)));
 		}
 
 		/**
-		 * Criterion to represent {@link MethodParameter}s from a base method and its declared (overridden) method. Method
-		 * parameters indexes are correlated so {@link ParameterOverrideCriteria} applies only to methods with same
-		 * parameter count.
+		 * Criterion to represent {@link MethodParameter}s from a base method and its
+		 * declared (overridden) method. Method parameters indexes are correlated so
+		 * {@link ParameterOverrideCriteria} applies only to methods with same parameter
+		 * count.
 		 */
 		static final class ParameterOverrideCriteria {
 
 			private final MethodParameter declared;
+
 			private final MethodParameter base;
 
 			private ParameterOverrideCriteria(MethodParameter declared, MethodParameter base) {
@@ -430,6 +447,7 @@ interface MethodLookups {
 			public MethodParameter getBase() {
 				return this.base;
 			}
+
 			@Override
 			public boolean equals(Object o) {
 
@@ -449,17 +467,22 @@ interface MethodLookups {
 
 				return ObjectUtils.nullSafeEquals(this.base, that.base);
 			}
+
 			@Override
 			public int hashCode() {
 				int result = ObjectUtils.nullSafeHashCode(this.declared);
 				result = 31 * result + ObjectUtils.nullSafeHashCode(this.base);
 				return result;
 			}
+
 			@Override
 			public String toString() {
-				return "MethodLookups.ReactiveTypeInteropMethodLookup.ParameterOverrideCriteria(declared=" + this.getDeclared()
-						+ ", base=" + this.getBase() + ")";
+				return "MethodLookups.ReactiveTypeInteropMethodLookup.ParameterOverrideCriteria(declared="
+						+ this.getDeclared() + ", base=" + this.getBase() + ")";
 			}
+
 		}
+
 	}
+
 }

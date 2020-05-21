@@ -19,8 +19,8 @@ import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.lang.Nullable;
 
 /**
- * Useful base class to implement custom {@link EntityInformation}s and delegate execution of standard methods from
- * {@link EntityInformation} to a special implementation.
+ * Useful base class to implement custom {@link EntityInformation}s and delegate execution
+ * of standard methods from {@link EntityInformation} to a special implementation.
  *
  * @author Oliver Gierke
  */
@@ -31,21 +31,26 @@ public class DelegatingEntityInformation<T, ID> implements EntityInformation<T, 
 	public DelegatingEntityInformation(EntityInformation<T, ID> delegate) {
 		this.delegate = delegate;
 	}
+
 	@Override
 	public Class<T> getJavaType() {
 		return this.delegate.getJavaType();
 	}
+
 	@Override
 	public boolean isNew(T entity) {
 		return this.delegate.isNew(entity);
 	}
+
 	@Nullable
 	@Override
 	public ID getId(T entity) {
 		return this.delegate.getId(entity);
 	}
+
 	@Override
 	public Class<ID> getIdType() {
 		return this.delegate.getIdType();
 	}
+
 }

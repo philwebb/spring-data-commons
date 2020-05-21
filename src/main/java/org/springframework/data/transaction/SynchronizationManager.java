@@ -31,4 +31,5 @@ interface SynchronizationManager {
 	boolean isSynchronizationActive();
 
 	void clearSynchronization();
+
 }

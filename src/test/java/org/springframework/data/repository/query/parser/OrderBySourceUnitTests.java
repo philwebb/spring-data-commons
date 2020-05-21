@@ -36,14 +36,16 @@ class OrderBySourceUnitTests {
 
 	@Test
 	void handlesCamelCasePropertyCorrecty() {
-		assertThat(new OrderBySource("LastnameUsernameDesc").toSort()).isEqualTo(Sort.by("lastnameUsername").descending());
+		assertThat(new OrderBySource("LastnameUsernameDesc").toSort())
+				.isEqualTo(Sort.by("lastnameUsername").descending());
 	}
 
 	@Test
 	void handlesMultipleDirectionsCorrectly() {
 
 		OrderBySource orderBySource = new OrderBySource("LastnameAscUsernameDesc");
-		assertThat(orderBySource.toSort()).isEqualTo(Sort.by("lastname").ascending().and(Sort.by("username").descending()));
+		assertThat(orderBySource.toSort())
+				.isEqualTo(Sort.by("lastname").ascending().and(Sort.by("username").descending()));
 	}
 
 	@Test
@@ -74,11 +76,14 @@ class OrderBySourceUnitTests {
 	private class Foo {
 
 		private Bar bar;
+
 	}
 
 	@SuppressWarnings("unused")
 	private class Bar {
 
 		private String name;
+
 	}
+
 }

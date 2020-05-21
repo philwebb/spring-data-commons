@@ -29,10 +29,11 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of {@link RepositoryInvokerFactory} to inspect the requested repository type and create a
- * matching {@link RepositoryInvoker} that suits the repository best. That means, the more concrete the base interface
- * of the repository is, the more concrete will the actual invoker become - which means it will favor concrete method
- * invocations over reflection ones.
+ * Default implementation of {@link RepositoryInvokerFactory} to inspect the requested
+ * repository type and create a matching {@link RepositoryInvoker} that suits the
+ * repository best. That means, the more concrete the base interface of the repository is,
+ * the more concrete will the actual invoker become - which means it will favor concrete
+ * method invocations over reflection ones.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -41,12 +42,14 @@ import org.springframework.util.Assert;
 public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory {
 
 	private final Repositories repositories;
+
 	private final ConversionService conversionService;
+
 	private final Map<Class<?>, RepositoryInvoker> invokers;
 
 	/**
-	 * Creates a new {@link DefaultRepositoryInvokerFactory} for the given {@link Repositories}.
-	 *
+	 * Creates a new {@link DefaultRepositoryInvokerFactory} for the given
+	 * {@link Repositories}.
 	 * @param repositories must not be {@literal null}.
 	 */
 	public DefaultRepositoryInvokerFactory(Repositories repositories) {
@@ -54,9 +57,8 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 	}
 
 	/**
-	 * Creates a new {@link DefaultRepositoryInvokerFactory} for the given {@link Repositories} and
-	 * {@link ConversionService}.
-	 *
+	 * Creates a new {@link DefaultRepositoryInvokerFactory} for the given
+	 * {@link Repositories} and {@link ConversionService}.
 	 * @param repositories must not be {@literal null}.
 	 * @param conversionService must not be {@literal null}.
 	 */
@@ -69,14 +71,15 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 		this.conversionService = conversionService;
 		this.invokers = new ConcurrentHashMap<>();
 	}
+
 	@Override
 	public RepositoryInvoker getInvokerFor(Class<?> domainType) {
 		return this.invokers.computeIfAbsent(domainType, this::prepareInvokers);
 	}
 
 	/**
-	 * Creates a {@link RepositoryInvoker} for the repository managing the given domain type.
-	 *
+	 * Creates a {@link RepositoryInvoker} for the repository managing the given domain
+	 * type.
 	 * @param domainType
 	 * @return
 	 */
@@ -86,20 +89,24 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 		Optional<Object> repository = this.repositories.getRepositoryFor(domainType);
 
 		return mapIfAllPresent(information, repository, this::createInvoker)//
-				.orElseThrow(
-						() -> new IllegalArgumentException(String.format("No repository found for domain type: %s", domainType)));
+				.orElseThrow(() -> new IllegalArgumentException(
+						String.format("No repository found for domain type: %s", domainType)));
 	}
 
 	@SuppressWarnings("unchecked")
 	protected RepositoryInvoker createInvoker(RepositoryInformation information, Object repository) {
 
 		if (repository instanceof PagingAndSortingRepository) {
-			return new PagingAndSortingRepositoryInvoker((PagingAndSortingRepository<Object, Object>) repository, information,
+			return new PagingAndSortingRepositoryInvoker((PagingAndSortingRepository<Object, Object>) repository,
+					information, this.conversionService);
+		}
+		else if (repository instanceof CrudRepository) {
+			return new CrudRepositoryInvoker((CrudRepository<Object, Object>) repository, information,
 					this.conversionService);
-		} else if (repository instanceof CrudRepository) {
-			return new CrudRepositoryInvoker((CrudRepository<Object, Object>) repository, information, this.conversionService);
-		} else {
+		}
+		else {
 			return new ReflectionRepositoryInvoker(repository, information, this.conversionService);
 		}
 	}
+
 }

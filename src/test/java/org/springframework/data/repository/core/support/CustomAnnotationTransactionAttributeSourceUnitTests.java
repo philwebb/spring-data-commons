@@ -52,6 +52,7 @@ class CustomAnnotationTransactionAttributeSourceUnitTests {
 		void foo();
 
 		void bar(T param);
+
 	}
 
 	/**
@@ -70,6 +71,7 @@ class CustomAnnotationTransactionAttributeSourceUnitTests {
 		public void bar(Object param) {
 
 		}
+
 	}
 
 	/**
@@ -81,5 +83,7 @@ class CustomAnnotationTransactionAttributeSourceUnitTests {
 
 		@Transactional
 		void bar(Object param);
+
 	}
+
 }

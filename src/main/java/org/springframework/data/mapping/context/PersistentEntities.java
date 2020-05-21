@@ -30,7 +30,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Value object to access {@link PersistentEntity} instances managed by {@link MappingContext}s.
+ * Value object to access {@link PersistentEntity} instances managed by
+ * {@link MappingContext}s.
  *
  * @author Oliver Gierke
  * @since 1.8
@@ -41,7 +42,6 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 
 	/**
 	 * Creates a new {@link PersistentEntities} for the given {@link MappingContext}s.
-	 *
 	 * @param contexts
 	 */
 	public PersistentEntities(Iterable<? extends MappingContext<?, ?>> contexts) {
@@ -53,7 +53,6 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 
 	/**
 	 * Creates a new {@link PersistentEntities} for the given {@link MappingContext}s.
-	 * 
 	 * @param contexts must not be {@literal null}.
 	 * @return
 	 */
@@ -65,10 +64,10 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	}
 
 	/**
-	 * Returns the {@link PersistentEntity} for the given type. Will consider all {@link MappingContext}s registered but
-	 * return {@literal Optional#empty()} in case none of the registered ones already have a {@link PersistentEntity}
-	 * registered for the given type.
-	 *
+	 * Returns the {@link PersistentEntity} for the given type. Will consider all
+	 * {@link MappingContext}s registered but return {@literal Optional#empty()} in case
+	 * none of the registered ones already have a {@link PersistentEntity} registered for
+	 * the given type.
 	 * @param type can be {@literal null}.
 	 * @return
 	 */
@@ -80,13 +79,14 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	}
 
 	/**
-	 * Returns the {@link PersistentEntity} for the given type. Will consider all {@link MappingContext}s registered but
-	 * throw an {@link IllegalArgumentException} in case none of the registered ones already have a
-	 * {@link PersistentEntity} registered for the given type.
-	 *
+	 * Returns the {@link PersistentEntity} for the given type. Will consider all
+	 * {@link MappingContext}s registered but throw an {@link IllegalArgumentException} in
+	 * case none of the registered ones already have a {@link PersistentEntity} registered
+	 * for the given type.
 	 * @param type must not be {@literal null}.
 	 * @return the {@link PersistentEntity} for the given domain type.
-	 * @throws IllegalArgumentException in case no {@link PersistentEntity} can be found for the given type.
+	 * @throws IllegalArgumentException in case no {@link PersistentEntity} can be found
+	 * for the given type.
 	 */
 	public PersistentEntity<?, ? extends PersistentProperty<?>> getRequiredPersistentEntity(Class<?> type) {
 
@@ -97,9 +97,8 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	}
 
 	/**
-	 * Executes the given {@link BiFunction} on the given {@link MappingContext} and {@link PersistentEntity} based on the
-	 * given type.
-	 * 
+	 * Executes the given {@link BiFunction} on the given {@link MappingContext} and
+	 * {@link PersistentEntity} based on the given type.
 	 * @param type must not be {@literal null}.
 	 * @param combiner must not be {@literal null}.
 	 * @return
@@ -117,8 +116,8 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	}
 
 	/**
-	 * Returns all {@link TypeInformation} exposed by the registered {@link MappingContext}s.
-	 *
+	 * Returns all {@link TypeInformation} exposed by the registered
+	 * {@link MappingContext}s.
 	 * @return
 	 */
 	public Streamable<TypeInformation<?>> getManagedTypes() {
@@ -127,21 +126,22 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 				.flatMap(it -> it.getManagedTypes().stream())//
 				.collect(Collectors.toSet()));
 	}
+
 	@Override
 	public Iterator<PersistentEntity<?, ? extends PersistentProperty<?>>> iterator() {
 
-		return this.contexts.stream()
-				.<PersistentEntity<?, ? extends PersistentProperty<?>>> flatMap(it -> it.getPersistentEntities().stream())
-				.collect(Collectors.toList()).iterator();
+		return this.contexts.stream().<PersistentEntity<?, ? extends PersistentProperty<?>>>flatMap(
+				it -> it.getPersistentEntities().stream()).collect(Collectors.toList()).iterator();
 	}
 
 	/**
-	 * Returns the {@link PersistentEntity} the given {@link PersistentProperty} refers to in case it's an association.
-	 * For direct aggregate references, that's simply the entity for the {@link PersistentProperty}'s actual type. If the
-	 * property type is not an entity - as it might rather refer to the identifier type - we either use the reference's
-	 * defined target type and fall back to trying to find a {@link PersistentEntity} identified by the
-	 * {@link PersistentProperty}'s actual type.
-	 * 
+	 * Returns the {@link PersistentEntity} the given {@link PersistentProperty} refers to
+	 * in case it's an association. For direct aggregate references, that's simply the
+	 * entity for the {@link PersistentProperty}'s actual type. If the property type is
+	 * not an entity - as it might rather refer to the identifier type - we either use the
+	 * reference's defined target type and fall back to trying to find a
+	 * {@link PersistentEntity} identified by the {@link PersistentProperty}'s actual
+	 * type.
 	 * @param property must not be {@literal null}.
 	 * @return
 	 * @since 2.1
@@ -163,9 +163,8 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	}
 
 	/**
-	 * Returns the type the given {@link PersistentProperty} ultimately refers to. In case it's of a unique identifier
-	 * type of an entity known it'll return the entity type.
-	 * 
+	 * Returns the type the given {@link PersistentProperty} ultimately refers to. In case
+	 * it's of a unique identifier type of an entity known it'll return the entity type.
 	 * @param property must not be {@literal null}.
 	 * @return
 	 */
@@ -182,11 +181,10 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 
 	/**
 	 * Returns the {@link PersistentEntity} identified by the given type.
-	 * 
 	 * @param type
 	 * @return
-	 * @throws IllegalStateException if the entity cannot be detected uniquely as multiple ones might share the same
-	 *           identifier.
+	 * @throws IllegalStateException if the entity cannot be detected uniquely as multiple
+	 * ones might share the same identifier.
 	 */
 	@Nullable
 	private PersistentEntity<?, ?> getEntityIdentifiedBy(TypeInformation<?> type) {
@@ -209,4 +207,5 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 
 		return entities.isEmpty() ? null : entities.iterator().next();
 	}
+
 }

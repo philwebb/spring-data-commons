@@ -19,8 +19,8 @@ import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.util.Assert;
 
 /**
- * Base class for implementations of {@link EntityInformation}. Considers an entity to be new whenever
- * {@link #getId(Object)} returns {@literal null}.
+ * Base class for implementations of {@link EntityInformation}. Considers an entity to be
+ * new whenever {@link #getId(Object)} returns {@literal null}.
  *
  * @author Oliver Gierke
  * @author Nick Williams
@@ -36,6 +36,7 @@ public abstract class AbstractEntityInformation<T, ID> implements EntityInformat
 
 		this.domainClass = domainClass;
 	}
+
 	public boolean isNew(T entity) {
 
 		ID id = getId(entity);
@@ -51,7 +52,9 @@ public abstract class AbstractEntityInformation<T, ID> implements EntityInformat
 
 		throw new IllegalArgumentException(String.format("Unsupported primitive id type %s!", idType));
 	}
+
 	public Class<T> getJavaType() {
 		return this.domainClass;
 	}
+
 }

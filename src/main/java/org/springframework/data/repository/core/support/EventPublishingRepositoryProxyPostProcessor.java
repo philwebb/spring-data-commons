@@ -38,11 +38,12 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * {@link RepositoryProxyPostProcessor} to register a {@link MethodInterceptor} to intercept the
- * {@link CrudRepository#save(Object)} method and publish events potentially exposed via a method annotated with
- * {@link DomainEvents}. If no such method can be detected on the aggregate root, no interceptor is added. Additionally,
- * the aggregate root can expose a method annotated with {@link AfterDomainEventPublication}. If present, the method
- * will be invoked after all events have been published.
+ * {@link RepositoryProxyPostProcessor} to register a {@link MethodInterceptor} to
+ * intercept the {@link CrudRepository#save(Object)} method and publish events potentially
+ * exposed via a method annotated with {@link DomainEvents}. If no such method can be
+ * detected on the aggregate root, no interceptor is added. Additionally, the aggregate
+ * root can expose a method annotated with {@link AfterDomainEventPublication}. If
+ * present, the method will be invoked after all events have been published.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -59,7 +60,10 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.support.RepositoryProxyPostProcessor#postProcess(org.springframework.aop.framework.ProxyFactory, org.springframework.data.repository.core.RepositoryInformation)
+	 * 
+	 * @see org.springframework.data.repository.core.support.RepositoryProxyPostProcessor#
+	 * postProcess(org.springframework.aop.framework.ProxyFactory,
+	 * org.springframework.data.repository.core.RepositoryInformation)
 	 */
 	@Override
 	public void postProcess(ProxyFactory factory, RepositoryInformation repositoryInformation) {
@@ -74,7 +78,8 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 	}
 
 	/**
-	 * {@link MethodInterceptor} to publish events exposed an aggregate on calls to a save method on the repository.
+	 * {@link MethodInterceptor} to publish events exposed an aggregate on calls to a save
+	 * method on the repository.
 	 *
 	 * @author Oliver Gierke
 	 * @since 1.13
@@ -82,9 +87,11 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 	static class EventPublishingMethodInterceptor implements MethodInterceptor {
 
 		private final EventPublishingMethod eventMethod;
+
 		private final ApplicationEventPublisher publisher;
 
-		private EventPublishingMethodInterceptor(EventPublishingMethod eventMethod, ApplicationEventPublisher publisher) {
+		private EventPublishingMethodInterceptor(EventPublishingMethod eventMethod,
+				ApplicationEventPublisher publisher) {
 
 			this.eventMethod = eventMethod;
 			this.publisher = publisher;
@@ -94,6 +101,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 				ApplicationEventPublisher publisher) {
 			return new EventPublishingMethodInterceptor(eventMethod, publisher);
 		}
+
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
 
@@ -110,6 +118,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 			return result;
 		}
+
 	}
 
 	/**
@@ -121,9 +130,11 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 	static class EventPublishingMethod {
 
 		private static Map<Class<?>, EventPublishingMethod> CACHE = new ConcurrentReferenceHashMap<>();
+
 		private static @SuppressWarnings("null") EventPublishingMethod NONE = new EventPublishingMethod(null, null);
 
 		private final Method publishingMethod;
+
 		private final @Nullable Method clearingMethod;
 
 		EventPublishingMethod(Method publishingMethod, Method clearingMethod) {
@@ -134,10 +145,9 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 		/**
 		 * Creates an {@link EventPublishingMethod} for the given type.
-		 *
 		 * @param type must not be {@literal null}.
-		 * @return an {@link EventPublishingMethod} for the given type or {@literal null} in case the given type does not
-		 *         expose an event publishing method.
+		 * @return an {@link EventPublishingMethod} for the given type or {@literal null}
+		 * in case the given type does not expose an event publishing method.
 		 */
 		@Nullable
 		public static EventPublishingMethod of(Class<?> type) {
@@ -159,8 +169,8 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		}
 
 		/**
-		 * Publishes all events in the given aggregate root using the given {@link ApplicationEventPublisher}.
-		 *
+		 * Publishes all events in the given aggregate root using the given
+		 * {@link ApplicationEventPublisher}.
 		 * @param object can be {@literal null}.
 		 * @param publisher must not be {@literal null}.
 		 */
@@ -183,8 +193,8 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		}
 
 		/**
-		 * Returns the current {@link EventPublishingMethod} or {@literal null} if it's the default value.
-		 *
+		 * Returns the current {@link EventPublishingMethod} or {@literal null} if it's
+		 * the default value.
 		 * @return
 		 */
 		@Nullable
@@ -203,8 +213,8 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 		/**
 		 * Creates a new {@link EventPublishingMethod} using the given pre-populated
-		 * {@link AnnotationDetectionMethodCallback} looking up an optional clearing method from the given callback.
-		 *
+		 * {@link AnnotationDetectionMethodCallback} looking up an optional clearing
+		 * method from the given callback.
 		 * @param publishing must not be {@literal null}.
 		 * @param clearing must not be {@literal null}.
 		 * @return
@@ -223,8 +233,8 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		}
 
 		/**
-		 * Returns the {@link Method} supposed to be invoked for event clearing or {@literal null} if none is found.
-		 *
+		 * Returns the {@link Method} supposed to be invoked for event clearing or
+		 * {@literal null} if none is found.
 		 * @param clearing must not be {@literal null}.
 		 * @return
 		 */
@@ -242,9 +252,9 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		}
 
 		/**
-		 * Returns the given source object as collection, i.e. collections are returned as is, objects are turned into a
-		 * one-element collection, {@literal null} will become an empty collection.
-		 *
+		 * Returns the given source object as collection, i.e. collections are returned as
+		 * is, objects are turned into a one-element collection, {@literal null} will
+		 * become an empty collection.
 		 * @param source can be {@literal null}.
 		 * @return
 		 */
@@ -261,5 +271,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 			return Collections.singletonList(source);
 		}
+
 	}
+
 }

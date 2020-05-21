@@ -24,11 +24,14 @@ import org.springframework.instrument.classloading.ShadowingClassLoader;
 import org.springframework.util.Assert;
 
 /**
- * is intended for testing code that depends on the presence/absence of certain classes. Classes can be:
+ * is intended for testing code that depends on the presence/absence of certain classes.
+ * Classes can be:
  * <ul>
- * <li>shadowed: reloaded by this classloader no matter if they are loaded already by the SystemClassLoader</li>
- * <li>hidden: not loaded by this classloader no matter if they are loaded already by the SystemClassLoader. Trying to
- * load these classes results in a {@link ClassNotFoundException}</li>
+ * <li>shadowed: reloaded by this classloader no matter if they are loaded already by the
+ * SystemClassLoader</li>
+ * <li>hidden: not loaded by this classloader no matter if they are loaded already by the
+ * SystemClassLoader. Trying to load these classes results in a
+ * {@link ClassNotFoundException}</li>
  * <li>all other classes get loaded by the SystemClassLoader</li>
  * </ul>
  *
@@ -47,8 +50,8 @@ public class HidingClassLoader extends ShadowingClassLoader {
 	}
 
 	/**
-	 * Creates a new {@link HidingClassLoader} with the packages of the given classes hidden.
-	 *
+	 * Creates a new {@link HidingClassLoader} with the packages of the given classes
+	 * hidden.
 	 * @param packages must not be {@literal null}.
 	 * @return
 	 */
@@ -60,16 +63,19 @@ public class HidingClassLoader extends ShadowingClassLoader {
 				.map(it -> it.getPackage().getName())//
 				.collect(Collectors.toList()));
 	}
+
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 
 		checkIfHidden(name);
 		return super.loadClass(name);
 	}
+
 	@Override
 	protected boolean isEligibleForShadowing(String className) {
 		return isExcluded(className);
 	}
+
 	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
 
@@ -83,4 +89,5 @@ public class HidingClassLoader extends ShadowingClassLoader {
 			throw new ClassNotFoundException();
 		}
 	}
+
 }

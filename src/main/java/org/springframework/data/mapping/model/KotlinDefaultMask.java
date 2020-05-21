@@ -25,7 +25,8 @@ import java.util.function.IntConsumer;
 import java.util.function.Predicate;
 
 /**
- * Value object representing defaulting masks used for Kotlin methods applying parameter defaulting.
+ * Value object representing defaulting masks used for Kotlin methods applying parameter
+ * defaulting.
  *
  * @author Mark Paluch
  * @since 2.1
@@ -40,7 +41,6 @@ public class KotlinDefaultMask {
 
 	/**
 	 * Callback method to notify {@link IntConsumer} for each defaulting mask.
-	 *
 	 * @param maskCallback must not be {@literal null}.
 	 */
 	public void forEach(IntConsumer maskCallback) {
@@ -51,8 +51,8 @@ public class KotlinDefaultMask {
 	}
 
 	/**
-	 * Return the number of defaulting masks required to represent the number of {@code arguments}.
-	 *
+	 * Return the number of defaulting masks required to represent the number of
+	 * {@code arguments}.
 	 * @param arguments number of method arguments.
 	 * @return the number of defaulting masks required.
 	 */
@@ -61,9 +61,8 @@ public class KotlinDefaultMask {
 	}
 
 	/**
-	 * Creates defaulting mask(s) used to invoke Kotlin {@literal default} methods that conditionally apply parameter
-	 * values.
-	 *
+	 * Creates defaulting mask(s) used to invoke Kotlin {@literal default} methods that
+	 * conditionally apply parameter values.
 	 * @param function the {@link KFunction} that should be invoked.
 	 * @param isPresent {@link Predicate} for the presence/absence of parameters.
 	 * @return {@link KotlinDefaultMask}.
@@ -100,4 +99,5 @@ public class KotlinDefaultMask {
 	public int[] getDefaulting() {
 		return this.defaulting;
 	}
+
 }

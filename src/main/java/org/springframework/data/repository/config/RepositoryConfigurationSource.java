@@ -38,29 +38,29 @@ import org.springframework.util.Assert;
 public interface RepositoryConfigurationSource {
 
 	/**
-	 * Returns the actual source object that the configuration originated from. Will be used by the tooling to give visual
-	 * feedback on where the repository instances actually come from. @return.
+	 * Returns the actual source object that the configuration originated from. Will be
+	 * used by the tooling to give visual feedback on where the repository instances
+	 * actually come from. @return.
 	 */
 	@Nullable
 	Object getSource();
 
 	/**
 	 * Returns the base packages the repository interfaces shall be found under.
-	 *
 	 * @return must not be {@literal null}.
 	 */
 	Streamable<String> getBasePackages();
 
 	/**
-	 * Returns the {@link QueryLookupStrategy.Key} to define how query methods shall be resolved.
-	 *
+	 * Returns the {@link QueryLookupStrategy.Key} to define how query methods shall be
+	 * resolved.
 	 * @return
 	 */
 	Optional<Object> getQueryLookupStrategyKey();
 
 	/**
-	 * Returns the configured postfix to be used for looking up custom implementation classes.
-	 *
+	 * Returns the configured postfix to be used for looking up custom implementation
+	 * classes.
 	 * @return the postfix to use or {@link Optional#empty()} in case none is configured.
 	 */
 	Optional<String> getRepositoryImplementationPostfix();
@@ -71,52 +71,51 @@ public interface RepositoryConfigurationSource {
 	Optional<String> getNamedQueryLocation();
 
 	/**
-	 * Returns the name of the repository base class to be used or {@link Optional#empty()} if the store specific defaults
-	 * shall be applied.
-	 *
+	 * Returns the name of the repository base class to be used or
+	 * {@link Optional#empty()} if the store specific defaults shall be applied.
 	 * @return
 	 * @since 1.11
 	 */
 	Optional<String> getRepositoryBaseClassName();
 
 	/**
-	 * Returns the name of the repository factory bean class or {@link Optional#empty()} if not defined in the source.
-	 *
+	 * Returns the name of the repository factory bean class or {@link Optional#empty()}
+	 * if not defined in the source.
 	 * @return
 	 */
 	Optional<String> getRepositoryFactoryBeanClassName();
 
 	/**
-	 * Returns the source {@link BeanDefinition}s of the repository interfaces to create repository instances for.
-	 *
+	 * Returns the source {@link BeanDefinition}s of the repository interfaces to create
+	 * repository instances for.
 	 * @param loader
 	 * @return
 	 */
 	Streamable<BeanDefinition> getCandidates(ResourceLoader loader);
 
 	/**
-	 * Returns the value for the {@link String} attribute with the given name. The name is expected to be handed in
-	 * camel-case.
-	 *
+	 * Returns the value for the {@link String} attribute with the given name. The name is
+	 * expected to be handed in camel-case.
 	 * @param name must not be {@literal null} or empty.
-	 * @return the attribute with the given name or {@link Optional#empty()} if not configured or empty.
+	 * @return the attribute with the given name or {@link Optional#empty()} if not
+	 * configured or empty.
 	 * @since 1.8
 	 */
 	Optional<String> getAttribute(String name);
 
 	/**
-	 * Returns the value for the attribute with the given name and type. The name is expected to be handed in camel-case.
-	 *
+	 * Returns the value for the attribute with the given name and type. The name is
+	 * expected to be handed in camel-case.
 	 * @param name must not be {@literal null} or empty.
 	 * @param type the type of the attribute to look up.
-	 * @return the attribute with the given name or {@link Optional#empty()} if not configured or empty.
+	 * @return the attribute with the given name or {@link Optional#empty()} if not
+	 * configured or empty.
 	 * @since 2.2
 	 */
 	<T> Optional<T> getAttribute(String name, Class<T> type);
 
 	/**
 	 * Returns the attribute value for the attribute of the given name.
-	 *
 	 * @param name must not be {@literal null} or empty.
 	 * @return the attribute with the given name and type.
 	 * @since 2.2
@@ -130,24 +129,23 @@ public interface RepositoryConfigurationSource {
 	}
 
 	/**
-	 * Returns whether the configuration uses explicit filtering to scan for repository types.
-	 *
-	 * @return whether the configuration uses explicit filtering to scan for repository types.
+	 * Returns whether the configuration uses explicit filtering to scan for repository
+	 * types.
+	 * @return whether the configuration uses explicit filtering to scan for repository
+	 * types.
 	 * @since 1.9
 	 */
 	boolean usesExplicitFilters();
 
 	/**
-	 * Return the {@link TypeFilter}s to define which types to exclude when scanning for repositories or repository
-	 * implementations.
-	 *
+	 * Return the {@link TypeFilter}s to define which types to exclude when scanning for
+	 * repositories or repository implementations.
 	 * @return must not be {@literal null}.
 	 */
 	Streamable<TypeFilter> getExcludeFilters();
 
 	/**
 	 * Returns a name for the beanDefinition.
-	 *
 	 * @param beanDefinition must not be {@literal null}.
 	 * @return
 	 * @since 2.0
@@ -155,9 +153,9 @@ public interface RepositoryConfigurationSource {
 	String generateBeanName(BeanDefinition beanDefinition);
 
 	/**
-	 * Returns the {@link ImplementationDetectionConfiguration} to be used to scan for custom implementations of the
-	 * repository instances to be created from this {@link RepositoryConfigurationSource}.
-	 *
+	 * Returns the {@link ImplementationDetectionConfiguration} to be used to scan for
+	 * custom implementations of the repository instances to be created from this
+	 * {@link RepositoryConfigurationSource}.
 	 * @param factory
 	 * @return will never be {@literal null}.
 	 * @since 2.1
@@ -166,18 +164,18 @@ public interface RepositoryConfigurationSource {
 
 	/**
 	 * Defines the repository {@link BootstrapMode} to be used.
-	 *
 	 * @return
 	 * @since 2.1
 	 */
 	BootstrapMode getBootstrapMode();
 
 	/**
-	 * Returns a human readable description of the repository configuration source for error reporting purposes.
-	 *
+	 * Returns a human readable description of the repository configuration source for
+	 * error reporting purposes.
 	 * @return can be {@literal null}.
 	 * @since 2.3
 	 */
 	@Nullable
 	String getResourceDescription();
+
 }

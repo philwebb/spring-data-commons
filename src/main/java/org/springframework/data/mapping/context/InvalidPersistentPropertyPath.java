@@ -29,21 +29,24 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Exception to indicate a source path couldn't be resolved into a {@link PersistentPropertyPath} completely.
+ * Exception to indicate a source path couldn't be resolved into a
+ * {@link PersistentPropertyPath} completely.
  *
  * @author Oliver Gierke
  */
 public class InvalidPersistentPropertyPath extends MappingException {
 
 	private static final long serialVersionUID = 2805815643641094488L;
+
 	private static final String DEFAULT_MESSAGE = "No property '%s' found on %s! Did you mean: %s?";
 
 	private final String source, unresolvableSegment, resolvedPath;
+
 	private final TypeInformation<?> type;
 
 	/**
-	 * Creates a new {@link InvalidPersistentPropertyPath} for the given resolved path and message.
-	 *
+	 * Creates a new {@link InvalidPersistentPropertyPath} for the given resolved path and
+	 * message.
 	 * @param source must not be {@literal null}.
 	 * @param unresolvableSegment must not be {@literal null} or empty.
 	 * @param resolvedPath
@@ -67,7 +70,6 @@ public class InvalidPersistentPropertyPath extends MappingException {
 
 	/**
 	 * Returns the source property path.
-	 *
 	 * @return the source will never be {@literal null}.
 	 */
 	public String getSource() {
@@ -76,7 +78,6 @@ public class InvalidPersistentPropertyPath extends MappingException {
 
 	/**
 	 * Returns the type the source property path was attempted to be resolved on.
-	 *
 	 * @return the type will never be {@literal null}.
 	 */
 	public TypeInformation<?> getType() {
@@ -85,7 +86,6 @@ public class InvalidPersistentPropertyPath extends MappingException {
 
 	/**
 	 * Returns the segment of the source property path that could not be resolved.
-	 *
 	 * @return the unresolvableSegment
 	 */
 	public String getUnresolvableSegment() {
@@ -93,8 +93,8 @@ public class InvalidPersistentPropertyPath extends MappingException {
 	}
 
 	/**
-	 * Returns the part of the source path until which the source property path could be resolved.
-	 *
+	 * Returns the part of the source path until which the source property path could be
+	 * resolved.
 	 * @return the resolvedPath
 	 */
 	public String getResolvedPath() {
@@ -128,4 +128,5 @@ public class InvalidPersistentPropertyPath extends MappingException {
 
 		return result;
 	}
+
 }

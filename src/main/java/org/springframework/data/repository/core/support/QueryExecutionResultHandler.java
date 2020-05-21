@@ -59,8 +59,8 @@ class QueryExecutionResultHandler {
 	}
 
 	/**
-	 * Post-processes the given result of a query invocation to match the return type of the given method.
-	 *
+	 * Post-processes the given result of a query invocation to match the return type of
+	 * the given method.
 	 * @param result can be {@literal null}.
 	 * @param method must not be {@literal null}.
 	 * @return
@@ -90,7 +90,8 @@ class QueryExecutionResultHandler {
 
 			if (descriptorCache.isEmpty()) {
 				updatedDescriptorCache = Collections.singletonMap(method, descriptor);
-			} else {
+			}
+			else {
 				updatedDescriptorCache = new HashMap<>(descriptorCache.size() + 1, 1);
 				updatedDescriptorCache.putAll(descriptorCache);
 				updatedDescriptorCache.put(method, descriptor);
@@ -107,7 +108,6 @@ class QueryExecutionResultHandler {
 
 	/**
 	 * Post-processes the given result of a query invocation to the given type.
-	 *
 	 * @param result can be {@literal null}.
 	 * @param nestingLevel
 	 * @param descriptor must not be {@literal null}.
@@ -154,7 +154,8 @@ class QueryExecutionResultHandler {
 			if (result instanceof Collection<?>) {
 
 				TypeDescriptor elementDescriptor = descriptor.getReturnTypeDescriptor(nestingLevel + 1);
-				boolean requiresConversion = requiresConversion((Collection<?>) result, expectedReturnType, elementDescriptor);
+				boolean requiresConversion = requiresConversion((Collection<?>) result, expectedReturnType,
+						elementDescriptor);
 
 				if (!requiresConversion) {
 					return result;
@@ -163,8 +164,7 @@ class QueryExecutionResultHandler {
 
 			TypeDescriptor resultDescriptor = TypeDescriptor.forObject(result);
 			return this.conversionService.canConvert(resultDescriptor, returnTypeDescriptor)
-					? this.conversionService.convert(result, returnTypeDescriptor)
-					: result;
+					? this.conversionService.convert(result, returnTypeDescriptor) : result;
 		}
 
 		return Map.class.equals(expectedReturnType) //
@@ -172,6 +172,7 @@ class QueryExecutionResultHandler {
 				: null;
 
 	}
+
 	private boolean requiresConversion(Collection<?> collection, Class<?> expectedReturnType,
 			@Nullable TypeDescriptor elementDescriptor) {
 
@@ -196,9 +197,8 @@ class QueryExecutionResultHandler {
 	}
 
 	/**
-	 * Returns whether the configured {@link ConversionService} can convert between the given {@link TypeDescriptor}s and
-	 * the conversion will not be a no-op.
-	 *
+	 * Returns whether the configured {@link ConversionService} can convert between the
+	 * given {@link TypeDescriptor}s and the conversion will not be a no-op.
 	 * @param source
 	 * @param target
 	 * @return
@@ -211,7 +211,6 @@ class QueryExecutionResultHandler {
 
 	/**
 	 * Unwraps the given value if it's a JDK 8 {@link Optional}.
-	 *
 	 * @param source can be {@literal null}.
 	 * @return
 	 */
@@ -230,7 +229,6 @@ class QueryExecutionResultHandler {
 
 	/**
 	 * Returns whether we have to process the given source object in the first place.
-	 *
 	 * @param source can be {@literal null}.
 	 * @param targetType must not be {@literal null}.
 	 * @return
@@ -243,12 +241,15 @@ class QueryExecutionResultHandler {
 	}
 
 	/**
-	 * Value object capturing {@link MethodParameter} and {@link TypeDescriptor}s for top and nested levels.
+	 * Value object capturing {@link MethodParameter} and {@link TypeDescriptor}s for top
+	 * and nested levels.
 	 */
 	static class ReturnTypeDescriptor {
 
 		private final MethodParameter methodParameter;
+
 		private final TypeDescriptor typeDescriptor;
+
 		private final @Nullable TypeDescriptor nestedTypeDescriptor;
 
 		private ReturnTypeDescriptor(Method method) {
@@ -259,7 +260,6 @@ class QueryExecutionResultHandler {
 
 		/**
 		 * Create a {@link ReturnTypeDescriptor} from a {@link Method}.
-		 *
 		 * @param method
 		 * @return
 		 */
@@ -268,11 +268,12 @@ class QueryExecutionResultHandler {
 		}
 
 		/**
-		 * Return the {@link TypeDescriptor} for a nested type declared within the method parameter described by
-		 * {@code nestingLevel} .
-		 *
-		 * @param nestingLevel the nesting level. {@code 0} is the first level, {@code 1} the next inner one.
-		 * @return the {@link TypeDescriptor} or {@literal null} if it could not be obtained.
+		 * Return the {@link TypeDescriptor} for a nested type declared within the method
+		 * parameter described by {@code nestingLevel} .
+		 * @param nestingLevel the nesting level. {@code 0} is the first level, {@code 1}
+		 * the next inner one.
+		 * @return the {@link TypeDescriptor} or {@literal null} if it could not be
+		 * obtained.
 		 * @see TypeDescriptor#nested(MethodParameter, int)
 		 */
 		@Nullable
@@ -282,13 +283,15 @@ class QueryExecutionResultHandler {
 			// nesting level 2 (Optional<List<T>>) uses the slow path.
 
 			switch (nestingLevel) {
-				case 0:
-					return this.typeDescriptor;
-				case 1:
-					return this.nestedTypeDescriptor;
-				default:
-					return TypeDescriptor.nested(this.methodParameter, nestingLevel);
+			case 0:
+				return this.typeDescriptor;
+			case 1:
+				return this.nestedTypeDescriptor;
+			default:
+				return TypeDescriptor.nested(this.methodParameter, nestingLevel);
 			}
 		}
+
 	}
+
 }

@@ -29,8 +29,11 @@ import org.springframework.util.SerializationUtils;
 class GeoResultUnitTests {
 
 	GeoResult<String> first = new GeoResult<>("Foo", new Distance(2.5));
+
 	GeoResult<String> second = new GeoResult<>("Foo", new Distance(2.5));
+
 	GeoResult<String> third = new GeoResult<>("Bar", new Distance(2.5));
+
 	GeoResult<String> fourth = new GeoResult<>("Foo", new Distance(5.2));
 
 	@Test // DATACMNS-437
@@ -63,7 +66,9 @@ class GeoResultUnitTests {
 		GeoResult<String> result = new GeoResult<>("test", new Distance(2));
 
 		@SuppressWarnings("unchecked")
-		GeoResult<String> serialized = (GeoResult<String>) SerializationUtils.deserialize(SerializationUtils.serialize(result));
+		GeoResult<String> serialized = (GeoResult<String>) SerializationUtils
+				.deserialize(SerializationUtils.serialize(result));
 		assertThat(serialized).isEqualTo(result);
 	}
+
 }

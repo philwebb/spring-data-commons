@@ -40,7 +40,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Wrapper class to access repository instances obtained from a {@link ListableBeanFactory}.
+ * Wrapper class to access repository instances obtained from a
+ * {@link ListableBeanFactory}.
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
@@ -52,10 +53,13 @@ public class Repositories implements Iterable<Class<?>> {
 	static final Repositories NONE = new Repositories();
 
 	private static final RepositoryFactoryInformation<Object, Object> EMPTY_REPOSITORY_FACTORY_INFO = EmptyRepositoryFactoryInformation.INSTANCE;
+
 	private static final String DOMAIN_TYPE_MUST_NOT_BE_NULL = "Domain type must not be null!";
 
 	private final Optional<BeanFactory> beanFactory;
+
 	private final Map<Class<?>, String> repositoryBeanNames;
+
 	private final Map<Class<?>, RepositoryFactoryInformation<Object, Object>> repositoryFactoryInfos;
 
 	/**
@@ -69,9 +73,8 @@ public class Repositories implements Iterable<Class<?>> {
 	}
 
 	/**
-	 * Creates a new {@link Repositories} instance by looking up the repository instances and meta information from the
-	 * given {@link ListableBeanFactory}.
-	 *
+	 * Creates a new {@link Repositories} instance by looking up the repository instances
+	 * and meta information from the given {@link ListableBeanFactory}.
 	 * @param factory must not be {@literal null}.
 	 */
 	public Repositories(ListableBeanFactory factory) {
@@ -87,8 +90,8 @@ public class Repositories implements Iterable<Class<?>> {
 
 	private void populateRepositoryFactoryInformation(ListableBeanFactory factory) {
 
-		for (String name : BeanFactoryUtils.beanNamesForTypeIncludingAncestors(factory, RepositoryFactoryInformation.class,
-				false, false)) {
+		for (String name : BeanFactoryUtils.beanNamesForTypeIncludingAncestors(factory,
+				RepositoryFactoryInformation.class, false, false)) {
 			cacheRepositoryFactory(name);
 		}
 	}
@@ -114,8 +117,8 @@ public class Repositories implements Iterable<Class<?>> {
 	}
 
 	/**
-	 * Returns whether we have a repository instance registered to manage instances of the given domain class.
-	 *
+	 * Returns whether we have a repository instance registered to manage instances of the
+	 * given domain class.
 	 * @param domainClass must not be {@literal null}.
 	 * @return
 	 */
@@ -130,7 +133,6 @@ public class Repositories implements Iterable<Class<?>> {
 
 	/**
 	 * Returns the repository managing the given domain class.
-	 *
 	 * @param domainClass must not be {@literal null}.
 	 * @return
 	 */
@@ -145,12 +147,12 @@ public class Repositories implements Iterable<Class<?>> {
 	}
 
 	/**
-	 * Returns the {@link RepositoryFactoryInformation} for the given domain class. The given <code>code</code> is
-	 * converted to the actual user class if necessary, @see ProxyUtils#getUserClass.
-	 *
+	 * Returns the {@link RepositoryFactoryInformation} for the given domain class. The
+	 * given <code>code</code> is converted to the actual user class if necessary, @see
+	 * ProxyUtils#getUserClass.
 	 * @param domainClass must not be {@literal null}.
-	 * @return the {@link RepositoryFactoryInformation} for the given domain class or {@literal null} if no repository
-	 *         registered for this domain class.
+	 * @return the {@link RepositoryFactoryInformation} for the given domain class or
+	 * {@literal null} if no repository registered for this domain class.
 	 */
 	private RepositoryFactoryInformation<Object, Object> getRepositoryFactoryInfoFor(Class<?> domainClass) {
 
@@ -172,7 +174,6 @@ public class Repositories implements Iterable<Class<?>> {
 
 	/**
 	 * Returns the {@link EntityInformation} for the given domain class.
-	 *
 	 * @param domainClass must not be {@literal null}.
 	 * @return
 	 */
@@ -186,10 +187,9 @@ public class Repositories implements Iterable<Class<?>> {
 
 	/**
 	 * Returns the {@link RepositoryInformation} for the given domain class.
-	 *
 	 * @param domainClass must not be {@literal null}.
-	 * @return the {@link RepositoryInformation} for the given domain class or {@literal Optional#empty()} if no
-	 *         repository registered for this domain class.
+	 * @return the {@link RepositoryInformation} for the given domain class or
+	 * {@literal Optional#empty()} if no repository registered for this domain class.
 	 */
 	public Optional<RepositoryInformation> getRepositoryInformationFor(Class<?> domainClass) {
 
@@ -202,10 +202,10 @@ public class Repositories implements Iterable<Class<?>> {
 
 	/**
 	 * Returns the {@link RepositoryInformation} for the given domain type.
-	 *
 	 * @param domainType must not be {@literal null}.
 	 * @return the {@link RepositoryInformation} for the given domain type.
-	 * @throws IllegalArgumentException in case no {@link RepositoryInformation} could be found for the given domain type.
+	 * @throws IllegalArgumentException in case no {@link RepositoryInformation} could be
+	 * found for the given domain type.
 	 */
 	public RepositoryInformation getRequiredRepositoryInformation(Class<?> domainType) {
 
@@ -215,10 +215,9 @@ public class Repositories implements Iterable<Class<?>> {
 
 	/**
 	 * Returns the {@link RepositoryInformation} for the given repository interface.
-	 *
 	 * @param repositoryInterface must not be {@literal null}.
-	 * @return the {@link RepositoryInformation} for the given repository interface or {@literal null} there's no
-	 *         repository instance registered for the given interface.
+	 * @return the {@link RepositoryInformation} for the given repository interface or
+	 * {@literal null} there's no repository instance registered for the given interface.
 	 * @since 1.12
 	 */
 	public Optional<RepositoryInformation> getRepositoryInformation(Class<?> repositoryInterface) {
@@ -230,12 +229,13 @@ public class Repositories implements Iterable<Class<?>> {
 	}
 
 	/**
-	 * Returns the {@link PersistentEntity} for the given domain class. Might return {@literal null} in case the module
-	 * storing the given domain class does not support the mapping subsystem.
-	 *
+	 * Returns the {@link PersistentEntity} for the given domain class. Might return
+	 * {@literal null} in case the module storing the given domain class does not support
+	 * the mapping subsystem.
 	 * @param domainClass must not be {@literal null}.
-	 * @return the {@link PersistentEntity} for the given domain class or {@literal null} if no repository is registered
-	 *         for the domain class or the repository is not backed by a {@link MappingContext} implementation.
+	 * @return the {@link PersistentEntity} for the given domain class or {@literal null}
+	 * if no repository is registered for the domain class or the repository is not backed
+	 * by a {@link MappingContext} implementation.
 	 */
 	public PersistentEntity<?, ?> getPersistentEntity(Class<?> domainClass) {
 
@@ -244,8 +244,8 @@ public class Repositories implements Iterable<Class<?>> {
 	}
 
 	/**
-	 * Returns the {@link QueryMethod}s contained in the repository managing the given domain class.
-	 *
+	 * Returns the {@link QueryMethod}s contained in the repository managing the given
+	 * domain class.
 	 * @param domainClass must not be {@literal null}.
 	 * @return
 	 */
@@ -254,14 +254,14 @@ public class Repositories implements Iterable<Class<?>> {
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
 		return getRepositoryFactoryInfoFor(domainClass).getQueryMethods();
 	}
+
 	public Iterator<Class<?>> iterator() {
 		return this.repositoryFactoryInfos.keySet().iterator();
 	}
 
 	/**
-	 * Caches the repository information for the given domain type or overrides existing information in case the bean name
-	 * points to a primary bean definition.
-	 * 
+	 * Caches the repository information for the given domain type or overrides existing
+	 * information in case the bean name points to a primary bean definition.
 	 * @param type must not be {@literal null}.
 	 * @param information must not be {@literal null}.
 	 * @param name must not be {@literal null}.
@@ -315,5 +315,7 @@ public class Repositories implements Iterable<Class<?>> {
 		public List<QueryMethod> getQueryMethods() {
 			return Collections.emptyList();
 		}
+
 	}
+
 }

@@ -56,13 +56,14 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 class QuerydslPredicateArgumentResolverUnitTests {
 
 	QuerydslPredicateArgumentResolver resolver;
+
 	MockHttpServletRequest request;
 
 	@BeforeEach
 	void setUp() {
 
-		this.resolver = new QuerydslPredicateArgumentResolver(new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE),
-				Optional.empty());
+		this.resolver = new QuerydslPredicateArgumentResolver(
+				new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE), Optional.empty());
 		this.request = new MockHttpServletRequest();
 	}
 
@@ -73,20 +74,22 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 	@Test // DATACMNS-669
 	void supportsParameterReturnsTrueWhenMethodParameterIsPredicateButNotAnnotatedAsSuch() {
-		assertThat(this.resolver.supportsParameter(getMethodParameterFor("predicateWithoutAnnotation", Predicate.class)))
-				.isTrue();
+		assertThat(
+				this.resolver.supportsParameter(getMethodParameterFor("predicateWithoutAnnotation", Predicate.class)))
+						.isTrue();
 	}
 
 	@Test // DATACMNS-669
 	void supportsParameterShouldThrowExceptionWhenMethodParameterIsNoPredicateButAnnotatedAsSuch() {
-		assertThatIllegalArgumentException().isThrownBy(
-				() -> this.resolver.supportsParameter(getMethodParameterFor("nonPredicateWithAnnotation", String.class)));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.resolver
+				.supportsParameter(getMethodParameterFor("nonPredicateWithAnnotation", String.class)));
 	}
 
 	@Test // DATACMNS-669
 	void supportsParameterReturnsFalseWhenMethodParameterIsNoPredicate() {
-		assertThat(this.resolver.supportsParameter(getMethodParameterFor("nonPredicateWithoutAnnotation", String.class)))
-				.isFalse();
+		assertThat(
+				this.resolver.supportsParameter(getMethodParameterFor("nonPredicateWithoutAnnotation", String.class)))
+						.isFalse();
 	}
 
 	@Test // DATACMNS-669
@@ -130,8 +133,9 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 		this.request.addParameter("address.city", "tar valon");
 
-		Object predicate = this.resolver.resolveArgument(getMethodParameterFor("pagedFind", Predicate.class, Pageable.class),
-				null, new ServletWebRequest(this.request), null);
+		Object predicate = this.resolver.resolveArgument(
+				getMethodParameterFor("pagedFind", Predicate.class, Pageable.class), null,
+				new ServletWebRequest(this.request), null);
 
 		assertThat(predicate).isEqualTo(QUser.user.address.city.eq("tar valon"));
 	}
@@ -246,7 +250,8 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 		try {
 			return new MethodParameter(Sample.class.getMethod(methodName, args), args.length == 0 ? -1 : 0);
-		} catch (NoSuchMethodException e) {
+		}
+		catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -260,6 +265,7 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 			bindings.excluding(user.address);
 		}
+
 	}
 
 	static interface Sample {
@@ -287,6 +293,7 @@ class QuerydslPredicateArgumentResolverUnitTests {
 		User nullablePredicateWithoutAnnotation(@Nullable Predicate predicate);
 
 		User optionalPredicateWithoutAnnotation(Optional<Predicate> predicate);
+
 	}
 
 	static class SampleRepo implements QuerydslBinderCustomizer<QUser> {
@@ -295,5 +302,7 @@ class QuerydslPredicateArgumentResolverUnitTests {
 		public void customize(QuerydslBindings bindings, QUser user) {
 			bindings.bind(QUser.user.firstname).first((path, value) -> path.contains(value));
 		}
+
 	}
+
 }

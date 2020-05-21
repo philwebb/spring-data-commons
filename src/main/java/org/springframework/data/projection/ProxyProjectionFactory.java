@@ -34,9 +34,10 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
- * A {@link ProjectionFactory} to create JDK proxies to back interfaces and handle method invocations on them. By
- * default accessor methods are supported. In case the delegating lookups result in an object of different type that the
- * projection interface method's return type, another projection will be created to transparently mitigate between the
+ * A {@link ProjectionFactory} to create JDK proxies to back interfaces and handle method
+ * invocations on them. By default accessor methods are supported. In case the delegating
+ * lookups result in an object of different type that the projection interface method's
+ * return type, another projection will be created to transparently mitigate between the
  * types.
  *
  * @author Oliver Gierke
@@ -48,8 +49,11 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware {
 
 	private final List<MethodInterceptorFactory> factories;
+
 	private final ConversionService conversionService;
+
 	private final Map<Class<?>, ProjectionInformation> projectionInformationCache = new ConcurrentReferenceHashMap<>();
+
 	private @Nullable ClassLoader classLoader;
 
 	/**
@@ -63,15 +67,15 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		this.conversionService = DefaultConversionService.getSharedInstance();
 	}
+
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
 
 	/**
-	 * Registers the given {@link MethodInterceptorFactory} to be used with the factory. Factories registered later enjoy
-	 * precedence over previously registered ones.
-	 *
+	 * Registers the given {@link MethodInterceptorFactory} to be used with the factory.
+	 * Factories registered later enjoy precedence over previously registered ones.
 	 * @param factory must not be {@literal null}.
 	 * @since 1.13
 	 */
@@ -84,7 +88,10 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.rest.core.projection.ProjectionFactory#createProjection(java.lang.Object, java.lang.Class)
+	 * 
+	 * @see
+	 * org.springframework.data.rest.core.projection.ProjectionFactory#createProjection(
+	 * java.lang.Object, java.lang.Class)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -109,6 +116,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		return (T) factory.getProxy(this.classLoader == null ? ClassUtils.getDefaultClassLoader() : this.classLoader);
 	}
+
 	@Override
 	public <T> T createProjection(Class<T> projectionType) {
 
@@ -116,6 +124,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		return createProjection(projectionType, new HashMap<String, Object>());
 	}
+
 	@Override
 	public final ProjectionInformation getProjectionInformation(Class<?> projectionType) {
 
@@ -123,9 +132,8 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	}
 
 	/**
-	 * Post-process the given {@link MethodInterceptor} for the given source instance and projection type. Default
-	 * implementation will simply return the given interceptor.
-	 *
+	 * Post-process the given {@link MethodInterceptor} for the given source instance and
+	 * projection type. Default implementation will simply return the given interceptor.
 	 * @param interceptor will never be {@literal null}.
 	 * @param source will never be {@literal null}.
 	 * @param projectionType will never be {@literal null}.
@@ -137,8 +145,8 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	}
 
 	/**
-	 * Creates a fresh, cacheable {@link ProjectionInformation} instance for the given projection type.
-	 *
+	 * Creates a fresh, cacheable {@link ProjectionInformation} instance for the given
+	 * projection type.
 	 * @param projectionType must not be {@literal null}.
 	 * @return
 	 */
@@ -148,7 +156,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 	/**
 	 * Returns the {@link MethodInterceptor} to add to the proxy.
-	 *
 	 * @param source must not be {@literal null}.
 	 * @param projectionType must not be {@literal null}.
 	 * @return
@@ -159,12 +166,13 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 				.createMethodInterceptor(source, projectionType);
 
 		return new ProjectingMethodInterceptor(this,
-				postProcessAccessorInterceptor(propertyInvocationInterceptor, source, projectionType), this.conversionService);
+				postProcessAccessorInterceptor(propertyInvocationInterceptor, source, projectionType),
+				this.conversionService);
 	}
 
 	/**
-	 * Returns the {@link MethodInterceptorFactory} to be used with the given source object and target type.
-	 *
+	 * Returns the {@link MethodInterceptorFactory} to be used with the given source
+	 * object and target type.
 	 * @param source must not be {@literal null}.
 	 * @param projectionType must not be {@literal null}.
 	 * @return
@@ -177,18 +185,21 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 			}
 		}
 
-		throw new IllegalStateException("No MethodInterceptorFactory found for type ".concat(source.getClass().getName()));
+		throw new IllegalStateException(
+				"No MethodInterceptorFactory found for type ".concat(source.getClass().getName()));
 	}
 
 	/**
 	 * Custom {@link MethodInterceptor} to expose the proxy target class even if we set
-	 * {@link ProxyFactory#setOpaque(boolean)} to true to prevent properties on {@link Advised} to be rendered.
+	 * {@link ProxyFactory#setOpaque(boolean)} to true to prevent properties on
+	 * {@link Advised} to be rendered.
 	 *
 	 * @author Oliver Gierke
 	 */
 	private static class TargetAwareMethodInterceptor implements MethodInterceptor {
 
 		private static final Method GET_TARGET_CLASS_METHOD;
+
 		private static final Method GET_TARGET_METHOD;
 
 		private final Class<?> targetType;
@@ -197,14 +208,14 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 			try {
 				GET_TARGET_CLASS_METHOD = TargetAware.class.getMethod("getTargetClass");
 				GET_TARGET_METHOD = TargetAware.class.getMethod("getTarget");
-			} catch (NoSuchMethodException e) {
+			}
+			catch (NoSuchMethodException e) {
 				throw new IllegalStateException(e);
 			}
 		}
 
 		/**
 		 * Creates a new {@link TargetAwareMethodInterceptor} with the given target class.
-		 *
 		 * @param targetType must not be {@literal null}.
 		 */
 		public TargetAwareMethodInterceptor(Class<?> targetType) {
@@ -212,18 +223,21 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 			Assert.notNull(targetType, "Target type must not be null!");
 			this.targetType = targetType;
 		}
+
 		@Nullable
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
 
 			if (invocation.getMethod().equals(GET_TARGET_CLASS_METHOD)) {
 				return this.targetType;
-			} else if (invocation.getMethod().equals(GET_TARGET_METHOD)) {
+			}
+			else if (invocation.getMethod().equals(GET_TARGET_METHOD)) {
 				return invocation.getThis();
 			}
 
 			return invocation.proceed();
 		}
+
 	}
 
 	/**
@@ -237,7 +251,9 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.data.projection.MethodInterceptorFactory#createMethodInterceptor(java.lang.Object, java.lang.Class)
+		 * 
+		 * @see org.springframework.data.projection.MethodInterceptorFactory#
+		 * createMethodInterceptor(java.lang.Object, java.lang.Class)
 		 */
 		@Override
 		@SuppressWarnings("unchecked")
@@ -247,16 +263,21 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang.Object, java.lang.Class)
+		 * 
+		 * @see
+		 * org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang
+		 * .Object, java.lang.Class)
 		 */
 		@Override
 		public boolean supports(Object source, Class<?> targetType) {
 			return Map.class.isInstance(source);
 		}
+
 	}
 
 	/**
-	 * {@link MethodInterceptorFactory} to create a {@link PropertyAccessingMethodInterceptor} for arbitrary objects.
+	 * {@link MethodInterceptorFactory} to create a
+	 * {@link PropertyAccessingMethodInterceptor} for arbitrary objects.
 	 *
 	 * @author Oliver Gierke
 	 */
@@ -266,7 +287,9 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.data.projection.MethodInterceptorFactory#createMethodInterceptor(java.lang.Object, java.lang.Class)
+		 * 
+		 * @see org.springframework.data.projection.MethodInterceptorFactory#
+		 * createMethodInterceptor(java.lang.Object, java.lang.Class)
 		 */
 		@Override
 		public MethodInterceptor createMethodInterceptor(Object source, Class<?> targetType) {
@@ -275,11 +298,16 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang.Object, java.lang.Class)
+		 * 
+		 * @see
+		 * org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang
+		 * .Object, java.lang.Class)
 		 */
 		@Override
 		public boolean supports(Object source, Class<?> targetType) {
 			return true;
 		}
+
 	}
+
 }

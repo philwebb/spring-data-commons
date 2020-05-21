@@ -48,4 +48,5 @@ abstract class CdiRepositoryExtensionSupportIntegrationTests {
 	}
 
 	protected abstract <T> T getBean(Class<T> type);
+
 }

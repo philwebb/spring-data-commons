@@ -37,7 +37,8 @@ import org.xmlbeam.XBProjector;
 import org.xmlbeam.config.DefaultXMLFactoriesConfig;
 
 /**
- * A read-only {@link HttpMessageConverter} to create XMLBeam-based projection instances for interfaces.
+ * A read-only {@link HttpMessageConverter} to create XMLBeam-based projection instances
+ * for interfaces.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -46,6 +47,7 @@ import org.xmlbeam.config.DefaultXMLFactoriesConfig;
 public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
 
 	private final XBProjector projectionFactory;
+
 	private final Map<Class<?>, Boolean> supportedTypesCache = new ConcurrentReferenceHashMap<>();
 
 	/**
@@ -56,6 +58,7 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 		this(new XBProjector(new DefaultXMLFactoriesConfig() {
 
 			private static final long serialVersionUID = -1324345769124477493L;
+
 			@Override
 			public DocumentBuilderFactory createDocumentBuilderFactory() {
 
@@ -70,8 +73,8 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 	}
 
 	/**
-	 * Creates a new {@link XmlBeamHttpMessageConverter} using the given {@link XBProjector}.
-	 *
+	 * Creates a new {@link XmlBeamHttpMessageConverter} using the given
+	 * {@link XBProjector}.
 	 * @param projector must not be {@literal null}.
 	 */
 	public XmlBeamHttpMessageConverter(XBProjector projector) {
@@ -82,6 +85,7 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 		this.projectionFactory = projector;
 	}
+
 	@Override
 	protected boolean supports(Class<?> type) {
 
@@ -101,7 +105,10 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.http.converter.HttpMessageConverter#canWrite(java.lang.Class, org.springframework.http.MediaType)
+	 * 
+	 * @see
+	 * org.springframework.http.converter.HttpMessageConverter#canWrite(java.lang.Class,
+	 * org.springframework.http.MediaType)
 	 */
 	@Override
 	public boolean canWrite(Class<?> clazz, @Nullable MediaType mediaType) {
@@ -110,7 +117,10 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.http.converter.AbstractHttpMessageConverter#readInternal(java.lang.Class, org.springframework.http.HttpInputMessage)
+	 * 
+	 * @see
+	 * org.springframework.http.converter.AbstractHttpMessageConverter#readInternal(java.
+	 * lang.Class, org.springframework.http.HttpInputMessage)
 	 */
 	@Override
 	protected Object readInternal(Class<? extends Object> clazz, HttpInputMessage inputMessage)
@@ -120,13 +130,15 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 			return this.projectionFactory.io().stream(inputMessage.getBody()).read(clazz);
 
-		} catch (RuntimeException o_O) {
+		}
+		catch (RuntimeException o_O) {
 
 			Throwable cause = o_O.getCause();
 
 			if (SAXParseException.class.isInstance(cause)) {
 				throw new HttpMessageNotReadableException("Cannot read input message!", cause, inputMessage);
-			} else {
+			}
+			else {
 				throw o_O;
 			}
 		}
@@ -134,9 +146,14 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.http.converter.AbstractHttpMessageConverter#writeInternal(java.lang.Object, org.springframework.http.HttpOutputMessage)
+	 * 
+	 * @see
+	 * org.springframework.http.converter.AbstractHttpMessageConverter#writeInternal(java.
+	 * lang.Object, org.springframework.http.HttpOutputMessage)
 	 */
 	@Override
 	protected void writeInternal(Object t, HttpOutputMessage outputMessage)
-			throws IOException, HttpMessageNotWritableException {}
+			throws IOException, HttpMessageNotWritableException {
+	}
+
 }

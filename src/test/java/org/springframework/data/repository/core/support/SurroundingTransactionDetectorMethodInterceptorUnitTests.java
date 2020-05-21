@@ -53,11 +53,14 @@ class SurroundingTransactionDetectorMethodInterceptorUnitTests {
 			super(null, null, Object.class.getMethod("toString"), null, null, null);
 			this.transactionActive = expectTransactionActive;
 		}
+
 		public Object proceed() throws Throwable {
 
 			assertThat(INSTANCE.isSurroundingTransactionActive()).isEqualTo(this.transactionActive);
 
 			return null;
 		}
+
 	}
+
 }

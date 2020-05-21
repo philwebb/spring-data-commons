@@ -19,7 +19,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Extension of {@link EntityMetadata} to add functionality to query information of entity instances.
+ * Extension of {@link EntityMetadata} to add functionality to query information of entity
+ * instances.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -29,7 +30,6 @@ public interface EntityInformation<T, ID> extends EntityMetadata<T> {
 
 	/**
 	 * Returns whether the given entity is considered to be new.
-	 *
 	 * @param entity must never be {@literal null}
 	 * @return
 	 */
@@ -37,7 +37,6 @@ public interface EntityInformation<T, ID> extends EntityMetadata<T> {
 
 	/**
 	 * Returns the id of the given entity or {@literal null} if none can be obtained.
-	 *
 	 * @param entity must never be {@literal null}
 	 * @return
 	 */
@@ -46,10 +45,10 @@ public interface EntityInformation<T, ID> extends EntityMetadata<T> {
 
 	/**
 	 * Returns the identifier of the given entity.
-	 *
 	 * @param entity must not be {@literal null}.
 	 * @return the identifier of the given entity
-	 * @throws IllegalArgumentException in case no id could be obtained from the given entity
+	 * @throws IllegalArgumentException in case no id could be obtained from the given
+	 * entity
 	 * @since 2.0
 	 */
 	default ID getRequiredId(T entity) throws IllegalArgumentException {
@@ -62,13 +61,14 @@ public interface EntityInformation<T, ID> extends EntityMetadata<T> {
 			return id;
 		}
 
-		throw new IllegalArgumentException(String.format("Could not obtain required identifier from entity %s!", entity));
+		throw new IllegalArgumentException(
+				String.format("Could not obtain required identifier from entity %s!", entity));
 	}
 
 	/**
 	 * Returns the type of the id of the entity.
-	 *
 	 * @return
 	 */
 	Class<ID> getIdType();
+
 }

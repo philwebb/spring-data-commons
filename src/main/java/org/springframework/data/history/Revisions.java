@@ -25,8 +25,9 @@ import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
 
 /**
- * Simple wrapper class for a {@link List} of {@link Revisions} allowing to canonically access the latest revision.
- * Allows iterating over the underlying {@link Revisions} starting with older revisions.
+ * Simple wrapper class for a {@link List} of {@link Revisions} allowing to canonically
+ * access the latest revision. Allows iterating over the underlying {@link Revisions}
+ * starting with older revisions.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -36,12 +37,12 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 	private final Comparator<Revision<N, T>> NATURAL_ORDER = Comparator.naturalOrder();
 
 	private final List<Revision<N, T>> revisions;
+
 	private final boolean latestLast;
 
 	/**
-	 * Creates a new {@link Revisions} instance containing the given revisions. Will make sure they are ordered
-	 * ascendingly.
-	 *
+	 * Creates a new {@link Revisions} instance containing the given revisions. Will make
+	 * sure they are ordered ascendingly.
 	 * @param revisions must not be {@literal null}.
 	 */
 	private Revisions(List<? extends Revision<N, T>> revisions) {
@@ -50,7 +51,6 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 
 	/**
 	 * Creates a new {@link Revisions} instance using the given revisions.
-	 *
 	 * @param revisions must not be {@literal null}.
 	 * @param latestLast
 	 */
@@ -67,7 +67,6 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 
 	/**
 	 * Creates a new {@link Revisions} instance for the given {@link Revision}s.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public static <N extends Number & Comparable<N>, T> Revisions<N, T> of(List<? extends Revision<N, T>> revisions) {
@@ -76,7 +75,6 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 
 	/**
 	 * Creates a new empty {@link Revisions} instance.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public static <N extends Number & Comparable<N>, T> Revisions<N, T> none() {
@@ -84,8 +82,8 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 	}
 
 	/**
-	 * Returns the latest revision of the revisions backing the wrapper independently of the order.
-	 *
+	 * Returns the latest revision of the revisions backing the wrapper independently of
+	 * the order.
 	 * @return
 	 */
 	public Revision<N, T> getLatestRevision() {
@@ -94,23 +92,24 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 	}
 
 	/**
-	 * Reverses the current {@link Revisions}. By default this will return the revisions with the latest revision first.
-	 *
+	 * Reverses the current {@link Revisions}. By default this will return the revisions
+	 * with the latest revision first.
 	 * @return
 	 */
 	public Revisions<N, T> reverse() {
 		return new Revisions<>(this.revisions, !this.latestLast);
 	}
+
 	public Iterator<Revision<N, T>> iterator() {
 		return this.revisions.iterator();
 	}
 
 	/**
 	 * Returns the content of the {@link Revisions} instance.
-	 *
 	 * @return
 	 */
 	public List<Revision<N, T>> getContent() {
 		return Collections.unmodifiableList(this.revisions);
 	}
+
 }

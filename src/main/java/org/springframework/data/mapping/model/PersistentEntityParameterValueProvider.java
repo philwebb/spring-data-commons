@@ -23,10 +23,10 @@ import org.springframework.data.mapping.PreferredConstructor.Parameter;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link ParameterValueProvider} based on a {@link PersistentEntity} to use a {@link PropertyValueProvider} to lookup
- * the value of the property referenced by the given {@link Parameter}. Additionally a
- * {@link DefaultSpELExpressionEvaluator} can be configured to get property value resolution trumped by a SpEL
- * expression evaluation.
+ * {@link ParameterValueProvider} based on a {@link PersistentEntity} to use a
+ * {@link PropertyValueProvider} to lookup the value of the property referenced by the
+ * given {@link Parameter}. Additionally a {@link DefaultSpELExpressionEvaluator} can be
+ * configured to get property value resolution trumped by a SpEL expression evaluation.
  *
  * @author Oliver Gierke
  */
@@ -34,7 +34,9 @@ public class PersistentEntityParameterValueProvider<P extends PersistentProperty
 		implements ParameterValueProvider<P> {
 
 	private final PersistentEntity<?, P> entity;
+
 	private final PropertyValueProvider<P> provider;
+
 	private final @Nullable Object parent;
 
 	public PersistentEntityParameterValueProvider(PersistentEntity<?, P> entity, PropertyValueProvider<P> provider,
@@ -43,6 +45,7 @@ public class PersistentEntityParameterValueProvider<P extends PersistentProperty
 		this.provider = provider;
 		this.parent = parent;
 	}
+
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T> T getParameterValue(Parameter<T, P> parameter) {
@@ -63,9 +66,11 @@ public class PersistentEntityParameterValueProvider<P extends PersistentProperty
 
 		if (property == null) {
 			throw new MappingException(
-					String.format("No property %s found on entity %s to bind constructor parameter to!", name, this.entity.getType()));
+					String.format("No property %s found on entity %s to bind constructor parameter to!", name,
+							this.entity.getType()));
 		}
 
 		return this.provider.getPropertyValue(property);
 	}
+
 }

@@ -46,6 +46,9 @@ class ProjectionIntegrationTests {
 	}
 
 	interface SampleProjection {
+
 		String getName();
+
 	}
+
 }

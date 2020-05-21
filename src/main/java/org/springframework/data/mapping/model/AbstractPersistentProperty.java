@@ -49,21 +49,32 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	}
 
 	private final String name;
+
 	private final TypeInformation<?> information;
+
 	private final Class<?> rawType;
+
 	private final Lazy<Association<P>> association;
+
 	private final PersistentEntity<?, P> owner;
 
 	@SuppressWarnings("null") //
 	private final Property property;
+
 	private final Lazy<Integer> hashCode;
+
 	private final Lazy<Boolean> usePropertyAccess;
+
 	private final Lazy<Optional<? extends TypeInformation<?>>> entityTypeInformation;
 
 	private final Method getter;
+
 	private final Method setter;
+
 	private final Field field;
+
 	private final Method wither;
+
 	private final boolean immutable;
 
 	public AbstractPersistentProperty(Property property, PersistentEntity<?, P> owner,
@@ -94,32 +105,39 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 		if (this.setter == null && (this.field == null || Modifier.isFinal(this.field.getModifiers()))) {
 			this.immutable = true;
-		} else {
+		}
+		else {
 			this.immutable = false;
 		}
 	}
 
 	protected abstract Association<P> createAssociation();
+
 	@Override
 	public PersistentEntity<?, P> getOwner() {
 		return this.owner;
 	}
+
 	@Override
 	public String getName() {
 		return this.name;
 	}
+
 	@Override
 	public Class<?> getType() {
 		return this.information.getType();
 	}
+
 	@Override
 	public Class<?> getRawType() {
 		return this.rawType;
 	}
+
 	@Override
 	public TypeInformation<?> getTypeInformation() {
 		return this.information;
 	}
+
 	@Override
 	public Iterable<? extends TypeInformation<?>> getPersistentEntityTypes() {
 
@@ -131,69 +149,85 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 				.map(Collections::singleton)//
 				.orElseGet(Collections::emptySet);
 	}
+
 	@Override
 	public Method getGetter() {
 		return this.getter;
 	}
+
 	@Override
 	public Method getSetter() {
 		return this.setter;
 	}
+
 	@Override
 	public Method getWither() {
 		return this.wither;
 	}
+
 	@Nullable
 	public Field getField() {
 		return this.field;
 	}
+
 	@Override
 	@Nullable
 	public String getSpelExpression() {
 		return null;
 	}
+
 	@Override
 	public boolean isTransient() {
 		return false;
 	}
+
 	@Override
 	public boolean isWritable() {
 		return !isTransient();
 	}
+
 	@Override
 	public boolean isImmutable() {
 		return this.immutable;
 	}
+
 	@Override
 	public boolean isAssociation() {
 		return isAnnotationPresent(Reference.class);
 	}
+
 	@Nullable
 	@Override
 	public Association<P> getAssociation() {
 		return this.association.orElse(null);
 	}
+
 	@Override
 	public boolean isCollectionLike() {
 		return this.information.isCollectionLike();
 	}
+
 	@Override
 	public boolean isMap() {
 		return Map.class.isAssignableFrom(getType());
 	}
+
 	@Override
 	public boolean isArray() {
 		return getType().isArray();
 	}
+
 	@Override
 	public boolean isEntity() {
 		return !isTransient() && this.entityTypeInformation.get().isPresent();
 	}
+
 	@Nullable
 	@Override
 	public Class<?> getComponentType() {
 		return isMap() || isCollectionLike() ? this.information.getRequiredComponentType().getType() : null;
 	}
+
 	@Nullable
 	@Override
 	public Class<?> getMapValueType() {
@@ -208,10 +242,12 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 		return null;
 	}
+
 	@Override
 	public Class<?> getActualType() {
 		return this.information.getRequiredActualType().getType();
 	}
+
 	public boolean usePropertyAccess() {
 		return this.usePropertyAccess.get();
 	}
@@ -220,6 +256,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	protected Property getProperty() {
 		return this.property;
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -235,12 +272,15 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 		return this.property.equals(that.property);
 	}
+
 	@Override
 	public int hashCode() {
 		return this.hashCode.get();
 	}
+
 	@Override
 	public String toString() {
 		return this.property.toString();
 	}
+
 }

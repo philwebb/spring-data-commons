@@ -50,6 +50,7 @@ public class PersistentPropertyAccessorUnitTests {
 	SampleMappingContext context = new SampleMappingContext();
 
 	PersistentPropertyPath<? extends PersistentProperty<?>> path;
+
 	PersistentPropertyAccessor accessor;
 
 	private void setUp(Order order, String path) {
@@ -112,8 +113,8 @@ public class PersistentPropertyAccessorUnitTests {
 	public void correctlyReplacesObjectInstancesWhenSettingPropertyPathOnImmutableObjects() {
 
 		PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getPersistentEntity(Outer.class);
-		PersistentPropertyPath<SamplePersistentProperty> path = this.context.getPersistentPropertyPath("immutable.value",
-				entity.getType());
+		PersistentPropertyPath<SamplePersistentProperty> path = this.context
+				.getPersistentPropertyPath("immutable.value", entity.getType());
 
 		NestedImmutable immutable = new NestedImmutable("foo");
 		Outer outer = new Outer(immutable);
@@ -134,12 +135,13 @@ public class PersistentPropertyAccessorUnitTests {
 
 		Order order = new Order(new Customer("1"));
 
-		PersistentPropertyAccessor<Order> accessor = this.context.getPersistentEntity(Order.class).getPropertyAccessor(order);
+		PersistentPropertyAccessor<Order> accessor = this.context.getPersistentEntity(Order.class)
+				.getPropertyAccessor(order);
 		ConvertingPropertyAccessor<Order> convertingAccessor = new ConvertingPropertyAccessor<>(accessor,
 				new DefaultConversionService());
 
-		PersistentPropertyPath<SamplePersistentProperty> path = this.context.getPersistentPropertyPath("customer.firstname",
-				Order.class);
+		PersistentPropertyPath<SamplePersistentProperty> path = this.context
+				.getPersistentPropertyPath("customer.firstname", Order.class);
 
 		convertingAccessor.setProperty(path, 2);
 
@@ -159,23 +161,26 @@ public class PersistentPropertyAccessorUnitTests {
 
 		Spec collectionHelper = Spec.of("collection",
 				(context, property) -> context.registerCollectionHandler(property, it -> it.iterator().next()));
-		Spec listHelper = Spec.of("list", (context, property) -> context.registerListHandler(property, it -> it.get(0)));
+		Spec listHelper = Spec.of("list",
+				(context, property) -> context.registerListHandler(property, it -> it.get(0)));
 		Spec setHelper = Spec.of("set",
 				(context, property) -> context.registerSetHandler(property, it -> it.iterator().next()));
-		Spec mapHelper = Spec.of("map", (context, property) -> context.registerMapHandler(property, it -> it.get("key")));
+		Spec mapHelper = Spec.of("map",
+				(context, property) -> context.registerMapHandler(property, it -> it.get("key")));
 		Spec stringHelper = Spec.of("string",
 				(context, property) -> context.registerHandler(property, String.class, it -> it.trim()));
 
 		Stream.of(collectionHelper, listHelper, setHelper, mapHelper, stringHelper).forEach(it -> {
 
-			PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getPersistentEntity(WithContext.class);
+			PersistentEntity<Object, SamplePersistentProperty> entity = this.context
+					.getPersistentEntity(WithContext.class);
 			PersistentProperty<?> property = entity.getRequiredPersistentProperty(it.name);
 			PersistentPropertyAccessor<WithContext> accessor = entity.getPropertyAccessor(withContext);
 
 			TraversalContext traversalContext = it.registrar.apply(new TraversalContext(), property);
 
-			PersistentPropertyPath<SamplePersistentProperty> propertyPath = this.context.getPersistentPropertyPath(it.name,
-					WithContext.class);
+			PersistentPropertyPath<SamplePersistentProperty> propertyPath = this.context
+					.getPersistentPropertyPath(it.name, WithContext.class);
 
 			assertThat(accessor.getProperty(propertyPath, traversalContext)).isEqualTo("value");
 		});
@@ -195,13 +200,17 @@ public class PersistentPropertyAccessorUnitTests {
 
 	@Value
 	static class Order {
+
 		Customer customer;
+
 	}
 
 	@Data
 	@AllArgsConstructor
 	static class Customer {
+
 		String firstname;
+
 	}
 
 	// DATACMNS-1322
@@ -209,13 +218,17 @@ public class PersistentPropertyAccessorUnitTests {
 	@Value
 	@With(AccessLevel.PACKAGE)
 	static class NestedImmutable {
+
 		String value;
+
 	}
 
 	@Value
 	@With(AccessLevel.PACKAGE)
 	static class Outer {
+
 		NestedImmutable immutable;
+
 	}
 
 	// DATACMNS-1555
@@ -224,16 +237,24 @@ public class PersistentPropertyAccessorUnitTests {
 	static class WithContext {
 
 		Collection<String> collection;
+
 		List<String> list;
+
 		Set<String> set;
+
 		Map<String, String> map;
+
 		String string;
+
 	}
 
 	@Value(staticConstructor = "of")
 	static class Spec {
 
 		String name;
+
 		BiFunction<TraversalContext, PersistentProperty<?>, TraversalContext> registrar;
+
 	}
+
 }

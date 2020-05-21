@@ -32,4 +32,5 @@ import org.springframework.stereotype.Indexed;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER })
 public @interface Persistent {
+
 }

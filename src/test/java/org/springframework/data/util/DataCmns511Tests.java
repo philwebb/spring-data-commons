@@ -49,16 +49,21 @@ public class DataCmns511Tests {
 			extends AuditingEntity<USER> {
 
 		String name;
+
 	}
 
 	static abstract class AbstractUser<USER extends AbstractUser<USER, ROLE>, ROLE extends AbstractRole<USER, ROLE>> {
 
 		Set<ROLE> roles = new HashSet<>();
+
 	}
 
 	static abstract class AuditingEntity<USER extends AbstractUser<USER, ?>> {
 
 		USER createdBy;
+
 		USER lastModifiedBy;
+
 	}
+
 }

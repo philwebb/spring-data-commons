@@ -53,4 +53,5 @@ public class ParsingUtilsUnitTests {
 	public void reconcatenatesCamelCaseString() {
 		assertThat(ParsingUtils.reconcatenateCamelCase("myCamelCase", "-")).isEqualTo("my-camel-case");
 	}
+
 }

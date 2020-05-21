@@ -35,8 +35,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class LazyUnitTests {
 
-	@Mock Supplier<String> supplier;
-	@Mock Supplier<Optional<String>> optionalSupplier;
+	@Mock
+	Supplier<String> supplier;
+
+	@Mock
+	Supplier<Optional<String>> optionalSupplier;
 
 	@Test
 	void createsLazyOptional() {
@@ -116,4 +119,5 @@ class LazyUnitTests {
 		assertThat(empty.or(reference).get()).isEqualTo(reference);
 		assertThat(empty.or(() -> reference).get()).isEqualTo(reference);
 	}
+
 }

@@ -26,14 +26,15 @@ import org.springframework.data.repository.util.ReactiveWrappers;
 import org.springframework.util.ClassUtils;
 
 /**
- * Base class for repository factories to use reactive support. Centralizes the validation of the classpath setup in
- * case a repository uses reactive types.
+ * Base class for repository factories to use reactive support. Centralizes the validation
+ * of the classpath setup in case a repository uses reactive types.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
  * @since 2.0
  */
 public abstract class ReactiveRepositoryFactorySupport extends RepositoryFactorySupport {
+
 	@Override
 	protected void validate(RepositoryMetadata repositoryMetadata) {
 
@@ -52,8 +53,8 @@ public abstract class ReactiveRepositoryFactorySupport extends RepositoryFactory
 	}
 
 	/**
-	 * We need to make sure that the necessary conversion libraries are in place if the repository interface uses RxJava 1
-	 * types.
+	 * We need to make sure that the necessary conversion libraries are in place if the
+	 * repository interface uses RxJava 1 types.
 	 *
 	 * @author Mark Paluch
 	 * @author Oliver Gierke
@@ -64,9 +65,9 @@ public abstract class ReactiveRepositoryFactorySupport extends RepositoryFactory
 				RxJavaOneConversionSetup.class.getClassLoader());
 
 		/**
-		 * Reactive MongoDB support requires reactive wrapper support. If return type/parameters are reactive wrapper types,
-		 * then it's required to be able to convert these.
-		 *
+		 * Reactive MongoDB support requires reactive wrapper support. If return
+		 * type/parameters are reactive wrapper types, then it's required to be able to
+		 * convert these.
 		 * @param method the method to validate.
 		 */
 		private static void validate(Method method) {
@@ -90,5 +91,7 @@ public abstract class ReactiveRepositoryFactorySupport extends RepositoryFactory
 										parameterType.getName(), method.getDeclaringClass().getName(), method));
 					});
 		}
+
 	}
+
 }

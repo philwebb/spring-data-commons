@@ -28,8 +28,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * {@link HandlerMethodArgumentResolver} to automatically create {@link Sort} instances from request parameters or
- * {@link SortDefault} annotations.
+ * {@link HandlerMethodArgumentResolver} to automatically create {@link Sort} instances
+ * from request parameters or {@link SortDefault} annotations.
  *
  * @since 1.6
  * @author Oliver Gierke
@@ -40,6 +40,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 public class SortHandlerMethodArgumentResolver extends SortHandlerMethodArgumentResolverSupport
 		implements SortArgumentResolver {
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return Sort.class.equals(parameter.getParameterType());
@@ -47,7 +48,12 @@ public class SortHandlerMethodArgumentResolver extends SortHandlerMethodArgument
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#resolveArgument(org.springframework.core.MethodParameter, org.springframework.web.method.support.ModelAndViewContainer, org.springframework.web.context.request.NativeWebRequest, org.springframework.web.bind.support.WebDataBinderFactory)
+	 * 
+	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#
+	 * resolveArgument(org.springframework.core.MethodParameter,
+	 * org.springframework.web.method.support.ModelAndViewContainer,
+	 * org.springframework.web.context.request.NativeWebRequest,
+	 * org.springframework.web.bind.support.WebDataBinderFactory)
 	 */
 	@Override
 	public Sort resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
@@ -67,4 +73,5 @@ public class SortHandlerMethodArgumentResolver extends SortHandlerMethodArgument
 
 		return parseParameterIntoSort(Arrays.asList(directionParameter), getPropertyDelimiter());
 	}
+
 }

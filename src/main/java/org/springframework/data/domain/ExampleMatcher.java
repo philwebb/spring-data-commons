@@ -27,11 +27,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Specification for property path matching to use in query by example (QBE). An {@link ExampleMatcher} can be created
- * for a {@link Class object type}. Instances of {@link ExampleMatcher} can be either {@link #matchingAll()} or
- * {@link #matchingAny()} and settings can be tuned {@code with...} methods in a fluent style. {@code with...} methods
- * return a copy of the {@link ExampleMatcher} instance with the specified setting. Null-handling defaults to
- * {@link NullHandler#IGNORE} and case-sensitive {@link StringMatcher#DEFAULT} string matching.
+ * Specification for property path matching to use in query by example (QBE). An
+ * {@link ExampleMatcher} can be created for a {@link Class object type}. Instances of
+ * {@link ExampleMatcher} can be either {@link #matchingAll()} or {@link #matchingAny()}
+ * and settings can be tuned {@code with...} methods in a fluent style. {@code with...}
+ * methods return a copy of the {@link ExampleMatcher} instance with the specified
+ * setting. Null-handling defaults to {@link NullHandler#IGNORE} and case-sensitive
+ * {@link StringMatcher#DEFAULT} string matching.
  * <p>
  * This class is immutable.
  *
@@ -44,9 +46,8 @@ import org.springframework.util.ObjectUtils;
 public interface ExampleMatcher {
 
 	/**
-	 * Create a new {@link ExampleMatcher} including all non-null properties by default matching <strong>all</strong>
-	 * predicates derived from the example.
-	 *
+	 * Create a new {@link ExampleMatcher} including all non-null properties by default
+	 * matching <strong>all</strong> predicates derived from the example.
 	 * @return new instance of {@link ExampleMatcher}.
 	 * @see #matchingAll()
 	 */
@@ -55,9 +56,8 @@ public interface ExampleMatcher {
 	}
 
 	/**
-	 * Create a new {@link ExampleMatcher} including all non-null properties by default matching <strong>any</strong>
-	 * predicate derived from the example.
-	 *
+	 * Create a new {@link ExampleMatcher} including all non-null properties by default
+	 * matching <strong>any</strong> predicate derived from the example.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	static ExampleMatcher matchingAny() {
@@ -65,9 +65,8 @@ public interface ExampleMatcher {
 	}
 
 	/**
-	 * Create a new {@link ExampleMatcher} including all non-null properties by default matching <strong>all</strong>
-	 * predicates derived from the example.
-	 *
+	 * Create a new {@link ExampleMatcher} including all non-null properties by default
+	 * matching <strong>all</strong> predicates derived from the example.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	static ExampleMatcher matchingAll() {
@@ -75,27 +74,26 @@ public interface ExampleMatcher {
 	}
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with the specified {@code propertyPaths}. This instance is immutable
-	 * and unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with the specified
+	 * {@code propertyPaths}. This instance is immutable and unaffected by this method
+	 * call.
 	 * @param ignoredPaths must not be {@literal null} and not empty.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	ExampleMatcher withIgnorePaths(String... ignoredPaths);
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with the specified string matching of {@code defaultStringMatcher}.
-	 * This instance is immutable and unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with the specified string matching of
+	 * {@code defaultStringMatcher}. This instance is immutable and unaffected by this
+	 * method call.
 	 * @param defaultStringMatcher must not be {@literal null}.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	ExampleMatcher withStringMatcher(StringMatcher defaultStringMatcher);
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with ignoring case sensitivity by default. This instance is immutable
-	 * and unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with ignoring case sensitivity by
+	 * default. This instance is immutable and unaffected by this method call.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	default ExampleMatcher withIgnoreCase() {
@@ -103,23 +101,24 @@ public interface ExampleMatcher {
 	}
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with {@code defaultIgnoreCase}. This instance is immutable and
-	 * unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with {@code defaultIgnoreCase}. This
+	 * instance is immutable and unaffected by this method call.
 	 * @param defaultIgnoreCase
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	ExampleMatcher withIgnoreCase(boolean defaultIgnoreCase);
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with the specified {@code GenericPropertyMatcher} for the
-	 * {@code propertyPath}. This instance is immutable and unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with the specified
+	 * {@code GenericPropertyMatcher} for the {@code propertyPath}. This instance is
+	 * immutable and unaffected by this method call.
 	 * @param propertyPath must not be {@literal null}.
-	 * @param matcherConfigurer callback to configure a {@link GenericPropertyMatcher}, must not be {@literal null}.
+	 * @param matcherConfigurer callback to configure a {@link GenericPropertyMatcher},
+	 * must not be {@literal null}.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
-	default ExampleMatcher withMatcher(String propertyPath, MatcherConfigurer<GenericPropertyMatcher> matcherConfigurer) {
+	default ExampleMatcher withMatcher(String propertyPath,
+			MatcherConfigurer<GenericPropertyMatcher> matcherConfigurer) {
 
 		Assert.hasText(propertyPath, "PropertyPath must not be empty!");
 		Assert.notNull(matcherConfigurer, "MatcherConfigurer must not be empty!");
@@ -131,19 +130,19 @@ public interface ExampleMatcher {
 	}
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with the specified {@code GenericPropertyMatcher} for the
-	 * {@code propertyPath}. This instance is immutable and unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with the specified
+	 * {@code GenericPropertyMatcher} for the {@code propertyPath}. This instance is
+	 * immutable and unaffected by this method call.
 	 * @param propertyPath must not be {@literal null}.
-	 * @param genericPropertyMatcher callback to configure a {@link GenericPropertyMatcher}, must not be {@literal null}.
+	 * @param genericPropertyMatcher callback to configure a
+	 * {@link GenericPropertyMatcher}, must not be {@literal null}.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	ExampleMatcher withMatcher(String propertyPath, GenericPropertyMatcher genericPropertyMatcher);
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with the specified {@code PropertyValueTransformer} for the
-	 * {@code propertyPath}.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with the specified
+	 * {@code PropertyValueTransformer} for the {@code propertyPath}.
 	 * @param propertyPath must not be {@literal null}.
 	 * @param propertyValueTransformer must not be {@literal null}.
 	 * @return new instance of {@link ExampleMatcher}.
@@ -151,18 +150,18 @@ public interface ExampleMatcher {
 	ExampleMatcher withTransformer(String propertyPath, PropertyValueTransformer propertyValueTransformer);
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with ignore case sensitivity for the {@code propertyPaths}. This
-	 * instance is immutable and unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with ignore case sensitivity for the
+	 * {@code propertyPaths}. This instance is immutable and unaffected by this method
+	 * call.
 	 * @param propertyPaths must not be {@literal null} and not empty.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	ExampleMatcher withIgnoreCase(String... propertyPaths);
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with treatment for {@literal null} values of
-	 * {@link NullHandler#INCLUDE} . This instance is immutable and unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with treatment for {@literal null}
+	 * values of {@link NullHandler#INCLUDE} . This instance is immutable and unaffected
+	 * by this method call.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	default ExampleMatcher withIncludeNullValues() {
@@ -170,9 +169,9 @@ public interface ExampleMatcher {
 	}
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with treatment for {@literal null} values of
-	 * {@link NullHandler#IGNORE}. This instance is immutable and unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with treatment for {@literal null}
+	 * values of {@link NullHandler#IGNORE}. This instance is immutable and unaffected by
+	 * this method call.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
 	default ExampleMatcher withIgnoreNullValues() {
@@ -180,9 +179,8 @@ public interface ExampleMatcher {
 	}
 
 	/**
-	 * Returns a copy of this {@link ExampleMatcher} with the specified {@code nullHandler}. This instance is immutable
-	 * and unaffected by this method call.
-	 *
+	 * Returns a copy of this {@link ExampleMatcher} with the specified
+	 * {@code nullHandler}. This instance is immutable and unaffected by this method call.
 	 * @param nullHandler must not be {@literal null}.
 	 * @return new instance of {@link ExampleMatcher}.
 	 */
@@ -190,20 +188,19 @@ public interface ExampleMatcher {
 
 	/**
 	 * Get defined null handling.
-	 *
 	 * @return never {@literal null}
 	 */
 	NullHandler getNullHandler();
 
 	/**
 	 * Get defined {@link ExampleMatcher.StringMatcher}.
-	 *
 	 * @return never {@literal null}.
 	 */
 	StringMatcher getDefaultStringMatcher();
 
 	/**
-	 * @return {@literal true} if {@link String} should be matched with ignore case option.
+	 * @return {@literal true} if {@link String} should be matched with ignore case
+	 * option.
 	 */
 	boolean isIgnoreCaseEnabled();
 
@@ -226,20 +223,22 @@ public interface ExampleMatcher {
 	PropertySpecifiers getPropertySpecifiers();
 
 	/**
-	 * Returns whether all of the predicates of the {@link Example} are supposed to match. If {@literal false} is
-	 * returned, it's sufficient if any of the predicates derived from the {@link Example} match.
-	 *
-	 * @return whether all of the predicates of the {@link Example} are supposed to match or any of them is sufficient.
+	 * Returns whether all of the predicates of the {@link Example} are supposed to match.
+	 * If {@literal false} is returned, it's sufficient if any of the predicates derived
+	 * from the {@link Example} match.
+	 * @return whether all of the predicates of the {@link Example} are supposed to match
+	 * or any of them is sufficient.
 	 */
 	default boolean isAllMatching() {
 		return getMatchMode().equals(MatchMode.ALL);
 	}
 
 	/**
-	 * Returns whether it's sufficient that any of the predicates of the {@link Example} match. If {@literal false} is
-	 * returned, all predicates derived from the example need to match to produce results.
-	 *
-	 * @return whether it's sufficient that any of the predicates of the {@link Example} match or all need to match.
+	 * Returns whether it's sufficient that any of the predicates of the {@link Example}
+	 * match. If {@literal false} is returned, all predicates derived from the example
+	 * need to match to produce results.
+	 * @return whether it's sufficient that any of the predicates of the {@link Example}
+	 * match or all need to match.
 	 */
 	default boolean isAnyMatching() {
 		return getMatchMode().equals(MatchMode.ANY);
@@ -247,7 +246,6 @@ public interface ExampleMatcher {
 
 	/**
 	 * Get the match mode of the {@link ExampleMatcher}.
-	 *
 	 * @return never {@literal null}.
 	 * @since 2.0
 	 */
@@ -261,6 +259,7 @@ public interface ExampleMatcher {
 	enum NullHandler {
 
 		INCLUDE, IGNORE
+
 	}
 
 	/**
@@ -270,28 +269,36 @@ public interface ExampleMatcher {
 	 * @param <T>
 	 */
 	interface MatcherConfigurer<T> {
+
 		void configureMatcher(T matcher);
+
 	}
 
 	/**
-	 * A generic property matcher that specifies {@link StringMatcher string matching} and case sensitivity.
+	 * A generic property matcher that specifies {@link StringMatcher string matching} and
+	 * case sensitivity.
 	 *
 	 * @author Mark Paluch
 	 */
 	class GenericPropertyMatcher {
 
-		@Nullable StringMatcher stringMatcher = null;
-		@Nullable Boolean ignoreCase = null;
+		@Nullable
+		StringMatcher stringMatcher = null;
+
+		@Nullable
+		Boolean ignoreCase = null;
+
 		PropertyValueTransformer valueTransformer = NoOpPropertyValueTransformer.INSTANCE;
 
 		/**
 		 * Creates an unconfigured {@link GenericPropertyMatcher}.
 		 */
-		public GenericPropertyMatcher() {}
+		public GenericPropertyMatcher() {
+		}
 
 		/**
-		 * Creates a new {@link GenericPropertyMatcher} with a {@link StringMatcher} and {@code ignoreCase}.
-		 *
+		 * Creates a new {@link GenericPropertyMatcher} with a {@link StringMatcher} and
+		 * {@code ignoreCase}.
 		 * @param stringMatcher must not be {@literal null}.
 		 * @param ignoreCase
 		 * @return
@@ -301,8 +308,8 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a new {@link GenericPropertyMatcher} with a {@link StringMatcher} and {@code ignoreCase}.
-		 *
+		 * Creates a new {@link GenericPropertyMatcher} with a {@link StringMatcher} and
+		 * {@code ignoreCase}.
 		 * @param stringMatcher must not be {@literal null}.
 		 * @return
 		 */
@@ -312,7 +319,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets ignores case to {@literal true}.
-		 *
 		 * @return
 		 */
 		public GenericPropertyMatcher ignoreCase() {
@@ -323,7 +329,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets ignores case to {@code ignoreCase}.
-		 *
 		 * @param ignoreCase
 		 * @return
 		 */
@@ -335,7 +340,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets ignores case to {@literal false}.
-		 *
 		 * @return
 		 */
 		public GenericPropertyMatcher caseSensitive() {
@@ -346,7 +350,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets string matcher to {@link StringMatcher#CONTAINING}.
-		 *
 		 * @return
 		 */
 		public GenericPropertyMatcher contains() {
@@ -357,7 +360,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets string matcher to {@link StringMatcher#ENDING}.
-		 *
 		 * @return
 		 */
 		public GenericPropertyMatcher endsWith() {
@@ -368,7 +370,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets string matcher to {@link StringMatcher#STARTING}.
-		 *
 		 * @return
 		 */
 		public GenericPropertyMatcher startsWith() {
@@ -379,7 +380,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets string matcher to {@link StringMatcher#EXACT}.
-		 *
 		 * @return
 		 */
 		public GenericPropertyMatcher exact() {
@@ -390,7 +390,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets string matcher to {@link StringMatcher#DEFAULT}.
-		 *
 		 * @return
 		 */
 		public GenericPropertyMatcher storeDefaultMatching() {
@@ -401,7 +400,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets string matcher to {@link StringMatcher#REGEX}.
-		 *
 		 * @return
 		 */
 		public GenericPropertyMatcher regex() {
@@ -412,7 +410,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets string matcher to {@code stringMatcher}.
-		 *
 		 * @param stringMatcher must not be {@literal null}.
 		 * @return
 		 */
@@ -425,7 +422,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Sets the {@link PropertyValueTransformer} to {@code propertyValueTransformer}.
-		 *
 		 * @param propertyValueTransformer must not be {@literal null}.
 		 * @return
 		 */
@@ -439,6 +435,7 @@ public interface ExampleMatcher {
 		protected boolean canEqual(final Object other) {
 			return other instanceof GenericPropertyMatcher;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -461,6 +458,7 @@ public interface ExampleMatcher {
 
 			return ObjectUtils.nullSafeEquals(this.valueTransformer, that.valueTransformer);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.stringMatcher);
@@ -468,6 +466,7 @@ public interface ExampleMatcher {
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.valueTransformer);
 			return result;
 		}
+
 	}
 
 	/**
@@ -479,7 +478,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Creates a {@link GenericPropertyMatcher} that matches string case insensitive.
-		 *
 		 * @return
 		 */
 		public static GenericPropertyMatcher ignoreCase() {
@@ -488,7 +486,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Creates a {@link GenericPropertyMatcher} that matches string case sensitive.
-		 *
 		 * @return
 		 */
 		public static GenericPropertyMatcher caseSensitive() {
@@ -496,8 +493,8 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a {@link GenericPropertyMatcher} that matches string using {@link StringMatcher#CONTAINING}.
-		 *
+		 * Creates a {@link GenericPropertyMatcher} that matches string using
+		 * {@link StringMatcher#CONTAINING}.
 		 * @return
 		 */
 		public static GenericPropertyMatcher contains() {
@@ -505,8 +502,8 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a {@link GenericPropertyMatcher} that matches string using {@link StringMatcher#ENDING}.
-		 *
+		 * Creates a {@link GenericPropertyMatcher} that matches string using
+		 * {@link StringMatcher#ENDING}.
 		 * @return
 		 */
 		public static GenericPropertyMatcher endsWith() {
@@ -515,8 +512,8 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a {@link GenericPropertyMatcher} that matches string using {@link StringMatcher#STARTING}.
-		 *
+		 * Creates a {@link GenericPropertyMatcher} that matches string using
+		 * {@link StringMatcher#STARTING}.
 		 * @return
 		 */
 		public static GenericPropertyMatcher startsWith() {
@@ -524,8 +521,8 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a {@link GenericPropertyMatcher} that matches string using {@link StringMatcher#EXACT}.
-		 *
+		 * Creates a {@link GenericPropertyMatcher} that matches string using
+		 * {@link StringMatcher#EXACT}.
 		 * @return
 		 */
 		public static GenericPropertyMatcher exact() {
@@ -533,8 +530,8 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a {@link GenericPropertyMatcher} that matches string using {@link StringMatcher#DEFAULT}.
-		 *
+		 * Creates a {@link GenericPropertyMatcher} that matches string using
+		 * {@link StringMatcher#DEFAULT}.
 		 * @return
 		 */
 		public static GenericPropertyMatcher storeDefaultMatching() {
@@ -542,13 +539,14 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a {@link GenericPropertyMatcher} that matches string using {@link StringMatcher#REGEX}.
-		 *
+		 * Creates a {@link GenericPropertyMatcher} that matches string using
+		 * {@link StringMatcher#REGEX}.
 		 * @return
 		 */
 		public static GenericPropertyMatcher regex() {
 			return new GenericPropertyMatcher().regex();
 		}
+
 	}
 
 	/**
@@ -583,12 +581,15 @@ public interface ExampleMatcher {
 		 * Treats strings as regular expression patterns
 		 */
 		REGEX;
+
 	}
 
 	/**
 	 * Allows to transform the property value before it is used in the query.
 	 */
-	interface PropertyValueTransformer extends Function<Optional<Object>, Optional<Object>> {}
+	interface PropertyValueTransformer extends Function<Optional<Object>, Optional<Object>> {
+
+	}
 
 	/**
 	 * @author Christoph Strobl
@@ -598,11 +599,13 @@ public interface ExampleMatcher {
 	enum NoOpPropertyValueTransformer implements ExampleMatcher.PropertyValueTransformer {
 
 		INSTANCE;
+
 		@Override
 		@SuppressWarnings("null")
 		public Optional<Object> apply(Optional<Object> source) {
 			return source;
 		}
+
 	}
 
 	/**
@@ -615,13 +618,15 @@ public interface ExampleMatcher {
 	class PropertySpecifier {
 
 		private final String path;
+
 		private final @Nullable StringMatcher stringMatcher;
+
 		private final @Nullable Boolean ignoreCase;
+
 		private final PropertyValueTransformer valueTransformer;
 
 		/**
 		 * Creates new {@link PropertySpecifier} for given path.
-		 *
 		 * @param path Dot-Path to the property. Must not be {@literal null}.
 		 */
 		PropertySpecifier(String path) {
@@ -643,9 +648,8 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a new {@link PropertySpecifier} containing all values from the current instance and sets
-		 * {@link StringMatcher} in the returned instance.
-		 *
+		 * Creates a new {@link PropertySpecifier} containing all values from the current
+		 * instance and sets {@link StringMatcher} in the returned instance.
 		 * @param stringMatcher must not be {@literal null}.
 		 * @return
 		 */
@@ -656,9 +660,8 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a new {@link PropertySpecifier} containing all values from the current instance and sets
-		 * {@code ignoreCase}.
-		 *
+		 * Creates a new {@link PropertySpecifier} containing all values from the current
+		 * instance and sets {@code ignoreCase}.
 		 * @param ignoreCase must not be {@literal null}.
 		 * @return
 		 */
@@ -667,9 +670,8 @@ public interface ExampleMatcher {
 		}
 
 		/**
-		 * Creates a new {@link PropertySpecifier} containing all values from the current instance and sets
-		 * {@link PropertyValueTransformer} in the returned instance.
-		 *
+		 * Creates a new {@link PropertySpecifier} containing all values from the current
+		 * instance and sets {@link PropertyValueTransformer} in the returned instance.
 		 * @param valueTransformer must not be {@literal null}.
 		 * @return
 		 */
@@ -681,7 +683,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Get the properties Dot-Path.
-		 *
 		 * @return never {@literal null}.
 		 */
 		public String getPath() {
@@ -690,7 +691,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Get the {@link StringMatcher}.
-		 *
 		 * @return can be {@literal null}.
 		 */
 		@Nullable
@@ -708,7 +708,6 @@ public interface ExampleMatcher {
 
 		/**
 		 * Get the property transformer to be applied.
-		 *
 		 * @return never {@literal null}.
 		 */
 		public PropertyValueTransformer getPropertyValueTransformer() {
@@ -717,13 +716,13 @@ public interface ExampleMatcher {
 
 		/**
 		 * Transforms a given source using the {@link PropertyValueTransformer}.
-		 *
 		 * @param source
 		 * @return
 		 */
 		public Optional<Object> transformValue(Optional<Object> source) {
 			return getPropertyValueTransformer().apply(source);
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -750,6 +749,7 @@ public interface ExampleMatcher {
 
 			return ObjectUtils.nullSafeEquals(this.valueTransformer, that.valueTransformer);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.path);
@@ -776,7 +776,8 @@ public interface ExampleMatcher {
 
 		private final Map<String, PropertySpecifier> propertySpecifiers = new LinkedHashMap<>();
 
-		PropertySpecifiers() {}
+		PropertySpecifiers() {
+		}
 
 		PropertySpecifiers(PropertySpecifiers propertySpecifiers) {
 			this.propertySpecifiers.putAll(propertySpecifiers.propertySpecifiers);
@@ -803,6 +804,7 @@ public interface ExampleMatcher {
 		public Collection<PropertySpecifier> getSpecifiers() {
 			return this.propertySpecifiers.values();
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -817,20 +819,26 @@ public interface ExampleMatcher {
 			PropertySpecifiers that = (PropertySpecifiers) o;
 			return ObjectUtils.nullSafeEquals(this.propertySpecifiers, that.propertySpecifiers);
 		}
+
 		@Override
 		public int hashCode() {
 			return ObjectUtils.nullSafeHashCode(this.propertySpecifiers);
 		}
+
 	}
 
 	/**
-	 * The match modes to expose so that clients can find about how to concatenate the predicates.
+	 * The match modes to expose so that clients can find about how to concatenate the
+	 * predicates.
 	 *
 	 * @author Oliver Gierke
 	 * @since 1.13
 	 * @see ExampleMatcher#isAllMatching()
 	 */
 	enum MatchMode {
+
 		ALL, ANY;
+
 	}
+
 }

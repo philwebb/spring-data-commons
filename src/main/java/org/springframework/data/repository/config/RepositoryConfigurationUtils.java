@@ -23,19 +23,19 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.util.Assert;
 
 /**
- * Helper class to centralize common functionality that needs to be used in various places of the configuration
- * implementation.
+ * Helper class to centralize common functionality that needs to be used in various places
+ * of the configuration implementation.
  *
  * @author Oliver Gierke
  */
 public interface RepositoryConfigurationUtils {
 
 	/**
-	 * Registers the given {@link RepositoryConfigurationExtension} to indicate the repository configuration for a
-	 * particular store (expressed through the extension's concrete type) has happened. Useful for downstream components
-	 * that need to detect exactly that case. The bean definition is marked as lazy-init so that it doesn't get
-	 * instantiated if no one really cares.
-	 *
+	 * Registers the given {@link RepositoryConfigurationExtension} to indicate the
+	 * repository configuration for a particular store (expressed through the extension's
+	 * concrete type) has happened. Useful for downstream components that need to detect
+	 * exactly that case. The bean definition is marked as lazy-init so that it doesn't
+	 * get instantiated if no one really cares.
 	 * @param extension must not be {@literal null}.
 	 * @param registry must not be {@literal null}.
 	 * @param configurationSource must not be {@literal null}.
@@ -54,7 +54,8 @@ public interface RepositoryConfigurationUtils {
 			return;
 		}
 
-		// Register extension as bean to indicate repository parsing and registration has happened
+		// Register extension as bean to indicate repository parsing and registration has
+		// happened
 		RootBeanDefinition definition = new RootBeanDefinition(extensionType);
 		definition.setSource(configurationSource.getSource());
 		definition.setRole(AbstractBeanDefinition.ROLE_INFRASTRUCTURE);
@@ -62,4 +63,5 @@ public interface RepositoryConfigurationUtils {
 
 		registry.registerBeanDefinition(beanName, definition);
 	}
+
 }

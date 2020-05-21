@@ -49,12 +49,17 @@ import org.xml.sax.SAXException;
 class TypeFilterParserUnitTests {
 
 	TypeFilterParser parser;
+
 	Element documentElement;
 
-	@Mock ReaderContext context;
-	@Mock ClassLoader classLoader;
+	@Mock
+	ReaderContext context;
 
-	@Mock ClassPathScanningCandidateComponentProvider scanner;
+	@Mock
+	ClassLoader classLoader;
+
+	@Mock
+	ClassPathScanningCandidateComponentProvider scanner;
 
 	@BeforeEach
 	void setUp() throws SAXException, IOException, ParserConfigurationException {
@@ -86,4 +91,5 @@ class TypeFilterParserUnitTests {
 		Iterable<TypeFilter> filters = this.parser.parseTypeFilters(element, Type.EXCLUDE);
 		assertThat(filters).hasAtLeastOneElementOfType(AssignableTypeFilter.class);
 	}
+
 }

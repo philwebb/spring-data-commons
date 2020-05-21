@@ -20,7 +20,6 @@ import java.io.Serializable;
 import org.springframework.data.repository.Repository;
 
 /**
- *
  * @author Oliver Gierke
  */
 interface SampleRepository extends Repository<Object, Serializable> {

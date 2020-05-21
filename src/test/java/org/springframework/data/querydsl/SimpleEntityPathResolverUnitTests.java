@@ -38,7 +38,8 @@ class SimpleEntityPathResolverUnitTests {
 
 	@Test
 	void resolvesEntityPathForInnerClassCorrectly() throws Exception {
-		assertThat(this.resolver.createPath(NamedUser.class)).isInstanceOf(QSimpleEntityPathResolverUnitTests_NamedUser.class);
+		assertThat(this.resolver.createPath(NamedUser.class))
+				.isInstanceOf(QSimpleEntityPathResolverUnitTests_NamedUser.class);
 	}
 
 	@Test
@@ -62,4 +63,5 @@ class SimpleEntityPathResolverUnitTests {
 	static class NamedUser {
 
 	}
+
 }

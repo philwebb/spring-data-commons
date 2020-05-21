@@ -56,7 +56,8 @@ class RepositoryComponentProviderUnitTests {
 	@Test
 	void limitsFoundRepositoriesToIncludeFiltersOnly() {
 
-		List<? extends TypeFilter> filters = Collections.singletonList(new AssignableTypeFilter(MyOtherRepository.class));
+		List<? extends TypeFilter> filters = Collections
+				.singletonList(new AssignableTypeFilter(MyOtherRepository.class));
 
 		RepositoryComponentProvider provider = new RepositoryComponentProvider(filters, this.registry);
 		Set<BeanDefinition> components = provider.findCandidateComponents("org.springframework.data.repository");
@@ -92,5 +93,8 @@ class RepositoryComponentProviderUnitTests {
 		assertThat(provider.getRegistry()).isEqualTo(this.registry);
 	}
 
-	interface MyNestedRepository extends Repository<Person, Long> {}
+	interface MyNestedRepository extends Repository<Person, Long> {
+
+	}
+
 }

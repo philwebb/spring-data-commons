@@ -26,8 +26,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Evaluates SpEL expressions as extracted by the {@link SpelExtractor} based on parameter information from a method and
- * parameter values from a method call.
+ * Evaluates SpEL expressions as extracted by the {@link SpelExtractor} based on parameter
+ * information from a method and parameter values from a method call.
  *
  * @author Jens Schauder
  * @author Gerrit Meier
@@ -40,7 +40,9 @@ public class SpelEvaluator {
 	private final static SpelExpressionParser PARSER = new SpelExpressionParser();
 
 	private final QueryMethodEvaluationContextProvider evaluationContextProvider;
+
 	private final Parameters<?, ?> parameters;
+
 	private final SpelExtractor extractor;
 
 	public SpelEvaluator(QueryMethodEvaluationContextProvider evaluationContextProvider, Parameters<?, ?> parameters,
@@ -51,16 +53,18 @@ public class SpelEvaluator {
 	}
 
 	/**
-	 * Evaluate all the SpEL expressions in {@link #parameterNameToSpelMap} based on values provided as an argument.
-	 *
+	 * Evaluate all the SpEL expressions in {@link #parameterNameToSpelMap} based on
+	 * values provided as an argument.
 	 * @param values Parameter values. Must not be {@literal null}.
-	 * @return a map from parameter name to evaluated value. Guaranteed to be not {@literal null}.
+	 * @return a map from parameter name to evaluated value. Guaranteed to be not
+	 * {@literal null}.
 	 */
 	public Map<String, Object> evaluate(Object[] values) {
 
 		Assert.notNull(values, "Values must not be null.");
 
-		EvaluationContext evaluationContext = this.evaluationContextProvider.getEvaluationContext(this.parameters, values);
+		EvaluationContext evaluationContext = this.evaluationContextProvider.getEvaluationContext(this.parameters,
+				values);
 
 		return this.extractor.getParameters().collect(Collectors.toMap(//
 				Entry::getKey, //
@@ -69,8 +73,8 @@ public class SpelEvaluator {
 	}
 
 	/**
-	 * Returns the query string produced by the intermediate SpEL expression collection step.
-	 *
+	 * Returns the query string produced by the intermediate SpEL expression collection
+	 * step.
 	 * @return
 	 */
 	public String getQueryString() {
@@ -81,4 +85,5 @@ public class SpelEvaluator {
 	private static Object getSpElValue(EvaluationContext evaluationContext, String expression) {
 		return PARSER.parseExpression(expression).getValue(evaluationContext);
 	}
+
 }

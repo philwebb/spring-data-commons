@@ -85,23 +85,36 @@ class MethodInvocationRecorderUnitTests {
 		assertThat(recorder.record(Sample::getName).getPropertyPath()).hasValue("name");
 	}
 
-	static final class FinalType {}
+	static final class FinalType {
+
+	}
 
 	@Getter
 	static class Foo {
+
 		Bar bar;
+
 		Collection<Bar> bars;
+
 		String name;
+
 	}
 
 	@Getter
 	static class Bar {
+
 		FooBar fooBar;
+
 	}
 
-	static class FooBar {}
+	static class FooBar {
+
+	}
 
 	interface Sample {
+
 		String getName();
+
 	}
+
 }

@@ -43,7 +43,8 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		this.supportedMethodParameter = new MethodParameter(Sample.class.getMethod("supportedMethod", Pageable.class), 0);
+		this.supportedMethodParameter = new MethodParameter(Sample.class.getMethod("supportedMethod", Pageable.class),
+				0);
 	}
 
 	@Test // DATACMNS-1211
@@ -100,8 +101,8 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 	@Test // DATACMNS-1211
 	void rejectsInvalidCustomDefaultForPageSize() throws Exception {
 
-		MethodParameter parameter = new MethodParameter(Sample.class.getMethod("invalidDefaultPageSize", Pageable.class),
-				0);
+		MethodParameter parameter = new MethodParameter(
+				Sample.class.getMethod("invalidDefaultPageSize", Pageable.class), 0);
 
 		assertThatIllegalStateException().isThrownBy(() -> assertSupportedAndResult(parameter, DEFAULT_PAGE_REQUEST))
 				.withMessageContaining("invalidDefaultPageSize");
@@ -137,7 +138,8 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setFallbackPageable(Pageable.unpaged());
 
-		assertSupportedAndResult(this.supportedMethodParameter, Pageable.unpaged(), TestUtils.getWebfluxRequest(), resolver);
+		assertSupportedAndResult(this.supportedMethodParameter, Pageable.unpaged(), TestUtils.getWebfluxRequest(),
+				resolver);
 	}
 
 	@Test // DATACMNS-1211
@@ -237,8 +239,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 	}
 
 	private static void assertSupportedAndResult(MethodParameter parameter, Pageable pageable,
-			MockServerHttpRequest request,
-			SyncHandlerMethodArgumentResolver resolver) {
+			MockServerHttpRequest request, SyncHandlerMethodArgumentResolver resolver) {
 
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
 
@@ -260,8 +261,8 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 		void simpleDefault(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) Pageable pageable);
 
-		void simpleDefaultWithSort(
-				@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER, sort = { "firstname", "lastname" }) Pageable pageable);
+		void simpleDefaultWithSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER,
+				sort = { "firstname", "lastname" }) Pageable pageable);
 
 		void simpleDefaultWithSortAndDirection(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER,
 				sort = { "firstname", "lastname" }, direction = Direction.DESC) Pageable pageable);
@@ -277,5 +278,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 		void validQualifier(@Qualifier("foo") Pageable pageable);
 
 		void noQualifiers(Pageable first, Pageable second);
+
 	}
+
 }

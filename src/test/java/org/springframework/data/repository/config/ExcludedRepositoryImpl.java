@@ -19,8 +19,10 @@ package org.springframework.data.repository.config;
  * @author Mark Paluch
  */
 public class ExcludedRepositoryImpl<T, ID> implements ExcludedRepository<T, ID> {
+
 	@Override
 	public String getImplementationId() {
 		return getClass().getName();
 	}
+
 }

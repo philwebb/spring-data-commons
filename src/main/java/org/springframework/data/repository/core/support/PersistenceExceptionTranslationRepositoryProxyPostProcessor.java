@@ -22,8 +22,8 @@ import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.util.Assert;
 
 /**
- * {@link RepositoryProxyPostProcessor} to register a {@link PersistenceExceptionTranslationInterceptor} on the
- * repository proxy.
+ * {@link RepositoryProxyPostProcessor} to register a
+ * {@link PersistenceExceptionTranslationInterceptor} on the repository proxy.
  *
  * @author Oliver Gierke
  */
@@ -32,9 +32,8 @@ public class PersistenceExceptionTranslationRepositoryProxyPostProcessor impleme
 	private final PersistenceExceptionTranslationInterceptor interceptor;
 
 	/**
-	 * Creates a new {@link PersistenceExceptionTranslationRepositoryProxyPostProcessor} using the given
-	 * {@link ListableBeanFactory}.
-	 *
+	 * Creates a new {@link PersistenceExceptionTranslationRepositoryProxyPostProcessor}
+	 * using the given {@link ListableBeanFactory}.
 	 * @param beanFactory must not be {@literal null}.
 	 */
 	public PersistenceExceptionTranslationRepositoryProxyPostProcessor(ListableBeanFactory beanFactory) {
@@ -48,9 +47,13 @@ public class PersistenceExceptionTranslationRepositoryProxyPostProcessor impleme
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.support.RepositoryProxyPostProcessor#postProcess(org.springframework.aop.framework.ProxyFactory, org.springframework.data.repository.core.RepositoryInformation)
+	 * 
+	 * @see org.springframework.data.repository.core.support.RepositoryProxyPostProcessor#
+	 * postProcess(org.springframework.aop.framework.ProxyFactory,
+	 * org.springframework.data.repository.core.RepositoryInformation)
 	 */
 	public void postProcess(ProxyFactory factory, RepositoryInformation repositoryInformation) {
 		factory.addAdvice(this.interceptor);
 	}
+
 }

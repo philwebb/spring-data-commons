@@ -46,8 +46,8 @@ import org.springframework.data.util.Lazy;
 import org.springframework.util.Assert;
 
 /**
- * Adapter for Springs {@link FactoryBean} interface to allow easy setup of repository factories via Spring
- * configuration.
+ * Adapter for Springs {@link FactoryBean} interface to allow easy setup of repository
+ * factories via Spring configuration.
  *
  * @param <T> the type of the repository
  * @author Oliver Gierke
@@ -61,16 +61,27 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 	private final Class<? extends T> repositoryInterface;
 
 	private RepositoryFactorySupport factory;
+
 	private Key queryLookupStrategyKey;
+
 	private Optional<Class<?>> repositoryBaseClass = Optional.empty();
+
 	private Optional<Object> customImplementation = Optional.empty();
+
 	private Optional<RepositoryFragments> repositoryFragments = Optional.empty();
+
 	private NamedQueries namedQueries;
+
 	private Optional<MappingContext<?, ?>> mappingContext = Optional.empty();
+
 	private ClassLoader classLoader;
+
 	private BeanFactory beanFactory;
+
 	private boolean lazyInit = false;
+
 	private Optional<QueryMethodEvaluationContextProvider> evaluationContextProvider = Optional.empty();
+
 	private ApplicationEventPublisher publisher;
 
 	private Lazy<T> repository;
@@ -78,8 +89,8 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 	private RepositoryMetadata repositoryMetadata;
 
 	/**
-	 * Creates a new {@link RepositoryFactoryBeanSupport} for the given repository interface.
-	 *
+	 * Creates a new {@link RepositoryFactoryBeanSupport} for the given repository
+	 * interface.
 	 * @param repositoryInterface must not be {@literal null}.
 	 */
 	protected RepositoryFactoryBeanSupport(Class<? extends T> repositoryInterface) {
@@ -90,7 +101,6 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	/**
 	 * Configures the repository base class to be used.
-	 *
 	 * @param repositoryBaseClass the repositoryBaseClass to set, can be {@literal null}.
 	 * @since 1.11
 	 */
@@ -100,7 +110,6 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	/**
 	 * Set the {@link QueryLookupStrategy.Key} to be used.
-	 *
 	 * @param queryLookupStrategyKey
 	 */
 	public void setQueryLookupStrategyKey(Key queryLookupStrategyKey) {
@@ -109,7 +118,6 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	/**
 	 * Setter to inject a custom repository implementation.
-	 *
 	 * @param customImplementation
 	 */
 	public void setCustomImplementation(Object customImplementation) {
@@ -118,7 +126,6 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	/**
 	 * Setter to inject repository fragments.
-	 *
 	 * @param repositoryFragments
 	 */
 	public void setRepositoryFragments(RepositoryFragments repositoryFragments) {
@@ -127,7 +134,6 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	/**
 	 * Setter to inject a {@link NamedQueries} instance.
-	 *
 	 * @param namedQueries the namedQueries to set
 	 */
 	public void setNamedQueries(NamedQueries namedQueries) {
@@ -135,9 +141,8 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 	}
 
 	/**
-	 * Configures the {@link MappingContext} to be used to lookup {@link PersistentEntity} instances for
-	 * {@link #getPersistentEntity()}.
-	 *
+	 * Configures the {@link MappingContext} to be used to lookup {@link PersistentEntity}
+	 * instances for {@link #getPersistentEntity()}.
 	 * @param mappingContext
 	 */
 	protected void setMappingContext(MappingContext<?, ?> mappingContext) {
@@ -145,9 +150,8 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 	}
 
 	/**
-	 * Sets the {@link QueryMethodEvaluationContextProvider} to be used to evaluate SpEL expressions in manually defined
-	 * queries.
-	 *
+	 * Sets the {@link QueryMethodEvaluationContextProvider} to be used to evaluate SpEL
+	 * expressions in manually defined queries.
 	 * @param evaluationContextProvider must not be {@literal null}.
 	 */
 	public void setEvaluationContextProvider(QueryMethodEvaluationContextProvider evaluationContextProvider) {
@@ -155,17 +159,20 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 	}
 
 	/**
-	 * Configures whether to initialize the repository proxy lazily. This defaults to {@literal false}.
-	 *
-	 * @param lazy whether to initialize the repository proxy lazily. This defaults to {@literal false}.
+	 * Configures whether to initialize the repository proxy lazily. This defaults to
+	 * {@literal false}.
+	 * @param lazy whether to initialize the repository proxy lazily. This defaults to
+	 * {@literal false}.
 	 */
 	public void setLazyInit(boolean lazy) {
 		this.lazyInit = lazy;
 	}
+
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
+
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 
@@ -176,14 +183,17 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 					.of(new ExtensionAwareQueryMethodEvaluationContextProvider((ListableBeanFactory) beanFactory));
 		}
 	}
+
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
 		this.publisher = publisher;
 	}
+
 	@SuppressWarnings("unchecked")
 	public EntityInformation<S, ID> getEntityInformation() {
 		return (EntityInformation<S, ID>) this.factory.getEntityInformation(this.repositoryMetadata.getDomainType());
 	}
+
 	public RepositoryInformation getRepositoryInformation() {
 
 		RepositoryFragments fragments = this.customImplementation.map(RepositoryFragments::just)//
@@ -191,25 +201,31 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 		return this.factory.getRepositoryInformation(this.repositoryMetadata, fragments);
 	}
+
 	public PersistentEntity<?, ?> getPersistentEntity() {
 
 		return this.mappingContext.orElseThrow(() -> new IllegalStateException("No MappingContext available!"))
 				.getRequiredPersistentEntity(this.repositoryMetadata.getDomainType());
 	}
+
 	public List<QueryMethod> getQueryMethods() {
 		return this.factory.getQueryMethods();
 	}
+
 	@Nonnull
 	public T getObject() {
 		return this.repository.get();
 	}
+
 	@Nonnull
 	public Class<? extends T> getObjectType() {
 		return this.repositoryInterface;
 	}
+
 	public boolean isSingleton() {
 		return true;
 	}
+
 	public void afterPropertiesSet() {
 
 		this.factory = createRepositoryFactory();
@@ -221,7 +237,8 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 		this.factory.setBeanFactory(this.beanFactory);
 
 		if (this.publisher != null) {
-			this.factory.addRepositoryProxyPostProcessor(new EventPublishingRepositoryProxyPostProcessor(this.publisher));
+			this.factory
+					.addRepositoryProxyPostProcessor(new EventPublishingRepositoryProxyPostProcessor(this.publisher));
 		}
 
 		this.repositoryBaseClass.ifPresent(this.factory::setRepositoryBaseClass);
@@ -236,7 +253,8 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 		this.repositoryMetadata = this.factory.getRepositoryMetadata(this.repositoryInterface);
 
-		// Make sure the aggregate root type is present in the MappingContext (e.g. for auditing)
+		// Make sure the aggregate root type is present in the MappingContext (e.g. for
+		// auditing)
 		this.mappingContext.ifPresent(it -> it.getPersistentEntity(this.repositoryMetadata.getDomainType()));
 
 		this.repository = Lazy.of(() -> this.factory.getRepository(this.repositoryInterface, repositoryFragmentsToUse));
@@ -248,8 +266,8 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	/**
 	 * Create the actual {@link RepositoryFactorySupport} instance.
-	 *
 	 * @return
 	 */
 	protected abstract RepositoryFactorySupport createRepositoryFactory();
+
 }

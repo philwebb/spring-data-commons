@@ -18,4 +18,6 @@ package org.springframework.data.repository.config.basepackage.repo;
 /**
  * @author Mark Paluch
  */
-public interface Fragment {}
+public interface Fragment {
+
+}

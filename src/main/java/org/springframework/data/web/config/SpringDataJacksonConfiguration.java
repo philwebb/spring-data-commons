@@ -29,4 +29,5 @@ public class SpringDataJacksonConfiguration implements SpringDataJacksonModules 
 	public GeoModule jacksonGeoModule() {
 		return new GeoModule();
 	}
+
 }

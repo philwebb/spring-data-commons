@@ -21,8 +21,10 @@ import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link EntityInformation} implementation that uses a {@link PersistentEntity} to obtain id type information and uses
- * a {@link org.springframework.data.mapping.IdentifierAccessor} to access the property value if requested.
+ * {@link EntityInformation} implementation that uses a {@link PersistentEntity} to obtain
+ * id type information and uses a
+ * {@link org.springframework.data.mapping.IdentifierAccessor} to access the property
+ * value if requested.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -34,23 +36,28 @@ public class PersistentEntityInformation<T, ID> implements EntityInformation<T, 
 	public PersistentEntityInformation(PersistentEntity<T, ? extends PersistentProperty<?>> persistentEntity) {
 		this.persistentEntity = persistentEntity;
 	}
+
 	@Override
 	public boolean isNew(T entity) {
 		return this.persistentEntity.isNew(entity);
 	}
+
 	@Nullable
 	@Override
 	@SuppressWarnings("unchecked")
 	public ID getId(T entity) {
 		return (ID) this.persistentEntity.getIdentifierAccessor(entity).getIdentifier();
 	}
+
 	@Override
 	public Class<T> getJavaType() {
 		return this.persistentEntity.getType();
 	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<ID> getIdType() {
 		return (Class<ID>) this.persistentEntity.getRequiredIdProperty().getType();
 	}
+
 }

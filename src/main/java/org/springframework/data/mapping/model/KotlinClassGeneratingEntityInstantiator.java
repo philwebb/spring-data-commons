@@ -32,14 +32,15 @@ import org.springframework.data.util.ReflectionUtils;
 import org.springframework.lang.Nullable;
 
 /**
- * Kotlin-specific extension to {@link ClassGeneratingEntityInstantiator} that adapts Kotlin constructors with
- * defaulting.
+ * Kotlin-specific extension to {@link ClassGeneratingEntityInstantiator} that adapts
+ * Kotlin constructors with defaulting.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
  * @since 2.0
  */
 class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInstantiator {
+
 	@Override
 	protected EntityInstantiator doCreateEntityInstantiator(PersistentEntity<?, ?> entity) {
 
@@ -62,8 +63,9 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 	}
 
 	/**
-	 * Resolves a {@link PreferredConstructor} to a synthetic Kotlin constructor accepting the same user-space parameters
-	 * suffixed by Kotlin-specifics required for defaulting and the {@code kotlin.jvm.internal.DefaultConstructorMarker}.
+	 * Resolves a {@link PreferredConstructor} to a synthetic Kotlin constructor accepting
+	 * the same user-space parameters suffixed by Kotlin-specifics required for defaulting
+	 * and the {@code kotlin.jvm.internal.DefaultConstructorMarker}.
 	 *
 	 * @since 2.0
 	 * @author Mark Paluch
@@ -81,7 +83,8 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 			if (hit != null && persistenceConstructor != null) {
 				this.defaultConstructor = new PreferredConstructor<>(hit,
 						persistenceConstructor.getParameters().toArray(new Parameter[0]));
-			} else {
+			}
+			else {
 				this.defaultConstructor = null;
 			}
 		}
@@ -105,8 +108,10 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 					continue;
 				}
 
-				// candidates must contain at least two additional parameters (int, DefaultConstructorMarker).
-				// Number of defaulting masks derives from the original constructor arg count
+				// candidates must contain at least two additional parameters (int,
+				// DefaultConstructorMarker).
+				// Number of defaulting masks derives from the original constructor arg
+				// count
 				int syntheticParameters = KotlinDefaultMask.getMaskCount(constructor.getParameterCount())
 						+ /* DefaultConstructorMarker */ 1;
 
@@ -142,11 +147,13 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 		PreferredConstructor<?, ?> getDefaultConstructor() {
 			return this.defaultConstructor;
 		}
+
 	}
 
 	/**
-	 * Entity instantiator for Kotlin constructors that apply parameter defaulting. Kotlin constructors that apply
-	 * argument defaulting are marked with {@link kotlin.jvm.internal.DefaultConstructorMarker} and accept additional
+	 * Entity instantiator for Kotlin constructors that apply parameter defaulting. Kotlin
+	 * constructors that apply argument defaulting are marked with
+	 * {@link kotlin.jvm.internal.DefaultConstructorMarker} and accept additional
 	 * parameters besides the regular (user-space) parameters. Additional parameters are:
 	 * <ul>
 	 * <li>defaulting bitmask ({@code int}), a bit mask slot for each 32 parameters</li>
@@ -154,10 +161,11 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 	 * </ul>
 	 * <strong>Defaulting bitmask</strong>
 	 * <p/>
-	 * The defaulting bitmask is a 32 bit integer representing which positional argument should be defaulted. Defaulted
-	 * arguments are passed as {@literal null} and require the appropriate positional bit set ( {@code 1 << 2} for the 2.
-	 * argument)). Since the bitmask represents only 32 bit states, it requires additional masks (slots) if more than 32
-	 * arguments are represented.
+	 * The defaulting bitmask is a 32 bit integer representing which positional argument
+	 * should be defaulted. Defaulted arguments are passed as {@literal null} and require
+	 * the appropriate positional bit set ( {@code 1 << 2} for the 2. argument)). Since
+	 * the bitmask represents only 32 bit states, it requires additional masks (slots) if
+	 * more than 32 arguments are represented.
 	 *
 	 * @author Mark Paluch
 	 * @since 2.0
@@ -165,11 +173,15 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 	static class DefaultingKotlinClassInstantiatorAdapter implements EntityInstantiator {
 
 		private final ObjectInstantiator instantiator;
+
 		private final KFunction<?> constructor;
+
 		private final List<KParameter> kParameters;
+
 		private final Constructor<?> synthetic;
 
-		DefaultingKotlinClassInstantiatorAdapter(ObjectInstantiator instantiator, PreferredConstructor<?, ?> constructor) {
+		DefaultingKotlinClassInstantiatorAdapter(ObjectInstantiator instantiator,
+				PreferredConstructor<?, ?> constructor) {
 
 			KFunction<?> kotlinConstructor = ReflectJvmMapping.getKotlinFunction(constructor.getConstructor());
 
@@ -186,31 +198,37 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.springframework.data.mapping.PersistentEntity, org.springframework.data.mapping.model.ParameterValueProvider)
+		 * 
+		 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.
+		 * springframework.data.mapping.PersistentEntity,
+		 * org.springframework.data.mapping.model.ParameterValueProvider)
 		 */
 		@Override
 		@SuppressWarnings("unchecked")
-		public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
-				ParameterValueProvider<P> provider) {
+		public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(
+				E entity, ParameterValueProvider<P> provider) {
 
 			Object[] params = extractInvocationArguments(entity.getPersistenceConstructor(), provider);
 
 			try {
 				return (T) this.instantiator.newInstance(params);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				throw new MappingInstantiationException(entity, Arrays.asList(params), e);
 			}
 		}
 
 		private <P extends PersistentProperty<P>, T> Object[] extractInvocationArguments(
-				@Nullable PreferredConstructor<? extends T, P> preferredConstructor, ParameterValueProvider<P> provider) {
+				@Nullable PreferredConstructor<? extends T, P> preferredConstructor,
+				ParameterValueProvider<P> provider) {
 
 			if (preferredConstructor == null) {
 				throw new IllegalArgumentException("PreferredConstructor must not be null!");
 			}
 
 			Object[] params = allocateArguments(this.synthetic.getParameterCount()
-					+ KotlinDefaultMask.getMaskCount(this.synthetic.getParameterCount()) + /* DefaultConstructorMarker */1);
+					+ KotlinDefaultMask.getMaskCount(this.synthetic.getParameterCount())
+					+ /* DefaultConstructorMarker */1);
 			int userParameterCount = this.kParameters.size();
 
 			List<Parameter<Object, P>> parameters = preferredConstructor.getParameters();
@@ -249,5 +267,7 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 
 			return params;
 		}
+
 	}
+
 }

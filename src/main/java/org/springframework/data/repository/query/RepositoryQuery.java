@@ -27,7 +27,6 @@ public interface RepositoryQuery {
 
 	/**
 	 * Executes the {@link RepositoryQuery} with the given parameters.
-	 *
 	 * @param parameters must not be {@literal null}.
 	 * @return execution result. Can be {@literal null}.
 	 */
@@ -36,8 +35,8 @@ public interface RepositoryQuery {
 
 	/**
 	 * Returns the related {@link QueryMethod}.
-	 *
 	 * @return never {@literal null}.
 	 */
 	QueryMethod getQueryMethod();
+
 }

@@ -40,16 +40,19 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 @ExtendWith(MockitoExtension.class)
 class QueryExecutorMethodInterceptorUnitTests {
 
-	@Mock RepositoryInformation information;
-	@Mock QueryLookupStrategy strategy;
+	@Mock
+	RepositoryInformation information;
+
+	@Mock
+	QueryLookupStrategy strategy;
 
 	@Test // DATACMNS-1508
 	void rejectsRepositoryInterfaceWithQueryMethodsIfNoQueryLookupStrategyIsDefined() {
 
 		when(this.information.hasQueryMethods()).thenReturn(true);
 
-		assertThatIllegalStateException()
-				.isThrownBy(() -> new QueryExecutorMethodInterceptor(this.information, new SpelAwareProxyProjectionFactory(),
+		assertThatIllegalStateException().isThrownBy(
+				() -> new QueryExecutorMethodInterceptor(this.information, new SpelAwareProxyProjectionFactory(),
 						Optional.empty(), PropertiesBasedNamedQueries.EMPTY, Collections.emptyList()));
 	}
 
@@ -61,4 +64,5 @@ class QueryExecutorMethodInterceptorUnitTests {
 
 		verify(this.strategy, times(0)).resolveQuery(any(), any(), any(), any());
 	}
+
 }

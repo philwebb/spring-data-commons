@@ -22,8 +22,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.NoRepositoryBean;
 
 /**
- * Extension of {@link ReactiveCrudRepository} to provide additional methods to retrieve entities using the sorting
- * abstraction.
+ * Extension of {@link ReactiveCrudRepository} to provide additional methods to retrieve
+ * entities using the sorting abstraction.
  *
  * @author Mark Paluch
  * @author Christoph Strobl
@@ -37,10 +37,10 @@ public interface ReactiveSortingRepository<T, ID> extends ReactiveCrudRepository
 
 	/**
 	 * Returns all entities sorted by the given options.
-	 *
 	 * @param sort must not be {@literal null}.
 	 * @return all entities sorted by the given options.
 	 * @throws IllegalArgumentException in case the given {@link Sort} is {@literal null}.
 	 */
 	Flux<T> findAll(Sort sort);
+
 }

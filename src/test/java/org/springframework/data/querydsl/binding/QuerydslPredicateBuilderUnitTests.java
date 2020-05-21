@@ -56,6 +56,7 @@ class QuerydslPredicateBuilderUnitTests {
 	static final QuerydslBindings DEFAULT_BINDINGS = new QuerydslBindings();
 
 	QuerydslPredicateBuilder builder;
+
 	MultiValueMap<String, String> values;
 
 	@BeforeEach
@@ -145,7 +146,8 @@ class QuerydslPredicateBuilderUnitTests {
 
 		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
 
-		Constant<Object> constant = (Constant<Object>) ((List<?>) getField(getField(predicate, "mixin"), "args")).get(1);
+		Constant<Object> constant = (Constant<Object>) ((List<?>) getField(getField(predicate, "mixin"), "args"))
+				.get(1);
 
 		assertThat(constant.getConstant()).isEqualTo(new Double[] { 40.740337D, -73.995146D });
 	}
@@ -158,7 +160,8 @@ class QuerydslPredicateBuilderUnitTests {
 
 		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
 
-		Constant<Object> constant = (Constant<Object>) ((List<?>) getField(getField(predicate, "mixin"), "args")).get(1);
+		Constant<Object> constant = (Constant<Object>) ((List<?>) getField(getField(predicate, "mixin"), "args"))
+				.get(1);
 
 		assertThat(constant.getConstant()).isEqualTo("rivers,two");
 	}
@@ -230,4 +233,5 @@ class QuerydslPredicateBuilderUnitTests {
 
 		assertThat(this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS)).isNull();
 	}
+
 }

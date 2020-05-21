@@ -24,4 +24,5 @@ class FragmentInterfaceImpl implements FragmentInterface {
 	public int getPriority() {
 		return 1;
 	}
+
 }

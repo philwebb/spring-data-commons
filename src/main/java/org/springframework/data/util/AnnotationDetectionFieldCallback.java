@@ -25,8 +25,8 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
 /**
- * A {@link FieldCallback} that will inspect each field for a given annotation. This field's type can then be accessed
- * afterwards.
+ * A {@link FieldCallback} that will inspect each field for a given annotation. This
+ * field's type can then be accessed afterwards.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -34,11 +34,12 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 public class AnnotationDetectionFieldCallback implements FieldCallback {
 
 	private final Class<? extends Annotation> annotationType;
+
 	private @Nullable Field field;
 
 	/**
-	 * Creates a new {@link AnnotationDetectionFieldCallback} scanning for an annotation of the given type.
-	 *
+	 * Creates a new {@link AnnotationDetectionFieldCallback} scanning for an annotation
+	 * of the given type.
 	 * @param annotationType must not be {@literal null}.
 	 */
 	public AnnotationDetectionFieldCallback(Class<? extends Annotation> annotationType) {
@@ -47,6 +48,7 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 
 		this.annotationType = annotationType;
 	}
+
 	public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
 		if (this.field != null) {
@@ -62,7 +64,6 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 
 	/**
 	 * Returns the detected field.
-	 *
 	 * @return the field
 	 */
 	@Nullable
@@ -72,9 +73,9 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 
 	/**
 	 * Returns the field that was detected.
-	 *
 	 * @return
-	 * @throws IllegalStateException in case no field with the configured annotation was found.
+	 * @throws IllegalStateException in case no field with the configured annotation was
+	 * found.
 	 */
 	public Field getRequiredField() {
 
@@ -89,7 +90,6 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 
 	/**
 	 * Returns the type of the field.
-	 *
 	 * @return
 	 */
 	@Nullable
@@ -101,10 +101,11 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 	}
 
 	/**
-	 * Returns the type of the field or throws an {@link IllegalArgumentException} if no field could be found.
-	 *
+	 * Returns the type of the field or throws an {@link IllegalArgumentException} if no
+	 * field could be found.
 	 * @return
-	 * @throws IllegalStateException in case no field with the configured annotation was found.
+	 * @throws IllegalStateException in case no field with the configured annotation was
+	 * found.
 	 */
 	public Class<?> getRequiredType() {
 		return getRequiredField().getType();
@@ -112,7 +113,6 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 
 	/**
 	 * Retrieves the value of the field by reflection.
-	 *
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
@@ -130,4 +130,5 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 
 		return (T) ReflectionUtils.getField(field, source);
 	}
+
 }

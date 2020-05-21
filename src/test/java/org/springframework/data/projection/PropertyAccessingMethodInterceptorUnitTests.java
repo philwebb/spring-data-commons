@@ -37,7 +37,8 @@ import org.springframework.beans.NotWritablePropertyException;
 @ExtendWith(MockitoExtension.class)
 class PropertyAccessingMethodInterceptorUnitTests {
 
-	@Mock MethodInvocation invocation;
+	@Mock
+	MethodInvocation invocation;
 
 	@Test // DATAREST-221
 	void triggersPropertyAccessOnTarget() throws Throwable {
@@ -115,6 +116,7 @@ class PropertyAccessingMethodInterceptorUnitTests {
 	static class Source {
 
 		String firstname;
+
 	}
 
 	interface Projection {
@@ -128,5 +130,7 @@ class PropertyAccessingMethodInterceptorUnitTests {
 		String getLastname();
 
 		String someGarbage();
+
 	}
+
 }

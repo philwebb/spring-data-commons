@@ -49,8 +49,11 @@ class ReactiveWrapperRepositoryFactorySupportUnitTests {
 
 	DummyRepositoryFactory factory;
 
-	@Mock ReactiveSortingRepository<Object, Serializable> backingRepo;
-	@Mock ObjectRepositoryCustom customImplementation;
+	@Mock
+	ReactiveSortingRepository<Object, Serializable> backingRepo;
+
+	@Mock
+	ObjectRepositoryCustom customImplementation;
 
 	@BeforeEach
 	void setUp() {
@@ -125,6 +128,7 @@ class ReactiveWrapperRepositoryFactorySupportUnitTests {
 		Single<Boolean> existsById(Serializable id);
 
 		Single<Boolean> existsById(Long id);
+
 	}
 
 	interface RxJava2ConvertingRepository extends Repository<Object, Long> {
@@ -134,6 +138,7 @@ class ReactiveWrapperRepositoryFactorySupportUnitTests {
 		Single<Boolean> existsById(Long id);
 
 		Completable deleteById(Serializable id);
+
 	}
 
 	interface ObjectRepository
@@ -144,5 +149,7 @@ class ReactiveWrapperRepositoryFactorySupportUnitTests {
 	interface ObjectRepositoryCustom {
 
 		Object findById(Object id);
+
 	}
+
 }

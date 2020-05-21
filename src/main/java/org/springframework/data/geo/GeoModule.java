@@ -39,7 +39,8 @@ public class GeoModule extends SimpleModule {
 	 */
 	public GeoModule() {
 
-		super("Spring Data Geo Mixins", new Version(1, 0, 0, null, "org.springframework.data", "spring-data-commons-geo"));
+		super("Spring Data Geo Mixins",
+				new Version(1, 0, 0, null, "org.springframework.data", "spring-data-commons-geo"));
 
 		setMixInAnnotation(Distance.class, DistanceMixin.class);
 		setMixInAnnotation(Point.class, PointMixin.class);
@@ -52,25 +53,40 @@ public class GeoModule extends SimpleModule {
 	static abstract class DistanceMixin {
 
 		DistanceMixin(@JsonProperty("value") double value,
-				@JsonProperty("metric") @JsonDeserialize(as = Metrics.class) Metric metic) {}
+				@JsonProperty("metric") @JsonDeserialize(as = Metrics.class) Metric metic) {
+		}
 
 		@JsonIgnore
 		abstract double getNormalizedValue();
+
 	}
 
 	static abstract class PointMixin {
-		PointMixin(@JsonProperty("x") double x, @JsonProperty("y") double y) {}
+
+		PointMixin(@JsonProperty("x") double x, @JsonProperty("y") double y) {
+		}
+
 	}
 
 	static abstract class CircleMixin {
-		CircleMixin(@JsonProperty("center") Point center, @JsonProperty("radius") Distance radius) {}
+
+		CircleMixin(@JsonProperty("center") Point center, @JsonProperty("radius") Distance radius) {
+		}
+
 	}
 
 	static abstract class BoxMixin {
-		BoxMixin(@JsonProperty("first") Point first, @JsonProperty("second") Point point) {}
+
+		BoxMixin(@JsonProperty("first") Point first, @JsonProperty("second") Point point) {
+		}
+
 	}
 
 	static abstract class PolygonMixin {
-		PolygonMixin(@JsonProperty("points") List<Point> points) {}
+
+		PolygonMixin(@JsonProperty("points") List<Point> points) {
+		}
+
 	}
+
 }

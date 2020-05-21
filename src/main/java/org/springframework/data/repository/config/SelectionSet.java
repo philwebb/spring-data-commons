@@ -22,8 +22,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * Allows filtering of a collection in order to select a unique element. Once a unique element is found all further
- * filters are ignored.
+ * Allows filtering of a collection in order to select a unique element. Once a unique
+ * element is found all further filters are ignored.
  *
  * @author Jens Schauder
  * @author Oliver Gierke
@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 class SelectionSet<T> {
 
 	private final Collection<T> collection;
+
 	private final Function<Collection<T>, Optional<T>> fallback;
 
 	private SelectionSet(Collection<T> collection, Function<Collection<T>, Optional<T>> fallback) {
@@ -40,8 +41,8 @@ class SelectionSet<T> {
 	}
 
 	/**
-	 * creates a {@link SelectionSet} with a default fallback of {@literal null}, when no element is found and an
-	 * {@link IllegalStateException} when no element is found.
+	 * creates a {@link SelectionSet} with a default fallback of {@literal null}, when no
+	 * element is found and an {@link IllegalStateException} when no element is found.
 	 */
 	static <T> SelectionSet<T> of(Collection<T> collection) {
 		return new SelectionSet<>(collection, defaultFallback());
@@ -52,10 +53,9 @@ class SelectionSet<T> {
 	}
 
 	/**
-	 * If this {@code SelectionSet} contains exactly one element it gets returned. If no unique result can be identified
-	 * the fallback function passed in at the constructor gets called and its return value becomes the return value of
-	 * this method.
-	 *
+	 * If this {@code SelectionSet} contains exactly one element it gets returned. If no
+	 * unique result can be identified the fallback function passed in at the constructor
+	 * gets called and its return value becomes the return value of this method.
 	 * @return a unique result, or the result of the callback provided in the constructor.
 	 */
 	Optional<T> uniqueResult() {
@@ -66,14 +66,14 @@ class SelectionSet<T> {
 	}
 
 	/**
-	 * Filters the collection with the predicate if there are still more then one elements in the collection.
-	 *
+	 * Filters the collection with the predicate if there are still more then one elements
+	 * in the collection.
 	 * @param predicate To be used for filtering.
 	 */
 	SelectionSet<T> filterIfNecessary(Predicate<T> predicate) {
 
-		return findUniqueResult().map(it -> this).orElseGet(
-				() -> new SelectionSet<T>(this.collection.stream().filter(predicate).collect(Collectors.toList()), this.fallback));
+		return findUniqueResult().map(it -> this).orElseGet(() -> new SelectionSet<T>(
+				this.collection.stream().filter(predicate).collect(Collectors.toList()), this.fallback));
 	}
 
 	private static <S> Function<Collection<S>, Optional<S>> defaultFallback() {
@@ -81,7 +81,8 @@ class SelectionSet<T> {
 		return c -> {
 			if (c.isEmpty()) {
 				return Optional.empty();
-			} else {
+			}
+			else {
 				throw new IllegalStateException("More then one element in collection.");
 			}
 		};
@@ -90,4 +91,5 @@ class SelectionSet<T> {
 	private Optional<T> findUniqueResult() {
 		return Optional.ofNullable(this.collection.size() == 1 ? this.collection.iterator().next() : null);
 	}
+
 }

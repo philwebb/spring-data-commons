@@ -26,7 +26,9 @@ import org.springframework.data.mapping.PersistentProperty;
 public enum PropertyNameFieldNamingStrategy implements FieldNamingStrategy {
 
 	INSTANCE;
+
 	public String getFieldName(PersistentProperty<?> property) {
 		return property.getName();
 	}
+
 }

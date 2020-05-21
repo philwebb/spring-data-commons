@@ -33,8 +33,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * A {@link ProxyProjectionFactory} that adds support to use {@link Value}-annotated methods on a projection interface
- * to evaluate the contained SpEL expression to define the outcome of the method call.
+ * A {@link ProxyProjectionFactory} that adds support to use {@link Value}-annotated
+ * methods on a projection interface to evaluate the contained SpEL expression to define
+ * the outcome of the method call.
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
@@ -45,22 +46,25 @@ import org.springframework.util.ReflectionUtils;
 public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory implements BeanFactoryAware {
 
 	private final Map<Class<?>, Boolean> typeCache = new ConcurrentHashMap<>();
+
 	private final SpelExpressionParser parser = new SpelExpressionParser();
 
 	private @Nullable BeanFactory beanFactory;
+
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
 	}
+
 	@Override
 	protected ProjectionInformation createProjectionInformation(Class<?> projectionType) {
 		return new SpelAwareProjectionInformation(projectionType);
 	}
 
 	/**
-	 * Inspects the given target type for methods with {@link Value} annotations and caches the result. Will create a
-	 * {@link SpelEvaluatingMethodInterceptor} if an annotation was found or return the delegate as is if not.
-	 *
+	 * Inspects the given target type for methods with {@link Value} annotations and
+	 * caches the result. Will create a {@link SpelEvaluatingMethodInterceptor} if an
+	 * annotation was found or return the delegate as is if not.
 	 * @param interceptor the root {@link MethodInterceptor}.
 	 * @param source The backing source object.
 	 * @param projectionType the proxy target type.
@@ -70,14 +74,15 @@ public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory impl
 	protected MethodInterceptor postProcessAccessorInterceptor(MethodInterceptor interceptor, Object source,
 			Class<?> projectionType) {
 
-		return this.typeCache.computeIfAbsent(projectionType, SpelAwareProxyProjectionFactory::hasMethodWithValueAnnotation)
-				? new SpelEvaluatingMethodInterceptor(interceptor, source, this.beanFactory, this.parser, projectionType)
-				: interceptor;
+		return this.typeCache.computeIfAbsent(projectionType,
+				SpelAwareProxyProjectionFactory::hasMethodWithValueAnnotation)
+						? new SpelEvaluatingMethodInterceptor(interceptor, source, this.beanFactory, this.parser,
+								projectionType)
+						: interceptor;
 	}
 
 	/**
 	 * Returns whether the given type as a method annotated with {@link Value}.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -96,6 +101,7 @@ public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory impl
 		protected SpelAwareProjectionInformation(Class<?> projectionType) {
 			super(projectionType);
 		}
+
 		@Override
 		protected boolean isInputProperty(PropertyDescriptor descriptor) {
 
@@ -111,5 +117,7 @@ public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory impl
 
 			return AnnotationUtils.findAnnotation(readMethod, Value.class) == null;
 		}
+
 	}
+
 }

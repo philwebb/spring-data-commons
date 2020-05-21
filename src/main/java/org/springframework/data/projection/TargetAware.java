@@ -22,7 +22,8 @@ import org.springframework.lang.Nullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Extension of {@link org.springframework.aop.TargetClassAware} to be able to ignore the getter on JSON rendering.
+ * Extension of {@link org.springframework.aop.TargetClassAware} to be able to ignore the
+ * getter on JSON rendering.
  *
  * @author Oliver Gierke
  */
@@ -30,7 +31,6 @@ public interface TargetAware extends org.springframework.aop.TargetClassAware, R
 
 	/**
 	 * Returns the type of the proxy target.
-	 *
 	 * @return can be {@literal null}.
 	 */
 	@Nullable
@@ -39,18 +39,18 @@ public interface TargetAware extends org.springframework.aop.TargetClassAware, R
 
 	/**
 	 * Returns the proxy target.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	@JsonIgnore
 	Object getTarget();
 
 	/**
-	 * Re-declaration of Spring Framework 4.3's {@link DecoratingProxy#getDecoratedClass()} so that we can exclude it from
-	 * Jackson serialization.
-	 *
+	 * Re-declaration of Spring Framework 4.3's
+	 * {@link DecoratingProxy#getDecoratedClass()} so that we can exclude it from Jackson
+	 * serialization.
 	 * @return
 	 */
 	@JsonIgnore
 	Class<?> getDecoratedClass();
+
 }

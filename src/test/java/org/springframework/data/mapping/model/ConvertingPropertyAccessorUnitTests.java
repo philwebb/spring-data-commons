@@ -121,7 +121,8 @@ public class ConvertingPropertyAccessorUnitTests {
 
 		SampleMappingContext context = new SampleMappingContext();
 
-		PersistentPropertyAccessor<Order> accessor = context.getPersistentEntity(Order.class).getPropertyAccessor(order);
+		PersistentPropertyAccessor<Order> accessor = context.getPersistentEntity(Order.class)
+				.getPropertyAccessor(order);
 		ConvertingPropertyAccessor<Order> convertingAccessor = new ConvertingPropertyAccessor<>(accessor,
 				new DefaultConversionService());
 
@@ -148,17 +149,24 @@ public class ConvertingPropertyAccessorUnitTests {
 	}
 
 	static class Entity {
+
 		Long id;
+
 	}
 
 	@Value
 	static class Order {
+
 		Customer customer;
+
 	}
 
 	@Data
 	@AllArgsConstructor
 	static class Customer {
+
 		String firstname;
+
 	}
+
 }

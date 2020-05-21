@@ -29,8 +29,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Base class for {@link FactoryBean}s creating {@link ResourceReaderRepositoryPopulator}s. Sub-classes have to provide
- * a {@link ResourceReader} to hand into the {@link RepositoryPopulator} instance created.
+ * Base class for {@link FactoryBean}s creating
+ * {@link ResourceReaderRepositoryPopulator}s. Sub-classes have to provide a
+ * {@link ResourceReader} to hand into the {@link RepositoryPopulator} instance created.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -40,12 +41,14 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 		implements ApplicationListener<ContextRefreshedEvent>, ApplicationContextAware {
 
 	private Resource[] resources = new Resource[0];
+
 	private @Nullable RepositoryPopulator populator;
+
 	private @Nullable ApplicationContext context;
 
 	/**
-	 * Configures the {@link Resource}s to be used to load objects from and initialize the repositories eventually.
-	 *
+	 * Configures the {@link Resource}s to be used to load objects from and initialize the
+	 * repositories eventually.
 	 * @param resources must not be {@literal null}.
 	 */
 	public void setResources(Resource[] resources) {
@@ -53,14 +56,17 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 		Assert.notNull(resources, "Resources must not be null!");
 		this.resources = resources.clone();
 	}
+
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.context = applicationContext;
 	}
+
 	@Nonnull
 	@Override
 	public Class<?> getObjectType() {
 		return ResourceReaderRepositoryPopulator.class;
 	}
+
 	@Override
 	protected ResourceReaderRepositoryPopulator createInstance() {
 
@@ -75,6 +81,7 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 
 		return initializer;
 	}
+
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 
 		RepositoryPopulator populator = this.populator;
@@ -91,10 +98,12 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 	}
 
 	protected abstract ResourceReader getResourceReader();
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
 		Assert.state(this.resources != null, "Resources must not be null!");
 		super.afterPropertiesSet();
 	}
+
 }

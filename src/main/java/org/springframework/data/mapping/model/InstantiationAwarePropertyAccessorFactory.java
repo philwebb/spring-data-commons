@@ -19,14 +19,17 @@ import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentPropertyAccessor;
 
 /**
- * Delegating {@link PersistentPropertyAccessorFactory} decorating the {@link PersistentPropertyAccessor}s created with
- * an {@link InstantiationAwarePropertyAccessor} to allow the handling of purely immutable types.
+ * Delegating {@link PersistentPropertyAccessorFactory} decorating the
+ * {@link PersistentPropertyAccessor}s created with an
+ * {@link InstantiationAwarePropertyAccessor} to allow the handling of purely immutable
+ * types.
  *
  * @author Oliver Drotbohm
  */
 public class InstantiationAwarePropertyAccessorFactory implements PersistentPropertyAccessorFactory {
 
 	private final PersistentPropertyAccessorFactory delegate;
+
 	private final EntityInstantiators instantiators;
 
 	public InstantiationAwarePropertyAccessorFactory(PersistentPropertyAccessorFactory delegate,
@@ -37,7 +40,10 @@ public class InstantiationAwarePropertyAccessorFactory implements PersistentProp
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.PersistentPropertyAccessorFactory#getPropertyAccessor(org.springframework.data.mapping.PersistentEntity, java.lang.Object)
+	 * 
+	 * @see org.springframework.data.mapping.model.PersistentPropertyAccessorFactory#
+	 * getPropertyAccessor(org.springframework.data.mapping.PersistentEntity,
+	 * java.lang.Object)
 	 */
 	@Override
 	public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
@@ -46,8 +52,10 @@ public class InstantiationAwarePropertyAccessorFactory implements PersistentProp
 
 		return new InstantiationAwarePropertyAccessor<>(accessor, this.instantiators);
 	}
+
 	@Override
 	public boolean isSupported(PersistentEntity<?, ?> entity) {
 		return this.delegate.isSupported(entity);
 	}
+
 }

@@ -29,8 +29,7 @@ import org.springframework.data.mapping.context.SampleMappingContext;
 /**
  * Unit tests for {@link PersistentEntityIsNewStrategy}.
  * 
- * @author Oliver Gierke
- *             https://www.youtube.com/watch?v=syGlBNVGEqU
+ * @author Oliver Gierke https://www.youtube.com/watch?v=syGlBNVGEqU
  */
 class PersistentEntityIsNewStrategyUnitTests {
 
@@ -126,38 +125,54 @@ class PersistentEntityIsNewStrategyUnitTests {
 
 	static class PrimitiveIdEntity {
 
-		@Id long id;
+		@Id
+		long id;
+
 	}
 
 	static class PrimitiveWrapperIdEntity {
 
-		@Id Long id;
+		@Id
+		Long id;
+
 	}
 
 	static class UnsupportedPrimitiveIdEntity {
 
-		@Id boolean id;
+		@Id
+		boolean id;
+
 	}
 
 	static class VersionedEntity {
 
-		@Version Long version;
-		@Id Long id;
+		@Version
+		Long version;
+
+		@Id
+		Long id;
+
 	}
 
 	@AllArgsConstructor
 	static class PersistableEntity implements Persistable<Long> {
 
 		boolean isNew;
+
 		@Override
 		public boolean isNew() {
 			return this.isNew;
 		}
+
 		@Override
 		public Long getId() {
 			return null;
 		}
+
 	}
 
-	private static class NoIdEntity {}
+	private static class NoIdEntity {
+
+	}
+
 }

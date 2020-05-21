@@ -44,20 +44,20 @@ import org.springframework.test.util.ReflectionTestUtils;
 public class ClassGeneratingPropertyAccessorFactoryTests {
 
 	private final static ClassGeneratingPropertyAccessorFactory factory = new ClassGeneratingPropertyAccessorFactory();
-	private final static SampleMappingContext mappingContext = new SampleMappingContext();
 
+	private final static SampleMappingContext mappingContext = new SampleMappingContext();
 
 	@SuppressWarnings("unchecked")
 	public static List<Object[]> parameters() throws ReflectiveOperationException {
 
 		List<Object[]> parameters = new ArrayList<>();
-		List<String> propertyNames = Arrays.asList("privateField", "packageDefaultField", "protectedField", "publicField",
-				"privateProperty", "packageDefaultProperty", "protectedProperty", "publicProperty", "syntheticProperty",
-				"immutable", "wither");
+		List<String> propertyNames = Arrays.asList("privateField", "packageDefaultField", "protectedField",
+				"publicField", "privateProperty", "packageDefaultProperty", "protectedProperty", "publicProperty",
+				"syntheticProperty", "immutable", "wither");
 
 		parameters.addAll(parameters(new InnerPrivateType(), propertyNames, Object.class));
-		parameters
-				.addAll(parameters(new InnerTypeWithPrivateAncestor(), propertyNames, InnerTypeWithPrivateAncestor.class));
+		parameters.addAll(
+				parameters(new InnerTypeWithPrivateAncestor(), propertyNames, InnerTypeWithPrivateAncestor.class));
 		parameters.addAll(parameters(new InnerPackageDefaultType(), propertyNames, InnerPackageDefaultType.class));
 		parameters.addAll(parameters(new InnerProtectedType(), propertyNames, InnerProtectedType.class));
 		parameters.addAll(parameters(new InnerPublicType(), propertyNames, InnerPublicType.class));
@@ -65,17 +65,19 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 				ClassGeneratingPropertyAccessorPackageDefaultType.class));
 		parameters.addAll(parameters(new ClassGeneratingPropertyAccessorPublicType(), propertyNames,
 				ClassGeneratingPropertyAccessorPublicType.class));
-		parameters.addAll(parameters(new SubtypeOfTypeInOtherPackage(), propertyNames, SubtypeOfTypeInOtherPackage.class));
+		parameters.addAll(
+				parameters(new SubtypeOfTypeInOtherPackage(), propertyNames, SubtypeOfTypeInOtherPackage.class));
 
 		Class<Object> defaultPackageClass = (Class) Class.forName("TypeInDefaultPackage");
 
-		parameters
-				.add(new Object[] { defaultPackageClass.newInstance(), "", defaultPackageClass, "Class in default package" });
+		parameters.add(new Object[] { defaultPackageClass.newInstance(), "", defaultPackageClass,
+				"Class in default package" });
 
 		return parameters;
 	}
 
-	private static List<Object[]> parameters(Object bean, List<String> propertyNames, Class<?> expectedConstructorType) {
+	private static List<Object[]> parameters(Object bean, List<String> propertyNames,
+			Class<?> expectedConstructorType) {
 
 		List<Object[]> parameters = new ArrayList<>();
 
@@ -108,7 +110,8 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 
 				assertThatThrownBy(() -> persistentPropertyAccessor.setProperty(property, "value"))
 						.isInstanceOf(UnsupportedOperationException.class);
-			} else {
+			}
+			else {
 
 				persistentPropertyAccessor.setProperty(property, "value");
 				assertThat(persistentPropertyAccessor.getProperty(property)).isEqualTo("value");
@@ -188,20 +191,30 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	private static class InnerPrivateType {
 
 		private String privateField;
+
 		String packageDefaultField;
+
 		protected String protectedField;
+
 		public String publicField;
+
 		private String backing;
+
 		private final String immutable = "";
+
 		private final String wither;
 
-		@AccessType(Type.PROPERTY) private String privateProperty;
+		@AccessType(Type.PROPERTY)
+		private String privateProperty;
 
-		@AccessType(Type.PROPERTY) private String packageDefaultProperty;
+		@AccessType(Type.PROPERTY)
+		private String packageDefaultProperty;
 
-		@AccessType(Type.PROPERTY) private String protectedProperty;
+		@AccessType(Type.PROPERTY)
+		private String protectedProperty;
 
-		@AccessType(Type.PROPERTY) private String publicProperty;
+		@AccessType(Type.PROPERTY)
+		private String publicProperty;
 
 		private InnerPrivateType() {
 			this.wither = "";
@@ -259,6 +272,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		public InnerPrivateType withWither(String wither) {
 			return new InnerPrivateType(wither);
 		}
+
 	}
 
 	// DATACMNS-809
@@ -271,20 +285,30 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	static class InnerPackageDefaultType {
 
 		private String privateField;
+
 		String packageDefaultField;
+
 		protected String protectedField;
+
 		public String publicField;
+
 		private String backing;
+
 		private final String immutable = "";
+
 		private final String wither;
 
-		@AccessType(Type.PROPERTY) private String privateProperty;
+		@AccessType(Type.PROPERTY)
+		private String privateProperty;
 
-		@AccessType(Type.PROPERTY) private String packageDefaultProperty;
+		@AccessType(Type.PROPERTY)
+		private String packageDefaultProperty;
 
-		@AccessType(Type.PROPERTY) private String protectedProperty;
+		@AccessType(Type.PROPERTY)
+		private String protectedProperty;
 
-		@AccessType(Type.PROPERTY) private String publicProperty;
+		@AccessType(Type.PROPERTY)
+		private String publicProperty;
 
 		InnerPackageDefaultType() {
 			this.wither = "";
@@ -342,6 +366,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		public InnerPrivateType withWither(String wither) {
 			return new InnerPrivateType(wither);
 		}
+
 	}
 
 	// DATACMNS-809
@@ -349,20 +374,30 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	protected static class InnerProtectedType {
 
 		private String privateField;
+
 		String packageDefaultField;
+
 		protected String protectedField;
+
 		public String publicField;
+
 		private String backing;
+
 		private final String immutable = "";
+
 		private final String wither;
 
-		@AccessType(Type.PROPERTY) private String privateProperty;
+		@AccessType(Type.PROPERTY)
+		private String privateProperty;
 
-		@AccessType(Type.PROPERTY) private String packageDefaultProperty;
+		@AccessType(Type.PROPERTY)
+		private String packageDefaultProperty;
 
-		@AccessType(Type.PROPERTY) private String protectedProperty;
+		@AccessType(Type.PROPERTY)
+		private String protectedProperty;
 
-		@AccessType(Type.PROPERTY) private String publicProperty;
+		@AccessType(Type.PROPERTY)
+		private String publicProperty;
 
 		InnerProtectedType() {
 			this.wither = "";
@@ -420,6 +455,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		public InnerPrivateType withWither(String wither) {
 			return new InnerPrivateType(wither);
 		}
+
 	}
 
 	// DATACMNS-809
@@ -427,20 +463,30 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	public static class InnerPublicType {
 
 		private String privateField;
+
 		String packageDefaultField;
+
 		protected String protectedField;
+
 		public String publicField;
+
 		private String backing;
+
 		private final String immutable = "";
+
 		private final String wither;
 
-		@AccessType(Type.PROPERTY) private String privateProperty;
+		@AccessType(Type.PROPERTY)
+		private String privateProperty;
 
-		@AccessType(Type.PROPERTY) private String packageDefaultProperty;
+		@AccessType(Type.PROPERTY)
+		private String packageDefaultProperty;
 
-		@AccessType(Type.PROPERTY) private String protectedProperty;
+		@AccessType(Type.PROPERTY)
+		private String protectedProperty;
 
-		@AccessType(Type.PROPERTY) private String publicProperty;
+		@AccessType(Type.PROPERTY)
+		private String publicProperty;
 
 		InnerPublicType() {
 			this.wither = "";
@@ -498,15 +544,21 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		public InnerPrivateType withWither(String wither) {
 			return new InnerPrivateType(wither);
 		}
+
 	}
 
-	public static class SubtypeOfTypeInOtherPackage extends TypeInOtherPackage {}
+	public static class SubtypeOfTypeInOtherPackage extends TypeInOtherPackage {
+
+	}
 
 	// DATACMNS-809
 	@SuppressWarnings("unused")
 	private static class Dummy {
 
 		private String dummy;
+
 		public String publicField;
+
 	}
+
 }

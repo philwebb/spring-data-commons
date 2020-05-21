@@ -29,7 +29,6 @@ public interface TypeInformationMapper {
 
 	/**
 	 * Returns the actual {@link TypeInformation} to be used for the given alias.
-	 *
 	 * @param alias must not be {@literal null}.
 	 * @return
 	 */
@@ -38,9 +37,9 @@ public interface TypeInformationMapper {
 
 	/**
 	 * Returns the alias to be used for the given {@link TypeInformation}.
-	 *
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
 	Alias createAliasFor(TypeInformation<?> type);
+
 }

@@ -21,14 +21,15 @@ import org.springframework.data.mapping.model.InternalEntityInstantiatorFactory;
 import org.springframework.data.mapping.model.ParameterValueProvider;
 
 /**
- * Kotlin-specific extension to {@link ClassGeneratingEntityInstantiator} that adapts Kotlin constructors with
- * defaulting.
+ * Kotlin-specific extension to {@link ClassGeneratingEntityInstantiator} that adapts
+ * Kotlin constructors with defaulting.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
  * @since 2.0
- * @deprecated since 2.3, use {@link org.springframework.data.mapping.model.KotlinClassGeneratingEntityInstantiator}
- *             instead.
+ * @deprecated since 2.3, use
+ * {@link org.springframework.data.mapping.model.KotlinClassGeneratingEntityInstantiator}
+ * instead.
  */
 @Deprecated
 public class KotlinClassGeneratingEntityInstantiator implements EntityInstantiator {
@@ -38,11 +39,15 @@ public class KotlinClassGeneratingEntityInstantiator implements EntityInstantiat
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.EntityInstantiator#createInstance(org.springframework.data.mapping.PersistentEntity, org.springframework.data.mapping.model.ParameterValueProvider)
+	 * 
+	 * @see org.springframework.data.mapping.model.EntityInstantiator#createInstance(org.
+	 * springframework.data.mapping.PersistentEntity,
+	 * org.springframework.data.mapping.model.ParameterValueProvider)
 	 */
 	@Override
 	public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
 			ParameterValueProvider<P> provider) {
 		return this.delegate.createInstance(entity, provider);
 	}
+
 }

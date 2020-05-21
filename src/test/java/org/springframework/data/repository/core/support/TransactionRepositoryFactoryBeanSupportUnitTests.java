@@ -54,7 +54,8 @@ class TransactionRepositoryFactoryBeanSupportUnitTests {
 				found = true;
 
 				TransactionInterceptor interceptor = (TransactionInterceptor) advisor.getAdvice();
-				assertThat(getField(interceptor.getTransactionAttributeSource(), "enableDefaultTransactions")).isEqualTo(false);
+				assertThat(getField(interceptor.getTransactionAttributeSource(), "enableDefaultTransactions"))
+						.isEqualTo(false);
 				break;
 			}
 		}
@@ -86,5 +87,7 @@ class TransactionRepositoryFactoryBeanSupportUnitTests {
 		protected RepositoryFactorySupport doCreateRepositoryFactory() {
 			return new DummyRepositoryFactory(this.repository);
 		}
+
 	}
+
 }

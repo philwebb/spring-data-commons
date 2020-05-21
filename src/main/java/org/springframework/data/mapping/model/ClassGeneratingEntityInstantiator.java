@@ -38,9 +38,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * An {@link EntityInstantiator} that can generate byte code to speed-up dynamic object instantiation. Uses the
- * {@link PersistentEntity}'s {@link PreferredConstructor} to instantiate an instance of the entity by dynamically
- * generating factory methods with appropriate constructor invocations via ASM. If we cannot generate byte code for a
+ * An {@link EntityInstantiator} that can generate byte code to speed-up dynamic object
+ * instantiation. Uses the {@link PersistentEntity}'s {@link PreferredConstructor} to
+ * instantiate an instance of the entity by dynamically generating factory methods with
+ * appropriate constructor invocations via ASM. If we cannot generate byte code for a
  * type, we gracefully fall-back to the {@link ReflectionEntityInstantiator}.
  *
  * @author Thomas Darimont
@@ -67,7 +68,10 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.springframework.data.mapping.PersistentEntity, org.springframework.data.mapping.model.ParameterValueProvider)
+	 * 
+	 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.
+	 * springframework.data.mapping.PersistentEntity,
+	 * org.springframework.data.mapping.model.ParameterValueProvider)
 	 */
 	@Override
 	public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
@@ -118,7 +122,8 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 		try {
 			return doCreateEntityInstantiator(entity);
-		} catch (Throwable ex) {
+		}
+		catch (Throwable ex) {
 			return ReflectionEntityInstantiator.INSTANCE;
 		}
 	}
@@ -148,7 +153,8 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		}
 
 		PreferredConstructor<?, ?> persistenceConstructor = entity.getPersistenceConstructor();
-		if (persistenceConstructor == null || Modifier.isPrivate(persistenceConstructor.getConstructor().getModifiers())) {
+		if (persistenceConstructor == null
+				|| Modifier.isPrivate(persistenceConstructor.getConstructor().getModifiers())) {
 			return true;
 		}
 
@@ -161,7 +167,6 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 	/**
 	 * Allocates an object array for instance creation.
-	 *
 	 * @param argumentCount
 	 * @return
 	 * @since 2.0
@@ -171,10 +176,9 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	}
 
 	/**
-	 * Creates a dynamically generated {@link ObjectInstantiator} for the given {@link PersistentEntity} and
-	 * {@link PreferredConstructor}. There will always be exactly one {@link ObjectInstantiator} instance per
-	 * {@link PersistentEntity}.
-	 *
+	 * Creates a dynamically generated {@link ObjectInstantiator} for the given
+	 * {@link PersistentEntity} and {@link PreferredConstructor}. There will always be
+	 * exactly one {@link ObjectInstantiator} instance per {@link PersistentEntity}.
 	 * @param entity
 	 * @param constructor
 	 * @return
@@ -183,14 +187,17 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 			@Nullable PreferredConstructor<?, ?> constructor) {
 
 		try {
-			return (ObjectInstantiator) this.generator.generateCustomInstantiatorClass(entity, constructor).newInstance();
-		} catch (Exception e) {
+			return (ObjectInstantiator) this.generator.generateCustomInstantiatorClass(entity, constructor)
+					.newInstance();
+		}
+		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	/**
-	 * Adapter to forward an invocation of the {@link EntityInstantiator} API to an {@link ObjectInstantiator}.
+	 * Adapter to forward an invocation of the {@link EntityInstantiator} API to an
+	 * {@link ObjectInstantiator}.
 	 *
 	 * @author Thomas Darimont
 	 * @author Oliver Gierke
@@ -201,8 +208,8 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		private final ObjectInstantiator instantiator;
 
 		/**
-		 * Creates a new {@link EntityInstantiatorAdapter} for the given {@link ObjectInstantiator}.
-		 *
+		 * Creates a new {@link EntityInstantiatorAdapter} for the given
+		 * {@link ObjectInstantiator}.
 		 * @param instantiator must not be {@literal null}.
 		 */
 		public EntityInstantiatorAdapter(ObjectInstantiator instantiator) {
@@ -211,25 +218,29 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.springframework.data.mapping.PersistentEntity, org.springframework.data.mapping.model.ParameterValueProvider)
+		 * 
+		 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.
+		 * springframework.data.mapping.PersistentEntity,
+		 * org.springframework.data.mapping.model.ParameterValueProvider)
 		 */
 		@Override
 		@SuppressWarnings("unchecked")
-		public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
-				ParameterValueProvider<P> provider) {
+		public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(
+				E entity, ParameterValueProvider<P> provider) {
 
 			Object[] params = extractInvocationArguments(entity.getPersistenceConstructor(), provider);
 
 			try {
 				return (T) this.instantiator.newInstance(params);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				throw new MappingInstantiationException(entity, Arrays.asList(params), e);
 			}
 		}
 
 		/**
-		 * Extracts the arguments required to invoke the given constructor from the given {@link ParameterValueProvider}.
-		 *
+		 * Extracts the arguments required to invoke the given constructor from the given
+		 * {@link ParameterValueProvider}.
 		 * @param constructor can be {@literal null}.
 		 * @param provider can be {@literal null}.
 		 * @return
@@ -250,23 +261,28 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 			return params;
 		}
+
 	}
 
 	/**
-	 * Needs to be public as otherwise the implementation class generated does not see the interface from the classloader.
+	 * Needs to be public as otherwise the implementation class generated does not see the
+	 * interface from the classloader.
 	 *
 	 * @author Thomas Darimont
 	 * @author Oliver Gierke
 	 */
 	public interface ObjectInstantiator {
+
 		Object newInstance(Object... args);
+
 	}
 
 	/**
 	 * Generates a new {@link ObjectInstantiator} class for the given custom class.
 	 * <p>
-	 * This code generator will generate a custom factory class implementing the {@link ObjectInstantiator} interface for
-	 * every publicly accessed constructor variant.
+	 * This code generator will generate a custom factory class implementing the
+	 * {@link ObjectInstantiator} interface for every publicly accessed constructor
+	 * variant.
 	 * <p>
 	 * Given a class {@code ObjCtor1ParamString} like:
 	 *
@@ -284,7 +300,8 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	 * }
 	 * </pre>
 	 *
-	 * The following factory class {@code ObjCtor1ParamString_Instantiator_asdf} is generated:
+	 * The following factory class {@code ObjCtor1ParamString_Instantiator_asdf} is
+	 * generated:
 	 *
 	 * <pre>
 	 * {
@@ -304,8 +321,11 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	static class ObjectInstantiatorClassGenerator {
 
 		private static final String INIT = "<init>";
+
 		private static final String TAG = "_Instantiator_";
+
 		private static final String JAVA_LANG_OBJECT = "java/lang/Object";
+
 		private static final String CREATE_METHOD_NAME = "newInstance";
 
 		private static final String[] IMPLEMENTED_INTERFACES = new String[] {
@@ -313,7 +333,6 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 		/**
 		 * Generate a new class for the given {@link PersistentEntity}.
-		 *
 		 * @param entity
 		 * @param constructor
 		 * @return
@@ -327,8 +346,10 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 			Class<?> type = entity.getType();
 
 			try {
-				return ReflectUtils.defineClass(className, bytecode, type.getClassLoader(), type.getProtectionDomain(), type);
-			} catch (Exception e) {
+				return ReflectUtils.defineClass(className, bytecode, type.getClassLoader(), type.getProtectionDomain(),
+						type);
+			}
+			catch (Exception e) {
 				throw new IllegalStateException(e);
 			}
 		}
@@ -343,7 +364,6 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 		/**
 		 * Generate a new class for the given {@link PersistentEntity}.
-		 *
 		 * @param internalClassName
 		 * @param entity
 		 * @param constructor
@@ -378,8 +398,8 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		}
 
 		/**
-		 * Inserts the bytecode definition for the create method for the given {@link PersistentEntity}.
-		 *
+		 * Inserts the bytecode definition for the create method for the given
+		 * {@link PersistentEntity}.
 		 * @param cw
 		 * @param entity
 		 * @param constructor
@@ -414,14 +434,17 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 						mv.visitInsn(DUP);
 						String parameterName = parameters.size() > i ? parameters.get(i).getName() : null;
 
-						insertAssertNotNull(mv, parameterName == null ? String.format("at index %d", i) : parameterName);
+						insertAssertNotNull(mv,
+								parameterName == null ? String.format("at index %d", i) : parameterName);
 						insertUnboxInsns(mv, Type.getType(parameterTypes[i]).toString().charAt(0), "");
-					} else {
+					}
+					else {
 						mv.visitTypeInsn(CHECKCAST, Type.getInternalName(parameterTypes[i]));
 					}
 				}
 
-				mv.visitMethodInsn(INVOKESPECIAL, entityTypeResourcePath, INIT, Type.getConstructorDescriptor(ctor), false);
+				mv.visitMethodInsn(INVOKESPECIAL, entityTypeResourcePath, INIT, Type.getConstructorDescriptor(ctor),
+						false);
 				mv.visitInsn(ARETURN);
 				mv.visitMaxs(0, 0); // (0, 0) = computed via ClassWriter.COMPUTE_MAXS
 				mv.visitEnd();
@@ -430,7 +453,6 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 		/**
 		 * Insert an appropriate value on the stack for the given index value {@code idx}.
-		 *
 		 * @param mv
 		 * @param idx
 		 */
@@ -446,9 +468,9 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 		/**
 		 * Insert not-{@literal null} assertion for a parameter.
-		 *
 		 * @param mv the method visitor into which instructions should be inserted
-		 * @param parameterName name of the parameter to create the appropriate assertion message.
+		 * @param parameterName name of the parameter to create the appropriate assertion
+		 * message.
 		 */
 		private static void insertAssertNotNull(MethodVisitor mv, String parameterName) {
 
@@ -459,10 +481,11 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		}
 
 		/**
-		 * Insert any necessary cast and value call to convert from a boxed type to a primitive value.
+		 * Insert any necessary cast and value call to convert from a boxed type to a
+		 * primitive value.
 		 * <p>
-		 * Taken from Spring Expression 4.1.2 {@code org.springframework.expression.spel.CodeFlow#insertUnboxInsns}.
-		 *
+		 * Taken from Spring Expression 4.1.2
+		 * {@code org.springframework.expression.spel.CodeFlow#insertUnboxInsns}.
 		 * @param mv the method visitor into which instructions should be inserted
 		 * @param ch the primitive type desired as output
 		 * @param stackDescriptor the descriptor of the type on top of the stack
@@ -470,57 +493,59 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		private static void insertUnboxInsns(MethodVisitor mv, char ch, String stackDescriptor) {
 
 			switch (ch) {
-				case 'Z':
-					if (!stackDescriptor.equals("Ljava/lang/Boolean")) {
-						mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
-					}
-					mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
-					break;
-				case 'B':
-					if (!stackDescriptor.equals("Ljava/lang/Byte")) {
-						mv.visitTypeInsn(CHECKCAST, "java/lang/Byte");
-					}
-					mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B", false);
-					break;
-				case 'C':
-					if (!stackDescriptor.equals("Ljava/lang/Character")) {
-						mv.visitTypeInsn(CHECKCAST, "java/lang/Character");
-					}
-					mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C", false);
-					break;
-				case 'D':
-					if (!stackDescriptor.equals("Ljava/lang/Double")) {
-						mv.visitTypeInsn(CHECKCAST, "java/lang/Double");
-					}
-					mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
-					break;
-				case 'F':
-					if (!stackDescriptor.equals("Ljava/lang/Float")) {
-						mv.visitTypeInsn(CHECKCAST, "java/lang/Float");
-					}
-					mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F", false);
-					break;
-				case 'I':
-					if (!stackDescriptor.equals("Ljava/lang/Integer")) {
-						mv.visitTypeInsn(CHECKCAST, "java/lang/Integer");
-					}
-					mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
-					break;
-				case 'J':
-					if (!stackDescriptor.equals("Ljava/lang/Long")) {
-						mv.visitTypeInsn(CHECKCAST, "java/lang/Long");
-					}
-					mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J", false);
-					break;
-				case 'S':
-					if (!stackDescriptor.equals("Ljava/lang/Short")) {
-						mv.visitTypeInsn(CHECKCAST, "java/lang/Short");
-					}
-					mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S", false);
-					break;
-				default:
-					throw new IllegalArgumentException("Unboxing should not be attempted for descriptor '" + ch + "'");
+			case 'Z':
+				if (!stackDescriptor.equals("Ljava/lang/Boolean")) {
+					mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+				}
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+				break;
+			case 'B':
+				if (!stackDescriptor.equals("Ljava/lang/Byte")) {
+					mv.visitTypeInsn(CHECKCAST, "java/lang/Byte");
+				}
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B", false);
+				break;
+			case 'C':
+				if (!stackDescriptor.equals("Ljava/lang/Character")) {
+					mv.visitTypeInsn(CHECKCAST, "java/lang/Character");
+				}
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C", false);
+				break;
+			case 'D':
+				if (!stackDescriptor.equals("Ljava/lang/Double")) {
+					mv.visitTypeInsn(CHECKCAST, "java/lang/Double");
+				}
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
+				break;
+			case 'F':
+				if (!stackDescriptor.equals("Ljava/lang/Float")) {
+					mv.visitTypeInsn(CHECKCAST, "java/lang/Float");
+				}
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F", false);
+				break;
+			case 'I':
+				if (!stackDescriptor.equals("Ljava/lang/Integer")) {
+					mv.visitTypeInsn(CHECKCAST, "java/lang/Integer");
+				}
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
+				break;
+			case 'J':
+				if (!stackDescriptor.equals("Ljava/lang/Long")) {
+					mv.visitTypeInsn(CHECKCAST, "java/lang/Long");
+				}
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J", false);
+				break;
+			case 'S':
+				if (!stackDescriptor.equals("Ljava/lang/Short")) {
+					mv.visitTypeInsn(CHECKCAST, "java/lang/Short");
+				}
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S", false);
+				break;
+			default:
+				throw new IllegalArgumentException("Unboxing should not be attempted for descriptor '" + ch + "'");
 			}
 		}
+
 	}
+
 }

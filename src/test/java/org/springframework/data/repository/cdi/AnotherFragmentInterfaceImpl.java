@@ -29,4 +29,5 @@ class AnotherFragmentInterfaceImpl implements AnotherFragmentInterface {
 	public int getShadowed() {
 		return 2;
 	}
+
 }

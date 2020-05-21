@@ -32,4 +32,5 @@ public class SamplePersistentProperty extends AnnotationBasedPersistentProperty<
 	protected Association<SamplePersistentProperty> createAssociation() {
 		return new Association<>(this, null);
 	}
+
 }

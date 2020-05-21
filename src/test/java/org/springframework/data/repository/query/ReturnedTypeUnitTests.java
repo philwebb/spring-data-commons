@@ -210,19 +210,26 @@ class ReturnedTypeUnitTests {
 		SampleInterface findOneInterface();
 
 		static enum MyEnum {
+
 			VALUE
+
 		}
+
 	}
 
-	static interface SampleInterface {}
+	static interface SampleInterface {
+
+	}
 
 	static class Sample implements SampleInterface {
+
 		String firstname, lastname;
 
 		Sample(String firstname, String lastname) {
 			this.firstname = firstname;
 			this.lastname = lastname;
 		}
+
 	}
 
 	static class SampleDto {
@@ -230,18 +237,23 @@ class ReturnedTypeUnitTests {
 		SampleDto(String firstname) {
 
 		}
+
 	}
 
 	static class SampleDtoWithMultipleConstructors {
 
-		SampleDtoWithMultipleConstructors(String firstname) {}
+		SampleDtoWithMultipleConstructors(String firstname) {
+		}
 
-		SampleDtoWithMultipleConstructors(int age) {}
+		SampleDtoWithMultipleConstructors(int age) {
+		}
+
 	}
 
 	interface SampleProjection {
 
 		String getLastname();
+
 	}
 
 	interface OpenProjection {
@@ -250,13 +262,19 @@ class ReturnedTypeUnitTests {
 
 		@Value("#{target.firstname + ' ' + target.lastname}")
 		String getFullName();
+
 	}
 
 	static interface Parent {
+
 		String getFirstname();
+
 	}
 
 	static interface Child extends Parent {
+
 		String getFirstname();
+
 	}
+
 }

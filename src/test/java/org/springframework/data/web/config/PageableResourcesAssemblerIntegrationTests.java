@@ -54,6 +54,7 @@ class PageableResourcesAssemblerIntegrationTests {
 		SampleController controller() {
 			return new SampleController();
 		}
+
 	}
 
 	@BeforeEach
@@ -95,7 +96,8 @@ class PageableResourcesAssemblerIntegrationTests {
 	@Controller
 	static class SampleController {
 
-		@Autowired PagedResourcesAssembler<Person> assembler;
+		@Autowired
+		PagedResourcesAssembler<Person> assembler;
 
 		@RequestMapping("/persons")
 		PagedModel<EntityModel<Person>> sample(Pageable pageable) {
@@ -105,9 +107,11 @@ class PageableResourcesAssemblerIntegrationTests {
 
 			return this.assembler.toModel(page);
 		}
+
 	}
 
 	static class Person {
 
 	}
+
 }

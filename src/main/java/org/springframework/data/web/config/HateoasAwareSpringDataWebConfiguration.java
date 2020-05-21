@@ -30,7 +30,8 @@ import org.springframework.data.web.PagedResourcesAssemblerArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 /**
- * JavaConfig class to register {@link PagedResourcesAssembler} and {@link PagedResourcesAssemblerArgumentResolver}.
+ * JavaConfig class to register {@link PagedResourcesAssembler} and
+ * {@link PagedResourcesAssemblerArgumentResolver}.
  *
  * @since 1.6
  * @author Oliver Gierke
@@ -49,6 +50,7 @@ public class HateoasAwareSpringDataWebConfiguration extends SpringDataWebConfigu
 			@Qualifier("mvcConversionService") ObjectFactory<ConversionService> conversionService) {
 		super(context, conversionService);
 	}
+
 	@Bean
 	@Override
 	public HateoasPageableHandlerMethodArgumentResolver pageableResolver() {
@@ -58,6 +60,7 @@ public class HateoasAwareSpringDataWebConfiguration extends SpringDataWebConfigu
 		customizePageableResolver(pageableResolver);
 		return pageableResolver;
 	}
+
 	@Bean
 	@Override
 	public HateoasSortHandlerMethodArgumentResolver sortResolver() {
@@ -76,9 +79,11 @@ public class HateoasAwareSpringDataWebConfiguration extends SpringDataWebConfigu
 	public PagedResourcesAssemblerArgumentResolver pagedResourcesAssemblerArgumentResolver() {
 		return new PagedResourcesAssemblerArgumentResolver(pageableResolver(), null);
 	}
+
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		super.addArgumentResolvers(argumentResolvers);
 		argumentResolvers.add(pagedResourcesAssemblerArgumentResolver());
 	}
+
 }

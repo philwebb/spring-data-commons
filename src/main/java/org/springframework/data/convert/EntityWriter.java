@@ -25,4 +25,5 @@ package org.springframework.data.convert;
 public interface EntityWriter<T, S> {
 
 	void write(T source, S sink);
+
 }

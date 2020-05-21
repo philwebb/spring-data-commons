@@ -26,16 +26,18 @@ public class DummyEntityInformation<T> extends AbstractEntityInformation<T, Seri
 
 	/**
 	 * Creates a new {@link DummyEntityInformation} for the given domain class.
-	 *
 	 * @param domainClass
 	 */
 	public DummyEntityInformation(Class<T> domainClass) {
 		super(domainClass);
 	}
+
 	public Serializable getId(Object entity) {
 		return entity == null ? null : entity.toString();
 	}
+
 	public Class<Serializable> getIdType() {
 		return Serializable.class;
 	}
+
 }

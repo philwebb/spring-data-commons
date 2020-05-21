@@ -27,7 +27,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * {@link MethodInterceptor} to support accessor methods to store and retrieve values from a {@link Map}.
+ * {@link MethodInterceptor} to support accessor methods to store and retrieve values from
+ * a {@link Map}.
  *
  * @author Oliver Gierke
  * @since 1.10
@@ -42,6 +43,7 @@ class MapAccessingMethodInterceptor implements MethodInterceptor {
 
 		this.map = map;
 	}
+
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -56,11 +58,13 @@ class MapAccessingMethodInterceptor implements MethodInterceptor {
 
 		if (accessor.isGetter()) {
 			return this.map.get(accessor.getPropertyName());
-		} else if (accessor.isSetter()) {
+		}
+		else if (accessor.isSetter()) {
 			this.map.put(accessor.getPropertyName(), invocation.getArguments()[0]);
 			return null;
 		}
 
 		throw new IllegalStateException("Should never get here!");
 	}
+
 }

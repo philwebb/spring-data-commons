@@ -26,20 +26,22 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Simple factory to create {@link SpelExpressionParser} and {@link EvaluationContext} instances.
+ * Simple factory to create {@link SpelExpressionParser} and {@link EvaluationContext}
+ * instances.
  *
  * @author Oliver Gierke
  */
 public class SpELContext {
 
 	private final SpelExpressionParser parser;
+
 	private final PropertyAccessor accessor;
+
 	private final @Nullable BeanFactory factory;
 
 	/**
-	 * Creates a new {@link SpELContext} with the given {@link PropertyAccessor}. Defaults the
-	 * {@link SpelExpressionParser}.
-	 *
+	 * Creates a new {@link SpELContext} with the given {@link PropertyAccessor}. Defaults
+	 * the {@link SpelExpressionParser}.
 	 * @param accessor
 	 */
 	public SpELContext(PropertyAccessor accessor) {
@@ -47,9 +49,9 @@ public class SpELContext {
 	}
 
 	/**
-	 * Creates a new {@link SpELContext} using the given {@link SpelExpressionParser} and {@link PropertyAccessor}. Will
-	 * default the {@link SpelExpressionParser} in case the given value for it is {@literal null}.
-	 *
+	 * Creates a new {@link SpELContext} using the given {@link SpelExpressionParser} and
+	 * {@link PropertyAccessor}. Will default the {@link SpelExpressionParser} in case the
+	 * given value for it is {@literal null}.
 	 * @param parser
 	 * @param accessor
 	 */
@@ -58,9 +60,9 @@ public class SpELContext {
 	}
 
 	/**
-	 * Copy constructor to create a {@link SpELContext} using the given one's {@link PropertyAccessor} and
-	 * {@link SpelExpressionParser} as well as the given {@link BeanFactory}.
-	 *
+	 * Copy constructor to create a {@link SpELContext} using the given one's
+	 * {@link PropertyAccessor} and {@link SpelExpressionParser} as well as the given
+	 * {@link BeanFactory}.
 	 * @param source
 	 * @param factory
 	 */
@@ -69,15 +71,15 @@ public class SpELContext {
 	}
 
 	/**
-	 * Creates a new {@link SpELContext} using the given {@link SpelExpressionParser}, {@link PropertyAccessor} and
-	 * {@link BeanFactory}. Will default the {@link SpelExpressionParser} in case the given value for it is
-	 * {@literal null}.
-	 *
+	 * Creates a new {@link SpELContext} using the given {@link SpelExpressionParser},
+	 * {@link PropertyAccessor} and {@link BeanFactory}. Will default the
+	 * {@link SpelExpressionParser} in case the given value for it is {@literal null}.
 	 * @param accessor
 	 * @param parser
 	 * @param factory
 	 */
-	private SpELContext(PropertyAccessor accessor, @Nullable SpelExpressionParser parser, @Nullable BeanFactory factory) {
+	private SpELContext(PropertyAccessor accessor, @Nullable SpelExpressionParser parser,
+			@Nullable BeanFactory factory) {
 
 		Assert.notNull(accessor, "PropertyAccessor must not be null!");
 
@@ -85,9 +87,11 @@ public class SpELContext {
 		this.accessor = accessor;
 		this.factory = factory;
 	}
+
 	public ExpressionParser getParser() {
 		return this.parser;
 	}
+
 	public EvaluationContext getEvaluationContext(Object source) {
 
 		StandardEvaluationContext evaluationContext = new StandardEvaluationContext(source);
@@ -99,4 +103,5 @@ public class SpELContext {
 
 		return evaluationContext;
 	}
+
 }

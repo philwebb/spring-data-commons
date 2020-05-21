@@ -21,8 +21,9 @@ import org.springframework.data.mapping.PreferredConstructor.Parameter;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link ParameterValueProvider} that can be used to front a {@link ParameterValueProvider} delegate to prefer a SpEL
- * expression evaluation over directly resolving the parameter value with the delegate.
+ * {@link ParameterValueProvider} that can be used to front a
+ * {@link ParameterValueProvider} delegate to prefer a SpEL expression evaluation over
+ * directly resolving the parameter value with the delegate.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -31,7 +32,9 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 		implements ParameterValueProvider<P> {
 
 	private final SpELExpressionEvaluator evaluator;
+
 	private final ConversionService conversionService;
+
 	private final ParameterValueProvider<P> delegate;
 
 	public SpELExpressionParameterValueProvider(SpELExpressionEvaluator evaluator, ConversionService conversionService,
@@ -41,6 +44,7 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 		this.conversionService = conversionService;
 		this.delegate = delegate;
 	}
+
 	@Nullable
 	public <T> T getParameterValue(Parameter<T, P> parameter) {
 
@@ -53,9 +57,9 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 	}
 
 	/**
-	 * Hook to allow to massage the value resulting from the Spel expression evaluation. Default implementation will
-	 * leverage the configured {@link ConversionService} to massage the value into the parameter type.
-	 *
+	 * Hook to allow to massage the value resulting from the Spel expression evaluation.
+	 * Default implementation will leverage the configured {@link ConversionService} to
+	 * massage the value into the parameter type.
 	 * @param object the value to massage, will never be {@literal null}.
 	 * @param parameter the {@link Parameter} we create the value for
 	 * @return
@@ -64,4 +68,5 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 	protected <T> T potentiallyConvertSpelValue(Object object, Parameter<T, P> parameter) {
 		return this.conversionService.convert(object, parameter.getRawType());
 	}
+
 }

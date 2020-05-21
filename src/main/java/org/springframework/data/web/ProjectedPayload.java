@@ -23,8 +23,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to mark projection interfaces that are supposed to be used as projection interface to bind request or
- * response payloads to.
+ * Annotation to mark projection interfaces that are supposed to be used as projection
+ * interface to bind request or response payloads to.
  *
  * @author Oliver Gierke
  * @since 1.13
@@ -33,4 +33,5 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(TYPE)
 public @interface ProjectedPayload {
+
 }

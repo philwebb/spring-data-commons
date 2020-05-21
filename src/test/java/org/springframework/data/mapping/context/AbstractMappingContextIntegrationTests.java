@@ -82,7 +82,8 @@ class AbstractMappingContextIntegrationTests<T extends PersistentProperty<T>> {
 			entity.doWithProperties((PropertyHandler<T>) persistentProperty -> {
 				try {
 					Thread.sleep(250);
-				} catch (InterruptedException e) {
+				}
+				catch (InterruptedException e) {
 					throw new RuntimeException(e);
 				}
 			});
@@ -117,24 +118,31 @@ class AbstractMappingContextIntegrationTests<T extends PersistentProperty<T>> {
 
 			try {
 				Thread.sleep(200);
-			} catch (InterruptedException e) {
+			}
+			catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
 
 			return (T) prop;
 		}
+
 	}
 
 	class Person {
 
 		String firstname;
+
 		String lastname;
+
 		String email;
+
 	}
 
 	interface InterfaceOnly {
 
 		@Id
 		String getId();
+
 	}
+
 }

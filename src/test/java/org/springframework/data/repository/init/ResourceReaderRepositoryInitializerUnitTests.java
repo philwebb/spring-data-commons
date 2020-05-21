@@ -44,11 +44,16 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig(classes = SampleConfiguration.class)
 class ResourceReaderRepositoryInitializerUnitTests {
 
-	@Autowired ProductRepository productRepository;
-	@Autowired Repositories repositories;
+	@Autowired
+	ProductRepository productRepository;
+
+	@Autowired
+	Repositories repositories;
 
 	ApplicationEventPublisher publisher;
+
 	ResourceReader reader;
+
 	Resource resource;
 
 	@BeforeEach
@@ -105,4 +110,5 @@ class ResourceReaderRepositoryInitializerUnitTests {
 	private RepositoryPopulator setUpReferenceAndInititalize(Object reference) throws Exception {
 		return setUpReferenceAndInititalize(reference, null);
 	}
+
 }

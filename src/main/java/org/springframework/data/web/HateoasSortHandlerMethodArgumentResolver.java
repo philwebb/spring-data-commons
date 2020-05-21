@@ -29,8 +29,8 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Extension of {@link SortHandlerMethodArgumentResolver} that also supports enhancing URIs using Spring HATEOAS
- * support.
+ * Extension of {@link SortHandlerMethodArgumentResolver} that also supports enhancing
+ * URIs using Spring HATEOAS support.
  *
  * @since 1.6
  * @author Oliver Gierke
@@ -43,7 +43,6 @@ public class HateoasSortHandlerMethodArgumentResolver extends SortHandlerMethodA
 
 	/**
 	 * Returns the template variables for the sort parameter.
-	 *
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 * @since 1.7
@@ -65,7 +64,10 @@ public class HateoasSortHandlerMethodArgumentResolver extends SortHandlerMethodA
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.hateoas.server.mvc.UriComponentsContributor#enhance(org.springframework.web.util.UriComponentsBuilder, org.springframework.core.MethodParameter, java.lang.Object)
+	 * 
+	 * @see org.springframework.hateoas.server.mvc.UriComponentsContributor#enhance(org.
+	 * springframework.web.util.UriComponentsBuilder,
+	 * org.springframework.core.MethodParameter, java.lang.Object)
 	 */
 	@Override
 	public void enhance(UriComponentsBuilder builder, @Nullable MethodParameter parameter, @Nullable Object value) {
@@ -83,4 +85,5 @@ public class HateoasSortHandlerMethodArgumentResolver extends SortHandlerMethodA
 			builder.queryParam(sortParameter, expression);
 		}
 	}
+
 }

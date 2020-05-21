@@ -85,4 +85,5 @@ class ConverterBuilderUnitTests {
 	private static void assertOnlyConverter(ConverterBuilder builder, Supplier<GenericConverter> supplier) {
 		assertThat(builder.getConverters()).containsExactly(supplier.get());
 	}
+
 }

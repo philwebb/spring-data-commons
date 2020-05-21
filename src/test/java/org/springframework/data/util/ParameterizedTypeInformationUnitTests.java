@@ -45,7 +45,8 @@ import org.mockito.quality.Strictness;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class ParameterizedTypeInformationUnitTests {
 
-	@Mock ParameterizedType one;
+	@Mock
+	ParameterizedType one;
 
 	@BeforeEach
 	void setUp() {
@@ -95,8 +96,8 @@ class ParameterizedTypeInformationUnitTests {
 	@Test // DATACMNS-446
 	void createsToStringRepresentation() {
 
-		assertThat(from(Foo.class).getProperty("param").toString())
-				.isEqualTo("org.springframework.data.util.ParameterizedTypeInformationUnitTests$Localized<java.lang.String>");
+		assertThat(from(Foo.class).getProperty("param").toString()).isEqualTo(
+				"org.springframework.data.util.ParameterizedTypeInformationUnitTests$Localized<java.lang.String>");
 	}
 
 	@Test // DATACMNS-485
@@ -141,7 +142,8 @@ class ParameterizedTypeInformationUnitTests {
 
 		ClassTypeInformation<Candidate> candidate = ClassTypeInformation.from(Candidate.class);
 
-		TypeInformation<?> componentType = candidate.getRequiredProperty("experiences.values").getRequiredComponentType();
+		TypeInformation<?> componentType = candidate.getRequiredProperty("experiences.values")
+				.getRequiredComponentType();
 		componentType = componentType.getRequiredProperty("responsibilities.values").getRequiredComponentType();
 
 		assertThat(componentType.getType()).isEqualTo(Responsibility.class);
@@ -157,33 +159,48 @@ class ParameterizedTypeInformationUnitTests {
 
 	@SuppressWarnings("serial")
 	class Localized<S> extends HashMap<Locale, S> {
+
 		S value;
+
 	}
 
 	@SuppressWarnings("serial")
 	class Localized2<S> extends HashMap<S, Locale> {
+
 		S value;
+
 	}
 
 	class Foo {
+
 		Localized<String> param;
+
 		Localized2<String> param2;
+
 	}
 
 	class Bar {
+
 		List<String> param;
+
 	}
 
 	class Parameterized<T> {
+
 		T property;
+
 	}
 
 	class First {
+
 		Parameterized<String> property;
+
 	}
 
 	class Second {
+
 		Parameterized<String> property;
+
 	}
 
 	// see DATACMNS-697
@@ -191,34 +208,51 @@ class ParameterizedTypeInformationUnitTests {
 	class NormalizedProfile {
 
 		ListField<Education> education2;
+
 	}
 
 	class ListField<L> {
+
 		List<Value<L>> data;
+
 	}
 
 	class Value<T> {
+
 		T value;
+
 	}
 
-	private class Education {}
+	private class Education {
+
+	}
 
 	// DATACMNS-1135
 
-	abstract class CandidateInfo {}
+	abstract class CandidateInfo {
 
-	private class Responsibility extends CandidateInfo {}
+	}
+
+	private class Responsibility extends CandidateInfo {
+
+	}
 
 	class Experience extends CandidateInfo {
+
 		CandidateInfoContainer<Responsibility> responsibilities;
+
 	}
 
 	class CandidateInfoContainer<E extends CandidateInfo> {
+
 		List<E> values = new ArrayList<>();
+
 	}
 
 	class Candidate {
+
 		CandidateInfoContainer<Experience> experiences;
+
 	}
 
 	// FOO
@@ -228,13 +262,21 @@ class ParameterizedTypeInformationUnitTests {
 		Inner<T> inner;
 
 		static class Inner<T> {
+
 			List<T> myList;
+
 		}
+
 	}
 
-	private static class EnumGeneric extends Generic<MyEnum> {}
+	private static class EnumGeneric extends Generic<MyEnum> {
+
+	}
 
 	public enum MyEnum {
+
 		E1, E2
+
 	}
+
 }

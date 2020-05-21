@@ -34,19 +34,22 @@ import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 import org.springframework.data.repository.query.RepositoryQuery;
 
 /**
- * Dummy implementation for {@link RepositoryFactorySupport} that is equipped with mocks to simulate behavior for test
- * cases.
+ * Dummy implementation for {@link RepositoryFactorySupport} that is equipped with mocks
+ * to simulate behavior for test cases.
  *
  * @author Oliver Gierke
  */
 public class DummyRepositoryFactory extends RepositoryFactorySupport {
 
 	public final MyRepositoryQuery queryOne = mock(MyRepositoryQuery.class);
+
 	public final RepositoryQuery queryTwo = mock(RepositoryQuery.class);
+
 	public final QueryLookupStrategy strategy = mock(QueryLookupStrategy.class);
 
-	@SuppressWarnings("unchecked") private final QuerydslPredicateExecutor<Object> querydsl = mock(
-			QuerydslPredicateExecutor.class);
+	@SuppressWarnings("unchecked")
+	private final QuerydslPredicateExecutor<Object> querydsl = mock(QuerydslPredicateExecutor.class);
+
 	private final Object repository;
 
 	public DummyRepositoryFactory(Object repository) {
@@ -56,15 +59,18 @@ public class DummyRepositoryFactory extends RepositoryFactorySupport {
 		when(this.strategy.resolveQuery(Mockito.any(Method.class), Mockito.any(RepositoryMetadata.class),
 				Mockito.any(ProjectionFactory.class), Mockito.any(NamedQueries.class))).thenReturn(this.queryOne);
 	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T, ID> EntityInformation<T, ID> getEntityInformation(Class<T> domainClass) {
 		return mock(EntityInformation.class);
 	}
+
 	@Override
 	protected Object getTargetRepository(RepositoryInformation information) {
 		return this.repository;
 	}
+
 	@Override
 	protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
 		return this.repository.getClass();
@@ -72,13 +78,18 @@ public class DummyRepositoryFactory extends RepositoryFactorySupport {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.support.RepositoryFactorySupport#getQueryLookupStrategy(org.springframework.data.repository.query.QueryLookupStrategy.Key, org.springframework.data.repository.query.EvaluationContextProvider)
+	 * 
+	 * @see org.springframework.data.repository.core.support.RepositoryFactorySupport#
+	 * getQueryLookupStrategy(org.springframework.data.repository.query.
+	 * QueryLookupStrategy.Key,
+	 * org.springframework.data.repository.query.EvaluationContextProvider)
 	 */
 	@Override
 	protected Optional<QueryLookupStrategy> getQueryLookupStrategy(Key key,
 			QueryMethodEvaluationContextProvider evaluationContextProvider) {
 		return Optional.of(this.strategy);
 	}
+
 	@Override
 	protected RepositoryFragments getRepositoryFragments(RepositoryMetadata metadata) {
 
@@ -95,4 +106,5 @@ public class DummyRepositoryFactory extends RepositoryFactorySupport {
 	public interface MyRepositoryQuery extends RepositoryQuery {
 
 	}
+
 }

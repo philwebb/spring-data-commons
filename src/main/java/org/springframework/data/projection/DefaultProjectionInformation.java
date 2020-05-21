@@ -39,8 +39,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Default implementation of {@link ProjectionInformation}. Exposes all properties of the type as required input
- * properties.
+ * Default implementation of {@link ProjectionInformation}. Exposes all properties of the
+ * type as required input properties.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -50,11 +50,11 @@ import org.springframework.util.ClassUtils;
 class DefaultProjectionInformation implements ProjectionInformation {
 
 	private final Class<?> projectionType;
+
 	private final List<PropertyDescriptor> properties;
 
 	/**
 	 * Creates a new {@link DefaultProjectionInformation} for the given type.
-	 *
 	 * @param type must not be {@literal null}.
 	 */
 	DefaultProjectionInformation(Class<?> type) {
@@ -64,10 +64,12 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		this.projectionType = type;
 		this.properties = new PropertyDescriptorSource(type).getDescriptors();
 	}
+
 	@Override
 	public Class<?> getType() {
 		return this.projectionType;
 	}
+
 	public List<PropertyDescriptor> getInputProperties() {
 
 		return this.properties.stream()//
@@ -75,16 +77,16 @@ class DefaultProjectionInformation implements ProjectionInformation {
 				.distinct()//
 				.collect(Collectors.toList());
 	}
+
 	@Override
 	public boolean isClosed() {
 		return this.properties.equals(getInputProperties());
 	}
 
 	/**
-	 * Returns whether the given {@link PropertyDescriptor} describes an input property for the projection, i.e. a
-	 * property that needs to be present on the source to be able to create reasonable projections for the type the
-	 * descriptor was looked up on.
-	 *
+	 * Returns whether the given {@link PropertyDescriptor} describes an input property
+	 * for the projection, i.e. a property that needs to be present on the source to be
+	 * able to create reasonable projections for the type the descriptor was looked up on.
 	 * @param descriptor will never be {@literal null}.
 	 * @return
 	 */
@@ -93,8 +95,8 @@ class DefaultProjectionInformation implements ProjectionInformation {
 	}
 
 	/**
-	 * Returns whether the given {@link PropertyDescriptor} has a getter that is a Java 8 default method.
-	 *
+	 * Returns whether the given {@link PropertyDescriptor} has a getter that is a Java 8
+	 * default method.
 	 * @param descriptor must not be {@literal null}.
 	 * @return
 	 */
@@ -111,17 +113,17 @@ class DefaultProjectionInformation implements ProjectionInformation {
 	 * @author Mark Paluch
 	 * @author Oliver Gierke
 	 * @since 2.1
-		 */
+	 */
 	private static class PropertyDescriptorSource {
 
 		private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(PropertyDescriptorSource.class);
 
 		private final Class<?> type;
+
 		private final Optional<MethodsMetadata> metadata;
 
 		/**
 		 * Creates a new {@link PropertyDescriptorSource} for the given type.
-		 *
 		 * @param type must not be {@literal null}.
 		 */
 		PropertyDescriptorSource(Class<?> type) {
@@ -133,8 +135,8 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		}
 
 		/**
-		 * Returns {@link PropertyDescriptor}s for all properties exposed by the given type and all its super interfaces.
-		 *
+		 * Returns {@link PropertyDescriptor}s for all properties exposed by the given
+		 * type and all its super interfaces.
 		 * @return
 		 */
 		List<PropertyDescriptor> getDescriptors() {
@@ -142,9 +144,8 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		}
 
 		/**
-		 * Recursively collects {@link PropertyDescriptor}s for all properties exposed by the given type and all its super
-		 * interfaces.
-		 *
+		 * Recursively collects {@link PropertyDescriptor}s for all properties exposed by
+		 * the given type and all its super interfaces.
 		 * @return
 		 */
 		private Stream<PropertyDescriptor> collectDescriptors() {
@@ -152,8 +153,8 @@ class DefaultProjectionInformation implements ProjectionInformation {
 			Stream<PropertyDescriptor> allButDefaultGetters = Arrays.stream(BeanUtils.getPropertyDescriptors(this.type)) //
 					.filter(it -> !hasDefaultGetter(it));
 
-			Stream<PropertyDescriptor> ownDescriptors = this.metadata.map(it -> filterAndOrder(allButDefaultGetters, it))
-					.orElse(allButDefaultGetters);
+			Stream<PropertyDescriptor> ownDescriptors = this.metadata
+					.map(it -> filterAndOrder(allButDefaultGetters, it)).orElse(allButDefaultGetters);
 
 			Stream<PropertyDescriptor> superTypeDescriptors = this.metadata.map(this::fromMetadata) //
 					.orElseGet(this::fromType) //
@@ -163,9 +164,9 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		}
 
 		/**
-		 * Returns a {@link Stream} of {@link PropertyDescriptor} ordered following the given {@link MethodsMetadata} only
-		 * returning methods seen by the given {@link MethodsMetadata}.
-		 *
+		 * Returns a {@link Stream} of {@link PropertyDescriptor} ordered following the
+		 * given {@link MethodsMetadata} only returning methods seen by the given
+		 * {@link MethodsMetadata}.
 		 * @param source must not be {@literal null}.
 		 * @param metadata must not be {@literal null}.
 		 * @return
@@ -185,8 +186,8 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		}
 
 		/**
-		 * Returns a {@link Stream} of interfaces using the given {@link MethodsMetadata} as primary source for ordering.
-		 *
+		 * Returns a {@link Stream} of interfaces using the given {@link MethodsMetadata}
+		 * as primary source for ordering.
 		 * @param metadata must not be {@literal null}.
 		 * @return
 		 */
@@ -195,8 +196,8 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		}
 
 		/**
-		 * Returns a {@link Stream} of interfaces using the given type as primary source for ordering.
-		 *
+		 * Returns a {@link Stream} of interfaces using the given type as primary source
+		 * for ordering.
 		 * @return
 		 */
 		private Stream<Class<?>> fromType() {
@@ -204,9 +205,9 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		}
 
 		/**
-		 * Attempts to obtain {@link MethodsMetadata} from {@link Class}. Returns {@link Optional} containing
-		 * {@link MethodsMetadata} if metadata was read successfully, {@link Optional#empty()} otherwise.
-		 *
+		 * Attempts to obtain {@link MethodsMetadata} from {@link Class}. Returns
+		 * {@link Optional} containing {@link MethodsMetadata} if metadata was read
+		 * successfully, {@link Optional#empty()} otherwise.
 		 * @param type must not be {@literal null}.
 		 * @return the optional {@link MethodsMetadata}.
 		 */
@@ -219,7 +220,8 @@ class DefaultProjectionInformation implements ProjectionInformation {
 
 				return Optional.of(metadataReader.getMethodsMetadata());
 
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 
 				LOG.info("Couldn't read class metadata for {}. Input property calculation might fail!", type);
 
@@ -229,7 +231,6 @@ class DefaultProjectionInformation implements ProjectionInformation {
 
 		/**
 		 * Find the type with the given name in the given array of {@link Class}.
-		 *
 		 * @param name must not be {@literal null} or empty.
 		 * @param types must not be {@literal null}.
 		 * @return
@@ -238,14 +239,13 @@ class DefaultProjectionInformation implements ProjectionInformation {
 
 			return Arrays.stream(types) //
 					.filter(it -> name.equals(it.getName())) //
-					.findFirst()
-					.orElseThrow(() -> new IllegalStateException(
+					.findFirst().orElseThrow(() -> new IllegalStateException(
 							String.format("Did not find type %s in %s!", name, Arrays.toString(types))));
 		}
 
 		/**
-		 * Returns a {@link Map} containing method name to its positional index according to {@link MethodsMetadata}.
-		 *
+		 * Returns a {@link Map} containing method name to its positional index according
+		 * to {@link MethodsMetadata}.
 		 * @param metadata
 		 * @return
 		 */
@@ -261,5 +261,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 					.boxed() //
 					.collect(Collectors.toMap(methods::get, i -> i));
 		}
+
 	}
+
 }

@@ -79,7 +79,8 @@ class ReactiveRepositoryInformationUnitTests {
 	@Test // DATACMNS-988
 	void discoversRxJava2MethodWithConvertibleArguments() throws Exception {
 
-		Method reference = extractTargetMethodFromRepository(RxJava2InterfaceWithGenerics.class, "saveAll", Flowable.class);
+		Method reference = extractTargetMethodFromRepository(RxJava2InterfaceWithGenerics.class, "saveAll",
+				Flowable.class);
 
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("saveAll");
@@ -89,7 +90,8 @@ class ReactiveRepositoryInformationUnitTests {
 	@Test // DATACMNS-836
 	void discoversMethodAssignableArguments() throws Exception {
 
-		Method reference = extractTargetMethodFromRepository(ReactiveSortingRepository.class, "saveAll", Publisher.class);
+		Method reference = extractTargetMethodFromRepository(ReactiveSortingRepository.class, "saveAll",
+				Publisher.class);
 
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("saveAll");
@@ -110,7 +112,8 @@ class ReactiveRepositoryInformationUnitTests {
 	@Test // DATACMNS-836
 	void discoversMethodExactObjectArguments() throws Exception {
 
-		Method reference = extractTargetMethodFromRepository(ReactiveJavaInterfaceWithGenerics.class, "save", Object.class);
+		Method reference = extractTargetMethodFromRepository(ReactiveJavaInterfaceWithGenerics.class, "save",
+				Object.class);
 
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("save");
@@ -141,11 +144,16 @@ class ReactiveRepositoryInformationUnitTests {
 		Observable<User> saveAll(Observable<User> entities);
 
 		Completable deleteAll();
+
 	}
 
-	interface RxJava2InterfaceWithGenerics extends RxJava2CrudRepository<User, String> {}
+	interface RxJava2InterfaceWithGenerics extends RxJava2CrudRepository<User, String> {
 
-	interface ReactiveJavaInterfaceWithGenerics extends ReactiveCrudRepository<User, String> {}
+	}
+
+	interface ReactiveJavaInterfaceWithGenerics extends ReactiveCrudRepository<User, String> {
+
+	}
 
 	static abstract class DummyGenericReactiveRepositorySupport<T, ID> implements ReactiveCrudRepository<T, ID> {
 
@@ -155,6 +163,7 @@ class ReactiveRepositoryInformationUnitTests {
 
 		@Override
 		<S extends User> Flux<S> saveAll(Iterable<S> entities);
+
 	}
 
 	static class User {
@@ -170,4 +179,5 @@ class ReactiveRepositoryInformationUnitTests {
 		}
 
 	}
+
 }

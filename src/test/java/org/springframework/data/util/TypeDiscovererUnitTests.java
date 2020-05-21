@@ -44,8 +44,11 @@ public class TypeDiscovererUnitTests {
 
 	private static final Map<TypeVariable<?>, Type> EMPTY_MAP = Collections.emptyMap();
 
-	@Mock Map<TypeVariable<?>, Type> firstMap;
-	@Mock Map<TypeVariable<?>, Type> secondMap;
+	@Mock
+	Map<TypeVariable<?>, Type> firstMap;
+
+	@Mock
+	Map<TypeVariable<?>, Type> secondMap;
 
 	@Test
 	void rejectsNullType() {
@@ -120,7 +123,8 @@ public class TypeDiscovererUnitTests {
 	void discoveresConstructorParameterTypesCorrectly() throws NoSuchMethodException, SecurityException {
 
 		TypeDiscoverer<GenericConstructors> discoverer = new TypeDiscoverer<>(GenericConstructors.class, this.firstMap);
-		Constructor<GenericConstructors> constructor = GenericConstructors.class.getConstructor(List.class, Locale.class);
+		Constructor<GenericConstructors> constructor = GenericConstructors.class.getConstructor(List.class,
+				Locale.class);
 		List<TypeInformation<?>> types = discoverer.getParameterTypes(constructor);
 
 		assertThat(types).hasSize(2);
@@ -182,7 +186,9 @@ public class TypeDiscovererUnitTests {
 	class Person {
 
 		Addresses addresses;
+
 		Iterable<Address> addressIterable;
+
 	}
 
 	abstract class Addresses implements Iterable<Address> {
@@ -196,10 +202,13 @@ public class TypeDiscovererUnitTests {
 	class SelfReferencing {
 
 		Map<String, SelfReferencingMap> parent;
+
 	}
 
 	class SelfReferencingMap {
+
 		Map<String, SelfReferencingMap> map;
+
 	}
 
 	interface CustomMap extends Map<String, Locale> {
@@ -215,6 +224,7 @@ public class TypeDiscovererUnitTests {
 		public GenericConstructors(List<String> first, Locale second) {
 
 		}
+
 	}
 
 	// DATACMNS-1342
@@ -227,5 +237,7 @@ public class TypeDiscovererUnitTests {
 		public Iterator<String> iterator() {
 			return Collections.emptyIterator();
 		}
+
 	}
+
 }

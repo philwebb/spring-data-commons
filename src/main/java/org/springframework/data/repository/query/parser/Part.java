@@ -15,7 +15,6 @@
  */
 package org.springframework.data.repository.query.parser;
 
-
 import java.beans.Introspector;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,9 +29,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * A single part of a method name that has to be transformed into a query part. The actual transformation is defined by
- * a {@link Type} that is determined from inspecting the given part. The query part can then be looked up via
- * {@link #getProperty()}.
+ * A single part of a method name that has to be transformed into a query part. The actual
+ * transformation is defined by a {@link Type} that is determined from inspecting the
+ * given part. The query part can then be looked up via {@link #getProperty()}.
  *
  * @author Oliver Gierke
  * @author Martin Baumgartner
@@ -43,14 +42,14 @@ public class Part {
 	private static final Pattern IGNORE_CASE = Pattern.compile("Ignor(ing|e)Case");
 
 	private final PropertyPath propertyPath;
+
 	private final Part.Type type;
 
 	private IgnoreCaseType ignoreCase = IgnoreCaseType.NEVER;
 
 	/**
-	 * Creates a new {@link Part} from the given method name part, the {@link Class} the part originates from and the
-	 * start parameter index.
-	 *
+	 * Creates a new {@link Part} from the given method name part, the {@link Class} the
+	 * part originates from and the start parameter index.
 	 * @param source must not be {@literal null}.
 	 * @param clazz must not be {@literal null}.
 	 */
@@ -59,9 +58,8 @@ public class Part {
 	}
 
 	/**
-	 * Creates a new {@link Part} from the given method name part, the {@link Class} the part originates from and the
-	 * start parameter index.
-	 *
+	 * Creates a new {@link Part} from the given method name part, the {@link Class} the
+	 * part originates from and the start parameter index.
 	 * @param source must not be {@literal null}.
 	 * @param clazz must not be {@literal null}.
 	 * @param alwaysIgnoreCase
@@ -100,7 +98,6 @@ public class Part {
 
 	/**
 	 * Returns how many method parameters are bound by this part.
-	 *
 	 * @return
 	 */
 	public int getNumberOfArguments() {
@@ -122,13 +119,14 @@ public class Part {
 	}
 
 	/**
-	 * Returns whether the {@link PropertyPath} referenced should be matched ignoring case.
-	 *
+	 * Returns whether the {@link PropertyPath} referenced should be matched ignoring
+	 * case.
 	 * @return
 	 */
 	public IgnoreCaseType shouldIgnoreCase() {
 		return this.ignoreCase;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -152,6 +150,7 @@ public class Part {
 
 		return this.ignoreCase == part.ignoreCase;
 	}
+
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(this.propertyPath);
@@ -159,6 +158,7 @@ public class Part {
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.ignoreCase);
 		return result;
 	}
+
 	@Override
 	public String toString() {
 		return String.format("%s %s %s", this.propertyPath.getSegment(), this.type, this.ignoreCase);
@@ -173,25 +173,48 @@ public class Part {
 	 */
 	public static enum Type {
 
-		BETWEEN(2, "IsBetween", "Between"), IS_NOT_NULL(0, "IsNotNull", "NotNull"), IS_NULL(0, "IsNull", "Null"), LESS_THAN(
-				"IsLessThan", "LessThan"), LESS_THAN_EQUAL("IsLessThanEqual", "LessThanEqual"), GREATER_THAN("IsGreaterThan",
-						"GreaterThan"), GREATER_THAN_EQUAL("IsGreaterThanEqual", "GreaterThanEqual"), BEFORE("IsBefore",
-								"Before"), AFTER("IsAfter", "After"), NOT_LIKE("IsNotLike", "NotLike"), LIKE("IsLike",
-										"Like"), STARTING_WITH("IsStartingWith", "StartingWith", "StartsWith"), ENDING_WITH("IsEndingWith",
-												"EndingWith", "EndsWith"), IS_NOT_EMPTY(0, "IsNotEmpty", "NotEmpty"), IS_EMPTY(0, "IsEmpty",
-														"Empty"), NOT_CONTAINING("IsNotContaining", "NotContaining", "NotContains"), CONTAINING(
-																"IsContaining", "Containing", "Contains"), NOT_IN("IsNotIn", "NotIn"), IN("IsIn",
-																		"In"), NEAR("IsNear", "Near"), WITHIN("IsWithin", "Within"), REGEX("MatchesRegex",
-																				"Matches", "Regex"), EXISTS(0, "Exists"), TRUE(0, "IsTrue", "True"), FALSE(0,
-																						"IsFalse", "False"), NEGATING_SIMPLE_PROPERTY("IsNot",
-																								"Not"), SIMPLE_PROPERTY("Is", "Equals");
+		BETWEEN(2, "IsBetween", "Between"), IS_NOT_NULL(0, "IsNotNull", "NotNull"), IS_NULL(0, "IsNull",
+				"Null"), LESS_THAN("IsLessThan", "LessThan"), LESS_THAN_EQUAL("IsLessThanEqual",
+						"LessThanEqual"), GREATER_THAN("IsGreaterThan", "GreaterThan"), GREATER_THAN_EQUAL(
+								"IsGreaterThanEqual",
+								"GreaterThanEqual"), BEFORE("IsBefore", "Before"), AFTER("IsAfter", "After"), NOT_LIKE(
+										"IsNotLike", "NotLike"), LIKE("IsLike", "Like"), STARTING_WITH("IsStartingWith",
+												"StartingWith", "StartsWith"), ENDING_WITH("IsEndingWith", "EndingWith",
+														"EndsWith"), IS_NOT_EMPTY(0, "IsNotEmpty",
+																"NotEmpty"), IS_EMPTY(0, "IsEmpty",
+																		"Empty"), NOT_CONTAINING("IsNotContaining",
+																				"NotContaining",
+																				"NotContains"), CONTAINING(
+																						"IsContaining", "Containing",
+																						"Contains"), NOT_IN("IsNotIn",
+																								"NotIn"), IN("IsIn",
+																										"In"), NEAR(
+																												"IsNear",
+																												"Near"), WITHIN(
+																														"IsWithin",
+																														"Within"), REGEX(
+																																"MatchesRegex",
+																																"Matches",
+																																"Regex"), EXISTS(
+																																		0,
+																																		"Exists"), TRUE(
+																																				0,
+																																				"IsTrue",
+																																				"True"), FALSE(
+																																						0,
+																																						"IsFalse",
+																																						"False"), NEGATING_SIMPLE_PROPERTY(
+																																								"IsNot",
+																																								"Not"), SIMPLE_PROPERTY(
+																																										"Is",
+																																										"Equals");
 
 		// Need to list them again explicitly as the order is important
 		// (esp. for IS_NULL, IS_NOT_NULL)
-		private static final List<Part.Type> ALL = Arrays.asList(IS_NOT_NULL, IS_NULL, BETWEEN, LESS_THAN, LESS_THAN_EQUAL,
-				GREATER_THAN, GREATER_THAN_EQUAL, BEFORE, AFTER, NOT_LIKE, LIKE, STARTING_WITH, ENDING_WITH, IS_NOT_EMPTY,
-				IS_EMPTY, NOT_CONTAINING, CONTAINING, NOT_IN, IN, NEAR, WITHIN, REGEX, EXISTS, TRUE, FALSE,
-				NEGATING_SIMPLE_PROPERTY, SIMPLE_PROPERTY);
+		private static final List<Part.Type> ALL = Arrays.asList(IS_NOT_NULL, IS_NULL, BETWEEN, LESS_THAN,
+				LESS_THAN_EQUAL, GREATER_THAN, GREATER_THAN_EQUAL, BEFORE, AFTER, NOT_LIKE, LIKE, STARTING_WITH,
+				ENDING_WITH, IS_NOT_EMPTY, IS_EMPTY, NOT_CONTAINING, CONTAINING, NOT_IN, IN, NEAR, WITHIN, REGEX,
+				EXISTS, TRUE, FALSE, NEGATING_SIMPLE_PROPERTY, SIMPLE_PROPERTY);
 
 		public static final Collection<String> ALL_KEYWORDS;
 
@@ -204,12 +227,12 @@ public class Part {
 		}
 
 		private final List<String> keywords;
+
 		private final int numberOfArguments;
 
 		/**
-		 * Creates a new {@link Type} using the given keyword, number of arguments to be bound and operator. Keyword and
-		 * operator can be {@literal null}.
-		 *
+		 * Creates a new {@link Type} using the given keyword, number of arguments to be
+		 * bound and operator. Keyword and operator can be {@literal null}.
 		 * @param numberOfArguments
 		 * @param keywords
 		 */
@@ -224,10 +247,9 @@ public class Part {
 		}
 
 		/**
-		 * Returns the {@link Type} of the {@link Part} for the given raw propertyPath. This will try to detect e.g.
-		 * keywords contained in the raw propertyPath that trigger special query creation. Returns {@link #SIMPLE_PROPERTY}
-		 * by default.
-		 *
+		 * Returns the {@link Type} of the {@link Part} for the given raw propertyPath.
+		 * This will try to detect e.g. keywords contained in the raw propertyPath that
+		 * trigger special query creation. Returns {@link #SIMPLE_PROPERTY} by default.
 		 * @param rawProperty
 		 * @return
 		 */
@@ -244,7 +266,6 @@ public class Part {
 
 		/**
 		 * Returns all keywords supported by the current {@link Type}.
-		 *
 		 * @return
 		 */
 		public Collection<String> getKeywords() {
@@ -252,9 +273,9 @@ public class Part {
 		}
 
 		/**
-		 * Returns whether the the type supports the given raw property. Default implementation checks whether the property
-		 * ends with the registered keyword. Does not support the keyword if the property is a valid field as is.
-		 *
+		 * Returns whether the the type supports the given raw property. Default
+		 * implementation checks whether the property ends with the registered keyword.
+		 * Does not support the keyword if the property is a valid field as is.
 		 * @param property
 		 * @return
 		 */
@@ -270,8 +291,8 @@ public class Part {
 		}
 
 		/**
-		 * Returns the number of arguments the propertyPath binds. By default this exactly one argument.
-		 *
+		 * Returns the number of arguments the propertyPath binds. By default this exactly
+		 * one argument.
 		 * @return
 		 */
 		public int getNumberOfArguments() {
@@ -279,9 +300,8 @@ public class Part {
 		}
 
 		/**
-		 * Callback method to extract the actual propertyPath to be bound from the given part. Strips the keyword from the
-		 * part's end if available.
-		 *
+		 * Callback method to extract the actual propertyPath to be bound from the given
+		 * part. Strips the keyword from the part's end if available.
 		 * @param part
 		 * @return
 		 */
@@ -297,10 +317,12 @@ public class Part {
 
 			return candidate;
 		}
+
 		@Override
 		public String toString() {
 			return String.format("%s (%s): %s", name(), getNumberOfArguments(), getKeywords());
 		}
+
 	}
 
 	/**
@@ -321,8 +343,11 @@ public class Part {
 		ALWAYS,
 
 		/**
-		 * Should ignore the sentence case when possible to do so, silently ignoring the option when not possible.
+		 * Should ignore the sentence case when possible to do so, silently ignoring the
+		 * option when not possible.
 		 */
 		WHEN_POSSIBLE
+
 	}
+
 }

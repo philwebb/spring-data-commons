@@ -26,8 +26,9 @@ import org.springframework.data.repository.core.CrudMethods;
 import org.springframework.data.repository.core.RepositoryMetadata;
 
 /**
- * A special {@link RepositoryInvoker} that shortcuts invocations to methods on {@link PagingAndSortingRepository} to
- * avoid reflection overhead introduced by the superclass.
+ * A special {@link RepositoryInvoker} that shortcuts invocations to methods on
+ * {@link PagingAndSortingRepository} to avoid reflection overhead introduced by the
+ * superclass.
  *
  * @author Oliver Gierke
  * @since 1.10
@@ -35,12 +36,12 @@ import org.springframework.data.repository.core.RepositoryMetadata;
 class PagingAndSortingRepositoryInvoker extends CrudRepositoryInvoker {
 
 	private final PagingAndSortingRepository<Object, Object> repository;
+
 	private final boolean customFindAll;
 
 	/**
-	 * Creates a new {@link PagingAndSortingRepositoryInvoker} using the given repository, {@link RepositoryMetadata} and
-	 * {@link ConversionService}.
-	 *
+	 * Creates a new {@link PagingAndSortingRepositoryInvoker} using the given repository,
+	 * {@link RepositoryMetadata} and {@link ConversionService}.
 	 * @param repository must not be {@literal null}.
 	 * @param metadata must not be {@literal null}.
 	 * @param conversionService must not be {@literal null}.
@@ -55,10 +56,12 @@ class PagingAndSortingRepositoryInvoker extends CrudRepositoryInvoker {
 		this.repository = repository;
 		this.customFindAll = isRedeclaredMethod(crudMethods.getFindAllMethod());
 	}
+
 	@Override
 	public Iterable<Object> invokeFindAll(Sort sort) {
 		return this.customFindAll ? invokeFindAllReflectively(sort) : this.repository.findAll(sort);
 	}
+
 	@Override
 	public Iterable<Object> invokeFindAll(Pageable pageable) {
 		return this.customFindAll ? invokeFindAllReflectively(pageable) : this.repository.findAll(pageable);
@@ -67,4 +70,5 @@ class PagingAndSortingRepositoryInvoker extends CrudRepositoryInvoker {
 	private static boolean isRedeclaredMethod(Optional<Method> method) {
 		return method.map(it -> !it.getDeclaringClass().equals(PagingAndSortingRepository.class)).orElse(false);
 	}
+
 }

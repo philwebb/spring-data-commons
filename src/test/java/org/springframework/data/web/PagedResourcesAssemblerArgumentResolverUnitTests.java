@@ -69,7 +69,8 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 	@Test // DATACMNS-418
 	void selectsUniquePageableParameterForQualifiedAssembler() throws Exception {
 
-		Method method = Controller.class.getMethod("unnecessarilyQualified", PagedResourcesAssembler.class, Pageable.class);
+		Method method = Controller.class.getMethod("unnecessarilyQualified", PagedResourcesAssembler.class,
+				Pageable.class);
 		assertSelectsParameter(method, 1);
 	}
 
@@ -129,7 +130,8 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 
 		assertThat(result).isInstanceOf(PagedResourcesAssembler.class);
 
-		Optional<UriComponents> uriComponents = (Optional<UriComponents>) ReflectionTestUtils.getField(result, "baseUri");
+		Optional<UriComponents> uriComponents = (Optional<UriComponents>) ReflectionTestUtils.getField(result,
+				"baseUri");
 
 		assertThat(uriComponents).hasValueSatisfying(it -> {
 			assertThat(it.getPath()).isEqualTo("/foo/mapping");
@@ -168,7 +170,8 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 
 		void unique(PagedResourcesAssembler<Object> assembler, Pageable pageable);
 
-		void unnecessarilyQualified(@Qualifier("qualified") PagedResourcesAssembler<Object> assembler, Pageable pageable);
+		void unnecessarilyQualified(@Qualifier("qualified") PagedResourcesAssembler<Object> assembler,
+				Pageable pageable);
 
 		void qualifiedUnique(@Qualifier("qualified") PagedResourcesAssembler<Object> assembler,
 				@Qualifier("qualified") Pageable pageable);
@@ -189,10 +192,12 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 
 		@RequestMapping("/mapping")
 		Object methodWithMapping(PagedResourcesAssembler<Object> pageable);
+
 	}
 
 	@RequestMapping("/foo")
 	interface SubController extends Controller {
 
 	}
+
 }

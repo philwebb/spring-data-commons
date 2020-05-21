@@ -20,7 +20,8 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * Lazy implementation of {@link Streamable} obtains a {@link Stream} from a given {@link Supplier}.
+ * Lazy implementation of {@link Streamable} obtains a {@link Stream} from a given
+ * {@link Supplier}.
  *
  * @author Oliver Gierke
  * @since 2.0
@@ -36,10 +37,12 @@ final class LazyStreamable<T> implements Streamable<T> {
 	public static <T> LazyStreamable<T> of(Supplier<? extends Stream<T>> stream) {
 		return new LazyStreamable<T>(stream);
 	}
+
 	@Override
 	public Iterator<T> iterator() {
 		return stream().iterator();
 	}
+
 	@Override
 	public Stream<T> stream() {
 		return this.stream.get();
@@ -48,8 +51,10 @@ final class LazyStreamable<T> implements Streamable<T> {
 	public Supplier<? extends Stream<T>> getStream() {
 		return this.stream;
 	}
+
 	@Override
 	public String toString() {
 		return "LazyStreamable(stream=" + this.getStream() + ")";
 	}
+
 }

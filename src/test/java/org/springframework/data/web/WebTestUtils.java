@@ -30,7 +30,8 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 public class WebTestUtils {
 
 	/**
-	 * Initializes web tests. Will register a {@link MockHttpServletRequest} for the current thread.
+	 * Initializes web tests. Will register a {@link MockHttpServletRequest} for the
+	 * current thread.
 	 */
 	public static void initWebTest() {
 
@@ -41,7 +42,6 @@ public class WebTestUtils {
 
 	/**
 	 * Creates a {@link WebApplicationContext} from the given configuration classes.
-	 *
 	 * @param configClasses
 	 * @return
 	 */
@@ -51,7 +51,6 @@ public class WebTestUtils {
 
 	/**
 	 * Creates a {@link WebApplicationContext} from the given configuration classes.
-	 *
 	 * @param classLoader gets set as ClassLoader in the context
 	 * @param configClasses
 	 * @return
@@ -73,4 +72,5 @@ public class WebTestUtils {
 
 		return context;
 	}
+
 }

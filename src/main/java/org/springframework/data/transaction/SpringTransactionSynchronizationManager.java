@@ -18,7 +18,8 @@ package org.springframework.data.transaction;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * {@link SynchronizationManager} delegating calls to Spring's {@link TransactionSynchronizationManager}.
+ * {@link SynchronizationManager} delegating calls to Spring's
+ * {@link TransactionSynchronizationManager}.
  *
  * @author Michael Hunger
  * @author Oliver Gierke
@@ -27,13 +28,17 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 enum SpringTransactionSynchronizationManager implements SynchronizationManager {
 
 	INSTANCE;
+
 	public void initSynchronization() {
 		TransactionSynchronizationManager.initSynchronization();
 	}
+
 	public boolean isSynchronizationActive() {
 		return TransactionSynchronizationManager.isSynchronizationActive();
 	}
+
 	public void clearSynchronization() {
 		TransactionSynchronizationManager.clear();
 	}
+
 }

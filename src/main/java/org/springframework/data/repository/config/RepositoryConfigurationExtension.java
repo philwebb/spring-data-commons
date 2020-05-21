@@ -23,7 +23,8 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.io.ResourceLoader;
 
 /**
- * SPI to implement store specific extension to the repository bean definition registration process.
+ * SPI to implement store specific extension to the repository bean definition
+ * registration process.
  *
  * @see RepositoryConfigurationExtensionSupport
  * @author Oliver Gierke
@@ -32,19 +33,18 @@ public interface RepositoryConfigurationExtension {
 
 	/**
 	 * Returns the descriptive name of the module.
-	 *
 	 * @return
 	 */
 	String getModuleName();
 
 	/**
-	 * Returns all {@link RepositoryConfiguration}s obtained through the given {@link RepositoryConfigurationSource}.
-	 *
+	 * Returns all {@link RepositoryConfiguration}s obtained through the given
+	 * {@link RepositoryConfigurationSource}.
 	 * @param configSource
 	 * @param loader
-	 * @param strictMatchesOnly whether to return strict repository matches only. Handing in {@literal true} will cause
-	 *          the repository interfaces and domain types handled to be checked whether they are managed by the current
-	 *          store.
+	 * @param strictMatchesOnly whether to return strict repository matches only. Handing
+	 * in {@literal true} will cause the repository interfaces and domain types handled to
+	 * be checked whether they are managed by the current store.
 	 * @return
 	 * @since 1.9
 	 */
@@ -53,50 +53,48 @@ public interface RepositoryConfigurationExtension {
 
 	/**
 	 * Returns the default location of the Spring Data named queries.
-	 *
 	 * @return must not be {@literal null} or empty.
 	 */
 	String getDefaultNamedQueryLocation();
 
 	/**
 	 * Returns the name of the repository factory class to be used.
-	 *
 	 * @return
 	 */
 	String getRepositoryFactoryBeanClassName();
 
 	/**
-	 * Callback to register additional bean definitions for a {@literal repositories} root node. This usually includes
-	 * beans you have to set up once independently of the number of repositories to be created. Will be called before any
-	 * repositories bean definitions have been registered.
-	 *
+	 * Callback to register additional bean definitions for a {@literal repositories} root
+	 * node. This usually includes beans you have to set up once independently of the
+	 * number of repositories to be created. Will be called before any repositories bean
+	 * definitions have been registered.
 	 * @param registry
 	 * @param source
 	 */
 	void registerBeansForRoot(BeanDefinitionRegistry registry, RepositoryConfigurationSource configurationSource);
 
 	/**
-	 * Callback to post process the {@link BeanDefinition} and tweak the configuration if necessary.
-	 *
+	 * Callback to post process the {@link BeanDefinition} and tweak the configuration if
+	 * necessary.
 	 * @param builder will never be {@literal null}.
 	 * @param config will never be {@literal null}.
 	 */
 	void postProcess(BeanDefinitionBuilder builder, RepositoryConfigurationSource config);
 
 	/**
-	 * Callback to post process the {@link BeanDefinition} built from annotations and tweak the configuration if
-	 * necessary.
-	 *
+	 * Callback to post process the {@link BeanDefinition} built from annotations and
+	 * tweak the configuration if necessary.
 	 * @param builder will never be {@literal null}.
 	 * @param config will never be {@literal null}.
 	 */
 	void postProcess(BeanDefinitionBuilder builder, AnnotationRepositoryConfigurationSource config);
 
 	/**
-	 * Callback to post process the {@link BeanDefinition} built from XML and tweak the configuration if necessary.
-	 *
+	 * Callback to post process the {@link BeanDefinition} built from XML and tweak the
+	 * configuration if necessary.
 	 * @param builder will never be {@literal null}.
 	 * @param config will never be {@literal null}.
 	 */
 	void postProcess(BeanDefinitionBuilder builder, XmlRepositoryConfigurationSource config);
+
 }

@@ -93,4 +93,5 @@ class ResourceReaderRepositoryPopulatorBeanDefinitionParserIntegrationTests {
 		return new ClassPathResource("populators.xml",
 				ResourceReaderRepositoryPopulatorBeanDefinitionParserIntegrationTests.class);
 	}
+
 }

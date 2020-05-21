@@ -22,4 +22,6 @@ import org.springframework.data.repository.Repository;
 /**
  * @author Mark Paluch
  */
-public interface IsolatedComposedRepository extends Repository<Object, Serializable>, FragmentInterface {}
+public interface IsolatedComposedRepository extends Repository<Object, Serializable>, FragmentInterface {
+
+}

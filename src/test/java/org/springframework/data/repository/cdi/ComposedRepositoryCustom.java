@@ -22,8 +22,10 @@ interface ComposedRepositoryCustom {
 
 	int returnFourtyTwo();
 
-	// duplicate method shadowed by AnotherFragmentInterfaceImpl. The legacy custom implementation comes last, after all
+	// duplicate method shadowed by AnotherFragmentInterfaceImpl. The legacy custom
+	// implementation comes last, after all
 	// other
 	// fragments.
 	int getShadowed();
+
 }

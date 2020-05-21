@@ -58,7 +58,8 @@ class PersistentPropertyPathFactoryUnitTests {
 
 	@Test // DATACMNS-380
 	void rejectsInvalidPropertyReferenceWithMappingException() {
-		assertThatExceptionOfType(MappingException.class).isThrownBy(() -> this.factory.from(PersonSample.class, "foo"));
+		assertThatExceptionOfType(MappingException.class)
+				.isThrownBy(() -> this.factory.from(PersonSample.class, "foo"));
 	}
 
 	@Test // DATACMNS-695
@@ -151,8 +152,8 @@ class PersistentPropertyPathFactoryUnitTests {
 	@Test // DATACMNS-1275
 	void returnsShortestPathFirst() {
 
-		PersistentPropertyPaths<First, SamplePersistentProperty> paths = this.factory.from(First.class, it -> !it.isEntity(),
-				it -> true);
+		PersistentPropertyPaths<First, SamplePersistentProperty> paths = this.factory.from(First.class,
+				it -> !it.isEntity(), it -> true);
 
 		assertThat(paths.contains("second.firstname")).isTrue();
 		assertThat(paths.getFirst()) //
@@ -160,49 +161,77 @@ class PersistentPropertyPathFactoryUnitTests {
 	}
 
 	static class PersonSample {
+
 		List<Person> persons;
+
 	}
 
 	class Person {
+
 		String name;
+
 	}
 
 	static class Wrapper {
+
 		Sample first;
+
 		Sample second;
+
 	}
 
 	static class Sample {
+
 		Inner inner;
+
 	}
 
 	static class Inner {
-		@Inject String annotatedField;
+
+		@Inject
+		String annotatedField;
+
 		Sample cyclic;
+
 	}
 
 	static class Outer {
+
 		Generic<Nested> field;
+
 	}
 
 	static class Generic<T> {
+
 		T wrapped;
+
 	}
 
 	static class Nested {
+
 		String field;
+
 	}
 
 	static class First {
+
 		Second second;
-		@Reference Third third;
+
+		@Reference
+		Third third;
+
 	}
 
 	static class Second {
+
 		String firstname;
+
 	}
 
 	static class Third {
+
 		String lastname;
+
 	}
+
 }

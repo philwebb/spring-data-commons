@@ -87,7 +87,12 @@ class RepositoryFactoryBeanSupportUnitTests {
 				.isThrownBy(() -> bean.getPersistentEntity());
 	}
 
-	interface SampleRepository extends Repository<Object, Long> {}
+	interface SampleRepository extends Repository<Object, Long> {
 
-	interface SampleWithQuerydslRepository extends Repository<Object, Long>, QuerydslPredicateExecutor<Object> {}
+	}
+
+	interface SampleWithQuerydslRepository extends Repository<Object, Long>, QuerydslPredicateExecutor<Object> {
+
+	}
+
 }

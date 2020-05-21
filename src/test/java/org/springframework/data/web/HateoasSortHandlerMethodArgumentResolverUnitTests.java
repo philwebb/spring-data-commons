@@ -70,4 +70,5 @@ class HateoasSortHandlerMethodArgumentResolverUnitTests extends SortHandlerMetho
 
 		assertThat(builder.build().toUriString()).endsWith(expected);
 	}
+
 }

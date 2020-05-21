@@ -29,7 +29,9 @@ import org.springframework.util.SerializationUtils;
 class PolygonUnitTests {
 
 	Point first = new Point(1, 1);
+
 	Point second = new Point(2, 2);
+
 	Point third = new Point(3, 3);
 
 	@Test // DATACMNS-437
@@ -70,4 +72,5 @@ class PolygonUnitTests {
 		Polygon serialized = (Polygon) SerializationUtils.deserialize(SerializationUtils.serialize(polygon));
 		assertThat(serialized).isEqualTo(polygon);
 	}
+
 }

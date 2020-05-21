@@ -32,11 +32,11 @@ public class SliceImpl<T> extends Chunk<T> {
 	private static final long serialVersionUID = 867755909294344406L;
 
 	private final boolean hasNext;
+
 	private final Pageable pageable;
 
 	/**
 	 * Creates a new {@link Slice} with the given content and {@link Pageable}.
-	 *
 	 * @param content the content of this {@link Slice}, must not be {@literal null}.
 	 * @param pageable the paging information, must not be {@literal null}.
 	 * @param hasNext whether there's another slice following the current one.
@@ -50,21 +50,23 @@ public class SliceImpl<T> extends Chunk<T> {
 	}
 
 	/**
-	 * Creates a new {@link SliceImpl} with the given content. This will result in the created {@link Slice} being
-	 * identical to the entire {@link List}.
-	 *
+	 * Creates a new {@link SliceImpl} with the given content. This will result in the
+	 * created {@link Slice} being identical to the entire {@link List}.
 	 * @param content must not be {@literal null}.
 	 */
 	public SliceImpl(List<T> content) {
 		this(content, Pageable.unpaged(), false);
 	}
+
 	public boolean hasNext() {
 		return this.hasNext;
 	}
+
 	@Override
 	public <U> Slice<U> map(Function<? super T, ? extends U> converter) {
 		return new SliceImpl<>(getConvertedContent(converter), this.pageable, this.hasNext);
 	}
+
 	@Override
 	public String toString() {
 
@@ -77,6 +79,7 @@ public class SliceImpl<T> extends Chunk<T> {
 
 		return String.format("Slice %d containing %s instances", getNumber(), contentType);
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -92,6 +95,7 @@ public class SliceImpl<T> extends Chunk<T> {
 
 		return this.hasNext == that.hasNext && super.equals(obj);
 	}
+
 	@Override
 	public int hashCode() {
 
@@ -102,4 +106,5 @@ public class SliceImpl<T> extends Chunk<T> {
 
 		return result;
 	}
+
 }

@@ -41,15 +41,19 @@ import org.springframework.data.util.ClassTypeInformation;
 @ExtendWith(MockitoExtension.class)
 class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProperty<P>> {
 
-	@Mock PropertyValueProvider<P> propertyValueProvider;
-	@Mock P property;
+	@Mock
+	PropertyValueProvider<P> propertyValueProvider;
+
+	@Mock
+	P property;
 
 	@Test // DATACMNS-134
 	void usesParentObjectAsImplicitFirstConstructorArgument() {
 
 		Object outer = new Outer();
 
-		PersistentEntity<Inner, P> entity = new BasicPersistentEntity<Inner, P>(ClassTypeInformation.from(Inner.class)) {
+		PersistentEntity<Inner, P> entity = new BasicPersistentEntity<Inner, P>(
+				ClassTypeInformation.from(Inner.class)) {
 
 			@Override
 			public P getPersistentProperty(String name) {
@@ -60,8 +64,8 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 		assertThat(entity.getPersistenceConstructor()).satisfies(constructor -> {
 
 			Iterator<Parameter<Object, P>> iterator = constructor.getParameters().iterator();
-			ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity, this.propertyValueProvider,
-					outer);
+			ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity,
+					this.propertyValueProvider, outer);
 
 			assertThat(provider.getParameterValue(iterator.next())).isEqualTo(outer);
 			assertThat(provider.getParameterValue(iterator.next())).isNull();
@@ -73,8 +77,8 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 	void rejectsPropertyIfNameDoesNotMatch() {
 
 		PersistentEntity<Entity, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Entity.class));
-		ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity, this.propertyValueProvider,
-				Optional.of(this.property));
+		ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity,
+				this.propertyValueProvider, Optional.of(this.property));
 
 		assertThat(entity.getPersistenceConstructor())
 				.satisfies(constructor -> assertThatExceptionOfType(MappingException.class)//
@@ -92,7 +96,9 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 			Inner(Object myObject) {
 
 			}
+
 		}
+
 	}
 
 	static class Entity {
@@ -102,5 +108,7 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 		public Entity(String bar) {
 
 		}
+
 	}
+
 }

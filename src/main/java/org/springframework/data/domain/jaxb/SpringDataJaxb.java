@@ -40,8 +40,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Helper class containing utility methods to implement JAXB {@link XmlAdapter}s as well as the DTO types to be
- * marshalled by JAXB.
+ * Helper class containing utility methods to implement JAXB {@link XmlAdapter}s as well
+ * as the DTO types to be marshalled by JAXB.
  *
  * @author Oliver Gierke
  */
@@ -49,7 +49,8 @@ public abstract class SpringDataJaxb {
 
 	public static final String NAMESPACE = "http://www.springframework.org/schema/data/jaxb";
 
-	private SpringDataJaxb() {}
+	private SpringDataJaxb() {
+	}
 
 	/**
 	 * The DTO for {@link Pageable}s/{@link PageRequest}s.
@@ -60,8 +61,12 @@ public abstract class SpringDataJaxb {
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class PageRequestDto {
 
-		@XmlAttribute int page, size;
-		@XmlElement(name = "order", namespace = NAMESPACE) List<OrderDto> orders = new ArrayList<>();
+		@XmlAttribute
+		int page, size;
+
+		@XmlElement(name = "order", namespace = NAMESPACE)
+		List<OrderDto> orders = new ArrayList<>();
+
 	}
 
 	/**
@@ -73,7 +78,9 @@ public abstract class SpringDataJaxb {
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class SortDto {
 
-		@XmlElement(name = "order", namespace = SpringDataJaxb.NAMESPACE) List<OrderDto> orders = new ArrayList<>();
+		@XmlElement(name = "order", namespace = SpringDataJaxb.NAMESPACE)
+		List<OrderDto> orders = new ArrayList<>();
+
 	}
 
 	/**
@@ -85,8 +92,14 @@ public abstract class SpringDataJaxb {
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class OrderDto {
 
-		@Nullable @XmlAttribute String property;
-		@Nullable @XmlAttribute Direction direction;
+		@Nullable
+		@XmlAttribute
+		String property;
+
+		@Nullable
+		@XmlAttribute
+		Direction direction;
+
 	}
 
 	/**
@@ -98,12 +111,16 @@ public abstract class SpringDataJaxb {
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class PageDto extends RepresentationModel {
 
-		@Nullable @XmlAnyElement @XmlElementWrapper(name = "content") List<Object> content;
+		@Nullable
+		@XmlAnyElement
+		@XmlElementWrapper(name = "content")
+		List<Object> content;
+
 	}
 
 	/**
-	 * Unmarshals each element of the given {@link Collection} using the given {@link XmlAdapter}.
-	 *
+	 * Unmarshals each element of the given {@link Collection} using the given
+	 * {@link XmlAdapter}.
 	 * @param source
 	 * @param adapter must not be {@literal null}.
 	 * @return
@@ -122,7 +139,8 @@ public abstract class SpringDataJaxb {
 		for (S element : source) {
 			try {
 				result.add(adapter.unmarshal(element));
-			} catch (Exception o_O) {
+			}
+			catch (Exception o_O) {
 				throw new RuntimeException(o_O);
 			}
 		}
@@ -130,8 +148,8 @@ public abstract class SpringDataJaxb {
 	}
 
 	/**
-	 * Marshals each of the elements of the given {@link Iterable} using the given {@link XmlAdapter}.
-	 *
+	 * Marshals each of the elements of the given {@link Iterable} using the given
+	 * {@link XmlAdapter}.
 	 * @param source
 	 * @param adapter must not be {@literal null}.
 	 * @return
@@ -150,11 +168,13 @@ public abstract class SpringDataJaxb {
 		for (T element : source) {
 			try {
 				result.add(adapter.marshal(element));
-			} catch (Exception o_O) {
+			}
+			catch (Exception o_O) {
 				throw new RuntimeException(o_O);
 			}
 		}
 
 		return result;
 	}
+
 }

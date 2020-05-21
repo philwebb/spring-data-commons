@@ -31,4 +31,5 @@ import javax.annotation.meta.TypeQualifierDefault;
 @Nonnull
 @TypeQualifierDefault({ ElementType.FIELD })
 @interface CustomNonNullAnnotation {
+
 }

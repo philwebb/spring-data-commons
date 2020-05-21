@@ -453,9 +453,12 @@ class QueryExecutionResultHandlerUnitTests {
 
 		// DATACMNS-1482
 		List<Integer> listOfInteger();
+
 	}
 
-	static class Entity {}
+	static class Entity {
+
+	}
 
 	// DATACMNS-1430
 
@@ -468,5 +471,7 @@ class QueryExecutionResultHandlerUnitTests {
 		public Iterator<T> iterator() {
 			return this.source.iterator();
 		}
+
 	}
+
 }

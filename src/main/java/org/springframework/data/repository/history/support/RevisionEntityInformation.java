@@ -16,7 +16,8 @@
 package org.springframework.data.repository.history.support;
 
 /**
- * Information about a revision entity which is the class carrying revision information for an entity.
+ * Information about a revision entity which is the class carrying revision information
+ * for an entity.
  *
  * @author Oliver Gierke
  */
@@ -27,4 +28,5 @@ public interface RevisionEntityInformation {
 	boolean isDefaultRevisionEntity();
 
 	Class<?> getRevisionEntityClass();
+
 }

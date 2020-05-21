@@ -185,19 +185,30 @@ class RepositoriesUnitTests {
 		});
 	}
 
-	class Person {}
+	class Person {
 
-	class Address {}
+	}
 
-	class AdvancedAddress extends Address {}
+	class Address {
 
-	interface PersonRepository extends CrudRepository<Person, Long> {}
+	}
 
-	interface AddressRepository extends Repository<Address, Long> {}
+	class AdvancedAddress extends Address {
+
+	}
+
+	interface PersonRepository extends CrudRepository<Person, Long> {
+
+	}
+
+	interface AddressRepository extends Repository<Address, Long> {
+
+	}
 
 	static class SampleRepoFactoryInformation<T, S extends Serializable> implements RepositoryFactoryInformation<T, S> {
 
 		private final RepositoryMetadata repositoryMetadata;
+
 		private final SampleMappingContext mappingContext;
 
 		SampleRepoFactoryInformation(Class<?> repositoryInterface) {
@@ -225,6 +236,7 @@ class RepositoriesUnitTests {
 		public List<QueryMethod> getQueryMethods() {
 			return Collections.emptyList();
 		}
+
 	}
 
 	static class CustomRepositoryMetadata extends DefaultRepositoryMetadata {
@@ -242,32 +254,51 @@ class RepositoriesUnitTests {
 
 			try {
 				this.domainType = ClassUtils.forName(domainType, CustomRepositoryMetadata.class.getClassLoader());
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}
+
 		@Override
 		public Class<?> getDomainType() {
 			return this.domainType;
 		}
+
 		@Override
 		public Set<Class<?>> getAlternativeDomainTypes() {
 			return Collections.singleton(super.getDomainType());
 		}
+
 	}
 
-	interface Sample {}
+	interface Sample {
 
-	static class SampleEntity implements Sample {}
+	}
 
-	interface SampleRepository extends Repository<Sample, Long> {}
+	static class SampleEntity implements Sample {
 
-	interface SomeEntity {}
+	}
 
-	interface FirstRepository extends Repository<SomeEntity, Long> {}
+	interface SampleRepository extends Repository<Sample, Long> {
+
+	}
+
+	interface SomeEntity {
+
+	}
+
+	interface FirstRepository extends Repository<SomeEntity, Long> {
+
+	}
 
 	@Primary
-	interface PrimaryRepository extends Repository<SomeEntity, Long> {}
+	interface PrimaryRepository extends Repository<SomeEntity, Long> {
 
-	interface ThirdRepository extends Repository<SomeEntity, Long> {}
+	}
+
+	interface ThirdRepository extends Repository<SomeEntity, Long> {
+
+	}
+
 }

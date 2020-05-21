@@ -42,7 +42,8 @@ import org.springframework.data.auditing.EnableAuditing;
 @ExtendWith(MockitoExtension.class)
 class AuditingBeanDefinitionRegistrarSupportUnitTests {
 
-	@Mock BeanDefinitionRegistry registry;
+	@Mock
+	BeanDefinitionRegistry registry;
 
 	@Test // DATCMNS-389
 	void testRegisterBeanDefinitions() {
@@ -73,13 +74,16 @@ class AuditingBeanDefinitionRegistrarSupportUnitTests {
 				.isThrownBy(() -> registrar.registerBeanDefinitions(metadata, null));
 	}
 
-	static class SampleConfig {}
+	static class SampleConfig {
+
+	}
 
 	static class DummyAuditingBeanDefinitionRegistrarSupport extends AuditingBeanDefinitionRegistrarSupport {
 
 		@Override
 		protected void registerAuditListenerBeanDefinition(BeanDefinition auditingHandlerDefinition,
-				BeanDefinitionRegistry registry) {}
+				BeanDefinitionRegistry registry) {
+		}
 
 		@Override
 		protected Class<? extends Annotation> getAnnotation() {
@@ -107,9 +111,12 @@ class AuditingBeanDefinitionRegistrarSupportUnitTests {
 				}
 			};
 		}
+
 		@Override
 		protected String getAuditingHandlerBeanName() {
 			return "auditingHandler";
 		}
+
 	}
+
 }

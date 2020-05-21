@@ -25,9 +25,10 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Extracts paging information from web requests and thus allows injecting {@link Pageable} instances into controller
- * methods. Request properties to be parsed can be configured. Default configuration uses request parameters beginning
- * with {@link #DEFAULT_PAGE_PARAMETER}{@link #DEFAULT_QUALIFIER_DELIMITER}.
+ * Extracts paging information from web requests and thus allows injecting
+ * {@link Pageable} instances into controller methods. Request properties to be parsed can
+ * be configured. Default configuration uses request parameters beginning with
+ * {@link #DEFAULT_PAGE_PARAMETER}{@link #DEFAULT_QUALIFIER_DELIMITER}.
  *
  * @since 1.6
  * @author Oliver Gierke
@@ -39,18 +40,20 @@ public class PageableHandlerMethodArgumentResolver extends PageableHandlerMethod
 		implements PageableArgumentResolver {
 
 	private static final SortHandlerMethodArgumentResolver DEFAULT_SORT_RESOLVER = new SortHandlerMethodArgumentResolver();
+
 	private SortArgumentResolver sortResolver;
 
 	/**
-	 * Constructs an instance of this resolved with a default {@link SortHandlerMethodArgumentResolver}.
+	 * Constructs an instance of this resolved with a default
+	 * {@link SortHandlerMethodArgumentResolver}.
 	 */
 	public PageableHandlerMethodArgumentResolver() {
 		this((SortArgumentResolver) null);
 	}
 
 	/**
-	 * Constructs an instance of this resolver with the specified {@link SortHandlerMethodArgumentResolver}.
-	 *
+	 * Constructs an instance of this resolver with the specified
+	 * {@link SortHandlerMethodArgumentResolver}.
 	 * @param sortResolver the sort resolver to use
 	 */
 	public PageableHandlerMethodArgumentResolver(SortHandlerMethodArgumentResolver sortResolver) {
@@ -58,14 +61,15 @@ public class PageableHandlerMethodArgumentResolver extends PageableHandlerMethod
 	}
 
 	/**
-	 * Constructs an instance of this resolver with the specified {@link SortArgumentResolver}.
-	 *
+	 * Constructs an instance of this resolver with the specified
+	 * {@link SortArgumentResolver}.
 	 * @param sortResolver the sort resolver to use
 	 * @since 1.13
 	 */
 	public PageableHandlerMethodArgumentResolver(@Nullable SortArgumentResolver sortResolver) {
 		this.sortResolver = sortResolver == null ? DEFAULT_SORT_RESOLVER : sortResolver;
 	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return Pageable.class.equals(parameter.getParameterType());
@@ -73,7 +77,12 @@ public class PageableHandlerMethodArgumentResolver extends PageableHandlerMethod
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#resolveArgument(org.springframework.core.MethodParameter, org.springframework.web.method.support.ModelAndViewContainer, org.springframework.web.context.request.NativeWebRequest, org.springframework.web.bind.support.WebDataBinderFactory)
+	 * 
+	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#
+	 * resolveArgument(org.springframework.core.MethodParameter,
+	 * org.springframework.web.method.support.ModelAndViewContainer,
+	 * org.springframework.web.context.request.NativeWebRequest,
+	 * org.springframework.web.bind.support.WebDataBinderFactory)
 	 */
 	@Override
 	public Pageable resolveArgument(MethodParameter methodParameter, @Nullable ModelAndViewContainer mavContainer,
@@ -91,4 +100,5 @@ public class PageableHandlerMethodArgumentResolver extends PageableHandlerMethod
 
 		return pageable;
 	}
+
 }

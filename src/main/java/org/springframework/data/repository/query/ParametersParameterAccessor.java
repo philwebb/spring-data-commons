@@ -25,7 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link ParameterAccessor} implementation using a {@link Parameters} instance to find special parameters.
+ * {@link ParameterAccessor} implementation using a {@link Parameters} instance to find
+ * special parameters.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -33,11 +34,11 @@ import org.springframework.util.Assert;
 public class ParametersParameterAccessor implements ParameterAccessor {
 
 	private final Parameters<?, ?> parameters;
+
 	private final Object[] values;
 
 	/**
 	 * Creates a new {@link ParametersParameterAccessor}.
-	 *
 	 * @param parameters must not be {@literal null}.
 	 * @param values must not be {@literal null}.
 	 */
@@ -56,7 +57,8 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 			for (int i = 0; i < values.length; i++) {
 				this.values[i] = QueryExecutionConverters.unwrap(values[i]);
 			}
-		} else {
+		}
+		else {
 			this.values = values;
 		}
 	}
@@ -74,7 +76,6 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 	/**
 	 * Returns the {@link Parameters} instance backing the accessor.
-	 *
 	 * @return the parameters will never be {@literal null}.
 	 */
 	public Parameters<?, ?> getParameters() {
@@ -83,12 +84,12 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 	/**
 	 * Returns the potentially unwrapped values.
-	 *
 	 * @return
 	 */
 	protected Object[] getValues() {
 		return this.values;
 	}
+
 	public Pageable getPageable() {
 
 		if (!this.parameters.hasPageableParameter()) {
@@ -99,6 +100,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 		return pageable == null ? Pageable.unpaged() : pageable;
 	}
+
 	public Sort getSort() {
 
 		if (this.parameters.hasSortParameter()) {
@@ -116,7 +118,6 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 	/**
 	 * Returns the dynamic projection type if available, {@literal null} otherwise.
-	 *
 	 * @return
 	 */
 	public Optional<Class<?>> getDynamicProjection() {
@@ -128,20 +129,17 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 	/**
 	 * Returns the dynamic projection type if available, {@literal null} otherwise.
-	 *
 	 * @return
 	 */
 	@Nullable
 	public Class<?> findDynamicProjection() {
 
 		return this.parameters.hasDynamicProjection() //
-				? (Class<?>) this.values[this.parameters.getDynamicProjectionIndex()]
-				: null;
+				? (Class<?>) this.values[this.parameters.getDynamicProjectionIndex()] : null;
 	}
 
 	/**
 	 * Returns the value with the given index.
-	 *
 	 * @param index
 	 * @return
 	 */
@@ -149,9 +147,11 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	protected <T> T getValue(int index) {
 		return (T) this.values[index];
 	}
+
 	public Object getBindableValue(int index) {
 		return this.values[this.parameters.getBindableParameter(index).getIndex()];
 	}
+
 	public boolean hasBindableNullValue() {
 
 		for (Parameter parameter : this.parameters.getBindableParameters()) {
@@ -162,6 +162,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 		return false;
 	}
+
 	public BindableParameterIterator iterator() {
 		return new BindableParameterIterator(this);
 	}
@@ -174,13 +175,13 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	private static class BindableParameterIterator implements Iterator<Object> {
 
 		private final int bindableParameterCount;
+
 		private final ParameterAccessor accessor;
 
 		private int currentIndex = 0;
 
 		/**
 		 * Creates a new {@link BindableParameterIterator}.
-		 *
 		 * @param accessor must not be {@literal null}.
 		 */
 		public BindableParameterIterator(ParametersParameterAccessor accessor) {
@@ -193,17 +194,20 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 		/**
 		 * Returns the next bindable parameter.
-		 *
 		 * @return
 		 */
 		public Object next() {
 			return this.accessor.getBindableValue(this.currentIndex++);
 		}
+
 		public boolean hasNext() {
 			return this.bindableParameterCount > this.currentIndex;
 		}
+
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
+
 	}
+
 }

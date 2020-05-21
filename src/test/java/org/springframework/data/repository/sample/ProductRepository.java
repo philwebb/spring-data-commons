@@ -7,4 +7,5 @@ public interface ProductRepository extends Repository<Product, Long> {
 	Product findById(Long id);
 
 	Product save(Product product);
+
 }

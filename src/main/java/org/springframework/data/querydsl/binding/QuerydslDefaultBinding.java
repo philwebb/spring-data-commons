@@ -27,12 +27,15 @@ import com.querydsl.core.types.dsl.CollectionPathBase;
 import com.querydsl.core.types.dsl.SimpleExpression;
 
 /**
- * Default implementation of {@link MultiValueBinding} creating {@link Predicate} based on the {@link Path}s type.
- * Binds:
+ * Default implementation of {@link MultiValueBinding} creating {@link Predicate} based on
+ * the {@link Path}s type. Binds:
  * <ul>
- * <li><i>{@link java.lang.Object}</i> as {@link SimpleExpression#eq()} on simple properties.</li>
- * <li><i>{@link java.lang.Object}</i> as {@link SimpleExpression#contains()} on collection properties.</li>
- * <li><i>{@link java.util.Collection}</i> as {@link SimpleExpression#in()} on simple properties.</li>
+ * <li><i>{@link java.lang.Object}</i> as {@link SimpleExpression#eq()} on simple
+ * properties.</li>
+ * <li><i>{@link java.lang.Object}</i> as {@link SimpleExpression#contains()} on
+ * collection properties.</li>
+ * <li><i>{@link java.util.Collection}</i> as {@link SimpleExpression#in()} on simple
+ * properties.</li>
  * </ul>
  *
  * @author Christoph Strobl
@@ -44,7 +47,10 @@ class QuerydslDefaultBinding implements MultiValueBinding<Path<? extends Object>
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.web.querydsl.QueryDslPredicateBuilder#buildPredicate(org.springframework.data.mapping.PropertyPath, java.lang.Object)
+	 * 
+	 * @see
+	 * org.springframework.data.web.querydsl.QueryDslPredicateBuilder#buildPredicate(org.
+	 * springframework.data.mapping.PropertyPath, java.lang.Object)
 	 */
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -83,7 +89,8 @@ class QuerydslDefaultBinding implements MultiValueBinding<Path<? extends Object>
 					: expression.eq(object));
 		}
 
-		throw new IllegalArgumentException(
-				String.format("Cannot create predicate for path '%s' with type '%s'.", path, path.getMetadata().getPathType()));
+		throw new IllegalArgumentException(String.format("Cannot create predicate for path '%s' with type '%s'.", path,
+				path.getMetadata().getPathType()));
 	}
+
 }

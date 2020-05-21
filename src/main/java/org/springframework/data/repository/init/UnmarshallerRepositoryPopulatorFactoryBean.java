@@ -21,7 +21,8 @@ import org.springframework.oxm.Unmarshaller;
 import org.springframework.util.Assert;
 
 /**
- * {@link FactoryBean} to create a {@link ResourceReaderRepositoryPopulator} using an {@link Unmarshaller}.
+ * {@link FactoryBean} to create a {@link ResourceReaderRepositoryPopulator} using an
+ * {@link Unmarshaller}.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -32,15 +33,18 @@ public class UnmarshallerRepositoryPopulatorFactoryBean extends AbstractReposito
 
 	/**
 	 * Configures the {@link Unmarshaller} to be used.
-	 *
 	 * @param unmarshaller the unmarshaller to set
 	 */
 	public void setUnmarshaller(Unmarshaller unmarshaller) {
 		this.unmarshaller = unmarshaller;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.data.repository.init.AbstractRepositoryPopulatorFactoryBean#getResourceReader()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.data.repository.init.AbstractRepositoryPopulatorFactoryBean#
+	 * getResourceReader()
 	 */
 	@Override
 	protected ResourceReader getResourceReader() {
@@ -53,10 +57,12 @@ public class UnmarshallerRepositoryPopulatorFactoryBean extends AbstractReposito
 
 		return new UnmarshallingResourceReader(unmarshaller);
 	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
 		Assert.state(this.unmarshaller != null, "No Unmarshaller configured!");
 		super.afterPropertiesSet();
 	}
+
 }

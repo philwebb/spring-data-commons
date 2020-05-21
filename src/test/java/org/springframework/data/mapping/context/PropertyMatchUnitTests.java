@@ -68,4 +68,5 @@ class PropertyMatchUnitTests {
 		assertThat(match.matches("this$1", Object.class)).isTrue();
 		assertThat(match.matches("name", String.class)).isFalse();
 	}
+
 }

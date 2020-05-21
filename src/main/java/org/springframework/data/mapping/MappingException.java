@@ -31,4 +31,5 @@ public class MappingException extends RuntimeException {
 	public MappingException(@Nullable String s, @Nullable Throwable throwable) {
 		super(s, throwable);
 	}
+
 }

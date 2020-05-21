@@ -32,11 +32,11 @@ public abstract class QuerydslUtils {
 	public static final boolean QUERY_DSL_PRESENT = org.springframework.util.ClassUtils
 			.isPresent("com.querydsl.core.types.Predicate", QuerydslUtils.class.getClassLoader());
 
-	private QuerydslUtils() {}
+	private QuerydslUtils() {
+	}
 
 	/**
 	 * Returns the property path for the given {@link Path}.
-	 *
 	 * @param path can be {@literal null}.
 	 * @return
 	 */
@@ -45,9 +45,8 @@ public abstract class QuerydslUtils {
 	}
 
 	/**
-	 * Recursively builds up the dot path for the given {@link Path} instance by walking up the individual segments until
-	 * the root.
-	 *
+	 * Recursively builds up the dot path for the given {@link Path} instance by walking
+	 * up the individual segments until the root.
 	 * @param path can be {@literal null}.
 	 * @param tail must not be {@literal null}.
 	 * @return
@@ -75,6 +74,8 @@ public abstract class QuerydslUtils {
 			return toDotPath(parent, tail);
 		}
 
-		return toDotPath(parent, StringUtils.hasText(tail) ? String.format("%s.%s", element, tail) : element.toString());
+		return toDotPath(parent,
+				StringUtils.hasText(tail) ? String.format("%s.%s", element, tail) : element.toString());
 	}
+
 }

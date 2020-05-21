@@ -53,4 +53,5 @@ class GeoResultsUnitTests {
 				.deserialize(SerializationUtils.serialize(geoResults));
 		assertThat(serialized).isEqualTo(geoResults);
 	}
+
 }

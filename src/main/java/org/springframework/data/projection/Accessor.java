@@ -31,13 +31,14 @@ import org.springframework.util.Assert;
 public final class Accessor {
 
 	private final PropertyDescriptor descriptor;
+
 	private final Method method;
 
 	/**
 	 * Creates an {@link Accessor} for the given {@link Method}.
-	 *
 	 * @param method must not be {@literal null}.
-	 * @throws IllegalArgumentException in case the given method is not an accessor method.
+	 * @throws IllegalArgumentException in case the given method is not an accessor
+	 * method.
 	 */
 	public Accessor(Method method) {
 
@@ -55,7 +56,6 @@ public final class Accessor {
 
 	/**
 	 * Returns whether the accessor is a getter.
-	 *
 	 * @return
 	 */
 	public boolean isGetter() {
@@ -64,7 +64,6 @@ public final class Accessor {
 
 	/**
 	 * Returns whether the accessor is a setter.
-	 *
 	 * @return
 	 */
 	public boolean isSetter() {
@@ -73,10 +72,10 @@ public final class Accessor {
 
 	/**
 	 * Returns the name of the property this accessor handles.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	public String getPropertyName() {
 		return this.descriptor.getName();
 	}
+
 }

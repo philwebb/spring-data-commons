@@ -25,17 +25,20 @@ import org.springframework.lang.Nullable;
 public interface ResourceReader {
 
 	enum Type {
+
 		XML, JSON;
+
 	}
 
 	/**
-	 * Reads a single or {@link java.util.Collection} of target objects from the given {@link Resource}.
-	 *
+	 * Reads a single or {@link java.util.Collection} of target objects from the given
+	 * {@link Resource}.
 	 * @param resource must not be {@literal null}.
 	 * @param classLoader can be {@literal null}.
-	 * @return {@link java.util.Collection} of target objects if resource contains multiple ones of single on. Never
-	 *         {@literal null}.
+	 * @return {@link java.util.Collection} of target objects if resource contains
+	 * multiple ones of single on. Never {@literal null}.
 	 * @throws Exception
 	 */
 	Object readFrom(Resource resource, @Nullable ClassLoader classLoader) throws Exception;
+
 }

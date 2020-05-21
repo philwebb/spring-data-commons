@@ -24,8 +24,9 @@ import org.springframework.util.Assert;
 
 /**
  * {@link PersistentPropertyAccessor} that potentially converts the value handed to
- * {@link #setProperty(PersistentProperty, Object)} to the type of the {@link PersistentProperty} using a
- * {@link ConversionService}. Exposes {@link #getProperty(PersistentProperty, Class)} to allow obtaining the value of a
+ * {@link #setProperty(PersistentProperty, Object)} to the type of the
+ * {@link PersistentProperty} using a {@link ConversionService}. Exposes
+ * {@link #getProperty(PersistentProperty, Class)} to allow obtaining the value of a
  * property in a type the {@link ConversionService} can convert the raw type to.
  *
  * @author Oliver Gierke
@@ -34,12 +35,12 @@ import org.springframework.util.Assert;
 public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathAccessor<T> {
 
 	private final PersistentPropertyAccessor<T> accessor;
+
 	private final ConversionService conversionService;
 
 	/**
-	 * Creates a new {@link ConvertingPropertyAccessor} for the given delegate {@link PersistentPropertyAccessor} and
-	 * {@link ConversionService}.
-	 *
+	 * Creates a new {@link ConvertingPropertyAccessor} for the given delegate
+	 * {@link PersistentPropertyAccessor} and {@link ConversionService}.
 	 * @param accessor must not be {@literal null}.
 	 * @param conversionService must not be {@literal null}.
 	 */
@@ -56,16 +57,20 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.springframework.data.mapping.PersistentProperty, java.lang.Object)
+	 * 
+	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
+	 * springframework.data.mapping.PersistentProperty, java.lang.Object)
 	 */
 	@Override
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
 		this.accessor.setProperty(property, convertIfNecessary(value, property.getType()));
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
+	 * 
+	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
+	 * springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
 	 */
 	@Override
 	public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value) {
@@ -76,8 +81,8 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 	}
 
 	/**
-	 * Returns the value of the given {@link PersistentProperty} converted to the given type.
-	 *
+	 * Returns the value of the given {@link PersistentProperty} converted to the given
+	 * type.
 	 * @param property must not be {@literal null}.
 	 * @param targetType must not be {@literal null}.
 	 * @return
@@ -91,9 +96,12 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 		return convertIfNecessary(getProperty(property), targetType);
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.SimplePersistentPropertyPathAccessor#getTypedProperty(org.springframework.data.mapping.PersistentProperty, java.lang.Class)
+	 * 
+	 * @see org.springframework.data.mapping.model.SimplePersistentPropertyPathAccessor#
+	 * getTypedProperty(org.springframework.data.mapping.PersistentProperty,
+	 * java.lang.Class)
 	 */
 	@Nullable
 	@Override
@@ -102,9 +110,8 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 	}
 
 	/**
-	 * Triggers the conversion of the source value into the target type unless the value already is a value of given
-	 * target type.
-	 *
+	 * Triggers the conversion of the source value into the target type unless the value
+	 * already is a value of given target type.
 	 * @param source can be {@literal null}.
 	 * @param type must not be {@literal null}.
 	 * @return
@@ -119,4 +126,5 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 						? source //
 						: this.conversionService.convert(source, type));
 	}
+
 }

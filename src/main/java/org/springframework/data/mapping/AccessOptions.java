@@ -27,9 +27,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Access options when using {@link PersistentPropertyPathAccessor} to get and set properties. Allows defining how to
- * handle {@literal null} values, register custom transforming handlers when accessing collections and maps and
- * propagation settings for how to handle intermediate collection and map values when setting values.
+ * Access options when using {@link PersistentPropertyPathAccessor} to get and set
+ * properties. Allows defining how to handle {@literal null} values, register custom
+ * transforming handlers when accessing collections and maps and propagation settings for
+ * how to handle intermediate collection and map values when setting values.
  *
  * @author Oliver Drotbohm
  * @since 2.3
@@ -37,9 +38,8 @@ import org.springframework.util.Assert;
 public class AccessOptions {
 
 	/**
-	 * Returns the default {@link SetOptions} rejecting setting values when finding an intermediate property value to be
-	 * {@literal null}.
-	 *
+	 * Returns the default {@link SetOptions} rejecting setting values when finding an
+	 * intermediate property value to be {@literal null}.
 	 * @return
 	 */
 	public static SetOptions defaultSetOptions() {
@@ -47,8 +47,8 @@ public class AccessOptions {
 	}
 
 	/**
-	 * Returns the default {@link GetOptions} rejecting intermediate {@literal null} values when accessing property paths.
-	 *
+	 * Returns the default {@link GetOptions} rejecting intermediate {@literal null}
+	 * values when accessing property paths.
 	 * @return
 	 */
 	public static GetOptions defaultGetOptions() {
@@ -65,6 +65,7 @@ public class AccessOptions {
 		private static final GetOptions DEFAULT = new GetOptions(new HashMap<>(), GetNulls.REJECT);
 
 		private final Map<PersistentProperty<?>, Function<Object, Object>> handlers;
+
 		private final GetNulls nullValues;
 
 		public GetOptions(Map<PersistentProperty<?>, Function<Object, Object>> handlers, GetNulls nullValues) {
@@ -89,7 +90,8 @@ public class AccessOptions {
 		public enum GetNulls {
 
 			/**
-			 * Reject the path lookup as a {@literal null} value cannot be traversed any further.
+			 * Reject the path lookup as a {@literal null} value cannot be traversed any
+			 * further.
 			 */
 			REJECT,
 
@@ -101,11 +103,11 @@ public class AccessOptions {
 			public SetOptions.SetNulls toNullHandling() {
 				return REJECT == this ? SetNulls.REJECT : SetNulls.SKIP;
 			}
+
 		}
 
 		/**
 		 * Registers a {@link Function} to post-process values for the given property.
-		 *
 		 * @param property must not be {@literal null}.
 		 * @param handler must not be {@literal null}.
 		 * @return
@@ -122,8 +124,8 @@ public class AccessOptions {
 		}
 
 		/**
-		 * Registers a {@link Function} to handle {@link Collection} values for the given property.
-		 *
+		 * Registers a {@link Function} to handle {@link Collection} values for the given
+		 * property.
 		 * @param property must not be {@literal null}.
 		 * @param handler must not be {@literal null}.
 		 * @return
@@ -135,20 +137,21 @@ public class AccessOptions {
 		}
 
 		/**
-		 * Registers a {@link Function} to handle {@link List} values for the given property.
-		 *
+		 * Registers a {@link Function} to handle {@link List} values for the given
+		 * property.
 		 * @param property must not be {@literal null}.
 		 * @param handler must not be {@literal null}.
 		 * @return
 		 */
 		@SuppressWarnings("unchecked")
-		public GetOptions registerListHandler(PersistentProperty<?> property, Function<? super List<?>, Object> handler) {
+		public GetOptions registerListHandler(PersistentProperty<?> property,
+				Function<? super List<?>, Object> handler) {
 			return registerHandler(property, List.class, (Function<Object, Object>) handler);
 		}
 
 		/**
-		 * Registers a {@link Function} to handle {@link Set} values for the given property.
-		 *
+		 * Registers a {@link Function} to handle {@link Set} values for the given
+		 * property.
 		 * @param property must not be {@literal null}.
 		 * @param handler must not be {@literal null}.
 		 * @return
@@ -159,21 +162,21 @@ public class AccessOptions {
 		}
 
 		/**
-		 * Registers a {@link Function} to handle {@link Map} values for the given property.
-		 *
+		 * Registers a {@link Function} to handle {@link Map} values for the given
+		 * property.
 		 * @param property must not be {@literal null}.
 		 * @param handler must not be {@literal null}.
 		 * @return
 		 */
 		@SuppressWarnings("unchecked")
-		public GetOptions registerMapHandler(PersistentProperty<?> property, Function<? super Map<?, ?>, Object> handler) {
+		public GetOptions registerMapHandler(PersistentProperty<?> property,
+				Function<? super Map<?, ?>, Object> handler) {
 			return registerHandler(property, Map.class, (Function<Object, Object>) handler);
 		}
 
 		/**
-		 * Registers the given {@link Function} to post-process values obtained for the given {@link PersistentProperty} for
-		 * the given type.
-		 *
+		 * Registers the given {@link Function} to post-process values obtained for the
+		 * given {@link PersistentProperty} for the given type.
 		 * @param <T> the type of the value to handle.
 		 * @param property must not be {@literal null}.
 		 * @param type must not be {@literal null}.
@@ -183,8 +186,9 @@ public class AccessOptions {
 		public <T> GetOptions registerHandler(PersistentProperty<?> property, Class<T> type,
 				Function<? super T, Object> handler) {
 
-			Assert.isTrue(type.isAssignableFrom(property.getType()), () -> String
-					.format("Cannot register a property handler for %s on a property of type %s!", type, property.getType()));
+			Assert.isTrue(type.isAssignableFrom(property.getType()),
+					() -> String.format("Cannot register a property handler for %s on a property of type %s!", type,
+							property.getType()));
 
 			Function<Object, T> caster = it -> type.cast(it);
 
@@ -192,8 +196,8 @@ public class AccessOptions {
 		}
 
 		/**
-		 * Post-processes the value obtained for the given {@link PersistentProperty} using the registered handler.
-		 *
+		 * Post-processes the value obtained for the given {@link PersistentProperty}
+		 * using the registered handler.
 		 * @param property must not be {@literal null}.
 		 * @param value can be {@literal null}.
 		 * @return the post-processed value or the value itself if no handlers registered.
@@ -205,6 +209,7 @@ public class AccessOptions {
 
 			return handler == null ? value : handler.apply(value);
 		}
+
 	}
 
 	/**
@@ -247,13 +252,15 @@ public class AccessOptions {
 		public enum SetNulls {
 
 			/**
-			 * Reject {@literal null} values detected when traversing a path to eventually set the leaf property. This will
-			 * cause a {@link MappingException} being thrown in that case.
+			 * Reject {@literal null} values detected when traversing a path to eventually
+			 * set the leaf property. This will cause a {@link MappingException} being
+			 * thrown in that case.
 			 */
 			REJECT,
 
 			/**
-			 * Skip setting the value but log an info message to leave a trace why the value wasn't actually set.
+			 * Skip setting the value but log an info message to leave a trace why the
+			 * value wasn't actually set.
 			 */
 			SKIP_AND_LOG,
 
@@ -261,6 +268,7 @@ public class AccessOptions {
 			 * Silently skip the attempt to set the value.
 			 */
 			SKIP;
+
 		}
 
 		/**
@@ -271,20 +279,23 @@ public class AccessOptions {
 		public enum Propagation {
 
 			/**
-			 * Skip the setting of values when encountering a collection or map value within the path to traverse.
+			 * Skip the setting of values when encountering a collection or map value
+			 * within the path to traverse.
 			 */
 			SKIP,
 
 			/**
-			 * Propagate the setting of values when encountering a collection or map value and set it on all collection or map
-			 * members.
+			 * Propagate the setting of values when encountering a collection or map value
+			 * and set it on all collection or map members.
 			 */
 			PROPAGATE;
+
 		}
 
 		private static final SetOptions DEFAULT = new SetOptions();
 
 		private final SetNulls nullHandling;
+
 		private final Propagation collectionPropagation, mapPropagation;
 
 		private SetOptions() {
@@ -295,9 +306,8 @@ public class AccessOptions {
 		}
 
 		/**
-		 * Returns a new {@link AccessOptions} that will cause paths that contain {@literal null} values to be skipped when
-		 * setting a property.
-		 *
+		 * Returns a new {@link AccessOptions} that will cause paths that contain
+		 * {@literal null} values to be skipped when setting a property.
 		 * @return
 		 */
 		public SetOptions skipNulls() {
@@ -305,9 +315,9 @@ public class AccessOptions {
 		}
 
 		/**
-		 * Returns a new {@link AccessOptions} that will cause paths that contain {@literal null} values to be skipped when
-		 * setting a property but a log message produced in TRACE level.
-		 *
+		 * Returns a new {@link AccessOptions} that will cause paths that contain
+		 * {@literal null} values to be skipped when setting a property but a log message
+		 * produced in TRACE level.
 		 * @return
 		 */
 		public SetOptions skipAndLogNulls() {
@@ -315,9 +325,8 @@ public class AccessOptions {
 		}
 
 		/**
-		 * Returns a new {@link AccessOptions} that will cause paths that contain {@literal null} values to be skipped when
-		 * setting a property.
-		 *
+		 * Returns a new {@link AccessOptions} that will cause paths that contain
+		 * {@literal null} values to be skipped when setting a property.
 		 * @return
 		 */
 		public SetOptions rejectNulls() {
@@ -325,8 +334,8 @@ public class AccessOptions {
 		}
 
 		/**
-		 * Shortcut to configure the same {@link Propagation} for both collection and map property path segments.
-		 *
+		 * Shortcut to configure the same {@link Propagation} for both collection and map
+		 * property path segments.
 		 * @param propagation must not be {@literal null}.
 		 * @return
 		 */
@@ -339,9 +348,8 @@ public class AccessOptions {
 		}
 
 		/**
-		 * Returns whether the given property is supposed to be propagated, i.e. if values for it are supposed to be set at
-		 * all.
-		 *
+		 * Returns whether the given property is supposed to be propagated, i.e. if values
+		 * for it are supposed to be set at all.
 		 * @param property can be {@literal null}.
 		 * @return
 		 */
@@ -361,5 +369,7 @@ public class AccessOptions {
 
 			return true;
 		}
+
 	}
+
 }

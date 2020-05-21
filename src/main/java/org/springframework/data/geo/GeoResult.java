@@ -32,6 +32,7 @@ public final class GeoResult<T> implements Serializable {
 	private static final long serialVersionUID = 1637452570977581370L;
 
 	private final T content;
+
 	private final Distance distance;
 
 	public GeoResult(T content, Distance distance) {
@@ -50,6 +51,7 @@ public final class GeoResult<T> implements Serializable {
 	public Distance getDistance() {
 		return this.distance;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -69,14 +71,18 @@ public final class GeoResult<T> implements Serializable {
 
 		return ObjectUtils.nullSafeEquals(this.distance, geoResult.distance);
 	}
+
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(this.content);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.distance);
 		return result;
 	}
+
 	@Override
 	public String toString() {
-		return String.format("GeoResult [content: %s, distance: %s, ]", this.content.toString(), this.distance.toString());
+		return String.format("GeoResult [content: %s, distance: %s, ]", this.content.toString(),
+				this.distance.toString());
 	}
+
 }

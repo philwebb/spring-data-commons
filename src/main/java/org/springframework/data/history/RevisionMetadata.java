@@ -29,53 +29,48 @@ public interface RevisionMetadata<N extends Number & Comparable<N>> {
 
 	/**
 	 * Returns the revision number of the revision.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	Optional<N> getRevisionNumber();
 
 	/**
 	 * Returns the revision number of the revision, immediately failing on absence.
-	 *
 	 * @return will never be {@literal null}.
 	 * @throws IllegalStateException if no revision number is available.
 	 */
 	default N getRequiredRevisionNumber() {
 
-		return getRevisionNumber().orElseThrow(
-				() -> new IllegalStateException(String.format("No revision number found on %s!", this.<Object> getDelegate())));
+		return getRevisionNumber().orElseThrow(() -> new IllegalStateException(
+				String.format("No revision number found on %s!", this.<Object>getDelegate())));
 	}
 
 	/**
 	 * Returns the timestamp of the revision.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	Optional<Instant> getRevisionInstant();
 
 	/**
 	 * Returns the time stamp of the revision, immediately failing on absence.
-	 *
 	 * @return will never be {@literal null}.
 	 * @throws IllegalStateException if no revision date is available.
 	 */
 	default Instant getRequiredRevisionInstant() {
 
-		return getRevisionInstant().orElseThrow(
-				() -> new IllegalStateException(String.format("No revision date found on %s!", this.<Object> getDelegate())));
+		return getRevisionInstant().orElseThrow(() -> new IllegalStateException(
+				String.format("No revision date found on %s!", this.<Object>getDelegate())));
 	}
 
 	/**
-	 * Returns the underlying revision metadata which might provider more detailed implementation specific information.
-	 *
+	 * Returns the underlying revision metadata which might provider more detailed
+	 * implementation specific information.
 	 * @return
 	 */
 	<T> T getDelegate();
 
 	/**
-	 * Returns the {@link RevisionType} of this change. If the {@link RevisionType} cannot be determined, this method
-	 * returns {@link RevisionType#UNKNOWN}.
-	 *
+	 * Returns the {@link RevisionType} of this change. If the {@link RevisionType} cannot
+	 * be determined, this method returns {@link RevisionType#UNKNOWN}.
 	 * @return will never be {@literal null}.
 	 * @since 2.2.0
 	 */
@@ -102,5 +97,7 @@ public interface RevisionMetadata<N extends Number & Comparable<N>> {
 
 		/** Deletion of an instance */
 		DELETE
+
 	}
+
 }

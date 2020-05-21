@@ -51,7 +51,8 @@ public class KotlinReflectionUtilsUnitTests {
 		runTest("loadClassWithoutKotlin");
 	}
 
-	// executed via reflection in the context of a ClassLoader without Kotlin dependencies.
+	// executed via reflection in the context of a ClassLoader without Kotlin
+	// dependencies.
 	public void loadClassWithoutKotlin() {
 
 		assertThat(KotlinDetector.isKotlinPresent()).isFalse();
@@ -69,6 +70,7 @@ public class KotlinReflectionUtilsUnitTests {
 	}
 
 	static class KotlinExcludingURLClassLoader extends URLClassLoader {
+
 		KotlinExcludingURLClassLoader(URL[] urls) {
 			super(urls, null);
 		}
@@ -82,5 +84,7 @@ public class KotlinReflectionUtilsUnitTests {
 
 			return super.findClass(name);
 		}
+
 	}
+
 }

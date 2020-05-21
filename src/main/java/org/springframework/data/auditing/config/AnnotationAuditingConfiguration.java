@@ -36,9 +36,8 @@ public class AnnotationAuditingConfiguration implements AuditingConfiguration {
 	private final AnnotationAttributes attributes;
 
 	/**
-	 * Creates a new instance of {@link AnnotationAuditingConfiguration} for the given {@link AnnotationMetadata} and
-	 * annotation type.
-	 *
+	 * Creates a new instance of {@link AnnotationAuditingConfiguration} for the given
+	 * {@link AnnotationMetadata} and annotation type.
 	 * @param metadata must not be {@literal null}.
 	 * @param annotation must not be {@literal null}.
 	 */
@@ -75,4 +74,5 @@ public class AnnotationAuditingConfiguration implements AuditingConfiguration {
 	public boolean isModifyOnCreate() {
 		return this.attributes.getBoolean("modifyOnCreate");
 	}
+
 }

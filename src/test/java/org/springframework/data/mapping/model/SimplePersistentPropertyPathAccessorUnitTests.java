@@ -49,6 +49,7 @@ class SimplePersistentPropertyPathAccessorUnitTests {
 	private SampleMappingContext context = new SampleMappingContext();
 
 	private Customer first = new Customer("1");
+
 	private Customer second = new Customer("2");
 
 	@Test // DATACMNS-1438
@@ -77,8 +78,8 @@ class SimplePersistentPropertyPathAccessorUnitTests {
 		CustomerWrapper wrapper = new CustomerWrapper(null);
 
 		PersistentPropertyPathAccessor<CustomerWrapper> accessor = getAccessor(wrapper);
-		PersistentPropertyPath<SamplePersistentProperty> path = this.context.getPersistentPropertyPath("customer.firstname",
-				CustomerWrapper.class);
+		PersistentPropertyPath<SamplePersistentProperty> path = this.context
+				.getPersistentPropertyPath("customer.firstname", CustomerWrapper.class);
 
 		assertThatCode(() -> {
 			accessor.setProperty(path, "Dave", AccessOptions.defaultSetOptions().withNullHandling(SetNulls.SKIP));
@@ -110,17 +111,27 @@ class SimplePersistentPropertyPathAccessorUnitTests {
 	@Data
 	@AllArgsConstructor
 	static class Customer {
+
 		String firstname;
+
 	}
 
 	@Value
 	private static class Customers {
-		@Wither List<Customer> customers;
-		@Wither Map<String, Customer> customerMap;
+
+		@Wither
+		List<Customer> customers;
+
+		@Wither
+		Map<String, Customer> customerMap;
+
 	}
 
 	@AllArgsConstructor
 	static class CustomerWrapper {
+
 		Customer customer;
+
 	}
+
 }

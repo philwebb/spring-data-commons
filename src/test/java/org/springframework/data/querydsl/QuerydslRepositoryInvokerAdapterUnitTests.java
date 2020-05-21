@@ -39,9 +39,14 @@ import com.querydsl.core.types.Predicate;
 @ExtendWith(MockitoExtension.class)
 class QuerydslRepositoryInvokerAdapterUnitTests {
 
-	@Mock RepositoryInvoker delegate;
-	@Mock QuerydslPredicateExecutor<Object> executor;
-	@Mock Predicate predicate;
+	@Mock
+	RepositoryInvoker delegate;
+
+	@Mock
+	QuerydslPredicateExecutor<Object> executor;
+
+	@Mock
+	Predicate predicate;
 
 	QuerydslRepositoryInvokerAdapter adapter;
 
@@ -99,4 +104,5 @@ class QuerydslRepositoryInvokerAdapterUnitTests {
 		this.adapter.invokeSave(any());
 		verify(this.delegate, times(1)).invokeSave(any());
 	}
+
 }

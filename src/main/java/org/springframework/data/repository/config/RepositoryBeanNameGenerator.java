@@ -25,9 +25,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Special {@link BeanNameGenerator} to create bean names for Spring Data repositories. Will delegate to an
- * {@link AnnotationBeanNameGenerator} but let the delegate work with a customized {@link BeanDefinition} to make sure
- * the repository interface is inspected and not the actual bean definition class.
+ * Special {@link BeanNameGenerator} to create bean names for Spring Data repositories.
+ * Will delegate to an {@link AnnotationBeanNameGenerator} but let the delegate work with
+ * a customized {@link BeanDefinition} to make sure the repository interface is inspected
+ * and not the actual bean definition class.
  *
  * @author Oliver Gierke
  * @author Jens Schauder
@@ -35,11 +36,12 @@ import org.springframework.util.ClassUtils;
 class RepositoryBeanNameGenerator {
 
 	private final ClassLoader beanClassLoader;
+
 	private final SpringDataAnnotationBeanNameGenerator delegate;
 
 	/**
-	 * Creates a new {@link RepositoryBeanNameGenerator} for the given {@link ClassLoader} and {@link BeanNameGenerator}.
-	 *
+	 * Creates a new {@link RepositoryBeanNameGenerator} for the given {@link ClassLoader}
+	 * and {@link BeanNameGenerator}.
 	 * @param beanClassLoader must not be {@literal null}.
 	 * @param generator must not be {@literal null}.
 	 */
@@ -54,7 +56,6 @@ class RepositoryBeanNameGenerator {
 
 	/**
 	 * Generate a bean name for the given bean definition.
-	 *
 	 * @param definition the bean definition to generate a name for
 	 * @return the generated bean name
 	 * @since 2.0
@@ -69,10 +70,9 @@ class RepositoryBeanNameGenerator {
 	}
 
 	/**
-	 * Returns the type configured for the {@code repositoryInterface} property of the given bean definition. Uses a
-	 * potential {@link Class} being configured as is or tries to load a class with the given value's {@link #toString()}
-	 * representation.
-	 *
+	 * Returns the type configured for the {@code repositoryInterface} property of the
+	 * given bean definition. Uses a potential {@link Class} being configured as is or
+	 * tries to load a class with the given value's {@link #toString()} representation.
 	 * @param beanDefinition
 	 * @return
 	 */
@@ -81,28 +81,32 @@ class RepositoryBeanNameGenerator {
 		ValueHolder argumentValue = beanDefinition.getConstructorArgumentValues().getArgumentValue(0, Class.class);
 
 		if (argumentValue == null) {
-			throw new IllegalStateException(
-					String.format("Failed to obtain first constructor parameter value of BeanDefinition %s!", beanDefinition));
+			throw new IllegalStateException(String.format(
+					"Failed to obtain first constructor parameter value of BeanDefinition %s!", beanDefinition));
 		}
 
 		Object value = argumentValue.getValue();
 
 		if (value == null) {
 
-			throw new IllegalStateException(
-					String.format("Value of first constructor parameter value of BeanDefinition %s is null!", beanDefinition));
+			throw new IllegalStateException(String.format(
+					"Value of first constructor parameter value of BeanDefinition %s is null!", beanDefinition));
 
-		} else if (value instanceof Class<?>) {
+		}
+		else if (value instanceof Class<?>) {
 
 			return (Class<?>) value;
 
-		} else {
+		}
+		else {
 
 			try {
 				return ClassUtils.forName(value.toString(), this.beanClassLoader);
-			} catch (Exception o_O) {
+			}
+			catch (Exception o_O) {
 				throw new RuntimeException(o_O);
 			}
 		}
 	}
+
 }

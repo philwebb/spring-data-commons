@@ -55,17 +55,19 @@ class PersistentEntityInformationUnitTests {
 		PersistentEntity<Object, SamplePersistentProperty> entity = context
 				.getRequiredPersistentEntity(EntityWithoutId.class);
 
-		PersistentEntityInformation<Object, Serializable> information = new PersistentEntityInformation<>(
-				entity);
+		PersistentEntityInformation<Object, Serializable> information = new PersistentEntityInformation<>(entity);
 		assertThat(information.getId(new EntityWithoutId())).isNull();
 	}
 
 	static class Sample {
 
-		@Id Long id;
+		@Id
+		Long id;
+
 	}
 
 	static class EntityWithoutId {
 
 	}
+
 }

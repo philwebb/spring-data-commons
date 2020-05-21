@@ -22,9 +22,10 @@ import org.springframework.data.mapping.model.InternalEntityInstantiatorFactory;
 import org.springframework.data.mapping.model.ParameterValueProvider;
 
 /**
- * An {@link EntityInstantiator} that can generate byte code to speed-up dynamic object instantiation. Uses the
- * {@link PersistentEntity}'s {@link PreferredConstructor} to instantiate an instance of the entity by dynamically
- * generating factory methods with appropriate constructor invocations via ASM. If we cannot generate byte code for a
+ * An {@link EntityInstantiator} that can generate byte code to speed-up dynamic object
+ * instantiation. Uses the {@link PersistentEntity}'s {@link PreferredConstructor} to
+ * instantiate an instance of the entity by dynamically generating factory methods with
+ * appropriate constructor invocations via ASM. If we cannot generate byte code for a
  * type, we gracefully fall-back to the {@link ReflectionEntityInstantiator}.
  *
  * @author Thomas Darimont
@@ -33,7 +34,9 @@ import org.springframework.data.mapping.model.ParameterValueProvider;
  * @author Christoph Strobl
  * @author Mark Paluch
  * @since 1.11
- * @deprecated since 2.3, use {@link org.springframework.data.mapping.model.ClassGeneratingEntityInstantiator} instead
+ * @deprecated since 2.3, use
+ * {@link org.springframework.data.mapping.model.ClassGeneratingEntityInstantiator}
+ * instead
  */
 @Deprecated
 public class ClassGeneratingEntityInstantiator implements EntityInstantiator {
@@ -50,11 +53,15 @@ public class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.EntityInstantiator#createInstance(org.springframework.data.mapping.PersistentEntity, org.springframework.data.mapping.model.ParameterValueProvider)
+	 * 
+	 * @see org.springframework.data.mapping.model.EntityInstantiator#createInstance(org.
+	 * springframework.data.mapping.PersistentEntity,
+	 * org.springframework.data.mapping.model.ParameterValueProvider)
 	 */
 	@Override
 	public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
 			ParameterValueProvider<P> provider) {
 		return this.delegate.createInstance(entity, provider);
 	}
+
 }

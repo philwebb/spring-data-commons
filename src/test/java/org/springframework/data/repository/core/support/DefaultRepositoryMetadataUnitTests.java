@@ -133,6 +133,7 @@ class DefaultRepositoryMetadataUnitTests {
 
 			return null;
 		}
+
 	}
 
 	static interface UserRepository extends CrudRepository<User, Integer> {
@@ -142,8 +143,10 @@ class DefaultRepositoryMetadataUnitTests {
 	/**
 	 * Sample interface to serve two purposes:
 	 * <ol>
-	 * <li>Check that {@link ClassUtils#getDomainClass(Class)} skips non {@link GenericDao} interfaces</li>
-	 * <li>Check that {@link ClassUtils#getDomainClass(Class)} traverses interface hierarchy</li>
+	 * <li>Check that {@link ClassUtils#getDomainClass(Class)} skips non
+	 * {@link GenericDao} interfaces</li>
+	 * <li>Check that {@link ClassUtils#getDomainClass(Class)} traverses interface
+	 * hierarchy</li>
 	 * </ol>
 	 *
 	 * @author Oliver Gierke
@@ -151,6 +154,7 @@ class DefaultRepositoryMetadataUnitTests {
 	private interface SomeDao extends Serializable, UserRepository {
 
 		Page<User> findByFirstname(Pageable pageable, String firstname);
+
 	}
 
 	/**
@@ -171,6 +175,7 @@ class DefaultRepositoryMetadataUnitTests {
 		public java.util.Optional<T> findById(ID id) {
 			return java.util.Optional.empty();
 		}
+
 	}
 
 	/**
@@ -178,9 +183,13 @@ class DefaultRepositoryMetadataUnitTests {
 	 *
 	 * @author Oliver Gierke
 	 */
-	static class GenericEntity<T> {}
+	static class GenericEntity<T> {
 
-	static interface GenericEntityRepository extends CrudRepository<GenericEntity<String>, Long> {}
+	}
+
+	static interface GenericEntityRepository extends CrudRepository<GenericEntity<String>, Long> {
+
+	}
 
 	static interface IdTypeFixingRepository<T> extends Repository<T, Long> {
 
@@ -196,5 +205,7 @@ class DefaultRepositoryMetadataUnitTests {
 
 		// Contrived example but to make sure recursive wrapper resolution works
 		Optional<Optional<User>> findByLastname(String lastname);
+
 	}
+
 }

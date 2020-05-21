@@ -42,8 +42,8 @@ public class FragmentMetadata {
 	}
 
 	/**
-	 * Returns all interfaces to be considered fragment ones for the given source interface.
-	 *
+	 * Returns all interfaces to be considered fragment ones for the given source
+	 * interface.
 	 * @param interfaceName must not be {@literal null} or empty.
 	 * @return
 	 */
@@ -57,7 +57,6 @@ public class FragmentMetadata {
 
 	/**
 	 * Returns whether the given interface is a fragment candidate.
-	 *
 	 * @param interfaceName must not be {@literal null} or empty.
 	 * @param factory must not be {@literal null}.
 	 * @return
@@ -75,7 +74,8 @@ public class FragmentMetadata {
 
 		try {
 			return this.factory.getMetadataReader(className).getAnnotationMetadata();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new BeanDefinitionStoreException(String.format("Cannot parse %s metadata.", className), e);
 		}
 	}
@@ -84,8 +84,10 @@ public class FragmentMetadata {
 
 		try {
 			return this.factory.getMetadataReader(className).getClassMetadata();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new BeanDefinitionStoreException(String.format("Cannot parse %s metadata.", className), e);
 		}
 	}
+
 }

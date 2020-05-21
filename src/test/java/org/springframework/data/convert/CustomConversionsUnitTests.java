@@ -183,7 +183,8 @@ class CustomConversionsUnitTests {
 	@Test // DATAMONGO-1302, DATACMNS-1035
 	void registersConverterFactoryCorrectly() {
 
-		StoreConversions conversions = StoreConversions.of(new SimpleTypeHolder(Collections.singleton(Format.class), true));
+		StoreConversions conversions = StoreConversions
+				.of(new SimpleTypeHolder(Collections.singleton(Format.class), true));
 
 		CustomConversions customConversions = new CustomConversions(conversions,
 				Collections.singletonList(new FormatConverterFactory()));
@@ -198,7 +199,8 @@ class CustomConversionsUnitTests {
 				.reading(Locale.class, CustomType.class, left -> new CustomType()) //
 				.andWriting(right -> Locale.GERMAN);
 
-		CustomConversions conversions = new CustomConversions(StoreConversions.NONE, Collections.singletonList(converters));
+		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
+				Collections.singletonList(converters));
 
 		assertThat(conversions.hasCustomWriteTarget(CustomType.class)).isTrue();
 		assertThat(conversions.hasCustomReadTarget(Locale.class, CustomType.class)).isTrue();
@@ -242,7 +244,8 @@ class CustomConversionsUnitTests {
 		ConverterRegistry registry = mock(ConverterRegistry.class);
 
 		new CustomConversions(StoreConversions.of(DATE_EXCLUDING_SIMPLE_TYPE_HOLDER),
-				Collections.singletonList(LocalDateTimeToJavaTimeInstantConverter.INSTANCE)).registerConvertersIn(registry);
+				Collections.singletonList(LocalDateTimeToJavaTimeInstantConverter.INSTANCE))
+						.registerConvertersIn(registry);
 
 		verify(registry).addConverter(any(LocalDateTimeToJavaTimeInstantConverter.class));
 	}
@@ -253,7 +256,8 @@ class CustomConversionsUnitTests {
 		ConverterRegistry registry = mock(ConverterRegistry.class);
 
 		ConverterConfiguration config = new ConverterConfiguration(StoreConversions.NONE, Collections.emptyList(),
-				Predicate.<ConvertiblePair> isEqual(new ConvertiblePair(java.time.LocalDateTime.class, Date.class)).negate());
+				Predicate.<ConvertiblePair>isEqual(new ConvertiblePair(java.time.LocalDateTime.class, Date.class))
+						.negate());
 		new CustomConversions(config).registerConvertersIn(registry);
 
 		verify(registry, never()).addConverter(any(LocalDateTimeToDateConverter.class));
@@ -266,7 +270,8 @@ class CustomConversionsUnitTests {
 
 		ConverterConfiguration config = new ConverterConfiguration(StoreConversions.NONE,
 				Collections.singletonList(LocalDateTimeToDateConverter.INSTANCE),
-				Predicate.<ConvertiblePair> isEqual(new ConvertiblePair(java.time.LocalDateTime.class, Date.class)).negate());
+				Predicate.<ConvertiblePair>isEqual(new ConvertiblePair(java.time.LocalDateTime.class, Date.class))
+						.negate());
 		new CustomConversions(config).registerConvertersIn(registry);
 
 		verify(registry).addConverter(any(LocalDateTimeToDateConverter.class));
@@ -288,6 +293,7 @@ class CustomConversionsUnitTests {
 		public String convert(Format source) {
 			return source.toString();
 		}
+
 	}
 
 	enum StringToFormatConverter implements Converter<String, Format> {
@@ -297,6 +303,7 @@ class CustomConversionsUnitTests {
 		public Format convert(String source) {
 			return DateFormat.getInstance();
 		}
+
 	}
 
 	enum NumberToStringConverter implements Converter<Number, String> {
@@ -306,6 +313,7 @@ class CustomConversionsUnitTests {
 		public String convert(Number source) {
 			return source.toString();
 		}
+
 	}
 
 	enum StringToNumberConverter implements Converter<String, Number> {
@@ -315,6 +323,7 @@ class CustomConversionsUnitTests {
 		public Number convert(String source) {
 			return 0L;
 		}
+
 	}
 
 	enum StringToIntegerConverter implements Converter<String, Integer> {
@@ -324,6 +333,7 @@ class CustomConversionsUnitTests {
 		public Integer convert(String source) {
 			return 0;
 		}
+
 	}
 
 	enum DateTimeToStringConverter implements Converter<DateTime, String> {
@@ -334,6 +344,7 @@ class CustomConversionsUnitTests {
 		public String convert(DateTime source) {
 			return "";
 		}
+
 	}
 
 	enum CustomDateTimeConverter implements Converter<DateTime, Date> {
@@ -344,6 +355,7 @@ class CustomConversionsUnitTests {
 		public Date convert(DateTime source) {
 			return new Date(0);
 		}
+
 	}
 
 	enum CustomObjectToStringConverter implements Converter<Object, String> {
@@ -394,12 +406,18 @@ class CustomConversionsUnitTests {
 
 				try {
 					return this.targetType.newInstance();
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					throw new IllegalArgumentException(e.getMessage(), e);
 				}
 			}
+
 		}
+
 	}
 
-	static class CustomType {}
+	static class CustomType {
+
+	}
+
 }

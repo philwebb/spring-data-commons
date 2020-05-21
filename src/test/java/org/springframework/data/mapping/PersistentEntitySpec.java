@@ -18,8 +18,9 @@ package org.springframework.data.mapping;
 import static org.assertj.core.api.Assertions.*;
 
 /**
- * Some test methods that define expected behaviour for {@link PersistentEntity} interface. Implementation test classes
- * can simply extend that class to get the specs tested against an instance of their implementation.
+ * Some test methods that define expected behaviour for {@link PersistentEntity}
+ * interface. Implementation test classes can simply extend that class to get the specs
+ * tested against an instance of their implementation.
  *
  * @author Oliver Gierke
  */
@@ -28,4 +29,5 @@ public abstract class PersistentEntitySpec {
 	public static void assertInvariants(PersistentEntity<?, ?> entity) {
 		assertThat(entity.getName()).isNotNull();
 	}
+
 }

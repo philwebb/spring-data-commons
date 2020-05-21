@@ -45,9 +45,14 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 @ExtendWith(MockitoExtension.class)
 class TransactionRepositoryProxyPostProcessorUnitTests {
 
-	@Mock ListableBeanFactory beanFactory;
-	@Mock ProxyFactory proxyFactory;
-	@Mock RepositoryInformation repositoryInformation;
+	@Mock
+	ListableBeanFactory beanFactory;
+
+	@Mock
+	ProxyFactory proxyFactory;
+
+	@Mock
+	RepositoryInformation repositoryInformation;
 
 	@Test
 	void rejectsNullBeanFactory() {
@@ -64,8 +69,8 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 	@Test
 	void setsUpBasicInstance() throws Exception {
 
-		RepositoryProxyPostProcessor postProcessor = new TransactionalRepositoryProxyPostProcessor(this.beanFactory, "txManager",
-				true);
+		RepositoryProxyPostProcessor postProcessor = new TransactionalRepositoryProxyPostProcessor(this.beanFactory,
+				"txManager", true);
 		postProcessor.postProcess(this.proxyFactory, this.repositoryInformation);
 
 		verify(this.proxyFactory).addAdvice(any(TransactionInterceptor.class));
@@ -97,7 +102,8 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 		Method repositorySaveMethod = SampleRepository.class.getMethod("save", Sample.class);
 		Method implementationClassMethod = implementationClass.getMethod("save", Object.class);
 
-		when(this.repositoryInformation.getTargetClassMethod(repositorySaveMethod)).thenReturn(implementationClassMethod);
+		when(this.repositoryInformation.getTargetClassMethod(repositorySaveMethod))
+				.thenReturn(implementationClassMethod);
 
 		CustomAnnotationTransactionAttributeSource attributeSource = new CustomAnnotationTransactionAttributeSource();
 		attributeSource.setRepositoryInformation(this.repositoryInformation);
@@ -108,7 +114,9 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 		assertThat(attribute).isNotNull();
 	}
 
-	static class Sample {}
+	static class Sample {
+
+	}
 
 	interface SampleRepository extends Repository<Sample, Serializable> {
 
@@ -116,6 +124,7 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 
 		@javax.transaction.Transactional
 		void methodWithJtaOneDotTwoAtTransactional();
+
 	}
 
 	static class SampleImplementation<T> {
@@ -124,6 +133,7 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 		public <S extends T> S save(S object) {
 			return null;
 		}
+
 	}
 
 	@Transactional
@@ -132,5 +142,7 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 		public <S extends T> S save(S object) {
 			return null;
 		}
+
 	}
+
 }

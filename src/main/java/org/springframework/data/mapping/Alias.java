@@ -20,11 +20,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * A container object which may or may not contain a type alias value. If a value is present, {@code isPresent()} will
- * return {@code true} and {@link #getValue()} will return the value.
+ * A container object which may or may not contain a type alias value. If a value is
+ * present, {@code isPresent()} will return {@code true} and {@link #getValue()} will
+ * return the value.
  * <p/>
- * Additional methods that depend on the presence or absence of a contained value are provided, such as
- * {@link #hasValue(Object)} or {@link #isPresent()}
+ * Additional methods that depend on the presence or absence of a contained value are
+ * provided, such as {@link #hasValue(Object)} or {@link #isPresent()}
  * <p/>
  * Aliases are immutable once created.
  *
@@ -48,7 +49,6 @@ public final class Alias {
 
 	/**
 	 * Create an {@link Alias} given the {@code alias} object.
-	 *
 	 * @param alias must not be {@literal null}.
 	 * @return the {@link Alias} for {@code alias}.
 	 */
@@ -60,11 +60,11 @@ public final class Alias {
 	}
 
 	/**
-	 * Create an {@link Alias} from a possibly present {@code alias} object. Using a {@literal null} alias will return
-	 * {@link #empty()}.
-	 *
+	 * Create an {@link Alias} from a possibly present {@code alias} object. Using a
+	 * {@literal null} alias will return {@link #empty()}.
 	 * @param alias may be {@literal null}.
-	 * @return the {@link Alias} for {@code alias} or {@link #empty()} if the given alias was {@literal null}.
+	 * @return the {@link Alias} for {@code alias} or {@link #empty()} if the given alias
+	 * was {@literal null}.
 	 */
 	public static Alias ofNullable(@Nullable Object alias) {
 		return alias == null ? NONE : new Alias(alias);
@@ -72,7 +72,6 @@ public final class Alias {
 
 	/**
 	 * Returns an empty {@code Alias} instance. No value is present for this Alias.
-	 *
 	 * @return an empty {@link Alias}.
 	 */
 	public static Alias empty() {
@@ -80,10 +79,11 @@ public final class Alias {
 	}
 
 	/**
-	 * Checks whether this {@link Alias} has a value but is different from the {@code other} value.
-	 *
+	 * Checks whether this {@link Alias} has a value but is different from the
+	 * {@code other} value.
 	 * @param other must not be {@literal null}.
-	 * @return {@literal true} if this value is present but different from the {@code other} value.
+	 * @return {@literal true} if this value is present but different from the
+	 * {@code other} value.
 	 */
 	public boolean isPresentButDifferent(Alias other) {
 
@@ -94,7 +94,6 @@ public final class Alias {
 
 	/**
 	 * Checks whether this {@link Alias} contains the value {@code that}.
-	 *
 	 * @param that the other value, may be {@literal null}.
 	 * @return {@literal true} if this alias has a value and it equals to {@code that}.
 	 */
@@ -103,10 +102,11 @@ public final class Alias {
 	}
 
 	/**
-	 * Returns whether the the current alias is present and has the same value as the given {@link Alias}.
-	 *
+	 * Returns whether the the current alias is present and has the same value as the
+	 * given {@link Alias}.
 	 * @param other the other {@link Alias}
-	 * @return {@literal true} if there's an alias value present and its equal to the one in the given {@link Alias}.
+	 * @return {@literal true} if there's an alias value present and its equal to the one
+	 * in the given {@link Alias}.
 	 */
 	public boolean hasSamePresentValueAs(Alias other) {
 		return isPresent() && this.value.equals(other.value);
@@ -120,8 +120,8 @@ public final class Alias {
 	}
 
 	/**
-	 * Return the value typed to {@code type} if the value is present and assignable to {@code type}.
-	 *
+	 * Return the value typed to {@code type} if the value is present and assignable to
+	 * {@code type}.
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
@@ -133,6 +133,7 @@ public final class Alias {
 
 		return isPresent() && type.isInstance(this.value) ? (T) this.value : null;
 	}
+
 	@Override
 	public String toString() {
 		return isPresent() ? this.value.toString() : "NONE";
@@ -141,6 +142,7 @@ public final class Alias {
 	public Object getValue() {
 		return this.value;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -155,8 +157,10 @@ public final class Alias {
 		Alias alias = (Alias) o;
 		return ObjectUtils.nullSafeEquals(this.value, alias.value);
 	}
+
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(this.value);
 	}
+
 }

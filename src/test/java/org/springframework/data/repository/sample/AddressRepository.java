@@ -23,5 +23,8 @@ import org.springframework.data.repository.sample.AddressRepository.Address;
  */
 public interface AddressRepository extends Repository<Address, Long> {
 
-	static class Address {}
+	static class Address {
+
+	}
+
 }

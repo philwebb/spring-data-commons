@@ -63,17 +63,28 @@ public class ProxyUtilsUnitTests {
 	}
 
 	static class SampleProxyDetector implements ProxyDetector {
+
 		@Override
 		public Class<?> getUserType(Class<?> type) {
 			return AnotherSample.class.isAssignableFrom(type) ? UserType.class : type;
 		}
+
 	}
 
-	static class Sample {}
+	static class Sample {
 
-	static class UserType {}
+	}
 
-	static class AnotherSample {}
+	static class UserType {
 
-	static class SomeTypeWithInterface implements Serializable {}
+	}
+
+	static class AnotherSample {
+
+	}
+
+	static class SomeTypeWithInterface implements Serializable {
+
+	}
+
 }

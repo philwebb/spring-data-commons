@@ -31,7 +31,6 @@ class PersistableIdentifierAccessor extends TargetAwareIdentifierAccessor {
 
 	/**
 	 * Creates a new {@link PersistableIdentifierAccessor} for the given target.
-	 * 
 	 * @param target must not be {@literal null}.
 	 */
 	public PersistableIdentifierAccessor(Persistable<?> target) {
@@ -40,9 +39,11 @@ class PersistableIdentifierAccessor extends TargetAwareIdentifierAccessor {
 
 		this.target = target;
 	}
+
 	@Override
 	@Nullable
 	public Object getIdentifier() {
 		return this.target.getId();
 	}
+
 }

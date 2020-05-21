@@ -20,8 +20,9 @@ import org.springframework.data.mapping.context.MappingContext;
 import org.w3c.dom.Element;
 
 /**
- * {@link AuditingHandlerBeanDefinitionParser} that will register am {@link IsNewAwareAuditingHandler}. Needs to get the
- * bean id of the {@link MappingContext} it shall refer to.
+ * {@link AuditingHandlerBeanDefinitionParser} that will register am
+ * {@link IsNewAwareAuditingHandler}. Needs to get the bean id of the
+ * {@link MappingContext} it shall refer to.
  *
  * @author Oliver Gierke
  * @since 1.5
@@ -30,14 +31,15 @@ public class IsNewAwareAuditingHandlerBeanDefinitionParser extends AuditingHandl
 
 	/**
 	 * Creates a new {@link IsNewAwareAuditingHandlerBeanDefinitionParser}.
-	 *
 	 * @param mappingContextBeanName must not be {@literal null} or empty.
 	 */
 	public IsNewAwareAuditingHandlerBeanDefinitionParser(String mappingContextBeanName) {
 		super(mappingContextBeanName);
 	}
+
 	@Override
 	protected Class<?> getBeanClass(Element element) {
 		return IsNewAwareAuditingHandler.class;
 	}
+
 }

@@ -55,8 +55,8 @@ public abstract class ReturnedType {
 	}
 
 	/**
-	 * Creates a new {@link ReturnedType} for the given returned type, domain type and {@link ProjectionFactory}.
-	 *
+	 * Creates a new {@link ReturnedType} for the given returned type, domain type and
+	 * {@link ProjectionFactory}.
 	 * @param returnedType must not be {@literal null}.
 	 * @param domainType must not be {@literal null}.
 	 * @param factory must not be {@literal null}.
@@ -78,7 +78,6 @@ public abstract class ReturnedType {
 
 	/**
 	 * Returns the entity type.
-	 *
 	 * @return
 	 */
 	public final Class<?> getDomainType() {
@@ -87,7 +86,6 @@ public abstract class ReturnedType {
 
 	/**
 	 * Returns whether the given source object is an instance of the returned type.
-	 *
 	 * @param source can be {@literal null}.
 	 * @return
 	 */
@@ -97,29 +95,26 @@ public abstract class ReturnedType {
 
 	/**
 	 * Returns whether the type is projecting, i.e. not of the domain type.
-	 *
 	 * @return
 	 */
 	public abstract boolean isProjecting();
 
 	/**
 	 * Returns the type of the individual objects to return.
-	 *
 	 * @return
 	 */
 	public abstract Class<?> getReturnedType();
 
 	/**
 	 * Returns whether the returned type will require custom construction.
-	 *
 	 * @return
 	 */
 	public abstract boolean needsCustomConstruction();
 
 	/**
-	 * Returns the type that the query execution is supposed to pass to the underlying infrastructure. {@literal null} is
-	 * returned to indicate a generic type (a map or tuple-like type) shall be used.
-	 *
+	 * Returns the type that the query execution is supposed to pass to the underlying
+	 * infrastructure. {@literal null} is returned to indicate a generic type (a map or
+	 * tuple-like type) shall be used.
 	 * @return
 	 */
 	@Nullable
@@ -127,7 +122,6 @@ public abstract class ReturnedType {
 
 	/**
 	 * Returns the properties required to be used to populate the result.
-	 *
 	 * @return
 	 */
 	public abstract List<String> getInputProperties();
@@ -141,11 +135,12 @@ public abstract class ReturnedType {
 	private static final class ReturnedInterface extends ReturnedType {
 
 		private final ProjectionInformation information;
+
 		private final Class<?> domainType;
 
 		/**
-		 * Creates a new {@link ReturnedInterface} from the given {@link ProjectionInformation} and domain type.
-		 *
+		 * Creates a new {@link ReturnedInterface} from the given
+		 * {@link ProjectionInformation} and domain type.
 		 * @param information must not be {@literal null}.
 		 * @param domainType must not be {@literal null}.
 		 */
@@ -158,22 +153,27 @@ public abstract class ReturnedType {
 			this.information = information;
 			this.domainType = domainType;
 		}
+
 		@Override
 		public Class<?> getReturnedType() {
 			return this.information.getType();
 		}
+
 		public boolean needsCustomConstruction() {
 			return isProjecting() && this.information.isClosed();
 		}
+
 		@Override
 		public boolean isProjecting() {
 			return !this.information.getType().isAssignableFrom(this.domainType);
 		}
+
 		@Nullable
 		@Override
 		public Class<?> getTypeToRead() {
 			return isProjecting() && this.information.isClosed() ? null : this.domainType;
 		}
+
 		@Override
 		public List<String> getInputProperties() {
 
@@ -187,6 +187,7 @@ public abstract class ReturnedType {
 
 			return properties;
 		}
+
 	}
 
 	/**
@@ -200,11 +201,12 @@ public abstract class ReturnedType {
 		private static final Set<Class<?>> VOID_TYPES = new HashSet<>(Arrays.asList(Void.class, void.class));
 
 		private final Class<?> type;
+
 		private final List<String> inputProperties;
 
 		/**
-		 * Creates a new {@link ReturnedClass} instance for the given returned type and domain type.
-		 *
+		 * Creates a new {@link ReturnedClass} instance for the given returned type and
+		 * domain type.
 		 * @param returnedType must not be {@literal null}.
 		 * @param domainType must not be {@literal null}.
 		 */
@@ -219,21 +221,26 @@ public abstract class ReturnedType {
 			this.type = returnedType;
 			this.inputProperties = detectConstructorParameterNames(returnedType);
 		}
+
 		@Override
 		public Class<?> getReturnedType() {
 			return this.type;
 		}
+
 		@Nonnull
 		public Class<?> getTypeToRead() {
 			return this.type;
 		}
+
 		@Override
 		public boolean isProjecting() {
 			return isDto();
 		}
+
 		public boolean needsCustomConstruction() {
 			return isDto() && !this.inputProperties.isEmpty();
 		}
+
 		@Override
 		public List<String> getInputProperties() {
 			return this.inputProperties;
@@ -277,11 +284,13 @@ public abstract class ReturnedType {
 		private boolean isPrimitiveOrWrapper() {
 			return ClassUtils.isPrimitiveOrWrapper(this.type);
 		}
+
 	}
 
 	private static final class CacheKey {
 
 		private final Class<?> returnedType, domainType;
+
 		private final int projectionFactoryHashCode;
 
 		private CacheKey(Class<?> returnedType, Class<?> domainType, int projectionFactoryHashCode) {
@@ -306,6 +315,7 @@ public abstract class ReturnedType {
 		public int getProjectionFactoryHashCode() {
 			return this.projectionFactoryHashCode;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -329,6 +339,7 @@ public abstract class ReturnedType {
 
 			return ObjectUtils.nullSafeEquals(this.domainType, cacheKey.domainType);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.returnedType);
@@ -336,10 +347,13 @@ public abstract class ReturnedType {
 			result = 31 * result + this.projectionFactoryHashCode;
 			return result;
 		}
+
 		@Override
 		public String toString() {
-			return "ReturnedType.CacheKey(returnedType=" + this.getReturnedType() + ", domainType=" + this.getDomainType()
-					+ ", projectionFactoryHashCode=" + this.getProjectionFactoryHashCode() + ")";
+			return "ReturnedType.CacheKey(returnedType=" + this.getReturnedType() + ", domainType="
+					+ this.getDomainType() + ", projectionFactoryHashCode=" + this.getProjectionFactoryHashCode() + ")";
 		}
+
 	}
+
 }

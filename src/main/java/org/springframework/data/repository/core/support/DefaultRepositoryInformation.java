@@ -48,13 +48,16 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	private final Map<Method, Method> methodCache = new ConcurrentHashMap<>();
 
 	private final RepositoryMetadata metadata;
+
 	private final Class<?> repositoryBaseClass;
+
 	private final RepositoryComposition composition;
+
 	private final RepositoryComposition baseComposition;
 
 	/**
-	 * Creates a new {@link DefaultRepositoryMetadata} for the given repository interface and repository base class.
-	 *
+	 * Creates a new {@link DefaultRepositoryMetadata} for the given repository interface
+	 * and repository base class.
 	 * @param metadata must not be {@literal null}.
 	 * @param repositoryBaseClass must not be {@literal null}.
 	 * @param composition must not be {@literal null}.
@@ -73,18 +76,22 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 				.withArgumentConverter(composition.getArgumentConverter()) //
 				.withMethodLookup(composition.getMethodLookup());
 	}
+
 	@Override
 	public Class<?> getDomainType() {
 		return this.metadata.getDomainType();
 	}
+
 	@Override
 	public Class<?> getIdType() {
 		return this.metadata.getIdType();
 	}
+
 	@Override
 	public Class<?> getRepositoryBaseClass() {
 		return this.repositoryBaseClass;
 	}
+
 	@Override
 	public Method getTargetClassMethod(Method method) {
 
@@ -110,6 +117,7 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 		this.methodCache.put(key, value);
 		return value;
 	}
+
 	@Override
 	public Streamable<Method> getQueryMethods() {
 
@@ -127,7 +135,6 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 
 	/**
 	 * Checks whether the given method is a query method candidate.
-	 *
 	 * @param method
 	 * @return
 	 */
@@ -138,9 +145,9 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	}
 
 	/**
-	 * Checks whether the given method contains a custom store specific query annotation annotated with
-	 * {@link QueryAnnotation}. The method-hierarchy is also considered in the search for the annotation.
-	 *
+	 * Checks whether the given method contains a custom store specific query annotation
+	 * annotated with {@link QueryAnnotation}. The method-hierarchy is also considered in
+	 * the search for the annotation.
 	 * @param method
 	 * @return
 	 */
@@ -148,20 +155,24 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 
 		return AnnotationUtils.findAnnotation(method, QueryAnnotation.class) != null;
 	}
+
 	@Override
 	public boolean isCustomMethod(Method method) {
 		return this.composition.getMethod(method) != null;
 	}
+
 	@Override
 	public boolean isQueryMethod(Method method) {
 		return getQueryMethods().stream().anyMatch(it -> it.equals(method));
 	}
+
 	@Override
 	public boolean isBaseClassMethod(Method method) {
 
 		Assert.notNull(method, "Method must not be null!");
 		return this.baseComposition.getMethod(method) != null;
 	}
+
 	@Override
 	public boolean hasCustomMethod() {
 
@@ -180,28 +191,35 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 
 		return false;
 	}
+
 	@Override
 	public Class<?> getRepositoryInterface() {
 		return this.metadata.getRepositoryInterface();
 	}
+
 	@Override
 	public Class<?> getReturnedDomainClass(Method method) {
 		return this.metadata.getReturnedDomainClass(method);
 	}
+
 	@Override
 	public CrudMethods getCrudMethods() {
 		return this.metadata.getCrudMethods();
 	}
+
 	@Override
 	public boolean isPagingRepository() {
 		return this.metadata.isPagingRepository();
 	}
+
 	@Override
 	public Set<Class<?>> getAlternativeDomainTypes() {
 		return this.metadata.getAlternativeDomainTypes();
 	}
+
 	@Override
 	public boolean isReactiveRepository() {
 		return this.metadata.isReactiveRepository();
 	}
+
 }

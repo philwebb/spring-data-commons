@@ -43,4 +43,5 @@ class TypeAliasUnitTests {
 	static class SampleType {
 
 	}
+
 }

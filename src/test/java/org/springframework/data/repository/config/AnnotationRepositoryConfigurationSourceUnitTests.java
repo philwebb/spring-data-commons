@@ -46,8 +46,11 @@ import org.springframework.data.util.Streamable;
 class AnnotationRepositoryConfigurationSourceUnitTests {
 
 	RepositoryConfigurationSource source;
+
 	Environment environment;
+
 	ResourceLoader resourceLoader;
+
 	BeanDefinitionRegistry registry;
 
 	@BeforeEach
@@ -58,8 +61,8 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 		this.resourceLoader = new DefaultResourceLoader();
 		this.registry = mock(BeanDefinitionRegistry.class);
 
-		this.source = new AnnotationRepositoryConfigurationSource(annotationMetadata, EnableRepositories.class, this.resourceLoader,
-				this.environment, this.registry);
+		this.source = new AnnotationRepositoryConfigurationSource(annotationMetadata, EnableRepositories.class,
+				this.resourceLoader, this.environment, this.registry);
 	}
 
 	@Test // DATACMNS-47
@@ -100,7 +103,8 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 	@Test // DATACMNS-90
 	void returnsConsiderNestedRepositories() {
 
-		AnnotationRepositoryConfigurationSource source = getConfigSource(DefaultConfigurationWithNestedRepositories.class);
+		AnnotationRepositoryConfigurationSource source = getConfigSource(
+				DefaultConfigurationWithNestedRepositories.class);
 		assertThat(source.shouldConsiderNestedRepositories()).isTrue();
 	}
 
@@ -170,23 +174,33 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 	private AnnotationRepositoryConfigurationSource getConfigSource(Class<?> type) {
 
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(type, true);
-		return new AnnotationRepositoryConfigurationSource(metadata, EnableRepositories.class, this.resourceLoader, this.environment,
-				this.registry);
+		return new AnnotationRepositoryConfigurationSource(metadata, EnableRepositories.class, this.resourceLoader,
+				this.environment, this.registry);
 	}
 
-	static class Person {}
+	static class Person {
+
+	}
 
 	@EnableRepositories
-	static class DefaultConfiguration {}
+	static class DefaultConfiguration {
+
+	}
 
 	@EnableRepositories(basePackages = "foo", namedQueriesLocation = "bar")
-	static class DefaultConfigurationWithBasePackage {}
+	static class DefaultConfigurationWithBasePackage {
+
+	}
 
 	@EnableRepositories(considerNestedRepositories = true)
-	static class DefaultConfigurationWithNestedRepositories {}
+	static class DefaultConfigurationWithNestedRepositories {
+
+	}
 
 	@EnableRepositories(excludeFilters = { @Filter(Primary.class) })
-	static class ConfigurationWithExplicitFilter {}
+	static class ConfigurationWithExplicitFilter {
+
+	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface SampleAnnotation {
@@ -194,8 +208,12 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 		Filter[] includeFilters() default {};
 
 		Filter[] excludeFilters() default {};
+
 	}
 
 	@SampleAnnotation
-	static class ConfigWithSampleAnnotation {}
+	static class ConfigWithSampleAnnotation {
+
+	}
+
 }

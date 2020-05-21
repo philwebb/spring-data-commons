@@ -33,7 +33,6 @@ public class PageRequest extends AbstractPageRequest {
 
 	/**
 	 * Creates a new {@link PageRequest} with sort parameters applied.
-	 *
 	 * @param page zero-based page index, must not be negative.
 	 * @param size the size of the page to be returned, must be greater than 0.
 	 * @param sort must not be {@literal null}, use {@link Sort#unsorted()} instead.
@@ -49,7 +48,6 @@ public class PageRequest extends AbstractPageRequest {
 
 	/**
 	 * Creates a new unsorted {@link PageRequest}.
-	 *
 	 * @param page zero-based page index, must not be negative.
 	 * @param size the size of the page to be returned, must be greater than 0.
 	 * @since 2.0
@@ -60,7 +58,6 @@ public class PageRequest extends AbstractPageRequest {
 
 	/**
 	 * Creates a new {@link PageRequest} with sort parameters applied.
-	 *
 	 * @param page zero-based page index.
 	 * @param size the size of the page to be returned.
 	 * @param sort must not be {@literal null}, use {@link Sort#unsorted()} instead.
@@ -72,7 +69,6 @@ public class PageRequest extends AbstractPageRequest {
 
 	/**
 	 * Creates a new {@link PageRequest} with sort direction and properties applied.
-	 *
 	 * @param page zero-based page index, must not be negative.
 	 * @param size the size of the page to be returned, must be greater than 0.
 	 * @param direction must not be {@literal null}.
@@ -82,21 +78,26 @@ public class PageRequest extends AbstractPageRequest {
 	public static PageRequest of(int page, int size, Direction direction, String... properties) {
 		return of(page, size, Sort.by(direction, properties));
 	}
+
 	public Sort getSort() {
 		return this.sort;
 	}
+
 	@Override
 	public Pageable next() {
 		return new PageRequest(getPageNumber() + 1, getPageSize(), getSort());
 	}
+
 	@Override
 	public PageRequest previous() {
 		return getPageNumber() == 0 ? this : new PageRequest(getPageNumber() - 1, getPageSize(), getSort());
 	}
+
 	@Override
 	public Pageable first() {
 		return new PageRequest(0, getPageSize(), getSort());
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -112,12 +113,15 @@ public class PageRequest extends AbstractPageRequest {
 
 		return super.equals(that) && this.sort.equals(that.sort);
 	}
+
 	@Override
 	public int hashCode() {
 		return 31 * super.hashCode() + this.sort.hashCode();
 	}
+
 	@Override
 	public String toString() {
 		return String.format("Page request [number: %d, size %d, sort: %s]", getPageNumber(), getPageSize(), this.sort);
 	}
+
 }

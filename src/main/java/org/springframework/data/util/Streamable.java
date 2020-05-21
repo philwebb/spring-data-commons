@@ -43,7 +43,6 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 
 	/**
 	 * Returns an empty {@link Streamable}.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	static <T> Streamable<T> empty() {
@@ -52,7 +51,6 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 
 	/**
 	 * Returns a {@link Streamable} with the given elements.
-	 *
 	 * @param t the elements to return.
 	 * @return
 	 */
@@ -63,7 +61,6 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 
 	/**
 	 * Returns a {@link Streamable} for the given {@link Iterable}.
-	 *
 	 * @param iterable must not be {@literal null}.
 	 * @return
 	 */
@@ -80,7 +77,6 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 
 	/**
 	 * Creates a non-parallel {@link Stream} of the underlying {@link Iterable}.
-	 *
 	 * @return will never be {@literal null}.
 	 */
 	default Stream<T> stream() {
@@ -88,8 +84,8 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	}
 
 	/**
-	 * Returns a new {@link Streamable} that will apply the given {@link Function} to the current one.
-	 *
+	 * Returns a new {@link Streamable} that will apply the given {@link Function} to the
+	 * current one.
 	 * @param mapper must not be {@literal null}.
 	 * @return
 	 * @see Stream#map(Function)
@@ -102,8 +98,8 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	}
 
 	/**
-	 * Returns a new {@link Streamable} that will apply the given {@link Function} to the current one.
-	 *
+	 * Returns a new {@link Streamable} that will apply the given {@link Function} to the
+	 * current one.
 	 * @param mapper must not be {@literal null}.
 	 * @return
 	 * @see Stream#flatMap(Function)
@@ -116,8 +112,8 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	}
 
 	/**
-	 * Returns a new {@link Streamable} that will apply the given filter {@link Predicate} to the current one.
-	 *
+	 * Returns a new {@link Streamable} that will apply the given filter {@link Predicate}
+	 * to the current one.
 	 * @param predicate must not be {@literal null}.
 	 * @return
 	 * @see Stream#filter(Predicate)
@@ -131,7 +127,6 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 
 	/**
 	 * Returns whether the current {@link Streamable} is empty.
-	 * 
 	 * @return
 	 */
 	default boolean isEmpty() {
@@ -139,8 +134,8 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	}
 
 	/**
-	 * Creates a new {@link Streamable} from the current one and the given {@link Stream} concatenated.
-	 * 
+	 * Creates a new {@link Streamable} from the current one and the given {@link Stream}
+	 * concatenated.
 	 * @param stream must not be {@literal null}.
 	 * @return
 	 * @since 2.1
@@ -153,8 +148,8 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	}
 
 	/**
-	 * Creates a new {@link Streamable} from the current one and the given values concatenated.
-	 * 
+	 * Creates a new {@link Streamable} from the current one and the given values
+	 * concatenated.
 	 * @param others must not be {@literal null}.
 	 * @return will never be {@literal null}.
 	 * @since 2.2
@@ -168,8 +163,8 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	}
 
 	/**
-	 * Creates a new {@link Streamable} from the current one and the given {@link Iterable} concatenated.
-	 * 
+	 * Creates a new {@link Streamable} from the current one and the given
+	 * {@link Iterable} concatenated.
 	 * @param iterable must not be {@literal null}.
 	 * @return will never be {@literal null}.
 	 * @since 2.2
@@ -182,9 +177,8 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	}
 
 	/**
-	 * Convenience method to allow adding a {@link Streamable} directly as otherwise the invocation is ambiguous between
-	 * {@link #and(Iterable)} and {@link #and(Supplier)}.
-	 * 
+	 * Convenience method to allow adding a {@link Streamable} directly as otherwise the
+	 * invocation is ambiguous between {@link #and(Iterable)} and {@link #and(Supplier)}.
 	 * @param streamable must not be {@literal null}.
 	 * @return will never be {@literal null}.
 	 * @since 2.2
@@ -195,7 +189,6 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 
 	/**
 	 * Creates a new, unmodifiable {@link List}.
-	 * 
 	 * @return will never be {@literal null}.
 	 * @since 2.2
 	 */
@@ -205,21 +198,20 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 
 	/**
 	 * Creates a new, unmodifiable {@link Set}.
-	 * 
 	 * @return will never be {@literal null}.
 	 * @since 2.2
 	 */
 	default Set<T> toSet() {
 		return stream().collect(StreamUtils.toUnmodifiableSet());
 	}
+
 	default Stream<T> get() {
 		return stream();
 	}
 
 	/**
-	 * A collector to easily produce a {@link Streamable} from a {@link Stream} using {@link Collectors#toList} as
-	 * intermediate collector.
-	 * 
+	 * A collector to easily produce a {@link Streamable} from a {@link Stream} using
+	 * {@link Collectors#toList} as intermediate collector.
 	 * @return
 	 * @see #toStreamable(Collector)
 	 * @since 2.2
@@ -229,8 +221,8 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	}
 
 	/**
-	 * A collector to easily produce a {@link Streamable} from a {@link Stream} and the given intermediate collector.
-	 * 
+	 * A collector to easily produce a {@link Streamable} from a {@link Stream} and the
+	 * given intermediate collector.
 	 * @return
 	 * @since 2.2
 	 */
@@ -244,4 +236,5 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 				(BinaryOperator<T>) intermediate.combiner(), //
 				Streamable::of);
 	}
+
 }

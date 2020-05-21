@@ -25,25 +25,27 @@ import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.util.Assert;
 
 /**
- * Simple helper to allow lenient lookup of beans of a given type from a {@link ListableBeanFactory}. This is not user
- * facing API but a mere helper for Spring Data configuration code.
+ * Simple helper to allow lenient lookup of beans of a given type from a
+ * {@link ListableBeanFactory}. This is not user facing API but a mere helper for Spring
+ * Data configuration code.
  *
  * @author Oliver Gierke
  * @since 2.1
  */
 public abstract class BeanLookup {
 
-	private BeanLookup() {}
+	private BeanLookup() {
+	}
 
 	/**
-	 * Returns a {@link Lazy} for the unique bean of the given type from the given {@link BeanFactory} (which needs to be
-	 * a {@link ListableBeanFactory}). The lookup will produce a {@link NoUniqueBeanDefinitionException} in case multiple
-	 * beans of the given type are available in the given {@link BeanFactory}.
-	 *
+	 * Returns a {@link Lazy} for the unique bean of the given type from the given
+	 * {@link BeanFactory} (which needs to be a {@link ListableBeanFactory}). The lookup
+	 * will produce a {@link NoUniqueBeanDefinitionException} in case multiple beans of
+	 * the given type are available in the given {@link BeanFactory}.
 	 * @param type must not be {@literal null}.
 	 * @param beanFactory the {@link BeanFactory} to lookup the bean from.
-	 * @return a {@link Lazy} for the unique bean of the given type or the instance provided by the fallback in case no
-	 *         bean of the given type can be found.
+	 * @return a {@link Lazy} for the unique bean of the given type or the instance
+	 * provided by the fallback in case no bean of the given type can be found.
 	 */
 	public static <T> Lazy<T> lazyIfAvailable(Class<T> type, BeanFactory beanFactory) {
 
@@ -54,8 +56,8 @@ public abstract class BeanLookup {
 	}
 
 	/**
-	 * Looks up the unique bean of the given type from the given {@link ListableBeanFactory}.
-	 *
+	 * Looks up the unique bean of the given type from the given
+	 * {@link ListableBeanFactory}.
 	 * @param type must not be {@literal null}.
 	 * @param beanFactory must not be {@literal null}.
 	 * @return
@@ -67,12 +69,13 @@ public abstract class BeanLookup {
 
 		switch (names.size()) {
 
-			case 0:
-				return null;
-			case 1:
-				return names.values().iterator().next();
-			default:
-				throw new NoUniqueBeanDefinitionException(type, names.keySet());
+		case 0:
+			return null;
+		case 1:
+			return names.values().iterator().next();
+		default:
+			throw new NoUniqueBeanDefinitionException(type, names.keySet());
 		}
 	}
+
 }

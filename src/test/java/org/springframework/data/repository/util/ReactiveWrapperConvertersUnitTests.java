@@ -261,4 +261,5 @@ class ReactiveWrapperConvertersUnitTests {
 		io.reactivex.Flowable<Long> map = ReactiveWrapperConverters.map(foo, source -> 1L);
 		assertThat(map.blockingFirst()).isEqualTo(1L);
 	}
+
 }

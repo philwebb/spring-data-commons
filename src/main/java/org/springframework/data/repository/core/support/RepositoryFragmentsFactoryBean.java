@@ -29,9 +29,9 @@ import org.springframework.data.repository.core.support.RepositoryComposition.Re
 import org.springframework.util.Assert;
 
 /**
- * Factory bean for creation of {@link RepositoryFragments}. This {@link FactoryBean} uses named
- * {@link #RepositoryFragmentsFactoryBean(List) bean references} to look up {@link RepositoryFragment} beans and
- * construct {@link RepositoryFragments}.
+ * Factory bean for creation of {@link RepositoryFragments}. This {@link FactoryBean} uses
+ * named {@link #RepositoryFragmentsFactoryBean(List) bean references} to look up
+ * {@link RepositoryFragment} beans and construct {@link RepositoryFragments}.
  *
  * @author Mark Paluch
  * @since 2.0
@@ -42,11 +42,12 @@ public class RepositoryFragmentsFactoryBean<T>
 	private final List<String> fragmentBeanNames;
 
 	private BeanFactory beanFactory;
+
 	private RepositoryFragments repositoryFragments = RepositoryFragments.empty();
 
 	/**
-	 * Creates a new {@link RepositoryFragmentsFactoryBean} given {@code fragmentBeanNames}.
-	 *
+	 * Creates a new {@link RepositoryFragmentsFactoryBean} given
+	 * {@code fragmentBeanNames}.
 	 * @param fragmentBeanNames must not be {@literal null}.
 	 */
 	@SuppressWarnings("null")
@@ -55,10 +56,12 @@ public class RepositoryFragmentsFactoryBean<T>
 		Assert.notNull(fragmentBeanNames, "Fragment bean names must not be null!");
 		this.fragmentBeanNames = fragmentBeanNames;
 	}
+
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
 	}
+
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void afterPropertiesSet() {
@@ -69,14 +72,17 @@ public class RepositoryFragmentsFactoryBean<T>
 
 		this.repositoryFragments = RepositoryFragments.from(fragments);
 	}
+
 	@Nonnull
 	@Override
 	public RepositoryFragments getObject() throws Exception {
 		return this.repositoryFragments;
 	}
+
 	@Nonnull
 	@Override
 	public Class<?> getObjectType() {
 		return RepositoryComposition.class;
 	}
+
 }

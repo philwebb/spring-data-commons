@@ -21,4 +21,5 @@ public interface CastUtils {
 	public static <T> T cast(Object object) {
 		return (T) object;
 	}
+
 }

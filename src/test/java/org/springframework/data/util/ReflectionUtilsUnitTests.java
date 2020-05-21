@@ -37,7 +37,9 @@ import org.springframework.util.ReflectionUtils.FieldFilter;
  */
 public class ReflectionUtilsUnitTests {
 
-	@SuppressWarnings("rawtypes") Constructor constructor;
+	@SuppressWarnings("rawtypes")
+	Constructor constructor;
+
 	Field reference;
 
 	@BeforeEach
@@ -62,8 +64,8 @@ public class ReflectionUtilsUnitTests {
 
 	@Test
 	public void rejectsNonUniqueField() {
-		assertThatIllegalStateException().isThrownBy(
-				() -> ReflectionUtils.findField(Sample.class, new ReflectionUtils.AnnotationFieldFilter(Autowired.class)));
+		assertThatIllegalStateException().isThrownBy(() -> ReflectionUtils.findField(Sample.class,
+				new ReflectionUtils.AnnotationFieldFilter(Autowired.class)));
 	}
 
 	@Test
@@ -123,14 +125,16 @@ public class ReflectionUtilsUnitTests {
 	@Test // DATACMNS-1154
 	public void discoversNullableReturnType() throws Exception {
 
-		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("nullableReturnValue"), -1);
+		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("nullableReturnValue"),
+				-1);
 		assertThat(ReflectionUtils.isNullable(parameter)).isTrue();
 	}
 
 	@Test // DATACMNS-1154
 	public void discoversNonNullableReturnType() throws Exception {
 
-		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("mandatoryReturnValue"), -1);
+		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("mandatoryReturnValue"),
+				-1);
 		assertThat(ReflectionUtils.isNullable(parameter)).isFalse();
 	}
 
@@ -145,7 +149,8 @@ public class ReflectionUtilsUnitTests {
 	@Test // DATACMNS-1154
 	public void discoversNonNullablePrimitiveParameter() throws Exception {
 
-		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("primitive", int.class), 0);
+		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("primitive", int.class),
+				0);
 		assertThat(ReflectionUtils.isNullable(parameter)).isFalse();
 	}
 
@@ -167,7 +172,9 @@ public class ReflectionUtilsUnitTests {
 
 		public String field;
 
-		@Autowired String first, second;
+		@Autowired
+		String first, second;
+
 	}
 
 	static class FieldNameFieldFilter implements DescribedFieldFilter {
@@ -185,9 +192,14 @@ public class ReflectionUtilsUnitTests {
 		public String getDescription() {
 			return String.format("Filter for fields named %s", this.name);
 		}
+
 	}
 
 	static class ConstructorDetection {
-		public ConstructorDetection(int i, String string) {}
+
+		public ConstructorDetection(int i, String string) {
+		}
+
 	}
+
 }

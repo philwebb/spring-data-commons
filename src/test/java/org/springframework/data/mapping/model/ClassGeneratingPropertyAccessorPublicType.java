@@ -26,22 +26,34 @@ import org.springframework.data.annotation.AccessType.Type;
 public class ClassGeneratingPropertyAccessorPublicType {
 
 	private String privateField;
+
 	String packageDefaultField;
+
 	protected String protectedField;
+
 	public String publicField;
+
 	private String backing;
+
 	private final String immutable = "";
+
 	private final String wither;
+
 	private Integer aa;
+
 	private int bb;
 
-	@AccessType(Type.PROPERTY) private String privateProperty;
+	@AccessType(Type.PROPERTY)
+	private String privateProperty;
 
-	@AccessType(Type.PROPERTY) private String packageDefaultProperty;
+	@AccessType(Type.PROPERTY)
+	private String packageDefaultProperty;
 
-	@AccessType(Type.PROPERTY) private String protectedProperty;
+	@AccessType(Type.PROPERTY)
+	private String protectedProperty;
 
-	@AccessType(Type.PROPERTY) private String publicProperty;
+	@AccessType(Type.PROPERTY)
+	private String publicProperty;
 
 	public ClassGeneratingPropertyAccessorPublicType() {
 		this.wither = "";
@@ -108,5 +120,7 @@ public class ClassGeneratingPropertyAccessorPublicType {
 		return this.bb;
 	}
 
-	public static void main(String[] args) {}
+	public static void main(String[] args) {
+	}
+
 }

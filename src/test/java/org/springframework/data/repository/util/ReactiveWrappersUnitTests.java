@@ -79,4 +79,5 @@ class ReactiveWrappersUnitTests {
 		assertThat(ReactiveWrappers.isMultiValueType(Flowable.class)).isTrue();
 		assertThat(ReactiveWrappers.isMultiValueType(io.reactivex.Observable.class)).isTrue();
 	}
+
 }

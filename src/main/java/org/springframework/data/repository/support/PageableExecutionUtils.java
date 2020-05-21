@@ -24,8 +24,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.Assert;
 
 /**
- * Support for query execution using {@link Pageable}. Using {@link PageableExecutionUtils} assumes that data queries
- * are cheaper than {@code COUNT} queries and so some cases can take advantage of optimizations.
+ * Support for query execution using {@link Pageable}. Using
+ * {@link PageableExecutionUtils} assumes that data queries are cheaper than {@code COUNT}
+ * queries and so some cases can take advantage of optimizations.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
@@ -34,13 +35,14 @@ import org.springframework.util.Assert;
  */
 public abstract class PageableExecutionUtils {
 
-	private PageableExecutionUtils() {}
+	private PageableExecutionUtils() {
+	}
 
 	/**
-	 * Constructs a {@link Page} based on the given {@code content}, {@link Pageable} and {@link Supplier} applying
-	 * optimizations. The construction of {@link Page} omits a count query if the total can be determined based on the
-	 * result size and {@link Pageable}.
-	 *
+	 * Constructs a {@link Page} based on the given {@code content}, {@link Pageable} and
+	 * {@link Supplier} applying optimizations. The construction of {@link Page} omits a
+	 * count query if the total can be determined based on the result size and
+	 * {@link Pageable}.
 	 * @param content must not be {@literal null}.
 	 * @param pageable must not be {@literal null}.
 	 * @param totalSupplier must not be {@literal null}.
@@ -67,4 +69,5 @@ public abstract class PageableExecutionUtils {
 
 		return new PageImpl<>(content, pageable, totalSupplier.getAsLong());
 	}
+
 }

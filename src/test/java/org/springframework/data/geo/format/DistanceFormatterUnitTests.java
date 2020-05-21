@@ -71,4 +71,5 @@ class DistanceFormatterUnitTests {
 	void parsesDistances(String source) throws ParseException {
 		assertThat(INSTANCE.parse(source, Locale.US)).isEqualTo(REFERENCE);
 	}
+
 }

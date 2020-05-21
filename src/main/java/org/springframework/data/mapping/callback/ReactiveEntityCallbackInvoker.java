@@ -39,4 +39,5 @@ interface ReactiveEntityCallbackInvoker extends EntityCallbackInvoker {
 	@Override
 	<T> Mono<T> invokeCallback(EntityCallback<T> callback, @Nullable T entity,
 			BiFunction<EntityCallback<T>, T, Object> callbackInvokerFunction);
+
 }

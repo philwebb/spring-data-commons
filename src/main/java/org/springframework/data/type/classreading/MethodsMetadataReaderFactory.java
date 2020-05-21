@@ -24,8 +24,8 @@ import org.springframework.data.type.MethodsMetadata;
 import org.springframework.lang.Nullable;
 
 /**
- * Extension of {@link SimpleMetadataReaderFactory} that reads {@link MethodsMetadata}, creating a new ASM
- * {@link MethodsMetadataReader} for every request.
+ * Extension of {@link SimpleMetadataReaderFactory} that reads {@link MethodsMetadata},
+ * creating a new ASM {@link MethodsMetadataReader} for every request.
  *
  * @author Mark Paluch
  * @since 2.1
@@ -35,31 +35,36 @@ public class MethodsMetadataReaderFactory extends SimpleMetadataReaderFactory {
 	/**
 	 * Create a new {@link MethodsMetadataReaderFactory} for the default class loader.
 	 */
-	public MethodsMetadataReaderFactory() {}
+	public MethodsMetadataReaderFactory() {
+	}
 
 	/**
-	 * Create a new {@link MethodsMetadataReaderFactory} for the given {@link ResourceLoader}.
-	 *
-	 * @param resourceLoader the Spring {@link ResourceLoader} to use (also determines the {@link ClassLoader} to use).
+	 * Create a new {@link MethodsMetadataReaderFactory} for the given
+	 * {@link ResourceLoader}.
+	 * @param resourceLoader the Spring {@link ResourceLoader} to use (also determines the
+	 * {@link ClassLoader} to use).
 	 */
 	public MethodsMetadataReaderFactory(@Nullable ResourceLoader resourceLoader) {
 		super(resourceLoader);
 	}
 
 	/**
-	 * Create a new {@link MethodsMetadataReaderFactory} for the given {@link ClassLoader}.
-	 *
+	 * Create a new {@link MethodsMetadataReaderFactory} for the given
+	 * {@link ClassLoader}.
 	 * @param classLoader the class loader to use.
 	 */
 	public MethodsMetadataReaderFactory(@Nullable ClassLoader classLoader) {
 		super(classLoader);
 	}
+
 	@Override
 	public MethodsMetadataReader getMetadataReader(String className) throws IOException {
 		return (MethodsMetadataReader) super.getMetadataReader(className);
 	}
+
 	@Override
 	public MethodsMetadataReader getMetadataReader(Resource resource) throws IOException {
 		return new DefaultMethodsMetadataReader(resource, getResourceLoader().getClassLoader());
 	}
+
 }

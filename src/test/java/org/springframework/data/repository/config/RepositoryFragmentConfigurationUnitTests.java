@@ -36,4 +36,5 @@ class RepositoryFragmentConfigurationUnitTests {
 	private static String getImplementationBeanName(String className) {
 		return new RepositoryFragmentConfiguration("interface", className).getImplementationBeanName();
 	}
+
 }

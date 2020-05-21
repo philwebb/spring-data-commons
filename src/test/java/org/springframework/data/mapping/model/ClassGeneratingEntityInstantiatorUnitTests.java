@@ -54,8 +54,11 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	ClassGeneratingEntityInstantiator instance = new ClassGeneratingEntityInstantiator();
 
-	@Mock PersistentEntity<?, P> entity;
-	@Mock ParameterValueProvider<P> provider;
+	@Mock
+	PersistentEntity<?, P> entity;
+
+	@Mock
+	ParameterValueProvider<P> provider;
 
 	@Test
 	void instantiatesSimpleObjectCorrectly() {
@@ -83,8 +86,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 		assertThat(this.instance.createInstance(this.entity, this.provider)).isInstanceOf(Foo.class);
 
-		assertThat(constructor)
-				.satisfies(it -> verify(this.provider, times(1)).getParameterValue(it.getParameters().iterator().next()));
+		assertThat(constructor).satisfies(
+				it -> verify(this.provider, times(1)).getParameterValue(it.getParameters().iterator().next()));
 	}
 
 	@Test // DATACMNS-300, DATACMNS-578
@@ -112,7 +115,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 			assertThat(instance).isNotNull();
 
-			// Hack to check synthetic field as compiles create different field names (e.g. this$0, this$1)
+			// Hack to check synthetic field as compiles create different field names
+			// (e.g. this$0, this$1)
 			ReflectionUtils.doWithFields(Inner.class, field -> {
 				if (field.isSynthetic() && field.getName().startsWith("this$")) {
 					ReflectionUtils.makeAccessible(field);
@@ -138,7 +142,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 			this.instance.createInstance(entity, this.provider);
 			fail("Expected MappingInstantiationException!");
 
-		} catch (MappingInstantiationException o_O) {
+		}
+		catch (MappingInstantiationException o_O) {
 
 			assertThat(o_O.getConstructor()).hasValue(constructor);
 			assertThat(o_O.getConstructorArguments()).isEqualTo(parameters);
@@ -170,7 +175,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 				}
 
 				if (parameter.getName().equals("sample")) {
-					return (T) ClassGeneratingEntityInstantiatorUnitTests.this.instance.createInstance(inner, ClassGeneratingEntityInstantiatorUnitTests.this.provider);
+					return (T) ClassGeneratingEntityInstantiatorUnitTests.this.instance.createInstance(inner,
+							ClassGeneratingEntityInstantiatorUnitTests.this.provider);
 				}
 
 				throw new UnsupportedOperationException(parameter.getName());
@@ -192,8 +198,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 		doReturn(PreferredConstructorDiscoverer.discover(ObjCtorDefault.class))//
 				.when(this.entity).getPersistenceConstructor();
 
-		IntStream.range(0, 2)
-				.forEach(i -> assertThat(this.instance.createInstance(this.entity, this.provider)).isInstanceOf(ObjCtorDefault.class));
+		IntStream.range(0, 2).forEach(i -> assertThat(this.instance.createInstance(this.entity, this.provider))
+				.isInstanceOf(ObjCtorDefault.class));
 	}
 
 	@Test // DATACMNS-578, DATACMNS-1126
@@ -322,7 +328,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 		prepareMocks(PackagePrivateInnerClass.class);
 
 		assertThat(this.instance.shouldUseReflectionEntityInstantiator(this.entity)).isFalse();
-		assertThat(this.instance.createInstance(this.entity, this.provider)).isInstanceOf(PackagePrivateInnerClass.class);
+		assertThat(this.instance.createInstance(this.entity, this.provider))
+				.isInstanceOf(PackagePrivateInnerClass.class);
 	}
 
 	@Test // DATACMNS-1373
@@ -339,7 +346,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 		prepareMocks(ClassWithPackagePrivateConstructor.class);
 
 		assertThat(this.instance.shouldUseReflectionEntityInstantiator(this.entity)).isFalse();
-		assertThat(this.instance.createInstance(this.entity, this.provider)).isInstanceOf(ClassWithPackagePrivateConstructor.class);
+		assertThat(this.instance.createInstance(this.entity, this.provider))
+				.isInstanceOf(ClassWithPackagePrivateConstructor.class);
 	}
 
 	@Test // DATACMNS-1373
@@ -386,6 +394,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 		Foo(String foo) {
 
 		}
+
 	}
 
 	static class Outer {
@@ -393,11 +402,13 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 		class Inner {
 
 		}
+
 	}
 
 	static class Sample {
 
 		final Long id;
+
 		final String name;
 
 		public Sample(Long id, String name) {
@@ -405,11 +416,13 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 			this.id = id;
 			this.name = name;
 		}
+
 	}
 
 	static class SampleWithReference {
 
 		final Long id;
+
 		final Sample sample;
 
 		public SampleWithReference(Long id, Sample sample) {
@@ -417,12 +430,15 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 			this.id = id;
 			this.sample = sample;
 		}
+
 	}
 
 	/**
 	 * @author Thomas Darimont
 	 */
-	public static class ObjCtorDefault {}
+	public static class ObjCtorDefault {
+
+	}
 
 	/**
 	 * @author Thomas Darimont
@@ -434,6 +450,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 		public ObjCtorNoArgs() {
 			this.ctorInvoked = true;
 		}
+
 	}
 
 	/**
@@ -442,12 +459,14 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 	public static class ObjCtor1ParamString {
 
 		public boolean ctorInvoked;
+
 		public String param1;
 
 		public ObjCtor1ParamString(String param1) {
 			this.param1 = param1;
 			this.ctorInvoked = true;
 		}
+
 	}
 
 	/**
@@ -456,7 +475,9 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 	public static class ObjCtor2ParamStringString {
 
 		public boolean ctorInvoked;
+
 		public String param1;
+
 		public String param2;
 
 		public ObjCtor2ParamStringString(String param1, String param2) {
@@ -464,6 +485,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 			this.param1 = param1;
 			this.param2 = param2;
 		}
+
 	}
 
 	/**
@@ -476,6 +498,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 		public ObjectCtor1ParamInt(int param1) {
 			this.param1 = param1;
 		}
+
 	}
 
 	/**
@@ -484,15 +507,21 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 	public static class ObjectCtor7ParamsString5IntsString {
 
 		public String param1;
+
 		public int param2;
+
 		public int param3;
+
 		public int param4;
+
 		public int param5;
+
 		public int param6;
+
 		public String param7;
 
-		public ObjectCtor7ParamsString5IntsString(String param1, int param2, int param3, int param4, int param5, int param6,
-				String param7) {
+		public ObjectCtor7ParamsString5IntsString(String param1, int param2, int param3, int param4, int param5,
+				int param6, String param7) {
 			this.param1 = param1;
 			this.param2 = param2;
 			this.param3 = param3;
@@ -501,22 +530,33 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 			this.param6 = param6;
 			this.param7 = param7;
 		}
+
 	}
 
-	protected static class ProtectedInnerClass {}
+	protected static class ProtectedInnerClass {
 
-	static class PackagePrivateInnerClass {}
+	}
 
-	private static class PrivateInnerClass {}
+	static class PackagePrivateInnerClass {
+
+	}
+
+	private static class PrivateInnerClass {
+
+	}
 
 	static class ClassWithPrivateConstructor {
 
-		private ClassWithPrivateConstructor() {}
+		private ClassWithPrivateConstructor() {
+		}
+
 	}
 
 	static class ClassWithPackagePrivateConstructor {
 
-		ClassWithPackagePrivateConstructor() {}
+		ClassWithPackagePrivateConstructor() {
+		}
+
 	}
 
 }

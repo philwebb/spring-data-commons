@@ -35,8 +35,9 @@ import org.springframework.util.ConcurrentReferenceHashMap.ReferenceType;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Interceptor enforcing required return value and method parameter constraints declared on repository query methods.
- * Supports Kotlin nullability markers and JSR-305 Non-null annotations.
+ * Interceptor enforcing required return value and method parameter constraints declared
+ * on repository query methods. Supports Kotlin nullability markers and JSR-305 Non-null
+ * annotations.
  *
  * @author Mark Paluch
  * @since 2.0
@@ -47,13 +48,15 @@ import org.springframework.util.ObjectUtils;
 public class MethodInvocationValidator implements MethodInterceptor {
 
 	private final ParameterNameDiscoverer discoverer = new DefaultParameterNameDiscoverer();
+
 	private final Map<Method, Nullability> nullabilityCache = new ConcurrentReferenceHashMap<>(16, ReferenceType.WEAK);
 
 	/**
-	 * Returns {@literal true} if the {@code repositoryInterface} is supported by this interceptor.
-	 *
+	 * Returns {@literal true} if the {@code repositoryInterface} is supported by this
+	 * interceptor.
 	 * @param repositoryInterface the interface class.
-	 * @return {@literal true} if the {@code repositoryInterface} is supported by this interceptor.
+	 * @return {@literal true} if the {@code repositoryInterface} is supported by this
+	 * interceptor.
 	 */
 	public static boolean supports(Class<?> repositoryInterface) {
 
@@ -61,6 +64,7 @@ public class MethodInvocationValidator implements MethodInterceptor {
 				|| NullableUtils.isNonNull(repositoryInterface, ElementType.METHOD)
 				|| NullableUtils.isNonNull(repositoryInterface, ElementType.PARAMETER);
 	}
+
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -101,7 +105,9 @@ public class MethodInvocationValidator implements MethodInterceptor {
 	static final class Nullability {
 
 		private final boolean nullableReturn;
+
 		private final boolean[] nullableParameters;
+
 		private final MethodParameter[] methodParameters;
 
 		private Nullability(boolean nullableReturn, boolean[] nullableParameters, MethodParameter[] methodParameters) {
@@ -165,6 +171,7 @@ public class MethodInvocationValidator implements MethodInterceptor {
 		public MethodParameter[] getMethodParameters() {
 			return this.methodParameters;
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -188,6 +195,7 @@ public class MethodInvocationValidator implements MethodInterceptor {
 
 			return ObjectUtils.nullSafeEquals(this.methodParameters, that.methodParameters);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = (this.nullableReturn ? 1 : 0);
@@ -195,11 +203,14 @@ public class MethodInvocationValidator implements MethodInterceptor {
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.methodParameters);
 			return result;
 		}
+
 		@Override
 		public String toString() {
-			return "MethodInvocationValidator.Nullability(nullableReturn=" + this.isNullableReturn() + ", nullableParameters="
-					+ java.util.Arrays.toString(this.getNullableParameters()) + ", methodParameters="
-					+ java.util.Arrays.deepToString(this.getMethodParameters()) + ")";
+			return "MethodInvocationValidator.Nullability(nullableReturn=" + this.isNullableReturn()
+					+ ", nullableParameters=" + java.util.Arrays.toString(this.getNullableParameters())
+					+ ", methodParameters=" + java.util.Arrays.deepToString(this.getMethodParameters()) + ")";
 		}
+
 	}
+
 }

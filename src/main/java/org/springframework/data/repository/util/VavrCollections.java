@@ -50,6 +50,7 @@ class VavrCollections {
 		public WrapperType getWrapperType() {
 			return WrapperType.multiValue(io.vavr.collection.Traversable.class);
 		}
+
 		@Nonnull
 		@Override
 		public Object convert(Object source) {
@@ -68,6 +69,7 @@ class VavrCollections {
 
 			throw new IllegalArgumentException("Unsupported Javaslang collection " + source.getClass());
 		}
+
 	}
 
 	public enum FromJavaConverter implements ConditionalGenericConverter {
@@ -81,7 +83,11 @@ class VavrCollections {
 
 			/*
 			 * (non-Javadoc)
-			 * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+			 * 
+			 * @see
+			 * org.springframework.core.convert.converter.ConditionalConverter#matches(org
+			 * .springframework.core.convert.TypeDescriptor,
+			 * org.springframework.core.convert.TypeDescriptor)
 			 */
 			@Override
 			public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -101,12 +107,17 @@ class VavrCollections {
 			}
 
 			/*
-			* (non-Javadoc)
-			* @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
-			*/
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.springframework.core.convert.converter.GenericConverter#convert(java.
+			 * lang.Object, org.springframework.core.convert.TypeDescriptor,
+			 * org.springframework.core.convert.TypeDescriptor)
+			 */
 			@Nullable
 			@Override
-			public Object convert(@Nullable Object source, TypeDescriptor sourceDescriptor, TypeDescriptor targetDescriptor) {
+			public Object convert(@Nullable Object source, TypeDescriptor sourceDescriptor,
+					TypeDescriptor targetDescriptor) {
 
 				Class<?> targetType = targetDescriptor.getType();
 
@@ -151,5 +162,7 @@ class VavrCollections {
 
 			CONVERTIBLE_PAIRS = Collections.unmodifiableSet(pairs);
 		}
+
 	}
+
 }

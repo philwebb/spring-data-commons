@@ -62,8 +62,8 @@ class PointFormatterUnitTests {
 	}
 
 	static Collection<String[]> parameters() {
-		return Arrays.asList(new String[] { "10.8,20.9" }, new String[] { " 10.8,20.9 " }, new String[] { " 10.8 ,20.9" },
-				new String[] { " 10.8, 20.9 " });
+		return Arrays.asList(new String[] { "10.8,20.9" }, new String[] { " 10.8,20.9 " },
+				new String[] { " 10.8 ,20.9" }, new String[] { " 10.8, 20.9 " });
 	}
 
 	@ParameterizedTest // DATAREST-279, DATACMNS-626
@@ -77,4 +77,5 @@ class PointFormatterUnitTests {
 	void parsesPoint(String source) throws ParseException {
 		assertThat(INSTANCE.parse(source, Locale.US)).isEqualTo(REFERENCE);
 	}
+
 }

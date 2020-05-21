@@ -41,7 +41,9 @@ public class UnmarshallingResourceReader implements ResourceReader {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.init.ResourceReader#readFrom(org.springframework.core.io.Resource, java.lang.ClassLoader)
+	 * 
+	 * @see org.springframework.data.repository.init.ResourceReader#readFrom(org.
+	 * springframework.core.io.Resource, java.lang.ClassLoader)
 	 */
 	public Object readFrom(Resource resource, @Nullable ClassLoader classLoader) throws IOException {
 
@@ -50,4 +52,5 @@ public class UnmarshallingResourceReader implements ResourceReader {
 		StreamSource source = new StreamSource(resource.getInputStream());
 		return this.unmarshaller.unmarshal(source);
 	}
+
 }

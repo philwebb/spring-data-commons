@@ -33,10 +33,12 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 /**
- * Base test class to test supporting of a {@link HandlerMethodArgumentResolver} implementation defaulting
- * {@link Pageable} method parameters. Expects the {@link HandlerMethodArgumentResolver} to be tested returned from
- * {@link #getResolver()} and expects methods to be present in the controller class returned from
- * {@link #getControllerClass()}. For sample usage see {@link PageableHandlerMethodArgumentResolver}.
+ * Base test class to test supporting of a {@link HandlerMethodArgumentResolver}
+ * implementation defaulting {@link Pageable} method parameters. Expects the
+ * {@link HandlerMethodArgumentResolver} to be tested returned from {@link #getResolver()}
+ * and expects methods to be present in the controller class returned from
+ * {@link #getControllerClass()}. For sample usage see
+ * {@link PageableHandlerMethodArgumentResolver}.
  *
  * @since 1.6
  * @author Oliver Gierke
@@ -60,7 +62,8 @@ abstract class PageableDefaultUnitTests {
 	@Test
 	void doesNotSupportNonPageable() {
 
-		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod", String.class);
+		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod",
+				String.class);
 		assertThat(getResolver().supportsParameter(parameter)).isFalse();
 	}
 
@@ -156,4 +159,5 @@ abstract class PageableDefaultUnitTests {
 	private static MethodParameter getParameterOfMethod(Class<?> controller, String name) {
 		return TestUtils.getParameterOfMethod(controller, name, Pageable.class);
 	}
+
 }

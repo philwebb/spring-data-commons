@@ -78,4 +78,5 @@ class SelectionSetUnitTests {
 
 		assertThat(selection.uniqueResult()).hasValue("one");
 	}
+
 }

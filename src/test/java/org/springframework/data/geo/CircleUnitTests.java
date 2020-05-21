@@ -56,7 +56,8 @@ class CircleUnitTests {
 	@Test // DATACMNS-437
 	void testToString() {
 
-		assertThat(new Circle(1, 1, 1).toString()).isEqualTo("Circle: [center=Point [x=1.000000, y=1.000000], radius=1.0]");
+		assertThat(new Circle(1, 1, 1).toString())
+				.isEqualTo("Circle: [center=Point [x=1.000000, y=1.000000], radius=1.0]");
 	}
 
 	@Test // DATACMNS-482
@@ -67,4 +68,5 @@ class CircleUnitTests {
 		Circle serialized = (Circle) SerializationUtils.deserialize(SerializationUtils.serialize(circle));
 		assertThat(serialized).isEqualTo(circle);
 	}
+
 }

@@ -131,7 +131,8 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-483
 	void turnsNullIntoGuavaOptional() {
-		assertThat(this.conversionService.convert(new NullableWrapper(null), Optional.class)).isEqualTo(Optional.absent());
+		assertThat(this.conversionService.convert(new NullableWrapper(null), Optional.class))
+				.isEqualTo(Optional.absent());
 	}
 
 	@Test // DATACMNS-483
@@ -144,7 +145,8 @@ class QueryExecutionConvertersUnitTests {
 	@SuppressWarnings("unchecked")
 	void turnsNullIntoCompletableFutureForNull() throws Exception {
 
-		CompletableFuture<Object> result = this.conversionService.convert(new NullableWrapper(null), CompletableFuture.class);
+		CompletableFuture<Object> result = this.conversionService.convert(new NullableWrapper(null),
+				CompletableFuture.class);
 
 		assertThat(result).isNotNull();
 		assertThat(result.isDone()).isTrue();
@@ -245,7 +247,8 @@ class QueryExecutionConvertersUnitTests {
 
 		Map<String, String> map = Collections.singletonMap("key", "value");
 
-		io.vavr.collection.Traversable<?> result = this.conversionService.convert(map, io.vavr.collection.Traversable.class);
+		io.vavr.collection.Traversable<?> result = this.conversionService.convert(map,
+				io.vavr.collection.Traversable.class);
 
 		assertThat(result).isInstanceOf(io.vavr.collection.Map.class);
 	}
@@ -375,13 +378,16 @@ class QueryExecutionConvertersUnitTests {
 		io.vavr.control.Try<Sample> vavrTryMethod();
 
 		io.vavr.control.Try<io.vavr.collection.Seq<Sample>> vavrTryForSeqMethod();
+
 	}
 
 	// DATACMNS-1430
 
 	@Value(staticConstructor = "of")
 	static class StreamableWrapper {
+
 		Streamable<String> streamable;
+
 	}
 
 	@Value
@@ -393,5 +399,7 @@ class QueryExecutionConvertersUnitTests {
 		public Iterator<T> iterator() {
 			return this.source.iterator();
 		}
+
 	}
+
 }

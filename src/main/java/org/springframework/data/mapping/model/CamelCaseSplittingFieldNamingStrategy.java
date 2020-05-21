@@ -24,8 +24,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Configurable {@link FieldNamingStrategy} that splits up camel-case property names and reconcatenates them using a
- * configured delimiter. Individual parts of the name can be manipulated using {@link #preparePart(String)}.
+ * Configurable {@link FieldNamingStrategy} that splits up camel-case property names and
+ * reconcatenates them using a configured delimiter. Individual parts of the name can be
+ * manipulated using {@link #preparePart(String)}.
  *
  * @author Oliver Gierke
  * @since 1.9
@@ -36,7 +37,6 @@ public class CamelCaseSplittingFieldNamingStrategy implements FieldNamingStrateg
 
 	/**
 	 * Creates a new {@link CamelCaseSplittingFieldNamingStrategy}.
-	 *
 	 * @param delimiter must not be {@literal null}.
 	 */
 	public CamelCaseSplittingFieldNamingStrategy(String delimiter) {
@@ -44,6 +44,7 @@ public class CamelCaseSplittingFieldNamingStrategy implements FieldNamingStrateg
 		Assert.notNull(delimiter, "Delimiter must not be null!");
 		this.delimiter = delimiter;
 	}
+
 	@Override
 	public String getFieldName(PersistentProperty<?> property) {
 
@@ -63,13 +64,13 @@ public class CamelCaseSplittingFieldNamingStrategy implements FieldNamingStrateg
 	}
 
 	/**
-	 * Callback to prepare the uncapitalized part obtained from the split up of the camel case source. Default
-	 * implementation returns the part as is.
-	 *
+	 * Callback to prepare the uncapitalized part obtained from the split up of the camel
+	 * case source. Default implementation returns the part as is.
 	 * @param part
 	 * @return
 	 */
 	protected String preparePart(String part) {
 		return part;
 	}
+
 }

@@ -32,17 +32,19 @@ import org.springframework.util.StringUtils;
 public abstract class ParsingUtils {
 
 	private static final String UPPER = "\\p{Lu}|\\P{InBASIC_LATIN}";
+
 	private static final String LOWER = "\\p{Ll}";
+
 	private static final String CAMEL_CASE_REGEX = "(?<!(^|[%u_$]))(?=[%u])|(?<!^)(?=[%u][%l])". //
 			replace("%u", UPPER).replace("%l", LOWER);
 
 	private static final Pattern CAMEL_CASE = Pattern.compile(CAMEL_CASE_REGEX);
 
-	private ParsingUtils() {}
+	private ParsingUtils() {
+	}
 
 	/**
 	 * Splits up the given camel-case {@link String}.
-	 *
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
@@ -52,7 +54,6 @@ public abstract class ParsingUtils {
 
 	/**
 	 * Splits up the given camel-case {@link String} and returns the parts in lower case.
-	 *
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
@@ -61,9 +62,9 @@ public abstract class ParsingUtils {
 	}
 
 	/**
-	 * Reconcatenates the given camel-case source {@link String} using the given delimiter. Will split up the camel-case
-	 * {@link String} and use an uncapitalized version of the parts.
-	 *
+	 * Reconcatenates the given camel-case source {@link String} using the given
+	 * delimiter. Will split up the camel-case {@link String} and use an uncapitalized
+	 * version of the parts.
 	 * @param source must not be {@literal null}.
 	 * @param delimiter must not be {@literal null}.
 	 * @return
@@ -89,4 +90,5 @@ public abstract class ParsingUtils {
 
 		return Collections.unmodifiableList(result);
 	}
+
 }

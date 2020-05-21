@@ -43,6 +43,7 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 class JsonProjectingMethodInterceptorFactoryUnitTests {
 
 	ProjectionFactory projectionFactory;
+
 	Customer customer;
 
 	@BeforeEach
@@ -182,6 +183,7 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 
 		@JsonPath("$..city")
 		List<String> getNestedCities();
+
 	}
 
 	interface AddressProjection {
@@ -189,6 +191,7 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 		String getZipCode();
 
 		String getCity();
+
 	}
 
 	interface Name {
@@ -203,18 +206,23 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 		// First one not available in the payload
 		@JsonPath({ "$.lastname", "$.firstname" })
 		String getSomeName();
+
 	}
 
 	interface AnotherAddressProjection {
 
 		@JsonPath("$.zipCode")
 		String getZipCodeButNotCity();
+
 	}
 
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
 	static class Address {
+
 		private String zipCode, city;
+
 	}
+
 }

@@ -49,18 +49,24 @@ import org.springframework.util.comparator.Comparators;
 class EntityCallbackDiscoverer {
 
 	private final CallbackRetriever defaultRetriever = new CallbackRetriever(false);
+
 	private final Map<CallbackCacheKey, CallbackRetriever> retrieverCache = new ConcurrentHashMap<>(64);
+
 	private final Map<Class<?>, ResolvableType> entityTypeCache = new ConcurrentReferenceHashMap<>(64);
 
-	@Nullable private ClassLoader beanClassLoader;
-	@Nullable private BeanFactory beanFactory;
+	@Nullable
+	private ClassLoader beanClassLoader;
+
+	@Nullable
+	private BeanFactory beanFactory;
 
 	private Object retrievalMutex = this.defaultRetriever;
 
 	/**
 	 * Create a new {@link EntityCallback} instance.
 	 */
-	EntityCallbackDiscoverer() {}
+	EntityCallbackDiscoverer() {
+	}
 
 	/**
 	 * Create a new {@link EntityCallback} instance.
@@ -122,11 +128,10 @@ class EntityCallbackDiscoverer {
 	}
 
 	/**
-	 * Return a {@link Collection} of all {@link EntityCallback}s matching the given entity type. Non-matching callbacks
-	 * get excluded early.
-	 *
-	 * @param entity the entity to be called back for. Allows for excluding non-matching callbacks early, based on cached
-	 *          matching information.
+	 * Return a {@link Collection} of all {@link EntityCallback}s matching the given
+	 * entity type. Non-matching callbacks get excluded early.
+	 * @param entity the entity to be called back for. Allows for excluding non-matching
+	 * callbacks early, based on cached matching information.
 	 * @param callbackType the source callback type.
 	 * @return a {@link Collection} of {@link EntityCallback}s.
 	 * @see EntityCallback
@@ -157,9 +162,11 @@ class EntityCallbackDiscoverer {
 				this.retrieverCache.put(cacheKey, retriever);
 				return (Collection<EntityCallback<S>>) (Collection) callbacks;
 			}
-		} else {
+		}
+		else {
 			// No CallbackRetriever caching -> no synchronization necessary
-			return (Collection<EntityCallback<S>>) (Collection) retrieveEntityCallbacks(callbackType, callbackType, null);
+			return (Collection<EntityCallback<S>>) (Collection) retrieveEntityCallbacks(callbackType, callbackType,
+					null);
 		}
 	}
 
@@ -178,14 +185,15 @@ class EntityCallbackDiscoverer {
 
 	/**
 	 * Actually retrieve the callbacks for the given entity and callback type.
-	 *
 	 * @param entityType the entity type.
 	 * @param callbackType the source callback type.
-	 * @param retriever the {@link CallbackRetriever}, if supposed to populate one (for caching purposes)
-	 * @return the pre-filtered list of entity callbacks for the given entity and callback type.
+	 * @param retriever the {@link CallbackRetriever}, if supposed to populate one (for
+	 * caching purposes)
+	 * @return the pre-filtered list of entity callbacks for the given entity and callback
+	 * type.
 	 */
-	private Collection<EntityCallback<?>> retrieveEntityCallbacks(ResolvableType entityType, ResolvableType callbackType,
-			@Nullable CallbackRetriever retriever) {
+	private Collection<EntityCallback<?>> retrieveEntityCallbacks(ResolvableType entityType,
+			ResolvableType callbackType, @Nullable CallbackRetriever retriever) {
 
 		List<EntityCallback<?>> allCallbacks = null;
 		Set<EntityCallback<?>> callbacks;
@@ -219,7 +227,8 @@ class EntityCallbackDiscoverer {
 							if (retriever != null) {
 								if (beanFactory.isSingleton(callbackBeanName)) {
 									retriever.entityCallbacks.add(callback);
-								} else {
+								}
+								else {
 									retriever.entityCallbackBeans.add(callbackBeanName);
 								}
 							}
@@ -230,8 +239,10 @@ class EntityCallbackDiscoverer {
 							allCallbacks.add(callback);
 						}
 					}
-				} catch (NoSuchBeanDefinitionException ex) {
-					// Singleton callback instance (without backing bean definition) disappeared -
+				}
+				catch (NoSuchBeanDefinitionException ex) {
+					// Singleton callback instance (without backing bean definition)
+					// disappeared -
 					// probably in the middle of the destruction phase
 				}
 			}
@@ -252,15 +263,17 @@ class EntityCallbackDiscoverer {
 	}
 
 	/**
-	 * Filter a callback early through checking its generically declared entity type before trying to instantiate it.
+	 * Filter a callback early through checking its generically declared entity type
+	 * before trying to instantiate it.
 	 * <p>
-	 * If this method returns {@literal true} for a given callback as a first pass, the callback instance will get
-	 * retrieved and fully evaluated through a {@link #supportsEvent(EntityCallback, ResolvableType, ResolvableType)} call
+	 * If this method returns {@literal true} for a given callback as a first pass, the
+	 * callback instance will get retrieved and fully evaluated through a
+	 * {@link #supportsEvent(EntityCallback, ResolvableType, ResolvableType)} call
 	 * afterwards.
-	 *
 	 * @param callback the callback's type as determined by the BeanFactory.
 	 * @param entityType the entity type to check.
-	 * @return whether the given callback should be included in the candidates for the given callback type.
+	 * @return whether the given callback should be included in the candidates for the
+	 * given callback type.
 	 */
 	protected boolean supportsEvent(Class<?> callback, ResolvableType entityType) {
 
@@ -269,14 +282,16 @@ class EntityCallbackDiscoverer {
 	}
 
 	/**
-	 * Determine whether the given callback supports the given entity type and callback type.
-	 *
+	 * Determine whether the given callback supports the given entity type and callback
+	 * type.
 	 * @param callback the target callback to check.
 	 * @param entityType the entity type to check.
 	 * @param callbackType the source type to check against.
-	 * @return whether the given callback should be included in the candidates for the given callback type.
+	 * @return whether the given callback should be included in the candidates for the
+	 * given callback type.
 	 */
-	protected boolean supportsEvent(EntityCallback<?> callback, ResolvableType entityType, ResolvableType callbackType) {
+	protected boolean supportsEvent(EntityCallback<?> callback, ResolvableType entityType,
+			ResolvableType callbackType) {
 
 		return supportsEvent(callback.getClass(), entityType)
 				&& callbackType.isAssignableFrom(ResolvableType.forInstance(callback));
@@ -292,9 +307,9 @@ class EntityCallbackDiscoverer {
 	}
 
 	/**
-	 * Set the {@link BeanFactory} and optionally {@link #setBeanClassLoader(ClassLoader) class loader} if not set. Pre
-	 * loads {@link EntityCallback} beans by scanning the {@link BeanFactory}.
-	 *
+	 * Set the {@link BeanFactory} and optionally {@link #setBeanClassLoader(ClassLoader)
+	 * class loader} if not set. Pre loads {@link EntityCallback} beans by scanning the
+	 * {@link BeanFactory}.
 	 * @param beanFactory must not be {@literal null}.
 	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(BeanFactory)
 	 */
@@ -361,8 +376,8 @@ class EntityCallbackDiscoverer {
 	}
 
 	/**
-	 * Helper class that encapsulates a specific set of target {@link EntityCallback callbacks}, allowing for efficient
-	 * retrieval of pre-filtered callbacks.
+	 * Helper class that encapsulates a specific set of target {@link EntityCallback
+	 * callbacks}, allowing for efficient retrieval of pre-filtered callbacks.
 	 */
 	class CallbackRetriever {
 
@@ -403,8 +418,10 @@ class EntityCallbackDiscoverer {
 						if (this.preFiltered || !allCallbacks.contains(callback)) {
 							allCallbacks.add(callback);
 						}
-					} catch (NoSuchBeanDefinitionException ex) {
-						// Singleton callback instance (without backing bean definition) disappeared -
+					}
+					catch (NoSuchBeanDefinitionException ex) {
+						// Singleton callback instance (without backing bean definition)
+						// disappeared -
 						// probably in the middle of the destruction phase
 					}
 				}
@@ -420,6 +437,7 @@ class EntityCallbackDiscoverer {
 		void discoverEntityCallbacks(BeanFactory beanFactory) {
 			beanFactory.getBeanProvider(EntityCallback.class).stream().forEach(this.entityCallbacks::add);
 		}
+
 	}
 
 	/**
@@ -439,6 +457,7 @@ class EntityCallbackDiscoverer {
 			this.callbackType = callbackType;
 			this.entityType = entityType;
 		}
+
 		@Override
 		public boolean equals(Object other) {
 
@@ -451,6 +470,7 @@ class EntityCallbackDiscoverer {
 			return (this.callbackType.equals(otherKey.callbackType)
 					&& ObjectUtils.nullSafeEquals(this.entityType, otherKey.entityType));
 		}
+
 		@Override
 		public int hashCode() {
 			return this.callbackType.hashCode() * 17 + ObjectUtils.nullSafeHashCode(this.entityType);
@@ -459,10 +479,11 @@ class EntityCallbackDiscoverer {
 		@Override
 		public int compareTo(CallbackCacheKey other) {
 
-			return Comparators.<CallbackCacheKey> nullsHigh().thenComparing(it -> this.callbackType.toString())
+			return Comparators.<CallbackCacheKey>nullsHigh().thenComparing(it -> this.callbackType.toString())
 					.thenComparing(it -> this.entityType.getName()).compare(this, other);
 
 		}
+
 	}
 
 }

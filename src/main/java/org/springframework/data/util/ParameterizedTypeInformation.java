@@ -33,8 +33,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * Base class for all types that include parameterization of some kind. Crucial as we have to take note of the parent
- * class we will have to resolve generic parameters against.
+ * Base class for all types that include parameterization of some kind. Crucial as we have
+ * to take note of the parent class we will have to resolve generic parameters against.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -43,11 +43,12 @@ import org.springframework.util.StringUtils;
 class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 
 	private final ParameterizedType type;
+
 	private final Lazy<Boolean> resolved;
 
 	/**
-	 * Creates a new {@link ParameterizedTypeInformation} for the given {@link Type} and parent {@link TypeDiscoverer}.
-	 *
+	 * Creates a new {@link ParameterizedTypeInformation} for the given {@link Type} and
+	 * parent {@link TypeDiscoverer}.
 	 * @param type must not be {@literal null}
 	 * @param parent must not be {@literal null}
 	 */
@@ -58,6 +59,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 		this.type = type;
 		this.resolved = Lazy.of(() -> isResolvedCompletely());
 	}
+
 	@Override
 	@Nullable
 	protected TypeInformation<?> doGetMapValueType() {
@@ -80,7 +82,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 		Optional<TypeInformation<?>> result = supertypes.stream()//
 				.map(it -> Pair.of(it, resolveType(it)))//
 				.filter(it -> Map.class.isAssignableFrom(it.getSecond()))//
-				.<TypeInformation<?>> map(it -> {
+				.<TypeInformation<?>>map(it -> {
 
 					ParameterizedType parameterizedSupertype = (ParameterizedType) it.getFirst();
 					Type[] arguments = parameterizedSupertype.getActualTypeArguments();
@@ -89,6 +91,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
 		return result.orElseGet(super::doGetMapValueType);
 	}
+
 	@Override
 	public List<TypeInformation<?>> getTypeArguments() {
 
@@ -100,6 +103,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
 		return result;
 	}
+
 	@Override
 	public boolean isAssignableFrom(TypeInformation<?> target) {
 
@@ -133,11 +137,13 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
 		return true;
 	}
+
 	@Override
 	@Nullable
 	protected TypeInformation<?> doGetComponentType() {
 		return createInfo(this.type.getActualTypeArguments()[0]);
 	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public TypeInformation<? extends T> specialize(ClassTypeInformation<?> type) {
@@ -156,6 +162,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 				? (TypeInformation<? extends T>) type //
 				: super.specialize(type);
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -175,10 +182,12 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
 		return super.equals(obj);
 	}
+
 	@Override
 	public int hashCode() {
 		return isResolved() ? this.type.hashCode() : super.hashCode();
 	}
+
 	@Override
 	public String toString() {
 
@@ -217,9 +226,8 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	}
 
 	/**
-	 * Resolves the type variables to be used. Uses the parent's type variable map but overwrites variables locally
-	 * declared.
-	 *
+	 * Resolves the type variables to be used. Uses the parent's type variable map but
+	 * overwrites variables locally declared.
 	 * @param type must not be {@literal null}.
 	 * @param parent must not be {@literal null}.
 	 * @return will never be {@literal null}.
@@ -240,9 +248,8 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	}
 
 	/**
-	 * Recursively resolves the type bound to the given {@link Type} in case it's a {@link TypeVariable} and there's an
-	 * entry in the given type variables.
-	 *
+	 * Recursively resolves the type bound to the given {@link Type} in case it's a
+	 * {@link TypeVariable} and there's an entry in the given type variables.
 	 * @param source must not be {@literal null}.
 	 * @param variables must not be {@literal null}.
 	 * @return will never be {@literal null}.
@@ -257,4 +264,5 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
 		return value == null ? source : flattenTypeVariable(value, variables);
 	}
+
 }

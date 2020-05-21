@@ -24,4 +24,5 @@ public class MixinImpl implements Mixin {
 	public String getOne() {
 		return "one";
 	}
+
 }

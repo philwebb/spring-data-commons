@@ -28,7 +28,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Method interceptor to forward a delegation to bean property accessor methods to the property of a given target.
+ * Method interceptor to forward a delegation to bean property accessor methods to the
+ * property of a given target.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -39,8 +40,8 @@ class PropertyAccessingMethodInterceptor implements MethodInterceptor {
 	private final BeanWrapper target;
 
 	/**
-	 * Creates a new {@link PropertyAccessingMethodInterceptor} for the given target object.
-	 *
+	 * Creates a new {@link PropertyAccessingMethodInterceptor} for the given target
+	 * object.
 	 * @param target must not be {@literal null}.
 	 */
 	public PropertyAccessingMethodInterceptor(Object target) {
@@ -48,6 +49,7 @@ class PropertyAccessingMethodInterceptor implements MethodInterceptor {
 		Assert.notNull(target, "Proxy target must not be null!");
 		this.target = new DirectFieldAccessFallbackBeanWrapper(target);
 	}
+
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -79,4 +81,5 @@ class PropertyAccessingMethodInterceptor implements MethodInterceptor {
 	private static boolean isSetterMethod(Method method, PropertyDescriptor descriptor) {
 		return method.equals(descriptor.getWriteMethod());
 	}
+
 }

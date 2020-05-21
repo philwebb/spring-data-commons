@@ -18,8 +18,9 @@ package org.springframework.data.domain;
 import org.springframework.data.util.ProxyUtils;
 
 /**
- * Support for query by example (QBE). An {@link Example} takes a {@code probe} to define the example. Matching options
- * and type safety can be tuned using {@link ExampleMatcher}.
+ * Support for query by example (QBE). An {@link Example} takes a {@code probe} to define
+ * the example. Matching options and type safety can be tuned using
+ * {@link ExampleMatcher}.
  *
  * @author Christoph Strobl
  * @author Mark Paluch
@@ -31,7 +32,6 @@ public interface Example<T> {
 
 	/**
 	 * Create a new {@link Example} including all non-null properties by default.
-	 *
 	 * @param probe must not be {@literal null}.
 	 * @return
 	 */
@@ -41,7 +41,6 @@ public interface Example<T> {
 
 	/**
 	 * Create a new {@link Example} using the given {@link ExampleMatcher}.
-	 *
 	 * @param probe must not be {@literal null}.
 	 * @param matcher must not be {@literal null}.
 	 * @return
@@ -52,22 +51,19 @@ public interface Example<T> {
 
 	/**
 	 * Get the example used.
-	 *
 	 * @return never {@literal null}.
 	 */
 	T getProbe();
 
 	/**
 	 * Get the {@link ExampleMatcher} used.
-	 *
 	 * @return never {@literal null}.
 	 */
 	ExampleMatcher getMatcher();
 
 	/**
-	 * Get the actual type for the probe used. This is usually the given class, but the original class in case of a
-	 * CGLIB-generated subclass.
-	 *
+	 * Get the actual type for the probe used. This is usually the given class, but the
+	 * original class in case of a CGLIB-generated subclass.
 	 * @return
 	 * @see ProxyUtils#getUserClass(Class)
 	 */
@@ -75,4 +71,5 @@ public interface Example<T> {
 	default Class<T> getProbeType() {
 		return (Class<T>) ProxyUtils.getUserClass(getProbe().getClass());
 	}
+
 }

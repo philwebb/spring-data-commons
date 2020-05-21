@@ -56,6 +56,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 class ExtensionAwareEvaluationContextProviderUnitTests {
 
 	Method method;
+
 	QueryMethodEvaluationContextProvider provider;
 
 	@BeforeEach
@@ -290,7 +291,8 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 		ListableBeanFactory beanFactory = Mockito.mock(ListableBeanFactory.class);
 
-		ExtensionAwareEvaluationContextProvider contextProvider = new ExtensionAwareEvaluationContextProvider(beanFactory);
+		ExtensionAwareEvaluationContextProvider contextProvider = new ExtensionAwareEvaluationContextProvider(
+				beanFactory);
 
 		verify(beanFactory, never()).getBeansOfType(eq(EvaluationContextExtension.class), anyBoolean(), anyBoolean());
 
@@ -304,7 +306,8 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 		ListableBeanFactory beanFactory = Mockito.mock(ListableBeanFactory.class);
 
-		ExtensionAwareEvaluationContextProvider contextProvider = new ExtensionAwareEvaluationContextProvider(beanFactory);
+		ExtensionAwareEvaluationContextProvider contextProvider = new ExtensionAwareEvaluationContextProvider(
+				beanFactory);
 
 		contextProvider.getEvaluationContext(null);
 		contextProvider.getEvaluationContext(null);
@@ -329,10 +332,12 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 		public static String DUMMY_KEY = "dummy";
 
 		private final String key, value;
+
 		@Override
 		public String getExtensionId() {
 			return this.key;
 		}
+
 		@Override
 		public Map<String, Object> getProperties() {
 
@@ -342,6 +347,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 			return properties;
 		}
+
 		@Override
 		public Map<String, Function> getFunctions() {
 
@@ -350,7 +356,8 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 			try {
 				functions.put("aliasedMethod", new Function(getClass().getMethod("extensionMethod")));
 				return functions;
-			} catch (Exception o_O) {
+			}
+			catch (Exception o_O) {
 				throw new RuntimeException(o_O);
 			}
 		}
@@ -374,6 +381,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 		public static String ambiguousToo() {
 			return "from-extension-type";
 		}
+
 	}
 
 	private Object evaluateExpression(String expression) {
@@ -394,6 +402,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 		List<Object> findByFirstname(@Param("firstname") String firstname, Pageable pageable);
 
 		List<Object> findByFirstname(@Param("firstname") String firstname, Sort sort);
+
 	}
 
 	public static class CustomExtensionRootObject1 {
@@ -407,6 +416,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 		public String getStringProperty() {
 			return "stringProperty";
 		}
+
 	}
 
 	public static class CustomExtensionRootObject2 {
@@ -416,6 +426,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 		public String rootObjectInstanceMethod2() {
 			return "rootObjectInstanceMethod2";
 		}
+
 	}
 
 	public static class RootWithOverloads {
@@ -459,5 +470,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 		public String methodWithVarArgs(String... args) {
 			return "varargs";
 		}
+
 	}
+
 }

@@ -18,7 +18,6 @@ package org.springframework.data.repository.cdi;
 import javax.inject.Inject;
 
 /**
- *
  * @author Oliver Gierke
  */
 class RepositoryClient {
@@ -28,4 +27,5 @@ class RepositoryClient {
 
 	@Inject
 	AnotherRepository anotherRepository;
+
 }

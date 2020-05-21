@@ -20,8 +20,8 @@ import org.springframework.data.mapping.AccessOptions.SetOptions;
 import org.springframework.lang.Nullable;
 
 /**
- * Extension of {@link PersistentPropertyAccessor} that is also able to obtain and set values for
- * {@link PersistentPropertyPath}s.
+ * Extension of {@link PersistentPropertyAccessor} that is also able to obtain and set
+ * values for {@link PersistentPropertyPath}s.
  *
  * @author Oliver Drotbohm
  * @since 2.3
@@ -29,9 +29,8 @@ import org.springframework.lang.Nullable;
 public interface PersistentPropertyPathAccessor<T> extends PersistentPropertyAccessor<T> {
 
 	/**
-	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the given path is empty, the wrapped
-	 * bean is returned.
-	 *
+	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the
+	 * given path is empty, the wrapped bean is returned.
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
@@ -42,11 +41,11 @@ public interface PersistentPropertyPathAccessor<T> extends PersistentPropertyAcc
 	}
 
 	/**
-	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the given path is empty, the wrapped
-	 * bean is returned. On each path segment value lookup, the resulting value is post-processed by handlers registered
-	 * on the given {@link TraversalContext} context. This can be used to unwrap container types that are encountered
-	 * during the traversal.
-	 *
+	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the
+	 * given path is empty, the wrapped bean is returned. On each path segment value
+	 * lookup, the resulting value is post-processed by handlers registered on the given
+	 * {@link TraversalContext} context. This can be used to unwrap container types that
+	 * are encountered during the traversal.
 	 * @param path must not be {@literal null}.
 	 * @param context must not be {@literal null}.
 	 * @return
@@ -55,9 +54,9 @@ public interface PersistentPropertyPathAccessor<T> extends PersistentPropertyAcc
 	Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, GetOptions context);
 
 	/**
-	 * Sets the given value for the {@link PersistentProperty} pointed to by the given {@link PersistentPropertyPath}. The
-	 * lookup of intermediate values must not yield {@literal null}.
-	 *
+	 * Sets the given value for the {@link PersistentProperty} pointed to by the given
+	 * {@link PersistentPropertyPath}. The lookup of intermediate values must not yield
+	 * {@literal null}.
 	 * @param path must not be {@literal null} or empty.
 	 * @param value can be {@literal null}.
 	 * @see AccessOptions#DEFAULT
@@ -65,13 +64,13 @@ public interface PersistentPropertyPathAccessor<T> extends PersistentPropertyAcc
 	void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value);
 
 	/**
-	 * Sets the given value for the {@link PersistentProperty} pointed to by the given {@link PersistentPropertyPath}
-	 * considering the given {@link AccessOptions}.
-	 *
+	 * Sets the given value for the {@link PersistentProperty} pointed to by the given
+	 * {@link PersistentPropertyPath} considering the given {@link AccessOptions}.
 	 * @param path must not be {@literal null}.
 	 * @param value must not be {@literal null}.
 	 * @param options must not be {@literal null}.
 	 */
 	void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value,
 			SetOptions options);
+
 }

@@ -36,8 +36,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Default implementation to discover CRUD methods based on the given {@link RepositoryMetadata}. Will detect methods
- * exposed in {@link CrudRepository} but also hand crafted CRUD methods that are signature compatible with the ones on
+ * Default implementation to discover CRUD methods based on the given
+ * {@link RepositoryMetadata}. Will detect methods exposed in {@link CrudRepository} but
+ * also hand crafted CRUD methods that are signature compatible with the ones on
  * {@link CrudRepository}.
  *
  * @author Oliver Gierke
@@ -47,20 +48,26 @@ import org.springframework.util.ReflectionUtils;
 public class DefaultCrudMethods implements CrudMethods {
 
 	private static final String FIND_ONE = "findById";
+
 	private static final String SAVE = "save";
+
 	private static final String FIND_ALL = "findAll";
 
 	private static final String DELETE = "delete";
+
 	private static final String DELETE_BY_ID = "deleteById";
 
 	private final Optional<Method> findAllMethod;
+
 	private final Optional<Method> findOneMethod;
+
 	private final Optional<Method> saveMethod;
+
 	private final Optional<Method> deleteMethod;
 
 	/**
-	 * Creates a new {@link DefaultCrudMethods} using the given {@link RepositoryMetadata}.
-	 *
+	 * Creates a new {@link DefaultCrudMethods} using the given
+	 * {@link RepositoryMetadata}.
 	 * @param metadata must not be {@literal null}.
 	 */
 	public DefaultCrudMethods(RepositoryMetadata metadata) {
@@ -79,7 +86,6 @@ public class DefaultCrudMethods implements CrudMethods {
 	 * <li>a {@link RepositoryMetadata#getDomainType()} as first parameter over</li>
 	 * <li>an {@link Object} as first parameter.</li>
 	 * </ol>
-	 *
 	 * @param metadata must not be {@literal null}.
 	 * @return the most suitable method or {@literal null} if no method could be found.
 	 */
@@ -99,7 +105,6 @@ public class DefaultCrudMethods implements CrudMethods {
 	 * <li>a {@link Object} as first parameter over</li>
 	 * <li>an {@link Iterable} as first parameter.</li>
 	 * </ol>
-	 *
 	 * @param metadata must not be {@literal null}.
 	 * @return the most suitable method or {@literal null} if no method could be found.
 	 */
@@ -127,7 +132,6 @@ public class DefaultCrudMethods implements CrudMethods {
 	 * <li>a {@link Sort} as first parameter over</li>
 	 * <li>no parameters.</li>
 	 * </ol>
-	 *
 	 * @param metadata must not be {@literal null}.
 	 * @return the most suitable method or {@literal null} if no method could be found.
 	 */
@@ -152,7 +156,6 @@ public class DefaultCrudMethods implements CrudMethods {
 	 * <li>a {@link RepositoryMetadata#getIdType()} as first parameter over</li>
 	 * <li>a {@link Object} as first parameter</li>
 	 * </ol>
-	 *
 	 * @param metadata must not be {@literal null}.
 	 * @return the most suitable method or {@literal null} if no method could be found.
 	 */
@@ -165,9 +168,8 @@ public class DefaultCrudMethods implements CrudMethods {
 	}
 
 	/**
-	 * Looks up the most specific method for the given method and type and returns an accessible version of discovered
-	 * {@link Method} if found.
-	 *
+	 * Looks up the most specific method for the given method and type and returns an
+	 * accessible version of discovered {@link Method} if found.
 	 * @param method
 	 * @param type
 	 * @see ClassUtils#getMostSpecificMethod(Method, Class)
@@ -180,34 +182,42 @@ public class DefaultCrudMethods implements CrudMethods {
 				.peek(ReflectionUtils::makeAccessible)//
 				.findFirst();
 	}
+
 	@Override
 	public Optional<Method> getSaveMethod() {
 		return this.saveMethod;
 	}
+
 	@Override
 	public boolean hasSaveMethod() {
 		return this.saveMethod.isPresent();
 	}
+
 	@Override
 	public Optional<Method> getFindAllMethod() {
 		return this.findAllMethod;
 	}
+
 	@Override
 	public boolean hasFindAllMethod() {
 		return this.findAllMethod.isPresent();
 	}
+
 	@Override
 	public Optional<Method> getFindOneMethod() {
 		return this.findOneMethod;
 	}
+
 	@Override
 	public boolean hasFindOneMethod() {
 		return this.findOneMethod.isPresent();
 	}
+
 	@Override
 	public boolean hasDelete() {
 		return this.deleteMethod.isPresent();
 	}
+
 	@Override
 	public Optional<Method> getDeleteMethod() {
 		return this.deleteMethod;
@@ -216,4 +226,5 @@ public class DefaultCrudMethods implements CrudMethods {
 	private static Optional<Method> findMethod(Class<?> type, String name, Class<?>... parameterTypes) {
 		return Optional.ofNullable(ReflectionUtils.findMethod(type, name, parameterTypes));
 	}
+
 }

@@ -35,9 +35,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link org.springframework.core.convert.converter.Converter} to convert arbitrary input into domain classes managed
- * by Spring Data {@link CrudRepository}s. The implementation uses a {@link ConversionService} in turn to convert the
- * source type into the domain class' id type which is then converted into a domain class object by using a
+ * {@link org.springframework.core.convert.converter.Converter} to convert arbitrary input
+ * into domain classes managed by Spring Data {@link CrudRepository}s. The implementation
+ * uses a {@link ConversionService} in turn to convert the source type into the domain
+ * class' id type which is then converted into a domain class object by using a
  * {@link CrudRepository}.
  *
  * @author Oliver Gierke
@@ -47,13 +48,15 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 		implements ConditionalGenericConverter, ApplicationContextAware {
 
 	private final T conversionService;
+
 	private Repositories repositories = Repositories.NONE;
+
 	private Optional<ToEntityConverter> toEntityConverter = Optional.empty();
+
 	private Optional<ToIdConverter> toIdConverter = Optional.empty();
 
 	/**
 	 * Creates a new {@link DomainClassConverter} for the given {@link ConversionService}.
-	 *
 	 * @param conversionService must not be {@literal null}.
 	 */
 	public DomainClassConverter(T conversionService) {
@@ -62,6 +65,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 		this.conversionService = conversionService;
 	}
+
 	@Nonnull
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -70,7 +74,10 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+	 * 
+	 * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
+	 * Object, org.springframework.core.convert.TypeDescriptor,
+	 * org.springframework.core.convert.TypeDescriptor)
 	 */
 	@Nullable
 	@Override
@@ -80,7 +87,10 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+	 * 
+	 * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.
+	 * springframework.core.convert.TypeDescriptor,
+	 * org.springframework.core.convert.TypeDescriptor)
 	 */
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -94,6 +104,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 	private Optional<? extends ConditionalGenericConverter> getConverter(TypeDescriptor targetType) {
 		return this.repositories.hasRepositoryFor(targetType.getType()) ? this.toEntityConverter : this.toIdConverter;
 	}
+
 	public void setApplicationContext(ApplicationContext context) {
 
 		this.repositories = new Repositories(context);
@@ -106,7 +117,8 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 	}
 
 	/**
-	 * Converter to create domain types from any source that can be converted into the domain types identifier type.
+	 * Converter to create domain types from any source that can be converted into the
+	 * domain types identifier type.
 	 *
 	 * @author Oliver Gierke
 	 * @since 1.10
@@ -116,14 +128,15 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 		private final RepositoryInvokerFactory repositoryInvokerFactory;
 
 		/**
-		 * Creates a new {@link ToEntityConverter} for the given {@link Repositories} and {@link ConversionService}.
-		 *
+		 * Creates a new {@link ToEntityConverter} for the given {@link Repositories} and
+		 * {@link ConversionService}.
 		 * @param repositories must not be {@literal null}.
 		 * @param conversionService must not be {@literal null}.
 		 */
 		public ToEntityConverter(Repositories repositories, ConversionService conversionService) {
 			this.repositoryInvokerFactory = new DefaultRepositoryInvokerFactory(repositories, conversionService);
 		}
+
 		@Nonnull
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
@@ -132,7 +145,11 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+		 * 
+		 * @see
+		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
+		 * Object, org.springframework.core.convert.TypeDescriptor,
+		 * org.springframework.core.convert.TypeDescriptor)
 		 */
 		@Nullable
 		@Override
@@ -148,7 +165,8 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 			Class<?> domainType = targetType.getType();
 			RepositoryInvoker invoker = this.repositoryInvokerFactory.getInvokerFor(domainType);
-			RepositoryInformation information = DomainClassConverter.this.repositories.getRequiredRepositoryInformation(domainType);
+			RepositoryInformation information = DomainClassConverter.this.repositories
+					.getRequiredRepositoryInformation(domainType);
 
 			Object id = DomainClassConverter.this.conversionService.convert(source, information.getIdType());
 
@@ -157,7 +175,11 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+		 * 
+		 * @see
+		 * org.springframework.core.convert.converter.ConditionalConverter#matches(org.
+		 * springframework.core.convert.TypeDescriptor,
+		 * org.springframework.core.convert.TypeDescriptor)
 		 */
 		@Override
 		public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -172,7 +194,8 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 				return false;
 			}
 
-			Optional<RepositoryInformation> repositoryInformation = DomainClassConverter.this.repositories.getRepositoryInformationFor(domainType);
+			Optional<RepositoryInformation> repositoryInformation = DomainClassConverter.this.repositories
+					.getRepositoryInformationFor(domainType);
 
 			return repositoryInformation.map(it -> {
 
@@ -180,18 +203,21 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 				return sourceType.equals(TypeDescriptor.valueOf(rawIdType))
 						|| DomainClassConverter.this.conversionService.canConvert(sourceType.getType(), rawIdType);
-			}).orElseThrow(
-					() -> new IllegalStateException(String.format("Couldn't find RepositoryInformation for %s!", domainType)));
+			}).orElseThrow(() -> new IllegalStateException(
+					String.format("Couldn't find RepositoryInformation for %s!", domainType)));
 		}
+
 	}
 
 	/**
-	 * Converter to turn domain types into their identifiers or any transitively convertible type.
+	 * Converter to turn domain types into their identifiers or any transitively
+	 * convertible type.
 	 *
 	 * @author Oliver Gierke
 	 * @since 1.10
 	 */
 	class ToIdConverter implements ConditionalGenericConverter {
+
 		@Nonnull
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
@@ -200,7 +226,11 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+		 * 
+		 * @see
+		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
+		 * Object, org.springframework.core.convert.TypeDescriptor,
+		 * org.springframework.core.convert.TypeDescriptor)
 		 */
 		@Nullable
 		@Override
@@ -216,14 +246,20 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 			Class<?> domainType = sourceType.getType();
 
-			EntityInformation<Object, ?> entityInformation = DomainClassConverter.this.repositories.getEntityInformationFor(domainType);
+			EntityInformation<Object, ?> entityInformation = DomainClassConverter.this.repositories
+					.getEntityInformationFor(domainType);
 
-			return DomainClassConverter.this.conversionService.convert(entityInformation.getId(source), targetType.getType());
+			return DomainClassConverter.this.conversionService.convert(entityInformation.getId(source),
+					targetType.getType());
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+		 * 
+		 * @see
+		 * org.springframework.core.convert.converter.ConditionalConverter#matches(org.
+		 * springframework.core.convert.TypeDescriptor,
+		 * org.springframework.core.convert.TypeDescriptor)
 		 */
 		@Override
 		public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -238,7 +274,8 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 				return false;
 			}
 
-			Optional<RepositoryInformation> information = DomainClassConverter.this.repositories.getRepositoryInformationFor(domainType);
+			Optional<RepositoryInformation> information = DomainClassConverter.this.repositories
+					.getRepositoryInformationFor(domainType);
 
 			return information.map(it -> {
 
@@ -247,8 +284,10 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 				return targetType.equals(TypeDescriptor.valueOf(rawIdType))
 						|| DomainClassConverter.this.conversionService.canConvert(rawIdType, targetType.getType());
 
-			}).orElseThrow(
-					() -> new IllegalStateException(String.format("Couldn't find RepositoryInformation for %s!", domainType)));
+			}).orElseThrow(() -> new IllegalStateException(
+					String.format("Couldn't find RepositoryInformation for %s!", domainType)));
 		}
+
 	}
+
 }

@@ -34,12 +34,10 @@ class PropertyUnitTests {
 	@Test // DATACMNS-1322
 	void shouldNotFindWitherMethod() {
 
-		assertThat(Property
-				.of(ClassTypeInformation.from(ImmutableType.class), ReflectionUtils.findField(ImmutableType.class, "id"))
-				.getWither()).isEmpty();
-		assertThat(Property
-				.of(ClassTypeInformation.from(ImmutableType.class), ReflectionUtils.findField(ImmutableType.class, "name"))
-				.getWither()).isEmpty();
+		assertThat(Property.of(ClassTypeInformation.from(ImmutableType.class),
+				ReflectionUtils.findField(ImmutableType.class, "id")).getWither()).isEmpty();
+		assertThat(Property.of(ClassTypeInformation.from(ImmutableType.class),
+				ReflectionUtils.findField(ImmutableType.class, "name")).getWither()).isEmpty();
 	}
 
 	@Test // DATACMNS-1322
@@ -80,6 +78,7 @@ class PropertyUnitTests {
 	static class ImmutableType {
 
 		String id;
+
 		String name;
 
 		ImmutableType withId(Long id) {
@@ -93,6 +92,7 @@ class PropertyUnitTests {
 		Object withName(String id) {
 			return null;
 		}
+
 	}
 
 	@Value
@@ -100,17 +100,21 @@ class PropertyUnitTests {
 	private static class WitherType {
 
 		String id;
+
 		String name;
+
 	}
 
 	static abstract class WitherBaseClass {
 
 		abstract WitherBaseClass withId(String id);
+
 	}
 
 	static abstract class WitherIntermediateClass extends WitherBaseClass {
 
 		abstract WitherIntermediateClass withId(String id);
+
 	}
 
 	static class DerivedWitherClass extends WitherIntermediateClass {
@@ -124,6 +128,7 @@ class PropertyUnitTests {
 		DerivedWitherClass withId(String id) {
 			return new DerivedWitherClass(id);
 		}
+
 	}
 
 	static class AnotherLevel extends DerivedWitherClass {
@@ -135,5 +140,7 @@ class PropertyUnitTests {
 		DerivedWitherClass withId(String id) {
 			return new AnotherLevel(id);
 		}
+
 	}
+
 }

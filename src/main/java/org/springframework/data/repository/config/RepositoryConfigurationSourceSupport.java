@@ -40,12 +40,14 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 	protected static final String DEFAULT_REPOSITORY_IMPL_POSTFIX = "Impl";
 
 	private final Environment environment;
+
 	private final RepositoryBeanNameGenerator beanNameGenerator;
+
 	private final BeanDefinitionRegistry registry;
 
 	/**
-	 * Creates a new {@link RepositoryConfigurationSourceSupport} with the given environment.
-	 *
+	 * Creates a new {@link RepositoryConfigurationSourceSupport} with the given
+	 * environment.
 	 * @param environment must not be {@literal null}.
 	 * @param classLoader must not be {@literal null}.
 	 * @param registry must not be {@literal null}.
@@ -61,6 +63,7 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 		this.beanNameGenerator = new RepositoryBeanNameGenerator(classLoader, generator);
 		this.registry = registry;
 	}
+
 	@Override
 	public Streamable<BeanDefinition> getCandidates(ResourceLoader loader) {
 
@@ -76,24 +79,23 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 	}
 
 	/**
-	 * Return the {@link TypeFilter}s to define which types to exclude when scanning for repositories. Default
-	 * implementation returns an empty collection.
-	 *
+	 * Return the {@link TypeFilter}s to define which types to exclude when scanning for
+	 * repositories. Default implementation returns an empty collection.
 	 * @return must not be {@literal null}.
 	 */
 	@Override
 	public Streamable<TypeFilter> getExcludeFilters() {
 		return Streamable.empty();
 	}
+
 	@Override
 	public String generateBeanName(BeanDefinition beanDefinition) {
 		return this.beanNameGenerator.generateBeanName(beanDefinition);
 	}
 
 	/**
-	 * Return the {@link TypeFilter}s to define which types to include when scanning for repositories. Default
-	 * implementation returns an empty collection.
-	 *
+	 * Return the {@link TypeFilter}s to define which types to include when scanning for
+	 * repositories. Default implementation returns an empty collection.
 	 * @return must not be {@literal null}.
 	 */
 	protected Iterable<TypeFilter> getIncludeFilters() {
@@ -101,14 +103,15 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 	}
 
 	/**
-	 * Returns whether we should consider nested repositories, i.e. repository interface definitions nested in other
-	 * classes.
-	 *
-	 * @return {@literal true} if the container should look for nested repository interface definitions.
+	 * Returns whether we should consider nested repositories, i.e. repository interface
+	 * definitions nested in other classes.
+	 * @return {@literal true} if the container should look for nested repository
+	 * interface definitions.
 	 */
 	public boolean shouldConsiderNestedRepositories() {
 		return false;
 	}
+
 	@Override
 	public ImplementationDetectionConfiguration toImplementationDetectionConfiguration(MetadataReaderFactory factory) {
 		return new SpringImplementationDetectionConfiguration(this, factory);
@@ -117,6 +120,7 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 	private class SpringImplementationDetectionConfiguration implements ImplementationDetectionConfiguration {
 
 		private final RepositoryConfigurationSource source;
+
 		private final MetadataReaderFactory metadataReaderFactory;
 
 		SpringImplementationDetectionConfiguration(RepositoryConfigurationSource source,
@@ -124,19 +128,23 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 			this.source = source;
 			this.metadataReaderFactory = metadataReaderFactory;
 		}
+
 		@Override
 		public String getImplementationPostfix() {
 			return this.source.getRepositoryImplementationPostfix()
 					.orElse(DefaultRepositoryConfiguration.DEFAULT_REPOSITORY_IMPLEMENTATION_POSTFIX);
 		}
+
 		@Override
 		public Streamable<String> getBasePackages() {
 			return this.source.getBasePackages();
 		}
+
 		@Override
 		public Streamable<TypeFilter> getExcludeFilters() {
 			return this.source.getExcludeFilters();
 		}
+
 		@Override
 		public String generateBeanName(BeanDefinition definition) {
 			return this.source.generateBeanName(definition);
@@ -145,5 +153,7 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 		public MetadataReaderFactory getMetadataReaderFactory() {
 			return this.metadataReaderFactory;
 		}
+
 	}
+
 }

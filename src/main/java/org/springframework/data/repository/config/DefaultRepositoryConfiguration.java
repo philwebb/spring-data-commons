@@ -39,10 +39,13 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 		implements RepositoryConfiguration<T> {
 
 	public static final String DEFAULT_REPOSITORY_IMPLEMENTATION_POSTFIX = "Impl";
+
 	public static final Key DEFAULT_QUERY_LOOKUP_STRATEGY = Key.CREATE_IF_NOT_FOUND;
 
 	private final T configurationSource;
+
 	private final BeanDefinition definition;
+
 	private final RepositoryConfigurationExtension extension;
 
 	public DefaultRepositoryConfiguration(T configurationSource, BeanDefinition definition,
@@ -52,68 +55,87 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 		this.definition = definition;
 		this.extension = extension;
 	}
+
 	public String getBeanId() {
-		return StringUtils.uncapitalize(ClassUtils.getShortName(getRepositoryBaseClassName().orElseThrow(
-				() -> new IllegalStateException("Can't create bean identifier without a repository base class defined!"))));
+		return StringUtils.uncapitalize(
+				ClassUtils.getShortName(getRepositoryBaseClassName().orElseThrow(() -> new IllegalStateException(
+						"Can't create bean identifier without a repository base class defined!"))));
 	}
+
 	public Object getQueryLookupStrategyKey() {
 		return this.configurationSource.getQueryLookupStrategyKey().orElse(DEFAULT_QUERY_LOOKUP_STRATEGY);
 	}
+
 	public Streamable<String> getBasePackages() {
 		return this.configurationSource.getBasePackages();
 	}
+
 	@Override
 	public Streamable<String> getImplementationBasePackages() {
 		return Streamable.of(ClassUtils.getPackageName(getRepositoryInterface()));
 	}
+
 	public String getRepositoryInterface() {
 		return ConfigurationUtils.getRequiredBeanClassName(this.definition);
 	}
+
 	public RepositoryConfigurationSource getConfigSource() {
 		return this.configurationSource;
 	}
+
 	public Optional<String> getNamedQueriesLocation() {
 		return this.configurationSource.getNamedQueryLocation();
 	}
+
 	public String getImplementationClassName() {
-		return ClassUtils.getShortName(getRepositoryInterface()).concat(
-				this.configurationSource.getRepositoryImplementationPostfix().orElse(DEFAULT_REPOSITORY_IMPLEMENTATION_POSTFIX));
+		return ClassUtils.getShortName(getRepositoryInterface()).concat(this.configurationSource
+				.getRepositoryImplementationPostfix().orElse(DEFAULT_REPOSITORY_IMPLEMENTATION_POSTFIX));
 	}
+
 	public String getImplementationBeanName() {
 		return this.configurationSource.generateBeanName(this.definition)
 				+ this.configurationSource.getRepositoryImplementationPostfix().orElse("Impl");
 	}
+
 	@Nullable
 	@Override
 	public Object getSource() {
 		return this.configurationSource.getSource();
 	}
+
 	@Override
 	public T getConfigurationSource() {
 		return this.configurationSource;
 	}
+
 	@Override
 	public Optional<String> getRepositoryBaseClassName() {
 		return this.configurationSource.getRepositoryBaseClassName();
 	}
+
 	@Override
 	public String getRepositoryFactoryBeanClassName() {
 
 		return this.configurationSource.getRepositoryFactoryBeanClassName()
 				.orElseGet(this.extension::getRepositoryFactoryBeanClassName);
 	}
+
 	@Override
 	public boolean isLazyInit() {
-		return this.definition.isLazyInit() || !this.configurationSource.getBootstrapMode().equals(BootstrapMode.DEFAULT);
+		return this.definition.isLazyInit()
+				|| !this.configurationSource.getBootstrapMode().equals(BootstrapMode.DEFAULT);
 	}
+
 	@Override
 	public boolean isPrimary() {
 		return this.definition.isPrimary();
 	}
+
 	@Override
 	public Streamable<TypeFilter> getExcludeFilters() {
 		return this.configurationSource.getExcludeFilters();
 	}
+
 	@Override
 	public ImplementationDetectionConfiguration toImplementationDetectionConfiguration(MetadataReaderFactory factory) {
 
@@ -121,6 +143,7 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 
 		return this.configurationSource.toImplementationDetectionConfiguration(factory);
 	}
+
 	@Override
 	public ImplementationLookupConfiguration toLookupConfiguration(MetadataReaderFactory factory) {
 
@@ -128,9 +151,12 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 
 		return toImplementationDetectionConfiguration(factory).forRepositoryConfiguration(this);
 	}
+
 	@Override
 	@org.springframework.lang.NonNull
 	public String getResourceDescription() {
-		return String.format("%s defined in %s", getRepositoryInterface(), this.configurationSource.getResourceDescription());
+		return String.format("%s defined in %s", getRepositoryInterface(),
+				this.configurationSource.getResourceDescription());
 	}
+
 }

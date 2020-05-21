@@ -38,13 +38,14 @@ import org.springframework.util.ClassUtils;
 class DefaultImplementationLookupConfiguration implements ImplementationLookupConfiguration {
 
 	private final ImplementationDetectionConfiguration config;
+
 	private final String interfaceName;
+
 	private final String beanName;
 
 	/**
 	 * Creates a new {@link DefaultImplementationLookupConfiguration} for the given
 	 * {@link ImplementationDetectionConfiguration} and interface name.
-	 *
 	 * @param config must not be {@literal null}.
 	 * @param interfaceName must not be {@literal null} or empty.
 	 */
@@ -58,30 +59,37 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 		this.beanName = Introspector
 				.decapitalize(ClassUtils.getShortName(interfaceName).concat(config.getImplementationPostfix()));
 	}
+
 	@Override
 	public String getImplementationBeanName() {
 		return this.beanName;
 	}
+
 	@Override
 	public String getImplementationPostfix() {
 		return this.config.getImplementationPostfix();
 	}
+
 	@Override
 	public Streamable<TypeFilter> getExcludeFilters() {
 		return this.config.getExcludeFilters().and(new AnnotationTypeFilter(NoRepositoryBean.class));
 	}
+
 	@Override
 	public MetadataReaderFactory getMetadataReaderFactory() {
 		return this.config.getMetadataReaderFactory();
 	}
+
 	@Override
 	public Streamable<String> getBasePackages() {
 		return Streamable.of(ClassUtils.getPackageName(this.interfaceName));
 	}
+
 	@Override
 	public String getImplementationClassName() {
 		return ClassUtils.getShortName(this.interfaceName).concat(getImplementationPostfix());
 	}
+
 	@Override
 	public boolean hasMatchingBeanName(BeanDefinition definition) {
 
@@ -92,7 +100,10 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.ImplementationLookupConfiguration#matches(org.springframework.beans.factory.config.BeanDefinition, org.springframework.core.type.classreading.MetadataReaderFactory)
+	 * 
+	 * @see org.springframework.data.repository.config.ImplementationLookupConfiguration#
+	 * matches(org.springframework.beans.factory.config.BeanDefinition,
+	 * org.springframework.core.type.classreading.MetadataReaderFactory)
 	 */
 	@Override
 	public boolean matches(BeanDefinition definition) {
@@ -120,7 +131,8 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 			MetadataReader reader = getMetadataReaderFactory().getMetadataReader(beanClassName);
 			return filters.stream().anyMatch(it -> matches(it, reader));
 
-		} catch (IOException o_O) {
+		}
+		catch (IOException o_O) {
 			return true;
 		}
 	}
@@ -129,8 +141,10 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 
 		try {
 			return filter.match(reader, getMetadataReaderFactory());
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			return false;
 		}
 	}
+
 }

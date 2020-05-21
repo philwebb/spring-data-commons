@@ -149,12 +149,15 @@ class ChainedTransactionManagerTests {
 		public void clearSynchronization() {
 			this.synchronizationActive = false;
 		}
+
 	}
 
 	static class TestPlatformTransactionManager implements org.springframework.transaction.PlatformTransactionManager {
 
 		private final String name;
+
 		private Long commitTime;
+
 		private Long rollbackTime;
 
 		TestPlatformTransactionManager(String name) {
@@ -212,10 +215,13 @@ class ChainedTransactionManagerTests {
 
 	static class TestTransactionStatus extends AbstractTransactionStatus {
 
-		TestTransactionStatus(TransactionDefinition definition) {}
+		TestTransactionStatus(TransactionDefinition definition) {
+		}
 
 		public boolean isNewTransaction() {
 			return false;
 		}
+
 	}
+
 }

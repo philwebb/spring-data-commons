@@ -52,14 +52,16 @@ import com.querydsl.core.types.Predicate;
 public class QuerydslPredicateBuilder {
 
 	private final ConversionService conversionService;
+
 	private final MultiValueBinding<Path<? extends Object>, Object> defaultBinding;
+
 	private final Map<PathInformation, Path<?>> paths;
+
 	private final EntityPathResolver resolver;
 
 	/**
-	 * Creates a new {@link QuerydslPredicateBuilder} for the given {@link ConversionService} and
-	 * {@link EntityPathResolver}.
-	 *
+	 * Creates a new {@link QuerydslPredicateBuilder} for the given
+	 * {@link ConversionService} and {@link EntityPathResolver}.
 	 * @param conversionService must not be {@literal null}.
 	 * @param resolver can be {@literal null}.
 	 */
@@ -74,9 +76,8 @@ public class QuerydslPredicateBuilder {
 	}
 
 	/**
-	 * Creates a Querydsl {@link Predicate} for the given values, {@link QuerydslBindings} on the given
-	 * {@link TypeInformation}.
-	 *
+	 * Creates a Querydsl {@link Predicate} for the given values, {@link QuerydslBindings}
+	 * on the given {@link TypeInformation}.
 	 * @param type the type to create a predicate for.
 	 * @param values the values to bind.
 	 * @param bindings the {@link QuerydslBindings} for the predicate.
@@ -122,8 +123,8 @@ public class QuerydslPredicateBuilder {
 	}
 
 	/**
-	 * Invokes the binding of the given values, for the given {@link PropertyPath} and {@link QuerydslBindings}.
-	 *
+	 * Invokes the binding of the given values, for the given {@link PropertyPath} and
+	 * {@link QuerydslBindings}.
 	 * @param dotPath must not be {@literal null}.
 	 * @param bindings must not be {@literal null}.
 	 * @param values must not be {@literal null}.
@@ -138,10 +139,10 @@ public class QuerydslPredicateBuilder {
 	}
 
 	/**
-	 * Returns the {@link Path} for the given {@link PropertyPath} and {@link QuerydslBindings}. Will try to obtain the
-	 * {@link Path} from the bindings first but fall back to reifying it from the PropertyPath in case no specific binding
-	 * has been configured.
-	 *
+	 * Returns the {@link Path} for the given {@link PropertyPath} and
+	 * {@link QuerydslBindings}. Will try to obtain the {@link Path} from the bindings
+	 * first but fall back to reifying it from the PropertyPath in case no specific
+	 * binding has been configured.
 	 * @param path must not be {@literal null}.
 	 * @param bindings must not be {@literal null}.
 	 * @return
@@ -154,10 +155,10 @@ public class QuerydslPredicateBuilder {
 	}
 
 	/**
-	 * Converts the given source values into a collection of elements that are of the given {@link PropertyPath}'s type.
-	 * Considers a single element list with an empty {@link String} an empty collection because this basically indicates
-	 * the property having been submitted but no value provided.
-	 *
+	 * Converts the given source values into a collection of elements that are of the
+	 * given {@link PropertyPath}'s type. Considers a single element list with an empty
+	 * {@link String} an empty collection because this basically indicates the property
+	 * having been submitted but no value provided.
 	 * @param source must not be {@literal null}.
 	 * @param path must not be {@literal null}.
 	 * @return
@@ -174,18 +175,17 @@ public class QuerydslPredicateBuilder {
 
 		for (String value : source) {
 
-			target.add(this.conversionService.canConvert(String.class, targetType)
-					? this.conversionService.convert(value, TypeDescriptor.forObject(value), getTargetTypeDescriptor(path))
-					: value);
+			target.add(this.conversionService.canConvert(String.class, targetType) ? this.conversionService
+					.convert(value, TypeDescriptor.forObject(value), getTargetTypeDescriptor(path)) : value);
 		}
 
 		return target;
 	}
 
 	/**
-	 * Returns the target {@link TypeDescriptor} for the given {@link PathInformation} by either inspecting the field or
-	 * property (the latter preferred) to pick up annotations potentially defined for formatting purposes.
-	 *
+	 * Returns the target {@link TypeDescriptor} for the given {@link PathInformation} by
+	 * either inspecting the field or property (the latter preferred) to pick up
+	 * annotations potentially defined for formatting purposes.
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
@@ -197,26 +197,29 @@ public class QuerydslPredicateBuilder {
 		String leafProperty = path.getLeafProperty();
 
 		TypeDescriptor result = descriptor == null //
-				? TypeDescriptor
-						.nested(org.springframework.data.util.ReflectionUtils.findRequiredField(owningType, leafProperty), 0)
-				: TypeDescriptor
-						.nested(new Property(owningType, descriptor.getReadMethod(), descriptor.getWriteMethod(), leafProperty), 0);
+				? TypeDescriptor.nested(
+						org.springframework.data.util.ReflectionUtils.findRequiredField(owningType, leafProperty), 0)
+				: TypeDescriptor.nested(
+						new Property(owningType, descriptor.getReadMethod(), descriptor.getWriteMethod(), leafProperty),
+						0);
 
 		if (result == null) {
-			throw new IllegalStateException(String.format("Could not obtain TypeDesciptor for PathInformation %s!", path));
+			throw new IllegalStateException(
+					String.format("Could not obtain TypeDesciptor for PathInformation %s!", path));
 		}
 
 		return result;
 	}
 
 	/**
-	 * Returns whether the given collection has exactly one element that doesn't contain any text. This is basically an
-	 * indicator that a request parameter has been submitted but no value for it.
-	 *
+	 * Returns whether the given collection has exactly one element that doesn't contain
+	 * any text. This is basically an indicator that a request parameter has been
+	 * submitted but no value for it.
 	 * @param source must not be {@literal null}.
 	 * @return
 	 */
 	private static boolean isSingleElementCollectionWithoutText(List<String> source) {
 		return source.size() == 1 && !StringUtils.hasLength(source.get(0));
 	}
+
 }

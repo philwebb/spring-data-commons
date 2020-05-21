@@ -23,11 +23,11 @@ package org.springframework.data.repository.query;
 public final class QueryCreationException extends RuntimeException {
 
 	private static final long serialVersionUID = -1238456123580L;
+
 	private static final String MESSAGE_TEMPLATE = "Could not create query for method %s! Could not find property %s on domain class %s.";
 
 	/**
 	 * Creates a new {@link QueryCreationException}.
-	 *
 	 * @param method
 	 */
 	private QueryCreationException(String message) {
@@ -37,20 +37,18 @@ public final class QueryCreationException extends RuntimeException {
 
 	/**
 	 * Rejects the given domain class property.
-	 *
 	 * @param method
 	 * @param propertyName
 	 * @return
 	 */
 	public static QueryCreationException invalidProperty(QueryMethod method, String propertyName) {
 
-		return new QueryCreationException(String.format(MESSAGE_TEMPLATE, method, propertyName, method.getDomainClass()
-				.getName()));
+		return new QueryCreationException(
+				String.format(MESSAGE_TEMPLATE, method, propertyName, method.getDomainClass().getName()));
 	}
 
 	/**
 	 * Creates a new {@link QueryCreationException}.
-	 *
 	 * @param method
 	 * @param message
 	 * @return
@@ -61,8 +59,8 @@ public final class QueryCreationException extends RuntimeException {
 	}
 
 	/**
-	 * Creates a new {@link QueryCreationException} for the given {@link QueryMethod} and {@link Throwable} as cause.
-	 *
+	 * Creates a new {@link QueryCreationException} for the given {@link QueryMethod} and
+	 * {@link Throwable} as cause.
 	 * @param method
 	 * @param cause
 	 * @return
@@ -71,4 +69,5 @@ public final class QueryCreationException extends RuntimeException {
 
 		return create(method, cause.getMessage());
 	}
+
 }

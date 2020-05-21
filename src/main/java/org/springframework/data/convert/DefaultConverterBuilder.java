@@ -33,8 +33,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Builder to easily set up (bi-directional) {@link Converter} instances for Spring Data type mapping using Lambdas. Use
- * factory methods on {@link ConverterBuilder} to create instances of this class.
+ * Builder to easily set up (bi-directional) {@link Converter} instances for Spring Data
+ * type mapping using Lambdas. Use factory methods on {@link ConverterBuilder} to create
+ * instances of this class.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -47,7 +48,9 @@ class DefaultConverterBuilder<S, T>
 		implements ConverterAware, ReadingConverterBuilder<T, S>, WritingConverterBuilder<S, T> {
 
 	private final ConvertiblePair convertiblePair;
+
 	private final Optional<Function<? super S, ? extends T>> writing;
+
 	private final Optional<Function<? super T, ? extends S>> reading;
 
 	DefaultConverterBuilder(ConvertiblePair convertiblePair, Optional<Function<? super S, ? extends T>> writing,
@@ -56,24 +59,29 @@ class DefaultConverterBuilder<S, T>
 		this.writing = writing;
 		this.reading = reading;
 	}
+
 	@Override
 	public ConverterAware andReading(Function<? super T, ? extends S> function) {
 		return withReading(Optional.of(function));
 	}
+
 	@Override
 	public ConverterAware andWriting(Function<? super S, ? extends T> function) {
 		return withWriting(Optional.of(function));
 	}
+
 	@Override
 	public GenericConverter getReadingConverter() {
 		return getOptionalReadingConverter()
 				.orElseThrow(() -> new IllegalStateException("No reading converter specified!"));
 	}
+
 	@Override
 	public GenericConverter getWritingConverter() {
 		return getOptionalWritingConverter()
 				.orElseThrow(() -> new IllegalStateException("No writing converter specified!"));
 	}
+
 	@Override
 	public Set<GenericConverter> getConverters() {
 
@@ -107,16 +115,22 @@ class DefaultConverterBuilder<S, T>
 	private static class ConfigurableGenericConverter<S, T> implements GenericConverter {
 
 		private final ConvertiblePair convertiblePair;
+
 		private final Function<? super S, ? extends T> function;
 
-		public ConfigurableGenericConverter(ConvertiblePair convertiblePair, Function<? super S, ? extends T> function) {
+		public ConfigurableGenericConverter(ConvertiblePair convertiblePair,
+				Function<? super S, ? extends T> function) {
 			this.convertiblePair = convertiblePair;
 			this.function = function;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.Object, org.springframework.core.convert.TypeDescriptor, org.springframework.core.convert.TypeDescriptor)
+		 * 
+		 * @see
+		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
+		 * Object, org.springframework.core.convert.TypeDescriptor,
+		 * org.springframework.core.convert.TypeDescriptor)
 		 */
 		@Nullable
 		@Override
@@ -129,6 +143,7 @@ class DefaultConverterBuilder<S, T>
 		public Set<ConvertiblePair> getConvertibleTypes() {
 			return Collections.singleton(this.convertiblePair);
 		}
+
 		@Override
 		public boolean equals(Object o) {
 
@@ -148,6 +163,7 @@ class DefaultConverterBuilder<S, T>
 
 			return ObjectUtils.nullSafeEquals(this.function, that.function);
 		}
+
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(this.convertiblePair);
@@ -161,6 +177,7 @@ class DefaultConverterBuilder<S, T>
 			Writing(ConvertiblePair convertiblePair, Function<? super S, ? extends T> function) {
 				super(convertiblePair, function);
 			}
+
 		}
 
 		@ReadingConverter
@@ -169,6 +186,9 @@ class DefaultConverterBuilder<S, T>
 			Reading(ConvertiblePair convertiblePair, Function<? super S, ? extends T> function) {
 				super(convertiblePair, function);
 			}
+
 		}
+
 	}
+
 }

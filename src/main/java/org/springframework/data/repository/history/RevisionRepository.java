@@ -36,7 +36,6 @@ public interface RevisionRepository<T, ID, N extends Number & Comparable<N>> ext
 
 	/**
 	 * Returns the revision of the entity it was last changed in.
-	 *
 	 * @param id must not be {@literal null}.
 	 * @return
 	 */
@@ -44,16 +43,14 @@ public interface RevisionRepository<T, ID, N extends Number & Comparable<N>> ext
 
 	/**
 	 * Returns all {@link Revisions} of an entity with the given id.
-	 *
 	 * @param id must not be {@literal null}.
 	 * @return
 	 */
 	Revisions<N, T> findRevisions(ID id);
 
 	/**
-	 * Returns a {@link Page} of revisions for the entity with the given id. Note, that it's not guaranteed that
-	 * implementations have to support sorting by all properties.
-	 *
+	 * Returns a {@link Page} of revisions for the entity with the given id. Note, that
+	 * it's not guaranteed that implementations have to support sorting by all properties.
 	 * @param id must not be {@literal null}.
 	 * @param pageable
 	 * @see RevisionSort
@@ -63,11 +60,12 @@ public interface RevisionRepository<T, ID, N extends Number & Comparable<N>> ext
 
 	/**
 	 * Returns the entity with the given ID in the given revision number.
-	 *
 	 * @param id must not be {@literal null}.
 	 * @param revisionNumber must not be {@literal null}.
-	 * @return the {@link Revision} of the entity with the given ID in the given revision number.
+	 * @return the {@link Revision} of the entity with the given ID in the given revision
+	 * number.
 	 * @since 1.12
 	 */
 	Optional<Revision<N, T>> findRevision(ID id, N revisionNumber);
+
 }

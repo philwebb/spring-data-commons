@@ -181,7 +181,11 @@ class QSortUnitTests {
 			static class UserWrapper {
 
 				User user;
+
 			}
+
 		}
+
 	}
+
 }

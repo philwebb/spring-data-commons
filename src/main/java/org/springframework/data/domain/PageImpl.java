@@ -35,11 +35,11 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 
 	/**
 	 * Constructor of {@code PageImpl}.
-	 *
 	 * @param content the content of this page, must not be {@literal null}.
 	 * @param pageable the paging information, must not be {@literal null}.
-	 * @param total the total amount of items available. The total might be adapted considering the length of the content
-	 *          given, if it is going to be the content of the last page. This is in place to mitigate inconsistencies.
+	 * @param total the total amount of items available. The total might be adapted
+	 * considering the length of the content given, if it is going to be the content of
+	 * the last page. This is in place to mitigate inconsistencies.
 	 */
 	public PageImpl(List<T> content, Pageable pageable, long total) {
 
@@ -52,34 +52,39 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 	}
 
 	/**
-	 * Creates a new {@link PageImpl} with the given content. This will result in the created {@link Page} being identical
-	 * to the entire {@link List}.
-	 *
+	 * Creates a new {@link PageImpl} with the given content. This will result in the
+	 * created {@link Page} being identical to the entire {@link List}.
 	 * @param content must not be {@literal null}.
 	 */
 	public PageImpl(List<T> content) {
 		this(content, Pageable.unpaged(), null == content ? 0 : content.size());
 	}
+
 	@Override
 	public int getTotalPages() {
 		return getSize() == 0 ? 1 : (int) Math.ceil((double) this.total / (double) getSize());
 	}
+
 	@Override
 	public long getTotalElements() {
 		return this.total;
 	}
+
 	@Override
 	public boolean hasNext() {
 		return getNumber() + 1 < getTotalPages();
 	}
+
 	@Override
 	public boolean isLast() {
 		return !hasNext();
 	}
+
 	@Override
 	public <U> Page<U> map(Function<? super T, ? extends U> converter) {
 		return new PageImpl<>(getConvertedContent(converter), getPageable(), this.total);
 	}
+
 	@Override
 	public String toString() {
 
@@ -92,6 +97,7 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 
 		return String.format("Page %s of %d containing %s instances", getNumber() + 1, getTotalPages(), contentType);
 	}
+
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -107,6 +113,7 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 
 		return this.total == that.total && super.equals(obj);
 	}
+
 	@Override
 	public int hashCode() {
 
@@ -117,4 +124,5 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 
 		return result;
 	}
+
 }

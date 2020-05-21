@@ -40,14 +40,15 @@ import org.springframework.util.ClassUtils;
 public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAware {
 
 	private final Iterable<Class<? extends Annotation>> annotationTypess;
+
 	private final boolean considerInterfaces;
 
 	private @Nullable ResourceLoader resourceLoader;
+
 	private @Nullable Environment environment;
 
 	/**
 	 * Creates a new {@link AnnotatedTypeScanner} for the given annotation types.
-	 *
 	 * @param annotationTypes the annotation types to scan for.
 	 */
 	@SafeVarargs
@@ -57,7 +58,6 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 
 	/**
 	 * Creates a new {@link AnnotatedTypeScanner} for the given annotation types.
-	 *
 	 * @param considerInterfaces whether to consider interfaces as well.
 	 * @param annotationTypes the annotations to scan for.
 	 */
@@ -67,10 +67,12 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 		this.annotationTypess = Arrays.asList(annotationTypes);
 		this.considerInterfaces = considerInterfaces;
 	}
+
 	@Override
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
 	}
+
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;
@@ -114,7 +116,8 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 
 				try {
 					types.add(ClassUtils.forName(beanClassName, classLoader));
-				} catch (ClassNotFoundException o_O) {
+				}
+				catch (ClassNotFoundException o_O) {
 					throw new IllegalStateException(o_O);
 				}
 			}
@@ -124,8 +127,8 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 	}
 
 	/**
-	 * Custom extension of {@link ClassPathScanningCandidateComponentProvider} to make sure interfaces to not get dropped
-	 * from scanning results.
+	 * Custom extension of {@link ClassPathScanningCandidateComponentProvider} to make
+	 * sure interfaces to not get dropped from scanning results.
 	 *
 	 * @author Oliver Gierke
 	 */
@@ -137,10 +140,13 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 			super(false);
 			this.considerInterfaces = considerInterfaces;
 		}
+
 		@Override
 		protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
 			return super.isCandidateComponent(beanDefinition)
 					|| this.considerInterfaces && beanDefinition.getMetadata().isInterface();
 		}
+
 	}
+
 }

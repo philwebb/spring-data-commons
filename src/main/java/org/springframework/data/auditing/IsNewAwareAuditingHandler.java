@@ -25,9 +25,10 @@ import org.springframework.data.support.IsNewStrategy;
 import org.springframework.util.Assert;
 
 /**
- * {@link AuditingHandler} extension that uses {@link PersistentEntity#isNew(Object)} to expose a generic
- * {@link #markAudited(Optional)} method that will route calls to {@link #markCreated(Optional)} or
- * {@link #markModified(Optional)} based on the {@link IsNewStrategy} determined from the factory.
+ * {@link AuditingHandler} extension that uses {@link PersistentEntity#isNew(Object)} to
+ * expose a generic {@link #markAudited(Optional)} method that will route calls to
+ * {@link #markCreated(Optional)} or {@link #markModified(Optional)} based on the
+ * {@link IsNewStrategy} determined from the factory.
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
@@ -38,8 +39,8 @@ public class IsNewAwareAuditingHandler extends AuditingHandler {
 	private final PersistentEntities entities;
 
 	/**
-	 * Creates a new {@link IsNewAwareAuditingHandler} for the given {@link MappingContext}.
-	 *
+	 * Creates a new {@link IsNewAwareAuditingHandler} for the given
+	 * {@link MappingContext}.
 	 * @param mappingContext must not be {@literal null}.
 	 * @since 1.8
 	 * @deprecated use {@link IsNewAwareAuditingHandler(PersistentEntities)} instead.
@@ -51,8 +52,8 @@ public class IsNewAwareAuditingHandler extends AuditingHandler {
 	}
 
 	/**
-	 * Creates a new {@link IsNewAwareAuditingHandler} for the given {@link MappingContext}.
-	 *
+	 * Creates a new {@link IsNewAwareAuditingHandler} for the given
+	 * {@link MappingContext}.
 	 * @param entities must not be {@literal null}.
 	 * @since 1.10
 	 */
@@ -64,9 +65,9 @@ public class IsNewAwareAuditingHandler extends AuditingHandler {
 	}
 
 	/**
-	 * Marks the given object created or modified based on {@link PersistentEntity#isNew(Object)}. Will route the calls to
+	 * Marks the given object created or modified based on
+	 * {@link PersistentEntity#isNew(Object)}. Will route the calls to
 	 * {@link #markCreated(Optional)} and {@link #markModified(Optional)} accordingly.
-	 *
 	 * @param object must not be {@literal null}.
 	 */
 	public Object markAudited(Object object) {
@@ -82,4 +83,5 @@ public class IsNewAwareAuditingHandler extends AuditingHandler {
 
 		return entity.isNew(object) ? markCreated(object) : markModified(object);
 	}
+
 }

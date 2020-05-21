@@ -33,11 +33,12 @@ import org.springframework.util.StringUtils;
 public class NamedQueriesBeanDefinitionBuilder {
 
 	private final String defaultLocation;
+
 	private String locations;
 
 	/**
-	 * Creates a new {@link NamedQueriesBeanDefinitionBuilder} using the given default location.
-	 *
+	 * Creates a new {@link NamedQueriesBeanDefinitionBuilder} using the given default
+	 * location.
 	 * @param defaultLocation must not be {@literal null} or empty.
 	 */
 	@SuppressWarnings("null")
@@ -48,8 +49,8 @@ public class NamedQueriesBeanDefinitionBuilder {
 	}
 
 	/**
-	 * Sets the (comma-separated) locations to load the properties files from to back the {@link NamedQueries} instance.
-	 *
+	 * Sets the (comma-separated) locations to load the properties files from to back the
+	 * {@link NamedQueries} instance.
 	 * @param locations must not be {@literal null} or empty.
 	 */
 	public void setLocations(String locations) {
@@ -61,7 +62,6 @@ public class NamedQueriesBeanDefinitionBuilder {
 
 	/**
 	 * Builds a new {@link BeanDefinition} from the given source.
-	 *
 	 * @param source
 	 * @return
 	 */
@@ -79,7 +79,8 @@ public class NamedQueriesBeanDefinitionBuilder {
 		AbstractBeanDefinition propertiesDefinition = properties.getBeanDefinition();
 		propertiesDefinition.setSource(source);
 
-		BeanDefinitionBuilder namedQueries = BeanDefinitionBuilder.rootBeanDefinition(PropertiesBasedNamedQueries.class);
+		BeanDefinitionBuilder namedQueries = BeanDefinitionBuilder
+				.rootBeanDefinition(PropertiesBasedNamedQueries.class);
 		namedQueries.addConstructorArgValue(propertiesDefinition);
 
 		AbstractBeanDefinition namedQueriesDefinition = namedQueries.getBeanDefinition();
@@ -87,4 +88,5 @@ public class NamedQueriesBeanDefinitionBuilder {
 
 		return namedQueriesDefinition;
 	}
+
 }

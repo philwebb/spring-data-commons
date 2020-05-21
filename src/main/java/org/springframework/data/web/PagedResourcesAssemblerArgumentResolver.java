@@ -38,8 +38,8 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * {@link HandlerMethodArgumentResolver} to allow injection of {@link PagedResourcesAssembler} into Spring MVC
- * controller methods.
+ * {@link HandlerMethodArgumentResolver} to allow injection of
+ * {@link PagedResourcesAssembler} into Spring MVC controller methods.
  *
  * @since 1.6
  * @author Oliver Gierke
@@ -51,17 +51,19 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 	private static final Logger logger = LoggerFactory.getLogger(PagedResourcesAssemblerArgumentResolver.class);
 
 	private static final String SUPERFLOUS_QUALIFIER = "Found qualified {} parameter, but a unique unqualified {} parameter. Using that one, but you might want to check your controller method configuration!";
+
 	private static final String PARAMETER_AMBIGUITY = "Discovered multiple parameters of type Pageable but no qualifier annotations to disambiguate!";
 
 	private final HateoasPageableHandlerMethodArgumentResolver resolver;
+
 	private final MethodLinkBuilderFactory<?> linkBuilderFactory;
 
 	/**
 	 * Creates a new {@link PagedResourcesAssemblerArgumentResolver} using the given
 	 * {@link PageableHandlerMethodArgumentResolver} and {@link MethodLinkBuilderFactory}.
-	 *
 	 * @param resolver can be {@literal null}.
-	 * @param linkBuilderFactory can be {@literal null}, will be defaulted to a {@link WebMvcLinkBuilderFactory}.
+	 * @param linkBuilderFactory can be {@literal null}, will be defaulted to a
+	 * {@link WebMvcLinkBuilderFactory}.
 	 */
 	public PagedResourcesAssemblerArgumentResolver(HateoasPageableHandlerMethodArgumentResolver resolver,
 			@Nullable MethodLinkBuilderFactory<?> linkBuilderFactory) {
@@ -69,6 +71,7 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 		this.resolver = resolver;
 		this.linkBuilderFactory = linkBuilderFactory == null ? new WebMvcLinkBuilderFactory() : linkBuilderFactory;
 	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return PagedResourcesAssembler.class.equals(parameter.getParameterType());
@@ -76,7 +79,12 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#resolveArgument(org.springframework.core.MethodParameter, org.springframework.web.method.support.ModelAndViewContainer, org.springframework.web.context.request.NativeWebRequest, org.springframework.web.bind.support.WebDataBinderFactory)
+	 * 
+	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#
+	 * resolveArgument(org.springframework.core.MethodParameter,
+	 * org.springframework.web.method.support.ModelAndViewContainer,
+	 * org.springframework.web.context.request.NativeWebRequest,
+	 * org.springframework.web.bind.support.WebDataBinderFactory)
 	 */
 	@Nonnull
 	@Override
@@ -88,16 +96,18 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 
 		if (pageableParameter != null) {
 			return new MethodParameterAwarePagedResourcesAssembler<>(pageableParameter, this.resolver, fromUriString);
-		} else {
+		}
+		else {
 			return new PagedResourcesAssembler<>(this.resolver, fromUriString);
 		}
 	}
 
 	/**
-	 * Eagerly resolve a base URI for the given {@link MethodParameter} to be handed to the assembler.
-	 *
+	 * Eagerly resolve a base URI for the given {@link MethodParameter} to be handed to
+	 * the assembler.
 	 * @param parameter must not be {@literal null}.
-	 * @return the {@link UriComponents} representing the base URI, or {@literal null} if it can't be resolved eagerly.
+	 * @return the {@link UriComponents} representing the base URI, or {@literal null} if
+	 * it can't be resolved eagerly.
 	 */
 	@Nullable
 	private UriComponents resolveBaseUri(MethodParameter parameter) {
@@ -111,15 +121,15 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 		try {
 			Link linkToMethod = this.linkBuilderFactory.linkTo(parameter.getDeclaringClass(), method).withSelfRel();
 			return UriComponentsBuilder.fromUriString(linkToMethod.getHref()).build();
-		} catch (IllegalArgumentException o_O) {
+		}
+		catch (IllegalArgumentException o_O) {
 			return null;
 		}
 	}
 
 	/**
-	 * Returns finds the {@link MethodParameter} for a {@link Pageable} instance matching the given
-	 * {@link MethodParameter} requesting a {@link PagedResourcesAssembler}.
-	 *
+	 * Returns finds the {@link MethodParameter} for a {@link Pageable} instance matching
+	 * the given {@link MethodParameter} requesting a {@link PagedResourcesAssembler}.
 	 * @param parameter must not be {@literal null}.
 	 * @return
 	 */
@@ -146,7 +156,8 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 			MethodParameter matchingParameter = returnIfQualifiersMatch(pageableParameter, assemblerQualifier);
 
 			if (matchingParameter == null) {
-				logger.info(SUPERFLOUS_QUALIFIER, PagedResourcesAssembler.class.getSimpleName(), Pageable.class.getName());
+				logger.info(SUPERFLOUS_QUALIFIER, PagedResourcesAssembler.class.getSimpleName(),
+						Pageable.class.getName());
 			}
 
 			return pageableParameter;
@@ -184,4 +195,5 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 
 		return pageableParameterQualifier.value().equals(assemblerQualifier.value()) ? pageableParameter : null;
 	}
+
 }

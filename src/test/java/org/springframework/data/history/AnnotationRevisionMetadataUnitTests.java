@@ -88,7 +88,8 @@ class AnnotationRevisionMetadataUnitTests {
 
 		SampleWithInstant sample = new SampleWithInstant();
 		sample.revisionInstant = Instant.now();
-		LocalDateTime expectedLocalDateTime = LocalDateTime.ofInstant(sample.revisionInstant, ZoneOffset.systemDefault());
+		LocalDateTime expectedLocalDateTime = LocalDateTime.ofInstant(sample.revisionInstant,
+				ZoneOffset.systemDefault());
 
 		RevisionMetadata<Long> metadata = getMetadata(sample);
 
@@ -145,29 +146,48 @@ class AnnotationRevisionMetadataUnitTests {
 
 	static class Sample {
 
-		@Autowired Long revisionNumber;
-		@Reference LocalDateTime revisionDate;
+		@Autowired
+		Long revisionNumber;
+
+		@Reference
+		LocalDateTime revisionDate;
+
 	}
 
 	static class SampleWithInstant {
 
-		@Autowired Long revisionNumber;
-		@Reference Instant revisionInstant;
+		@Autowired
+		Long revisionNumber;
+
+		@Reference
+		Instant revisionInstant;
+
 	}
 
 	static class SampleWithLong {
 
-		@Autowired Long revisionNumber;
-		@Reference long revisionLong;
+		@Autowired
+		Long revisionNumber;
+
+		@Reference
+		long revisionLong;
+
 	}
 
 	// DATACMNS-1384
 
 	static class SampleWithTimestamp {
-		@Reference Timestamp revision;
+
+		@Reference
+		Timestamp revision;
+
 	}
 
 	static class SampleWithDate {
-		@Reference Date revision;
+
+		@Reference
+		Date revision;
+
 	}
+
 }
