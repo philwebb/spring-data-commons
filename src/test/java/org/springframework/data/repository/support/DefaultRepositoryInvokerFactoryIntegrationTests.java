@@ -29,7 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Integration tests for {@link DefaultRepositoryInvokerFactory}.
@@ -56,7 +56,7 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 	void findOneShouldDelegateToAppropriateRepository() {
 		// Mockito.reset(productRepository);
 		Product product = new Product();
-		when(this.productRepository.findById(4711L)).thenReturn(product);
+		given(this.productRepository.findById(4711L)).willReturn(product);
 		Optional<Object> invokeFindOne = this.factory.getInvokerFor(Product.class).invokeFindById(4711L);
 		assertThat(invokeFindOne).isEqualTo(Optional.of(product));
 	}

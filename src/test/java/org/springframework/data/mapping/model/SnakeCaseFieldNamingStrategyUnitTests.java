@@ -23,7 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.mapping.PersistentProperty;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link SnakeCaseFieldNamingStrategy}.
@@ -49,7 +49,7 @@ class SnakeCaseFieldNamingStrategyUnitTests {
 	}
 
 	private void assertFieldNameForPropertyName(String propertyName, String fieldName) {
-		when(this.property.getName()).thenReturn(propertyName);
+		given(this.property.getName()).willReturn(propertyName);
 		assertThat(this.strategy.getFieldName(this.property)).isEqualTo(fieldName);
 	}
 

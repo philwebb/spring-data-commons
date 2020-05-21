@@ -25,8 +25,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link XmlRepositoryConfigurationSource}.
@@ -43,8 +43,8 @@ class XmlRepositoryConfigurationSourceUnitTests {
 	void translatesCamelCaseAttributeNameIntoXmlEquivalent() {
 		RepositoryConfigurationSource source = mock(XmlRepositoryConfigurationSource.class);
 		ReflectionTestUtils.setField(source, "element", this.element);
-		when(source.getAttribute(anyString())).thenCallRealMethod();
-		when(this.element.getAttribute("some-xml-attribute")).thenReturn("value");
+		given(source.getAttribute(anyString())).willCallRealMethod();
+		given(this.element.getAttribute("some-xml-attribute")).willReturn("value");
 		assertThat(source.getAttribute("someXmlAttribute")).hasValue("value");
 	}
 

@@ -43,8 +43,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.format.support.DefaultFormattingConversionService;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link CrudRepositoryInvoker}.
@@ -62,7 +62,7 @@ class CrudRepositoryInvokerUnitTests {
 
 	@Test // DATACMNS-589, DATAREST-216
 	void invokesRedeclaredSave() {
-		when(this.orderRepository.save(any())).then(AdditionalAnswers.returnsFirstArg());
+		given(this.orderRepository.save(any())).will(AdditionalAnswers.returnsFirstArg());
 		getInvokerFor(this.orderRepository, RepositoryInvocationTestUtils.expectInvocationOnType(OrderRepository.class))
 				.invokeSave(new Order());
 	}

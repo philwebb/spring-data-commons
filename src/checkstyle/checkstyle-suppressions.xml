@@ -10,8 +10,6 @@
 	<suppress files=".*" checks="JavadocType" />
 	<suppress files=".*" checks="JavadocVariable" />
 	<suppress files=".*" checks="NonEmptyAtclauseDescription" />
-	<suppress files=".*" checks="Regexp" />
-	<suppress files=".*" checks="RegexpSinglelineJava" />
 	<suppress files=".*" checks="SpringHeader" />
 	<suppress files=".*" checks="SpringHideUtilityClassConstructor" />
 	<suppress files=".*" checks="SpringJUnit5" />

@@ -36,10 +36,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link ReflectionEntityInstantiator}.
@@ -59,20 +59,20 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 
 	@Test
 	void instantiatesSimpleObjectCorrectly() {
-		doReturn(Object.class).when(this.entity).getType();
+		willReturn(Object.class).given(this.entity).getType();
 		ReflectionEntityInstantiator.INSTANCE.createInstance(this.entity, this.provider);
 	}
 
 	@Test
 	void instantiatesArrayCorrectly() {
-		doReturn(String[][].class).when(this.entity).getType();
+		willReturn(String[][].class).given(this.entity).getType();
 		ReflectionEntityInstantiator.INSTANCE.createInstance(this.entity, this.provider);
 	}
 
 	@Test // DATACMNS-1126
 	void instantiatesTypeWithPreferredConstructorUsingParameterValueProvider() {
 		PreferredConstructor<Foo, P> constructor = PreferredConstructorDiscoverer.discover(Foo.class);
-		doReturn(constructor).when(this.entity).getPersistenceConstructor();
+		willReturn(constructor).given(this.entity).getPersistenceConstructor();
 		Object instance = ReflectionEntityInstantiator.INSTANCE.createInstance(this.entity, this.provider);
 		assertThat(instance).isInstanceOf(Foo.class);
 		assertThat(constructor).satisfies(
@@ -82,7 +82,7 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 	@Test // DATACMNS-300
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void throwsExceptionOnBeanInstantiationException() {
-		doReturn(PersistentEntity.class).when(this.entity).getType();
+		willReturn(PersistentEntity.class).given(this.entity).getType();
 		assertThatExceptionOfType(MappingInstantiationException.class)
 				.isThrownBy(() -> ReflectionEntityInstantiator.INSTANCE.createInstance(this.entity, this.provider));
 	}
@@ -93,7 +93,7 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 		assertThat(entity.getPersistenceConstructor()).satisfies(it -> {
 			Parameter<Object, P> parameter = it.getParameters().iterator().next();
 			Object outer = new Outer();
-			when(this.provider.getParameterValue(parameter)).thenReturn(outer);
+			given(this.provider.getParameterValue(parameter)).willReturn(outer);
 			Inner instance = ReflectionEntityInstantiator.INSTANCE.createInstance(entity, this.provider);
 			assertThat(instance).isNotNull();
 			// Hack to check synthetic field as compiles create different field names
@@ -111,7 +111,7 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void capturesContextOnInstantiationException() throws Exception {
 		PersistentEntity<Sample, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Sample.class));
-		doReturn("FOO").when(this.provider).getParameterValue(any(Parameter.class));
+		willReturn("FOO").given(this.provider).getParameterValue(any(Parameter.class));
 		Constructor constructor = Sample.class.getConstructor(Long.class, String.class);
 		List<Object> parameters = Arrays.asList("FOO", "FOO");
 		try {

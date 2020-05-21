@@ -35,8 +35,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link QuerydslBindingsFactory}.
@@ -58,8 +58,8 @@ class QuerydslBindingsFactoryUnitTests {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void createBindingsShouldHonorQuerydslBinderCustomizerHookWhenPresent() {
 		Repositories repositories = mock(Repositories.class);
-		when(repositories.hasRepositoryFor(User.class)).thenReturn(true);
-		when(repositories.getRepositoryFor(User.class)).thenReturn(Optional.of(new SampleRepo()));
+		given(repositories.hasRepositoryFor(User.class)).willReturn(true);
+		given(repositories.getRepositoryFor(User.class)).willReturn(Optional.of(new SampleRepo()));
 		QuerydslBindingsFactory factory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
 		ReflectionTestUtils.setField(factory, "repositories", Optional.of(repositories));
 		QuerydslBindings bindings = factory.createBindingsFor(USER_TYPE);
@@ -75,7 +75,7 @@ class QuerydslBindingsFactoryUnitTests {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void shouldReuseExistingQuerydslBinderCustomizer() {
 		AutowireCapableBeanFactory beanFactory = mock(AutowireCapableBeanFactory.class);
-		when(beanFactory.getBean(SpecificBinding.class)).thenReturn(new SpecificBinding());
+		given(beanFactory.getBean(SpecificBinding.class)).willReturn(new SpecificBinding());
 		QuerydslBindingsFactory factory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
 		ReflectionTestUtils.setField(factory, "beanFactory", Optional.of(beanFactory));
 		QuerydslBindings bindings = factory.createBindingsFor(USER_TYPE, SpecificBinding.class);

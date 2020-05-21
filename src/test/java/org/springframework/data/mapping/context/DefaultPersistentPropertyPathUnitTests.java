@@ -31,7 +31,7 @@ import org.springframework.data.mapping.PersistentPropertyPath;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link DefaultPersistentPropertyPath}.
@@ -67,14 +67,14 @@ class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
 	@Test
 	void usesPropertyNameForSimpleDotPath() {
-		when(this.first.getName()).thenReturn("foo");
-		when(this.second.getName()).thenReturn("bar");
+		given(this.first.getName()).willReturn("foo");
+		given(this.second.getName()).willReturn("bar");
 		assertThat(this.twoLegs.toDotPath()).isEqualTo("foo.bar");
 	}
 
 	@Test
 	void usesConverterToCreatePropertyPath() {
-		when(this.converter.convert(any())).thenReturn("foo");
+		given(this.converter.convert(any())).willReturn("foo");
 		assertThat(this.twoLegs.toDotPath(this.converter)).isEqualTo("foo.foo");
 	}
 

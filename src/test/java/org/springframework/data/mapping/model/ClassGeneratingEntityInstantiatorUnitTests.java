@@ -42,10 +42,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link ClassGeneratingEntityInstantiator}.
@@ -68,21 +68,21 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	@Test
 	void instantiatesSimpleObjectCorrectly() {
-		doReturn(Object.class).when(this.entity).getType();
+		willReturn(Object.class).given(this.entity).getType();
 		this.instance.createInstance(this.entity, this.provider);
 	}
 
 	@Test
 	void instantiatesArrayCorrectly() {
-		doReturn(String[][].class).when(this.entity).getType();
+		willReturn(String[][].class).given(this.entity).getType();
 		this.instance.createInstance(this.entity, this.provider);
 	}
 
 	@Test // DATACMNS-1126
 	void instantiatesTypeWithPreferredConstructorUsingParameterValueProvider() {
 		PreferredConstructor<Foo, P> constructor = PreferredConstructorDiscoverer.discover(Foo.class);
-		doReturn(Foo.class).when(this.entity).getType();
-		doReturn(constructor).when(this.entity).getPersistenceConstructor();
+		willReturn(Foo.class).given(this.entity).getType();
+		willReturn(constructor).given(this.entity).getPersistenceConstructor();
 		assertThat(this.instance.createInstance(this.entity, this.provider)).isInstanceOf(Foo.class);
 		assertThat(constructor).satisfies(
 				it -> verify(this.provider, times(1)).getParameterValue(it.getParameters().iterator().next()));
@@ -91,7 +91,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 	@Test // DATACMNS-300, DATACMNS-578
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void throwsExceptionOnBeanInstantiationException() {
-		doReturn(PersistentEntity.class).when(this.entity).getType();
+		willReturn(PersistentEntity.class).given(this.entity).getType();
 		assertThatExceptionOfType(MappingInstantiationException.class)
 				.isThrownBy(() -> this.instance.createInstance(this.entity, this.provider));
 	}
@@ -102,7 +102,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 		assertThat(entity.getPersistenceConstructor()).satisfies(constructor -> {
 			Parameter<Object, P> parameter = constructor.getParameters().iterator().next();
 			Object outer = new Outer();
-			doReturn(outer).when(this.provider).getParameterValue(parameter);
+			willReturn(outer).given(this.provider).getParameterValue(parameter);
 			Inner instance = this.instance.createInstance(entity, this.provider);
 			assertThat(instance).isNotNull();
 			// Hack to check synthetic field as compiles create different field names
@@ -120,7 +120,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void capturesContextOnInstantiationException() throws Exception {
 		PersistentEntity<Sample, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Sample.class));
-		doReturn("FOO").when(this.provider).getParameterValue(any(Parameter.class));
+		willReturn("FOO").given(this.provider).getParameterValue(any(Parameter.class));
 		Constructor constructor = Sample.class.getConstructor(Long.class, String.class);
 		List<Object> parameters = Arrays.asList("FOO", "FOO");
 		try {
@@ -144,7 +144,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 		PersistentEntity<SampleWithReference, P> outer = new BasicPersistentEntity<>(
 				ClassTypeInformation.from(SampleWithReference.class));
 		PersistentEntity<Sample, P> inner = new BasicPersistentEntity<>(ClassTypeInformation.from(Sample.class));
-		doReturn(2L, "FOO").when(this.provider).getParameterValue(any(Parameter.class));
+		willReturn(2L, "FOO").given(this.provider).getParameterValue(any(Parameter.class));
 		ParameterValueProvider<P> recursive = new ParameterValueProvider<P>() {
 
 			@Override
@@ -169,8 +169,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	@Test // DATACMNS-578, DATACMNS-1126
 	void instantiateObjCtorDefault() {
-		doReturn(ObjCtorDefault.class).when(this.entity).getType();
-		doReturn(PreferredConstructorDiscoverer.discover(ObjCtorDefault.class)).when(this.entity)
+		willReturn(ObjCtorDefault.class).given(this.entity).getType();
+		willReturn(PreferredConstructorDiscoverer.discover(ObjCtorDefault.class)).given(this.entity)
 				.getPersistenceConstructor();
 		IntStream.range(0, 2).forEach(i -> assertThat(this.instance.createInstance(this.entity, this.provider))
 				.isInstanceOf(ObjCtorDefault.class));
@@ -178,8 +178,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	@Test // DATACMNS-578, DATACMNS-1126
 	void instantiateObjCtorNoArgs() {
-		doReturn(ObjCtorNoArgs.class).when(this.entity).getType();
-		doReturn(PreferredConstructorDiscoverer.discover(ObjCtorNoArgs.class)).when(this.entity)
+		willReturn(ObjCtorNoArgs.class).given(this.entity).getType();
+		willReturn(PreferredConstructorDiscoverer.discover(ObjCtorNoArgs.class)).given(this.entity)
 				.getPersistenceConstructor();
 		IntStream.range(0, 2).forEach(i -> {
 			Object instance = this.instance.createInstance(this.entity, this.provider);
@@ -190,10 +190,10 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	@Test // DATACMNS-578, DATACMNS-1126
 	void instantiateObjCtor1ParamString() {
-		doReturn(ObjCtor1ParamString.class).when(this.entity).getType();
-		doReturn(PreferredConstructorDiscoverer.discover(ObjCtor1ParamString.class)).when(this.entity)
+		willReturn(ObjCtor1ParamString.class).given(this.entity).getType();
+		willReturn(PreferredConstructorDiscoverer.discover(ObjCtor1ParamString.class)).given(this.entity)
 				.getPersistenceConstructor();
-		doReturn("FOO").when(this.provider).getParameterValue(any());
+		willReturn("FOO").given(this.provider).getParameterValue(any());
 		IntStream.range(0, 2).forEach(i -> {
 			Object instance = this.instance.createInstance(this.entity, this.provider);
 			assertThat(instance).isInstanceOf(ObjCtor1ParamString.class);
@@ -204,11 +204,11 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	@Test // DATACMNS-578, DATACMNS-1126
 	void instantiateObjCtor2ParamStringString() {
-		doReturn(ObjCtor2ParamStringString.class).when(this.entity).getType();
-		doReturn(PreferredConstructorDiscoverer.discover(ObjCtor2ParamStringString.class)).when(this.entity)
+		willReturn(ObjCtor2ParamStringString.class).given(this.entity).getType();
+		willReturn(PreferredConstructorDiscoverer.discover(ObjCtor2ParamStringString.class)).given(this.entity)
 				.getPersistenceConstructor();
 		IntStream.range(0, 2).forEach(i -> {
-			when(this.provider.getParameterValue(any())).thenReturn("FOO", "BAR");
+			given(this.provider.getParameterValue(any())).willReturn("FOO", "BAR");
 			Object instance = this.instance.createInstance(this.entity, this.provider);
 			assertThat(instance).isInstanceOf(ObjCtor2ParamStringString.class);
 			assertThat(((ObjCtor2ParamStringString) instance).ctorInvoked).isTrue();
@@ -219,11 +219,11 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	@Test // DATACMNS-578, DATACMNS-1126
 	void instantiateObjectCtor1ParamInt() {
-		doReturn(ObjectCtor1ParamInt.class).when(this.entity).getType();
-		doReturn(PreferredConstructorDiscoverer.discover(ObjectCtor1ParamInt.class)).when(this.entity)
+		willReturn(ObjectCtor1ParamInt.class).given(this.entity).getType();
+		willReturn(PreferredConstructorDiscoverer.discover(ObjectCtor1ParamInt.class)).given(this.entity)
 				.getPersistenceConstructor();
 		IntStream.range(0, 2).forEach(i -> {
-			doReturn(42).when(this.provider).getParameterValue(any());
+			willReturn(42).given(this.provider).getParameterValue(any());
 			Object instance = this.instance.createInstance(this.entity, this.provider);
 			assertThat(instance).isInstanceOf(ObjectCtor1ParamInt.class);
 			assertThat(((ObjectCtor1ParamInt) instance).param1).isEqualTo(42);
@@ -232,8 +232,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	@Test // DATACMNS-1200
 	void instantiateObjectCtor1ParamIntWithoutValue() {
-		doReturn(ObjectCtor1ParamInt.class).when(this.entity).getType();
-		doReturn(PreferredConstructorDiscoverer.discover(ObjectCtor1ParamInt.class)).when(this.entity)
+		willReturn(ObjectCtor1ParamInt.class).given(this.entity).getType();
+		willReturn(PreferredConstructorDiscoverer.discover(ObjectCtor1ParamInt.class)).given(this.entity)
 				.getPersistenceConstructor();
 		assertThatThrownBy(() -> this.instance.createInstance(this.entity, this.provider))
 				.hasCauseInstanceOf(IllegalArgumentException.class);
@@ -242,11 +242,11 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 	@Test // DATACMNS-578, DATACMNS-1126
 	@SuppressWarnings("unchecked")
 	void instantiateObjectCtor7ParamsString5IntsString() {
-		doReturn(ObjectCtor7ParamsString5IntsString.class).when(this.entity).getType();
-		doReturn(PreferredConstructorDiscoverer.discover(ObjectCtor7ParamsString5IntsString.class)).when(this.entity)
+		willReturn(ObjectCtor7ParamsString5IntsString.class).given(this.entity).getType();
+		willReturn(PreferredConstructorDiscoverer.discover(ObjectCtor7ParamsString5IntsString.class)).given(this.entity)
 				.getPersistenceConstructor();
 		IntStream.range(0, 2).forEach(i -> {
-			when(this.provider.getParameterValue(any(Parameter.class))).thenReturn("A", 1, 2, 3, 4, 5, "B");
+			given(this.provider.getParameterValue(any(Parameter.class))).willReturn("A", 1, 2, 3, 4, 5, "B");
 			Object instance = this.instance.createInstance(this.entity, this.provider);
 			assertThat(instance).isInstanceOf(ObjectCtor7ParamsString5IntsString.class);
 			ObjectCtor7ParamsString5IntsString toTest = (ObjectCtor7ParamsString5IntsString) instance;
@@ -314,8 +314,8 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 	}
 
 	private void prepareMocks(Class<?> type) {
-		doReturn(type).when(this.entity).getType();
-		doReturn(PreferredConstructorDiscoverer.discover(type)).when(this.entity).getPersistenceConstructor();
+		willReturn(type).given(this.entity).getType();
+		willReturn(PreferredConstructorDiscoverer.discover(type)).given(this.entity).getPersistenceConstructor();
 	}
 
 	static class Foo {

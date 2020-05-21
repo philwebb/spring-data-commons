@@ -34,10 +34,10 @@ import org.springframework.core.convert.support.DefaultConversionService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link ProjectingMethodInterceptor}.
@@ -64,8 +64,8 @@ class ProjectingMethodInterceptorUnitTests {
 	void wrapsDelegateResultInProxyIfTypesDontMatch() throws Throwable {
 		MethodInterceptor methodInterceptor = new ProjectingMethodInterceptor(new ProxyProjectionFactory(),
 				this.interceptor, this.conversionService);
-		when(this.invocation.getMethod()).thenReturn(Helper.class.getMethod("getHelper"));
-		when(this.interceptor.invoke(this.invocation)).thenReturn("Foo");
+		given(this.invocation.getMethod()).willReturn(Helper.class.getMethod("getHelper"));
+		given(this.interceptor.invoke(this.invocation)).willReturn("Foo");
 		assertThat(methodInterceptor.invoke(this.invocation)).isInstanceOf(Helper.class);
 	}
 
@@ -73,8 +73,8 @@ class ProjectingMethodInterceptorUnitTests {
 	void retunsDelegateResultAsIsIfTypesMatch() throws Throwable {
 		MethodInterceptor methodInterceptor = new ProjectingMethodInterceptor(this.factory, this.interceptor,
 				this.conversionService);
-		when(this.invocation.getMethod()).thenReturn(Helper.class.getMethod("getString"));
-		when(this.interceptor.invoke(this.invocation)).thenReturn("Foo");
+		given(this.invocation.getMethod()).willReturn(Helper.class.getMethod("getString"));
+		given(this.interceptor.invoke(this.invocation)).willReturn("Foo");
 		assertThat(methodInterceptor.invoke(this.invocation)).isEqualTo("Foo");
 	}
 
@@ -82,7 +82,7 @@ class ProjectingMethodInterceptorUnitTests {
 	void returnsNullAsIs() throws Throwable {
 		MethodInterceptor methodInterceptor = new ProjectingMethodInterceptor(this.factory, this.interceptor,
 				this.conversionService);
-		when(this.interceptor.invoke(this.invocation)).thenReturn(null);
+		given(this.interceptor.invoke(this.invocation)).willReturn(null);
 		assertThat(methodInterceptor.invoke(this.invocation)).isNull();
 	}
 
@@ -90,8 +90,8 @@ class ProjectingMethodInterceptorUnitTests {
 	void considersPrimitivesAsWrappers() throws Throwable {
 		MethodInterceptor methodInterceptor = new ProjectingMethodInterceptor(this.factory, this.interceptor,
 				this.conversionService);
-		when(this.invocation.getMethod()).thenReturn(Helper.class.getMethod("getPrimitive"));
-		when(this.interceptor.invoke(this.invocation)).thenReturn(1L);
+		given(this.invocation.getMethod()).willReturn(Helper.class.getMethod("getPrimitive"));
+		given(this.interceptor.invoke(this.invocation)).willReturn(1L);
 		assertThat(methodInterceptor.invoke(this.invocation)).isEqualTo(1L);
 		verify(this.factory, times(0)).createProjection((Class<?>) any(), any());
 	}
@@ -174,8 +174,8 @@ class ProjectingMethodInterceptorUnitTests {
 	 * @throws Throwable
 	 */
 	private MethodInvocation mockInvocationOf(String methodName, Object returnValue) throws Throwable {
-		when(this.invocation.getMethod()).thenReturn(Helper.class.getMethod(methodName));
-		when(this.interceptor.invoke(this.invocation)).thenReturn(returnValue);
+		given(this.invocation.getMethod()).willReturn(Helper.class.getMethod(methodName));
+		given(this.interceptor.invoke(this.invocation)).willReturn(returnValue);
 		return this.invocation;
 	}
 

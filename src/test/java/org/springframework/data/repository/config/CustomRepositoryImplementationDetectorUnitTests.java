@@ -34,8 +34,8 @@ import org.springframework.mock.env.MockEnvironment;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * tests {@link CustomRepositoryImplementationDetector}
@@ -57,10 +57,10 @@ class CustomRepositoryImplementationDetectorUnitTests {
 			this.resourceLoader, this.configuration);
 
 	{
-		when(this.configuration.forRepositoryConfiguration(any(RepositoryConfiguration.class))).thenCallRealMethod();
-		when(this.configuration.getMetadataReaderFactory()).thenReturn(this.metadataFactory);
-		when(this.configuration.getBasePackages()).thenReturn(Streamable.of(this.getClass().getPackage().getName()));
-		when(this.configuration.getImplementationPostfix()).thenReturn("TestImpl");
+		given(this.configuration.forRepositoryConfiguration(any(RepositoryConfiguration.class))).willCallRealMethod();
+		given(this.configuration.getMetadataReaderFactory()).willReturn(this.metadataFactory);
+		given(this.configuration.getBasePackages()).willReturn(Streamable.of(this.getClass().getPackage().getName()));
+		given(this.configuration.getImplementationPostfix()).willReturn("TestImpl");
 	}
 
 	@Test // DATACMNS-764, DATACMNS-1371
@@ -83,7 +83,7 @@ class CustomRepositoryImplementationDetectorUnitTests {
 
 	@Test // DATACMNS-764, DATACMNS-1371
 	void returnsBeanDefinitionMatchingByNameWhenMultipleImplementationAreFound() {
-		when(this.configuration.generateBeanName(any())).then(it -> {
+		given(this.configuration.generateBeanName(any())).will(it -> {
 			BeanDefinition definition = it.getArgument(0);
 			String className = definition.getBeanClassName();
 			return className.contains("$First$") ? "canonicalSampleRepositoryTestImpl" : "otherBeanName";
@@ -98,17 +98,17 @@ class CustomRepositoryImplementationDetectorUnitTests {
 	void throwsExceptionWhenMultipleImplementationAreFound() {
 		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> {
 			ImplementationLookupConfiguration lookup = mock(ImplementationLookupConfiguration.class);
-			when(lookup.hasMatchingBeanName(any())).thenReturn(true);
-			when(lookup.matches(any())).thenReturn(true);
+			given(lookup.hasMatchingBeanName(any())).willReturn(true);
+			given(lookup.matches(any())).willReturn(true);
 			this.detector.detectCustomImplementation(lookup);
 		});
 	}
 
 	private RepositoryConfiguration configFor(Class<?> type) {
 		RepositoryConfiguration<?> configuration = mock(RepositoryConfiguration.class);
-		when(configuration.getRepositoryInterface()).thenReturn(type.getSimpleName());
-		when(configuration.getImplementationBasePackages())
-				.thenReturn(Streamable.of(this.getClass().getPackage().getName()));
+		given(configuration.getRepositoryInterface()).willReturn(type.getSimpleName());
+		given(configuration.getImplementationBasePackages())
+				.willReturn(Streamable.of(this.getClass().getPackage().getName()));
 		return configuration;
 	}
 

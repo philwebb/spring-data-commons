@@ -46,8 +46,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
@@ -124,7 +124,7 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 
 	@Test // DATACMNS-928
 	void doesNotInterceptNonSaveMethod() throws Throwable {
-		doReturn(SampleRepository.class.getMethod("findById", Object.class)).when(this.invocation).getMethod();
+		willReturn(SampleRepository.class.getMethod("findById", Object.class)).given(this.invocation).getMethod();
 		EventPublishingMethodInterceptor.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
 		verify(this.publisher, never()).publishEvent(any());
@@ -160,7 +160,7 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 
 	@Test // DATACMNS-975
 	void publishesEventsAfterSaveInvocation() throws Throwable {
-		doThrow(new IllegalStateException()).when(this.invocation).proceed();
+		willThrow(new IllegalStateException()).given(this.invocation).proceed();
 		try {
 			EventPublishingMethodInterceptor.of(EventPublishingMethod.of(OneEvent.class), this.publisher)
 					.invoke(this.invocation);
@@ -223,9 +223,9 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 
 	private static void mockInvocation(MethodInvocation invocation, Method method, Object parameter, Object returnValue)
 			throws Throwable {
-		doReturn(method).when(invocation).getMethod();
-		doReturn(new Object[] { parameter }).when(invocation).getArguments();
-		doReturn(returnValue).when(invocation).proceed();
+		willReturn(method).given(invocation).getMethod();
+		willReturn(new Object[] { parameter }).given(invocation).getArguments();
+		willReturn(returnValue).given(invocation).proceed();
 	}
 
 	@Value(staticConstructor = "of")

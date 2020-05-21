@@ -29,9 +29,9 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link QueryExecutorMethodInterceptor}.
@@ -51,7 +51,7 @@ class QueryExecutorMethodInterceptorUnitTests {
 
 	@Test // DATACMNS-1508
 	void rejectsRepositoryInterfaceWithQueryMethodsIfNoQueryLookupStrategyIsDefined() {
-		when(this.information.hasQueryMethods()).thenReturn(true);
+		given(this.information.hasQueryMethods()).willReturn(true);
 		assertThatIllegalStateException().isThrownBy(
 				() -> new QueryExecutorMethodInterceptor(this.information, new SpelAwareProxyProjectionFactory(),
 						Optional.empty(), PropertiesBasedNamedQueries.EMPTY, Collections.emptyList()));

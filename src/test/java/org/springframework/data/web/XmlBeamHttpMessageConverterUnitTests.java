@@ -32,7 +32,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link XmlBeamHttpMessageConverter}.
@@ -95,7 +95,7 @@ class XmlBeamHttpMessageConverterUnitTests {
 	}
 
 	private void preparePayload(String payload) throws IOException {
-		when(this.message.getBody()).thenReturn(new ByteArrayInputStream(payload.getBytes()));
+		given(this.message.getBody()).willReturn(new ByteArrayInputStream(payload.getBytes()));
 	}
 
 	@ProjectedPayload

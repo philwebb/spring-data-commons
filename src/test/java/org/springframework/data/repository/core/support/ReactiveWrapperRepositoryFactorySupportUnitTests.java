@@ -34,9 +34,9 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.reactive.ReactiveSortingRepository;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link RepositoryFactorySupport} using reactive wrapper types.
@@ -72,7 +72,7 @@ class ReactiveWrapperRepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-836, DATACMNS-1154
 	void callsRxJava1MethodOnBaseImplementationWithExactArguments() {
 		Serializable id = 1L;
-		when(this.backingRepo.existsById(id)).thenReturn(Mono.just(true));
+		given(this.backingRepo.existsById(id)).willReturn(Mono.just(true));
 		RxJava1ConvertingRepository repository = this.factory.getRepository(RxJava1ConvertingRepository.class);
 		repository.existsById(id);
 		repository.existsById((Long) id);
@@ -82,7 +82,7 @@ class ReactiveWrapperRepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-836, DATACMNS-1063, DATACMNS-1154
 	@SuppressWarnings("unchecked")
 	void callsRxJava1MethodOnBaseImplementationWithTypeConversion() {
-		when(this.backingRepo.existsById(any(Publisher.class))).thenReturn(Mono.just(true));
+		given(this.backingRepo.existsById(any(Publisher.class))).willReturn(Mono.just(true));
 		Single<Long> ids = Single.just(1L);
 		RxJava1ConvertingRepository repository = this.factory.getRepository(RxJava1ConvertingRepository.class);
 		repository.existsById(ids);
@@ -92,7 +92,7 @@ class ReactiveWrapperRepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-988, DATACMNS-1154
 	void callsRxJava2MethodOnBaseImplementationWithExactArguments() {
 		Long id = 1L;
-		when(this.backingRepo.findById(id)).thenReturn(Mono.just(true));
+		given(this.backingRepo.findById(id)).willReturn(Mono.just(true));
 		RxJava2ConvertingRepository repository = this.factory.getRepository(RxJava2ConvertingRepository.class);
 		repository.findById(id);
 		verify(this.backingRepo, times(1)).findById(id);
@@ -101,7 +101,7 @@ class ReactiveWrapperRepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-988, DATACMNS-1154
 	void callsRxJava2MethodOnBaseImplementationWithTypeConversion() {
 		Serializable id = 1L;
-		when(this.backingRepo.deleteById(id)).thenReturn(Mono.empty());
+		given(this.backingRepo.deleteById(id)).willReturn(Mono.empty());
 		RxJava2ConvertingRepository repository = this.factory.getRepository(RxJava2ConvertingRepository.class);
 		repository.deleteById(id);
 		verify(this.backingRepo, times(1)).deleteById(id);

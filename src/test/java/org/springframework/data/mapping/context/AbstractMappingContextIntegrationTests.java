@@ -30,8 +30,8 @@ import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Integration tests for {@link AbstractMappingContext}.
@@ -99,9 +99,9 @@ class AbstractMappingContextIntegrationTests<T extends PersistentProperty<T>> {
 		protected T createPersistentProperty(Property property, BasicPersistentEntity<Object, T> owner,
 				SimpleTypeHolder simpleTypeHolder) {
 			PersistentProperty prop = mock(PersistentProperty.class);
-			when(prop.getTypeInformation()).thenReturn(owner.getTypeInformation());
-			when(prop.getName()).thenReturn(property.getName());
-			when(prop.getPersistentEntityTypes()).thenReturn(Collections.EMPTY_SET);
+			given(prop.getTypeInformation()).willReturn(owner.getTypeInformation());
+			given(prop.getName()).willReturn(property.getName());
+			given(prop.getPersistentEntityTypes()).willReturn(Collections.EMPTY_SET);
 			try {
 				Thread.sleep(200);
 			}

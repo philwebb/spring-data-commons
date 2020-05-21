@@ -18,8 +18,8 @@ package org.springframework.data.repository.config;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link DefaultImplementationLookupConfigurationUnitTests}.
@@ -31,7 +31,7 @@ class DefaultImplementationLookupConfigurationUnitTests {
 	@Test // DATACMNS-1439
 	void shouldConsiderBeanNameDecapitalization() {
 		ImplementationDetectionConfiguration idcMock = mock(ImplementationDetectionConfiguration.class);
-		when(idcMock.getImplementationPostfix()).thenReturn("Impl");
+		given(idcMock.getImplementationPostfix()).willReturn("Impl");
 		assertThat(getImplementationBeanName(idcMock, "com.acme.UDPRepository")).isEqualTo("UDPRepositoryImpl");
 		assertThat(getImplementationBeanName(idcMock, "com.acme.UdpRepository")).isEqualTo("udpRepositoryImpl");
 	}

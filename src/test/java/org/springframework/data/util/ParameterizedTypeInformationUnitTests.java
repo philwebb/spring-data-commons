@@ -32,7 +32,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link ParameterizedTypeInformation}.
@@ -49,7 +49,7 @@ class ParameterizedTypeInformationUnitTests {
 
 	@BeforeEach
 	void setUp() {
-		when(this.one.getActualTypeArguments()).thenReturn(new Type[0]);
+		given(this.one.getActualTypeArguments()).willReturn(new Type[0]);
 	}
 
 	@Test

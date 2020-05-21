@@ -36,8 +36,8 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link TransactionalRepositoryProxyPostProcessor}.
@@ -97,8 +97,8 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 	private void assertTransactionAttributeFor(Class<?> implementationClass) throws Exception {
 		Method repositorySaveMethod = SampleRepository.class.getMethod("save", Sample.class);
 		Method implementationClassMethod = implementationClass.getMethod("save", Object.class);
-		when(this.repositoryInformation.getTargetClassMethod(repositorySaveMethod))
-				.thenReturn(implementationClassMethod);
+		given(this.repositoryInformation.getTargetClassMethod(repositorySaveMethod))
+				.willReturn(implementationClassMethod);
 		CustomAnnotationTransactionAttributeSource attributeSource = new CustomAnnotationTransactionAttributeSource();
 		attributeSource.setRepositoryInformation(this.repositoryInformation);
 		TransactionAttribute attribute = attributeSource.getTransactionAttribute(repositorySaveMethod,

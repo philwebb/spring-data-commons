@@ -30,9 +30,9 @@ import org.springframework.data.util.ClassTypeInformation;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link PersistentEntities}.
@@ -55,8 +55,8 @@ class PersistentEntitiesUnitTests {
 
 	@Test // DATACMNS-458
 	void returnsPersistentEntitiesFromMappingContexts() {
-		when(this.first.hasPersistentEntityFor(Sample.class)).thenReturn(false);
-		when(this.second.hasPersistentEntityFor(Sample.class)).thenReturn(true);
+		given(this.first.hasPersistentEntityFor(Sample.class)).willReturn(false);
+		given(this.second.hasPersistentEntityFor(Sample.class)).willReturn(true);
 		PersistentEntities.of(this.first, this.second).getPersistentEntity(Sample.class);
 		verify(this.first, times(1)).hasPersistentEntityFor(Sample.class);
 		verify(this.first, times(0)).getRequiredPersistentEntity(Sample.class);

@@ -43,10 +43,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link DomainClassConverter}.
@@ -91,14 +91,14 @@ class DomainClassConverterUnitTests {
 	@Test
 	void matchesIfConversionInBetweenIsPossible() {
 		this.converter.setApplicationContext(initContextWithRepo());
-		when(this.service.canConvert(String.class, Long.class)).thenReturn(true);
+		given(this.service.canConvert(String.class, Long.class)).willReturn(true);
 		assertMatches(true);
 	}
 
 	@Test
 	void matchFailsIfNoIntermediateConversionIsPossible() {
 		this.converter.setApplicationContext(initContextWithRepo());
-		when(this.service.canConvert(String.class, Long.class)).thenReturn(false);
+		given(this.service.canConvert(String.class, Long.class)).willReturn(false);
 		assertMatches(false);
 	}
 
@@ -120,7 +120,7 @@ class DomainClassConverterUnitTests {
 	void convertsStringToUserCorrectly() throws Exception {
 		ApplicationContext context = initContextWithRepo();
 		this.converter.setApplicationContext(context);
-		doReturn(1L).when(this.service).convert(any(), eq(Long.class));
+		willReturn(1L).given(this.service).convert(any(), eq(Long.class));
 		this.converter.convert("1", STRING_TYPE, USER_TYPE);
 		UserRepository bean = context.getBean(UserRepository.class);
 		UserRepository repo = (UserRepository) ((Advised) bean).getTargetSource().getTarget();
@@ -132,7 +132,7 @@ class DomainClassConverterUnitTests {
 		ApplicationContext parent = initContextWithRepo();
 		GenericApplicationContext context = new GenericApplicationContext(parent);
 		context.refresh();
-		when(this.service.canConvert(String.class, Long.class)).thenReturn(true);
+		given(this.service.canConvert(String.class, Long.class)).willReturn(true);
 		this.converter.setApplicationContext(context);
 		assertThat(this.converter.matches(STRING_TYPE, USER_TYPE)).isTrue();
 	}
@@ -159,7 +159,7 @@ class DomainClassConverterUnitTests {
 	@Test // DATACMNS-627
 	void supportsConversionFromEntityToString() {
 		this.converter.setApplicationContext(initContextWithRepo());
-		when(this.service.canConvert(Long.class, String.class)).thenReturn(true);
+		given(this.service.canConvert(Long.class, String.class)).willReturn(true);
 		assertThat(this.converter.matches(USER_TYPE, STRING_TYPE)).isTrue();
 	}
 

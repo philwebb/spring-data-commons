@@ -32,7 +32,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link DefaultRepositoryConfiguration}.
@@ -52,7 +52,7 @@ class DefaultRepositoryConfigurationUnitTests {
 
 	@BeforeEach
 	void before() {
-		when(this.source.getBootstrapMode()).thenReturn(BootstrapMode.DEFAULT);
+		given(this.source.getBootstrapMode()).willReturn(BootstrapMode.DEFAULT);
 	}
 
 	@Test
@@ -71,7 +71,7 @@ class DefaultRepositoryConfigurationUnitTests {
 
 	@Test // DATACMNS-1018
 	void prefersSourcesRepositoryFactoryBeanClass() {
-		when(this.source.getRepositoryFactoryBeanClassName()).thenReturn(Optional.of("custom"));
+		given(this.source.getRepositoryFactoryBeanClassName()).willReturn(Optional.of("custom"));
 		assertThat(getConfiguration(this.source).getRepositoryFactoryBeanClassName()).isEqualTo("custom");
 	}
 

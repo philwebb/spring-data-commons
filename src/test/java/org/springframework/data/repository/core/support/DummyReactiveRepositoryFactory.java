@@ -31,8 +31,8 @@ import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
 import org.springframework.data.repository.query.RepositoryQuery;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Mark Paluch
@@ -53,9 +53,9 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 
 	public DummyReactiveRepositoryFactory(Object repository) {
 		this.repository = repository;
-		when(this.strategy.resolveQuery(ArgumentMatchers.any(Method.class),
+		given(this.strategy.resolveQuery(ArgumentMatchers.any(Method.class),
 				ArgumentMatchers.any(RepositoryMetadata.class), ArgumentMatchers.any(ProjectionFactory.class),
-				ArgumentMatchers.any(NamedQueries.class))).thenReturn(this.queryOne);
+				ArgumentMatchers.any(NamedQueries.class))).willReturn(this.queryOne);
 	}
 
 	@Override

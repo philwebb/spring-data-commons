@@ -49,10 +49,10 @@ import org.springframework.util.MultiValueMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Integration tests for {@link ReflectionRepositoryInvoker}.
@@ -73,7 +73,7 @@ class ReflectionRepositoryInvokerUnitTests {
 	void invokesSaveMethodCorrectly() throws Exception {
 		ManualCrudRepository repository = mock(ManualCrudRepository.class);
 		Method method = ManualCrudRepository.class.getMethod("save", Domain.class);
-		when(repository.save(any())).then(AdditionalAnswers.returnsFirstArg());
+		given(repository.save(any())).will(AdditionalAnswers.returnsFirstArg());
 		getInvokerFor(repository, RepositoryInvocationTestUtils.expectInvocationOf(method)).invokeSave(new Domain());
 	}
 
@@ -88,7 +88,7 @@ class ReflectionRepositoryInvokerUnitTests {
 	@Test // DATACMNS-589
 	void invokesDeleteWithDomainCorrectly() throws Exception {
 		RepoWithDomainDeleteAndFindOne repository = mock(RepoWithDomainDeleteAndFindOne.class);
-		when(repository.findById(1L)).thenReturn(new Domain());
+		given(repository.findById(1L)).willReturn(new Domain());
 		Method findOneMethod = RepoWithDomainDeleteAndFindOne.class.getMethod("findById", Long.class);
 		Method deleteMethod = RepoWithDomainDeleteAndFindOne.class.getMethod("delete", Domain.class);
 		getInvokerFor(repository, RepositoryInvocationTestUtils.expectInvocationOf(findOneMethod, deleteMethod))
@@ -113,7 +113,7 @@ class ReflectionRepositoryInvokerUnitTests {
 	void invokesFindAllWithSortCorrectly() throws Exception {
 		Method method = RepoWithFindAllWithSort.class.getMethod("findAll", Sort.class);
 		RepoWithFindAllWithSort repository = mock(RepoWithFindAllWithSort.class);
-		when(repository.findAll(any())).thenReturn(Page.empty());
+		given(repository.findAll(any())).willReturn(Page.empty());
 		getInvokerFor(repository, RepositoryInvocationTestUtils.expectInvocationOf(method))
 				.invokeFindAll(Pageable.unpaged());
 		getInvokerFor(repository, RepositoryInvocationTestUtils.expectInvocationOf(method))
@@ -128,7 +128,7 @@ class ReflectionRepositoryInvokerUnitTests {
 	void invokesFindAllWithPageableCorrectly() throws Exception {
 		Method method = RepoWithFindAllWithPageable.class.getMethod("findAll", Pageable.class);
 		RepoWithFindAllWithPageable repository = mock(RepoWithFindAllWithPageable.class);
-		when(repository.findAll(any())).thenReturn(Page.empty());
+		given(repository.findAll(any())).willReturn(Page.empty());
 		getInvokerFor(repository, RepositoryInvocationTestUtils.expectInvocationOf(method))
 				.invokeFindAll(Pageable.unpaged());
 		getInvokerFor(repository, RepositoryInvocationTestUtils.expectInvocationOf(method))
@@ -221,7 +221,7 @@ class ReflectionRepositoryInvokerUnitTests {
 	@Test // DATACMNS-867
 	void convertsWrapperTypeToJdkOptional() {
 		GuavaRepository mock = mock(GuavaRepository.class);
-		when(mock.findById(any())).thenReturn(com.google.common.base.Optional.of(new Domain()));
+		given(mock.findById(any())).willReturn(com.google.common.base.Optional.of(new Domain()));
 		RepositoryInvoker invoker = getInvokerFor(mock);
 		Optional<Object> invokeFindOne = invoker.invokeFindById(1L);
 		assertThat(invokeFindOne).isPresent();
@@ -230,7 +230,7 @@ class ReflectionRepositoryInvokerUnitTests {
 	@Test // DATACMNS-867
 	void wrapsSingleElementCollectionIntoOptional() throws Exception {
 		ManualCrudRepository mock = mock(ManualCrudRepository.class);
-		when(mock.findAll()).thenReturn(Arrays.asList(new Domain()));
+		given(mock.findAll()).willReturn(Arrays.asList(new Domain()));
 		Method method = ManualCrudRepository.class.getMethod("findAll");
 		Optional<Object> result = getInvokerFor(mock).invokeQueryMethod(method, new LinkedMultiValueMap<>(),
 				Pageable.unpaged(), Sort.unsorted());
@@ -242,7 +242,7 @@ class ReflectionRepositoryInvokerUnitTests {
 	@Test // DATACMNS-1277
 	void invokesFindByIdBeforeDeletingOnOverride() {
 		DeleteByEntityOverrideSubRepository mock = mock(DeleteByEntityOverrideSubRepository.class);
-		doReturn(Optional.of(new Domain())).when(mock).findById(any());
+		willReturn(Optional.of(new Domain())).given(mock).findById(any());
 		getInvokerFor(mock).invokeDeleteById(1L);
 		verify(mock).findById(1L);
 		verify(mock).delete(any(Domain.class));

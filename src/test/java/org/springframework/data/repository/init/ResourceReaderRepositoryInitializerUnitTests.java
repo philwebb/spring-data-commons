@@ -34,10 +34,10 @@ import org.springframework.data.repository.support.Repositories;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link UnmarshallingRepositoryInitializer}.
@@ -90,8 +90,8 @@ class ResourceReaderRepositoryInitializerUnitTests {
 
 	private RepositoryPopulator setUpReferenceAndInititalize(Object reference, ApplicationEventPublisher publish)
 			throws Exception {
-		when(this.reader.readFrom(any(), any())).thenReturn(reference);
-		when(this.productRepository.save(any())).then(AdditionalAnswers.returnsFirstArg());
+		given(this.reader.readFrom(any(), any())).willReturn(reference);
+		given(this.productRepository.save(any())).will(AdditionalAnswers.returnsFirstArg());
 		ResourceReaderRepositoryPopulator populator = new ResourceReaderRepositoryPopulator(this.reader);
 		populator.setResources(this.resource);
 		populator.setApplicationEventPublisher(this.publisher);

@@ -27,7 +27,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link RevisionMetadata}.
@@ -46,8 +46,8 @@ class RevisionUnitTests {
 
 	@Test
 	void comparesCorrectly() {
-		when(this.firstMetadata.getRevisionNumber()).thenReturn(Optional.of(1));
-		when(this.secondMetadata.getRevisionNumber()).thenReturn(Optional.of(2));
+		given(this.firstMetadata.getRevisionNumber()).willReturn(Optional.of(1));
+		given(this.secondMetadata.getRevisionNumber()).willReturn(Optional.of(2));
 		Revision<Integer, Object> first = Revision.of(this.firstMetadata, new Object());
 		Revision<Integer, Object> second = Revision.of(this.secondMetadata, new Object());
 		List<Revision<Integer, Object>> revisions = Stream.of(second, first).sorted().collect(Collectors.toList());
@@ -58,14 +58,14 @@ class RevisionUnitTests {
 	@Test // DATACMNS-187
 	void returnsRevisionNumber() {
 		Optional<Integer> reference = Optional.of(4711);
-		when(this.firstMetadata.getRevisionNumber()).thenReturn(reference);
+		given(this.firstMetadata.getRevisionNumber()).willReturn(reference);
 		assertThat(Revision.of(this.firstMetadata, new Object()).getRevisionNumber()).isEqualTo(reference);
 	}
 
 	@Test // DATACMNS-1251
 	void returnsRevisionInstant() {
 		Optional<Instant> reference = Optional.of(Instant.now());
-		when(this.firstMetadata.getRevisionInstant()).thenReturn(reference);
+		given(this.firstMetadata.getRevisionInstant()).willReturn(reference);
 		assertThat(Revision.of(this.firstMetadata, new Object()).getRevisionInstant()).isEqualTo(reference);
 	}
 

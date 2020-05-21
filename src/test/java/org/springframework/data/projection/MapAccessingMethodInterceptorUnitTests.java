@@ -27,7 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link MapAccessingMethodInterceptor}.
@@ -48,8 +48,8 @@ class MapAccessingMethodInterceptorUnitTests {
 	@Test // DATACMNS-630
 	void forwardsObjectMethodsToBackingMap() throws Throwable {
 		Map<String, Object> map = Collections.emptyMap();
-		when(this.invocation.proceed()).thenReturn(map.toString());
-		when(this.invocation.getMethod()).thenReturn(Object.class.getMethod("toString"));
+		given(this.invocation.proceed()).willReturn(map.toString());
+		given(this.invocation.getMethod()).willReturn(Object.class.getMethod("toString"));
 		MapAccessingMethodInterceptor interceptor = new MapAccessingMethodInterceptor(map);
 		Object result = interceptor.invoke(this.invocation);
 		assertThat(result).isEqualTo(map.toString());
@@ -58,8 +58,8 @@ class MapAccessingMethodInterceptorUnitTests {
 	@Test // DATACMNS-630
 	void setterInvocationStoresValueInMap() throws Throwable {
 		Map<String, Object> map = new HashMap<>();
-		when(this.invocation.getMethod()).thenReturn(Sample.class.getMethod("setName", String.class));
-		when(this.invocation.getArguments()).thenReturn(new Object[] { "Foo" });
+		given(this.invocation.getMethod()).willReturn(Sample.class.getMethod("setName", String.class));
+		given(this.invocation.getArguments()).willReturn(new Object[] { "Foo" });
 		Object result = new MapAccessingMethodInterceptor(map).invoke(this.invocation);
 		assertThat(result).isNull();
 		assertThat(map.get("name")).isEqualTo("Foo");
@@ -69,7 +69,7 @@ class MapAccessingMethodInterceptorUnitTests {
 	void getterInvocationReturnsValueFromMap() throws Throwable {
 		Map<String, Object> map = new HashMap<>();
 		map.put("name", "Foo");
-		when(this.invocation.getMethod()).thenReturn(Sample.class.getMethod("getName"));
+		given(this.invocation.getMethod()).willReturn(Sample.class.getMethod("getName"));
 		Object result = new MapAccessingMethodInterceptor(map).invoke(this.invocation);
 		assertThat(result).isEqualTo("Foo");
 	}
@@ -77,13 +77,13 @@ class MapAccessingMethodInterceptorUnitTests {
 	@Test // DATACMNS-630
 	void getterReturnsNullIfMapDoesNotContainValue() throws Throwable {
 		Map<String, Object> map = new HashMap<>();
-		when(this.invocation.getMethod()).thenReturn(Sample.class.getMethod("getName"));
+		given(this.invocation.getMethod()).willReturn(Sample.class.getMethod("getName"));
 		assertThat(new MapAccessingMethodInterceptor(map).invoke(this.invocation)).isNull();
 	}
 
 	@Test // DATACMNS-630
 	void rejectsNonAccessorInvocation() throws Throwable {
-		when(this.invocation.getMethod()).thenReturn(Sample.class.getMethod("someMethod"));
+		given(this.invocation.getMethod()).willReturn(Sample.class.getMethod("someMethod"));
 		assertThatIllegalArgumentException()
 				.isThrownBy(() -> new MapAccessingMethodInterceptor(Collections.emptyMap()).invoke(this.invocation));
 	}

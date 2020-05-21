@@ -64,12 +64,12 @@ import org.springframework.util.concurrent.ListenableFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link RepositoryFactorySupport}.
@@ -107,8 +107,8 @@ class RepositoryFactorySupportUnitTests {
 	@Test
 	void invokesCustomQueryCreationListenerForSpecialRepositoryQueryOnly() {
 		Mockito.reset(this.factory.strategy);
-		when(this.factory.strategy.resolveQuery(any(Method.class), any(RepositoryMetadata.class),
-				any(ProjectionFactory.class), any(NamedQueries.class))).thenReturn(this.factory.queryOne,
+		given(this.factory.strategy.resolveQuery(any(Method.class), any(RepositoryMetadata.class),
+				any(ProjectionFactory.class), any(NamedQueries.class))).willReturn(this.factory.queryOne,
 						this.factory.queryTwo);
 		this.factory.addQueryCreationListener(this.listener);
 		this.factory.addQueryCreationListener(this.otherListener);
@@ -153,7 +153,7 @@ class RepositoryFactorySupportUnitTests {
 	void createsRepositoryInstanceWithCustomIntermediateRepository() {
 		CustomRepository repository = this.factory.getRepository(CustomRepository.class);
 		Pageable pageable = PageRequest.of(0, 10);
-		when(this.backingRepo.findAll(pageable)).thenReturn(new PageImpl<>(Collections.emptyList()));
+		given(this.backingRepo.findAll(pageable)).willReturn(new PageImpl<>(Collections.emptyList()));
 		repository.findAll(pageable);
 		verify(this.backingRepo, times(1)).findAll(pageable);
 	}
@@ -176,7 +176,7 @@ class RepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-489
 	void wrapsExecutionResultIntoFutureIfConfigured() throws Exception {
 		final Object reference = new Object();
-		when(this.factory.queryOne.execute(any(Object[].class))).then(invocation -> {
+		given(this.factory.queryOne.execute(any(Object[].class))).will(invocation -> {
 			Thread.sleep(500);
 			return reference;
 		});
@@ -196,7 +196,7 @@ class RepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-509
 	void convertsWithSameElementType() {
 		List<String> names = Collections.singletonList("Dave");
-		when(this.factory.queryOne.execute(any(Object[].class))).thenReturn(names);
+		given(this.factory.queryOne.execute(any(Object[].class))).willReturn(names);
 		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
 		Set<String> result = repository.convertListToStringSet();
 		assertThat(result).hasSize(1);
@@ -206,7 +206,7 @@ class RepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-509
 	void convertsCollectionToOtherCollectionWithElementSuperType() {
 		List<String> names = Collections.singletonList("Dave");
-		when(this.factory.queryOne.execute(any(Object[].class))).thenReturn(names);
+		given(this.factory.queryOne.execute(any(Object[].class))).willReturn(names);
 		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
 		Set<Object> result = repository.convertListToObjectSet();
 		assertThat(result).containsExactly("Dave");
@@ -252,7 +252,7 @@ class RepositoryFactorySupportUnitTests {
 	@SuppressWarnings("rawtypes")
 	void rejectsRepositoryBaseClassWithInvalidConstructor() {
 		RepositoryInformation information = mock(RepositoryInformation.class);
-		doReturn(CustomRepositoryBaseClass.class).when(information).getRepositoryBaseClass();
+		willReturn(CustomRepositoryBaseClass.class).given(information).getRepositoryBaseClass();
 		EntityInformation entityInformation = mock(EntityInformation.class);
 		assertThatThrownBy(() -> this.factory.getTargetRepositoryViaReflection(information, entityInformation, "Foo"))
 				.isInstanceOf(IllegalStateException.class).hasMessageContaining(entityInformation.getClass().getName())
@@ -309,7 +309,7 @@ class RepositoryFactorySupportUnitTests {
 	}
 
 	private ConvertingRepository prepareConvertingRepository(final Object expectedValue) {
-		when(this.factory.queryOne.execute(any(Object[].class))).then(invocation -> {
+		given(this.factory.queryOne.execute(any(Object[].class))).will(invocation -> {
 			Thread.sleep(200);
 			return expectedValue;
 		});

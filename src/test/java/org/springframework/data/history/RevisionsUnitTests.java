@@ -26,7 +26,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link Revisions}.
@@ -48,8 +48,8 @@ class RevisionsUnitTests {
 
 	@BeforeEach
 	void setUp() {
-		when(this.first.getRevisionNumber()).thenReturn(Optional.of(0));
-		when(this.second.getRevisionNumber()).thenReturn(Optional.of(10));
+		given(this.first.getRevisionNumber()).willReturn(Optional.of(0));
+		given(this.second.getRevisionNumber()).willReturn(Optional.of(10));
 		this.firstRevision = Revision.of(this.first, new Object());
 		this.secondRevision = Revision.of(this.second, new Object());
 	}

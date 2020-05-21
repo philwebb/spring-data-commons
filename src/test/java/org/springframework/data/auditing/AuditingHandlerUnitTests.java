@@ -31,11 +31,11 @@ import org.springframework.data.mapping.context.PersistentEntities;
 import org.springframework.data.mapping.context.SampleMappingContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@code AuditingHandler}.
@@ -57,7 +57,7 @@ class AuditingHandlerUnitTests {
 		this.handler = getHandler();
 		this.user = new AuditedUser();
 		this.auditorAware = mock(AuditorAware.class);
-		when(this.auditorAware.getCurrentAuditor()).thenReturn(Optional.of(this.user));
+		given(this.auditorAware.getCurrentAuditor()).willReturn(Optional.of(this.user));
 	}
 
 	protected AuditingHandler getHandler() {
@@ -138,7 +138,7 @@ class AuditingHandlerUnitTests {
 	@Test // DATAJPA-9
 	void usesDateTimeProviderIfConfigured() {
 		DateTimeProvider provider = mock(DateTimeProvider.class);
-		doReturn(Optional.empty()).when(provider).getNow();
+		willReturn(Optional.empty()).given(provider).getNow();
 		this.handler.setDateTimeProvider(provider);
 		this.handler.markCreated(this.user);
 		verify(provider, times(1)).getNow();

@@ -61,7 +61,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit test for {@link BasicPersistentEntity}.
@@ -113,11 +113,11 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 		BasicPersistentEntity<Person, T> entity = createEntity(Person.class,
 				Comparator.comparing(PersistentProperty::getName));
 		T lastName = (T) Mockito.mock(PersistentProperty.class);
-		when(lastName.getName()).thenReturn("lastName");
+		given(lastName.getName()).willReturn("lastName");
 		T firstName = (T) Mockito.mock(PersistentProperty.class);
-		when(firstName.getName()).thenReturn("firstName");
+		given(firstName.getName()).willReturn("firstName");
 		T ssn = (T) Mockito.mock(PersistentProperty.class);
-		when(ssn.getName()).thenReturn("ssn");
+		given(ssn.getName()).willReturn("ssn");
 		entity.addPersistentProperty(lastName);
 		entity.addPersistentProperty(firstName);
 		entity.addPersistentProperty(ssn);
@@ -134,8 +134,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	void addingAndIdPropertySetsIdPropertyInternally() {
 		MutablePersistentEntity<Person, T> entity = createEntity(Person.class);
 		assertThat(entity.getIdProperty()).isNull();
-		when(this.property.getName()).thenReturn("id");
-		when(this.property.isIdProperty()).thenReturn(true);
+		given(this.property.getName()).willReturn("id");
+		given(this.property.isIdProperty()).willReturn(true);
 		entity.addPersistentProperty(this.property);
 		assertThat(entity.getIdProperty()).isEqualTo(this.property);
 	}
@@ -143,10 +143,10 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	@Test // DATACMNS-186, DATACMNS-1364
 	void rejectsIdPropertyIfAlreadySet() {
 		MutablePersistentEntity<Person, T> entity = createEntity(Person.class);
-		when(this.property.getName()).thenReturn("id");
-		when(this.property.isIdProperty()).thenReturn(true);
-		when(this.anotherProperty.isIdProperty()).thenReturn(true);
-		when(this.anotherProperty.getName()).thenReturn("another");
+		given(this.property.getName()).willReturn("id");
+		given(this.property.isIdProperty()).willReturn(true);
+		given(this.anotherProperty.isIdProperty()).willReturn(true);
+		given(this.anotherProperty.getName()).willReturn("another");
 		entity.addPersistentProperty(this.property);
 		assertThatExceptionOfType(MappingException.class)
 				.isThrownBy(() -> entity.addPersistentProperty(this.anotherProperty));

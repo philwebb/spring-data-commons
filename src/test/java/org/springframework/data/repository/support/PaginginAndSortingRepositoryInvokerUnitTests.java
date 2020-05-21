@@ -31,8 +31,8 @@ import org.springframework.data.repository.support.RepositoryInvocationTestUtils
 import org.springframework.format.support.DefaultFormattingConversionService;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link PagingAndSortingRepositoryInvoker}.
@@ -66,7 +66,7 @@ class PaginginAndSortingRepositoryInvokerUnitTests {
 		RepositoryWithRedeclaredFindAllWithPageable repository = mock(
 				RepositoryWithRedeclaredFindAllWithPageable.class);
 		Method method = RepositoryWithRedeclaredFindAllWithPageable.class.getMethod("findAll", Pageable.class);
-		when(repository.findAll(any(Pageable.class))).thenReturn(Page.empty());
+		given(repository.findAll(any(Pageable.class))).willReturn(Page.empty());
 		getInvokerFor(repository, RepositoryInvocationTestUtils.expectInvocationOf(method))
 				.invokeFindAll(PageRequest.of(0, 10));
 		getInvokerFor(repository, RepositoryInvocationTestUtils.expectInvocationOf(method))

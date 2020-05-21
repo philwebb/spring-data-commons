@@ -29,11 +29,11 @@ import org.springframework.data.mapping.model.AbstractPersistentPropertyUnitTest
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link SpELExpressionParameterValueProvider}.
@@ -64,15 +64,15 @@ class SpelExpressionParameterProviderUnitTests {
 		this.provider = new SpELExpressionParameterValueProvider<>(this.evaluator, this.conversionService,
 				this.delegate);
 		this.parameter = mock(Parameter.class);
-		when(this.parameter.hasSpelExpression()).thenReturn(true);
-		when(this.parameter.getRawType()).thenReturn(Object.class);
+		given(this.parameter.hasSpelExpression()).willReturn(true);
+		given(this.parameter.getRawType()).willReturn(Object.class);
 	}
 
 	@Test
 	@SuppressWarnings("unchecked")
 	void delegatesIfParameterDoesNotHaveASpELExpression() {
 		Parameter<Object, SamplePersistentProperty> parameter = mock(Parameter.class);
-		when(parameter.hasSpelExpression()).thenReturn(false);
+		given(parameter.hasSpelExpression()).willReturn(false);
 		this.provider.getParameterValue(parameter);
 		verify(this.delegate, times(1)).getParameterValue(parameter);
 		verify(this.evaluator, times(0)).evaluate("expression");
@@ -80,7 +80,7 @@ class SpelExpressionParameterProviderUnitTests {
 
 	@Test
 	void evaluatesSpELExpression() {
-		when(this.parameter.getSpelExpression()).thenReturn("expression");
+		given(this.parameter.getSpelExpression()).willReturn("expression");
 		this.provider.getParameterValue(this.parameter);
 		verify(this.delegate, times(0)).getParameterValue(this.parameter);
 		verify(this.evaluator, times(1)).evaluate("expression");
@@ -88,8 +88,8 @@ class SpelExpressionParameterProviderUnitTests {
 
 	@Test
 	void handsSpELValueToConversionService() {
-		doReturn("source").when(this.parameter).getSpelExpression();
-		doReturn("value").when(this.evaluator).evaluate(any());
+		willReturn("source").given(this.parameter).getSpelExpression();
+		willReturn("value").given(this.evaluator).evaluate(any());
 		this.provider.getParameterValue(this.parameter);
 		verify(this.delegate, times(0)).getParameterValue(this.parameter);
 		verify(this.conversionService, times(1)).convert("value", Object.class);
@@ -97,8 +97,8 @@ class SpelExpressionParameterProviderUnitTests {
 
 	@Test
 	void doesNotConvertNullValue() {
-		doReturn("source").when(this.parameter).getSpelExpression();
-		doReturn(null).when(this.evaluator).evaluate(any());
+		willReturn("source").given(this.parameter).getSpelExpression();
+		willReturn(null).given(this.evaluator).evaluate(any());
 		this.provider.getParameterValue(this.parameter);
 		verify(this.delegate, times(0)).getParameterValue(this.parameter);
 		verify(this.conversionService, times(0)).convert("value", Object.class);
@@ -117,8 +117,8 @@ class SpelExpressionParameterProviderUnitTests {
 			}
 
 		};
-		doReturn("source").when(this.parameter).getSpelExpression();
-		doReturn("value").when(this.evaluator).evaluate(any());
+		willReturn("source").given(this.parameter).getSpelExpression();
+		willReturn("value").given(this.evaluator).evaluate(any());
 		assertThat(this.provider.getParameterValue(this.parameter)).isEqualTo("FOO");
 		verify(this.delegate, times(0)).getParameterValue(this.parameter);
 	}
