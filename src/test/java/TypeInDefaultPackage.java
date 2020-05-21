@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2014-2020 the original author or authors.
  *
@@ -14,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import org.springframework.data.repository.config.EnableRepositories;
 
 /**
