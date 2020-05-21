@@ -98,7 +98,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 			if (!invocation.getMethod().getName().startsWith("save")) {
 				return result;
 			}
-			Object eventSource = arguments.length == 1 ? arguments[0] : result;
+			Object eventSource = (arguments.length != 1) ? result : arguments[0];
 			this.eventMethod.publishEventsFrom(eventSource, this.publisher);
 			return result;
 		}
@@ -173,7 +173,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		 */
 		@Nullable
 		private EventPublishingMethod orNull() {
-			return this == EventPublishingMethod.NONE ? null : this;
+			return (this != EventPublishingMethod.NONE) ? this : null;
 		}
 
 		private static <T extends Annotation> AnnotationDetectionMethodCallback<T> getDetector(Class<?> type,

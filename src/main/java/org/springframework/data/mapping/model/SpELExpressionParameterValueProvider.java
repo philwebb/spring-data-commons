@@ -49,10 +49,10 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 	@Nullable
 	public <T> T getParameterValue(Parameter<T, P> parameter) {
 		if (!parameter.hasSpelExpression()) {
-			return this.delegate == null ? null : this.delegate.getParameterValue(parameter);
+			return (this.delegate != null) ? this.delegate.getParameterValue(parameter) : null;
 		}
 		Object object = this.evaluator.evaluate(parameter.getSpelExpression());
-		return object == null ? null : potentiallyConvertSpelValue(object, parameter);
+		return (object != null) ? potentiallyConvertSpelValue(object, parameter) : null;
 	}
 
 	/**

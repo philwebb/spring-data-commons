@@ -105,13 +105,13 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 		int pageNumber = pageable.getPageNumber();
 		builder.replaceQueryParam(pagePropertyName, isOneIndexedParameters() ? pageNumber + 1 : pageNumber);
 		builder.replaceQueryParam(sizePropertyName,
-				pageable.getPageSize() <= getMaxPageSize() ? pageable.getPageSize() : getMaxPageSize());
+				(pageable.getPageSize() <= getMaxPageSize()) ? pageable.getPageSize() : getMaxPageSize());
 		this.sortResolver.enhance(builder, parameter, pageable.getSort());
 	}
 
 	private static HateoasSortHandlerMethodArgumentResolver getDefaultedSortResolver(
 			@Nullable HateoasSortHandlerMethodArgumentResolver sortResolver) {
-		return sortResolver == null ? DEFAULT_SORT_RESOLVER : sortResolver;
+		return (sortResolver != null) ? sortResolver : DEFAULT_SORT_RESOLVER;
 	}
 
 }

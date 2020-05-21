@@ -151,9 +151,9 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	@Nullable
 	private Class<?> getDefaultedTypeToBeUsed(S source) {
 		TypeInformation<?> documentsTargetTypeInformation = readType(source);
-		documentsTargetTypeInformation = documentsTargetTypeInformation == null ? getFallbackTypeFor(source)
-				: documentsTargetTypeInformation;
-		return documentsTargetTypeInformation == null ? null : documentsTargetTypeInformation.getType();
+		documentsTargetTypeInformation = (documentsTargetTypeInformation != null) ? documentsTargetTypeInformation
+				: getFallbackTypeFor(source);
+		return (documentsTargetTypeInformation != null) ? documentsTargetTypeInformation.getType() : null;
 	}
 
 	/**

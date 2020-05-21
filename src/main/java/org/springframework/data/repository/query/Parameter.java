@@ -78,7 +78,7 @@ public class Parameter {
 		this.isDynamicProjectionParameter = isDynamicProjectionParameter(parameter);
 		this.name = TYPES.contains(parameter.getParameterType()) ? Lazy.of(Optional.empty()) : Lazy.of(() -> {
 			Param annotation = parameter.getParameterAnnotation(Param.class);
-			return Optional.ofNullable(annotation == null ? parameter.getParameterName() : annotation.value());
+			return Optional.ofNullable((annotation != null) ? annotation.value() : parameter.getParameterName());
 		});
 	}
 

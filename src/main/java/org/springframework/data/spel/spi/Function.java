@@ -94,7 +94,7 @@ public class Function {
 			}
 			argumentsToUse.add(varargs);
 			return this.method.invoke(this.target,
-					argumentsToUse.size() == 1 ? argumentsToUse.get(0) : argumentsToUse.toArray());
+					(argumentsToUse.size() == 1) ? argumentsToUse.get(0) : argumentsToUse.toArray());
 		}
 		throw new IllegalStateException(
 				String.format("Could not invoke method %s for arguments %s!", this.method, arguments));

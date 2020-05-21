@@ -102,7 +102,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 * reset to the default.
 	 */
 	public void setQualifierDelimiter(String qualifierDelimiter) {
-		this.qualifierDelimiter = qualifierDelimiter == null ? DEFAULT_QUALIFIER_DELIMITER : qualifierDelimiter;
+		this.qualifierDelimiter = (qualifierDelimiter != null) ? qualifierDelimiter : DEFAULT_QUALIFIER_DELIMITER;
 	}
 
 	/**
@@ -178,7 +178,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 */
 	protected String getSortParameter(@Nullable MethodParameter parameter) {
 		StringBuilder builder = new StringBuilder();
-		Qualifier qualifier = parameter != null ? parameter.getParameterAnnotation(Qualifier.class) : null;
+		Qualifier qualifier = (parameter != null) ? parameter.getParameterAnnotation(Qualifier.class) : null;
 		if (qualifier != null) {
 			builder.append(qualifier.value()).append(this.qualifierDelimiter);
 		}
@@ -230,7 +230,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 			}
 			builder.add(order.getProperty());
 		}
-		return builder == null ? Collections.emptyList() : builder.dumpExpressionIfPresentInto(expressions);
+		return (builder != null) ? builder.dumpExpressionIfPresentInto(expressions) : Collections.emptyList();
 	}
 
 	/**
@@ -256,7 +256,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 			}
 			builder.add(order.getProperty());
 		}
-		return builder == null ? Collections.emptyList() : builder.dumpExpressionIfPresentInto(expressions);
+		return (builder != null) ? builder.dumpExpressionIfPresentInto(expressions) : Collections.emptyList();
 	}
 
 	/**
@@ -371,7 +371,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * @return a new parsing state object.
 		 */
 		SortOrderParser parseIgnoreCase() {
-			Optional<Boolean> ignoreCase = this.lastIndex > 0 ? fromOptionalString(this.elements[this.lastIndex - 1])
+			Optional<Boolean> ignoreCase = (this.lastIndex > 0) ? fromOptionalString(this.elements[this.lastIndex - 1])
 					: Optional.empty();
 			return new SortOrderParser(this.elements, this.lastIndex - (ignoreCase.isPresent() ? 1 : 0), this.direction,
 					ignoreCase);
@@ -382,7 +382,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * @return a new parsing state object.
 		 */
 		SortOrderParser parseDirection() {
-			Optional<Direction> direction = this.lastIndex > 0
+			Optional<Direction> direction = (this.lastIndex > 0)
 					? Direction.fromOptionalString(this.elements[this.lastIndex - 1]) : Optional.empty();
 			return new SortOrderParser(this.elements, this.lastIndex - (direction.isPresent() ? 1 : 0), direction,
 					this.ignoreCase);

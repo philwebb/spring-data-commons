@@ -94,15 +94,16 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	 */
 	private Object projectCollectionElements(Collection<?> sources, TypeInformation<?> type) {
 		Class<?> rawType = type.getType();
-		TypeInformation<?> componentType = type.getComponentType();
-		Collection<Object> result = CollectionFactory.createCollection(rawType.isArray() ? List.class : rawType,
-				componentType != null ? componentType.getType() : null, sources.size());
+		TypeInformation<?> componentTypeInformation = type.getComponentType();
+		Class<?> collectionType = rawType.isArray() ? List.class : rawType;
+		Class<?> componentType = (componentTypeInformation != null) ? componentTypeInformation.getType() : null;
+		Collection<Object> result = CollectionFactory.createCollection(collectionType, componentType, sources.size());
 		for (Object source : sources) {
 			result.add(getProjection(source, type.getRequiredComponentType().getType()));
 		}
 		if (rawType.isArray()) {
-			return result
-					.toArray((Object[]) Array.newInstance(type.getRequiredComponentType().getType(), result.size()));
+			Object[] array = (Object[]) Array.newInstance(type.getRequiredComponentType().getType(), result.size());
+			return result.toArray(array);
 		}
 		return result;
 	}
@@ -124,7 +125,7 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 
 	@Nullable
 	private Object getProjection(Object result, Class<?> returnType) {
-		return result == null || ClassUtils.isAssignable(returnType, result.getClass()) ? result
+		return (result == null || ClassUtils.isAssignable(returnType, result.getClass())) ? result
 				: this.factory.createProjection(returnType, result);
 	}
 

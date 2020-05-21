@@ -60,7 +60,7 @@ class RepositoryBeanNameGenerator {
 	 * @since 2.0
 	 */
 	String generateBeanName(BeanDefinition definition) {
-		AnnotatedBeanDefinition beanDefinition = definition instanceof AnnotatedBeanDefinition
+		AnnotatedBeanDefinition beanDefinition = (definition instanceof AnnotatedBeanDefinition)
 				? (AnnotatedBeanDefinition) definition
 				: new AnnotatedGenericBeanDefinition(getRepositoryInterfaceFrom(definition));
 		return this.delegate.generateBeanName(beanDefinition);

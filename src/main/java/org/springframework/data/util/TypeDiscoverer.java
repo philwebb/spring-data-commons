@@ -241,7 +241,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 			return null;
 		}
 		Type[] parameterTypes = method.getGenericParameterTypes();
-		return parameterTypes.length == 0 ? null : parameterTypes[0];
+		return (parameterTypes.length != 0) ? parameterTypes[0] : null;
 	}
 
 	@Override
@@ -315,7 +315,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 			return getTypeArgument(Iterable.class, 0);
 		}
 		List<TypeInformation<?>> arguments = getTypeArguments();
-		return arguments.size() > 0 ? arguments.get(0) : null;
+		return (arguments.size() > 0) ? arguments.get(0) : null;
 	}
 
 	@Override
@@ -370,7 +370,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	@Override
 	public boolean isAssignableFrom(TypeInformation<?> target) {
 		TypeInformation<?> superTypeInformation = target.getSuperTypeInformation(getType());
-		return superTypeInformation == null ? false : superTypeInformation.equals(this);
+		return (superTypeInformation != null) ? superTypeInformation.equals(this) : false;
 	}
 
 	@Override
@@ -390,7 +390,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		if (arguments != null) {
 			return createInfo(arguments[index]);
 		}
-		return getSuperTypeInformation(bound) instanceof ParameterizedTypeInformation ? ClassTypeInformation.OBJECT
+		return (getSuperTypeInformation(bound) instanceof ParameterizedTypeInformation) ? ClassTypeInformation.OBJECT
 				: null;
 	}
 

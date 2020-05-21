@@ -66,7 +66,7 @@ public final class Alias {
 	 * was {@literal null}.
 	 */
 	public static Alias ofNullable(@Nullable Object alias) {
-		return alias == null ? NONE : new Alias(alias);
+		return (alias != null) ? new Alias(alias) : NONE;
 	}
 
 	/**
@@ -126,7 +126,7 @@ public final class Alias {
 	@SuppressWarnings("unchecked")
 	public <T> T mapTyped(Class<T> type) {
 		Assert.notNull(type, "Type must not be null");
-		return isPresent() && type.isInstance(this.value) ? (T) this.value : null;
+		return (isPresent() && type.isInstance(this.value)) ? (T) this.value : null;
 	}
 
 	public Object getValue() {

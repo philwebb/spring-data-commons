@@ -164,8 +164,8 @@ class TypedExampleMatcher implements ExampleMatcher {
 	}
 
 	TypedExampleMatcher withMode(MatchMode mode) {
-		return this.mode == mode ? this : new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher,
-				this.propertySpecifiers, this.ignoredPaths, this.defaultIgnoreCase, mode);
+		return (this.mode != mode) ? new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher,
+				this.propertySpecifiers, this.ignoredPaths, this.defaultIgnoreCase, mode) : this;
 	}
 
 	private PropertySpecifier getOrCreatePropertySpecifier(String propertyPath, PropertySpecifiers propertySpecifiers) {

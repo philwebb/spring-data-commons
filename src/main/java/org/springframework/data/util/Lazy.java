@@ -143,7 +143,7 @@ public class Lazy<T> implements Supplier<T> {
 	@Nullable
 	public T orElse(@Nullable T value) {
 		T nullable = getNullable();
-		return nullable == null ? value : nullable;
+		return (nullable != null) ? nullable : value;
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class Lazy<T> implements Supplier<T> {
 	private T orElseGet(Supplier<? extends T> supplier) {
 		Assert.notNull(supplier, "Default value supplier must not be null!");
 		T value = getNullable();
-		return value == null ? supplier.get() : value;
+		return (value != null) ? value : supplier.get();
 	}
 
 	/**

@@ -86,7 +86,7 @@ final class SelectionSet<T> {
 	}
 
 	private Optional<T> findUniqueResult() {
-		return Optional.ofNullable(this.collection.size() == 1 ? this.collection.iterator().next() : null);
+		return Optional.ofNullable((this.collection.size() != 1) ? null : this.collection.iterator().next());
 	}
 
 }

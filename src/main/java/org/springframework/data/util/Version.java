@@ -50,13 +50,13 @@ public class Version implements Comparable<Version> {
 		Assert.isTrue(parts.length > 0 && parts.length < 5,
 				String.format("Invalid parts length. 0 < %s < 5", parts.length));
 		this.major = parts[0];
-		this.minor = parts.length > 1 ? parts[1] : 0;
-		this.bugfix = parts.length > 2 ? parts[2] : 0;
-		this.build = parts.length > 3 ? parts[3] : 0;
-		Assert.isTrue(this.major >= 0, "Major version must be greater or equal zero!");
-		Assert.isTrue(this.minor >= 0, "Minor version must be greater or equal zero!");
-		Assert.isTrue(this.bugfix >= 0, "Bugfix version must be greater or equal zero!");
-		Assert.isTrue(this.build >= 0, "Build version must be greater or equal zero!");
+		this.minor = (parts.length > 1) ? parts[1] : 0;
+		this.bugfix = (parts.length > 2) ? parts[2] : 0;
+		this.build = (parts.length > 3) ? parts[3] : 0;
+		Assert.isTrue((this.major >= 0), "Major version must be greater or equal zero!");
+		Assert.isTrue((this.minor >= 0), "Minor version must be greater or equal zero!");
+		Assert.isTrue((this.bugfix >= 0), "Bugfix version must be greater or equal zero!");
+		Assert.isTrue((this.build >= 0), "Build version must be greater or equal zero!");
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class Version implements Comparable<Version> {
 		String[] parts = version.trim().split("\\.");
 		int[] intParts = new int[parts.length];
 		for (int i = 0; i < parts.length; i++) {
-			String input = i == parts.length - 1 ? parts[i].replaceAll("\\D.*", "") : parts[i];
+			String input = (i == parts.length - 1) ? parts[i].replaceAll("\\D.*", "") : parts[i];
 			if (StringUtils.hasText(input)) {
 				try {
 					intParts[i] = Integer.parseInt(input);

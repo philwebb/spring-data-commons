@@ -203,7 +203,7 @@ public class QuerydslBindings {
 			}
 		}
 		pathAndBinding = (PathAndBinding<S, T>) this.typeSpecs.get(path.getLeafType());
-		return pathAndBinding == null ? Optional.empty() : pathAndBinding.getBinding();
+		return (pathAndBinding != null) ? pathAndBinding.getBinding() : Optional.empty();
 	}
 
 	/**

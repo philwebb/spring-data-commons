@@ -65,7 +65,7 @@ class DefaultEntityCallbacks implements EntityCallbacks {
 	@Override
 	public <T> T callback(Class<? extends EntityCallback> callbackType, T entity, Object... args) {
 		Assert.notNull(entity, "Entity must not be null!");
-		Class<T> entityType = (Class<T>) (entity != null ? ClassUtils.getUserClass(entity.getClass())
+		Class<T> entityType = (Class<T>) ((entity != null) ? ClassUtils.getUserClass(entity.getClass())
 				: this.callbackDiscoverer.resolveDeclaredEntityType(callbackType).getRawClass());
 		Method callbackMethod = this.callbackMethodCache.computeIfAbsent(callbackType, (it) -> {
 			Method method = EntityCallbackDiscoverer.lookupCallbackMethod(it, entityType, args);

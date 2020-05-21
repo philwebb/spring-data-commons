@@ -249,7 +249,7 @@ public final class Property {
 			}
 		}, (it) -> isMethodWithSingleParameterOfType(it, methodName, rawType));
 		Method method = resultHolder.get();
-		return method != null ? Optional.of(method) : Optional.empty();
+		return Optional.ofNullable(method);
 	}
 
 	private static boolean isMethodWithSingleParameterOfType(Method method, String name, Class<?> type) {

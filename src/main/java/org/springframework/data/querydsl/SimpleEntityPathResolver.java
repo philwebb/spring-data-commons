@@ -110,7 +110,7 @@ public class SimpleEntityPathResolver implements EntityPathResolver {
 	 */
 	private String getClassBase(String shortName) {
 		String[] parts = shortName.split("\\.");
-		return parts.length < 2 ? "" : parts[0] + "_";
+		return (parts.length < 2) ? "" : parts[0] + "_";
 	}
 
 }

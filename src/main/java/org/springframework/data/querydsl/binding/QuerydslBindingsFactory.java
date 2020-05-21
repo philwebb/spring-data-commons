@@ -155,7 +155,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 		return customizer.filter((it) -> !QuerydslBinderCustomizer.class.equals(it))
 				.map(this::createQuerydslBinderCustomizer).orElseGet(
 						() -> this.repositories.flatMap((it) -> it.getRepositoryFor(domainType))
-								.map((it) -> it instanceof QuerydslBinderCustomizer
+								.map((it) -> (it instanceof QuerydslBinderCustomizer)
 										? (QuerydslBinderCustomizer<EntityPath<?>>) it : null)
 								.orElse(NoOpCustomizer.INSTANCE));
 	}

@@ -80,7 +80,7 @@ public final class AccessOptions {
 		}
 
 		public GetOptions withNullValues(GetNulls nullValues) {
-			return this.nullValues == nullValues ? this : new GetOptions(this.handlers, nullValues);
+			return (this.nullValues != nullValues) ? new GetOptions(this.handlers, nullValues) : this;
 		}
 
 		/**
@@ -100,7 +100,7 @@ public final class AccessOptions {
 			EARLY_RETURN;
 
 			public SetOptions.SetNulls toNullHandling() {
-				return REJECT == this ? SetNulls.REJECT : SetNulls.SKIP;
+				return (REJECT != this) ? SetNulls.SKIP : SetNulls.REJECT;
 			}
 
 		}
@@ -198,7 +198,7 @@ public final class AccessOptions {
 		@Nullable
 		Object postProcess(PersistentProperty<?> property, @Nullable Object value) {
 			Function<Object, Object> handler = this.handlers.get(property);
-			return handler == null ? value : handler.apply(value);
+			return (handler != null) ? handler.apply(value) : value;
 		}
 
 	}
@@ -215,18 +215,18 @@ public final class AccessOptions {
 		}
 
 		public SetOptions withNullHandling(SetNulls nullHandling) {
-			return this.nullHandling == nullHandling ? this
-					: new SetOptions(nullHandling, this.collectionPropagation, this.mapPropagation);
+			return (this.nullHandling != nullHandling)
+					? new SetOptions(nullHandling, this.collectionPropagation, this.mapPropagation) : this;
 		}
 
 		public SetOptions withCollectionPropagation(Propagation collectionPropagation) {
-			return this.collectionPropagation == collectionPropagation ? this
-					: new SetOptions(this.nullHandling, collectionPropagation, this.mapPropagation);
+			return (this.collectionPropagation != collectionPropagation)
+					? new SetOptions(this.nullHandling, collectionPropagation, this.mapPropagation) : this;
 		}
 
 		public SetOptions withMapPropagation(Propagation mapPropagation) {
-			return this.mapPropagation == mapPropagation ? this
-					: new SetOptions(this.nullHandling, this.collectionPropagation, mapPropagation);
+			return (this.mapPropagation != mapPropagation)
+					? new SetOptions(this.nullHandling, this.collectionPropagation, mapPropagation) : this;
 		}
 
 		public SetNulls getNullHandling() {

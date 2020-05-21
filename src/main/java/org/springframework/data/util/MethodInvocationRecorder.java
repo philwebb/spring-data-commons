@@ -262,12 +262,12 @@ public final class MethodInvocationRecorder {
 
 		public Optional<String> getPropertyPath(PropertyNameDetectionStrategy strategy) {
 			MethodInvocationRecorder recorder = this.recorder;
-			return recorder == null ? Optional.empty() : recorder.getPropertyPath(Arrays.asList(strategy));
+			return (recorder != null) ? recorder.getPropertyPath(Arrays.asList(strategy)) : Optional.empty();
 		}
 
 		public Optional<String> getPropertyPath(List<PropertyNameDetectionStrategy> strategies) {
 			MethodInvocationRecorder recorder = this.recorder;
-			return recorder == null ? Optional.empty() : recorder.getPropertyPath(strategies);
+			return (recorder != null) ? recorder.getPropertyPath(strategies) : Optional.empty();
 		}
 
 		/**

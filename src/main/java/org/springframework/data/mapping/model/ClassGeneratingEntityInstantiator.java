@@ -146,7 +146,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	 * @since 2.0
 	 */
 	static Object[] allocateArguments(int argumentCount) {
-		return argumentCount == 0 ? EMPTY_ARGS : new Object[argumentCount];
+		return (argumentCount != 0) ? new Object[argumentCount] : EMPTY_ARGS;
 	}
 
 	/**
@@ -362,9 +362,9 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 					mv.visitInsn(Opcodes.AALOAD);
 					if (parameterTypes[i].isPrimitive()) {
 						mv.visitInsn(Opcodes.DUP);
-						String parameterName = parameters.size() > i ? parameters.get(i).getName() : null;
+						String parameterName = (parameters.size() > i) ? parameters.get(i).getName() : null;
 						insertAssertNotNull(mv,
-								parameterName == null ? String.format("at index %d", i) : parameterName);
+								(parameterName != null) ? parameterName : String.format("at index %d", i));
 						insertUnboxInsns(mv, Type.getType(parameterTypes[i]).toString().charAt(0), "");
 					}
 					else {

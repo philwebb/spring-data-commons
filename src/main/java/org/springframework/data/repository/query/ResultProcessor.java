@@ -98,7 +98,7 @@ public class ResultProcessor {
 	public ResultProcessor withDynamicProjection(ParameterAccessor accessor) {
 		Assert.notNull(accessor, "Parameter accessor must not be null!");
 		Class<?> projection = accessor.findDynamicProjection();
-		return projection == null ? this : withType(projection);
+		return (projection != null) ? withType(projection) : this;
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class ResultProcessor {
 			Assert.notNull(converter, "Converter must not be null!");
 			return new ChainingConverter(this.targetType, (source) -> {
 				Object intermediate = ChainingConverter.this.convert(source);
-				return intermediate == null || this.targetType.isInstance(intermediate) ? intermediate
+				return (intermediate == null || this.targetType.isInstance(intermediate)) ? intermediate
 						: converter.convert(intermediate);
 			});
 		}

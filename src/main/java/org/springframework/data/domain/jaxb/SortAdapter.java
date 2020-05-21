@@ -47,8 +47,8 @@ public class SortAdapter extends XmlAdapter<SortDto, Sort> {
 	@Nonnull
 	@Override
 	public Sort unmarshal(@Nullable SortDto source) {
-		return source == null ? Sort.unsorted()
-				: Sort.by(SpringDataJaxb.unmarshal(source.orders, OrderAdapter.INSTANCE));
+		return (source != null) ? Sort.by(SpringDataJaxb.unmarshal(source.orders, OrderAdapter.INSTANCE))
+				: Sort.unsorted();
 	}
 
 }

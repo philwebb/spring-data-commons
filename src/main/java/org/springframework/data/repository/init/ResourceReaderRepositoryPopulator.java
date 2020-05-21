@@ -79,8 +79,8 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 		Assert.notNull(reader, "Reader must not be null!");
 		this.reader = reader;
 		this.classLoader = classLoader;
-		this.resolver = classLoader == null ? new PathMatchingResourcePatternResolver()
-				: new PathMatchingResourcePatternResolver(classLoader);
+		this.resolver = (classLoader != null) ? new PathMatchingResourcePatternResolver(classLoader)
+				: new PathMatchingResourcePatternResolver();
 	}
 
 	/**

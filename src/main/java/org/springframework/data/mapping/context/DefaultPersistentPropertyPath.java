@@ -161,7 +161,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	@Override
 	public PersistentPropertyPath<P> getParentPath() {
 		int size = this.properties.size();
-		return size == 0 ? this : new DefaultPersistentPropertyPath<>(this.properties.subList(0, size - 1));
+		return (size != 0) ? new DefaultPersistentPropertyPath<>(this.properties.subList(0, size - 1)) : this;
 	}
 
 	@Override
@@ -180,8 +180,8 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 * @return
 	 */
 	boolean containsPropertyOfType(@Nullable TypeInformation<?> type) {
-		return type == null ? false : this.properties.stream()
-				.anyMatch((property) -> type.equals(property.getTypeInformation().getActualType()));
+		return (type != null) ? this.properties.stream()
+				.anyMatch((property) -> type.equals(property.getTypeInformation().getActualType())) : false;
 	}
 
 	@Override

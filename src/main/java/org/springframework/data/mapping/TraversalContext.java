@@ -131,7 +131,7 @@ public class TraversalContext {
 	@Nullable
 	Object postProcess(PersistentProperty<?> property, @Nullable Object value) {
 		Function<Object, Object> handler = this.handlers.get(property);
-		return handler == null ? value : handler.apply(value);
+		return (handler != null) ? handler.apply(value) : value;
 	}
 
 }

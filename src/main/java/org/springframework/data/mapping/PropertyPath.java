@@ -101,8 +101,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 		this.typeInformation = propertyType;
 		this.isCollection = propertyType.isCollectionLike();
 		this.name = propertyName;
-		this.actualTypeInformation = propertyType.getActualType() == null ? propertyType
-				: propertyType.getRequiredActualType();
+		this.actualTypeInformation = (propertyType.getActualType() != null) ? propertyType.getRequiredActualType()
+				: propertyType;
 	}
 
 	/**

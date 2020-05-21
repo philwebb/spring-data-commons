@@ -72,7 +72,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	 */
 	public PagedResourcesAssembler(@Nullable HateoasPageableHandlerMethodArgumentResolver resolver,
 			@Nullable UriComponents baseUri) {
-		this.pageableResolver = resolver == null ? new HateoasPageableHandlerMethodArgumentResolver() : resolver;
+		this.pageableResolver = (resolver != null) ? resolver : new HateoasPageableHandlerMethodArgumentResolver();
 		this.baseUri = Optional.ofNullable(baseUri);
 	}
 
@@ -217,7 +217,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 			resources.add(createLink(base, page.nextPageable(), IanaLinkRelations.NEXT));
 		}
 		if (isNavigable || this.forceFirstAndLastRels) {
-			int lastIndex = page.getTotalPages() == 0 ? 0 : page.getTotalPages() - 1;
+			int lastIndex = (page.getTotalPages() == 0) ? 0 : page.getTotalPages() - 1;
 			resources.add(createLink(base, PageRequest.of(lastIndex, page.getSize(), page.getSort()),
 					IanaLinkRelations.LAST));
 		}

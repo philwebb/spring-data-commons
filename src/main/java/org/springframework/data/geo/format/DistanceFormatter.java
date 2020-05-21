@@ -59,13 +59,13 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 	@Nullable
 	@Override
 	public final Distance convert(String source) {
-		return source == null ? null : doConvert(source.trim().toLowerCase(Locale.US));
+		return (source != null) ? doConvert(source.trim().toLowerCase(Locale.US)) : null;
 	}
 
 	@Override
 	public String print(Distance distance, Locale locale) {
-		return distance == null ? null
-				: String.format("%s%s", distance.getValue(), distance.getUnit().toLowerCase(locale));
+		return (distance != null) ? String.format("%s%s", distance.getValue(), distance.getUnit().toLowerCase(locale))
+				: null;
 	}
 
 	@Override

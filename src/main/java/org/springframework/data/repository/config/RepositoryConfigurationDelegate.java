@@ -106,7 +106,7 @@ public class RepositoryConfigurationDelegate {
 		if (environment != null) {
 			return environment;
 		}
-		return resourceLoader instanceof EnvironmentCapable ? ((EnvironmentCapable) resourceLoader).getEnvironment()
+		return (resourceLoader instanceof EnvironmentCapable) ? ((EnvironmentCapable) resourceLoader).getEnvironment()
 				: new StandardEnvironment();
 	}
 

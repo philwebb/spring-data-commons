@@ -97,7 +97,7 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 		}
 		Set<Class<?>> types = new HashSet<>();
 		ResourceLoader loader = this.resourceLoader;
-		ClassLoader classLoader = loader == null ? null : loader.getClassLoader();
+		ClassLoader classLoader = (loader != null) ? loader.getClassLoader() : null;
 		for (String basePackage : basePackages) {
 			for (BeanDefinition definition : provider.findCandidateComponents(basePackage)) {
 				String beanClassName = definition.getBeanClassName();

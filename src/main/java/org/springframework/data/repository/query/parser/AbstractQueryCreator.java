@@ -113,7 +113,7 @@ public abstract class AbstractQueryCreator<T, S> {
 			while (parts.hasNext()) {
 				criteria = and(parts.next(), criteria, iterator);
 			}
-			base = base == null ? criteria : or(base, criteria);
+			base = (base != null) ? or(base, criteria) : criteria;
 		}
 		return base;
 	}

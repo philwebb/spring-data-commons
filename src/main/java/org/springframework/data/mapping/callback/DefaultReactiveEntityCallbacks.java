@@ -65,7 +65,7 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 	@Override
 	public <T> Mono<T> callback(Class<? extends EntityCallback> callbackType, T entity, Object... args) {
 		Assert.notNull(entity, "Entity must not be null!");
-		Class<T> entityType = (Class<T>) (entity != null ? ClassUtils.getUserClass(entity.getClass())
+		Class<T> entityType = (Class<T>) ((entity != null) ? ClassUtils.getUserClass(entity.getClass())
 				: this.callbackDiscoverer.resolveDeclaredEntityType(callbackType).getRawClass());
 		Method callbackMethod = this.callbackMethodCache.computeIfAbsent(callbackType, (it) -> {
 			Method method = EntityCallbackDiscoverer.lookupCallbackMethod(it, entityType, args);
@@ -96,7 +96,7 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 			try {
 				Object value = callbackInvokerFunction.apply(callback, entity);
 				if (value != null) {
-					return value instanceof Publisher ? Mono.from((Publisher<T>) value) : Mono.just((T) value);
+					return (value instanceof Publisher) ? Mono.from((Publisher<T>) value) : Mono.just((T) value);
 				}
 				throw new IllegalArgumentException(String.format("Callback invocation on %s returned null value for %s",
 						callback.getClass(), entity));

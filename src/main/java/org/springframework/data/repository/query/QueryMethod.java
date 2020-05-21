@@ -102,7 +102,7 @@ public class QueryMethod {
 		this.domainClass = Lazy.of(() -> {
 			Class<?> repositoryDomainClass = metadata.getDomainType();
 			Class<?> methodDomainClass = metadata.getReturnedDomainClass(method);
-			return repositoryDomainClass == null || repositoryDomainClass.isAssignableFrom(methodDomainClass)
+			return (repositoryDomainClass == null || repositoryDomainClass.isAssignableFrom(methodDomainClass))
 					? methodDomainClass : repositoryDomainClass;
 		});
 		this.resultProcessor = new ResultProcessor(this, factory);

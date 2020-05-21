@@ -64,8 +64,8 @@ public abstract class TransactionalRepositoryFactoryBeanSupport<T extends Reposi
 	 * @param transactionManager
 	 */
 	public void setTransactionManager(String transactionManager) {
-		this.transactionManagerName = transactionManager == null ? TxUtils.DEFAULT_TRANSACTION_MANAGER
-				: transactionManager;
+		this.transactionManagerName = (transactionManager != null) ? transactionManager
+				: TxUtils.DEFAULT_TRANSACTION_MANAGER;
 	}
 
 	/**

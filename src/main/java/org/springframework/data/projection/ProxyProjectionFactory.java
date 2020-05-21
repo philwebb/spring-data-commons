@@ -101,7 +101,7 @@ public class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoade
 		factory.addAdvice(new DefaultMethodInvokingMethodInterceptor());
 		factory.addAdvice(new TargetAwareMethodInterceptor(source.getClass()));
 		factory.addAdvice(getMethodInterceptor(source, projectionType));
-		return (T) factory.getProxy(this.classLoader == null ? ClassUtils.getDefaultClassLoader() : this.classLoader);
+		return (T) factory.getProxy((this.classLoader != null) ? this.classLoader : ClassUtils.getDefaultClassLoader());
 	}
 
 	@Override

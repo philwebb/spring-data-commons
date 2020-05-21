@@ -58,7 +58,7 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 
 	@Override
 	public String print(Point point, Locale locale) {
-		return point == null ? null : String.format("%s,%s", point.getY(), point.getX());
+		return (point != null) ? String.format("%s,%s", point.getY(), point.getX()) : null;
 	}
 
 	@Override

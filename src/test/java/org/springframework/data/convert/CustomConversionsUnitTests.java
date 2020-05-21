@@ -327,7 +327,7 @@ class CustomConversionsUnitTests {
 
 		@Override
 		public String convert(Object source) {
-			return source != null ? source.toString() : null;
+			return (source != null) ? source.toString() : null;
 		}
 
 	}
@@ -339,7 +339,7 @@ class CustomConversionsUnitTests {
 
 		@Override
 		public Map<String, String> convert(Point source) {
-			return source != null ? Collections.emptyMap() : null;
+			return (source != null) ? Collections.emptyMap() : null;
 		}
 
 	}

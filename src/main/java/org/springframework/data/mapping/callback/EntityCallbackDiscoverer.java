@@ -166,7 +166,7 @@ class EntityCallbackDiscoverer {
 			eventType = ResolvableType.forClass(callbackType).as(EntityCallback.class).getGeneric();
 			this.entityTypeCache.put(callbackType, eventType);
 		}
-		return (eventType != ResolvableType.NONE ? eventType : null);
+		return (eventType != ResolvableType.NONE) ? eventType : null;
 	}
 
 	/**

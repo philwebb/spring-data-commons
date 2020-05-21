@@ -35,7 +35,7 @@ public class DummyEntityInformation<T> extends AbstractEntityInformation<T, Seri
 
 	@Override
 	public Serializable getId(Object entity) {
-		return entity == null ? null : entity.toString();
+		return (entity != null) ? entity.toString() : null;
 	}
 
 	@Override

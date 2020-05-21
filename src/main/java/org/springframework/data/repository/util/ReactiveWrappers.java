@@ -230,7 +230,7 @@ public abstract class ReactiveWrappers {
 			return Optional.empty();
 		}
 		ReactiveAdapter adapter = adapterRegistry.getAdapter(type);
-		return Optional.ofNullable(adapter == null ? null : adapter.getDescriptor());
+		return Optional.ofNullable((adapter != null) ? adapter.getDescriptor() : null);
 	}
 
 }

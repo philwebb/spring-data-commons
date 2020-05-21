@@ -91,7 +91,7 @@ public class ExampleMatcherAccessor {
 		}
 		ExampleMatcher.PropertySpecifier specifier = getPropertySpecifier(path);
 		StringMatcher stringMatcher = specifier.getStringMatcher();
-		return stringMatcher != null ? stringMatcher : this.matcher.getDefaultStringMatcher();
+		return (stringMatcher != null) ? stringMatcher : this.matcher.getDefaultStringMatcher();
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class ExampleMatcherAccessor {
 		}
 		ExampleMatcher.PropertySpecifier specifier = getPropertySpecifier(path);
 		Boolean ignoreCase = specifier.getIgnoreCase();
-		return ignoreCase != null ? ignoreCase : this.matcher.isIgnoreCaseEnabled();
+		return (ignoreCase != null) ? ignoreCase : this.matcher.isIgnoreCaseEnabled();
 	}
 
 	/**

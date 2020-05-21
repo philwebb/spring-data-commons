@@ -141,7 +141,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 			RepositoryInformation information = DomainClassConverter.this.repositories
 					.getRequiredRepositoryInformation(domainType);
 			Object id = DomainClassConverter.this.conversionService.convert(source, information.getIdType());
-			return id == null ? null : invoker.invokeFindById(id).orElse(null);
+			return (id != null) ? invoker.invokeFindById(id).orElse(null) : null;
 		}
 
 		@Override

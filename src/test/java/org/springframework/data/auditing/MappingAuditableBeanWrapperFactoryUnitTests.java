@@ -232,7 +232,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 	}
 
 	private static long getInstantSeconds(TemporalAccessor actual) {
-		return actual instanceof LocalDateTime
+		return (actual instanceof LocalDateTime)
 				? getInstantSeconds(((LocalDateTime) actual).atZone(ZoneId.systemDefault()))
 				: actual.getLong(ChronoField.INSTANT_SECONDS);
 	}

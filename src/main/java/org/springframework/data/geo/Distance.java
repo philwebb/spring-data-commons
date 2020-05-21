@@ -149,7 +149,7 @@ public final class Distance implements Serializable, Comparable<Distance> {
 			return 1;
 		}
 		double difference = this.getNormalizedValue() - other.getNormalizedValue();
-		return difference == 0 ? 0 : difference > 0 ? 1 : -1;
+		return (difference == 0) ? 0 : ((difference > 0) ? 1 : -1);
 	}
 
 	public double getValue() {

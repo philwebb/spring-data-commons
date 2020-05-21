@@ -153,7 +153,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 				return result;
 			}
 			Function<Object, Object> mapper = this.directMappings.get(targetMethod.getName());
-			return mapper != null ? mapper.apply(result) : result;
+			return (mapper != null) ? mapper.apply(result) : result;
 		}
 
 		@Nullable

@@ -65,7 +65,7 @@ public class Jackson2ResourceReader implements ResourceReader {
 	 * @param mapper
 	 */
 	public Jackson2ResourceReader(@Nullable ObjectMapper mapper) {
-		this.mapper = mapper == null ? DEFAULT_MAPPER : mapper;
+		this.mapper = (mapper != null) ? mapper : DEFAULT_MAPPER;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class Jackson2ResourceReader implements ResourceReader {
 	 * @param typeKey
 	 */
 	public void setTypeKey(@Nullable String typeKey) {
-		this.typeKey = typeKey == null ? DEFAULT_TYPE_KEY : typeKey;
+		this.typeKey = (typeKey != null) ? typeKey : DEFAULT_TYPE_KEY;
 	}
 
 	@Override

@@ -71,7 +71,7 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 	public PagedResourcesAssemblerArgumentResolver(HateoasPageableHandlerMethodArgumentResolver resolver,
 			@Nullable MethodLinkBuilderFactory<?> linkBuilderFactory) {
 		this.resolver = resolver;
-		this.linkBuilderFactory = linkBuilderFactory == null ? new WebMvcLinkBuilderFactory() : linkBuilderFactory;
+		this.linkBuilderFactory = (linkBuilderFactory != null) ? linkBuilderFactory : new WebMvcLinkBuilderFactory();
 	}
 
 	@Override

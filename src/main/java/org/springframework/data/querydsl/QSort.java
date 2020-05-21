@@ -88,7 +88,7 @@ public class QSort extends Sort implements Serializable {
 	private static Order toOrder(OrderSpecifier<?> orderSpecifier) {
 		Assert.notNull(orderSpecifier, "Order specifier must not be null!");
 		Expression<?> target = orderSpecifier.getTarget();
-		Object targetElement = target instanceof Path ? preparePropertyPath((Path<?>) target) : target;
+		Object targetElement = (target instanceof Path) ? preparePropertyPath((Path<?>) target) : target;
 		Assert.notNull(targetElement, "Target element must not be null!");
 		return Order.by(targetElement.toString()).with(orderSpecifier.isAscending() ? Direction.ASC : Direction.DESC);
 	}
@@ -107,7 +107,7 @@ public class QSort extends Sort implements Serializable {
 	 * @return
 	 */
 	public QSort and(QSort sort) {
-		return sort == null ? this : and(sort.getOrderSpecifiers());
+		return (sort != null) ? and(sort.getOrderSpecifiers()) : this;
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class QSort extends Sort implements Serializable {
 	 */
 	private static String preparePropertyPath(Path<?> path) {
 		Path<?> root = path.getRoot();
-		return root == null || path.equals(root) ? path.toString()
+		return (root == null || path.equals(root)) ? path.toString()
 				: path.toString().substring(root.toString().length() + 1);
 	}
 

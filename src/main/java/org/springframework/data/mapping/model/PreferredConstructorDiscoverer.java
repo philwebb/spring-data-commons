@@ -110,7 +110,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 				if (noArg != null) {
 					return buildPreferredConstructor(noArg, type, entity);
 				}
-				return candidates.size() > 1 || candidates.isEmpty() ? null
+				return (candidates.size() > 1 || candidates.isEmpty()) ? null
 						: buildPreferredConstructor(candidates.iterator().next(), type, entity);
 			}
 		},
@@ -137,7 +137,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 								return DEFAULT.discover(type, entity);
 							}
 							Constructor<T> javaConstructor = ReflectJvmMapping.getJavaConstructor(primaryConstructor);
-							return javaConstructor != null ? buildPreferredConstructor(javaConstructor, type, entity)
+							return (javaConstructor != null) ? buildPreferredConstructor(javaConstructor, type, entity)
 									: null;
 						});
 			}
@@ -176,7 +176,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 			Parameter<Object, P>[] parameters = new Parameter[parameterTypes.size()];
 			Annotation[][] parameterAnnotations = constructor.getParameterAnnotations();
 			for (int i = 0; i < parameterTypes.size(); i++) {
-				String name = parameterNames == null ? null : parameterNames[i];
+				String name = (parameterNames != null) ? parameterNames[i] : null;
 				TypeInformation<?> type = parameterTypes.get(i);
 				Annotation[] annotations = parameterAnnotations[i];
 				parameters[i] = new Parameter(name, type, annotations, entity);

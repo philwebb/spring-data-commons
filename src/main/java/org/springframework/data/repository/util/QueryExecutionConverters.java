@@ -336,7 +336,7 @@ public abstract class QueryExecutionConverters {
 			NullableWrapper wrapper = (NullableWrapper) source;
 			Object value = wrapper.getValue();
 			// TODO: Add Recursive conversion once we move to Spring 4
-			return value == null ? this.nullValue : wrap(value);
+			return (value != null) ? wrap(value) : this.nullValue;
 		}
 
 		/**
@@ -437,7 +437,7 @@ public abstract class QueryExecutionConverters {
 
 		@Override
 		protected Object wrap(Object source) {
-			return source instanceof CompletableFuture ? source : CompletableFuture.completedFuture(source);
+			return (source instanceof CompletableFuture) ? source : CompletableFuture.completedFuture(source);
 		}
 
 		static WrapperType getWrapperType() {
@@ -508,7 +508,7 @@ public abstract class QueryExecutionConverters {
 		@Nullable
 		@Override
 		public Object convert(Object source) {
-			return source instanceof Optional ? ((Optional<?>) source).orNull() : source;
+			return (source instanceof Optional) ? ((Optional<?>) source).orNull() : source;
 		}
 
 	}
@@ -524,7 +524,7 @@ public abstract class QueryExecutionConverters {
 		@Nullable
 		@Override
 		public Object convert(Object source) {
-			return source instanceof java.util.Optional ? ((java.util.Optional<?>) source).orElse(null) : source;
+			return (source instanceof java.util.Optional) ? ((java.util.Optional<?>) source).orElse(null) : source;
 		}
 
 	}
@@ -551,7 +551,7 @@ public abstract class QueryExecutionConverters {
 		@Nullable
 		@Override
 		public Object convert(Object source) {
-			return source instanceof Option ? ((Option<?>) source).getOrElse(this.alternative) : source;
+			return (source instanceof Option) ? ((Option<?>) source).getOrElse(this.alternative) : source;
 		}
 
 	}
@@ -616,8 +616,8 @@ public abstract class QueryExecutionConverters {
 		@Nullable
 		@Override
 		public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-			Streamable<Object> streamable = source == null ? Streamable.empty()
-					: Streamable.of(Iterable.class.cast(source));
+			Streamable<Object> streamable = (source != null) ? Streamable.of(Iterable.class.cast(source))
+					: Streamable.empty();
 			return Streamable.class.equals(targetType.getType()) ? streamable
 					: this.conversionService.convert(streamable, STREAMABLE, targetType);
 		}

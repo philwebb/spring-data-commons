@@ -103,8 +103,8 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 		TypeInformation<?> otherTypeInformation = rawType.equals(rawTargetType) ? target
 				: target.getSuperTypeInformation(rawType);
 		List<TypeInformation<?>> myParameters = getTypeArguments();
-		List<TypeInformation<?>> typeParameters = otherTypeInformation == null ? Collections.emptyList()
-				: otherTypeInformation.getTypeArguments();
+		List<TypeInformation<?>> typeParameters = (otherTypeInformation != null)
+				? otherTypeInformation.getTypeArguments() : Collections.emptyList();
 		if (myParameters.size() != typeParameters.size()) {
 			return false;
 		}
@@ -215,7 +215,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 			return source;
 		}
 		Type value = variables.get(source);
-		return value == null ? source : flattenTypeVariable(value, variables);
+		return (value != null) ? flattenTypeVariable(value, variables) : source;
 	}
 
 }

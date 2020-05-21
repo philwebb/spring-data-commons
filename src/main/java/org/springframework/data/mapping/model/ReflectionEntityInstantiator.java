@@ -67,7 +67,7 @@ enum ReflectionEntityInstantiator implements EntityInstantiator {
 			}
 		}
 		int parameterCount = constructor.getConstructor().getParameterCount();
-		Object[] params = parameterCount == 0 ? EMPTY_ARGS : new Object[parameterCount];
+		Object[] params = (parameterCount != 0) ? new Object[parameterCount] : EMPTY_ARGS;
 		int i = 0;
 		for (Parameter<?, P> parameter : constructor.getParameters()) {
 			params[i++] = provider.getParameterValue(parameter);

@@ -363,7 +363,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @since 2.2
 	 */
 	private static BeanNameGenerator defaultBeanNameGenerator(@Nullable BeanNameGenerator generator) {
-		return generator == null || ConfigurationClassPostProcessor.IMPORT_BEAN_NAME_GENERATOR.equals(generator)
+		return (generator == null || ConfigurationClassPostProcessor.IMPORT_BEAN_NAME_GENERATOR.equals(generator))
 				? new AnnotationBeanNameGenerator() : generator;
 	}
 

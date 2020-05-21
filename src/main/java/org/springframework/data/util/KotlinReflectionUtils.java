@@ -79,7 +79,7 @@ public final class KotlinReflectionUtils {
 		// Fallback to own lookup because there's no public Kotlin API for that kind of
 		// lookup until
 		// https://youtrack.jetbrains.com/issue/KT-20768 gets resolved.
-		return kotlinFunction == null ? findKFunction(method).orElse(null) : kotlinFunction;
+		return (kotlinFunction != null) ? kotlinFunction : findKFunction(method).orElse(null);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public final class KotlinReflectionUtils {
 		}
 		// see https://github.com/spring-projects/spring-framework/issues/23991
 		if (kotlinFunction.getParameters().size() > parameter.getParameterIndex() + 1) {
-			KType type = parameter.getParameterIndex() == -1 ? kotlinFunction.getReturnType()
+			KType type = (parameter.getParameterIndex() == -1) ? kotlinFunction.getReturnType()
 					: kotlinFunction.getParameters().get(parameter.getParameterIndex() + 1).getType();
 			return type.isMarkedNullable();
 		}

@@ -115,7 +115,7 @@ public class AuditingHandler implements InitializingBean {
 	 * @param dateTimeProvider
 	 */
 	public void setDateTimeProvider(DateTimeProvider dateTimeProvider) {
-		this.dateTimeProvider = dateTimeProvider == null ? CurrentDateTimeProvider.INSTANCE : dateTimeProvider;
+		this.dateTimeProvider = (dateTimeProvider != null) ? dateTimeProvider : CurrentDateTimeProvider.INSTANCE;
 	}
 
 	/**

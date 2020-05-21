@@ -301,7 +301,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		boolean maps(PersistentProperty<?> property) {
 			PersistentEntity<T, P> entity = this.entity;
 			String name = this.name;
-			P referencedProperty = entity == null ? null : name == null ? null : entity.getPersistentProperty(name);
+			P referencedProperty = (entity != null && name != null) ? entity.getPersistentProperty(name) : null;
 			return property != null && property.equals(referencedProperty);
 		}
 

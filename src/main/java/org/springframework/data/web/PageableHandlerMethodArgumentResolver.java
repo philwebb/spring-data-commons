@@ -68,7 +68,7 @@ public class PageableHandlerMethodArgumentResolver extends PageableHandlerMethod
 	 * @since 1.13
 	 */
 	public PageableHandlerMethodArgumentResolver(@Nullable SortArgumentResolver sortResolver) {
-		this.sortResolver = sortResolver == null ? DEFAULT_SORT_RESOLVER : sortResolver;
+		this.sortResolver = (sortResolver != null) ? sortResolver : DEFAULT_SORT_RESOLVER;
 	}
 
 	@Override

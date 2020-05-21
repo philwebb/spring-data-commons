@@ -45,7 +45,7 @@ public interface ProjectionFactory {
 	 */
 	@Nullable
 	default <T> T createNullableProjection(Class<T> projectionType, @Nullable Object source) {
-		return source == null ? null : createProjection(projectionType, source);
+		return (source != null) ? createProjection(projectionType, source) : null;
 	}
 
 	/**

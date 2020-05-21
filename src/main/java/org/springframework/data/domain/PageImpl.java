@@ -55,12 +55,12 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 	 * @param content must not be {@literal null}.
 	 */
 	public PageImpl(List<T> content) {
-		this(content, Pageable.unpaged(), null == content ? 0 : content.size());
+		this(content, Pageable.unpaged(), (content != null) ? content.size() : 0);
 	}
 
 	@Override
 	public int getTotalPages() {
-		return getSize() == 0 ? 1 : (int) Math.ceil((double) this.total / (double) getSize());
+		return (getSize() != 0) ? (int) Math.ceil((double) this.total / (double) getSize()) : 1;
 	}
 
 	@Override

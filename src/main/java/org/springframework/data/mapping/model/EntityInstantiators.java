@@ -91,7 +91,7 @@ public class EntityInstantiators {
 			return this.fallback;
 		}
 		EntityInstantiator instantiator = this.customInstantiators.get(entity.getType());
-		return instantiator == null ? this.fallback : instantiator;
+		return (instantiator != null) ? instantiator : this.fallback;
 	}
 
 }

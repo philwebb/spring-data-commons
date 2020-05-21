@@ -108,7 +108,7 @@ public class InvalidPersistentPropertyPath extends MappingException {
 			return "";
 		}
 		String dotPath = path.toDotPath();
-		return dotPath == null ? "" : dotPath;
+		return (dotPath != null) ? dotPath : "";
 	}
 
 	private static String createMessage(TypeInformation<?> type, String unresolvableSegment) {

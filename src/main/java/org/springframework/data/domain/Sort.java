@@ -79,7 +79,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 */
 	public static Sort by(String... properties) {
 		Assert.notNull(properties, "Properties must not be null!");
-		return properties.length == 0 ? Sort.unsorted() : new Sort(DEFAULT_DIRECTION, Arrays.asList(properties));
+		return (properties.length == 0) ? Sort.unsorted() : new Sort(DEFAULT_DIRECTION, Arrays.asList(properties));
 	}
 
 	/**
@@ -401,7 +401,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 			if (!StringUtils.hasText(property)) {
 				throw new IllegalArgumentException("Property must not null or empty!");
 			}
-			this.direction = direction == null ? DEFAULT_DIRECTION : direction;
+			this.direction = (direction != null) ? direction : DEFAULT_DIRECTION;
 			this.property = property;
 			this.ignoreCase = ignoreCase;
 			this.nullHandling = nullHandling;

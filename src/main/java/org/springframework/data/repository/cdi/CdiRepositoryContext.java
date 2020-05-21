@@ -145,7 +145,7 @@ public class CdiRepositoryContext {
 	@Nullable
 	private Class<?> loadBeanClass(AbstractBeanDefinition definition) {
 		String beanClassName = definition.getBeanClassName();
-		return beanClassName == null ? null : loadClass(beanClassName);
+		return (beanClassName != null) ? loadClass(beanClassName) : null;
 	}
 
 	private static class CdiImplementationDetectionConfiguration implements ImplementationDetectionConfiguration {

@@ -452,7 +452,7 @@ public abstract class ReactiveWrapperConverters {
 		@SuppressWarnings({ "ConstantConditions", "unchecked" })
 		public <T> Converter<Object, T> getConverter(Class<T> targetType) {
 			return (source) -> {
-				Publisher<?> publisher = source instanceof Publisher ? (Publisher<?>) source
+				Publisher<?> publisher = (source instanceof Publisher) ? (Publisher<?>) source
 						: RegistryHolder.REACTIVE_ADAPTER_REGISTRY.getAdapter(Publisher.class, source)
 								.toPublisher(source);
 				ReactiveAdapter adapter = RegistryHolder.REACTIVE_ADAPTER_REGISTRY.getAdapter(targetType);

@@ -160,7 +160,7 @@ public class ParameterTypes {
 	}
 
 	protected final Optional<ParameterTypes> getParent(TypeDescriptor tail) {
-		return this.types.size() <= 1 ? Optional.empty()
+		return (this.types.size() <= 1) ? Optional.empty()
 				: Optional.of(ParentParameterTypes.of(this.types.subList(0, this.types.size() - 1), tail));
 	}
 

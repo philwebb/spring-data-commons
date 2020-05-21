@@ -90,14 +90,14 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 			return Pageable.unpaged();
 		}
 		Pageable pageable = (Pageable) this.values[this.parameters.getPageableIndex()];
-		return pageable == null ? Pageable.unpaged() : pageable;
+		return (pageable != null) ? pageable : Pageable.unpaged();
 	}
 
 	@Override
 	public Sort getSort() {
 		if (this.parameters.hasSortParameter()) {
 			Sort sort = (Sort) this.values[this.parameters.getSortIndex()];
-			return sort == null ? Sort.unsorted() : sort;
+			return (sort != null) ? sort : Sort.unsorted();
 		}
 		if (this.parameters.hasPageableParameter()) {
 			return getPageable().getSort();

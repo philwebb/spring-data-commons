@@ -513,7 +513,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 
 			@Override
 			public int hashCode() {
-				return this.method.hashCode() * 29 + (this.targetClass != null ? this.targetClass.hashCode() : 0);
+				return this.method.hashCode() * 29 + ObjectUtils.nullSafeHashCode(this.targetClass);
 			}
 
 		}

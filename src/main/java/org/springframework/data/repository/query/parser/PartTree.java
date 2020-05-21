@@ -360,7 +360,7 @@ public class PartTree implements Streamable<OrPart> {
 			}
 			this.nodes = Arrays.stream(split(parts[0], "Or")).filter(StringUtils::hasText)
 					.map((part) -> new OrPart(part, domainClass, this.alwaysIgnoreCase)).collect(Collectors.toList());
-			this.orderBySource = parts.length == 2 ? new OrderBySource(parts[1], Optional.of(domainClass))
+			this.orderBySource = (parts.length == 2) ? new OrderBySource(parts[1], Optional.of(domainClass))
 					: OrderBySource.EMPTY;
 		}
 

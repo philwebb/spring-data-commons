@@ -139,8 +139,9 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 			return null;
 		}
 		Class<?> associationTargetType = property.getAssociationTargetType();
-		return associationTargetType == null ? getEntityIdentifiedBy(propertyType)
-				: getPersistentEntity(associationTargetType).orElseGet(() -> getEntityIdentifiedBy(propertyType));
+		return (associationTargetType != null)
+				? getPersistentEntity(associationTargetType).orElseGet(() -> getEntityIdentifiedBy(propertyType))
+				: getEntityIdentifiedBy(propertyType);
 	}
 
 	/**
@@ -152,7 +153,7 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	public TypeInformation<?> getTypeUltimatelyReferredToBy(PersistentProperty<?> property) {
 		Assert.notNull(property, "PersistentProperty must not be null!");
 		PersistentEntity<?, ?> entity = getEntityUltimatelyReferredToBy(property);
-		return entity == null ? property.getTypeInformation().getRequiredActualType() : entity.getTypeInformation();
+		return (entity != null) ? entity.getTypeInformation() : property.getTypeInformation().getRequiredActualType();
 	}
 
 	/**

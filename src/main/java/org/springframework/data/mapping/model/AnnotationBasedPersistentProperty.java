@@ -88,7 +88,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 		super(property, owner, simpleTypeHolder);
 		populateAnnotationCache(property);
 		Value value = findAnnotation(Value.class);
-		this.value = value == null ? null : value.value();
+		this.value = (value != null) ? value.value() : null;
 	}
 
 	/**
@@ -220,7 +220,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	@Override
 	public <A extends Annotation> A findPropertyOrOwnerAnnotation(Class<A> annotationType) {
 		A annotation = findAnnotation(annotationType);
-		return annotation != null ? annotation : getOwner().findAnnotation(annotationType);
+		return (annotation != null) ? annotation : getOwner().findAnnotation(annotationType);
 	}
 
 	/**

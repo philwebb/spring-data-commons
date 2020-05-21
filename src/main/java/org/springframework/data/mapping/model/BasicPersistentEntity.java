@@ -136,8 +136,8 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		this.persistentPropertiesCache = new ArrayList<>();
 		this.comparator = comparator;
 		this.constructor = PreferredConstructorDiscoverer.discover(this);
-		this.associations = comparator == null ? new HashSet<>()
-				: new TreeSet<>(new AssociationComparator<>(comparator));
+		this.associations = (comparator != null) ? new TreeSet<>(new AssociationComparator<>(comparator))
+				: new HashSet<>();
 		this.propertyCache = new HashMap<>(16, 1f);
 		this.annotationCache = new ConcurrentReferenceHashMap<>(16, ReferenceType.WEAK);
 		this.propertyAnnotationCache = CollectionUtils

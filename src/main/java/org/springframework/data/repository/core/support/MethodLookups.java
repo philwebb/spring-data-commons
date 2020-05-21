@@ -153,7 +153,7 @@ interface MethodLookups {
 					return true;
 				}
 				Type boundType = variable.getBounds()[0];
-				String referenceName = boundType instanceof TypeVariable ? boundType.toString() : variable.toString();
+				String referenceName = (boundType instanceof TypeVariable) ? boundType.toString() : variable.toString();
 				return DOMAIN_TYPE_NAME.equals(referenceName) && parameterType.isAssignableFrom(this.entityType);
 			}
 			for (Type type : variable.getBounds()) {

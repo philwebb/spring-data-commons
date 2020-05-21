@@ -103,7 +103,7 @@ public interface StreamUtils {
 	 * @since 2.0.6
 	 */
 	static <T> Stream<T> fromNullable(@Nullable T source) {
-		return source == null ? Stream.empty() : Stream.of(source);
+		return (source != null) ? Stream.of(source) : Stream.empty();
 	}
 
 	/**

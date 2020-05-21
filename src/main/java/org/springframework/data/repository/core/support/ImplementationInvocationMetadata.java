@@ -84,7 +84,7 @@ class ImplementationInvocationMetadata {
 		Object[] invocationArguments = new Object[args.length - 1];
 		System.arraycopy(args, 0, invocationArguments, 0, invocationArguments.length);
 		Object result = methodToCall.invoke(instance, invocationArguments);
-		Publisher<?> publisher = result instanceof Publisher ? (Publisher<?>) result
+		Publisher<?> publisher = (result instanceof Publisher) ? (Publisher<?>) result
 				: ReactiveWrapperConverters.toWrapper(result, Publisher.class);
 		return AwaitKt.awaitFirstOrNull(publisher, (Continuation) args[args.length - 1]);
 	}

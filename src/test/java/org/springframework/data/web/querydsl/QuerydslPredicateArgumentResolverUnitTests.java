@@ -211,7 +211,7 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 	private static MethodParameter getMethodParameterFor(String methodName, Class<?>... args) throws RuntimeException {
 		try {
-			return new MethodParameter(Sample.class.getMethod(methodName, args), args.length == 0 ? -1 : 0);
+			return new MethodParameter(Sample.class.getMethod(methodName, args), (args.length == 0) ? -1 : 0);
 		}
 		catch (NoSuchMethodException ex) {
 			throw new RuntimeException(ex);

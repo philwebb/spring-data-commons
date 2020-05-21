@@ -165,7 +165,7 @@ public abstract class ReturnedType {
 		@Nullable
 		@Override
 		public Class<?> getTypeToRead() {
-			return isProjecting() && this.information.isClosed() ? null : this.domainType;
+			return (isProjecting() && this.information.isClosed()) ? null : this.domainType;
 		}
 
 		@Override

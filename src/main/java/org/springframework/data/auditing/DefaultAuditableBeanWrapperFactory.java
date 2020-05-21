@@ -253,7 +253,7 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		public Optional<TemporalAccessor> getLastModifiedDate() {
 			return getAsTemporalAccessor(this.metadata.getLastModifiedDateField().map((field) -> {
 				Object value = org.springframework.util.ReflectionUtils.getField(field, this.target);
-				return value instanceof Optional ? ((Optional<?>) value).orElse(null) : value;
+				return (value instanceof Optional) ? ((Optional<?>) value).orElse(null) : value;
 			}), TemporalAccessor.class);
 		}
 

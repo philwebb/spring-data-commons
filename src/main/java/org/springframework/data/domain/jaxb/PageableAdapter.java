@@ -44,7 +44,7 @@ class PageableAdapter extends XmlAdapter<PageRequestDto, Pageable> {
 		}
 		PageRequestDto dto = new PageRequestDto();
 		SortDto sortDto = SortAdapter.INSTANCE.marshal(request.getSort());
-		dto.orders = sortDto == null ? Collections.emptyList() : sortDto.orders;
+		dto.orders = (sortDto != null) ? sortDto.orders : Collections.emptyList();
 		dto.page = request.getPageNumber();
 		dto.size = request.getPageSize();
 		return dto;

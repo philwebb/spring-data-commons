@@ -89,7 +89,7 @@ public class PageRequest extends AbstractPageRequest {
 
 	@Override
 	public PageRequest previous() {
-		return getPageNumber() == 0 ? this : new PageRequest(getPageNumber() - 1, getPageSize(), getSort());
+		return (getPageNumber() == 0) ? this : new PageRequest(getPageNumber() - 1, getPageSize(), getSort());
 	}
 
 	@Override

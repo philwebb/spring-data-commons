@@ -162,7 +162,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 * @param prefix the prefix to be used or {@literal null} to reset to the default.
 	 */
 	public void setPrefix(String prefix) {
-		this.prefix = prefix == null ? DEFAULT_PREFIX : prefix;
+		this.prefix = (prefix != null) ? prefix : DEFAULT_PREFIX;
 	}
 
 	/**
@@ -173,7 +173,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 * the default.
 	 */
 	public void setQualifierDelimiter(String qualifierDelimiter) {
-		this.qualifierDelimiter = qualifierDelimiter == null ? DEFAULT_QUALIFIER_DELIMITER : qualifierDelimiter;
+		this.qualifierDelimiter = (qualifierDelimiter != null) ? qualifierDelimiter : DEFAULT_QUALIFIER_DELIMITER;
 	}
 
 	/**
@@ -212,9 +212,9 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 		int ps = pageSize
 				.orElseGet(() -> defaultOrFallback.map(Pageable::getPageSize).orElseThrow(IllegalStateException::new));
 		// Limit lower bound
-		ps = ps < 1 ? defaultOrFallback.map(Pageable::getPageSize).orElseThrow(IllegalStateException::new) : ps;
+		ps = (ps < 1) ? defaultOrFallback.map(Pageable::getPageSize).orElseThrow(IllegalStateException::new) : ps;
 		// Limit upper bound
-		ps = ps > this.maxPageSize ? this.maxPageSize : ps;
+		ps = (ps > this.maxPageSize) ? this.maxPageSize : ps;
 		return PageRequest.of(p, ps, defaultOrFallback.map(Pageable::getSort).orElseGet(Sort::unsorted));
 	}
 
@@ -228,7 +228,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 */
 	protected String getParameterNameToUse(String source, @Nullable MethodParameter parameter) {
 		StringBuilder builder = new StringBuilder(this.prefix);
-		Qualifier qualifier = parameter == null ? null : parameter.getParameterAnnotation(Qualifier.class);
+		Qualifier qualifier = (parameter != null) ? parameter.getParameterAnnotation(Qualifier.class) : null;
 		if (qualifier != null) {
 			builder.append(qualifier.value());
 			builder.append(this.qualifierDelimiter);
@@ -271,8 +271,8 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 			return Optional.empty();
 		}
 		try {
-			int parsed = Integer.parseInt(parameter) - (this.oneIndexedParameters && shiftIndex ? 1 : 0);
-			return Optional.of(parsed < 0 ? 0 : parsed > upper ? upper : parsed);
+			int parsed = Integer.parseInt(parameter) - ((this.oneIndexedParameters && shiftIndex) ? 1 : 0);
+			return Optional.of((parsed < 0) ? 0 : ((parsed > upper) ? upper : parsed));
 		}
 		catch (NumberFormatException ex) {
 			return Optional.of(0);

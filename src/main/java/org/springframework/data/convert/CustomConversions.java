@@ -294,7 +294,7 @@ public class CustomConversions {
 	public Optional<Class<?>> getCustomWriteTarget(Class<?> sourceType) {
 		Assert.notNull(sourceType, "Source type must not be null!");
 		Class<?> target = this.customWriteTargetTypes.computeIfAbsent(sourceType, this.getRawWriteTarget);
-		return Void.class.equals(target) || target == null ? Optional.empty() : Optional.of(target);
+		return (Void.class.equals(target) || target == null) ? Optional.empty() : Optional.of(target);
 	}
 
 	/**
@@ -311,7 +311,7 @@ public class CustomConversions {
 		Assert.notNull(requestedTargetType, "Target type must not be null!");
 		Class<?> target = this.customWriteTargetTypes.computeIfAbsent(sourceType, requestedTargetType,
 				this.getWriteTarget);
-		return Void.class.equals(target) || target == null ? Optional.empty() : Optional.of(target);
+		return (Void.class.equals(target) || target == null) ? Optional.empty() : Optional.of(target);
 	}
 
 	/**
@@ -480,7 +480,7 @@ public class CustomConversions {
 			Class<?> optionalTarget = this.conversionTargets.get(targetType);
 			if (optionalTarget == null) {
 				optionalTarget = mappingFunction.apply(new ConvertiblePair(this.sourceType, targetType));
-				this.conversionTargets.put(targetType, optionalTarget == null ? Void.class : optionalTarget);
+				this.conversionTargets.put(targetType, (optionalTarget != null) ? optionalTarget : Void.class);
 			}
 			return Void.class.equals(optionalTarget) ? null : optionalTarget;
 		}
@@ -704,8 +704,9 @@ public class CustomConversions {
 			}
 			else if (converter instanceof GenericConverter) {
 				Set<ConvertiblePair> convertibleTypes = GenericConverter.class.cast(converter).getConvertibleTypes();
-				return convertibleTypes == null ? Streamable.empty()
-						: Streamable.of(convertibleTypes).map((it) -> register(converter, it, isReading, isWriting));
+				return (convertibleTypes != null)
+						? Streamable.of(convertibleTypes).map((it) -> register(converter, it, isReading, isWriting))
+						: Streamable.empty();
 
 			}
 			else if (converter instanceof ConverterFactory) {

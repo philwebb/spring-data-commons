@@ -186,7 +186,7 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 			if (this.returnsReactiveType) {
 				return ReactiveWrapperConverters.toWrapper(result, this.returnedType);
 			}
-			Publisher<?> publisher = result instanceof Publisher ? (Publisher<?>) result
+			Publisher<?> publisher = (result instanceof Publisher) ? (Publisher<?>) result
 					: ReactiveWrapperConverters.toWrapper(result, Publisher.class);
 			return AwaitKt.awaitFirstOrNull(publisher, continuation);
 		}

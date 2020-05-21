@@ -102,13 +102,13 @@ class DefaultConverterBuilder<S, T>
 	}
 
 	DefaultConverterBuilder<S, T> withWriting(Optional<Function<? super S, ? extends T>> writing) {
-		return this.writing == writing ? this
-				: new DefaultConverterBuilder<>(this.convertiblePair, writing, this.reading);
+		return (this.writing != writing) ? new DefaultConverterBuilder<>(this.convertiblePair, writing, this.reading)
+				: this;
 	}
 
 	DefaultConverterBuilder<S, T> withReading(Optional<Function<? super T, ? extends S>> reading) {
-		return this.reading == reading ? this
-				: new DefaultConverterBuilder<>(this.convertiblePair, this.writing, reading);
+		return (this.reading != reading) ? new DefaultConverterBuilder<>(this.convertiblePair, this.writing, reading)
+				: this;
 	}
 
 	private static class ConfigurableGenericConverter<S, T> implements GenericConverter {

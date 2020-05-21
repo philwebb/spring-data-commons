@@ -685,7 +685,7 @@ public interface ExampleMatcher {
 		 * @return never {@literal null}.
 		 */
 		public PropertyValueTransformer getPropertyValueTransformer() {
-			return this.valueTransformer == null ? NoOpPropertyValueTransformer.INSTANCE : this.valueTransformer;
+			return (this.valueTransformer != null) ? this.valueTransformer : NoOpPropertyValueTransformer.INSTANCE;
 		}
 
 		/**

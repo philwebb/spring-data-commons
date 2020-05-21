@@ -216,7 +216,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	@Nullable
 	@Override
 	public Class<?> getComponentType() {
-		return isMap() || isCollectionLike() ? this.information.getRequiredComponentType().getType() : null;
+		return (isMap() || isCollectionLike()) ? this.information.getRequiredComponentType().getType() : null;
 	}
 
 	@Nullable

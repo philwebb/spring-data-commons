@@ -186,7 +186,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	public boolean hasPersistentEntityFor(Class<?> type) {
 		Assert.notNull(type, "Type must not be null!");
 		Optional<E> entity = this.persistentEntities.get(ClassTypeInformation.from(type));
-		return entity == null ? false : entity.isPresent();
+		return (entity != null) ? entity.isPresent() : false;
 	}
 
 	@Nullable

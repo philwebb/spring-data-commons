@@ -174,8 +174,8 @@ public class Repositories implements Iterable<Class<?>> {
 	public Optional<RepositoryInformation> getRepositoryInformationFor(Class<?> domainClass) {
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
 		RepositoryFactoryInformation<Object, Object> information = getRepositoryFactoryInfoFor(domainClass);
-		return information == EMPTY_REPOSITORY_FACTORY_INFO ? Optional.empty()
-				: Optional.of(information.getRepositoryInformation());
+		return (information != EMPTY_REPOSITORY_FACTORY_INFO) ? Optional.of(information.getRepositoryInformation())
+				: Optional.empty();
 	}
 
 	/**

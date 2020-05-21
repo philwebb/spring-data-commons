@@ -90,7 +90,7 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 	@Nullable
 	public Class<?> getType() {
 		Field field = this.field;
-		return field == null ? null : field.getType();
+		return (field != null) ? field.getType() : null;
 	}
 
 	/**

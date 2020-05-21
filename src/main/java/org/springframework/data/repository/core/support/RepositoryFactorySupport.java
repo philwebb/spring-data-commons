@@ -87,7 +87,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 			for (int i = 0; i < args.length; i++) {
 				Object value = args[i];
 				Object convertedArg = value;
-				Class<?> parameterType = parameterTypes.length > i ? parameterTypes[i] : null;
+				Class<?> parameterType = (parameterTypes.length > i) ? parameterTypes[i] : null;
 				if (value != null && parameterType != null) {
 					if (!parameterType.isAssignableFrom(value.getClass())
 							&& ReactiveWrapperConverters.canConvert(value.getClass(), parameterType)) {
@@ -157,13 +157,13 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 * @param namedQueries the namedQueries to set
 	 */
 	public void setNamedQueries(NamedQueries namedQueries) {
-		this.namedQueries = namedQueries == null ? PropertiesBasedNamedQueries.EMPTY : namedQueries;
+		this.namedQueries = (namedQueries != null) ? namedQueries : PropertiesBasedNamedQueries.EMPTY;
 	}
 
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
-		this.classLoader = classLoader == null ? org.springframework.util.ClassUtils.getDefaultClassLoader()
-				: classLoader;
+		this.classLoader = (classLoader != null) ? classLoader
+				: org.springframework.util.ClassUtils.getDefaultClassLoader();
 	}
 
 	@Override
@@ -178,8 +178,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 * {@link DefaultQueryMethodEvaluationContextProvider#INSTANCE}.
 	 */
 	public void setEvaluationContextProvider(QueryMethodEvaluationContextProvider evaluationContextProvider) {
-		this.evaluationContextProvider = evaluationContextProvider == null
-				? QueryMethodEvaluationContextProvider.DEFAULT : evaluationContextProvider;
+		this.evaluationContextProvider = (evaluationContextProvider != null) ? evaluationContextProvider
+				: QueryMethodEvaluationContextProvider.DEFAULT;
 	}
 
 	/**
