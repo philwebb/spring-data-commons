@@ -53,7 +53,7 @@ class CrudRepositoryInvoker extends ReflectionRepositoryInvoker {
 	 * @param metadata must not be {@literal null}.
 	 * @param conversionService must not be {@literal null}.
 	 */
-	public CrudRepositoryInvoker(CrudRepository<Object, Object> repository, RepositoryMetadata metadata,
+	CrudRepositoryInvoker(CrudRepository<Object, Object> repository, RepositoryMetadata metadata,
 			ConversionService conversionService) {
 		super(repository, metadata, conversionService);
 		CrudMethods crudMethods = metadata.getCrudMethods();

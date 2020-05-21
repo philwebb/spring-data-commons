@@ -54,7 +54,7 @@ class QueryExecutionResultHandler {
 	/**
 	 * Creates a new {@link QueryExecutionResultHandler}.
 	 */
-	public QueryExecutionResultHandler(GenericConversionService conversionService) {
+	QueryExecutionResultHandler(GenericConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
 

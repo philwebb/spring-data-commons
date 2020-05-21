@@ -18,7 +18,7 @@ package org.springframework.data.util;
 public interface CastUtils {
 
 	@SuppressWarnings("unchecked")
-	public static <T> T cast(Object object) {
+	static <T> T cast(Object object) {
 		return (T) object;
 	}
 

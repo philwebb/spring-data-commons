@@ -49,7 +49,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 * {@link PersistentProperty}s.
 	 * @param properties must not be {@literal null}.
 	 */
-	public DefaultPersistentPropertyPath(List<P> properties) {
+	DefaultPersistentPropertyPath(List<P> properties) {
 		Assert.notNull(properties, "Properties must not be null!");
 		this.properties = properties;
 	}

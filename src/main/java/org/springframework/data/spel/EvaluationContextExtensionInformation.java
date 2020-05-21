@@ -66,7 +66,7 @@ class EvaluationContextExtensionInformation {
 	 * Creates a new {@link EvaluationContextExtension} for the given extension type.
 	 * @param type must not be {@literal null}.
 	 */
-	public EvaluationContextExtensionInformation(Class<? extends EvaluationContextExtension> type) {
+	EvaluationContextExtensionInformation(Class<? extends EvaluationContextExtension> type) {
 		Assert.notNull(type, "Extension type must not be null!");
 		Class<?> rootObjectType = org.springframework.data.util.ReflectionUtils
 				.findRequiredMethod(type, "getRootObject").getReturnType();
@@ -124,7 +124,7 @@ class EvaluationContextExtensionInformation {
 		 * Creates a new {@link ExtensionTypeInformation} fir the given type.
 		 * @param type must not be {@literal null}.
 		 */
-		public ExtensionTypeInformation(Class<? extends EvaluationContextExtension> type) {
+		ExtensionTypeInformation(Class<? extends EvaluationContextExtension> type) {
 			Assert.notNull(type, "Extension type must not be null!");
 			this.functions = discoverDeclaredFunctions(type);
 			this.properties = discoverDeclaredProperties(type);
@@ -153,7 +153,7 @@ class EvaluationContextExtensionInformation {
 
 			private final boolean staticOnly;
 
-			public PublicMethodAndFieldFilter(boolean staticOnly) {
+			PublicMethodAndFieldFilter(boolean staticOnly) {
 				this.staticOnly = staticOnly;
 			}
 
@@ -196,7 +196,7 @@ class EvaluationContextExtensionInformation {
 		 * methods and fields to register them as {@link Function}s and properties.
 		 * @param type must not be {@literal null}.
 		 */
-		public RootObjectInformation(Class<?> type) {
+		RootObjectInformation(Class<?> type) {
 			Assert.notNull(type, "Type must not be null!");
 			this.accessors = new HashMap<>();
 			this.methods = new HashSet<>();

@@ -60,7 +60,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	/**
 	 * Creates a new {@link ClassGeneratingEntityInstantiator}.
 	 */
-	public ClassGeneratingEntityInstantiator() {
+	ClassGeneratingEntityInstantiator() {
 		this.generator = new ObjectInstantiatorClassGenerator();
 	}
 
@@ -180,7 +180,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		 * {@link ObjectInstantiator}.
 		 * @param instantiator must not be {@literal null}.
 		 */
-		public EntityInstantiatorAdapter(ObjectInstantiator instantiator) {
+		EntityInstantiatorAdapter(ObjectInstantiator instantiator) {
 			this.instantiator = instantiator;
 		}
 

@@ -52,7 +52,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	 * @param type must not be {@literal null}
 	 * @param parent must not be {@literal null}
 	 */
-	public ParameterizedTypeInformation(ParameterizedType type, TypeDiscoverer<?> parent) {
+	ParameterizedTypeInformation(ParameterizedType type, TypeDiscoverer<?> parent) {
 		super(type, parent, calculateTypeVariables(type, parent));
 		this.type = type;
 		this.resolved = Lazy.of(() -> isResolvedCompletely());

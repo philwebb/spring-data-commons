@@ -229,7 +229,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 * Enumeration for sort directions.
 	 *
 	 */
-	public static enum Direction {
+	public enum Direction {
 
 		ASC, DESC;
 
@@ -291,7 +291,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 *
 	 * @since 1.8
 	 */
-	public static enum NullHandling {
+	public enum NullHandling {
 
 		/**
 		 * Lets the data store decide what to do with nulls.

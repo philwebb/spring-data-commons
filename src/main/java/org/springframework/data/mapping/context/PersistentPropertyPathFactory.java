@@ -63,7 +63,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 	private final MappingContext<E, P> context;
 
-	public PersistentPropertyPathFactory(MappingContext<E, P> context) {
+	PersistentPropertyPathFactory(MappingContext<E, P> context) {
 		this.context = context;
 	}
 

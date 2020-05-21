@@ -39,7 +39,7 @@ public interface RepositoryConfigurationUtils {
 	 * @param registry must not be {@literal null}.
 	 * @param configurationSource must not be {@literal null}.
 	 */
-	public static void exposeRegistration(RepositoryConfigurationExtension extension, BeanDefinitionRegistry registry,
+	static void exposeRegistration(RepositoryConfigurationExtension extension, BeanDefinitionRegistry registry,
 			RepositoryConfigurationSource configurationSource) {
 		Assert.notNull(extension, "RepositoryConfigurationExtension must not be null!");
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");

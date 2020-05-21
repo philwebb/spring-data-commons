@@ -407,7 +407,7 @@ class EntityCallbackDiscoverer {
 
 		private final Class<?> entityType;
 
-		public CallbackCacheKey(ResolvableType callbackType, @Nullable Class<?> entityType) {
+		CallbackCacheKey(ResolvableType callbackType, @Nullable Class<?> entityType) {
 			Assert.notNull(callbackType, "Callback type must not be null");
 			Assert.notNull(entityType, "Entity type must not be null");
 			this.callbackType = callbackType;

@@ -533,13 +533,12 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		 * @param metadata must not be {@literal null}.
 		 * @param composition must not be {@literal null}.
 		 */
-		public RepositoryInformationCacheKey(RepositoryMetadata metadata, RepositoryComposition composition) {
-
+		RepositoryInformationCacheKey(RepositoryMetadata metadata, RepositoryComposition composition) {
 			this.repositoryInterfaceName = metadata.getRepositoryInterface().getName();
 			this.compositionHash = composition.hashCode();
 		}
 
-		public RepositoryInformationCacheKey(String repositoryInterfaceName, long compositionHash) {
+		RepositoryInformationCacheKey(String repositoryInterfaceName, long compositionHash) {
 			this.repositoryInterfaceName = repositoryInterfaceName;
 			this.compositionHash = compositionHash;
 		}

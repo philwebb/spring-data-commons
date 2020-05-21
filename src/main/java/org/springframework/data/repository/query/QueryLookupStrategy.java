@@ -31,7 +31,7 @@ import org.springframework.util.StringUtils;
  */
 public interface QueryLookupStrategy {
 
-	public static enum Key {
+	enum Key {
 
 		CREATE, USE_DECLARED_QUERY, CREATE_IF_NOT_FOUND;
 

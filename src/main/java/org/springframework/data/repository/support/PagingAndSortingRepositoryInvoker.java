@@ -46,7 +46,7 @@ class PagingAndSortingRepositoryInvoker extends CrudRepositoryInvoker {
 	 * @param metadata must not be {@literal null}.
 	 * @param conversionService must not be {@literal null}.
 	 */
-	public PagingAndSortingRepositoryInvoker(PagingAndSortingRepository<Object, Object> repository,
+	PagingAndSortingRepositoryInvoker(PagingAndSortingRepository<Object, Object> repository,
 			RepositoryMetadata metadata, ConversionService conversionService) {
 		super(repository, metadata, conversionService);
 		CrudMethods crudMethods = metadata.getCrudMethods();

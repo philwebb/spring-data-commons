@@ -60,7 +60,7 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	 * @param repositoryBaseClass must not be {@literal null}.
 	 * @param composition must not be {@literal null}.
 	 */
-	public DefaultRepositoryInformation(RepositoryMetadata metadata, Class<?> repositoryBaseClass,
+	DefaultRepositoryInformation(RepositoryMetadata metadata, Class<?> repositoryBaseClass,
 			RepositoryComposition composition) {
 		Assert.notNull(metadata, "Repository metadata must not be null!");
 		Assert.notNull(repositoryBaseClass, "Repository base class must not be null!");

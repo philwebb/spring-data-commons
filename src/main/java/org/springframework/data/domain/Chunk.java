@@ -46,7 +46,7 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 	 * @param content must not be {@literal null}.
 	 * @param pageable must not be {@literal null}.
 	 */
-	public Chunk(List<T> content, Pageable pageable) {
+	Chunk(List<T> content, Pageable pageable) {
 		Assert.notNull(content, "Content must not be null!");
 		Assert.notNull(pageable, "Pageable must not be null!");
 		this.content.addAll(content);

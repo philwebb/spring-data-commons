@@ -195,7 +195,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 		 * Creates a new {@link TargetAwareMethodInterceptor} with the given target class.
 		 * @param targetType must not be {@literal null}.
 		 */
-		public TargetAwareMethodInterceptor(Class<?> targetType) {
+		TargetAwareMethodInterceptor(Class<?> targetType) {
 			Assert.notNull(targetType, "Target type must not be null!");
 			this.targetType = targetType;
 		}
@@ -217,7 +217,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	/**
 	 * {@link MethodInterceptorFactory} handling {@link Map}s as target objects.
 	 */
-	private static enum MapAccessingMethodInterceptorFactory implements MethodInterceptorFactory {
+	private enum MapAccessingMethodInterceptorFactory implements MethodInterceptorFactory {
 
 		INSTANCE;
 
@@ -238,7 +238,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	 * {@link MethodInterceptorFactory} to create a
 	 * {@link PropertyAccessingMethodInterceptor} for arbitrary objects.
 	 */
-	private static enum PropertyAccessingMethodInvokerFactory implements MethodInterceptorFactory {
+	private enum PropertyAccessingMethodInvokerFactory implements MethodInterceptorFactory {
 
 		INSTANCE;
 

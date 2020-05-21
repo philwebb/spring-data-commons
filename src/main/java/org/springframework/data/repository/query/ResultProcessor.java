@@ -218,7 +218,7 @@ public class ResultProcessor {
 	 *
 	 * @since 1.12
 	 */
-	private static enum NoOpConverter implements Converter<Object, Object> {
+	private enum NoOpConverter implements Converter<Object, Object> {
 
 		INSTANCE;
 
@@ -247,7 +247,7 @@ public class ResultProcessor {
 			this(type, factory, DefaultConversionService.getSharedInstance());
 		}
 
-		public ProjectingConverter(ReturnedType type, ProjectionFactory factory, ConversionService conversionService) {
+		ProjectingConverter(ReturnedType type, ProjectionFactory factory, ConversionService conversionService) {
 			this.type = type;
 			this.factory = factory;
 			this.conversionService = conversionService;

@@ -277,7 +277,7 @@ public class PartTree implements Streamable<OrPart> {
 
 		private final Optional<Integer> maxResults;
 
-		public Subject(Optional<String> subject) {
+		Subject(Optional<String> subject) {
 			this.distinct = subject.map(it -> it.contains(DISTINCT)).orElse(false);
 			this.count = matches(subject, COUNT_BY_TEMPLATE);
 			this.exists = matches(subject, EXISTS_BY_TEMPLATE);
@@ -352,7 +352,7 @@ public class PartTree implements Streamable<OrPart> {
 
 		private boolean alwaysIgnoreCase;
 
-		public Predicate(String predicate, Class<?> domainClass) {
+		Predicate(String predicate, Class<?> domainClass) {
 			String[] parts = split(detectAndSetAllIgnoreCase(predicate), ORDER_BY);
 			if (parts.length > 2) {
 				throw new IllegalArgumentException("OrderBy must not be used more than once in a method name!");

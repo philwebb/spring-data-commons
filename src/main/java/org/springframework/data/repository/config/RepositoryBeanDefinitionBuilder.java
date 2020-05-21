@@ -70,7 +70,7 @@ class RepositoryBeanDefinitionBuilder {
 	 * @param resourceLoader must not be {@literal null}.
 	 * @param environment must not be {@literal null}.
 	 */
-	public RepositoryBeanDefinitionBuilder(BeanDefinitionRegistry registry, RepositoryConfigurationExtension extension,
+	RepositoryBeanDefinitionBuilder(BeanDefinitionRegistry registry, RepositoryConfigurationExtension extension,
 			RepositoryConfigurationSource configurationSource, ResourceLoader resourceLoader, Environment environment) {
 		Assert.notNull(extension, "RepositoryConfigurationExtension must not be null!");
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null!");

@@ -41,11 +41,11 @@ class AnnotationAttribute {
 	 * given {@link Annotation} type.
 	 * @param annotationType must not be {@literal null}.
 	 */
-	public AnnotationAttribute(Class<? extends Annotation> annotationType) {
+	AnnotationAttribute(Class<? extends Annotation> annotationType) {
 		this(annotationType, Optional.empty());
 	}
 
-	public AnnotationAttribute(Class<? extends Annotation> annotationType, Optional<String> attributeName) {
+	AnnotationAttribute(Class<? extends Annotation> annotationType, Optional<String> attributeName) {
 		Assert.notNull(annotationType, "Annotation type must not be null");
 		Assert.notNull(attributeName, "Attribute name must not be null");
 		this.annotationType = annotationType;

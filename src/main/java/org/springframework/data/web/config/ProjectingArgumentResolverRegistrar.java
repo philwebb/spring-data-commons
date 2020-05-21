@@ -78,7 +78,7 @@ public class ProjectingArgumentResolverRegistrar {
 		 * @param conversionService the Spring MVC {@link ConversionService} in a lazy
 		 * fashion, so that its initialization is not triggered yet.
 		 */
-		public ProjectingArgumentResolverBeanPostProcessor(
+		ProjectingArgumentResolverBeanPostProcessor(
 				@Qualifier("mvcConversionService") ObjectFactory<ConversionService> conversionService) {
 			this.resolver = new ProxyingHandlerMethodArgumentResolver(conversionService, false);
 		}

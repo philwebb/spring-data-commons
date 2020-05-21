@@ -228,7 +228,7 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 	}
 
-	static interface Sample {
+	interface Sample {
 
 		User predicateWithoutAnnotation(Predicate predicate);
 

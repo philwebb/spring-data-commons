@@ -335,7 +335,7 @@ class QueryExecutionResultHandlerUnitTests {
 		return Sample.class.getMethod(methodName);
 	}
 
-	static interface Sample extends Repository<Entity, Long> {
+	interface Sample extends Repository<Entity, Long> {
 
 		Set<Entity> set();
 

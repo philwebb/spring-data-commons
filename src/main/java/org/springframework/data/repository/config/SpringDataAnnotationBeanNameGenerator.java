@@ -34,7 +34,7 @@ class SpringDataAnnotationBeanNameGenerator {
 
 	private final BeanNameGenerator delegate;
 
-	public SpringDataAnnotationBeanNameGenerator(BeanNameGenerator delegate) {
+	SpringDataAnnotationBeanNameGenerator(BeanNameGenerator delegate) {
 		this.delegate = delegate;
 	}
 

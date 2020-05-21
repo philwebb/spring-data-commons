@@ -39,7 +39,7 @@ class TypeVariableTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 	 * @param owningType must not be {@literal null}
 	 * @param parent
 	 */
-	public TypeVariableTypeInformation(TypeVariable<?> variable, TypeDiscoverer<?> parent) {
+	TypeVariableTypeInformation(TypeVariable<?> variable, TypeDiscoverer<?> parent) {
 		super(variable, parent);
 		Assert.notNull(variable, "TypeVariable must not be null!");
 		this.variable = variable;

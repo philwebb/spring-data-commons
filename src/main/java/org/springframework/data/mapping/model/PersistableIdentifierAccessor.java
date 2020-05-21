@@ -33,7 +33,7 @@ class PersistableIdentifierAccessor extends TargetAwareIdentifierAccessor {
 	 * Creates a new {@link PersistableIdentifierAccessor} for the given target.
 	 * @param target must not be {@literal null}.
 	 */
-	public PersistableIdentifierAccessor(Persistable<?> target) {
+	PersistableIdentifierAccessor(Persistable<?> target) {
 		super(target);
 		this.target = target;
 	}

@@ -57,7 +57,7 @@ public class DummyCdiExtension extends CdiRepositoryExtensionSupport {
 
 	static class DummyCdiRepositoryBean<T> extends CdiRepositoryBean<T> {
 
-		public DummyCdiRepositoryBean(Set<Annotation> qualifiers, Class<T> repositoryType, BeanManager beanManager) {
+		DummyCdiRepositoryBean(Set<Annotation> qualifiers, Class<T> repositoryType, BeanManager beanManager) {
 			super(qualifiers, repositoryType, beanManager);
 		}
 

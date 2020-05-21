@@ -58,7 +58,7 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 	 * @param includeFilters the {@link TypeFilter}s to select repository interfaces to
 	 * consider, must not be {@literal null}.
 	 */
-	public RepositoryComponentProvider(Iterable<? extends TypeFilter> includeFilters, BeanDefinitionRegistry registry) {
+	RepositoryComponentProvider(Iterable<? extends TypeFilter> includeFilters, BeanDefinitionRegistry registry) {
 		super(false);
 		Assert.notNull(includeFilters, "Include filters must not be null!");
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
@@ -151,7 +151,7 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 		 * Creates a new {@link InterfaceTypeFilter}.
 		 * @param targetType
 		 */
-		public InterfaceTypeFilter(Class<?> targetType) {
+		InterfaceTypeFilter(Class<?> targetType) {
 			super(targetType);
 		}
 
@@ -176,7 +176,7 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 		 * Creates a new {@link AllTypeFilter} to match if all the given delegates match.
 		 * @param delegates must not be {@literal null}.
 		 */
-		public AllTypeFilter(List<TypeFilter> delegates) {
+		AllTypeFilter(List<TypeFilter> delegates) {
 			Assert.notNull(delegates, "TypeFilter deleages must not be null!");
 			this.delegates = delegates;
 		}

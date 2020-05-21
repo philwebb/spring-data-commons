@@ -65,8 +65,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	 * @param metadata must not be {@literal null}.
 	 * @param conversionService must not be {@literal null}.
 	 */
-	public ReflectionRepositoryInvoker(Object repository, RepositoryMetadata metadata,
-			ConversionService conversionService) {
+	ReflectionRepositoryInvoker(Object repository, RepositoryMetadata metadata, ConversionService conversionService) {
 		Assert.notNull(repository, "Repository must not be null!");
 		Assert.notNull(metadata, "RepositoryMetadata must not be null!");
 		Assert.notNull(conversionService, "ConversionService must not be null!");

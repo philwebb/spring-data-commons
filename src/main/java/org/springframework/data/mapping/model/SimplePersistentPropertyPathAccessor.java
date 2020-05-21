@@ -52,7 +52,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 	private final PersistentPropertyAccessor<T> delegate;
 
-	public SimplePersistentPropertyPathAccessor(PersistentPropertyAccessor<T> delegate) {
+	SimplePersistentPropertyPathAccessor(PersistentPropertyAccessor<T> delegate) {
 		this.delegate = delegate;
 	}
 

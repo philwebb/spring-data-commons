@@ -170,7 +170,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 		 * Creates a new {@link BindableParameterIterator}.
 		 * @param accessor must not be {@literal null}.
 		 */
-		public BindableParameterIterator(ParametersParameterAccessor accessor) {
+		BindableParameterIterator(ParametersParameterAccessor accessor) {
 			Assert.notNull(accessor, "ParametersParameterAccessor must not be null!");
 			this.accessor = accessor;
 			this.bindableParameterCount = accessor.getParameters().getBindableParameters().getNumberOfParameters();

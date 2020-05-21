@@ -123,7 +123,7 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 
 		private final boolean considerInterfaces;
 
-		public InterfaceAwareScanner(boolean considerInterfaces) {
+		InterfaceAwareScanner(boolean considerInterfaces) {
 			super(false);
 			this.considerInterfaces = considerInterfaces;
 		}

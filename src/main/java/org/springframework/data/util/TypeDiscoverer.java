@@ -440,8 +440,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 		private final List<TypeInformation<?>> typeParameters;
 
-		public SyntheticParamterizedType(ClassTypeInformation<?> typeInformation,
-				List<TypeInformation<?>> typeParameters) {
+		SyntheticParamterizedType(ClassTypeInformation<?> typeInformation, List<TypeInformation<?>> typeParameters) {
 			this.typeInformation = typeInformation;
 			this.typeParameters = typeParameters;
 		}

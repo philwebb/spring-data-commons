@@ -41,7 +41,7 @@ class MethodParameterAwarePagedResourcesAssembler<T> extends PagedResourcesAssem
 	 * @param resolver can be {@literal null}.
 	 * @param baseUri can be {@literal null}.
 	 */
-	public MethodParameterAwarePagedResourcesAssembler(MethodParameter parameter,
+	MethodParameterAwarePagedResourcesAssembler(MethodParameter parameter,
 			@Nullable HateoasPageableHandlerMethodArgumentResolver resolver, @Nullable UriComponents baseUri) {
 		super(resolver, baseUri);
 		Assert.notNull(parameter, "Method parameter must not be null!");

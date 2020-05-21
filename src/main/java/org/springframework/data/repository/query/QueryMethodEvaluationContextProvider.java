@@ -31,7 +31,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
  */
 public interface QueryMethodEvaluationContextProvider {
 
-	static QueryMethodEvaluationContextProvider DEFAULT = new ExtensionAwareQueryMethodEvaluationContextProvider(
+	QueryMethodEvaluationContextProvider DEFAULT = new ExtensionAwareQueryMethodEvaluationContextProvider(
 			Collections.emptyList());
 
 	/**

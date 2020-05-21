@@ -47,7 +47,7 @@ class MethodParameters {
 	 * Creates a new {@link MethodParameters} from the given {@link Method}.
 	 * @param method must not be {@literal null}.
 	 */
-	public MethodParameters(Method method) {
+	MethodParameters(Method method) {
 		this(method, Optional.empty());
 	}
 
@@ -58,7 +58,7 @@ class MethodParameters {
 	 * @param method must not be {@literal null}.
 	 * @param namingAnnotation must not be {@literal null}.
 	 */
-	public MethodParameters(Method method, Optional<AnnotationAttribute> namingAnnotation) {
+	MethodParameters(Method method, Optional<AnnotationAttribute> namingAnnotation) {
 		Assert.notNull(method, "Method must not be null!");
 		this.parameters = new ArrayList<>();
 		for (int i = 0; i < method.getParameterCount(); i++) {
@@ -126,8 +126,7 @@ class MethodParameters {
 		 * @param parameterIndex
 		 * @param attribute can be {@literal null}
 		 */
-		public AnnotationNamingMethodParameter(Method method, int parameterIndex,
-				Optional<AnnotationAttribute> attribute) {
+		AnnotationNamingMethodParameter(Method method, int parameterIndex, Optional<AnnotationAttribute> attribute) {
 			super(method, parameterIndex);
 			this.attribute = attribute;
 			this.name = Lazy.of(() -> this.attribute.flatMap(it -> it.getValueFrom(this).map(Object::toString))

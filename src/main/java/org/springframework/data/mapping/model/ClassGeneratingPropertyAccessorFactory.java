@@ -1302,7 +1302,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 
 		private final int hash;
 
-		public PropertyStackAddress(Label label, int hash) {
+		PropertyStackAddress(Label label, int hash) {
 			this.label = label;
 			this.hash = hash;
 		}

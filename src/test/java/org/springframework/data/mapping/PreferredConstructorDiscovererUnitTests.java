@@ -122,41 +122,41 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 
 	static class ClassWithEmptyConstructor {
 
-		public ClassWithEmptyConstructor() {
+		ClassWithEmptyConstructor() {
 		}
 
 	}
 
 	static class ClassWithMultipleConstructorsAndEmptyOne {
 
-		public ClassWithMultipleConstructorsAndEmptyOne(String value) {
+		ClassWithMultipleConstructorsAndEmptyOne(String value) {
 		}
 
-		public ClassWithMultipleConstructorsAndEmptyOne() {
+		ClassWithMultipleConstructorsAndEmptyOne() {
 		}
 
 	}
 
 	static class ClassWithMultipleConstructorsWithoutEmptyOne {
 
-		public ClassWithMultipleConstructorsWithoutEmptyOne(String value) {
+		ClassWithMultipleConstructorsWithoutEmptyOne(String value) {
 		}
 
-		public ClassWithMultipleConstructorsWithoutEmptyOne(Long value) {
+		ClassWithMultipleConstructorsWithoutEmptyOne(Long value) {
 		}
 
 	}
 
 	static class ClassWithMultipleConstructorsAndAnnotation {
 
-		public ClassWithMultipleConstructorsAndAnnotation() {
+		ClassWithMultipleConstructorsAndAnnotation() {
 		}
 
-		public ClassWithMultipleConstructorsAndAnnotation(String value) {
+		ClassWithMultipleConstructorsAndAnnotation(String value) {
 		}
 
 		@PersistenceConstructor
-		public ClassWithMultipleConstructorsAndAnnotation(Long value) {
+		ClassWithMultipleConstructorsAndAnnotation(Long value) {
 		}
 
 	}

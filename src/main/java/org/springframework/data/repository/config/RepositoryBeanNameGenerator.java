@@ -45,7 +45,7 @@ class RepositoryBeanNameGenerator {
 	 * @param beanClassLoader must not be {@literal null}.
 	 * @param generator must not be {@literal null}.
 	 */
-	public RepositoryBeanNameGenerator(ClassLoader beanClassLoader, BeanNameGenerator generator) {
+	RepositoryBeanNameGenerator(ClassLoader beanClassLoader, BeanNameGenerator generator) {
 		Assert.notNull(beanClassLoader, "Bean ClassLoader must not be null!");
 		Assert.notNull(generator, "BeanNameGenerator must not be null!");
 		this.beanClassLoader = beanClassLoader;

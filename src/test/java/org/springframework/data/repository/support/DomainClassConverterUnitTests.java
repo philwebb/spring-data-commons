@@ -184,7 +184,7 @@ class DomainClassConverterUnitTests {
 		return ctx;
 	}
 
-	static interface Wrapper {
+	interface Wrapper {
 
 		void foo(@ModelAttribute User user);
 
@@ -198,7 +198,7 @@ class DomainClassConverterUnitTests {
 
 	}
 
-	private static interface UserRepository extends CrudRepository<User, Long> {
+	interface UserRepository extends CrudRepository<User, Long> {
 
 	}
 

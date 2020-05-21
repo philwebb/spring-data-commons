@@ -148,7 +148,7 @@ public final class MethodInvocationRecorder {
 		@Nullable
 		private final Method invokedMethod;
 
-		public InvocationInformation(Recorded<?> recorded, Method invokedMethod) {
+		InvocationInformation(Recorded<?> recorded, Method invokedMethod) {
 			this.recorded = recorded;
 			this.invokedMethod = invokedMethod;
 		}

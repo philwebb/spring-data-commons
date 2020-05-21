@@ -48,7 +48,7 @@ public interface StreamUtils {
 	 * @param iterator must not be {@literal null}.
 	 * @return
 	 */
-	public static <T> Stream<T> createStreamFromIterator(Iterator<T> iterator) {
+	static <T> Stream<T> createStreamFromIterator(Iterator<T> iterator) {
 		Spliterator<T> spliterator = Spliterators.spliteratorUnknownSize(iterator, Spliterator.NONNULL);
 		return StreamSupport.stream(spliterator, false);
 	}
@@ -60,7 +60,7 @@ public interface StreamUtils {
 	 * @return the stream
 	 * @since 2.0
 	 */
-	public static <T> Stream<T> createStreamFromIterator(CloseableIterator<T> iterator) {
+	static <T> Stream<T> createStreamFromIterator(CloseableIterator<T> iterator) {
 		Assert.notNull(iterator, "Iterator must not be null!");
 		return createStreamFromIterator((Iterator<T>) iterator).onClose(() -> iterator.close());
 	}
@@ -69,7 +69,7 @@ public interface StreamUtils {
 	 * Returns a {@link Collector} to create an unmodifiable {@link List}.
 	 * @return will never be {@literal null}.
 	 */
-	public static <T> Collector<T, ?, List<T>> toUnmodifiableList() {
+	static <T> Collector<T, ?, List<T>> toUnmodifiableList() {
 		return Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList);
 	}
 
@@ -77,7 +77,7 @@ public interface StreamUtils {
 	 * Returns a {@link Collector} to create an unmodifiable {@link Set}.
 	 * @return will never be {@literal null}.
 	 */
-	public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
+	static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
 		return Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet);
 	}
 
@@ -88,8 +88,8 @@ public interface StreamUtils {
 	 * @param valueFunction {@link Function} to create a value from an element of the
 	 * {@link java.util.stream.Stream}
 	 */
-	public static <T, K, V> Collector<T, MultiValueMap<K, V>, MultiValueMap<K, V>> toMultiMap(
-			Function<T, K> keyFunction, Function<T, V> valueFunction) {
+	static <T, K, V> Collector<T, MultiValueMap<K, V>, MultiValueMap<K, V>> toMultiMap(Function<T, K> keyFunction,
+			Function<T, V> valueFunction) {
 		return MultiValueMapCollector.of(keyFunction, valueFunction);
 	}
 
@@ -101,7 +101,7 @@ public interface StreamUtils {
 	 * if the value is {@literal null}.
 	 * @since 2.0.6
 	 */
-	public static <T> Stream<T> fromNullable(@Nullable T source) {
+	static <T> Stream<T> fromNullable(@Nullable T source) {
 		return source == null ? Stream.empty() : Stream.of(source);
 	}
 
@@ -115,7 +115,7 @@ public interface StreamUtils {
 	 * @return the zip stream
 	 * @since 2.1
 	 */
-	public static <L, R, T> Stream<T> zip(Stream<L> left, Stream<R> right, BiFunction<L, R, T> combiner) {
+	static <L, R, T> Stream<T> zip(Stream<L> left, Stream<R> right, BiFunction<L, R, T> combiner) {
 		Assert.notNull(left, "Left stream must not be null!");
 		Assert.notNull(right, "Right must not be null!");
 		Assert.notNull(combiner, "Combiner must not be null!");

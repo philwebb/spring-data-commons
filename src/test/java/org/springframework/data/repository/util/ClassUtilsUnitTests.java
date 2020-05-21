@@ -67,7 +67,7 @@ class ClassUtilsUnitTests {
 
 	}
 
-	static interface UserRepository extends Repository<User, Integer> {
+	interface UserRepository extends Repository<User, Integer> {
 
 		@Async
 		Future<Page<User>> findAsync(Pageable pageable);

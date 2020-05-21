@@ -633,11 +633,11 @@ public class ClassTypeInformationUnitTests {
 
 	}
 
-	static interface SampleTraversable extends Traversable<Integer> {
+	interface SampleTraversable extends Traversable<Integer> {
 
 	}
 
-	static interface SampleMap extends io.vavr.collection.Map<String, Integer> {
+	interface SampleMap extends io.vavr.collection.Map<String, Integer> {
 
 	}
 

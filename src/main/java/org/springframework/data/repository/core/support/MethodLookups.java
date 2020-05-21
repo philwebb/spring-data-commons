@@ -118,7 +118,7 @@ interface MethodLookups {
 		 * {@link RepositoryMetadata}.
 		 * @param repositoryMetadata must not be {@literal null}.
 		 */
-		public RepositoryAwareMethodLookup(RepositoryMetadata repositoryMetadata) {
+		RepositoryAwareMethodLookup(RepositoryMetadata repositoryMetadata) {
 			Assert.notNull(repositoryMetadata, "Repository metadata must not be null!");
 			this.entityType = ResolvableType.forClass(repositoryMetadata.getDomainType());
 			this.idType = ResolvableType.forClass(repositoryMetadata.getIdType());
@@ -207,8 +207,7 @@ interface MethodLookups {
 
 		private final RepositoryMetadata repositoryMetadata;
 
-		public ReactiveTypeInteropMethodLookup(RepositoryMetadata repositoryMetadata) {
-
+		ReactiveTypeInteropMethodLookup(RepositoryMetadata repositoryMetadata) {
 			super(repositoryMetadata);
 			this.repositoryMetadata = repositoryMetadata;
 		}

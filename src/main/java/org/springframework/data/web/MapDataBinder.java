@@ -67,7 +67,7 @@ class MapDataBinder extends WebDataBinder {
 	 * @param conversionService the {@link ConversionService} to be used to preprocess
 	 * values.
 	 */
-	public MapDataBinder(Class<?> type, ConversionService conversionService) {
+	MapDataBinder(Class<?> type, ConversionService conversionService) {
 		super(new HashMap<String, Object>());
 		this.type = type;
 		this.conversionService = conversionService;
@@ -106,7 +106,7 @@ class MapDataBinder extends WebDataBinder {
 
 		private final ConversionService conversionService;
 
-		public MapPropertyAccessor(Class<?> type, Map<String, Object> map, ConversionService conversionService) {
+		MapPropertyAccessor(Class<?> type, Map<String, Object> map, ConversionService conversionService) {
 			this.type = type;
 			this.map = map;
 			this.conversionService = conversionService;
@@ -205,7 +205,7 @@ class MapDataBinder extends WebDataBinder {
 			 * @param type must not be {@literal null}.
 			 * @param conversionService must not be {@literal null}.
 			 */
-			public PropertyTraversingMapAccessor(Class<?> type, ConversionService conversionService) {
+			PropertyTraversingMapAccessor(Class<?> type, ConversionService conversionService) {
 				Assert.notNull(type, "Type must not be null!");
 				Assert.notNull(conversionService, "ConversionService must not be null!");
 				this.type = type;

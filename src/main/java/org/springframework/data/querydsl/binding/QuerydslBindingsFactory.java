@@ -182,7 +182,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 		}).orElseGet(() -> BeanUtils.instantiateClass(type));
 	}
 
-	private static enum NoOpCustomizer implements QuerydslBinderCustomizer<EntityPath<?>> {
+	private enum NoOpCustomizer implements QuerydslBinderCustomizer<EntityPath<?>> {
 
 		INSTANCE;
 

@@ -255,7 +255,7 @@ public class Repositories implements Iterable<Class<?>> {
 	/**
 	 * Null-object to avoid nasty {@literal null} checks in cache lookups.
 	 */
-	private static enum EmptyRepositoryFactoryInformation implements RepositoryFactoryInformation<Object, Object> {
+	private enum EmptyRepositoryFactoryInformation implements RepositoryFactoryInformation<Object, Object> {
 
 		INSTANCE;
 

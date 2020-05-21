@@ -181,7 +181,7 @@ class ReturnedTypeUnitTests {
 
 		SampleInterface findOneInterface();
 
-		static enum MyEnum {
+		enum MyEnum {
 
 			VALUE
 
@@ -189,7 +189,7 @@ class ReturnedTypeUnitTests {
 
 	}
 
-	static interface SampleInterface {
+	interface SampleInterface {
 
 	}
 
@@ -239,13 +239,13 @@ class ReturnedTypeUnitTests {
 
 	}
 
-	static interface Parent {
+	interface Parent {
 
 		String getFirstname();
 
 	}
 
-	static interface Child extends Parent {
+	interface Child extends Parent {
 
 		@Override
 		String getFirstname();

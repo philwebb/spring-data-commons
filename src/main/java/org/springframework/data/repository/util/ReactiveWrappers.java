@@ -80,7 +80,7 @@ public abstract class ReactiveWrappers {
 	/**
 	 * Enumeration of supported reactive libraries.
 	 */
-	public static enum ReactiveLibrary {
+	public enum ReactiveLibrary {
 
 		PROJECT_REACTOR, RXJAVA1, RXJAVA2, KOTLIN_COROUTINES;
 

@@ -28,7 +28,7 @@ class SpecialUser extends User {
 
 	public String specialProperty;
 
-	public SpecialUser(String firstname, String lastname, Address address) {
+	SpecialUser(String firstname, String lastname, Address address) {
 		super(firstname, lastname, address);
 	}
 

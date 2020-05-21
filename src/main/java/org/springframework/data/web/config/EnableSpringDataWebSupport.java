@@ -84,7 +84,7 @@ public @interface EnableSpringDataWebSupport {
 	 * @author Oliver Gierke
 	 * @author Jens Schauder
 	 */
-	static class SpringDataWebConfigurationImportSelector implements ImportSelector, ResourceLoaderAware {
+	class SpringDataWebConfigurationImportSelector implements ImportSelector, ResourceLoaderAware {
 
 		private Optional<ClassLoader> resourceLoader = Optional.empty();
 
@@ -114,7 +114,7 @@ public @interface EnableSpringDataWebSupport {
 	 *
 	 * @since 1.11
 	 */
-	static class QuerydslActivator implements ImportSelector {
+	class QuerydslActivator implements ImportSelector {
 
 		@Override
 		public String[] selectImports(AnnotationMetadata importingClassMetadata) {

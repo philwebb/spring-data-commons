@@ -71,7 +71,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 	 * @param transactionManagerName must not be {@literal null} or empty.
 	 * @param enableDefaultTransaction
 	 */
-	public TransactionalRepositoryProxyPostProcessor(ListableBeanFactory beanFactory, String transactionManagerName,
+	TransactionalRepositoryProxyPostProcessor(ListableBeanFactory beanFactory, String transactionManagerName,
 			boolean enableDefaultTransaction) {
 		Assert.notNull(beanFactory, "BeanFactory must not be null!");
 		Assert.notNull(transactionManagerName, "TransactionManagerName must not be null!");
@@ -150,7 +150,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		 * methods that carry the {@code Transactional} annotation or the EJB3
 		 * {@link javax.ejb.TransactionAttribute} annotation.
 		 */
-		public CustomAnnotationTransactionAttributeSource() {
+		CustomAnnotationTransactionAttributeSource() {
 			this(true);
 		}
 
@@ -163,7 +163,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		 * or protected/private methods as well (typically used with AspectJ class
 		 * weaving)
 		 */
-		public CustomAnnotationTransactionAttributeSource(boolean publicMethodsOnly) {
+		CustomAnnotationTransactionAttributeSource(boolean publicMethodsOnly) {
 			this.publicMethodsOnly = publicMethodsOnly;
 			this.annotationParsers = new LinkedHashSet<>(2);
 			this.annotationParsers.add(new SpringTransactionAnnotationParser());
@@ -179,7 +179,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		 * Create a custom CustomAnnotationTransactionAttributeSource.
 		 * @param annotationParser the TransactionAnnotationParser to use
 		 */
-		public CustomAnnotationTransactionAttributeSource(TransactionAnnotationParser annotationParser) {
+		CustomAnnotationTransactionAttributeSource(TransactionAnnotationParser annotationParser) {
 			this.publicMethodsOnly = true;
 			Assert.notNull(annotationParser, "TransactionAnnotationParser must not be null");
 			this.annotationParsers = Collections.singleton(annotationParser);
@@ -189,7 +189,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		 * Create a custom CustomAnnotationTransactionAttributeSource.
 		 * @param annotationParsers the TransactionAnnotationParsers to use
 		 */
-		public CustomAnnotationTransactionAttributeSource(TransactionAnnotationParser... annotationParsers) {
+		CustomAnnotationTransactionAttributeSource(TransactionAnnotationParser... annotationParsers) {
 			this.publicMethodsOnly = true;
 			Assert.notEmpty(annotationParsers, "At least one TransactionAnnotationParser needs to be specified");
 			Set<TransactionAnnotationParser> parsers = new LinkedHashSet<>(annotationParsers.length);
@@ -201,7 +201,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		 * Create a custom CustomAnnotationTransactionAttributeSource.
 		 * @param annotationParsers the TransactionAnnotationParsers to use
 		 */
-		public CustomAnnotationTransactionAttributeSource(Set<TransactionAnnotationParser> annotationParsers) {
+		CustomAnnotationTransactionAttributeSource(Set<TransactionAnnotationParser> annotationParsers) {
 			this.publicMethodsOnly = true;
 			Assert.notEmpty(annotationParsers, "At least one TransactionAnnotationParser needs to be specified");
 			this.annotationParsers = annotationParsers;
@@ -492,7 +492,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 
 			private final Class<?> targetClass;
 
-			public DefaultCacheKey(Method method, Class<?> targetClass) {
+			DefaultCacheKey(Method method, Class<?> targetClass) {
 				this.method = method;
 				this.targetClass = targetClass;
 			}

@@ -157,7 +157,7 @@ public class Part {
 	/**
 	 * The type of a method name part. Used to create query parts in various ways.
 	 */
-	public static enum Type {
+	public enum Type {
 
 		/**
 		 * 'Between' method part name type.
@@ -321,12 +321,12 @@ public class Part {
 		 * @param numberOfArguments
 		 * @param keywords
 		 */
-		private Type(int numberOfArguments, String... keywords) {
+		Type(int numberOfArguments, String... keywords) {
 			this.numberOfArguments = numberOfArguments;
 			this.keywords = Arrays.asList(keywords);
 		}
 
-		private Type(String... keywords) {
+		Type(String... keywords) {
 			this(1, keywords);
 		}
 

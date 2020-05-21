@@ -88,7 +88,7 @@ class DomainClassConverterIntegrationTests {
 
 	}
 
-	static interface PersonRepository extends CrudRepository<Person, Serializable> {
+	interface PersonRepository extends CrudRepository<Person, Serializable> {
 
 	}
 

@@ -75,7 +75,7 @@ public abstract class ProxyUtils {
 	 *
 	 * @author Oliver Gierke
 	 */
-	public static interface ProxyDetector {
+	public interface ProxyDetector {
 
 		/**
 		 * Returns the user class for the given type.

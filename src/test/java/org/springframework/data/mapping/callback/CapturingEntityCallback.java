@@ -66,10 +66,10 @@ class CapturingEntityCallback implements EntityCallback<Person> {
 
 	static class SecondCallback extends CapturingEntityCallback implements Ordered {
 
-		public SecondCallback() {
+		SecondCallback() {
 		}
 
-		public SecondCallback(Person returnValue) {
+		SecondCallback(Person returnValue) {
 			super(returnValue);
 		}
 

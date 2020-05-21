@@ -48,7 +48,7 @@ class MultiTransactionStatus implements TransactionStatus {
 	 * {@link PlatformTransactionManager}.
 	 * @param mainTransactionManager must not be {@literal null}.
 	 */
-	public MultiTransactionStatus(PlatformTransactionManager mainTransactionManager) {
+	MultiTransactionStatus(PlatformTransactionManager mainTransactionManager) {
 		Assert.notNull(mainTransactionManager, "TransactionManager must not be null!");
 		this.mainTransactionManager = mainTransactionManager;
 	}

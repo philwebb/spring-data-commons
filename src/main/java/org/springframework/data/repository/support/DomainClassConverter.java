@@ -116,7 +116,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 		 * @param repositories must not be {@literal null}.
 		 * @param conversionService must not be {@literal null}.
 		 */
-		public ToEntityConverter(Repositories repositories, ConversionService conversionService) {
+		ToEntityConverter(Repositories repositories, ConversionService conversionService) {
 			this.repositoryInvokerFactory = new DefaultRepositoryInvokerFactory(repositories, conversionService);
 		}
 

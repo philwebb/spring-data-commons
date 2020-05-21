@@ -116,8 +116,7 @@ class DefaultConverterBuilder<S, T>
 
 		private final Function<? super S, ? extends T> function;
 
-		public ConfigurableGenericConverter(ConvertiblePair convertiblePair,
-				Function<? super S, ? extends T> function) {
+		ConfigurableGenericConverter(ConvertiblePair convertiblePair, Function<? super S, ? extends T> function) {
 			this.convertiblePair = convertiblePair;
 			this.function = function;
 		}

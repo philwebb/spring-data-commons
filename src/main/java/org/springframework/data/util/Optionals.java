@@ -40,7 +40,7 @@ public interface Optionals {
 	 * @param optionals must not be {@literal null}.
 	 * @return
 	 */
-	public static boolean isAnyPresent(Optional<?>... optionals) {
+	static boolean isAnyPresent(Optional<?>... optionals) {
 		Assert.notNull(optionals, "Optionals must not be null!");
 		return Arrays.stream(optionals).anyMatch(Optional::isPresent);
 	}
@@ -52,7 +52,7 @@ public interface Optionals {
 	 * @return
 	 */
 	@SafeVarargs
-	public static <T> Stream<T> toStream(Optional<? extends T>... optionals) {
+	static <T> Stream<T> toStream(Optional<? extends T>... optionals) {
 		Assert.notNull(optionals, "Optional must not be null!");
 		return Arrays.asList(optionals).stream().flatMap(it -> it.map(Stream::of).orElseGet(Stream::empty));
 	}
@@ -64,7 +64,7 @@ public interface Optionals {
 	 * @param function must not be {@literal null}.
 	 * @return
 	 */
-	public static <S, T> Optional<T> firstNonEmpty(Iterable<S> source, Function<S, Optional<T>> function) {
+	static <S, T> Optional<T> firstNonEmpty(Iterable<S> source, Function<S, Optional<T>> function) {
 		Assert.notNull(source, "Source must not be null!");
 		Assert.notNull(function, "Function must not be null!");
 		return Streamable.of(source).stream().map(function::apply).filter(Optional::isPresent).findFirst()
@@ -78,7 +78,7 @@ public interface Optionals {
 	 * @param function must not be {@literal null}.
 	 * @return
 	 */
-	public static <S, T> T firstNonEmpty(Iterable<S> source, Function<S, T> function, T defaultValue) {
+	static <S, T> T firstNonEmpty(Iterable<S> source, Function<S, T> function, T defaultValue) {
 		Assert.notNull(source, "Source must not be null!");
 		Assert.notNull(function, "Function must not be null!");
 		return Streamable.of(source).stream().map(function::apply).filter(it -> !it.equals(defaultValue)).findFirst()
@@ -92,7 +92,7 @@ public interface Optionals {
 	 * @return
 	 */
 	@SafeVarargs
-	public static <T> Optional<T> firstNonEmpty(Supplier<Optional<T>>... suppliers) {
+	static <T> Optional<T> firstNonEmpty(Supplier<Optional<T>>... suppliers) {
 		Assert.notNull(suppliers, "Suppliers must not be null!");
 		return firstNonEmpty(Streamable.of(suppliers));
 	}
@@ -103,7 +103,7 @@ public interface Optionals {
 	 * @param suppliers must not be {@literal null}.
 	 * @return
 	 */
-	public static <T> Optional<T> firstNonEmpty(Iterable<Supplier<Optional<T>>> suppliers) {
+	static <T> Optional<T> firstNonEmpty(Iterable<Supplier<Optional<T>>> suppliers) {
 		Assert.notNull(suppliers, "Suppliers must not be null!");
 		return Streamable.of(suppliers).stream().map(Supplier::get).filter(Optional::isPresent).findFirst()
 				.orElse(Optional.empty());
@@ -115,7 +115,7 @@ public interface Optionals {
 	 * @param iterator must not be {@literal null}.
 	 * @return
 	 */
-	public static <T> Optional<T> next(Iterator<T> iterator) {
+	static <T> Optional<T> next(Iterator<T> iterator) {
 		Assert.notNull(iterator, "Iterator must not be null!");
 		return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.empty();
 	}
@@ -127,7 +127,7 @@ public interface Optionals {
 	 * @param right
 	 * @return
 	 */
-	public static <T, S> Optional<Pair<T, S>> withBoth(Optional<T> left, Optional<S> right) {
+	static <T, S> Optional<Pair<T, S>> withBoth(Optional<T> left, Optional<S> right) {
 		return left.flatMap(l -> right.map(r -> Pair.of(l, r)));
 	}
 
@@ -137,7 +137,7 @@ public interface Optionals {
 	 * @param right must not be {@literal null}.
 	 * @param consumer must not be {@literal null}.
 	 */
-	public static <T, S> void ifAllPresent(Optional<T> left, Optional<S> right, BiConsumer<T, S> consumer) {
+	static <T, S> void ifAllPresent(Optional<T> left, Optional<S> right, BiConsumer<T, S> consumer) {
 		Assert.notNull(left, "Optional must not be null!");
 		Assert.notNull(right, "Optional must not be null!");
 		Assert.notNull(consumer, "Consumer must not be null!");
@@ -155,8 +155,7 @@ public interface Optionals {
 	 * @param function must not be {@literal null}.
 	 * @return
 	 */
-	public static <T, S, R> Optional<R> mapIfAllPresent(Optional<T> left, Optional<S> right,
-			BiFunction<T, S, R> function) {
+	static <T, S, R> Optional<R> mapIfAllPresent(Optional<T> left, Optional<S> right, BiFunction<T, S, R> function) {
 		Assert.notNull(left, "Optional must not be null!");
 		Assert.notNull(right, "Optional must not be null!");
 		Assert.notNull(function, "BiFunctionmust not be null!");
@@ -170,7 +169,7 @@ public interface Optionals {
 	 * @param consumer must not be {@literal null}.
 	 * @param runnable must not be {@literal null}.
 	 */
-	public static <T> void ifPresentOrElse(Optional<T> optional, Consumer<? super T> consumer, Runnable runnable) {
+	static <T> void ifPresentOrElse(Optional<T> optional, Consumer<? super T> consumer, Runnable runnable) {
 		Assert.notNull(optional, "Optional must not be null!");
 		Assert.notNull(consumer, "Consumer must not be null!");
 		Assert.notNull(runnable, "Runnable must not be null!");

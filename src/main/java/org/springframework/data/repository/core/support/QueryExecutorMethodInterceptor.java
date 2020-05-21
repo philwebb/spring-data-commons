@@ -68,9 +68,9 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 	 * Creates a new {@link QueryExecutorMethodInterceptor}. Builds a model of
 	 * {@link QueryMethod}s to be invoked on execution of repository interface methods.
 	 */
-	public QueryExecutorMethodInterceptor(RepositoryInformation repositoryInformation,
-			ProjectionFactory projectionFactory, Optional<QueryLookupStrategy> queryLookupStrategy,
-			NamedQueries namedQueries, List<QueryCreationListener<?>> queryPostProcessors) {
+	QueryExecutorMethodInterceptor(RepositoryInformation repositoryInformation, ProjectionFactory projectionFactory,
+			Optional<QueryLookupStrategy> queryLookupStrategy, NamedQueries namedQueries,
+			List<QueryCreationListener<?>> queryPostProcessors) {
 		this.namedQueries = namedQueries;
 		this.queryPostProcessors = queryPostProcessors;
 		this.resultHandler = new QueryExecutionResultHandler(RepositoryFactorySupport.CONVERSION_SERVICE);

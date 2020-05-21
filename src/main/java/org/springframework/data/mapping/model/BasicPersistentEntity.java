@@ -458,7 +458,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	 */
 	private static class AbsentIdentifierAccessor extends TargetAwareIdentifierAccessor {
 
-		public AbsentIdentifierAccessor(Object target) {
+		AbsentIdentifierAccessor(Object target) {
 			super(target);
 		}
 

@@ -403,7 +403,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		private final Map<String, PropertyDescriptor> remainingDescriptors;
 
-		public PersistentPropertyCreator(E entity, Map<String, PropertyDescriptor> descriptors) {
+		PersistentPropertyCreator(E entity, Map<String, PropertyDescriptor> descriptors) {
 			this(entity, descriptors, descriptors);
 		}
 
@@ -461,7 +461,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 * Filter rejecting static fields as well as artificially introduced ones. See
 	 * {@link PersistentPropertyFilter#UNMAPPED_PROPERTIES} for details.
 	 */
-	static enum PersistentPropertyFilter implements FieldFilter {
+	enum PersistentPropertyFilter implements FieldFilter {
 
 		INSTANCE;
 
@@ -518,7 +518,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			 * {@literal null}.
 			 * @param typeName the name of the type to exclude, can be {@literal null}.
 			 */
-			public PropertyMatch(@Nullable String namePattern, @Nullable String typeName) {
+			PropertyMatch(@Nullable String namePattern, @Nullable String typeName) {
 				Assert.isTrue(!(namePattern == null && typeName == null),
 						"Either name pattern or type name must be given!");
 				this.namePattern = namePattern;

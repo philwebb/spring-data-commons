@@ -45,7 +45,7 @@ class PropertyAccessingMethodInterceptor implements MethodInterceptor {
 	 * object.
 	 * @param target must not be {@literal null}.
 	 */
-	public PropertyAccessingMethodInterceptor(Object target) {
+	PropertyAccessingMethodInterceptor(Object target) {
 		Assert.notNull(target, "Proxy target must not be null!");
 		this.target = new DirectFieldAccessFallbackBeanWrapper(target);
 	}

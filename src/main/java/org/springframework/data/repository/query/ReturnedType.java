@@ -140,7 +140,7 @@ public abstract class ReturnedType {
 		 * @param information must not be {@literal null}.
 		 * @param domainType must not be {@literal null}.
 		 */
-		public ReturnedInterface(ProjectionInformation information, Class<?> domainType) {
+		ReturnedInterface(ProjectionInformation information, Class<?> domainType) {
 			super(domainType);
 			Assert.notNull(information, "Projection information must not be null!");
 			this.information = information;
@@ -200,7 +200,7 @@ public abstract class ReturnedType {
 		 * @param returnedType must not be {@literal null}.
 		 * @param domainType must not be {@literal null}.
 		 */
-		public ReturnedClass(Class<?> returnedType, Class<?> domainType) {
+		ReturnedClass(Class<?> returnedType, Class<?> domainType) {
 			super(domainType);
 			Assert.notNull(returnedType, "Returned type must not be null!");
 			Assert.notNull(domainType, "Domain type must not be null!");

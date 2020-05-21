@@ -47,7 +47,7 @@ public class ReflectionUtilsUnitTests {
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.reference = Sample.class.getField("field");
-		this.constructor = ConstructorDetection.class.getConstructor(int.class, String.class);
+		this.constructor = ConstructorDetection.class.getDeclaredConstructor(int.class, String.class);
 	}
 
 	@Test
@@ -174,7 +174,7 @@ public class ReflectionUtilsUnitTests {
 
 		private final String name;
 
-		public FieldNameFieldFilter(String name) {
+		FieldNameFieldFilter(String name) {
 			this.name = name;
 		}
 
@@ -192,7 +192,7 @@ public class ReflectionUtilsUnitTests {
 
 	static class ConstructorDetection {
 
-		public ConstructorDetection(int i, String string) {
+		ConstructorDetection(int i, String string) {
 		}
 
 	}

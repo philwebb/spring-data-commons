@@ -160,7 +160,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		 * {@link EvaluationContextExtension}s.
 		 * @param extensions must not be {@literal null}.
 		 */
-		public ExtensionAwarePropertyAccessor(Collection<? extends EvaluationContextExtension> extensions) {
+		ExtensionAwarePropertyAccessor(Collection<? extends EvaluationContextExtension> extensions) {
 			Assert.notNull(extensions, "Extensions must not be null!");
 			this.adapters = toAdapters(extensions);
 			this.adapterMap = this.adapters.stream()
@@ -264,7 +264,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		private final Function function;
 
-		public FunctionMethodExecutor(Function function) {
+		FunctionMethodExecutor(Function function) {
 			this.function = function;
 		}
 
@@ -305,7 +305,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		 * @param extension must not be {@literal null}.
 		 * @param information must not be {@literal null}.
 		 */
-		public EvaluationContextExtensionAdapter(EvaluationContextExtension extension,
+		EvaluationContextExtensionAdapter(EvaluationContextExtension extension,
 				EvaluationContextExtensionInformation information) {
 			Assert.notNull(extension, "Extension must not be null!");
 			Assert.notNull(information, "Extension information must not be null!");

@@ -230,7 +230,7 @@ public class RepositoryConfigurationDelegate {
 
 		private final Map<String, RepositoryConfiguration<?>> configurations;
 
-		public LazyRepositoryInjectionPointResolver(Map<String, RepositoryConfiguration<?>> configurations) {
+		LazyRepositoryInjectionPointResolver(Map<String, RepositoryConfiguration<?>> configurations) {
 			this.configurations = configurations;
 		}
 

@@ -127,7 +127,7 @@ public class TypeFilterParser {
 	 *
 	 * @see #getFilter(String, ClassLoader)
 	 */
-	private static enum FilterType {
+	private enum FilterType {
 
 		ANNOTATION {
 
@@ -209,7 +209,7 @@ public class TypeFilterParser {
 
 	}
 
-	public static enum Type {
+	public enum Type {
 
 		INCLUDE("include-filter"),
 
@@ -217,7 +217,7 @@ public class TypeFilterParser {
 
 		private String elementName;
 
-		private Type(String elementName) {
+		Type(String elementName) {
 			this.elementName = elementName;
 		}
 

@@ -71,7 +71,7 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 	 * @param parser must not be {@literal null}.
 	 * @param targetInterface must not be {@literal null}.
 	 */
-	public SpelEvaluatingMethodInterceptor(MethodInterceptor delegate, Object target, @Nullable BeanFactory beanFactory,
+	SpelEvaluatingMethodInterceptor(MethodInterceptor delegate, Object target, @Nullable BeanFactory beanFactory,
 			SpelExpressionParser parser, Class<?> targetInterface) {
 		Assert.notNull(delegate, "Delegate MethodInterceptor must not be null!");
 		Assert.notNull(target, "Target object must not be null!");

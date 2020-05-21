@@ -169,7 +169,7 @@ class ParametersUnitTests {
 
 	}
 
-	static interface SampleDao {
+	interface SampleDao {
 
 		User valid(@Param("username") String username);
 

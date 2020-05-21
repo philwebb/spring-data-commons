@@ -292,7 +292,7 @@ class ResultProcessorUnitTests {
 
 		public String lastname;
 
-		public Sample(String firstname, String lastname) {
+		Sample(String firstname, String lastname) {
 			this.firstname = firstname;
 			this.lastname = lastname;
 		}
@@ -330,7 +330,7 @@ class ResultProcessorUnitTests {
 
 		private static final long serialVersionUID = -6539525376878522158L;
 
-		public SpecialList(Object dummy) {
+		SpecialList(Object dummy) {
 		}
 
 	}

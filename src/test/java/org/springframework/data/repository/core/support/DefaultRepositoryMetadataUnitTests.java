@@ -124,7 +124,7 @@ class DefaultRepositoryMetadataUnitTests {
 
 	}
 
-	static interface UserRepository extends CrudRepository<User, Integer> {
+	interface UserRepository extends CrudRepository<User, Integer> {
 
 	}
 
@@ -146,11 +146,11 @@ class DefaultRepositoryMetadataUnitTests {
 	/**
 	 * Sample interface to test recursive lookup of domain class.
 	 */
-	static interface ExtensionOfUserCustomExtendedDao extends UserCustomExtendedRepository {
+	interface ExtensionOfUserCustomExtendedDao extends UserCustomExtendedRepository {
 
 	}
 
-	static interface UserCustomExtendedRepository extends CrudRepository<User, Integer> {
+	interface UserCustomExtendedRepository extends CrudRepository<User, Integer> {
 
 	}
 
@@ -170,19 +170,19 @@ class DefaultRepositoryMetadataUnitTests {
 
 	}
 
-	static interface GenericEntityRepository extends CrudRepository<GenericEntity<String>, Long> {
+	interface GenericEntityRepository extends CrudRepository<GenericEntity<String>, Long> {
 
 	}
 
-	static interface IdTypeFixingRepository<T> extends Repository<T, Long> {
+	interface IdTypeFixingRepository<T> extends Repository<T, Long> {
 
 	}
 
-	static interface ConcreteRepository extends IdTypeFixingRepository<User> {
+	interface ConcreteRepository extends IdTypeFixingRepository<User> {
 
 	}
 
-	static interface OptionalRepository extends Repository<User, Long> {
+	interface OptionalRepository extends Repository<User, Long> {
 
 		Optional<User> findByEmailAddress(String emailAddress);
 

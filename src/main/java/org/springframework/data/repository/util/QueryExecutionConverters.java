@@ -313,7 +313,7 @@ public abstract class QueryExecutionConverters {
 			this.wrapperTypes = Collections.singleton(nullValue.getClass());
 		}
 
-		public AbstractWrapperTypeConverter(ConversionService conversionService, Object nullValue,
+		protected AbstractWrapperTypeConverter(ConversionService conversionService, Object nullValue,
 				Iterable<Class<?>> wrapperTypes) {
 			this.conversionService = conversionService;
 			this.nullValue = nullValue;
@@ -357,7 +357,7 @@ public abstract class QueryExecutionConverters {
 		 * {@link ConversionService}.
 		 * @param conversionService must not be {@literal null}.
 		 */
-		public NullableWrapperToGuavaOptionalConverter(ConversionService conversionService) {
+		NullableWrapperToGuavaOptionalConverter(ConversionService conversionService) {
 			super(conversionService, Optional.absent(), Collections.singleton(Optional.class));
 		}
 
@@ -382,7 +382,7 @@ public abstract class QueryExecutionConverters {
 		 * {@link ConversionService}.
 		 * @param conversionService must not be {@literal null}.
 		 */
-		public NullableWrapperToJdk8OptionalConverter(ConversionService conversionService) {
+		NullableWrapperToJdk8OptionalConverter(ConversionService conversionService) {
 			super(conversionService, java.util.Optional.empty());
 		}
 
@@ -408,7 +408,7 @@ public abstract class QueryExecutionConverters {
 		 * {@link ConversionService}.
 		 * @param conversionService must not be {@literal null}.
 		 */
-		public NullableWrapperToFutureConverter(ConversionService conversionService) {
+		NullableWrapperToFutureConverter(ConversionService conversionService) {
 			super(conversionService, new AsyncResult<>(null), Arrays.asList(Future.class, ListenableFuture.class));
 		}
 
@@ -430,7 +430,7 @@ public abstract class QueryExecutionConverters {
 		 * given {@link ConversionService}.
 		 * @param conversionService must not be {@literal null}.
 		 */
-		public NullableWrapperToCompletableFutureConverter(ConversionService conversionService) {
+		NullableWrapperToCompletableFutureConverter(ConversionService conversionService) {
 			super(conversionService, CompletableFuture.completedFuture(null));
 		}
 
@@ -452,7 +452,7 @@ public abstract class QueryExecutionConverters {
 	 */
 	private static class NullableWrapperToScalaOptionConverter extends AbstractWrapperTypeConverter {
 
-		public NullableWrapperToScalaOptionConverter(ConversionService conversionService) {
+		NullableWrapperToScalaOptionConverter(ConversionService conversionService) {
 			super(conversionService, Option.empty(), Collections.singleton(Option.class));
 		}
 
@@ -480,7 +480,7 @@ public abstract class QueryExecutionConverters {
 		 * {@link ConversionService}.
 		 * @param conversionService must not be {@literal null}.
 		 */
-		public NullableWrapperToVavrOptionConverter(ConversionService conversionService) {
+		NullableWrapperToVavrOptionConverter(ConversionService conversionService) {
 			super(conversionService, io.vavr.control.Option.none(),
 					Collections.singleton(io.vavr.control.Option.class));
 		}
@@ -587,7 +587,7 @@ public abstract class QueryExecutionConverters {
 
 		private final ConversionService conversionService = DefaultConversionService.getSharedInstance();
 
-		public IterableToStreamableConverter() {
+		IterableToStreamableConverter() {
 		}
 
 		@NonNull

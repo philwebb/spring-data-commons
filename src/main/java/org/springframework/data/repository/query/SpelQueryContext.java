@@ -267,7 +267,7 @@ public class SpelQueryContext {
 		 * Creates a new {@link QuotationMap} for the query.
 		 * @param query can be {@literal null}.
 		 */
-		public QuotationMap(@Nullable String query) {
+		QuotationMap(@Nullable String query) {
 			if (query == null) {
 				return;
 			}

@@ -10,8 +10,6 @@
 	<suppress files=".*" checks="JavadocType" />
 	<suppress files=".*" checks="JavadocVariable" />
 	<suppress files=".*" checks="NonEmptyAtclauseDescription" />
-	<suppress files=".*" checks="RedundantImport" />
-	<suppress files=".*" checks="RedundantModifier" />
 	<suppress files=".*" checks="Regexp" />
 	<suppress files=".*" checks="RegexpSinglelineJava" />
 	<suppress files=".*" checks="SpringHeader" />
@@ -23,5 +21,5 @@
 	<suppress files=".*" checks="SpringMethodVisibility" />
 	<suppress files=".*" checks="SpringTernary" />
 	<suppress files="generated-test-sources" checks=".*" />
-	<suppress files="test[\\/]java[\\/]org[\\/]springframework[\\/]data[\\/]mapping[\\/]model[\\/]" checks="FinalClass"/>
+	<suppress files="test[\\/]java[\\/]org[\\/]springframework[\\/]data[\\/]mapping[\\/]model[\\/]" checks="FinalClass|RedundantModifier"/>
 </suppressions>

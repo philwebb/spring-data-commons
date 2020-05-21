@@ -110,7 +110,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		 * {@link PersistentEntity}.
 		 * @param entity must not be {@literal null}.
 		 */
-		public <P> MappingAuditingMetadata(MappingContext<?, ? extends PersistentProperty<?>> context, Class<?> type) {
+		<P> MappingAuditingMetadata(MappingContext<?, ? extends PersistentProperty<?>> context, Class<?> type) {
 			Assert.notNull(type, "Type must not be null!");
 			this.createdByPaths = findPropertyPaths(type, CreatedBy.class, context);
 			this.createdDatePaths = findPropertyPaths(type, CreatedDate.class, context);
@@ -163,7 +163,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		 * @param accessor must not be {@literal null}.
 		 * @param metadata must not be {@literal null}.
 		 */
-		public MappingMetadataAuditableBeanWrapper(ConversionService conversionService,
+		MappingMetadataAuditableBeanWrapper(ConversionService conversionService,
 				PersistentPropertyPathAccessor<T> accessor, MappingAuditingMetadata metadata) {
 			super(conversionService);
 			Assert.notNull(accessor, "PersistentPropertyAccessor must not be null!");

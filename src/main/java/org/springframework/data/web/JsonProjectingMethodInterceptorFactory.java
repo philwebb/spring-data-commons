@@ -104,7 +104,7 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 
 		private final DocumentContext context;
 
-		public InputMessageProjecting(DocumentContext context) {
+		InputMessageProjecting(DocumentContext context) {
 			this.context = context;
 		}
 
