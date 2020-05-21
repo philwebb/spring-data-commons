@@ -175,7 +175,7 @@ public class ResultProcessor {
 		}
 	}
 
-	private static class ChainingConverter implements Converter<Object, Object> {
+	private static final class ChainingConverter implements Converter<Object, Object> {
 
 		private final Class<?> targetType;
 

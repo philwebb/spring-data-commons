@@ -243,7 +243,7 @@ public class ParameterTypes {
 	 * Extension of {@link ParameterTypes} that remembers the seed tail and only adds
 	 * typed varargs if the current tail is assignable to the seed one.
 	 */
-	static class ParentParameterTypes extends ParameterTypes {
+	static final class ParentParameterTypes extends ParameterTypes {
 
 		private final TypeDescriptor tail;
 

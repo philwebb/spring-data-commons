@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * @author Oliver Gierke
  * @since 2.0
  */
-class SelectionSet<T> {
+final class SelectionSet<T> {
 
 	private final Collection<T> collection;
 

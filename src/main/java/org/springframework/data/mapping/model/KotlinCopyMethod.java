@@ -42,7 +42,7 @@ import org.springframework.util.Assert;
  * @author Mark Paluch
  * @since 2.1
  */
-class KotlinCopyMethod {
+final class KotlinCopyMethod {
 
 	private final Method publicCopyMethod;
 

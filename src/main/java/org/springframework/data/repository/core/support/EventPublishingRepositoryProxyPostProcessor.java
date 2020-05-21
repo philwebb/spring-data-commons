@@ -73,7 +73,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 	 *
 	 * @since 1.13
 	 */
-	static class EventPublishingMethodInterceptor implements MethodInterceptor {
+	static final class EventPublishingMethodInterceptor implements MethodInterceptor {
 
 		private final EventPublishingMethod eventMethod;
 

@@ -32,7 +32,7 @@ import org.springframework.util.Assert;
  * @author Oliver Gierke
  * @author Christoph Strobl
  */
-public class Revisions<N extends Number & Comparable<N>, T> implements Streamable<Revision<N, T>> {
+public final class Revisions<N extends Number & Comparable<N>, T> implements Streamable<Revision<N, T>> {
 
 	private final Comparator<Revision<N, T>> NATURAL_ORDER = Comparator.naturalOrder();
 

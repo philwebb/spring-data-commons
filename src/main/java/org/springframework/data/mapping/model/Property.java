@@ -39,7 +39,7 @@ import org.springframework.util.StringUtils;
  * @author Christoph Strobl
  * @author Mark Paluch
  */
-public class Property {
+public final class Property {
 
 	private final Optional<Field> field;
 

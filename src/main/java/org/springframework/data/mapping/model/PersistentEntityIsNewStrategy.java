@@ -29,7 +29,7 @@ import org.springframework.util.ClassUtils;
  *
  * @author Oliver Gierke https://www.youtube.com/watch?v=syGlBNVGEqU
  */
-class PersistentEntityIsNewStrategy implements IsNewStrategy {
+final class PersistentEntityIsNewStrategy implements IsNewStrategy {
 
 	private final Function<Object, Object> valueLookup;
 

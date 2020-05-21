@@ -27,7 +27,7 @@ import org.springframework.util.Assert;
  * @author Oliver Gierke
  * @since 1.13
  */
-public class RevisionSort extends Sort {
+public final class RevisionSort extends Sort {
 
 	private static final long serialVersionUID = 618238321589063537L;
 

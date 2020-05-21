@@ -98,7 +98,7 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 		});
 	}
 
-	static class SyntheticConstructor {
+	static final class SyntheticConstructor {
 
 		@PersistenceConstructor
 		private SyntheticConstructor(String x) {

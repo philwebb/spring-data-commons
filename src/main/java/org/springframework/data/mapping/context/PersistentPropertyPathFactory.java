@@ -286,7 +286,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 	}
 
-	static class DefaultPersistentPropertyPaths<T, P extends PersistentProperty<P>>
+	static final class DefaultPersistentPropertyPaths<T, P extends PersistentProperty<P>>
 			implements PersistentPropertyPaths<T, P> {
 
 		private static final Comparator<PersistentPropertyPath<? extends PersistentProperty<?>>> SHORTEST_PATH = Comparator

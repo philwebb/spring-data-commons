@@ -34,7 +34,7 @@ import org.springframework.util.MultiValueMap;
  * @author Jens Schauder
  * @since 2.0
  */
-class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMap<K, V>, MultiValueMap<K, V>> {
+final class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMap<K, V>, MultiValueMap<K, V>> {
 
 	private final Function<T, K> keyFunction;
 

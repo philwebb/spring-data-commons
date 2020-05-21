@@ -571,7 +571,7 @@ public class CustomConversions {
 	/**
 	 * Conversion registration information.
 	 */
-	private static class ConverterRegistration {
+	private static final class ConverterRegistration {
 
 		private final Object converter;
 
@@ -646,7 +646,7 @@ public class CustomConversions {
 	 * Allows to forward store specific default conversions and a set of types that are
 	 * supposed to be considered simple.
 	 */
-	public static class StoreConversions {
+	public static final class StoreConversions {
 
 		public static final StoreConversions NONE = StoreConversions.of(SimpleTypeHolder.DEFAULT,
 				Collections.emptyList());

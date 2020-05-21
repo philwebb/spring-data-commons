@@ -62,7 +62,7 @@ import org.springframework.util.ReflectionUtils;
  * @since 2.0
  * @see RepositoryFragment
  */
-public class RepositoryComposition {
+public final class RepositoryComposition {
 
 	private static final BiFunction<Method, Object[], Object[]> PASSTHRU_ARG_CONVERTER = (methodParameter, o) -> o;
 
@@ -271,7 +271,7 @@ public class RepositoryComposition {
 	/**
 	 * Value object representing an ordered list of {@link RepositoryFragment fragments}.
 	 */
-	public static class RepositoryFragments implements Streamable<RepositoryFragment<?>> {
+	public static final class RepositoryFragments implements Streamable<RepositoryFragment<?>> {
 
 		static final RepositoryFragments EMPTY = new RepositoryFragments(Collections.emptyList());
 

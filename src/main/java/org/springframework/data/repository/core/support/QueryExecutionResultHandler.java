@@ -200,7 +200,7 @@ class QueryExecutionResultHandler {
 	 * Value object capturing {@link MethodParameter} and {@link TypeDescriptor}s for top
 	 * and nested levels.
 	 */
-	static class ReturnTypeDescriptor {
+	static final class ReturnTypeDescriptor {
 
 		private final MethodParameter methodParameter;
 

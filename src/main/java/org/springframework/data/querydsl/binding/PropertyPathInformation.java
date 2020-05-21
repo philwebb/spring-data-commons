@@ -37,7 +37,7 @@ import org.springframework.util.ReflectionUtils;
  * @author Christoph Strobl
  * @since 1.13
  */
-class PropertyPathInformation implements PathInformation {
+final class PropertyPathInformation implements PathInformation {
 
 	private final PropertyPath path;
 

@@ -31,7 +31,7 @@ import org.springframework.util.ObjectUtils;
  * @author Oliver Gierke
  * @since 1.13
  */
-class QuerydslPathInformation implements PathInformation {
+final class QuerydslPathInformation implements PathInformation {
 
 	private final Path<?> path;
 

@@ -41,7 +41,7 @@ import org.springframework.util.StringUtils;
  * @author Oliver Gierke
  * @since 2.2
  */
-public class MethodInvocationRecorder {
+public final class MethodInvocationRecorder {
 
 	public static PropertyNameDetectionStrategy DEFAULT = DefaultPropertyNameDetectionStrategy.INSTANCE;
 
@@ -315,7 +315,7 @@ public class MethodInvocationRecorder {
 
 	}
 
-	static class Unrecorded extends Recorded<Object> {
+	static final class Unrecorded extends Recorded<Object> {
 
 		@SuppressWarnings("null")
 		private Unrecorded() {
