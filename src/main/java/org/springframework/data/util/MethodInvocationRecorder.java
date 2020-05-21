@@ -133,7 +133,8 @@ public final class MethodInvocationRecorder {
 
 		private InvocationInformation registerInvocation(Method method, Class<?> proxyType) {
 			Recorded<?> create = Modifier.isFinal(proxyType.getModifiers()) ? new Unrecorded() : create(proxyType);
-			return this.information = new InvocationInformation(create, method);
+			this.information = new InvocationInformation(create, method);
+			return this.information;
 		}
 
 	}

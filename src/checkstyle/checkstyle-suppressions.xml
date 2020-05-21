@@ -4,7 +4,6 @@
 		"https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <suppressions>
 	<suppress files=".*" checks="IllegalImport" />
-	<suppress files=".*" checks="InnerAssignment" />
 	<suppress files=".*" checks="InnerTypeLast" />
 	<suppress files=".*" checks="JavadocMethod" />
 	<suppress files=".*" checks="JavadocStyle" />
