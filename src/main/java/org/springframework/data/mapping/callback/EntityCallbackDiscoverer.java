@@ -153,10 +153,8 @@ class EntityCallbackDiscoverer {
 				return (Collection) callbacks;
 			}
 		}
-		else {
-			// No CallbackRetriever (caching) -> no synchronization necessary
-			return (Collection) retrieveEntityCallbacks(callbackType, callbackType, null);
-		}
+		// No CallbackRetriever (caching) -> no synchronization necessary
+		return (Collection) retrieveEntityCallbacks(callbackType, callbackType, null);
 	}
 
 	@Nullable

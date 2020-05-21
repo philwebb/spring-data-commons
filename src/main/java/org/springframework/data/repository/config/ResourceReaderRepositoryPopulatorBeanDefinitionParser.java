@@ -43,7 +43,7 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 		if ("unmarshaller-populator".equals(name)) {
 			return UnmarshallerRepositoryPopulatorFactoryBean.class.getName();
 		}
-		else if ("jackson2-populator".equals(name)) {
+		if ("jackson2-populator".equals(name)) {
 			return Jackson2RepositoryPopulatorFactoryBean.class.getName();
 		}
 		throw new IllegalStateException("Unsupported populator type " + name + "!");

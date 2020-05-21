@@ -74,15 +74,13 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 		if (type.isCollectionLike() && !ClassUtils.isPrimitiveArray(rawType)) {
 			return projectCollectionElements(asCollection(result), type);
 		}
-		else if (type.isMap()) {
+		if (type.isMap()) {
 			return projectMapValues((Map<?, ?>) result, type);
 		}
-		else if (conversionRequiredAndPossible(result, rawType)) {
+		if (conversionRequiredAndPossible(result, rawType)) {
 			return this.conversionService.convert(result, rawType);
 		}
-		else {
-			return getProjection(result, rawType);
-		}
+		return getProjection(result, rawType);
 	}
 
 	/**
@@ -154,12 +152,10 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 		if (source instanceof Collection) {
 			return (Collection<?>) source;
 		}
-		else if (source.getClass().isArray()) {
+		if (source.getClass().isArray()) {
 			return Arrays.asList(ObjectUtils.toObjectArray(source));
 		}
-		else {
-			return Collections.singleton(source);
-		}
+		return Collections.singleton(source);
 	}
 
 }

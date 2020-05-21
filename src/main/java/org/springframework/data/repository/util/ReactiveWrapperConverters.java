@@ -470,16 +470,8 @@ public abstract class ReactiveWrapperConverters {
 	static class RegistryHolder {
 
 		@Nullable
-		static final ReactiveAdapterRegistry REACTIVE_ADAPTER_REGISTRY;
-
-		static {
-			if (ReactiveWrappers.isAvailable(ReactiveLibrary.PROJECT_REACTOR)) {
-				REACTIVE_ADAPTER_REGISTRY = new ReactiveAdapterRegistry();
-			}
-			else {
-				REACTIVE_ADAPTER_REGISTRY = null;
-			}
-		}
+		static final ReactiveAdapterRegistry REACTIVE_ADAPTER_REGISTRY = (ReactiveWrappers
+				.isAvailable(ReactiveLibrary.PROJECT_REACTOR)) ? new ReactiveAdapterRegistry() : null;
 
 	}
 

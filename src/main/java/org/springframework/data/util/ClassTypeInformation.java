@@ -85,9 +85,7 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 		if (visited.contains(type)) {
 			return Collections.emptyMap();
 		}
-		else {
-			visited.add(type);
-		}
+		visited.add(type);
 		Map<TypeVariable, Type> source = GenericTypeResolver.getTypeVariableMap(type);
 		Map<TypeVariable<?>, Type> map = new HashMap<>(source.size());
 		for (Entry<TypeVariable, Type> entry : source.entrySet()) {

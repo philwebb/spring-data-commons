@@ -97,12 +97,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 		this.setter = property.getSetter().orElse(null);
 		this.field = property.getField().orElse(null);
 		this.wither = property.getWither().orElse(null);
-		if (this.setter == null && (this.field == null || Modifier.isFinal(this.field.getModifiers()))) {
-			this.immutable = true;
-		}
-		else {
-			this.immutable = false;
-		}
+		this.immutable = (this.setter == null && (this.field == null || Modifier.isFinal(this.field.getModifiers())));
 	}
 
 	protected abstract Association<P> createAssociation();

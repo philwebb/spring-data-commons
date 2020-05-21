@@ -702,23 +702,21 @@ public class CustomConversions {
 						.flatMap((it) -> getRegistrationsFor(it).stream()));
 
 			}
-			else if (converter instanceof GenericConverter) {
+			if (converter instanceof GenericConverter) {
 				Set<ConvertiblePair> convertibleTypes = GenericConverter.class.cast(converter).getConvertibleTypes();
 				return (convertibleTypes != null)
 						? Streamable.of(convertibleTypes).map((it) -> register(converter, it, isReading, isWriting))
 						: Streamable.empty();
 
 			}
-			else if (converter instanceof ConverterFactory) {
+			if (converter instanceof ConverterFactory) {
 				return getRegistrationFor(converter, ConverterFactory.class, isReading, isWriting);
 
 			}
-			else if (converter instanceof Converter) {
+			if (converter instanceof Converter) {
 				return getRegistrationFor(converter, Converter.class, isReading, isWriting);
 			}
-			else {
-				throw new IllegalArgumentException(String.format("Unsupported converter type %s!", converter));
-			}
+			throw new IllegalArgumentException(String.format("Unsupported converter type %s!", converter));
 		}
 
 		private Streamable<ConverterRegistration> getRegistrationFor(Object converter, Class<?> type, boolean isReading,

@@ -113,9 +113,7 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 					}
 					return Mono.just(entity);
 				}
-				else {
-					return Mono.error(ex);
-				}
+				return Mono.error(ex);
 			}
 		}
 

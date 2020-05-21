@@ -110,9 +110,7 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 			if (SAXParseException.class.isInstance(cause)) {
 				throw new HttpMessageNotReadableException("Cannot read input message!", cause, inputMessage);
 			}
-			else {
-				throw ex;
-			}
+			throw ex;
 		}
 	}
 

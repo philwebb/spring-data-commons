@@ -355,26 +355,22 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 				if (cached == NULL_TRANSACTION_ATTRIBUTE) {
 					return null;
 				}
-				else {
-					return (TransactionAttribute) cached;
-				}
+				return (TransactionAttribute) cached;
+			}
+			// We need to work it out.
+			TransactionAttribute txAtt = computeTransactionAttribute(method, targetClass);
+			// Put it in the cache.
+			if (txAtt == null) {
+				this.attributeCache.put(cacheKey, NULL_TRANSACTION_ATTRIBUTE);
 			}
 			else {
-				// We need to work it out.
-				TransactionAttribute txAtt = computeTransactionAttribute(method, targetClass);
-				// Put it in the cache.
-				if (txAtt == null) {
-					this.attributeCache.put(cacheKey, NULL_TRANSACTION_ATTRIBUTE);
+				if (this.logger.isDebugEnabled()) {
+					this.logger
+							.debug("Adding transactional method '" + method.getName() + "' with attribute: " + txAtt);
 				}
-				else {
-					if (this.logger.isDebugEnabled()) {
-						this.logger.debug(
-								"Adding transactional method '" + method.getName() + "' with attribute: " + txAtt);
-					}
-					this.attributeCache.put(cacheKey, txAtt);
-				}
-				return txAtt;
+				this.attributeCache.put(cacheKey, txAtt);
 			}
+			return txAtt;
 		}
 
 		/**

@@ -95,13 +95,11 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 			return new PagingAndSortingRepositoryInvoker((PagingAndSortingRepository<Object, Object>) repository,
 					information, this.conversionService);
 		}
-		else if (repository instanceof CrudRepository) {
+		if (repository instanceof CrudRepository) {
 			return new CrudRepositoryInvoker((CrudRepository<Object, Object>) repository, information,
 					this.conversionService);
 		}
-		else {
-			return new ReflectionRepositoryInvoker(repository, information, this.conversionService);
-		}
+		return new ReflectionRepositoryInvoker(repository, information, this.conversionService);
 	}
 
 }

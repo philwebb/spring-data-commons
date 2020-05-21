@@ -352,11 +352,9 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 			if (superType.equals(candidateInfo.getType())) {
 				return candidateInfo;
 			}
-			else {
-				TypeInformation<?> nestedSuperType = candidateInfo.getSuperTypeInformation(superType);
-				if (nestedSuperType != null) {
-					return nestedSuperType;
-				}
+			TypeInformation<?> nestedSuperType = candidateInfo.getSuperTypeInformation(superType);
+			if (nestedSuperType != null) {
+				return nestedSuperType;
 			}
 		}
 		return null;

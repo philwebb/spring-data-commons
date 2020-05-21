@@ -84,17 +84,14 @@ class RepositoryBeanNameGenerator {
 			throw new IllegalStateException(String.format(
 					"Value of first constructor parameter value of BeanDefinition %s is null!", beanDefinition));
 		}
-		else if (value instanceof Class<?>) {
+		if (value instanceof Class<?>) {
 			return (Class<?>) value;
-
 		}
-		else {
-			try {
-				return ClassUtils.forName(value.toString(), this.beanClassLoader);
-			}
-			catch (Exception ex) {
-				throw new RuntimeException(ex);
-			}
+		try {
+			return ClassUtils.forName(value.toString(), this.beanClassLoader);
+		}
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 

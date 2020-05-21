@@ -112,9 +112,7 @@ class DefaultEntityCallbacks implements EntityCallbacks {
 					}
 					return entity;
 				}
-				else {
-					throw ex;
-				}
+				throw ex;
 			}
 		}
 

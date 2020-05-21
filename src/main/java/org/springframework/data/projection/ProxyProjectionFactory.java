@@ -207,7 +207,7 @@ public class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoade
 			if (invocation.getMethod().equals(GET_TARGET_CLASS_METHOD)) {
 				return this.targetType;
 			}
-			else if (invocation.getMethod().equals(GET_TARGET_METHOD)) {
+			if (invocation.getMethod().equals(GET_TARGET_METHOD)) {
 				return invocation.getThis();
 			}
 			return invocation.proceed();

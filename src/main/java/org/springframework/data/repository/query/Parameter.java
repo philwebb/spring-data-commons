@@ -117,9 +117,7 @@ public class Parameter {
 		if (isNamedParameter()) {
 			return String.format(NAMED_PARAMETER_TEMPLATE, getName().get());
 		}
-		else {
-			return String.format(POSITION_PARAMETER_TEMPLATE, getIndex());
-		}
+		return String.format(POSITION_PARAMETER_TEMPLATE, getIndex());
 	}
 
 	/**
