@@ -723,10 +723,8 @@ public class CustomConversions {
 				boolean isWriting) {
 			Class<? extends Object> converterType = converter.getClass();
 			Class<?>[] arguments = GenericTypeResolver.resolveTypeArguments(converterType, type);
-			if (arguments == null) {
-				throw new IllegalStateException(
-						String.format("Couldn't resolve type arguments for %s!", converterType));
-			}
+			Assert.state(arguments != null,
+					() -> String.format("Couldn't resolve type arguments for %s!", converterType));
 			return Streamable.of(register(converter, arguments[0], arguments[1], isReading, isWriting));
 		}
 

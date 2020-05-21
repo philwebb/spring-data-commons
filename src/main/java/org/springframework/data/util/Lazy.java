@@ -63,9 +63,7 @@ public class Lazy<T> implements Supplier<T> {
 	@Override
 	public T get() {
 		T value = getNullable();
-		if (value == null) {
-			throw new IllegalStateException("Expected lazy evaluation to yield a non-null value but got null!");
-		}
+		Assert.state(value != null, "Expected lazy evaluation to yield a non-null value but got null!");
 		return value;
 	}
 

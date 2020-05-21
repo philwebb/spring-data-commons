@@ -106,9 +106,7 @@ public abstract class AbstractQueryCreator<T, S> {
 				.orElse(Collections.emptyIterator());
 		for (OrPart node : tree) {
 			Iterator<Part> parts = node.iterator();
-			if (!parts.hasNext()) {
-				throw new IllegalStateException(String.format("No part found in PartTree %s!", tree));
-			}
+			Assert.state(parts.hasNext(), () -> String.format("No part found in PartTree %s!", tree));
 			S criteria = create(parts.next(), iterator);
 			while (parts.hasNext()) {
 				criteria = and(parts.next(), criteria, iterator);

@@ -22,6 +22,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.springframework.util.Assert;
+
 /**
  * Allows filtering of a collection in order to select a unique element. Once a unique
  * element is found all further filters are ignored.
@@ -80,10 +82,8 @@ final class SelectionSet<T> {
 
 	private static <S> Function<Collection<S>, Optional<S>> defaultFallback() {
 		return (c) -> {
-			if (c.isEmpty()) {
-				return Optional.empty();
-			}
-			throw new IllegalStateException("More then one element in collection.");
+			Assert.state(c.isEmpty(), "More then one element in collection.");
+			return Optional.empty();
 		};
 	}
 

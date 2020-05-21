@@ -31,6 +31,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.ProxyMethodInvocation;
 import org.springframework.data.util.Lazy;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.ConcurrentReferenceHashMap.ReferenceType;
 import org.springframework.util.ReflectionUtils;
@@ -105,9 +106,7 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {
-				if (this.privateLookupIn == null) {
-					throw new IllegalStateException("Could not obtain MethodHandles.privateLookupIn!");
-				}
+				Assert.state(this.privateLookupIn != null, "Could not obtain MethodHandles.privateLookupIn!");
 				return doLookup(method, getLookup(method.getDeclaringClass(), this.privateLookupIn));
 			}
 
@@ -138,9 +137,7 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {
-				if (!isAvailable()) {
-					throw new IllegalStateException("Could not obtain MethodHandles.lookup constructor!");
-				}
+				Assert.state(isAvailable(), "Could not obtain MethodHandles.lookup constructor!");
 				Constructor<Lookup> constructor = this.constructor.get();
 				return constructor.newInstance(method.getDeclaringClass()).unreflectSpecial(method,
 						method.getDeclaringClass());

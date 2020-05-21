@@ -75,15 +75,11 @@ class RepositoryBeanNameGenerator {
 	 */
 	private Class<?> getRepositoryInterfaceFrom(BeanDefinition beanDefinition) {
 		ValueHolder argumentValue = beanDefinition.getConstructorArgumentValues().getArgumentValue(0, Class.class);
-		if (argumentValue == null) {
-			throw new IllegalStateException(String.format(
-					"Failed to obtain first constructor parameter value of BeanDefinition %s!", beanDefinition));
-		}
+		Assert.state(argumentValue != null, () -> String
+				.format("Failed to obtain first constructor parameter value of BeanDefinition %s!", beanDefinition));
 		Object value = argumentValue.getValue();
-		if (value == null) {
-			throw new IllegalStateException(String.format(
-					"Value of first constructor parameter value of BeanDefinition %s is null!", beanDefinition));
-		}
+		Assert.state(value != null, () -> String
+				.format("Value of first constructor parameter value of BeanDefinition %s is null!", beanDefinition));
 		if (value instanceof Class<?>) {
 			return (Class<?>) value;
 		}

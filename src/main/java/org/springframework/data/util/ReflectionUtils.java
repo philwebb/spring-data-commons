@@ -138,9 +138,7 @@ public final class ReflectionUtils {
 				if (!enforceUniqueness) {
 					return field;
 				}
-				if (foundField != null && enforceUniqueness) {
-					throw new IllegalStateException(filter.getDescription());
-				}
+				Assert.state(foundField == null || !enforceUniqueness, filter::getDescription);
 				foundField = field;
 			}
 			targetClass = targetClass.getSuperclass();

@@ -197,9 +197,7 @@ public class Parameter {
 	 */
 	private static boolean isDynamicProjectionParameter(MethodParameter parameter) {
 		Method method = parameter.getMethod();
-		if (method == null) {
-			throw new IllegalStateException(String.format("Method parameter %s is not backed by a method!", parameter));
-		}
+		Assert.state(method != null, () -> String.format("Method parameter %s is not backed by a method!", parameter));
 		ClassTypeInformation<?> ownerType = ClassTypeInformation.from(parameter.getDeclaringClass());
 		TypeInformation<?> parameterTypes = ownerType.getParameterTypes(method).get(parameter.getParameterIndex());
 		if (!parameterTypes.getType().equals(Class.class)) {

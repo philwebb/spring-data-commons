@@ -67,9 +67,7 @@ public interface ImplementationDetectionConfiguration {
 	default String generateBeanName(BeanDefinition definition) {
 		Assert.notNull(definition, "BeanDefinition must not be null!");
 		String beanName = definition.getBeanClassName();
-		if (beanName == null) {
-			throw new IllegalStateException("Cannot generate bean name for BeanDefinition without bean class name!");
-		}
+		Assert.state(beanName != null, "Cannot generate bean name for BeanDefinition without bean class name!");
 		return Introspector.decapitalize(ClassUtils.getShortName(beanName));
 	}
 

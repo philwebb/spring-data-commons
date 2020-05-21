@@ -174,10 +174,8 @@ public class QuerydslPredicateBuilder {
 				new Property(owningType, descriptor.getReadMethod(), descriptor.getWriteMethod(), leafProperty), 0)
 				: TypeDescriptor.nested(
 						org.springframework.data.util.ReflectionUtils.findRequiredField(owningType, leafProperty), 0);
-		if (result == null) {
-			throw new IllegalStateException(
-					String.format("Could not obtain TypeDesciptor for PathInformation %s!", path));
-		}
+		Assert.state(result != null,
+				() -> String.format("Could not obtain TypeDesciptor for PathInformation %s!", path));
 		return result;
 	}
 

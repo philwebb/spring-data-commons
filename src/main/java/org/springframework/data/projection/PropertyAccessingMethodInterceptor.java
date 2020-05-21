@@ -59,15 +59,11 @@ class PropertyAccessingMethodInterceptor implements MethodInterceptor {
 			return invocation.proceed();
 		}
 		PropertyDescriptor descriptor = BeanUtils.findPropertyForMethod(method);
-		if (descriptor == null) {
-			throw new IllegalStateException("Invoked method is not a property accessor!");
-		}
+		Assert.state(descriptor != null, "Invoked method is not a property accessor!");
 		if (!isSetterMethod(method, descriptor)) {
 			return this.target.getPropertyValue(descriptor.getName());
 		}
-		if (invocation.getArguments().length != 1) {
-			throw new IllegalStateException("Invoked setter method requires exactly one argument!");
-		}
+		Assert.state(invocation.getArguments().length == 1, "Invoked setter method requires exactly one argument!");
 		this.target.setPropertyValue(descriptor.getName(), invocation.getArguments()[0]);
 		return null;
 	}

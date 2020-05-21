@@ -202,11 +202,9 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	private <T> T invokeForNonNullResult(Method method, Object... arguments) {
 		T result = invoke(method, arguments);
-		if (result == null) {
-			throw new IllegalStateException(
-					String.format("Invocation of method %s(%s) on %s unexpectedly returned null!", method,
-							Arrays.toString(arguments), this.repository));
-		}
+		Assert.state(result != null,
+				() -> String.format("Invocation of method %s(%s) on %s unexpectedly returned null!", method,
+						Arrays.toString(arguments), this.repository));
 		return result;
 	}
 
@@ -224,10 +222,8 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	protected Object convertId(Object id) {
 		Assert.notNull(id, "Id must not be null!");
 		Object result = this.conversionService.convert(id, this.idType);
-		if (result == null) {
-			throw new IllegalStateException(
-					String.format("Identifier conversion of %s to %s unexpectedly returned null!", id, this.idType));
-		}
+		Assert.state(result != null,
+				() -> String.format("Identifier conversion of %s to %s unexpectedly returned null!", id, this.idType));
 		return result;
 	}
 

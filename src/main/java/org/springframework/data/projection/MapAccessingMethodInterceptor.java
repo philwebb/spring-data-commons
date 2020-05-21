@@ -58,7 +58,7 @@ class MapAccessingMethodInterceptor implements MethodInterceptor {
 			this.map.put(accessor.getPropertyName(), invocation.getArguments()[0]);
 			return null;
 		}
-		throw new IllegalStateException("Should never get here!");
+		throw new IllegalStateException("Accessor is neither a setter or getter");
 	}
 
 }

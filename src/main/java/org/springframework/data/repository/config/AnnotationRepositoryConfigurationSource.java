@@ -126,10 +126,8 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		Assert.notNull(annotation, "Annotation must not be null!");
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null!");
 		Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(annotation.getName());
-		if (annotationAttributes == null) {
-			throw new IllegalStateException(
-					String.format("Unable to obtain annotation attributes for %s!", annotation));
-		}
+		Assert.state(annotationAttributes != null,
+				() -> String.format("Unable to obtain annotation attributes for %s!", annotation));
 		this.attributes = new AnnotationAttributes(annotationAttributes);
 		this.enableAnnotationMetadata = AnnotationMetadata.introspect(annotation);
 		this.configMetadata = metadata;

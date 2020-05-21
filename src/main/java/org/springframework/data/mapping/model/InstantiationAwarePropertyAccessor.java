@@ -72,20 +72,12 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 			return;
 		}
 		PreferredConstructor<?, ?> constructor = owner.getPersistenceConstructor();
-		if (constructor == null) {
-			throw new IllegalStateException(
-					String.format(NO_SETTER_OR_CONSTRUCTOR, property.getName(), owner.getType()));
-		}
-		if (!constructor.isConstructorParameter(property)) {
-			throw new IllegalStateException(
-					String.format(NO_CONSTRUCTOR_PARAMETER, property.getName(), constructor.getConstructor()));
-		}
-		constructor.getParameters().stream().forEach((it) -> {
-			if (it.getName() == null) {
-				throw new IllegalStateException(
-						String.format("Cannot detect parameter names of copy constructor of %s!", owner.getType()));
-			}
-		});
+		Assert.state(constructor != null,
+				() -> String.format(NO_SETTER_OR_CONSTRUCTOR, property.getName(), owner.getType()));
+		Assert.state(constructor.isConstructorParameter(property),
+				() -> String.format(NO_CONSTRUCTOR_PARAMETER, property.getName(), constructor.getConstructor()));
+		constructor.getParameters().stream().forEach((parameter) -> Assert.state(parameter.getName() != null,
+				() -> String.format("Cannot detect parameter names of copy constructor of %s!", owner.getType())));
 		EntityInstantiator instantiator = this.instantiators.getInstantiatorFor(owner);
 		this.bean = (T) instantiator.createInstance(owner, new ParameterValueProvider() {
 

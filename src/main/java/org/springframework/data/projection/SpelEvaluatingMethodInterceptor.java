@@ -106,10 +106,8 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 				continue;
 			}
 			Value value = method.getAnnotation(Value.class);
-			if (!StringUtils.hasText(value.value())) {
-				throw new IllegalStateException(
-						String.format("@Value annotation on %s contains empty expression!", method));
-			}
+			Assert.state(StringUtils.hasText(value.value()),
+					() -> String.format("@Value annotation on %s contains empty expression!", method));
 			expressions.put(method.hashCode(), parser.parseExpression(value.value(), PARSER_CONTEXT));
 		}
 		return Collections.unmodifiableMap(expressions);

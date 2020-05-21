@@ -33,6 +33,7 @@ import org.springframework.hateoas.server.MethodLinkBuilderFactory;
 import org.springframework.hateoas.server.core.MethodParameters;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilderFactory;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -142,9 +143,7 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 			}
 			return pageableParameter;
 		}
-		if (assemblerQualifier == null) {
-			throw new IllegalStateException(PARAMETER_AMBIGUITY);
-		}
+		Assert.state(assemblerQualifier != null, PARAMETER_AMBIGUITY);
 		for (MethodParameter pageableParameter : pageableParameters) {
 			MethodParameter matchingParameter = returnIfQualifiersMatch(pageableParameter, assemblerQualifier);
 			if (matchingParameter != null) {

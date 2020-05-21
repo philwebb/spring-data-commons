@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.web.ProxyingHandlerMethodArgumentResolver;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
@@ -108,10 +109,8 @@ public class ProjectingArgumentResolverRegistrar {
 			}
 			RequestMappingHandlerAdapter adapter = (RequestMappingHandlerAdapter) bean;
 			List<HandlerMethodArgumentResolver> currentResolvers = adapter.getArgumentResolvers();
-			if (currentResolvers == null) {
-				throw new IllegalStateException(String.format(
-						"No HandlerMethodArgumentResolvers found in RequestMappingHandlerAdapter %s!", beanName));
-			}
+			Assert.state(currentResolvers != null, () -> String
+					.format("No HandlerMethodArgumentResolvers found in RequestMappingHandlerAdapter %s!", beanName));
 			List<HandlerMethodArgumentResolver> newResolvers = new ArrayList<>(currentResolvers.size() + 1);
 			newResolvers.add(this.resolver);
 			newResolvers.addAll(currentResolvers);

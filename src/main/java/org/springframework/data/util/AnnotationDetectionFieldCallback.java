@@ -77,9 +77,7 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 	 */
 	public Field getRequiredField() {
 		Field field = this.field;
-		if (field == null) {
-			throw new IllegalStateException(String.format("No field found for annotation %s!", this.annotationType));
-		}
+		Assert.state(field != null, () -> String.format("No field found for annotation %s!", this.annotationType));
 		return field;
 	}
 

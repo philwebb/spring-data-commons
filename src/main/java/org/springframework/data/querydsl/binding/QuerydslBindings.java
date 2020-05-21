@@ -289,9 +289,7 @@ public class QuerydslBindings {
 
 	private static String fromRootPath(Path<?> path) {
 		Path<?> rootPath = path.getMetadata().getRootPath();
-		if (rootPath == null) {
-			throw new IllegalStateException(String.format("Couldn't find root path on path %s!", path));
-		}
+		Assert.state(rootPath != null, () -> String.format("Couldn't find root path on path %s!", path));
 		return path.toString().substring(rootPath.getMetadata().getName().length() + 1);
 	}
 

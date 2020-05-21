@@ -79,25 +79,23 @@ public class Function {
 		}
 		Class<?>[] types = this.method.getParameterTypes();
 		Class<?> tailType = types[types.length - 1];
-		if (tailType.isArray()) {
-			List<Object> argumentsToUse = new ArrayList<>(types.length);
-			// Add all arguments up until the last one
-			for (int i = 0; i < types.length - 1; i++) {
-				argumentsToUse.add(arguments[i]);
-			}
-			// Gather all other arguments into an array of the tail type
-			Object[] varargs = (Object[]) Array.newInstance(tailType.getComponentType(),
-					arguments.length - types.length + 1);
-			int count = 0;
-			for (int i = types.length - 1; i < arguments.length; i++) {
-				varargs[count++] = arguments[i];
-			}
-			argumentsToUse.add(varargs);
-			return this.method.invoke(this.target,
-					(argumentsToUse.size() == 1) ? argumentsToUse.get(0) : argumentsToUse.toArray());
+		Assert.state(tailType.isArray(),
+				() -> String.format("Could not invoke method %s for arguments %s!", this.method, arguments));
+		List<Object> argumentsToUse = new ArrayList<>(types.length);
+		// Add all arguments up until the last one
+		for (int i = 0; i < types.length - 1; i++) {
+			argumentsToUse.add(arguments[i]);
 		}
-		throw new IllegalStateException(
-				String.format("Could not invoke method %s for arguments %s!", this.method, arguments));
+		// Gather all other arguments into an array of the tail type
+		Object[] varargs = (Object[]) Array.newInstance(tailType.getComponentType(),
+				arguments.length - types.length + 1);
+		int count = 0;
+		for (int i = types.length - 1; i < arguments.length; i++) {
+			varargs[count++] = arguments[i];
+		}
+		argumentsToUse.add(varargs);
+		return this.method.invoke(this.target,
+				(argumentsToUse.size() == 1) ? argumentsToUse.get(0) : argumentsToUse.toArray());
 	}
 
 	/**

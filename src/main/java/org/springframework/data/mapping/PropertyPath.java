@@ -282,10 +282,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 */
 	private PropertyPath requiredNext() {
 		PropertyPath result = this.next;
-		if (result == null) {
-			throw new IllegalStateException(
-					"No next path available! Clients should call hasNext() before invoking this method!");
-		}
+		Assert.state(result != null,
+				"No next path available! Clients should call hasNext() before invoking this method!");
 		return result;
 	}
 
@@ -337,10 +335,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 					current.push(create(parts.next(), current));
 				}
 			}
-			if (result == null) {
-				throw new IllegalStateException(
-						String.format("Expected parsing to yield a PropertyPath from %s but got null!", source));
-			}
+			Assert.state(result != null,
+					() -> String.format("Expected parsing to yield a PropertyPath from %s but got null!", source));
 			return result;
 		});
 	}

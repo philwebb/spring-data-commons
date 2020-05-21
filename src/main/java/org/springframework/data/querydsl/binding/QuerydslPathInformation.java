@@ -24,6 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.querydsl.EntityPathResolver;
 import org.springframework.data.querydsl.QuerydslUtils;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
@@ -48,10 +49,8 @@ final class QuerydslPathInformation implements PathInformation {
 	@Override
 	public Class<?> getLeafParentType() {
 		Path<?> parent = this.path.getMetadata().getParent();
-		if (parent == null) {
-			throw new IllegalStateException(
-					String.format("Could not obtain metadata for parent node of %s!", this.path));
-		}
+		Assert.state(parent != null,
+				() -> String.format("Could not obtain metadata for parent node of %s!", this.path));
 		return parent.getType();
 	}
 

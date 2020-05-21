@@ -159,12 +159,9 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 				.flatMap((it) -> it.getPersistentEntities().stream()).map(PersistentEntity::getIdProperty)
 				.filter((it) -> it != null && type.equals(it.getTypeInformation().getActualType()))
 				.map(PersistentProperty::getOwner).collect(Collectors.toList());
-		if (entities.size() > 1) {
-			String message = "Found multiple entities identified by " + type.getType() + ": ";
-			message += entities.stream().map((it) -> it.getType().getName()).collect(Collectors.joining(", "));
-			message += "! Introduce dedciated unique identifier types or explicitly define the target type in @Reference!";
-			throw new IllegalStateException(message);
-		}
+		Assert.state(entities.size() <= 1, () -> "Found multiple entities identified by " + type.getType() + ": "
+				+ entities.stream().map((entity) -> entity.getType().getName()).collect(Collectors.joining(", "))
+				+ "! Introduce dedciated unique identifier types or explicitly define the target type in @Reference!");
 		return entities.isEmpty() ? null : entities.iterator().next();
 	}
 

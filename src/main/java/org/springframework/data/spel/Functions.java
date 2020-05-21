@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.spel.spi.Function;
+import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -94,9 +95,7 @@ class Functions {
 			return Optional.of(candidates.get(0));
 		}
 		Optional<Function> exactMatch = candidates.stream().filter((f) -> f.supportsExact(argumentTypes)).findFirst();
-		if (!exactMatch.isPresent()) {
-			throw new IllegalStateException(createErrorMessage(candidates, argumentTypes));
-		}
+		Assert.state(exactMatch.isPresent(), () -> createErrorMessage(candidates, argumentTypes));
 		return exactMatch;
 	}
 

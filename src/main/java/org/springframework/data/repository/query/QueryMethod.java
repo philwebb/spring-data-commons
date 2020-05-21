@@ -86,12 +86,11 @@ public class QueryMethod {
 			if (!isStreamQuery()) {
 				assertReturnTypeAssignable(method, QueryExecutionConverters.getAllowedPageableTypes());
 			}
-			if (ClassUtils.hasParameterOfType(method, Sort.class)) {
-				throw new IllegalStateException(String.format(
-						"Method must not have Pageable *and* Sort parameter. "
-								+ "Use sorting capabilities on Pageable instead! Offending method: %s",
-						method.toString()));
-			}
+			Assert.state(!ClassUtils.hasParameterOfType(method, Sort.class),
+					() -> String.format(
+							"Method must not have Pageable *and* Sort parameter. "
+									+ "Use sorting capabilities on Pageable instead! Offending method: %s",
+							method.toString()));
 		}
 		Assert.notNull(this.parameters,
 				() -> String.format("Parameters extracted from method '%s' must not be null!", method.getName()));
@@ -247,10 +246,8 @@ public class QueryMethod {
 		if (QueryExecutionConverters.supports(method.getReturnType())) {
 			// unwrap only one level to handle cases like Future<List<Entity>> correctly.
 			TypeInformation<?> componentType = ClassTypeInformation.fromReturnTypeOf(method).getComponentType();
-			if (componentType == null) {
-				throw new IllegalStateException(
-						String.format("Couldn't find component type for return value of method %s!", method));
-			}
+			Assert.state(componentType != null,
+					() -> String.format("Couldn't find component type for return value of method %s!", method));
 			return componentType.getType();
 		}
 		return method.getReturnType();

@@ -35,6 +35,7 @@ import org.springframework.core.KotlinDetector;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 
 /**
  * Reflection utility methods specific to Kotlin reflection. Requires Kotlin classes to be
@@ -116,9 +117,7 @@ public final class KotlinReflectionUtils {
 	 */
 	static boolean isNullable(MethodParameter parameter) {
 		Method method = parameter.getMethod();
-		if (method == null) {
-			throw new IllegalStateException(String.format("Cannot obtain method from parameter %s!", parameter));
-		}
+		Assert.state(method != null, () -> String.format("Cannot obtain method from parameter %s!", parameter));
 		KFunction<?> kotlinFunction = findKotlinFunction(method);
 		if (kotlinFunction == null) {
 			throw new IllegalArgumentException(String.format("Cannot resolve %s to a Kotlin function!", parameter));

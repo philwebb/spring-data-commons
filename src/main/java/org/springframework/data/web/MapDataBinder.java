@@ -79,9 +79,7 @@ class MapDataBinder extends WebDataBinder {
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> getTarget() {
 		Object target = super.getTarget();
-		if (target == null) {
-			throw new IllegalStateException("Target bean should never be null!");
-		}
+		Assert.state(target != null, "Target bean should never be null!");
 		return (Map<String, Object>) target;
 	}
 
@@ -152,16 +150,12 @@ class MapDataBinder extends WebDataBinder {
 			if (propertyType != null && conversionRequired(value, propertyType.getType())) {
 				PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(owningType.getType(),
 						leafProperty.getSegment());
-				if (descriptor == null) {
-					throw new IllegalStateException(String.format("Couldn't find PropertyDescriptor for %s on %s!",
-							leafProperty.getSegment(), owningType.getType()));
-				}
+				Assert.state(descriptor != null, () -> String.format("Couldn't find PropertyDescriptor for %s on %s!",
+						leafProperty.getSegment(), owningType.getType()));
 				MethodParameter methodParameter = new MethodParameter(descriptor.getReadMethod(), -1);
 				TypeDescriptor typeDescriptor = TypeDescriptor.nested(methodParameter, 0);
-				if (typeDescriptor == null) {
-					throw new IllegalStateException(
-							String.format("Couldn't obtain type descriptor for method parameter %s!", methodParameter));
-				}
+				Assert.state(typeDescriptor != null, () -> String
+						.format("Couldn't obtain type descriptor for method parameter %s!", methodParameter));
 				value = this.conversionService.convert(value, TypeDescriptor.forObject(value), typeDescriptor);
 			}
 			EvaluationContext context = SimpleEvaluationContext

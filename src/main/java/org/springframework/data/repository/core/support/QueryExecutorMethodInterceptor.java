@@ -42,6 +42,7 @@ import org.springframework.data.repository.util.ReactiveWrappers;
 import org.springframework.data.util.KotlinReflectionUtils;
 import org.springframework.data.util.Pair;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
@@ -75,11 +76,9 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 		this.namedQueries = namedQueries;
 		this.queryPostProcessors = queryPostProcessors;
 		this.resultHandler = new QueryExecutionResultHandler(RepositoryFactorySupport.CONVERSION_SERVICE);
-		if (!queryLookupStrategy.isPresent() && repositoryInformation.hasQueryMethods()) {
-			throw new IllegalStateException("You have defined query method in the repository but "
-					+ "you don't have any query lookup strategy defined. The "
-					+ "infrastructure apparently does not support query methods!");
-		}
+		Assert.state(queryLookupStrategy.isPresent() || !repositoryInformation.hasQueryMethods(),
+				"You have defined query method in the repository but you don't have any query lookup strategy defined. "
+						+ "The infrastructure apparently does not support query methods!");
 		this.queries = queryLookupStrategy.map((it) -> mapMethodsToQuery(repositoryInformation, it, projectionFactory))
 				.orElse(Collections.emptyMap());
 	}

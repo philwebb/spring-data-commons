@@ -23,6 +23,7 @@ import org.springframework.data.annotation.Immutable;
 import org.springframework.data.convert.EntityInstantiator;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 
 /**
  * Represents a persistent entity.
@@ -95,10 +96,9 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 */
 	default P getRequiredIdProperty() {
 		P property = getIdProperty();
-		if (property != null) {
-			return property;
-		}
-		throw new IllegalStateException(String.format("Required identifier property not found for %s!", getType()));
+		Assert.state(property != null,
+				() -> String.format("Required identifier property not found for %s!", getType()));
+		return property;
 	}
 
 	/**
@@ -119,10 +119,8 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 */
 	default P getRequiredVersionProperty() {
 		P property = getVersionProperty();
-		if (property != null) {
-			return property;
-		}
-		throw new IllegalStateException(String.format("Required version property not found for %s!", getType()));
+		Assert.state(property != null, () -> String.format("Required version property not found for %s!", getType()));
+		return property;
 	}
 
 	/**
@@ -141,10 +139,8 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 */
 	default P getRequiredPersistentProperty(String name) {
 		P property = getPersistentProperty(name);
-		if (property != null) {
-			return property;
-		}
-		throw new IllegalStateException(String.format("Required property %s not found for %s!", name, getType()));
+		Assert.state(property != null, () -> String.format("Required property %s not found for %s!", name, getType()));
+		return property;
 	}
 
 	/**

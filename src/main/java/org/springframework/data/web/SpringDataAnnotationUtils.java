@@ -26,6 +26,7 @@ import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
@@ -89,9 +90,7 @@ abstract class SpringDataAnnotationUtils {
 		Object propertyValue = AnnotationUtils.getValue(annotation, property);
 		Object result = ObjectUtils.nullSafeEquals(propertyDefaultValue, propertyValue)
 				? AnnotationUtils.getValue(annotation) : propertyValue;
-		if (result == null) {
-			throw new IllegalStateException("Exepected to be able to look up an annotation property value but failed!");
-		}
+		Assert.state(result != null, "Exepected to be able to look up an annotation property value but failed!");
 		return (T) result;
 	}
 
@@ -106,13 +105,9 @@ abstract class SpringDataAnnotationUtils {
 		for (int i = 0; i < annotations.length; i++) {
 			if (Pageable.class.equals(parameterTypes[i])) {
 				Qualifier qualifier = findAnnotation(annotations[i]);
-				if (null == qualifier) {
-					throw new IllegalStateException(
-							"Ambiguous Pageable arguments in handler method. If you use multiple parameters of type Pageable you need to qualify them with @Qualifier");
-				}
-				if (values.contains(qualifier.value())) {
-					throw new IllegalStateException("Values of the user Qualifiers must be unique!");
-				}
+				Assert.state(qualifier != null,
+						"Ambiguous Pageable arguments in handler method. If you use multiple parameters of type Pageable you need to qualify them with @Qualifier");
+				Assert.state(!values.contains(qualifier.value()), "Values of the user Qualifiers must be unique!");
 				values.add(qualifier.value());
 			}
 		}

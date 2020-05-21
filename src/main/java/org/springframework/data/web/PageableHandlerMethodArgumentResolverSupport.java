@@ -16,7 +16,6 @@
 
 package org.springframework.data.web;
 
-import java.lang.reflect.Method;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -247,10 +246,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	private static Pageable getDefaultPageRequestFrom(MethodParameter parameter, PageableDefault defaults) {
 		Integer defaultPageNumber = defaults.page();
 		Integer defaultPageSize = SpringDataAnnotationUtils.getSpecificPropertyOrDefaultFromValue(defaults, "size");
-		if (defaultPageSize < 1) {
-			Method annotatedMethod = parameter.getMethod();
-			throw new IllegalStateException(String.format(INVALID_DEFAULT_PAGE_SIZE, annotatedMethod));
-		}
+		Assert.state(defaultPageNumber >= 1, () -> String.format(INVALID_DEFAULT_PAGE_SIZE, parameter.getMethod()));
 		if (defaults.sort().length == 0) {
 			return PageRequest.of(defaultPageNumber, defaultPageSize);
 		}

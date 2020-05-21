@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 
 /**
  * Interface to access property types and resolving generics on the way. Starting with a
@@ -96,10 +97,9 @@ public interface TypeInformation<S> {
 	 */
 	default TypeInformation<?> getRequiredComponentType() {
 		TypeInformation<?> componentType = getComponentType();
-		if (componentType != null) {
-			return componentType;
-		}
-		throw new IllegalStateException(String.format("Can't resolve required component type for %s!", getType()));
+		Assert.state(componentType != null,
+				() -> String.format("Can't resolve required component type for %s!", getType()));
+		return componentType;
 	}
 
 	/**
@@ -129,10 +129,9 @@ public interface TypeInformation<S> {
 	 */
 	default TypeInformation<?> getRequiredMapValueType() {
 		TypeInformation<?> mapValueType = getMapValueType();
-		if (mapValueType != null) {
-			return mapValueType;
-		}
-		throw new IllegalStateException(String.format("Can't resolve required map value type for %s!", getType()));
+		Assert.state(mapValueType != null,
+				() -> String.format("Can't resolve required map value type for %s!", getType()));
+		return mapValueType;
 	}
 
 	/**
@@ -170,10 +169,8 @@ public interface TypeInformation<S> {
 	 */
 	default TypeInformation<?> getRequiredActualType() {
 		TypeInformation<?> result = getActualType();
-		if (result == null) {
-			throw new IllegalStateException(
-					"Expected to be able to resolve a type but got null! This usually stems from types implementing raw Map or Collection interfaces!");
-		}
+		Assert.state(result != null,
+				"Expected to be able to resolve a type but got null! This usually stems from types implementing raw Map or Collection interfaces!");
 		return result;
 	}
 

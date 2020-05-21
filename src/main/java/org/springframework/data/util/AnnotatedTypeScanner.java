@@ -30,6 +30,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -101,10 +102,8 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 		for (String basePackage : basePackages) {
 			for (BeanDefinition definition : provider.findCandidateComponents(basePackage)) {
 				String beanClassName = definition.getBeanClassName();
-				if (beanClassName == null) {
-					throw new IllegalStateException(
-							String.format("Unable to obtain bean class name from bean definition %s!", definition));
-				}
+				Assert.state(beanClassName != null,
+						() -> String.format("Unable to obtain bean class name from bean definition %s!", definition));
 				try {
 					types.add(ClassUtils.forName(beanClassName, classLoader));
 				}

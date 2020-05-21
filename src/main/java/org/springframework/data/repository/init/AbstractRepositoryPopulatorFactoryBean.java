@@ -84,9 +84,7 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		RepositoryPopulator populator = this.populator;
-		if (populator == null) {
-			throw new IllegalStateException("RepositoryPopulator was not properly initialized!");
-		}
+		Assert.state(populator != null, "RepositoryPopulator was not properly initialized!");
 		if (event.getApplicationContext().equals(this.context)) {
 			Repositories repositories = new Repositories(event.getApplicationContext());
 			populator.populate(repositories);
