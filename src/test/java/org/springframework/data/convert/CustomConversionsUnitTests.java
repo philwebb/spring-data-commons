@@ -294,6 +294,7 @@ class CustomConversionsUnitTests {
 
 		INSTANCE;
 
+		@Override
 		public String convert(Format source) {
 			return source.toString();
 		}
@@ -304,6 +305,7 @@ class CustomConversionsUnitTests {
 
 		INSTANCE;
 
+		@Override
 		public Format convert(String source) {
 			return DateFormat.getInstance();
 		}
@@ -314,6 +316,7 @@ class CustomConversionsUnitTests {
 
 		INSTANCE;
 
+		@Override
 		public String convert(Number source) {
 			return source.toString();
 		}
@@ -324,6 +327,7 @@ class CustomConversionsUnitTests {
 
 		INSTANCE;
 
+		@Override
 		public Number convert(String source) {
 			return 0L;
 		}
@@ -334,6 +338,7 @@ class CustomConversionsUnitTests {
 
 		INSTANCE;
 
+		@Override
 		public Integer convert(String source) {
 			return 0;
 		}
@@ -390,7 +395,7 @@ class CustomConversionsUnitTests {
 
 		@Override
 		public <T extends Format> Converter<String, T> getConverter(Class<T> targetType) {
-			return new StringToFormat<T>(targetType);
+			return new StringToFormat<>(targetType);
 		}
 
 		private static final class StringToFormat<T extends Format> implements Converter<String, T> {

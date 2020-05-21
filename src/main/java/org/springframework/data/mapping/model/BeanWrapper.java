@@ -57,10 +57,11 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
 	 * springframework.data.mapping.PersistentProperty, java.util.Optional)
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
 
@@ -109,6 +110,7 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 		}
 	}
 
+	@Override
 	@Nullable
 	public Object getProperty(PersistentProperty<?> property) {
 		return getProperty(property, property.getType());
@@ -150,6 +152,7 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 		}
 	}
 
+	@Override
 	public T getBean() {
 		return this.bean;
 	}

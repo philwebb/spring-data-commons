@@ -181,6 +181,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return (Class<S>) GenericTypeResolver.resolveType(type, map);
 	}
 
+	@Override
 	public List<TypeInformation<?>> getParameterTypes(Constructor<?> constructor) {
 
 		Assert.notNull(constructor, "Constructor must not be null!");
@@ -195,6 +196,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return result;
 	}
 
+	@Override
 	@Nullable
 	public TypeInformation<?> getProperty(String fieldname) {
 
@@ -285,6 +287,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return parameterTypes.length == 0 ? null : parameterTypes[0];
 	}
 
+	@Override
 	public Class<S> getType() {
 		return this.resolvedType.get();
 	}
@@ -294,6 +297,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return ClassTypeInformation.from(getType()).getRawTypeInformation();
 	}
 
+	@Override
 	@Nullable
 	public TypeInformation<?> getActualType() {
 
@@ -308,6 +312,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return this;
 	}
 
+	@Override
 	public boolean isMap() {
 
 		Class<S> type = getType();
@@ -321,6 +326,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return false;
 	}
 
+	@Override
 	@Nullable
 	public TypeInformation<?> getMapValueType() {
 		return this.valueType.orElse(null);
@@ -332,6 +338,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 				: getTypeArguments().stream().skip(1).findFirst().orElse(null);
 	}
 
+	@Override
 	public boolean isCollectionLike() {
 
 		Class<?> rawType = getType();
@@ -342,6 +349,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 				|| Streamable.class.isAssignableFrom(rawType);
 	}
 
+	@Override
 	@Nullable
 	public final TypeInformation<?> getComponentType() {
 		return this.componentType.orElse(null);
@@ -369,12 +377,14 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return arguments.size() > 0 ? arguments.get(0) : null;
 	}
 
+	@Override
 	public TypeInformation<?> getReturnType(Method method) {
 
 		Assert.notNull(method, "Method must not be null!");
 		return createInfo(method.getGenericReturnType());
 	}
 
+	@Override
 	public List<TypeInformation<?>> getParameterTypes(Method method) {
 
 		Assert.notNull(method, "Method most not be null!");
@@ -384,6 +394,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 				.collect(Collectors.toList());
 	}
 
+	@Override
 	@Nullable
 	public TypeInformation<?> getSuperTypeInformation(Class<?> superType) {
 
@@ -426,17 +437,19 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return null;
 	}
 
+	@Override
 	public List<TypeInformation<?>> getTypeArguments() {
 		return Collections.emptyList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.util.TypeInformation#isAssignableFrom(org.springframework.
 	 * data.util.TypeInformation)
 	 */
+	@Override
 	public boolean isAssignableFrom(TypeInformation<?> target) {
 
 		TypeInformation<?> superTypeInformation = target.getSuperTypeInformation(getType());

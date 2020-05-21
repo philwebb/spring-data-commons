@@ -49,7 +49,7 @@ class SelectionSet<T> {
 	}
 
 	public static <T> SelectionSet<T> of(Collection<T> collection, Function<Collection<T>, Optional<T>> fallback) {
-		return new SelectionSet<T>(collection, fallback);
+		return new SelectionSet<>(collection, fallback);
 	}
 
 	/**
@@ -72,7 +72,7 @@ class SelectionSet<T> {
 	 */
 	SelectionSet<T> filterIfNecessary(Predicate<T> predicate) {
 
-		return findUniqueResult().map(it -> this).orElseGet(() -> new SelectionSet<T>(
+		return findUniqueResult().map(it -> this).orElseGet(() -> new SelectionSet<>(
 				this.collection.stream().filter(predicate).collect(Collectors.toList()), this.fallback));
 	}
 

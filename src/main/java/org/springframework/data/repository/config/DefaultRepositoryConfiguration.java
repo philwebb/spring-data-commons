@@ -62,10 +62,12 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 						"Can't create bean identifier without a repository base class defined!"))));
 	}
 
+	@Override
 	public Object getQueryLookupStrategyKey() {
 		return this.configurationSource.getQueryLookupStrategyKey().orElse(DEFAULT_QUERY_LOOKUP_STRATEGY);
 	}
 
+	@Override
 	public Streamable<String> getBasePackages() {
 		return this.configurationSource.getBasePackages();
 	}
@@ -75,6 +77,7 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 		return Streamable.of(ClassUtils.getPackageName(getRepositoryInterface()));
 	}
 
+	@Override
 	public String getRepositoryInterface() {
 		return ConfigurationUtils.getRequiredBeanClassName(this.definition);
 	}
@@ -83,6 +86,7 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 		return this.configurationSource;
 	}
 
+	@Override
 	public Optional<String> getNamedQueriesLocation() {
 		return this.configurationSource.getNamedQueryLocation();
 	}

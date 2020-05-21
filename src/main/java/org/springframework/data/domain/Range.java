@@ -400,8 +400,9 @@ public final class Range<T extends Comparable<T>> {
 
 			Bound<?> bound = (Bound<?>) o;
 
-			if (this.inclusive != bound.inclusive)
+			if (this.inclusive != bound.inclusive) {
 				return false;
+			}
 
 			return ObjectUtils.nullSafeEquals(this.value, bound.value);
 		}

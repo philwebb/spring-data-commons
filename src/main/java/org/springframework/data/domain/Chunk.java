@@ -55,42 +55,52 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 		this.pageable = pageable;
 	}
 
+	@Override
 	public int getNumber() {
 		return this.pageable.isPaged() ? this.pageable.getPageNumber() : 0;
 	}
 
+	@Override
 	public int getSize() {
 		return this.pageable.isPaged() ? this.pageable.getPageSize() : this.content.size();
 	}
 
+	@Override
 	public int getNumberOfElements() {
 		return this.content.size();
 	}
 
+	@Override
 	public boolean hasPrevious() {
 		return getNumber() > 0;
 	}
 
+	@Override
 	public boolean isFirst() {
 		return !hasPrevious();
 	}
 
+	@Override
 	public boolean isLast() {
 		return !hasNext();
 	}
 
+	@Override
 	public Pageable nextPageable() {
 		return hasNext() ? this.pageable.next() : Pageable.unpaged();
 	}
 
+	@Override
 	public Pageable previousPageable() {
 		return hasPrevious() ? this.pageable.previousOrFirst() : Pageable.unpaged();
 	}
 
+	@Override
 	public boolean hasContent() {
 		return !this.content.isEmpty();
 	}
 
+	@Override
 	public List<T> getContent() {
 		return Collections.unmodifiableList(this.content);
 	}
@@ -105,6 +115,7 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 		return this.pageable.getSort();
 	}
 
+	@Override
 	public Iterator<T> iterator() {
 		return this.content.iterator();
 	}

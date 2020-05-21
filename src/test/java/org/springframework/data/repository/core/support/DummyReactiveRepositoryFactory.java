@@ -18,7 +18,7 @@ package org.springframework.data.repository.core.support;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import org.mockito.Mockito;
+import org.mockito.ArgumentMatchers;
 
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -55,8 +55,9 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 
 		this.repository = repository;
 
-		when(this.strategy.resolveQuery(Mockito.any(Method.class), Mockito.any(RepositoryMetadata.class),
-				Mockito.any(ProjectionFactory.class), Mockito.any(NamedQueries.class))).thenReturn(this.queryOne);
+		when(this.strategy.resolveQuery(ArgumentMatchers.any(Method.class),
+				ArgumentMatchers.any(RepositoryMetadata.class), ArgumentMatchers.any(ProjectionFactory.class),
+				ArgumentMatchers.any(NamedQueries.class))).thenReturn(this.queryOne);
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.repository.core.support.RepositoryFactorySupport#
 	 * getQueryLookupStrategy(org.springframework.data.repository.query.
 	 * QueryLookupStrategy.Key,

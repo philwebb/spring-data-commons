@@ -274,6 +274,7 @@ class ReturnedTypeUnitTests {
 
 	static interface Child extends Parent {
 
+		@Override
 		String getFirstname();
 
 	}

@@ -69,10 +69,12 @@ public class DefaultRepositoryMetadata extends AbstractRepositoryMetadata {
 		return arguments.get(index).getType();
 	}
 
+	@Override
 	public Class<?> getIdType() {
 		return this.idType;
 	}
 
+	@Override
 	public Class<?> getDomainType() {
 		return this.domainType;
 	}

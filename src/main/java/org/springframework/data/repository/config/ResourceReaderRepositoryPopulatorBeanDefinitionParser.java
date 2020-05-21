@@ -53,7 +53,7 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser#doParse(
 	 * org.w3c.dom.Element, org.springframework.beans.factory.xml.ParserContext,

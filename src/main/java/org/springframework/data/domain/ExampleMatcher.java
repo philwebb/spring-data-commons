@@ -449,8 +449,9 @@ public interface ExampleMatcher {
 
 			GenericPropertyMatcher that = (GenericPropertyMatcher) o;
 
-			if (this.stringMatcher != that.stringMatcher)
+			if (this.stringMatcher != that.stringMatcher) {
 				return false;
+			}
 
 			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, that.ignoreCase)) {
 				return false;
@@ -740,8 +741,9 @@ public interface ExampleMatcher {
 				return false;
 			}
 
-			if (this.stringMatcher != that.stringMatcher)
+			if (this.stringMatcher != that.stringMatcher) {
 				return false;
+			}
 
 			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, that.ignoreCase)) {
 				return false;

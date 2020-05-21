@@ -46,12 +46,12 @@ public abstract class AbstractPageRequestUnitTests {
 		Pageable request = newPageRequest(1, 10);
 
 		assertThat(request.hasPrevious()).isTrue();
-		assertThat(request.next()).isEqualTo((Pageable) newPageRequest(2, 10));
+		assertThat(request.next()).isEqualTo(newPageRequest(2, 10));
 
 		Pageable first = request.previousOrFirst();
 
 		assertThat(first.hasPrevious()).isFalse();
-		assertThat(first).isEqualTo((Pageable) newPageRequest(0, 10));
+		assertThat(first).isEqualTo(newPageRequest(0, 10));
 		assertThat(first).isEqualTo(request.first());
 		assertThat(first.previousOrFirst()).isEqualTo(first);
 	}

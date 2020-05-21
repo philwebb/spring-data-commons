@@ -74,7 +74,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
 	 * Object, org.springframework.core.convert.TypeDescriptor,
 	 * org.springframework.core.convert.TypeDescriptor)
@@ -87,7 +87,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.core.convert.converter.ConditionalConverter#matches(org.
 	 * springframework.core.convert.TypeDescriptor,
 	 * org.springframework.core.convert.TypeDescriptor)
@@ -105,6 +105,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 		return this.repositories.hasRepositoryFor(targetType.getType()) ? this.toEntityConverter : this.toIdConverter;
 	}
 
+	@Override
 	public void setApplicationContext(ApplicationContext context) {
 
 		this.repositories = new Repositories(context);
@@ -145,7 +146,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
 		 * Object, org.springframework.core.convert.TypeDescriptor,
@@ -175,7 +176,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.convert.converter.ConditionalConverter#matches(org.
 		 * springframework.core.convert.TypeDescriptor,
@@ -226,7 +227,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
 		 * Object, org.springframework.core.convert.TypeDescriptor,
@@ -255,7 +256,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.convert.converter.ConditionalConverter#matches(org.
 		 * springframework.core.convert.TypeDescriptor,

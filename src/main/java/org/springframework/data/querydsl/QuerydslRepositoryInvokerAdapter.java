@@ -102,7 +102,7 @@ public class QuerydslRepositoryInvokerAdapter implements RepositoryInvoker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.repository.support.RepositoryInvoker#invokeQueryMethod(
 	 * java.lang.reflect.Method, org.springframework.util.MultiValueMap,

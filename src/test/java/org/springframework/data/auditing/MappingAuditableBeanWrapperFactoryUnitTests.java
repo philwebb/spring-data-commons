@@ -17,7 +17,7 @@ package org.springframework.data.auditing;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
@@ -288,7 +288,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 	private static long getInstantSeconds(TemporalAccessor actual) {
 
 		return actual instanceof LocalDateTime //
-				? getInstantSeconds(((LocalDateTime) actual).atZone(ZoneOffset.systemDefault())) //
+				? getInstantSeconds(((LocalDateTime) actual).atZone(ZoneId.systemDefault())) //
 				: actual.getLong(ChronoField.INSTANT_SECONDS);
 	}
 

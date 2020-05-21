@@ -32,7 +32,7 @@ import org.springframework.data.domain.Sort;
  *     <code>
  *
  *  public interface PersonRepository extends ReactiveCrudRepository&lt;Person, String&gt;, ReactiveQuerydslPredicateExecutor&lt;Person&gt; {
- *             
+ *
  *  }
  *
  *  // ...

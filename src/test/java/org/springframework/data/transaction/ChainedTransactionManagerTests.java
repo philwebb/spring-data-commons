@@ -140,14 +140,17 @@ class ChainedTransactionManagerTests {
 
 		private boolean synchronizationActive;
 
+		@Override
 		public void initSynchronization() {
 			this.synchronizationActive = true;
 		}
 
+		@Override
 		public boolean isSynchronizationActive() {
 			return this.synchronizationActive;
 		}
 
+		@Override
 		public void clearSynchronization() {
 			this.synchronizationActive = false;
 		}
@@ -189,14 +192,17 @@ class ChainedTransactionManagerTests {
 			return this.name + (isCommitted() ? " (committed) " : " (not committed)");
 		}
 
+		@Override
 		public TransactionStatus getTransaction(TransactionDefinition definition) throws TransactionException {
 			return new TestTransactionStatus(definition);
 		}
 
+		@Override
 		public void commit(TransactionStatus status) throws TransactionException {
 			this.commitTime = System.currentTimeMillis();
 		}
 
+		@Override
 		public void rollback(TransactionStatus status) throws TransactionException {
 			this.rollbackTime = System.currentTimeMillis();
 		}
@@ -220,6 +226,7 @@ class ChainedTransactionManagerTests {
 		TestTransactionStatus(TransactionDefinition definition) {
 		}
 
+		@Override
 		public boolean isNewTransaction() {
 			return false;
 		}

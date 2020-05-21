@@ -31,6 +31,7 @@ public class RepositoryNameSpaceHandler extends NamespaceHandlerSupport {
 
 	private static final BeanDefinitionParser PARSER = new ResourceReaderRepositoryPopulatorBeanDefinitionParser();
 
+	@Override
 	public void init() {
 
 		registerBeanDefinitionParser("unmarshaller-populator", PARSER);

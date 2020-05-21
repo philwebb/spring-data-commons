@@ -95,13 +95,13 @@ public abstract class QueryExecutionConverters {
 	private static final boolean VAVR_PRESENT = ClassUtils.isPresent("io.vavr.control.Option",
 			QueryExecutionConverters.class.getClassLoader());
 
-	private static final Set<WrapperType> WRAPPER_TYPES = new HashSet<WrapperType>();
+	private static final Set<WrapperType> WRAPPER_TYPES = new HashSet<>();
 
-	private static final Set<WrapperType> UNWRAPPER_TYPES = new HashSet<WrapperType>();
+	private static final Set<WrapperType> UNWRAPPER_TYPES = new HashSet<>();
 
-	private static final Set<Converter<Object, Object>> UNWRAPPERS = new HashSet<Converter<Object, Object>>();
+	private static final Set<Converter<Object, Object>> UNWRAPPERS = new HashSet<>();
 
-	private static final Set<Class<?>> ALLOWED_PAGEABLE_TYPES = new HashSet<Class<?>>();
+	private static final Set<Class<?>> ALLOWED_PAGEABLE_TYPES = new HashSet<>();
 
 	private static final Map<Class<?>, ExecutionAdapter> EXECUTION_ADAPTER = new HashMap<>();
 
@@ -377,7 +377,7 @@ public abstract class QueryExecutionConverters {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
 		 * Object, org.springframework.core.convert.TypeDescriptor,
@@ -676,7 +676,7 @@ public abstract class QueryExecutionConverters {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.convert.converter.ConditionalConverter#matches(org.
 		 * springframework.core.convert.TypeDescriptor,
@@ -704,7 +704,7 @@ public abstract class QueryExecutionConverters {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
 		 * Object, org.springframework.core.convert.TypeDescriptor,

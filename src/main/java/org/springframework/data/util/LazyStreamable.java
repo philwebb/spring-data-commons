@@ -35,7 +35,7 @@ final class LazyStreamable<T> implements Streamable<T> {
 	}
 
 	public static <T> LazyStreamable<T> of(Supplier<? extends Stream<T>> stream) {
-		return new LazyStreamable<T>(stream);
+		return new LazyStreamable<>(stream);
 	}
 
 	@Override

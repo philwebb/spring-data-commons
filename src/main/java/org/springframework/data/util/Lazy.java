@@ -91,6 +91,7 @@ public class Lazy<T> implements Supplier<T> {
 	 * calculated instance for subsequent lookups.
 	 * @return
 	 */
+	@Override
 	public T get() {
 
 		T value = getNullable();

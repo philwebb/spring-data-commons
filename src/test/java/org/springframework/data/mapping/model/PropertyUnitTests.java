@@ -113,6 +113,7 @@ class PropertyUnitTests {
 
 	static abstract class WitherIntermediateClass extends WitherBaseClass {
 
+		@Override
 		abstract WitherIntermediateClass withId(String id);
 
 	}
@@ -125,6 +126,7 @@ class PropertyUnitTests {
 			this.id = id;
 		}
 
+		@Override
 		DerivedWitherClass withId(String id) {
 			return new DerivedWitherClass(id);
 		}
@@ -137,6 +139,7 @@ class PropertyUnitTests {
 			super(id);
 		}
 
+		@Override
 		DerivedWitherClass withId(String id) {
 			return new AnotherLevel(id);
 		}

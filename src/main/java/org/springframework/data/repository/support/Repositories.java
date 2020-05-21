@@ -255,6 +255,7 @@ public class Repositories implements Iterable<Class<?>> {
 		return getRepositoryFactoryInfoFor(domainClass).getQueryMethods();
 	}
 
+	@Override
 	public Iterator<Class<?>> iterator() {
 		return this.repositoryFactoryInfos.keySet().iterator();
 	}

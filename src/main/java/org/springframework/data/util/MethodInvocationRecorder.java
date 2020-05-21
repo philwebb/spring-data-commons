@@ -96,7 +96,7 @@ public class MethodInvocationRecorder {
 
 		T proxy = (T) proxyFactory.getProxy(type.getClassLoader());
 
-		return new Recorded<T>(proxy, new MethodInvocationRecorder(Optional.ofNullable(interceptor)));
+		return new Recorded<>(proxy, new MethodInvocationRecorder(Optional.ofNullable(interceptor)));
 	}
 
 	private Optional<String> getPropertyPath(List<PropertyNameDetectionStrategy> strategies) {
@@ -317,7 +317,7 @@ public class MethodInvocationRecorder {
 
 			Assert.notNull(converter, "Function must not be null!");
 
-			return new Recorded<S>(converter.apply(this.currentInstance), this.recorder);
+			return new Recorded<>(converter.apply(this.currentInstance), this.recorder);
 		}
 
 		/**
@@ -329,7 +329,7 @@ public class MethodInvocationRecorder {
 
 			Assert.notNull(converter, "Converter must not be null!");
 
-			return new Recorded<S>(converter.apply(this.currentInstance).iterator().next(), this.recorder);
+			return new Recorded<>(converter.apply(this.currentInstance).iterator().next(), this.recorder);
 		}
 
 		/**
@@ -341,7 +341,7 @@ public class MethodInvocationRecorder {
 
 			Assert.notNull(converter, "Converter must not be null!");
 
-			return new Recorded<S>(converter.apply(this.currentInstance).values().iterator().next(), this.recorder);
+			return new Recorded<>(converter.apply(this.currentInstance).values().iterator().next(), this.recorder);
 		}
 
 		@Override

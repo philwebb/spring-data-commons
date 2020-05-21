@@ -81,7 +81,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.
 	 * springframework.data.mapping.PersistentEntity,
 	 * org.springframework.data.mapping.model.ParameterValueProvider)
@@ -231,7 +231,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.
 		 * springframework.data.mapping.PersistentEntity,
 		 * org.springframework.data.mapping.model.ParameterValueProvider)

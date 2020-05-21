@@ -45,6 +45,7 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 		this.delegate = delegate;
 	}
 
+	@Override
 	@Nullable
 	public <T> T getParameterValue(Parameter<T, P> parameter) {
 

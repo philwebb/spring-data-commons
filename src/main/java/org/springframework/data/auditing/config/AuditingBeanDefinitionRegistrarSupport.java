@@ -123,7 +123,7 @@ public abstract class AuditingBeanDefinitionRegistrarSupport implements ImportBe
 			builder.addPropertyValue(DATE_TIME_PROVIDER, CurrentDateTimeProvider.INSTANCE);
 		}
 
-		builder.setRole(AbstractBeanDefinition.ROLE_INFRASTRUCTURE);
+		builder.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 
 		return builder;
 	}

@@ -58,6 +58,7 @@ public class SliceImpl<T> extends Chunk<T> {
 		this(content, Pageable.unpaged(), false);
 	}
 
+	@Override
 	public boolean hasNext() {
 		return this.hasNext;
 	}

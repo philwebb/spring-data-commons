@@ -76,7 +76,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.mapping.PersistentPropertyPathAccessor#getProperty(org.
 	 * springframework.data.mapping.PersistentPropertyPath,
@@ -110,7 +110,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
 	 * springframework.data.mapping.PersistentProperty, java.lang.Object)
 	 */
@@ -121,7 +121,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.mapping.PersistentPropertyPathAccessor#setProperty(org.
 	 * springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
@@ -133,7 +133,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.mapping.model.ConvertingPropertyAccessor#setProperty(org.
 	 * springframework.data.mapping.PersistentPropertyPath, java.lang.Object)

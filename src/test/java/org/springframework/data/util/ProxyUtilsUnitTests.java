@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ProxyUtils}.
- * 
+ *
  * @author Oliver Gierke
  */
 public class ProxyUtilsUnitTests {

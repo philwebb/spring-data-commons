@@ -79,6 +79,7 @@ public class PageRequest extends AbstractPageRequest {
 		return of(page, size, Sort.by(direction, properties));
 	}
 
+	@Override
 	public Sort getSort() {
 		return this.sort;
 	}

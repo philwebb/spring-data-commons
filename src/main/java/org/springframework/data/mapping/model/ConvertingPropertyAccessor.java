@@ -57,7 +57,7 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
 	 * springframework.data.mapping.PersistentProperty, java.lang.Object)
 	 */
@@ -68,7 +68,7 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
 	 * springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
 	 */
@@ -98,7 +98,7 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.mapping.model.SimplePersistentPropertyPathAccessor#
 	 * getTypedProperty(org.springframework.data.mapping.PersistentProperty,
 	 * java.lang.Class)

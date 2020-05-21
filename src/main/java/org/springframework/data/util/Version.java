@@ -145,6 +145,7 @@ public class Version implements Comparable<Version> {
 		return compareTo(version) <= 0;
 	}
 
+	@Override
 	public int compareTo(@SuppressWarnings("null") Version that) {
 
 		if (this.major != that.major) {

@@ -91,6 +91,7 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 		return this.metadata.getRequiredRevisionInstant();
 	}
 
+	@Override
 	public int compareTo(@Nullable Revision<N, ?> that) {
 
 		if (that == null) {

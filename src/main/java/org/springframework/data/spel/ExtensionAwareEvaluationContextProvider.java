@@ -98,7 +98,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.jpa.repository.support.EvaluationContextProvider#
 	 * getEvaluationContext()
 	 */
@@ -193,7 +193,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.data.repository.query.
 		 * ExtensionAwareEvaluationContextProvider.ReadOnlyPropertyAccessor#canRead(org.
 		 * springframework.expression.EvaluationContext, java.lang.Object,
@@ -215,7 +215,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.expression.PropertyAccessor#read(org.springframework.
 		 * expression.EvaluationContext, java.lang.Object, java.lang.String)
 		 */
@@ -238,7 +238,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.expression.MethodResolver#resolve(org.springframework.
 		 * expression.EvaluationContext, java.lang.Object, java.lang.String,
 		 * java.util.List)
@@ -259,7 +259,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.expression.PropertyAccessor#canWrite(org.springframework.
 		 * expression.EvaluationContext, java.lang.Object, java.lang.String)
@@ -271,7 +271,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.expression.PropertyAccessor#write(org.springframework.
 		 * expression.EvaluationContext, java.lang.Object, java.lang.String,
 		 * java.lang.Object)
@@ -344,7 +344,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.expression.MethodExecutor#execute(org.springframework.
 		 * expression.EvaluationContext, java.lang.Object, java.lang.Object[])
 		 */

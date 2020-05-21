@@ -100,10 +100,12 @@ public final class ReflectionUtils {
 			this.annotationType = annotationType;
 		}
 
+		@Override
 		public boolean matches(Field field) {
 			return AnnotationUtils.getAnnotation(field, this.annotationType) != null;
 		}
 
+		@Override
 		public String getDescription() {
 			return String.format("Annotation filter for %s", this.annotationType.getName());
 		}
@@ -122,10 +124,12 @@ public final class ReflectionUtils {
 
 		return findField(type, new DescribedFieldFilter() {
 
+			@Override
 			public boolean matches(Field field) {
 				return filter.matches(field);
 			}
 
+			@Override
 			public String getDescription() {
 				return String.format("FieldFilter %s", filter.toString());
 			}

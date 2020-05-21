@@ -16,7 +16,7 @@
 package org.springframework.data.auditing;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,12 +86,10 @@ class ReflectionAuditingBeanWrapperUnitTests {
 		AuditableBeanWrapper<Sample> wrapper = new ReflectionAuditingBeanWrapper<>(this.conversionService, sample);
 
 		wrapper.setCreatedDate(this.time);
-		assertThat(sample.createdDate)
-				.isEqualTo(this.time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
+		assertThat(sample.createdDate).isEqualTo(this.time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
 
 		wrapper.setLastModifiedDate(this.time);
-		assertThat(sample.modifiedDate)
-				.isEqualTo(this.time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
+		assertThat(sample.modifiedDate).isEqualTo(this.time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
 	}
 
 	@Test

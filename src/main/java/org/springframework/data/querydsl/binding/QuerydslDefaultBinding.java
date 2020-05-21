@@ -47,7 +47,7 @@ class QuerydslDefaultBinding implements MultiValueBinding<Path<? extends Object>
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.web.querydsl.QueryDslPredicateBuilder#buildPredicate(org.
 	 * springframework.data.mapping.PropertyPath, java.lang.Object)

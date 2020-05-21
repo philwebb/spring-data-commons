@@ -220,6 +220,7 @@ public class AuditingHandler implements InitializingBean {
 		return now;
 	}
 
+	@Override
 	public void afterPropertiesSet() {
 
 		if (!this.auditorAware.isPresent()) {

@@ -205,6 +205,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 		return stream().collect(StreamUtils.toUnmodifiableSet());
 	}
 
+	@Override
 	default Stream<T> get() {
 		return stream();
 	}

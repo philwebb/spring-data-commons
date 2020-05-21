@@ -51,10 +51,12 @@ class PersistableIsNewStrategyUnitTests {
 
 		boolean isNew = true;
 
+		@Override
 		public Long getId() {
 			return null;
 		}
 
+		@Override
 		public boolean isNew() {
 			return this.isNew;
 		}

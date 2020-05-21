@@ -103,7 +103,7 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter#
 	 * canRead(java.lang.reflect.Type, java.lang.Class,
 	 * org.springframework.http.MediaType)
@@ -131,7 +131,7 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter#
 	 * canWrite(java.lang.Class, org.springframework.http.MediaType)
 	 */
@@ -142,7 +142,7 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter#read(
 	 * java.lang.reflect.Type, java.lang.Class, org.springframework.http.HttpInputMessage)

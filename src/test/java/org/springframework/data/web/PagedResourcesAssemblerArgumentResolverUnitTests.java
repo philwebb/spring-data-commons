@@ -122,6 +122,7 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 		// Simulate HandlerMethod.HandlerMethodParameter.getDeclaringClass()
 		// as it's returning the invoked class as the declared one
 		MethodParameter methodParameter = new MethodParameter(method, 0) {
+			@Override
 			public java.lang.Class<?> getDeclaringClass() {
 				return SubController.class;
 			}

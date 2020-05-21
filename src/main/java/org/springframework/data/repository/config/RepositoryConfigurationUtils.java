@@ -15,7 +15,7 @@
  */
 package org.springframework.data.repository.config;
 
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.util.Assert;
@@ -58,7 +58,7 @@ public interface RepositoryConfigurationUtils {
 		// happened
 		RootBeanDefinition definition = new RootBeanDefinition(extensionType);
 		definition.setSource(configurationSource.getSource());
-		definition.setRole(AbstractBeanDefinition.ROLE_INFRASTRUCTURE);
+		definition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		definition.setLazyInit(true);
 
 		registry.registerBeanDefinition(beanName, definition);

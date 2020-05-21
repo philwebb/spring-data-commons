@@ -65,7 +65,7 @@ public class HateoasSortHandlerMethodArgumentResolver extends SortHandlerMethodA
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.hateoas.server.mvc.UriComponentsContributor#enhance(org.
 	 * springframework.web.util.UriComponentsBuilder,
 	 * org.springframework.core.MethodParameter, java.lang.Object)

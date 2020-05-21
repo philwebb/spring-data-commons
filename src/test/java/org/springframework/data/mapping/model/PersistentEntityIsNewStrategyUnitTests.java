@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 /**
  * Unit tests for {@link PersistentEntityIsNewStrategy}.
- * 
+ *
  * @author Oliver Gierke https://www.youtube.com/watch?v=syGlBNVGEqU
  */
 class PersistentEntityIsNewStrategyUnitTests {

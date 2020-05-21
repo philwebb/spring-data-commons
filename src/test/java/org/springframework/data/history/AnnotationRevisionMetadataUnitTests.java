@@ -18,7 +18,7 @@ package org.springframework.data.history;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.assertj.core.api.SoftAssertions;
@@ -75,7 +75,7 @@ class AnnotationRevisionMetadataUnitTests {
 
 		Sample sample = new Sample();
 		sample.revisionDate = LocalDateTime.now();
-		Instant expectedInstant = sample.revisionDate.atZone(ZoneOffset.systemDefault()).toInstant();
+		Instant expectedInstant = sample.revisionDate.atZone(ZoneId.systemDefault()).toInstant();
 
 		RevisionMetadata<Long> metadata = getMetadata(sample);
 
@@ -90,8 +90,7 @@ class AnnotationRevisionMetadataUnitTests {
 
 		SampleWithInstant sample = new SampleWithInstant();
 		sample.revisionInstant = Instant.now();
-		LocalDateTime expectedLocalDateTime = LocalDateTime.ofInstant(sample.revisionInstant,
-				ZoneOffset.systemDefault());
+		LocalDateTime expectedLocalDateTime = LocalDateTime.ofInstant(sample.revisionInstant, ZoneId.systemDefault());
 
 		RevisionMetadata<Long> metadata = getMetadata(sample);
 
@@ -108,7 +107,7 @@ class AnnotationRevisionMetadataUnitTests {
 		sample.revisionLong = 4711L;
 
 		Instant expectedInstant = Instant.ofEpochMilli(sample.revisionLong);
-		LocalDateTime expectedLocalDateTime = LocalDateTime.ofInstant(expectedInstant, ZoneOffset.systemDefault());
+		LocalDateTime expectedLocalDateTime = LocalDateTime.ofInstant(expectedInstant, ZoneId.systemDefault());
 
 		RevisionMetadata<Long> metadata = getMetadata(sample);
 

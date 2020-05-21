@@ -356,10 +356,12 @@ public class AbstractPersistentPropertyUnitTests {
 			super(property, owner, simpleTypeHolder);
 		}
 
+		@Override
 		public boolean isIdProperty() {
 			return false;
 		}
 
+		@Override
 		public boolean isVersionProperty() {
 			return false;
 		}

@@ -63,7 +63,7 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.mapping.callback.ReactiveEntityCallbacks#callback(java.
 	 * lang.Class, java.lang.Object, java.lang.Object)

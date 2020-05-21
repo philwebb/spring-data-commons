@@ -32,7 +32,7 @@ class PageRequestUnitTests extends AbstractPageRequestUnitTests {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.domain.AbstractPageRequestUnitTests#newPageRequest(int,
 	 * int)

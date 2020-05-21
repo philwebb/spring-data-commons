@@ -146,7 +146,7 @@ public abstract class ParsingUtils {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder
 				.rootBeanDefinition(ObjectFactoryCreatingFactoryBean.class);
 		builder.addPropertyValue("targetBeanName", targetBeanName);
-		builder.setRole(AbstractBeanDefinition.ROLE_INFRASTRUCTURE);
+		builder.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 
 		return getSourceBeanDefinition(builder, source);
 	}

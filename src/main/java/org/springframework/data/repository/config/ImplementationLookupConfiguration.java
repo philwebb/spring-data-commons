@@ -20,7 +20,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 /**
  * Configuration that's used to lookup an implementation type for a repository or fragment
  * interface.
- * 
+ *
  * @author Oliver Gierke
  * @since 2.1
  */

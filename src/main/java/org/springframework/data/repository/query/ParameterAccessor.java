@@ -87,6 +87,7 @@ public interface ParameterAccessor extends Iterable<Object> {
 	 * {@link Iterator}.
 	 * @return
 	 */
+	@Override
 	Iterator<Object> iterator();
 
 }

@@ -64,11 +64,13 @@ class CustomAnnotationTransactionAttributeSourceUnitTests {
 	@Transactional(readOnly = true)
 	class FooImpl implements Foo<Object> {
 
+		@Override
 		@Transactional
 		public void foo() {
 
 		}
 
+		@Override
 		public void bar(Object param) {
 
 		}
@@ -82,6 +84,7 @@ class CustomAnnotationTransactionAttributeSourceUnitTests {
 	 */
 	interface Bar extends Foo<Object> {
 
+		@Override
 		@Transactional
 		void bar(Object param);
 

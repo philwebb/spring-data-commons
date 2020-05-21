@@ -141,6 +141,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		this.hasExplicitFilters = hasExplicitFilters(this.attributes);
 	}
 
+	@Override
 	public Streamable<String> getBasePackages() {
 
 		String[] value = this.attributes.getStringArray("value");
@@ -165,18 +166,22 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		return Streamable.of(packages);
 	}
 
+	@Override
 	public Optional<Object> getQueryLookupStrategyKey() {
 		return Optional.ofNullable(this.attributes.get(QUERY_LOOKUP_STRATEGY));
 	}
 
+	@Override
 	public Optional<String> getNamedQueryLocation() {
 		return getNullDefaultedAttribute(NAMED_QUERIES_LOCATION);
 	}
 
+	@Override
 	public Optional<String> getRepositoryImplementationPostfix() {
 		return getNullDefaultedAttribute(REPOSITORY_IMPLEMENTATION_POSTFIX);
 	}
 
+	@Override
 	@Nonnull
 	public Object getSource() {
 		return this.configMetadata;
@@ -239,7 +244,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#
 	 * getAttribute(java.lang.String, java.lang.Class)
 	 */

@@ -32,7 +32,7 @@ import org.springframework.util.ReflectionUtils;
 /**
  * {@link EntityCallbacks} implementation using an {@link EntityCallbackDiscoverer} to
  * retrieve {@link EntityCallback EntityCallbacks} from a {@link BeanFactory}.
- * 
+ *
  * @author Mark Paluch
  * @author Christoph Strobl
  * @since 2.2
@@ -63,7 +63,7 @@ class DefaultEntityCallbacks implements EntityCallbacks {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.mapping.callback.EntityCallbacks#callback(java.lang.Class,
 	 * java.lang.Object, java.lang.Object)

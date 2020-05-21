@@ -308,7 +308,7 @@ class PagedResourcesAssemblerUnitTests {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.data.web.PagedResourcesAssembler#createPagedModel(java.util
 		 * .List, org.springframework.hateoas.PagedModel.PageMetadata,

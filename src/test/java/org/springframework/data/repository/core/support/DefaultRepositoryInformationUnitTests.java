@@ -311,6 +311,7 @@ class DefaultRepositoryInformationUnitTests {
 	interface FooRepository extends CrudRepository<User, Integer>, FooRepositoryCustom {
 
 		// Redeclared method
+		@Override
 		Optional<User> findById(Integer primaryKey);
 
 		// Not a redeclared method
@@ -363,10 +364,13 @@ class DefaultRepositoryInformationUnitTests {
 
 		S genericMethodToOverride(String something);
 
+		@Override
 		<K extends S> K save(K entity);
 
+		@Override
 		void delete(S entity);
 
+		@Override
 		@MyQuery
 		Optional<S> findById(ID id);
 
@@ -376,6 +380,7 @@ class DefaultRepositoryInformationUnitTests {
 
 		User findBySomethingDifferent(String somethingDifferent);
 
+		@Override
 		User genericMethodToOverride(String something);
 
 	}
@@ -408,6 +413,7 @@ class DefaultRepositoryInformationUnitTests {
 
 	interface CustomDefaultRepositoryMethodsRepository extends CrudRepository<User, Integer> {
 
+		@Override
 		@MyQuery
 		List<User> findAll();
 

@@ -91,7 +91,7 @@ class TypedExampleMatcher implements ExampleMatcher {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.domain.ExampleMatcher#withMatcher(java.lang.String,
 	 * org.springframework.data.domain.ExampleMatcher.MatcherConfigurer)
 	 */
@@ -122,7 +122,7 @@ class TypedExampleMatcher implements ExampleMatcher {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.domain.ExampleMatcher#withTransformer(java.lang.String,
 	 * org.springframework.data.domain.ExampleMatcher.PropertyValueTransformer)

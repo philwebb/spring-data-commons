@@ -81,18 +81,22 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 		}
 	}
 
+	@Override
 	public Resource getResource() {
 		return this.resource;
 	}
 
+	@Override
 	public ClassMetadata getClassMetadata() {
 		return this.classMetadata;
 	}
 
+	@Override
 	public AnnotationMetadata getAnnotationMetadata() {
 		return this.annotationMetadata;
 	}
 
+	@Override
 	public MethodsMetadata getMethodsMetadata() {
 		return this.methodsMetadata;
 	}
@@ -122,7 +126,7 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.type.classreading.AnnotationMetadataReadingVisitor#
 		 * visitMethod(int, java.lang.String, java.lang.String, java.lang.String,

@@ -96,11 +96,13 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 		this.excludeFilters = parser.parseTypeFilters(element, Type.EXCLUDE);
 	}
 
+	@Override
 	@Nullable
 	public Object getSource() {
 		return this.context.extractSource(this.element);
 	}
 
+	@Override
 	public Streamable<String> getBasePackages() {
 
 		String attribute = this.element.getAttribute(BASE_PACKAGE);
@@ -108,10 +110,12 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 		return Streamable.of(StringUtils.delimitedListToStringArray(attribute, ",", " "));
 	}
 
+	@Override
 	public Optional<Object> getQueryLookupStrategyKey() {
 		return getNullDefaultedAttribute(this.element, QUERY_LOOKUP_STRATEGY).map(Key::create);
 	}
 
+	@Override
 	public Optional<String> getNamedQueryLocation() {
 		return getNullDefaultedAttribute(this.element, NAMED_QUERIES_LOCATION);
 	}
@@ -136,10 +140,11 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#
 	 * getRepositoryImplementationPostfix()
 	 */
+	@Override
 	public Optional<String> getRepositoryImplementationPostfix() {
 		return getNullDefaultedAttribute(this.element, REPOSITORY_IMPL_POSTFIX);
 	}
@@ -181,7 +186,7 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#
 	 * getAttribute(java.lang.String, java.lang.Class)
 	 */

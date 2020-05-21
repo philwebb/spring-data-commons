@@ -198,7 +198,7 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.
 		 * springframework.data.mapping.PersistentEntity,
 		 * org.springframework.data.mapping.model.ParameterValueProvider)

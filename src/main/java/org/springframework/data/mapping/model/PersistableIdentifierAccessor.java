@@ -22,7 +22,7 @@ import org.springframework.lang.Nullable;
 
 /**
  * {@link IdentifierAccessor} that invokes {@link Persistable#getId()}.
- * 
+ *
  * @author Oliver Gierke
  */
 class PersistableIdentifierAccessor extends TargetAwareIdentifierAccessor {

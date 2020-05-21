@@ -187,10 +187,12 @@ public class ReflectionUtilsUnitTests {
 			this.name = name;
 		}
 
+		@Override
 		public boolean matches(Field field) {
 			return field.getName().equals(this.name);
 		}
 
+		@Override
 		public String getDescription() {
 			return String.format("Filter for fields named %s", this.name);
 		}

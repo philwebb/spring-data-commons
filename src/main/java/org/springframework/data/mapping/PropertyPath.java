@@ -216,16 +216,19 @@ public class PropertyPath implements Streamable<PropertyPath> {
 		return PropertyPath.from(lookup, this.owningType);
 	}
 
+	@Override
 	public Iterator<PropertyPath> iterator() {
 
 		return new Iterator<PropertyPath>() {
 
 			private @Nullable PropertyPath current = PropertyPath.this;
 
+			@Override
 			public boolean hasNext() {
 				return this.current != null;
 			}
 
+			@Override
 			@Nullable
 			public PropertyPath next() {
 
@@ -239,6 +242,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 				return result;
 			}
 
+			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}

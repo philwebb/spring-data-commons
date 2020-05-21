@@ -36,12 +36,14 @@ public class ChangeSetBackedTransactionSynchronization implements TransactionSyn
 		this.entity = entity;
 	}
 
+	@Override
 	public void afterCommit() {
 		this.log.debug("After Commit called for " + this.entity);
 		this.changeSetPersister.persistState(this.entity, this.entity.getChangeSet());
 		this.changeSetTxStatus = 0;
 	}
 
+	@Override
 	public void afterCompletion(int status) {
 		this.log.debug("After Completion called with status = " + status);
 		if (this.changeSetTxStatus == 0) {
@@ -56,20 +58,25 @@ public class ChangeSetBackedTransactionSynchronization implements TransactionSyn
 		}
 	}
 
+	@Override
 	public void beforeCommit(boolean readOnly) {
 	}
 
+	@Override
 	public void beforeCompletion() {
 	}
 
+	@Override
 	public void flush() {
 	}
 
+	@Override
 	public void resume() {
 		throw new IllegalStateException(
 				"ChangedSetBackedTransactionSynchronization does not support transaction suspension currently.");
 	}
 
+	@Override
 	public void suspend() {
 		throw new IllegalStateException(
 				"ChangedSetBackedTransactionSynchronization does not support transaction suspension currently.");

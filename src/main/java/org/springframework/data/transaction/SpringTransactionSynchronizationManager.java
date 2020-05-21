@@ -29,14 +29,17 @@ enum SpringTransactionSynchronizationManager implements SynchronizationManager {
 
 	INSTANCE;
 
+	@Override
 	public void initSynchronization() {
 		TransactionSynchronizationManager.initSynchronization();
 	}
 
+	@Override
 	public boolean isSynchronizationActive() {
 		return TransactionSynchronizationManager.isSynchronizationActive();
 	}
 
+	@Override
 	public void clearSynchronization() {
 		TransactionSynchronizationManager.clear();
 	}

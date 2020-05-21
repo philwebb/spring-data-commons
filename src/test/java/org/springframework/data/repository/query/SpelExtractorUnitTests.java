@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link SpelExtractor}.
- * 
+ *
  * @author Jens Schauder
  * @author Oliver Gierke
  */

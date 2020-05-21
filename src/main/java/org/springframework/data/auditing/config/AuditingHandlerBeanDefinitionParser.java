@@ -84,7 +84,7 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser#doParse(
 	 * org.w3c.dom.Element,
@@ -108,7 +108,7 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.beans.factory.xml.AbstractBeanDefinitionParser#resolveId(org.
 	 * w3c.dom.Element, org.springframework.beans.factory.support.AbstractBeanDefinition,

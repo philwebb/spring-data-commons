@@ -17,7 +17,7 @@ package org.springframework.data.auditing;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
@@ -134,7 +134,7 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 		LongBasedAuditable source = new LongBasedAuditable();
 
 		Optional<Long> result = this.factory.getBeanWrapperFor(source).map(it -> {
-			it.setLastModifiedDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(42L), ZoneOffset.systemDefault()));
+			it.setLastModifiedDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(42L), ZoneId.systemDefault()));
 			return it.getBean().dateModified;
 		});
 

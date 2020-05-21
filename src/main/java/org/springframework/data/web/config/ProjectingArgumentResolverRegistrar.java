@@ -95,7 +95,7 @@ public class ProjectingArgumentResolverRegistrar {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.beans.factory.config.BeanPostProcessor#
 		 * postProcessBeforeInitialization(java.lang.Object, java.lang.String)
 		 */
@@ -107,7 +107,7 @@ public class ProjectingArgumentResolverRegistrar {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.beans.factory.config.BeanPostProcessor#
 		 * postProcessAfterInitialization(java.lang.Object, java.lang.String)
 		 */
@@ -127,8 +127,7 @@ public class ProjectingArgumentResolverRegistrar {
 						"No HandlerMethodArgumentResolvers found in RequestMappingHandlerAdapter %s!", beanName));
 			}
 
-			List<HandlerMethodArgumentResolver> newResolvers = new ArrayList<HandlerMethodArgumentResolver>(
-					currentResolvers.size() + 1);
+			List<HandlerMethodArgumentResolver> newResolvers = new ArrayList<>(currentResolvers.size() + 1);
 			newResolvers.add(this.resolver);
 			newResolvers.addAll(currentResolvers);
 

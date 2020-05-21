@@ -183,10 +183,12 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 		return this.isTransient.get();
 	}
 
+	@Override
 	public boolean isIdProperty() {
 		return this.isId.get();
 	}
 
+	@Override
 	public boolean isVersionProperty() {
 		return this.isVersion.get();
 	}
@@ -213,6 +215,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	 * @param annotationType must not be {@literal null}.
 	 * @return {@literal null} if annotation type not found on property.
 	 */
+	@Override
 	@Nullable
 	public <A extends Annotation> A findAnnotation(Class<A> annotationType) {
 
@@ -253,6 +256,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	 * @param annotationType the annotation type to look up.
 	 * @return
 	 */
+	@Override
 	public boolean isAnnotationPresent(Class<? extends Annotation> annotationType) {
 		return doFindAnnotation(annotationType).isPresent();
 	}

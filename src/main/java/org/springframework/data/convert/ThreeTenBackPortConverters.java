@@ -29,7 +29,6 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZoneOffset;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.ClassUtils;
@@ -231,7 +230,7 @@ public abstract class ThreeTenBackPortConverters {
 		@Nonnull
 		@Override
 		public java.time.Instant convert(LocalDateTime source) {
-			return java.time.Instant.ofEpochMilli(source.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
+			return java.time.Instant.ofEpochMilli(source.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
 		}
 
 	}
@@ -244,7 +243,7 @@ public abstract class ThreeTenBackPortConverters {
 		@Nonnull
 		@Override
 		public LocalDateTime convert(java.time.Instant source) {
-			return LocalDateTime.ofInstant(Instant.ofEpochMilli(source.toEpochMilli()), ZoneOffset.systemDefault());
+			return LocalDateTime.ofInstant(Instant.ofEpochMilli(source.toEpochMilli()), ZoneId.systemDefault());
 		}
 
 	}

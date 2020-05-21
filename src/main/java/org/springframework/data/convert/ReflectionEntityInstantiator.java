@@ -34,6 +34,7 @@ public enum ReflectionEntityInstantiator implements EntityInstantiator {
 
 	INSTANCE;
 
+	@Override
 	public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
 			ParameterValueProvider<P> provider) {
 

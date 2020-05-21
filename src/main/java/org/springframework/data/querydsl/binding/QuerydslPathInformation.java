@@ -77,6 +77,7 @@ class QuerydslPathInformation implements PathInformation {
 		return QuerydslUtils.toDotPath(this.path);
 	}
 
+	@Override
 	public Path<?> reifyPath(EntityPathResolver resolver) {
 		return this.path;
 	}

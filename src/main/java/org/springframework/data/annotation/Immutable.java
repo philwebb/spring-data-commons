@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation for persistent entities to indicate the class is designed in immutable way.
- * 
+ *
  * @author Oliver Gierke
  * @since 2.1
  */

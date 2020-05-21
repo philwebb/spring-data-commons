@@ -207,6 +207,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		return null;
 	}
 
+	@Override
 	public Iterator<Order> iterator() {
 		return this.orders.iterator();
 	}

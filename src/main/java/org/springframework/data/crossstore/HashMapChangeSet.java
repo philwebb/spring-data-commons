@@ -24,7 +24,7 @@ import org.springframework.lang.Nullable;
 
 /**
  * Simple ChangeSet implementation backed by a HashMap.
- * 
+ *
  * @author Thomas Risberg
  * @author Rod Johnson
  * @author Christoph Strobl
@@ -41,23 +41,28 @@ public class HashMapChangeSet implements ChangeSet {
 		this(new HashMap<>());
 	}
 
+	@Override
 	public void set(String key, Object o) {
 		this.values.put(key, o);
 	}
 
+	@Override
 	public String toString() {
 		return "HashMapChangeSet: values=[" + this.values + "]";
 	}
 
+	@Override
 	public Map<String, Object> getValues() {
 		return Collections.unmodifiableMap(this.values);
 	}
 
+	@Override
 	@Nullable
 	public Object removeProperty(String k) {
 		return this.values.remove(k);
 	}
 
+	@Override
 	@Nullable
 	public <T> T get(String key, Class<T> requiredClass, ConversionService conversionService) {
 

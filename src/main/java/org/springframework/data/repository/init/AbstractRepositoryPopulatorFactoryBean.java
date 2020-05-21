@@ -57,6 +57,7 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 		this.resources = resources.clone();
 	}
 
+	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.context = applicationContext;
 	}
@@ -82,6 +83,7 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 		return initializer;
 	}
 
+	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 
 		RepositoryPopulator populator = this.populator;

@@ -15,7 +15,6 @@
  */
 package org.springframework.data.classloadersupport;
 
-import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public class HidingClassLoader extends ShadowingClassLoader {
 
 	HidingClassLoader(Collection<String> hidden) {
 
-		super(URLClassLoader.getSystemClassLoader(), false);
+		super(ClassLoader.getSystemClassLoader(), false);
 
 		this.hidden = hidden;
 	}

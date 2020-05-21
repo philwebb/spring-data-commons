@@ -159,6 +159,7 @@ public abstract class ReturnedType {
 			return this.information.getType();
 		}
 
+		@Override
 		public boolean needsCustomConstruction() {
 			return isProjecting() && this.information.isClosed();
 		}
@@ -227,6 +228,7 @@ public abstract class ReturnedType {
 			return this.type;
 		}
 
+		@Override
 		@Nonnull
 		public Class<?> getTypeToRead() {
 			return this.type;
@@ -237,6 +239,7 @@ public abstract class ReturnedType {
 			return isDto();
 		}
 
+		@Override
 		public boolean needsCustomConstruction() {
 			return isDto() && !this.inputProperties.isEmpty();
 		}

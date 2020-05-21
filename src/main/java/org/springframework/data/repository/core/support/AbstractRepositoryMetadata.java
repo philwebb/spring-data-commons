@@ -78,6 +78,7 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 				: new AnnotationRepositoryMetadata(repositoryInterface);
 	}
 
+	@Override
 	public Class<?> getReturnedDomainClass(Method method) {
 
 		TypeInformation<?> returnType = null;
@@ -96,6 +97,7 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 		return QueryExecutionConverters.unwrapWrapperTypes(returnType).getType();
 	}
 
+	@Override
 	public Class<?> getRepositoryInterface() {
 		return this.repositoryInterface;
 	}

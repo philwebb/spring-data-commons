@@ -89,7 +89,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.rest.core.projection.ProjectionFactory#createProjection(
 	 * java.lang.Object, java.lang.Class)
@@ -252,7 +252,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.data.projection.MethodInterceptorFactory#
 		 * createMethodInterceptor(java.lang.Object, java.lang.Class)
 		 */
@@ -264,7 +264,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang
 		 * .Object, java.lang.Class)
@@ -288,7 +288,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.data.projection.MethodInterceptorFactory#
 		 * createMethodInterceptor(java.lang.Object, java.lang.Class)
 		 */
@@ -299,7 +299,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang
 		 * .Object, java.lang.Class)

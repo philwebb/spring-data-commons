@@ -76,7 +76,7 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.projection.MethodInterceptorFactory#
 	 * createMethodInterceptor(java.lang.Object, java.lang.Class)
 	 */
@@ -91,7 +91,7 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang.
 	 * Object, java.lang.Class)

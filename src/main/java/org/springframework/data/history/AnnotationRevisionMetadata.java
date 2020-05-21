@@ -18,7 +18,7 @@ package org.springframework.data.history;
 import java.lang.annotation.Annotation;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
@@ -85,18 +85,22 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 		this.revisionType = revisionType;
 	}
 
+	@Override
 	public Optional<N> getRevisionNumber() {
 		return this.revisionNumber.get();
 	}
 
+	@Override
 	public Optional<Instant> getRevisionInstant() {
 		return this.revisionDate.get().map(AnnotationRevisionMetadata::convertToInstant);
 	}
 
+	@Override
 	public RevisionType getRevisionType() {
 		return this.revisionType;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getDelegate() {
 		return (T) this.entity;
@@ -119,7 +123,7 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 		}
 
 		if (timestamp instanceof LocalDateTime) {
-			return ((LocalDateTime) timestamp).atZone(ZoneOffset.systemDefault()).toInstant();
+			return ((LocalDateTime) timestamp).atZone(ZoneId.systemDefault()).toInstant();
 		}
 
 		if (timestamp instanceof Long) {

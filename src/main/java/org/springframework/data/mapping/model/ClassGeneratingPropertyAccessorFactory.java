@@ -112,7 +112,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.mapping.model.PersistentPropertyAccessorFactory#
 	 * getPropertyAccessor(org.springframework.data.mapping.PersistentEntity,
 	 * java.lang.Object)

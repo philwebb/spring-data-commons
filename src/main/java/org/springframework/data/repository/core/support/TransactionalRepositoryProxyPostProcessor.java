@@ -84,11 +84,12 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.repository.core.support.RepositoryProxyPostProcessor#
 	 * postProcess(org.springframework.aop.framework.ProxyFactory,
 	 * org.springframework.data.repository.core.RepositoryInformation)
 	 */
+	@Override
 	public void postProcess(ProxyFactory factory, RepositoryInformation repositoryInformation) {
 
 		CustomAnnotationTransactionAttributeSource transactionAttributeSource = new CustomAnnotationTransactionAttributeSource();
@@ -354,6 +355,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		 * @return TransactionAttribute for this method, or <code>null</code> if the
 		 * method is not transactional
 		 */
+		@Override
 		public TransactionAttribute getTransactionAttribute(Method method, Class<?> targetClass) {
 			// First, see if we have a cached value.
 			Object cacheKey = getCacheKey(method, targetClass);

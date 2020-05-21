@@ -191,6 +191,7 @@ class CrudRepositoryInvokerUnitTests {
 
 	interface CrudWithRedeclaredDelete extends CrudRepository<Order, Long> {
 
+		@Override
 		void deleteById(Long id);
 
 	}

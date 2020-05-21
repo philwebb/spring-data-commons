@@ -40,7 +40,7 @@ public class InstantiationAwarePropertyAccessorFactory implements PersistentProp
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.mapping.model.PersistentPropertyAccessorFactory#
 	 * getPropertyAccessor(org.springframework.data.mapping.PersistentEntity,
 	 * java.lang.Object)

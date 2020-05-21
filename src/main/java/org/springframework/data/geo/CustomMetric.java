@@ -54,6 +54,7 @@ public class CustomMetric implements Metric {
 		this.abbreviation = abbreviation;
 	}
 
+	@Override
 	public double getMultiplier() {
 		return this.multiplier;
 	}

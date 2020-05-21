@@ -70,6 +70,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		return this.projectionType;
 	}
 
+	@Override
 	public List<PropertyDescriptor> getInputProperties() {
 
 		return this.properties.stream()//

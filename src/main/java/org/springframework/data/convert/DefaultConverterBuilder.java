@@ -104,12 +104,12 @@ class DefaultConverterBuilder<S, T>
 
 	DefaultConverterBuilder<S, T> withWriting(Optional<Function<? super S, ? extends T>> writing) {
 		return this.writing == writing ? this
-				: new DefaultConverterBuilder<S, T>(this.convertiblePair, writing, this.reading);
+				: new DefaultConverterBuilder<>(this.convertiblePair, writing, this.reading);
 	}
 
 	DefaultConverterBuilder<S, T> withReading(Optional<Function<? super T, ? extends S>> reading) {
 		return this.reading == reading ? this
-				: new DefaultConverterBuilder<S, T>(this.convertiblePair, this.writing, reading);
+				: new DefaultConverterBuilder<>(this.convertiblePair, this.writing, reading);
 	}
 
 	private static class ConfigurableGenericConverter<S, T> implements GenericConverter {
@@ -126,7 +126,7 @@ class DefaultConverterBuilder<S, T>
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
 		 * Object, org.springframework.core.convert.TypeDescriptor,

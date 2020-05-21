@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * CDI integration tests for composed repositories.
- * 
+ *
  * @author Mark Paluch
  */
 class RepositoryFragmentsIntegrationTests {

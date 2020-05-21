@@ -66,6 +66,7 @@ public interface Page<T> extends Slice<T> {
 	 * {@link Function}.
 	 * @since 1.10
 	 */
+	@Override
 	<U> Page<U> map(Function<? super T, ? extends U> converter);
 
 }

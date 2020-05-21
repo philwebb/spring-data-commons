@@ -329,6 +329,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 		return !TYPES.contains(type);
 	}
 
+	@Override
 	public Iterator<T> iterator() {
 		return this.parameters.iterator();
 	}

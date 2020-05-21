@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * CDI integration tests for {@link CdiRepositoryConfiguration}.
- * 
+ *
  * @author Mark Paluch
  */
 class CdiConfigurationIntegrationTests {

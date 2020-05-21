@@ -26,7 +26,7 @@ import static java.lang.annotation.ElementType.METHOD;
 /**
  * Marks a field to be transient for the mapping framework. Thus the property will not be
  * persisted and not further inspected by the mapping framework.
- * 
+ *
  * @author Oliver Gierke
  * @author Jon Brisbin
  */

@@ -106,7 +106,7 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.http.converter.HttpMessageConverter#canWrite(java.lang.Class,
 	 * org.springframework.http.MediaType)
@@ -118,7 +118,7 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.http.converter.AbstractHttpMessageConverter#readInternal(java.
 	 * lang.Class, org.springframework.http.HttpInputMessage)
@@ -147,7 +147,7 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.http.converter.AbstractHttpMessageConverter#writeInternal(java.
 	 * lang.Object, org.springframework.http.HttpOutputMessage)

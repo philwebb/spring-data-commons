@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link Streamable}
- * 
+ *
  * @author Oliver Gierke
  */
 public class StreamableUnitTests {

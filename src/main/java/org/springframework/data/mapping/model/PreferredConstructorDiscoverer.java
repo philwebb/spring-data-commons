@@ -96,7 +96,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.springframework.data.mapping.model.PreferredConstructorDiscoverers#
 			 * discover(org.springframework.data.util.TypeInformation,
@@ -146,7 +146,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.springframework.data.mapping.model.PreferredConstructorDiscoverers#
 			 * discover(org.springframework.data.util.TypeInformation,

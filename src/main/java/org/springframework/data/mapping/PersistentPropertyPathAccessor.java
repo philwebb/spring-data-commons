@@ -34,6 +34,7 @@ public interface PersistentPropertyPathAccessor<T> extends PersistentPropertyAcc
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
+	@Override
 	@Nullable
 	@SuppressWarnings("deprecation")
 	default Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path) {
@@ -61,6 +62,7 @@ public interface PersistentPropertyPathAccessor<T> extends PersistentPropertyAcc
 	 * @param value can be {@literal null}.
 	 * @see AccessOptions#DEFAULT
 	 */
+	@Override
 	void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value);
 
 	/**

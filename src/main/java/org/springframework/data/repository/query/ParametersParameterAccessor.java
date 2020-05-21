@@ -90,6 +90,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 		return this.values;
 	}
 
+	@Override
 	public Pageable getPageable() {
 
 		if (!this.parameters.hasPageableParameter()) {
@@ -101,6 +102,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 		return pageable == null ? Pageable.unpaged() : pageable;
 	}
 
+	@Override
 	public Sort getSort() {
 
 		if (this.parameters.hasSortParameter()) {
@@ -120,6 +122,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	 * Returns the dynamic projection type if available, {@literal null} otherwise.
 	 * @return
 	 */
+	@Override
 	public Optional<Class<?>> getDynamicProjection() {
 
 		return Optional.ofNullable(this.parameters.hasDynamicProjection() //
@@ -131,6 +134,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	 * Returns the dynamic projection type if available, {@literal null} otherwise.
 	 * @return
 	 */
+	@Override
 	@Nullable
 	public Class<?> findDynamicProjection() {
 
@@ -148,10 +152,12 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 		return (T) this.values[index];
 	}
 
+	@Override
 	public Object getBindableValue(int index) {
 		return this.values[this.parameters.getBindableParameter(index).getIndex()];
 	}
 
+	@Override
 	public boolean hasBindableNullValue() {
 
 		for (Parameter parameter : this.parameters.getBindableParameters()) {
@@ -163,6 +169,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 		return false;
 	}
 
+	@Override
 	public BindableParameterIterator iterator() {
 		return new BindableParameterIterator(this);
 	}
@@ -196,14 +203,17 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 		 * Returns the next bindable parameter.
 		 * @return
 		 */
+		@Override
 		public Object next() {
 			return this.accessor.getBindableValue(this.currentIndex++);
 		}
 
+		@Override
 		public boolean hasNext() {
 			return this.bindableParameterCount > this.currentIndex;
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

@@ -77,7 +77,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.repository.query.QueryMethodEvaluationContextProvider#
 	 * getEvaluationContext(org.springframework.data.repository.query.Parameters,
@@ -143,7 +143,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	 */
 	static class DelegatingMethodInterceptor implements MethodInterceptor {
 
-		private static final Map<Method, Method> METHOD_CACHE = new ConcurrentReferenceHashMap<Method, Method>();
+		private static final Map<Method, Method> METHOD_CACHE = new ConcurrentReferenceHashMap<>();
 
 		private final Object target;
 

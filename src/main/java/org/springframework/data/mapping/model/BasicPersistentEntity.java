@@ -150,45 +150,55 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 				.anyMatch(it -> !(isConstructorArgument(it) || it.isTransient())));
 	}
 
+	@Override
 	@Nullable
 	public PreferredConstructor<T, P> getPersistenceConstructor() {
 		return this.constructor;
 	}
 
+	@Override
 	public boolean isConstructorArgument(PersistentProperty<?> property) {
 		return this.constructor != null && this.constructor.isConstructorParameter(property);
 	}
 
+	@Override
 	public boolean isIdProperty(PersistentProperty<?> property) {
 		return this.idProperty != null && this.idProperty.equals(property);
 	}
 
+	@Override
 	public boolean isVersionProperty(PersistentProperty<?> property) {
 		return this.versionProperty != null && this.versionProperty.equals(property);
 	}
 
+	@Override
 	public String getName() {
 		return getType().getName();
 	}
 
+	@Override
 	@Nullable
 	public P getIdProperty() {
 		return this.idProperty;
 	}
 
+	@Override
 	@Nullable
 	public P getVersionProperty() {
 		return this.versionProperty;
 	}
 
+	@Override
 	public boolean hasIdProperty() {
 		return this.idProperty != null;
 	}
 
+	@Override
 	public boolean hasVersionProperty() {
 		return this.versionProperty != null;
 	}
 
+	@Override
 	public void addPersistentProperty(P property) {
 
 		Assert.notNull(property, "Property must not be null!");
@@ -259,6 +269,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		return property;
 	}
 
+	@Override
 	public void addAssociation(Association<P> association) {
 
 		Assert.notNull(association, "Association must not be null!");
@@ -294,18 +305,22 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 				.filter(it -> it.isAnnotationPresent(annotationType)).collect(Collectors.toList());
 	}
 
+	@Override
 	public Class<T> getType() {
 		return this.information.getType();
 	}
 
+	@Override
 	public Alias getTypeAlias() {
 		return this.typeAlias.get();
 	}
 
+	@Override
 	public TypeInformation<T> getTypeInformation() {
 		return this.information;
 	}
 
+	@Override
 	public void doWithProperties(PropertyHandler<P> handler) {
 
 		Assert.notNull(handler, "PropertyHandler must not be null!");
@@ -325,6 +340,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		}
 	}
 
+	@Override
 	public void doWithAssociations(AssociationHandler<P> handler) {
 
 		Assert.notNull(handler, "Handler must not be null!");
@@ -334,6 +350,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		}
 	}
 
+	@Override
 	public void doWithAssociations(SimpleAssociationHandler handler) {
 
 		Assert.notNull(handler, "Handler must not be null!");
@@ -361,6 +378,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 				it -> Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(getType(), it)));
 	}
 
+	@Override
 	public void verify() {
 
 		if (this.comparator != null) {
@@ -518,9 +536,10 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public int compare(@Nullable Association<P> left, @Nullable Association<P> right) {
 
 			if (left == null) {

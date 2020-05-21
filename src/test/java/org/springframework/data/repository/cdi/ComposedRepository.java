@@ -27,6 +27,7 @@ interface ComposedRepository extends Repository<Object, Serializable>, FragmentI
 	// duplicate method shadowed by AnotherFragmentInterfaceImpl. The legacy custom
 	// implementation comes last, after all
 	// other fragments.
+	@Override
 	int getShadowed();
 
 }

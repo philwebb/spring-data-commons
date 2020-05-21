@@ -88,6 +88,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 		this.transactionManagers = asList(transactionManagers);
 	}
 
+	@Override
 	public MultiTransactionStatus getTransaction(@Nullable TransactionDefinition definition)
 			throws TransactionException {
 
@@ -134,6 +135,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 		return mts;
 	}
 
+	@Override
 	public void commit(TransactionStatus status) throws TransactionException {
 
 		MultiTransactionStatus multiTransactionStatus = (MultiTransactionStatus) status;
@@ -183,6 +185,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 		}
 	}
 
+	@Override
 	public void rollback(TransactionStatus status) throws TransactionException {
 
 		Exception rollbackException = null;

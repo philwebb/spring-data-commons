@@ -101,10 +101,12 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 		this.resources = Arrays.asList(resources);
 	}
 
+	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
 		this.publisher = publisher;
 	}
 
+	@Override
 	public void populate(Repositories repositories) {
 
 		Assert.notNull(repositories, "Repositories must not be null!");

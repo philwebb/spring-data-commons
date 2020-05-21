@@ -56,10 +56,11 @@ public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.beans.factory.xml.BeanDefinitionParser#parse(org.w3c.dom.
 	 * Element, org.springframework.beans.factory.xml.ParserContext)
 	 */
+	@Override
 	@Nonnull
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
 

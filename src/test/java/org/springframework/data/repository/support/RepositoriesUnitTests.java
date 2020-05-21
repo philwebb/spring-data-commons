@@ -221,19 +221,23 @@ class RepositoriesUnitTests {
 			this.mappingContext = new SampleMappingContext();
 		}
 
+		@Override
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public EntityInformation<T, S> getEntityInformation() {
 			return new DummyEntityInformation(this.repositoryMetadata.getDomainType());
 		}
 
+		@Override
 		public RepositoryInformation getRepositoryInformation() {
 			return new DummyRepositoryInformation(this.repositoryMetadata);
 		}
 
+		@Override
 		public PersistentEntity<?, ?> getPersistentEntity() {
 			return this.mappingContext.getRequiredPersistentEntity(this.repositoryMetadata.getDomainType());
 		}
 
+		@Override
 		public List<QueryMethod> getQueryMethods() {
 			return Collections.emptyList();
 		}

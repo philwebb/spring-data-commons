@@ -83,7 +83,7 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 			AnnotationAuditingMetadata metadata = AnnotationAuditingMetadata.getMetadata(it.getClass());
 
 			if (metadata.isAuditable()) {
-				return new ReflectionAuditingBeanWrapper<T>(this.conversionService, it);
+				return new ReflectionAuditingBeanWrapper<>(this.conversionService, it);
 			}
 
 			return null;

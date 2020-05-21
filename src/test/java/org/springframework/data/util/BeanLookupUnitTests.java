@@ -35,7 +35,7 @@ import static org.mockito.Mockito.doReturn;
 
 /**
  * Unit tests for {@link BeanLookup}.
- * 
+ *
  * @author Oliver Gierke
  */
 @ExtendWith(MockitoExtension.class)

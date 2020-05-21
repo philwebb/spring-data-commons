@@ -144,7 +144,7 @@ class EntityCallbackDiscoverer {
 		// Quick check for existing entry on ConcurrentHashMap...
 		CallbackRetriever retriever = this.retrieverCache.get(cacheKey);
 		if (retriever != null) {
-			return (Collection<EntityCallback<S>>) (Collection) retriever.getEntityCallbacks();
+			return (Collection) retriever.getEntityCallbacks();
 		}
 
 		if (this.beanClassLoader == null || (ClassUtils.isCacheSafe(entity.getClass(), this.beanClassLoader)
@@ -154,19 +154,18 @@ class EntityCallbackDiscoverer {
 			synchronized (this.retrievalMutex) {
 				retriever = this.retrieverCache.get(cacheKey);
 				if (retriever != null) {
-					return (Collection<EntityCallback<S>>) (Collection) retriever.getEntityCallbacks();
+					return (Collection) retriever.getEntityCallbacks();
 				}
 				retriever = new CallbackRetriever(true);
 				Collection<EntityCallback<?>> callbacks = retrieveEntityCallbacks(ResolvableType.forClass(sourceType),
 						callbackType, retriever);
 				this.retrieverCache.put(cacheKey, retriever);
-				return (Collection<EntityCallback<S>>) (Collection) callbacks;
+				return (Collection) callbacks;
 			}
 		}
 		else {
 			// No CallbackRetriever caching -> no synchronization necessary
-			return (Collection<EntityCallback<S>>) (Collection) retrieveEntityCallbacks(callbackType, callbackType,
-					null);
+			return (Collection) retrieveEntityCallbacks(callbackType, callbackType, null);
 		}
 	}
 

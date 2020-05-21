@@ -66,7 +66,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.format.Printer#print(java.lang.Object, java.util.Locale)
 	 */
 	@Override
@@ -77,7 +77,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.format.Parser#parse(java.lang.String, java.util.Locale)
 	 */
 	@Override

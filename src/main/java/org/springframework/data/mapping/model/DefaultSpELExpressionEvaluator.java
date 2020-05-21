@@ -44,6 +44,7 @@ public class DefaultSpELExpressionEvaluator implements SpELExpressionEvaluator {
 		this.factory = factory;
 	}
 
+	@Override
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T> T evaluate(String expression) {

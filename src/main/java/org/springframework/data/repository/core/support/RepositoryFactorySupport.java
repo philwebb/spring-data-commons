@@ -559,7 +559,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.springframework.data.repository.core.support.QueryCreationListener#
 		 * onCreation(org.springframework.data.repository.query.RepositoryQuery)
 		 */

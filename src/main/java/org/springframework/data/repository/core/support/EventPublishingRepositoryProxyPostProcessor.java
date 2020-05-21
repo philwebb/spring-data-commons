@@ -60,7 +60,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.repository.core.support.RepositoryProxyPostProcessor#
 	 * postProcess(org.springframework.aop.framework.ProxyFactory,
 	 * org.springframework.data.repository.core.RepositoryInformation)

@@ -165,6 +165,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 		return this.wither;
 	}
 
+	@Override
 	@Nullable
 	public Field getField() {
 		return this.field;
@@ -248,6 +249,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 		return this.information.getRequiredActualType().getType();
 	}
 
+	@Override
 	public boolean usePropertyAccess() {
 		return this.usePropertyAccess.get();
 	}

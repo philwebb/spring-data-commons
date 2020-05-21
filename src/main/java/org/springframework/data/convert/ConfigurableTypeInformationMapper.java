@@ -68,6 +68,7 @@ public class ConfigurableTypeInformationMapper implements TypeInformationMapper 
 		}
 	}
 
+	@Override
 	public Alias createAliasFor(TypeInformation<?> type) {
 		return this.typeToAlias.getOrDefault(type, Alias.NONE);
 	}

@@ -33,6 +33,7 @@ public interface TargetAware extends org.springframework.aop.TargetClassAware, R
 	 * Returns the type of the proxy target.
 	 * @return can be {@literal null}.
 	 */
+	@Override
 	@Nullable
 	@JsonIgnore
 	Class<?> getTargetClass();

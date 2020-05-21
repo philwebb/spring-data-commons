@@ -40,10 +40,12 @@ class TypedExample<T> implements Example<T> {
 		this.matcher = matcher;
 	}
 
+	@Override
 	public T getProbe() {
 		return this.probe;
 	}
 
+	@Override
 	public ExampleMatcher getMatcher() {
 		return this.matcher;
 	}

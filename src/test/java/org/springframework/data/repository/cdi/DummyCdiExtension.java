@@ -69,6 +69,7 @@ public class DummyCdiExtension extends CdiRepositoryExtensionSupport {
 			super(qualifiers, repositoryType, beanManager, detector);
 		}
 
+		@Override
 		public Class<? extends Annotation> getScope() {
 			return MyScope.class;
 		}

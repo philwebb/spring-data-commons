@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 /**
  * Sample entity using annotation based auditing.
- * 
+ *
  * @author Oliver Gierke
  * @since 1.5
  */

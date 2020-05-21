@@ -26,7 +26,7 @@ import org.springframework.util.ClassUtils;
 /**
  * An {@link IsNewStrategy} to use a {@link PersistentEntity}'s version property followed
  * by it
- * 
+ *
  * @author Oliver Gierke https://www.youtube.com/watch?v=syGlBNVGEqU
  */
 class PersistentEntityIsNewStrategy implements IsNewStrategy {

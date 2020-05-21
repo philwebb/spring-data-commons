@@ -187,6 +187,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		}
 	}
 
+	@Override
 	@Nullable
 	public E getPersistentEntity(Class<?> type) {
 		return getPersistentEntity(ClassTypeInformation.from(type));
@@ -259,7 +260,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.mapping.context.MappingContext#getPersistentPropertyPath(
 	 * java.lang.Class, java.lang.String)
@@ -271,7 +272,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.mapping.context.MappingContext#getPersistentPropertyPath(
 	 * java.lang.String, java.lang.Class)
@@ -283,7 +284,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.mapping.context.MappingContext#findPersistentPropertyPath(
 	 * java.lang.Class, java.util.function.Predicate)
@@ -492,6 +493,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			this.remainingDescriptors = remainingDescriptors;
 		}
 
+		@Override
 		public void doWith(Field field) {
 
 			String fieldName = field.getName();
@@ -572,6 +574,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			UNMAPPED_PROPERTIES = Streamable.of(matches);
 		}
 
+		@Override
 		public boolean matches(Field field) {
 
 			if (Modifier.isStatic(field.getModifiers())) {

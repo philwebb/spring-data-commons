@@ -189,11 +189,13 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 		this.publisher = publisher;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public EntityInformation<S, ID> getEntityInformation() {
 		return (EntityInformation<S, ID>) this.factory.getEntityInformation(this.repositoryMetadata.getDomainType());
 	}
 
+	@Override
 	public RepositoryInformation getRepositoryInformation() {
 
 		RepositoryFragments fragments = this.customImplementation.map(RepositoryFragments::just)//
@@ -202,30 +204,36 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 		return this.factory.getRepositoryInformation(this.repositoryMetadata, fragments);
 	}
 
+	@Override
 	public PersistentEntity<?, ?> getPersistentEntity() {
 
 		return this.mappingContext.orElseThrow(() -> new IllegalStateException("No MappingContext available!"))
 				.getRequiredPersistentEntity(this.repositoryMetadata.getDomainType());
 	}
 
+	@Override
 	public List<QueryMethod> getQueryMethods() {
 		return this.factory.getQueryMethods();
 	}
 
+	@Override
 	@Nonnull
 	public T getObject() {
 		return this.repository.get();
 	}
 
+	@Override
 	@Nonnull
 	public Class<? extends T> getObjectType() {
 		return this.repositoryInterface;
 	}
 
+	@Override
 	public boolean isSingleton() {
 		return true;
 	}
 
+	@Override
 	public void afterPropertiesSet() {
 
 		this.factory = createRepositoryFactory();

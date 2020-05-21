@@ -85,28 +85,34 @@ class MultiTransactionStatus implements TransactionStatus {
 		transactionManager.rollback(getTransactionStatus(transactionManager));
 	}
 
+	@Override
 	public boolean isRollbackOnly() {
 		return getMainTransactionStatus().isRollbackOnly();
 	}
 
+	@Override
 	public boolean isCompleted() {
 		return getMainTransactionStatus().isCompleted();
 	}
 
+	@Override
 	public boolean isNewTransaction() {
 		return getMainTransactionStatus().isNewTransaction();
 	}
 
+	@Override
 	public boolean hasSavepoint() {
 		return getMainTransactionStatus().hasSavepoint();
 	}
 
+	@Override
 	public void setRollbackOnly() {
 		for (TransactionStatus ts : this.transactionStatuses.values()) {
 			ts.setRollbackOnly();
 		}
 	}
 
+	@Override
 	public Object createSavepoint() throws TransactionException {
 
 		SavePoints savePoints = new SavePoints();
@@ -117,15 +123,18 @@ class MultiTransactionStatus implements TransactionStatus {
 		return savePoints;
 	}
 
+	@Override
 	public void rollbackToSavepoint(Object savepoint) throws TransactionException {
 		SavePoints savePoints = (SavePoints) savepoint;
 		savePoints.rollback();
 	}
 
+	@Override
 	public void releaseSavepoint(Object savepoint) throws TransactionException {
 		((SavePoints) savepoint).release();
 	}
 
+	@Override
 	public void flush() {
 		for (TransactionStatus transactionStatus : this.transactionStatuses.values()) {
 			transactionStatus.flush();

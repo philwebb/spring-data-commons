@@ -35,50 +35,62 @@ public final class DummyRepositoryInformation implements RepositoryInformation {
 		this.metadata = metadata;
 	}
 
+	@Override
 	public Class<?> getIdType() {
 		return this.metadata.getIdType();
 	}
 
+	@Override
 	public Class<?> getDomainType() {
 		return this.metadata.getDomainType();
 	}
 
+	@Override
 	public Class<?> getRepositoryInterface() {
 		return this.metadata.getRepositoryInterface();
 	}
 
+	@Override
 	public Class<?> getReturnedDomainClass(Method method) {
 		return getDomainType();
 	}
 
+	@Override
 	public Class<?> getRepositoryBaseClass() {
 		return getRepositoryInterface();
 	}
 
+	@Override
 	public boolean hasCustomMethod() {
 		return false;
 	}
 
+	@Override
 	public boolean isCustomMethod(Method method) {
 		return false;
 	}
 
+	@Override
 	public boolean isQueryMethod(Method method) {
 		return false;
 	}
 
+	@Override
 	public Streamable<Method> getQueryMethods() {
 		return Streamable.empty();
 	}
 
+	@Override
 	public Method getTargetClassMethod(Method method) {
 		return method;
 	}
 
+	@Override
 	public boolean isBaseClassMethod(Method method) {
 		return true;
 	}
 
+	@Override
 	public CrudMethods getCrudMethods() {
 		return new DefaultCrudMethods(this);
 	}

@@ -41,7 +41,7 @@ public class UnmarshallerRepositoryPopulatorFactoryBean extends AbstractReposito
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.repository.init.AbstractRepositoryPopulatorFactoryBean#
 	 * getResourceReader()

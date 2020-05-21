@@ -157,6 +157,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 		return StringUtils.collectionToDelimitedString(qualifierNames, ":") + ":" + repositoryType.getName();
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public Set<Type> getTypes() {
 
@@ -201,6 +202,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 		create(this.beanManager.createCreationalContext(this));
 	}
 
+	@Override
 	public final T create(@SuppressWarnings("null") CreationalContext<T> creationalContext) {
 
 		T repoInstance = this.repoInstance;
@@ -219,10 +221,11 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.enterprise.context.spi.Contextual#destroy(java.lang.Object,
 	 * javax.enterprise.context.spi.CreationalContext)
 	 */
+	@Override
 	public void destroy(@SuppressWarnings("null") T instance,
 			@SuppressWarnings("null") CreationalContext<T> creationalContext) {
 
@@ -234,14 +237,17 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 		creationalContext.release();
 	}
 
+	@Override
 	public Set<Annotation> getQualifiers() {
 		return this.qualifiers;
 	}
 
+	@Override
 	public String getName() {
 		return this.repositoryType.getName();
 	}
 
+	@Override
 	public Set<Class<? extends Annotation>> getStereotypes() {
 
 		return Arrays.stream(this.repositoryType.getAnnotations())//
@@ -250,26 +256,32 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 				.collect(Collectors.toSet());
 	}
 
+	@Override
 	public Class<?> getBeanClass() {
 		return this.repositoryType;
 	}
 
+	@Override
 	public boolean isAlternative() {
 		return this.repositoryType.isAnnotationPresent(Alternative.class);
 	}
 
+	@Override
 	public boolean isNullable() {
 		return false;
 	}
 
+	@Override
 	public Set<InjectionPoint> getInjectionPoints() {
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Class<? extends Annotation> getScope() {
 		return ApplicationScoped.class;
 	}
 
+	@Override
 	public String getId() {
 		return this.passivationId;
 	}

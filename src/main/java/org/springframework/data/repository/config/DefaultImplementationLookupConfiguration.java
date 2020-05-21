@@ -100,7 +100,7 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.data.repository.config.ImplementationLookupConfiguration#
 	 * matches(org.springframework.beans.factory.config.BeanDefinition,
 	 * org.springframework.core.type.classreading.MetadataReaderFactory)

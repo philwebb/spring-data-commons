@@ -56,7 +56,7 @@ public interface RepositoryFragment<T> {
 	 * @return
 	 */
 	static <T> RepositoryFragment<T> implemented(T implementation) {
-		return new ImplementedRepositoryFragment<T>(Optional.empty(), implementation);
+		return new ImplementedRepositoryFragment<>(Optional.empty(), implementation);
 	}
 
 	/**
@@ -199,6 +199,7 @@ public interface RepositoryFragment<T> {
 			this.optionalImplementation = Optional.of(implementation);
 		}
 
+		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public Class<?> getSignatureContributor() {
 			return this.interfaceClass.orElse((Class) this.implementation.getClass());

@@ -74,7 +74,7 @@ public abstract class RepositoryBeanDefinitionRegistrarSupport
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.context.annotation.ImportBeanDefinitionRegistrar#
 	 * registerBeanDefinitions(org.springframework.core.type.AnnotationMetadata,
 	 * org.springframework.beans.factory.support.BeanDefinitionRegistry,

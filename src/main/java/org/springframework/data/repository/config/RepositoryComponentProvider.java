@@ -173,7 +173,7 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.type.filter.AbstractTypeHierarchyTraversingFilter#
 		 * match(org.springframework.core.type.classreading.MetadataReader,
@@ -211,12 +211,13 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.core.type.filter.TypeFilter#match(org.springframework.core.
 		 * type.classreading.MetadataReader,
 		 * org.springframework.core.type.classreading.MetadataReaderFactory)
 		 */
+		@Override
 		public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory)
 				throws IOException {
 

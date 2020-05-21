@@ -100,6 +100,7 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 		return new Revisions<>(this.revisions, !this.latestLast);
 	}
 
+	@Override
 	public Iterator<Revision<N, T>> iterator() {
 		return this.revisions.iterator();
 	}

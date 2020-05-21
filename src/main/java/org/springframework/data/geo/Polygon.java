@@ -88,6 +88,7 @@ public class Polygon implements Iterable<Point>, Shape {
 		return this.points;
 	}
 
+	@Override
 	public Iterator<Point> iterator() {
 		return this.points.iterator();
 	}

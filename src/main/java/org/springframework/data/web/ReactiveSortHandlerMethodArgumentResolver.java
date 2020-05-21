@@ -44,7 +44,7 @@ public class ReactiveSortHandlerMethodArgumentResolver extends SortHandlerMethod
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentResolver#
 	 * resolveArgumentValue(org.springframework.core.MethodParameter,

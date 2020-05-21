@@ -83,7 +83,7 @@ class VavrCollections {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.springframework.core.convert.converter.ConditionalConverter#matches(org
 			 * .springframework.core.convert.TypeDescriptor,
@@ -108,7 +108,7 @@ class VavrCollections {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see
 			 * org.springframework.core.convert.converter.GenericConverter#convert(java.
 			 * lang.Object, org.springframework.core.convert.TypeDescriptor,

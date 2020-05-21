@@ -92,6 +92,7 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 		return Collections.unmodifiableList(this.results);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Iterator<GeoResult<T>> iterator() {
 		return (Iterator<GeoResult<T>>) this.results.iterator();

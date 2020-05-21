@@ -56,7 +56,7 @@ public class PartTree implements Streamable<OrPart> {
 	 * @see <a
 	 * href="https://www.regular-expressions.info/unicode.html">https://www.regular-
 	 * expressions.info/unicode.html</a>
-	 * 
+	 *
 	 * @see <a
 	 * href="https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html#ubc">
 	 * Pattern</a>
@@ -110,6 +110,7 @@ public class PartTree implements Streamable<OrPart> {
 		}
 	}
 
+	@Override
 	public Iterator<OrPart> iterator() {
 		return this.predicate.iterator();
 	}
@@ -249,6 +250,7 @@ public class PartTree implements Streamable<OrPart> {
 					.collect(Collectors.toList());
 		}
 
+		@Override
 		public Iterator<Part> iterator() {
 			return this.children.iterator();
 		}

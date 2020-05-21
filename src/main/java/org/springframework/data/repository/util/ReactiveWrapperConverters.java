@@ -248,6 +248,7 @@ public abstract class ReactiveWrapperConverters {
 			return Flux.class;
 		}
 
+		@Override
 		public Flux<?> map(Object wrapper, Function<Object, Object> function) {
 			return ((Flux<?>) wrapper).map(function::apply);
 		}

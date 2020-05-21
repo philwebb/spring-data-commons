@@ -22,7 +22,7 @@ import org.springframework.data.util.Streamable;
 
 /**
  * A wrapper for a collection of {@link PersistentPropertyPath}s.
- * 
+ *
  * @author Oliver Gierke
  * @since 2.1
  */

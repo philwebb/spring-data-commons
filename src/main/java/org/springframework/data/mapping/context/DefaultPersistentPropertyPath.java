@@ -93,16 +93,19 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 		return new DefaultPersistentPropertyPath<>(properties);
 	}
 
+	@Override
 	@Nullable
 	public String toDotPath() {
 		return toPath(DEFAULT_DELIMITER, DEFAULT_CONVERTER);
 	}
 
+	@Override
 	@Nullable
 	public String toDotPath(Converter<? super P, String> converter) {
 		return toPath(DEFAULT_DELIMITER, converter);
 	}
 
+	@Override
 	@Nullable
 	public String toPath(String delimiter) {
 		return toPath(delimiter, DEFAULT_CONVERTER);
@@ -110,11 +113,12 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.mapping.context.PersistentPropertyPath#toPath(java.lang.
 	 * String, org.springframework.core.convert.converter.Converter)
 	 */
+	@Override
 	@Nullable
 	public String toPath(String delimiter, Converter<? super P, String> converter) {
 
@@ -129,16 +133,19 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 		return result.isEmpty() ? null : result;
 	}
 
+	@Override
 	@Nullable
 	public P getLeafProperty() {
 		return this.properties.isEmpty() ? null : this.properties.get(this.properties.size() - 1);
 	}
 
+	@Override
 	@Nullable
 	public P getBaseProperty() {
 		return this.properties.isEmpty() ? null : this.properties.get(0);
 	}
 
+	@Override
 	public boolean isBasePathOf(PersistentPropertyPath<P> path) {
 
 		Assert.notNull(path, "PersistentPropertyPath must not be null!");
@@ -161,6 +168,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 		return true;
 	}
 
+	@Override
 	public PersistentPropertyPath<P> getExtensionForBaseOf(PersistentPropertyPath<P> base) {
 
 		if (!base.isBasePathOf(this)) {
@@ -181,6 +189,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 		return new DefaultPersistentPropertyPath<>(result);
 	}
 
+	@Override
 	public PersistentPropertyPath<P> getParentPath() {
 
 		int size = this.properties.size();
@@ -188,10 +197,12 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 		return size == 0 ? this : new DefaultPersistentPropertyPath<>(this.properties.subList(0, size - 1));
 	}
 
+	@Override
 	public int getLength() {
 		return this.properties.size();
 	}
 
+	@Override
 	public Iterator<P> iterator() {
 		return this.properties.iterator();
 	}

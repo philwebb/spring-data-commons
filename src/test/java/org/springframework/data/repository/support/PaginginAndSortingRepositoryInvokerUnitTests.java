@@ -106,12 +106,14 @@ class PaginginAndSortingRepositoryInvokerUnitTests {
 
 	interface RepositoryWithRedeclaredFindAllWithPageable extends PagingAndSortingRepository<Object, Long> {
 
+		@Override
 		Page<Object> findAll(Pageable pageable);
 
 	}
 
 	interface RepositoryWithRedeclaredFindAllWithSort extends PagingAndSortingRepository<Object, Long> {
 
+		@Override
 		Page<Object> findAll(Sort sort);
 
 	}
