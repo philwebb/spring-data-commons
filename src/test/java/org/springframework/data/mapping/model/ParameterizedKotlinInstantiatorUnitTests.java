@@ -66,7 +66,7 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 	}
 
 	@Parameters(name = "{5}")
-	public static List<Object[]> parameters() {
+	static List<Object[]> parameters() {
 		SampleMappingContext context = new SampleMappingContext();
 		KotlinClassGeneratingEntityInstantiator generatingInstantiator = new KotlinClassGeneratingEntityInstantiator();
 		ReflectionEntityInstantiator reflectionInstantiator = ReflectionEntityInstantiator.INSTANCE;
@@ -90,7 +90,7 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 	}
 
 	@Test // DATACMNS-1402
-	public void shouldCreateInstanceWithSinglePropertySet() {
+	void shouldCreateInstanceWithSinglePropertySet() {
 		Object instance = this.entityInstantiator.createInstance(this.entity, new SingleParameterValueProvider());
 		for (int i = 0; i < this.propertyCount; i++) {
 			Object value = ReflectionTestUtils.getField(instance, Integer.toString(i));
@@ -104,7 +104,7 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 	}
 
 	@Test // DATACMNS-1402
-	public void shouldCreateInstanceWithAllExceptSinglePropertySet() {
+	void shouldCreateInstanceWithAllExceptSinglePropertySet() {
 		Object instance = this.entityInstantiator.createInstance(this.entity, new AllButParameterValueProvider());
 		for (int i = 0; i < this.propertyCount; i++) {
 			Object value = ReflectionTestUtils.getField(instance, Integer.toString(i));

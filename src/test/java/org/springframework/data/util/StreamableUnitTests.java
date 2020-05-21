@@ -32,29 +32,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class StreamableUnitTests {
 
 	@Test // DATACMNS-1432
-	public void collectsToCollections() {
+	void collectsToCollections() {
 		Streamable<Integer> streamable = Streamable.of(() -> Stream.of(1, 2, 1));
 		assertThat(streamable.toList()).containsExactly(1, 2, 1);
 		assertThat(streamable.toSet()).containsExactlyInAnyOrder(1, 2);
 	}
 
 	@Test // DATACMNS-1433
-	public void concatenatesIterable() {
+	void concatenatesIterable() {
 		assertThat(Streamable.of(1, 2).and(Arrays.asList(3, 4))).containsExactly(1, 2, 3, 4);
 	}
 
 	@Test // DATACMNS-1433
-	public void concatenatesVarargs() {
+	void concatenatesVarargs() {
 		assertThat(Streamable.of(1, 2).and(3, 4)).containsExactly(1, 2, 3, 4);
 	}
 
 	@Test // DATACMNS-1433
-	public void concatenatesStreamable() {
+	void concatenatesStreamable() {
 		assertThat(Streamable.of(1, 2).and(Streamable.of(3, 4))).containsExactly(1, 2, 3, 4);
 	}
 
 	@Test // DATACMNS-1447
-	public void usesStreamableCollectors() {
+	void usesStreamableCollectors() {
 		assertThat(Streamable.of(1, 2).stream().collect(Streamable.toStreamable())).containsExactly(1, 2);
 		assertThat(Streamable.of(1, 2, 2).stream().collect(Streamable.toStreamable(Collectors.toSet())))
 				.containsExactlyInAnyOrder(1, 2);

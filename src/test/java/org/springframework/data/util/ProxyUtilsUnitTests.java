@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ProxyUtilsUnitTests {
 
 	@Test // DATACMNS-1324
-	public void detectsStandardProxy() {
+	void detectsStandardProxy() {
 		ProxyFactory factory = new ProxyFactory();
 		factory.setTarget(new Sample());
 		Object proxy = factory.getProxy();
@@ -42,7 +42,7 @@ public class ProxyUtilsUnitTests {
 	}
 
 	@Test // DATACMNS-1324
-	public void usesCustomProxyDetector() {
+	void usesCustomProxyDetector() {
 		ProxyFactory factory = new ProxyFactory();
 		factory.setTarget(new AnotherSample());
 		Object proxy = factory.getProxy();
@@ -50,7 +50,7 @@ public class ProxyUtilsUnitTests {
 	}
 
 	@Test // DATACMNS-1341
-	public void detectsTargetTypeOfJdkProxy() {
+	void detectsTargetTypeOfJdkProxy() {
 		ProxyFactory factory = new ProxyFactory();
 		factory.setTarget(new SomeTypeWithInterface());
 		factory.setInterfaces(Serializable.class);

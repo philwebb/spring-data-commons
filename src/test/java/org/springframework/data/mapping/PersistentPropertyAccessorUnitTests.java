@@ -63,14 +63,14 @@ public class PersistentPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-1275
-	public void looksUpValueForPropertyPath() {
+	void looksUpValueForPropertyPath() {
 		Order order = new Order(new Customer("Dave"));
 		setUp(order, "customer.firstname");
 		assertThat(this.accessor.getProperty(this.path)).isEqualTo("Dave");
 	}
 
 	@Test // DATACMNS-1275
-	public void setsPropertyOnNestedPath() {
+	void setsPropertyOnNestedPath() {
 		Customer customer = new Customer("Dave");
 		Order order = new Order(customer);
 		setUp(order, "customer.firstname");
@@ -79,26 +79,26 @@ public class PersistentPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-1275
-	public void rejectsEmptyPathToSetValues() {
+	void rejectsEmptyPathToSetValues() {
 		setUp(new Order(null), "");
 		assertThatIllegalArgumentException().isThrownBy(() -> this.accessor.setProperty(this.path, "Oliver August"));
 	}
 
 	@Test // DATACMNS-1275
-	public void rejectsIntermediateNullValuesForRead() {
+	void rejectsIntermediateNullValuesForRead() {
 		setUp(new Order(null), "customer.firstname");
 		assertThatExceptionOfType(MappingException.class).isThrownBy(() -> this.accessor.getProperty(this.path));
 	}
 
 	@Test // DATACMNS-1275
-	public void rejectsIntermediateNullValuesForWrite() {
+	void rejectsIntermediateNullValuesForWrite() {
 		setUp(new Order(null), "customer.firstname");
 		assertThatExceptionOfType(MappingException.class)
 				.isThrownBy(() -> this.accessor.setProperty(this.path, "Oliver August"));
 	}
 
 	@Test // DATACMNS-1322
-	public void correctlyReplacesObjectInstancesWhenSettingPropertyPathOnImmutableObjects() {
+	void correctlyReplacesObjectInstancesWhenSettingPropertyPathOnImmutableObjects() {
 		PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getPersistentEntity(Outer.class);
 		PersistentPropertyPath<SamplePersistentProperty> path = this.context
 				.getPersistentPropertyPath("immutable.value", entity.getType());
@@ -114,7 +114,7 @@ public class PersistentPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-1377
-	public void shouldConvertToPropertyPathLeafType() {
+	void shouldConvertToPropertyPathLeafType() {
 		Order order = new Order(new Customer("1"));
 		PersistentPropertyAccessor<Order> accessor = this.context.getPersistentEntity(Order.class)
 				.getPropertyAccessor(order);
@@ -127,7 +127,7 @@ public class PersistentPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-1555
-	public void usesTraversalContextToTraverseCollections() {
+	void usesTraversalContextToTraverseCollections() {
 		WithContext withContext = WithContext.builder().collection(Collections.singleton("value"))
 				.list(Collections.singletonList("value")).set(Collections.singleton("value"))
 				.map(Collections.singletonMap("key", "value")).string(" value ").build();
@@ -154,7 +154,7 @@ public class PersistentPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-1555
-	public void traversalContextRejectsInvalidPropertyHandler() {
+	void traversalContextRejectsInvalidPropertyHandler() {
 		PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getPersistentEntity(WithContext.class);
 		PersistentProperty<?> property = entity.getRequiredPersistentProperty("collection");
 		TraversalContext traversal = new TraversalContext();

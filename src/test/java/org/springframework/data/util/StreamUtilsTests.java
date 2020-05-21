@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class StreamUtilsTests {
 
 	@Test // DATACMNS-650
-	public void shouldConvertAnIteratorToAStream() {
+	void shouldConvertAnIteratorToAStream() {
 		List<String> input = Arrays.asList("a", "b", "c");
 		Stream<String> stream = StreamUtils.createStreamFromIterator(input.iterator());
 		List<String> output = stream.collect(Collectors.toList());

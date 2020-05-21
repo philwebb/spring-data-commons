@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PreferredConstructorDiscovererUnitTests<P extends PersistentProperty<P>> {
 
 	@Test // DATACMNS-1126
-	public void findsNoArgConstructorForClassWithoutExplicitConstructor() {
+	void findsNoArgConstructorForClassWithoutExplicitConstructor() {
 		assertThat(PreferredConstructorDiscoverer.discover(EntityWithoutConstructor.class)).satisfies(constructor -> {
 			assertThat(constructor).isNotNull();
 			assertThat(constructor.isNoArgConstructor()).isTrue();
@@ -48,7 +48,7 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 	}
 
 	@Test // DATACMNS-1126
-	public void findsNoArgConstructorForClassWithMultipleConstructorsAndNoArgOne() {
+	void findsNoArgConstructorForClassWithMultipleConstructorsAndNoArgOne() {
 		assertThat(PreferredConstructorDiscoverer.discover(ClassWithEmptyConstructor.class)).satisfies(constructor -> {
 			assertThat(constructor).isNotNull();
 			assertThat(constructor.isNoArgConstructor()).isTrue();
@@ -57,14 +57,14 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 	}
 
 	@Test // DATACMNS-1126
-	public void doesNotThrowExceptionForMultipleConstructorsAndNoNoArgConstructorWithoutAnnotation() {
+	void doesNotThrowExceptionForMultipleConstructorsAndNoNoArgConstructorWithoutAnnotation() {
 		assertThat(PreferredConstructorDiscoverer.discover(ClassWithMultipleConstructorsWithoutEmptyOne.class))
 				.isNull();
 	}
 
 	@Test // DATACMNS-1126
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void usesConstructorWithAnnotationOverEveryOther() {
+	void usesConstructorWithAnnotationOverEveryOther() {
 		assertThat(PreferredConstructorDiscoverer.discover(ClassWithMultipleConstructorsAndAnnotation.class))
 				.satisfies(constructor -> {
 					assertThat(constructor).isNotNull();
@@ -79,7 +79,7 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 	}
 
 	@Test // DATACMNS-134, DATACMNS-1126
-	public void discoversInnerClassConstructorCorrectly() {
+	void discoversInnerClassConstructorCorrectly() {
 		PersistentEntity<Inner, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Inner.class));
 		assertThat(PreferredConstructorDiscoverer.discover(entity)).satisfies(constructor -> {
 			Parameter<?, P> parameter = constructor.getParameters().iterator().next();
@@ -88,7 +88,7 @@ public class PreferredConstructorDiscovererUnitTests<P extends PersistentPropert
 	}
 
 	@Test // DATACMNS-1082, DATACMNS-1126
-	public void skipsSyntheticConstructor() {
+	void skipsSyntheticConstructor() {
 		PersistentEntity<SyntheticConstructor, P> entity = new BasicPersistentEntity<>(
 				ClassTypeInformation.from(SyntheticConstructor.class));
 		assertThat(PreferredConstructorDiscoverer.discover(entity)).satisfies(constructor -> {

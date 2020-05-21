@@ -41,13 +41,13 @@ public class ClassGeneratingPropertyAccessorFactoryEntityTypeTests {
 	SampleMappingContext mappingContext = new SampleMappingContext();
 
 	@Test // DATACMNS-853
-	public void getIdentifierOfInterfaceBasedEntity() {
+	void getIdentifierOfInterfaceBasedEntity() {
 		Algorithm quickSort = new QuickSort();
 		assertThat(getEntityInformation(Algorithm.class).getId(quickSort)).isEqualTo(quickSort.getName());
 	}
 
 	@Test // DATACMNS-853
-	public void getIdentifierOfClassBasedEntity() {
+	void getIdentifierOfClassBasedEntity() {
 		Person jonDoe = new Person("JonDoe");
 		assertThat(getEntityInformation(Person.class).getId(jonDoe)).isEqualTo(jonDoe.name);
 	}

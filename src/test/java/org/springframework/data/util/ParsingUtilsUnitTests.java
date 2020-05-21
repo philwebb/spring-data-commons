@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ParsingUtilsUnitTests {
 
 	@Test // DATCMNS-486
-	public void splitsCamelCaseWithAllSortsOfCharacters() {
+	void splitsCamelCaseWithAllSortsOfCharacters() {
 		String sample = "prefix" + "이름" + "Anders" + "Øre" + "År" + "Property1" + "생일" + "Foo_bar" + "FOO_BAR"
 				+ "Bar$foo" + "BAR$FOO" + "Suffix";
 		List<String> result = ParsingUtils.splitCamelCaseToLower(sample);
@@ -39,7 +39,7 @@ public class ParsingUtilsUnitTests {
 	}
 
 	@Test // DATCMNS-486
-	public void reconcatenatesCamelCaseString() {
+	void reconcatenatesCamelCaseString() {
 		assertThat(ParsingUtils.reconcatenateCamelCase("myCamelCase", "-")).isEqualTo("my-camel-case");
 	}
 

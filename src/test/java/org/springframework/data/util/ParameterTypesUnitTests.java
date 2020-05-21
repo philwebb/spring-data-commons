@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ParameterTypesUnitTests {
 
 	@Test // DATACMNS-1518
-	public void detectsDirectMatch() {
+	void detectsDirectMatch() {
 		Method method = ReflectionUtils.findMethod(Sample.class, "twoStrings", String.class, String.class);
 		ParameterTypes types = ParameterTypes.of(String.class, String.class);
 		assertThat(types.areValidFor(method)).isTrue();
@@ -41,7 +41,7 @@ public class ParameterTypesUnitTests {
 	}
 
 	@Test // DATACMNS-1518
-	public void supportsSimpleVarArg() {
+	void supportsSimpleVarArg() {
 		Method method = ReflectionUtils.findMethod(Sample.class, "stringPlusStringVarArg", String.class,
 				String[].class);
 		ParameterTypes types = ParameterTypes.of(String.class, String.class);
@@ -50,7 +50,7 @@ public class ParameterTypesUnitTests {
 	}
 
 	@Test // DATACMNS-1518
-	public void supportsTrailingObjectVarArg() {
+	void supportsTrailingObjectVarArg() {
 		Method method = ReflectionUtils.findMethod(Sample.class, "stringPlusObjectVarArg", String.class,
 				Object[].class);
 		ParameterTypes types = ParameterTypes.of(String.class, String.class);
@@ -59,7 +59,7 @@ public class ParameterTypesUnitTests {
 	}
 
 	@Test // DATACMNS-1518
-	public void supportsObjectVarArg() {
+	void supportsObjectVarArg() {
 		Method method = ReflectionUtils.findMethod(Sample.class, "objectVarArg", Object[].class);
 		ParameterTypes types = ParameterTypes.of(String.class, String.class);
 		assertThat(types.areValidFor(method)).isTrue();
@@ -67,7 +67,7 @@ public class ParameterTypesUnitTests {
 	}
 
 	@Test // DATACMNS-1518
-	public void doesNotAddNonObjectVarArgsForParents() {
+	void doesNotAddNonObjectVarArgsForParents() {
 		ParameterTypes types = ParameterTypes.of(String.class, String.class, Integer.class, Integer.class);
 		List<ParameterTypes> alternatives = types.getAllAlternatives();
 		assertThat(alternatives).hasSize(6);

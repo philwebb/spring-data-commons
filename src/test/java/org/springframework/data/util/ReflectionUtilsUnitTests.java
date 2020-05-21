@@ -46,43 +46,43 @@ public class ReflectionUtilsUnitTests {
 	Field reference;
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		this.reference = Sample.class.getField("field");
 		this.constructor = ConstructorDetection.class.getDeclaredConstructor(int.class, String.class);
 	}
 
 	@Test
-	public void findsFieldByFilter() {
+	void findsFieldByFilter() {
 		Field field = ReflectionUtils.findField(Sample.class, (FieldFilter) new FieldNameFieldFilter("field"));
 		assertThat(field).isEqualTo(this.reference);
 	}
 
 	@Test
-	public void returnsNullIfNoFieldFound() {
+	void returnsNullIfNoFieldFound() {
 		Field field = ReflectionUtils.findField(Sample.class, (FieldFilter) new FieldNameFieldFilter("foo"));
 		assertThat(field).isNull();
 	}
 
 	@Test
-	public void rejectsNonUniqueField() {
+	void rejectsNonUniqueField() {
 		assertThatIllegalStateException().isThrownBy(() -> ReflectionUtils.findField(Sample.class,
 				new ReflectionUtils.AnnotationFieldFilter(Autowired.class)));
 	}
 
 	@Test
-	public void findsUniqueField() {
+	void findsUniqueField() {
 		Field field = ReflectionUtils.findField(Sample.class, new FieldNameFieldFilter("field"), false);
 		assertThat(field).isEqualTo(this.reference);
 	}
 
 	@Test
-	public void findsFieldInSuperclass() {
+	void findsFieldInSuperclass() {
 		Field field = ReflectionUtils.findField(Subclass.class, new FieldNameFieldFilter("field"));
 		assertThat(field).isEqualTo(this.reference);
 	}
 
 	@Test
-	public void setsNonPublicField() {
+	void setsNonPublicField() {
 		Sample sample = new Sample();
 		Field field = ReflectionUtils.findField(Sample.class, new FieldNameFieldFilter("first"));
 		ReflectionUtils.setField(field, sample, "foo");
@@ -90,67 +90,67 @@ public class ReflectionUtilsUnitTests {
 	}
 
 	@Test // DATACMNS-542
-	public void detectsConstructorForCompleteMatch() throws Exception {
+	void detectsConstructorForCompleteMatch() throws Exception {
 		assertThat(ReflectionUtils.findConstructor(ConstructorDetection.class, 2, "test")).hasValue(this.constructor);
 	}
 
 	@Test // DATACMNS-542
-	public void detectsConstructorForMatchWithNulls() throws Exception {
+	void detectsConstructorForMatchWithNulls() throws Exception {
 		assertThat(ReflectionUtils.findConstructor(ConstructorDetection.class, 2, null)).hasValue(this.constructor);
 	}
 
 	@Test // DATACMNS-542
-	public void rejectsConstructorIfNumberOfArgumentsDontMatch() throws Exception {
+	void rejectsConstructorIfNumberOfArgumentsDontMatch() throws Exception {
 		assertThat(ReflectionUtils.findConstructor(ConstructorDetection.class, 2, "test", "test")).isNotPresent();
 	}
 
 	@Test // DATACMNS-542
-	public void rejectsConstructorForNullForPrimitiveArgument() throws Exception {
+	void rejectsConstructorForNullForPrimitiveArgument() throws Exception {
 		assertThat(ReflectionUtils.findConstructor(ConstructorDetection.class, null, "test")).isNotPresent();
 	}
 
 	@Test // DATACMNS-1154
-	public void discoversNoReturnType() throws Exception {
+	void discoversNoReturnType() throws Exception {
 		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("noReturnValue"), -1);
 		assertThat(ReflectionUtils.isNullable(parameter)).isTrue();
 	}
 
 	@Test // DATACMNS-1154
-	public void discoversNullableReturnType() throws Exception {
+	void discoversNullableReturnType() throws Exception {
 		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("nullableReturnValue"),
 				-1);
 		assertThat(ReflectionUtils.isNullable(parameter)).isTrue();
 	}
 
 	@Test // DATACMNS-1154
-	public void discoversNonNullableReturnType() throws Exception {
+	void discoversNonNullableReturnType() throws Exception {
 		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("mandatoryReturnValue"),
 				-1);
 		assertThat(ReflectionUtils.isNullable(parameter)).isFalse();
 	}
 
 	@Test // DATACMNS-1154
-	public void discoversNullableParameter() throws Exception {
+	void discoversNullableParameter() throws Exception {
 		MethodParameter parameter = new MethodParameter(
 				DummyInterface.class.getDeclaredMethod("nullableParameter", User.class), 0);
 		assertThat(ReflectionUtils.isNullable(parameter)).isTrue();
 	}
 
 	@Test // DATACMNS-1154
-	public void discoversNonNullablePrimitiveParameter() throws Exception {
+	void discoversNonNullablePrimitiveParameter() throws Exception {
 		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("primitive", int.class),
 				0);
 		assertThat(ReflectionUtils.isNullable(parameter)).isFalse();
 	}
 
 	@Test // DATACMNS-1171
-	public void discoversKotlinClass() {
+	void discoversKotlinClass() {
 		assertThat(ReflectionUtils.isKotlinClass(TypeCreatingSyntheticClass.class)).isTrue();
 		assertThat(ReflectionUtils.isSupportedKotlinClass(TypeCreatingSyntheticClass.class)).isTrue();
 	}
 
 	@Test // DATACMNS-1171
-	public void discoversUnsupportedKotlinClass() {
+	void discoversUnsupportedKotlinClass() {
 		assertThat(ReflectionUtils.isKotlinClass(TypeCreatingSyntheticClassKt.class)).isTrue();
 		assertThat(ReflectionUtils.isSupportedKotlinClass(TypeCreatingSyntheticClassKt.class)).isFalse();
 	}

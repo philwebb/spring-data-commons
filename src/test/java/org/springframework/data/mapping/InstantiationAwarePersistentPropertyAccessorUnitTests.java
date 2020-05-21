@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class InstantiationAwarePersistentPropertyAccessorUnitTests {
 
 	@Test
-	public void testname() {
+	void testname() {
 		EntityInstantiators instantiators = new EntityInstantiators();
 		SampleMappingContext context = new SampleMappingContext();
 		PersistentEntity<Object, SamplePersistentProperty> entity = context.getRequiredPersistentEntity(Sample.class);

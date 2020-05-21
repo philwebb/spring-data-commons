@@ -46,24 +46,24 @@ public class ConvertingPropertyAccessorUnitTests {
 	static final ConversionService CONVERSION_SERVICE = new DefaultFormattingConversionService();
 
 	@Test // DATACMNS-596
-	public void rejectsNullPropertyAccessorDelegate() {
+	void rejectsNullPropertyAccessorDelegate() {
 		assertThatIllegalArgumentException().isThrownBy(() -> new ConvertingPropertyAccessor(null, CONVERSION_SERVICE));
 	}
 
 	@Test // DATACMNS-596
-	public void rejectsNullConversionService() {
+	void rejectsNullConversionService() {
 		assertThatIllegalArgumentException()
 				.isThrownBy(() -> new ConvertingPropertyAccessor(new BeanWrapper<>(new Object()), null));
 	}
 
 	@Test // DATACMNS-596
-	public void returnsBeanFromDelegate() {
+	void returnsBeanFromDelegate() {
 		Object entity = new Entity();
 		assertThat(getAccessor(entity, CONVERSION_SERVICE).getBean()).isEqualTo(entity);
 	}
 
 	@Test // DATACMNS-596
-	public void convertsPropertyValueToExpectedType() {
+	void convertsPropertyValueToExpectedType() {
 		Entity entity = new Entity();
 		entity.id = 1L;
 		assertThat(getIdProperty()).satisfies(
@@ -71,7 +71,7 @@ public class ConvertingPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-596
-	public void doesNotInvokeConversionForNullValues() {
+	void doesNotInvokeConversionForNullValues() {
 		ConversionService conversionService = mock(ConversionService.class);
 		assertThat(getIdProperty()).satisfies(it -> {
 			assertThat(getAccessor(new Entity(), conversionService).getProperty(it, Number.class)).isNull();
@@ -80,7 +80,7 @@ public class ConvertingPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-596
-	public void doesNotInvokeConversionIfTypeAlreadyMatches() {
+	void doesNotInvokeConversionIfTypeAlreadyMatches() {
 		Entity entity = new Entity();
 		entity.id = 1L;
 		ConversionService conversionService = mock(ConversionService.class);
@@ -91,7 +91,7 @@ public class ConvertingPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-596
-	public void convertsValueOnSetIfTypesDontMatch() {
+	void convertsValueOnSetIfTypesDontMatch() {
 		Entity entity = new Entity();
 		assertThat(getIdProperty()).satisfies(property -> {
 			getAccessor(entity, CONVERSION_SERVICE).setProperty(property, "1");
@@ -100,7 +100,7 @@ public class ConvertingPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-596
-	public void doesNotInvokeConversionIfTypeAlreadyMatchesOnSet() {
+	void doesNotInvokeConversionIfTypeAlreadyMatchesOnSet() {
 		assertThat(getIdProperty()).satisfies(it -> {
 			getAccessor(new Entity(), mock(ConversionService.class)).setProperty(it, 1L);
 			verify(mock(ConversionService.class), times(0)).convert(1L, Long.class);
@@ -108,7 +108,7 @@ public class ConvertingPropertyAccessorUnitTests {
 	}
 
 	@Test // DATACMNS-1377
-	public void shouldConvertToPropertyPathLeafType() {
+	void shouldConvertToPropertyPathLeafType() {
 		Order order = new Order(new Customer("1"));
 		SampleMappingContext context = new SampleMappingContext();
 		PersistentPropertyAccessor<Order> accessor = context.getPersistentEntity(Order.class)

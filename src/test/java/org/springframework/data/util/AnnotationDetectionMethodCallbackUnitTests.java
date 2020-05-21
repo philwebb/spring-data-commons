@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 public class AnnotationDetectionMethodCallbackUnitTests {
 
 	@Test // DATACMNS-452
-	public void findsMethodWithAnnotation() throws Exception {
+	void findsMethodWithAnnotation() throws Exception {
 		AnnotationDetectionMethodCallback<Value> callback = new AnnotationDetectionMethodCallback<>(Value.class);
 		ReflectionUtils.doWithMethods(Sample.class, callback);
 		assertThat(callback.hasFoundAnnotation()).isTrue();
@@ -43,7 +43,7 @@ public class AnnotationDetectionMethodCallbackUnitTests {
 	}
 
 	@Test // DATACMNS-452
-	public void detectsAmbiguousAnnotations() {
+	void detectsAmbiguousAnnotations() {
 		AnnotationDetectionMethodCallback<Value> callback = new AnnotationDetectionMethodCallback<>(Value.class, true);
 		assertThatIllegalStateException().isThrownBy(() -> ReflectionUtils.doWithMethods(Multiple.class, callback))
 				.withMessageContaining("Value").withMessageContaining("getValue")

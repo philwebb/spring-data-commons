@@ -35,18 +35,18 @@ public class MappingMetadataTests {
 	SampleMappingContext ctx;
 
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		this.ctx = new SampleMappingContext();
 	}
 
 	@Test
-	public void testPojoWithId() {
+	void testPojoWithId() {
 		PersistentEntity<?, SamplePersistentProperty> person = this.ctx.getRequiredPersistentEntity(PersonWithId.class);
 		assertThat(person.getIdProperty()).satisfies(it -> assertThat(it.getType()).isEqualTo(String.class));
 	}
 
 	@Test
-	public void testAssociations() {
+	void testAssociations() {
 		PersistentEntity<?, SamplePersistentProperty> person = this.ctx
 				.getRequiredPersistentEntity(PersonWithChildren.class);
 		person.doWithAssociations((AssociationHandler<SamplePersistentProperty>) association -> {

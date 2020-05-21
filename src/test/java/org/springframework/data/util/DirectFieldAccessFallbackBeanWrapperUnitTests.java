@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class DirectFieldAccessFallbackBeanWrapperUnitTests {
 
 	@Test // DATACMNS-452
-	public void usesFieldAccessForReadIfNoAccessorCanBeFound() {
+	void usesFieldAccessForReadIfNoAccessorCanBeFound() {
 		Sample sample = new Sample();
 		sample.firstname = "Dave";
 		BeanWrapper wrapper = new DirectFieldAccessFallbackBeanWrapper(sample);
@@ -41,7 +41,7 @@ public class DirectFieldAccessFallbackBeanWrapperUnitTests {
 	}
 
 	@Test // DATACMNS-452
-	public void usesFieldAccessForWriteIfNoAccessorCanBeFound() {
+	void usesFieldAccessForWriteIfNoAccessorCanBeFound() {
 		Sample sample = new Sample();
 		BeanWrapper wrapper = new DirectFieldAccessFallbackBeanWrapper(sample);
 		wrapper.setPropertyValue("firstname", "Dave");
@@ -49,14 +49,14 @@ public class DirectFieldAccessFallbackBeanWrapperUnitTests {
 	}
 
 	@Test // DATACMNS-452
-	public void throwsAppropriateExceptionIfNoFieldFoundForRead() {
+	void throwsAppropriateExceptionIfNoFieldFoundForRead() {
 		BeanWrapper wrapper = new DirectFieldAccessFallbackBeanWrapper(new Sample());
 		assertThatExceptionOfType(NotReadablePropertyException.class)
 				.isThrownBy(() -> wrapper.getPropertyValue("lastname"));
 	}
 
 	@Test // DATACMNS-452
-	public void throwsAppropriateExceptionIfNoFieldFoundForWrite() {
+	void throwsAppropriateExceptionIfNoFieldFoundForWrite() {
 		BeanWrapper wrapper = new DirectFieldAccessFallbackBeanWrapper(new Sample());
 		assertThatExceptionOfType(NotWritablePropertyException.class)
 				.isThrownBy(() -> wrapper.setPropertyValue("lastname", "Matthews"));

@@ -28,7 +28,7 @@ import static org.assertj.core.api.HamcrestCondition.matching;
 public class DependencyTests {
 
 	@Test
-	public void noInternalPackageCycles() {
+	void noInternalPackageCycles() {
 		assertThat(JCheck.classpath().noJars().including("org.springframework.data.**")
 				.filterClasspath("*target/classes").printOnFailure("degraph.graphml"))
 						.is(matching(JCheck.violationFree()));

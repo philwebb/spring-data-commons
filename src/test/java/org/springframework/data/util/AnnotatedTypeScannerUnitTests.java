@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AnnotatedTypeScannerUnitTests {
 
 	@Test // DATACMNS-452
-	public void findsAnnotatedTypes() {
+	void findsAnnotatedTypes() {
 		AnnotatedTypeScanner scanner = new AnnotatedTypeScanner(Persistent.class);
 		assertThat(scanner.findTypes(AnnotatedTypeScanner.class.getPackage().getName())).contains(Type.class);
 	}

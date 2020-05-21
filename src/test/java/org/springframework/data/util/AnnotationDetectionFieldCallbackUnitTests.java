@@ -33,12 +33,12 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 public class AnnotationDetectionFieldCallbackUnitTests {
 
 	@Test // DATACMNS-616
-	public void rejectsNullAnnotationType() {
+	void rejectsNullAnnotationType() {
 		assertThatIllegalArgumentException().isThrownBy(() -> new AnnotationDetectionFieldCallback(null));
 	}
 
 	@Test // DATACMNS-616
-	public void looksUpValueFromPrivateField() {
+	void looksUpValueFromPrivateField() {
 		AnnotationDetectionFieldCallback callback = new AnnotationDetectionFieldCallback(Autowired.class);
 		ReflectionUtils.doWithFields(Sample.class, callback);
 		assertThat(callback.getType()).isEqualTo(String.class);
@@ -46,7 +46,7 @@ public class AnnotationDetectionFieldCallbackUnitTests {
 	}
 
 	@Test // DATACMNS-616
-	public void returnsNullForObjectNotContainingAFieldWithTheConfiguredAnnotation() {
+	void returnsNullForObjectNotContainingAFieldWithTheConfiguredAnnotation() {
 		AnnotationDetectionFieldCallback callback = new AnnotationDetectionFieldCallback(Autowired.class);
 		ReflectionUtils.doWithFields(Empty.class, callback);
 		assertThat(callback.getType()).isNull();
