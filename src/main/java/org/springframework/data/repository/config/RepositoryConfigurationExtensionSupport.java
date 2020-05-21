@@ -182,59 +182,6 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	}
 
 	/**
-	 * Registers the {@link AbstractBeanDefinition} produced by the given {@link Supplier}
-	 * with the given registry with the given bean name unless the registry already
-	 * contains a bean with that name.
-	 * @param supplier must not be {@literal null}.
-	 * @param registry must not be {@literal null}.
-	 * @param beanName must not be {@literal null} or empty.
-	 * @param source must not be {@literal null}.
-	 * @since 2.1
-	 */
-	public static void registerIfNotAlreadyRegistered(Supplier<AbstractBeanDefinition> supplier,
-			BeanDefinitionRegistry registry, String beanName, Object source) {
-		if (registry.containsBeanDefinition(beanName)) {
-			return;
-		}
-		AbstractBeanDefinition bean = supplier.get();
-		bean.setSource(source);
-		registry.registerBeanDefinition(beanName, bean);
-	}
-
-	/**
-	 * Registers the {@link AbstractBeanDefinition} produced by the given {@link Supplier}
-	 * as lazy bean definition with the given registry with the given bean name unless the
-	 * registry already contains a bean with that name.
-	 * @param supplier must not be {@literal null}.
-	 * @param registry must not be {@literal null}.
-	 * @param beanName must not be {@literal null} or empty.
-	 * @param source must not be {@literal null}.
-	 * @since 2.1
-	 */
-	public static void registerLazyIfNotAlreadyRegistered(Supplier<AbstractBeanDefinition> supplier,
-			BeanDefinitionRegistry registry, String beanName, Object source) {
-		if (registry.containsBeanDefinition(beanName)) {
-			return;
-		}
-		AbstractBeanDefinition definition = supplier.get();
-		definition.setSource(source);
-		definition.setLazyInit(true);
-		registry.registerBeanDefinition(beanName, definition);
-	}
-
-	/**
-	 * Returns whether the given {@link BeanDefinitionRegistry} already contains a bean of
-	 * the given type assuming the bean name has been auto-generated.
-	 * @param type
-	 * @param registry
-	 * @return
-	 */
-	public static boolean hasBean(Class<?> type, BeanDefinitionRegistry registry) {
-		String name = String.format("%s%s0", type.getName(), BeanDefinitionReaderUtils.GENERATED_BEAN_NAME_SEPARATOR);
-		return registry.containsBeanDefinition(name);
-	}
-
-	/**
 	 * Creates a actual {@link RepositoryConfiguration} instance for the given
 	 * {@link RepositoryConfigurationSource} and interface name. Defaults to the
 	 * {@link DefaultRepositoryConfiguration} but allows sub-classes to override this to
@@ -340,6 +287,59 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 
 	private static String toString(Collection<? extends Class<?>> types) {
 		return types.stream().map(Class::getName).collect(Collectors.joining(", "));
+	}
+
+	/**
+	 * Registers the {@link AbstractBeanDefinition} produced by the given {@link Supplier}
+	 * with the given registry with the given bean name unless the registry already
+	 * contains a bean with that name.
+	 * @param supplier must not be {@literal null}.
+	 * @param registry must not be {@literal null}.
+	 * @param beanName must not be {@literal null} or empty.
+	 * @param source must not be {@literal null}.
+	 * @since 2.1
+	 */
+	public static void registerIfNotAlreadyRegistered(Supplier<AbstractBeanDefinition> supplier,
+			BeanDefinitionRegistry registry, String beanName, Object source) {
+		if (registry.containsBeanDefinition(beanName)) {
+			return;
+		}
+		AbstractBeanDefinition bean = supplier.get();
+		bean.setSource(source);
+		registry.registerBeanDefinition(beanName, bean);
+	}
+
+	/**
+	 * Registers the {@link AbstractBeanDefinition} produced by the given {@link Supplier}
+	 * as lazy bean definition with the given registry with the given bean name unless the
+	 * registry already contains a bean with that name.
+	 * @param supplier must not be {@literal null}.
+	 * @param registry must not be {@literal null}.
+	 * @param beanName must not be {@literal null} or empty.
+	 * @param source must not be {@literal null}.
+	 * @since 2.1
+	 */
+	public static void registerLazyIfNotAlreadyRegistered(Supplier<AbstractBeanDefinition> supplier,
+			BeanDefinitionRegistry registry, String beanName, Object source) {
+		if (registry.containsBeanDefinition(beanName)) {
+			return;
+		}
+		AbstractBeanDefinition definition = supplier.get();
+		definition.setSource(source);
+		definition.setLazyInit(true);
+		registry.registerBeanDefinition(beanName, definition);
+	}
+
+	/**
+	 * Returns whether the given {@link BeanDefinitionRegistry} already contains a bean of
+	 * the given type assuming the bean name has been auto-generated.
+	 * @param type
+	 * @param registry
+	 * @return
+	 */
+	public static boolean hasBean(Class<?> type, BeanDefinitionRegistry registry) {
+		String name = String.format("%s%s0", type.getName(), BeanDefinitionReaderUtils.GENERATED_BEAN_NAME_SEPARATOR);
+		return registry.containsBeanDefinition(name);
 	}
 
 }

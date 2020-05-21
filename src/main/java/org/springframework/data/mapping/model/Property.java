@@ -79,55 +79,6 @@ public final class Property {
 	}
 
 	/**
-	 * Creates a new {@link Property} backed by the given field.
-	 * @param type the owning type, must not be {@literal null}.
-	 * @param field must not be {@literal null}.
-	 * @return
-	 */
-	public static Property of(TypeInformation<?> type, Field field) {
-		Assert.notNull(field, "Field must not be null!");
-		return new Property(type, Optional.of(field), Optional.empty());
-	}
-
-	/**
-	 * Creates a new {@link Property} backed by the given {@link Field} and
-	 * {@link PropertyDescriptor}.
-	 * @param type the owning type, must not be {@literal null}.
-	 * @param field must not be {@literal null}.
-	 * @param descriptor must not be {@literal null}.
-	 * @return
-	 */
-	public static Property of(TypeInformation<?> type, Field field, PropertyDescriptor descriptor) {
-		Assert.notNull(field, "Field must not be null!");
-		Assert.notNull(descriptor, "PropertyDescriptor must not be null!");
-		return new Property(type, Optional.of(field), Optional.of(descriptor));
-	}
-
-	/**
-	 * Creates a new {@link Property} for the given {@link PropertyDescriptor}. The
-	 * creation might fail if the given property is not representing a proper property.
-	 * @param type the owning type, must not be {@literal null}.
-	 * @param descriptor must not be {@literal null}.
-	 * @return the new property
-	 * @see #supportsStandalone(PropertyDescriptor)
-	 */
-	public static Property of(TypeInformation<?> type, PropertyDescriptor descriptor) {
-		Assert.notNull(descriptor, "PropertyDescriptor must not be null!");
-		return new Property(type, Optional.empty(), Optional.of(descriptor));
-	}
-
-	/**
-	 * Returns whether the given {@link PropertyDescriptor} is supported in for standalone
-	 * creation of a {@link Property} instance.
-	 * @param descriptor
-	 * @return
-	 */
-	public static boolean supportsStandalone(PropertyDescriptor descriptor) {
-		Assert.notNull(descriptor, "PropertyDescriptor must not be null!");
-		return descriptor.getPropertyType() != null;
-	}
-
-	/**
 	 * Returns whether the property is backed by a field.
 	 * @return
 	 */
@@ -255,6 +206,55 @@ public final class Property {
 	private static boolean isMethodWithSingleParameterOfType(Method method, String name, Class<?> type) {
 		return method.getParameterCount() == 1 && method.getName().equals(name)
 				&& method.getParameterTypes()[0].equals(type);
+	}
+
+	/**
+	 * Creates a new {@link Property} backed by the given field.
+	 * @param type the owning type, must not be {@literal null}.
+	 * @param field must not be {@literal null}.
+	 * @return
+	 */
+	public static Property of(TypeInformation<?> type, Field field) {
+		Assert.notNull(field, "Field must not be null!");
+		return new Property(type, Optional.of(field), Optional.empty());
+	}
+
+	/**
+	 * Creates a new {@link Property} backed by the given {@link Field} and
+	 * {@link PropertyDescriptor}.
+	 * @param type the owning type, must not be {@literal null}.
+	 * @param field must not be {@literal null}.
+	 * @param descriptor must not be {@literal null}.
+	 * @return
+	 */
+	public static Property of(TypeInformation<?> type, Field field, PropertyDescriptor descriptor) {
+		Assert.notNull(field, "Field must not be null!");
+		Assert.notNull(descriptor, "PropertyDescriptor must not be null!");
+		return new Property(type, Optional.of(field), Optional.of(descriptor));
+	}
+
+	/**
+	 * Creates a new {@link Property} for the given {@link PropertyDescriptor}. The
+	 * creation might fail if the given property is not representing a proper property.
+	 * @param type the owning type, must not be {@literal null}.
+	 * @param descriptor must not be {@literal null}.
+	 * @return the new property
+	 * @see #supportsStandalone(PropertyDescriptor)
+	 */
+	public static Property of(TypeInformation<?> type, PropertyDescriptor descriptor) {
+		Assert.notNull(descriptor, "PropertyDescriptor must not be null!");
+		return new Property(type, Optional.empty(), Optional.of(descriptor));
+	}
+
+	/**
+	 * Returns whether the given {@link PropertyDescriptor} is supported in for standalone
+	 * creation of a {@link Property} instance.
+	 * @param descriptor
+	 * @return
+	 */
+	public static boolean supportsStandalone(PropertyDescriptor descriptor) {
+		Assert.notNull(descriptor, "PropertyDescriptor must not be null!");
+		return descriptor.getPropertyType() != null;
 	}
 
 }

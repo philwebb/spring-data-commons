@@ -56,39 +56,6 @@ public class Lazy<T> implements Supplier<T> {
 	}
 
 	/**
-	 * Creates a new {@link Lazy} to produce an object lazily.
-	 * @param <T> the type of which to produce an object of eventually.
-	 * @param supplier the {@link Supplier} to create the object lazily.
-	 * @return
-	 */
-	public static <T> Lazy<T> of(Supplier<? extends T> supplier) {
-		return new Lazy<>(supplier);
-	}
-
-	/**
-	 * Creates a new {@link Lazy} to return the given value.
-	 * @param <T> the type of the value to return eventually.
-	 * @param value the value to return.
-	 * @return
-	 */
-	public static <T> Lazy<T> of(T value) {
-
-		Assert.notNull(value, "Value must not be null!");
-
-		return new Lazy<>(() -> value);
-	}
-
-	/**
-	 * Creates a pre-resolved empty {@link Lazy}.
-	 * @return an empty {@link Lazy} instance
-	 * @since 2.1
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> Lazy<T> empty() {
-		return (Lazy<T>) EMPTY;
-	}
-
-	/**
 	 * Returns the value created by the configured {@link Supplier}. Will return the
 	 * calculated instance for subsequent lookups.
 	 * @return
@@ -222,6 +189,37 @@ public class Lazy<T> implements Supplier<T> {
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.value);
 		result = 31 * result + (this.resolved ? 1 : 0);
 		return result;
+	}
+
+	/**
+	 * Creates a new {@link Lazy} to produce an object lazily.
+	 * @param <T> the type of which to produce an object of eventually.
+	 * @param supplier the {@link Supplier} to create the object lazily.
+	 * @return
+	 */
+	public static <T> Lazy<T> of(Supplier<? extends T> supplier) {
+		return new Lazy<>(supplier);
+	}
+
+	/**
+	 * Creates a new {@link Lazy} to return the given value.
+	 * @param <T> the type of the value to return eventually.
+	 * @param value the value to return.
+	 * @return
+	 */
+	public static <T> Lazy<T> of(T value) {
+		Assert.notNull(value, "Value must not be null!");
+		return new Lazy<>(() -> value);
+	}
+
+	/**
+	 * Creates a pre-resolved empty {@link Lazy}.
+	 * @return an empty {@link Lazy} instance
+	 * @since 2.1
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> Lazy<T> empty() {
+		return (Lazy<T>) EMPTY;
 	}
 
 }

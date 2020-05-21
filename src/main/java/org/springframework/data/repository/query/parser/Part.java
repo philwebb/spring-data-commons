@@ -332,22 +332,6 @@ public class Part {
 		}
 
 		/**
-		 * Returns the {@link Type} of the {@link Part} for the given raw propertyPath.
-		 * This will try to detect e.g. keywords contained in the raw propertyPath that
-		 * trigger special query creation. Returns {@link #SIMPLE_PROPERTY} by default.
-		 * @param rawProperty
-		 * @return
-		 */
-		public static Part.Type fromProperty(String rawProperty) {
-			for (Part.Type type : ALL) {
-				if (type.supports(rawProperty)) {
-					return type;
-				}
-			}
-			return SIMPLE_PROPERTY;
-		}
-
-		/**
 		 * Returns all keywords supported by the current {@link Type}.
 		 * @return
 		 */
@@ -399,6 +383,22 @@ public class Part {
 		@Override
 		public String toString() {
 			return String.format("%s (%s): %s", name(), getNumberOfArguments(), getKeywords());
+		}
+
+		/**
+		 * Returns the {@link Type} of the {@link Part} for the given raw propertyPath.
+		 * This will try to detect e.g. keywords contained in the raw propertyPath that
+		 * trigger special query creation. Returns {@link #SIMPLE_PROPERTY} by default.
+		 * @param rawProperty
+		 * @return
+		 */
+		public static Part.Type fromProperty(String rawProperty) {
+			for (Part.Type type : ALL) {
+				if (type.supports(rawProperty)) {
+					return type;
+				}
+			}
+			return SIMPLE_PROPERTY;
 		}
 
 	}

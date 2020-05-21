@@ -77,6 +77,46 @@ public class DefaultCrudMethods implements CrudMethods {
 		this.saveMethod = selectMostSuitableSaveMethod(metadata);
 	}
 
+	@Override
+	public Optional<Method> getSaveMethod() {
+		return this.saveMethod;
+	}
+
+	@Override
+	public boolean hasSaveMethod() {
+		return this.saveMethod.isPresent();
+	}
+
+	@Override
+	public Optional<Method> getFindAllMethod() {
+		return this.findAllMethod;
+	}
+
+	@Override
+	public boolean hasFindAllMethod() {
+		return this.findAllMethod.isPresent();
+	}
+
+	@Override
+	public Optional<Method> getFindOneMethod() {
+		return this.findOneMethod;
+	}
+
+	@Override
+	public boolean hasFindOneMethod() {
+		return this.findOneMethod.isPresent();
+	}
+
+	@Override
+	public boolean hasDelete() {
+		return this.deleteMethod.isPresent();
+	}
+
+	@Override
+	public Optional<Method> getDeleteMethod() {
+		return this.deleteMethod;
+	}
+
 	/**
 	 * The most suitable save method is selected as follows: We prefer
 	 * <ol>
@@ -161,46 +201,6 @@ public class DefaultCrudMethods implements CrudMethods {
 	private static Optional<Method> getMostSpecificMethod(Method method, Class<?> type) {
 		return Optionals.toStream(Optional.ofNullable(ClassUtils.getMostSpecificMethod(method, type)))
 				.map(BridgeMethodResolver::findBridgedMethod).peek(ReflectionUtils::makeAccessible).findFirst();
-	}
-
-	@Override
-	public Optional<Method> getSaveMethod() {
-		return this.saveMethod;
-	}
-
-	@Override
-	public boolean hasSaveMethod() {
-		return this.saveMethod.isPresent();
-	}
-
-	@Override
-	public Optional<Method> getFindAllMethod() {
-		return this.findAllMethod;
-	}
-
-	@Override
-	public boolean hasFindAllMethod() {
-		return this.findAllMethod.isPresent();
-	}
-
-	@Override
-	public Optional<Method> getFindOneMethod() {
-		return this.findOneMethod;
-	}
-
-	@Override
-	public boolean hasFindOneMethod() {
-		return this.findOneMethod.isPresent();
-	}
-
-	@Override
-	public boolean hasDelete() {
-		return this.deleteMethod.isPresent();
-	}
-
-	@Override
-	public Optional<Method> getDeleteMethod() {
-		return this.deleteMethod;
 	}
 
 	private static Optional<Method> findMethod(Class<?> type, String name, Class<?>... parameterTypes) {

@@ -28,14 +28,6 @@ import org.springframework.util.Assert;
 public interface Pageable {
 
 	/**
-	 * Returns a {@link Pageable} instance representing no pagination setup.
-	 * @return
-	 */
-	static Pageable unpaged() {
-		return Unpaged.INSTANCE;
-	}
-
-	/**
 	 * Returns whether the current {@link Pageable} contains pagination information.
 	 * @return
 	 */
@@ -119,6 +111,14 @@ public interface Pageable {
 	 */
 	default Optional<Pageable> toOptional() {
 		return isUnpaged() ? Optional.empty() : Optional.of(this);
+	}
+
+	/**
+	 * Returns a {@link Pageable} instance representing no pagination setup.
+	 * @return
+	 */
+	static Pageable unpaged() {
+		return Unpaged.INSTANCE;
 	}
 
 }

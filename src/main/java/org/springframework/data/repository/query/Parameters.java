@@ -289,6 +289,11 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 		}
 	}
 
+	@Override
+	public Iterator<T> iterator() {
+		return this.parameters.iterator();
+	}
+
 	/**
 	 * Returns whether the given type is a bindable parameter.
 	 * @param type
@@ -296,11 +301,6 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 */
 	public static boolean isBindable(Class<?> type) {
 		return !TYPES.contains(type);
-	}
-
-	@Override
-	public Iterator<T> iterator() {
-		return this.parameters.iterator();
 	}
 
 }

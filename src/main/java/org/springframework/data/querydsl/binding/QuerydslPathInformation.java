@@ -40,10 +40,6 @@ final class QuerydslPathInformation implements PathInformation {
 		this.path = path;
 	}
 
-	static QuerydslPathInformation of(Path<?> path) {
-		return new QuerydslPathInformation(path);
-	}
-
 	@Override
 	public Class<?> getLeafType() {
 		return this.path.getType();
@@ -100,6 +96,10 @@ final class QuerydslPathInformation implements PathInformation {
 	@Override
 	public String toString() {
 		return "QuerydslPathInformation(path=" + this.path + ")";
+	}
+
+	static QuerydslPathInformation of(Path<?> path) {
+		return new QuerydslPathInformation(path);
 	}
 
 }

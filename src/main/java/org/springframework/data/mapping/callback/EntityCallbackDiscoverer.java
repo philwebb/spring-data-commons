@@ -305,6 +305,12 @@ class EntityCallbackDiscoverer {
 		this.retrieverCache.clear();
 	}
 
+	private BeanFactory getRequiredBeanFactory() {
+		Assert.state(this.beanFactory != null,
+				"EntityCallbacks cannot retrieve callback beans because it is not associated with a BeanFactory");
+		return this.beanFactory;
+	}
+
 	@Nullable
 	static Method lookupCallbackMethod(Class<?> callbackType, Class<?> entityType, Object[] args) {
 		Collection<Method> methods = new ArrayList<>(1);
@@ -333,12 +339,6 @@ class EntityCallbackDiscoverer {
 			}
 			return ReflectionUtils.invokeMethod(callbackMethod, callback, invocationArgs);
 		};
-	}
-
-	private BeanFactory getRequiredBeanFactory() {
-		Assert.state(this.beanFactory != null,
-				"EntityCallbacks cannot retrieve callback beans because it is not associated with a BeanFactory");
-		return this.beanFactory;
 	}
 
 	/**

@@ -140,16 +140,6 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	}
 
 	/**
-	 * Allocates an object array for instance creation.
-	 * @param argumentCount
-	 * @return the allocated array
-	 * @since 2.0
-	 */
-	static Object[] allocateArguments(int argumentCount) {
-		return (argumentCount != 0) ? new Object[argumentCount] : EMPTY_ARGS;
-	}
-
-	/**
 	 * Creates a dynamically generated {@link ObjectInstantiator} for the given
 	 * {@link PersistentEntity} and {@link PreferredConstructor}. There will always be
 	 * exactly one {@link ObjectInstantiator} instance per {@link PersistentEntity}.
@@ -166,6 +156,16 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
+	}
+
+	/**
+	 * Allocates an object array for instance creation.
+	 * @param argumentCount
+	 * @return the allocated array
+	 * @since 2.0
+	 */
+	static Object[] allocateArguments(int argumentCount) {
+		return (argumentCount != 0) ? new Object[argumentCount] : EMPTY_ARGS;
 	}
 
 	/**

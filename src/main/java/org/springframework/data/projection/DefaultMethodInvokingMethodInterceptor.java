@@ -49,23 +49,6 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 	private final Map<Method, MethodHandle> methodHandleCache = new ConcurrentReferenceHashMap<>(10,
 			ReferenceType.WEAK);
 
-	/**
-	 * Returns whether the {@code interfaceClass} declares {@link Method#isDefault()
-	 * default methods}.
-	 * @param interfaceClass the {@link Class} to inspect.
-	 * @return {@literal true} if {@code interfaceClass} declares a default method.
-	 * @since 2.2
-	 */
-	public static boolean hasDefaultMethods(Class<?> interfaceClass) {
-		Method[] methods = ReflectionUtils.getAllDeclaredMethods(interfaceClass);
-		for (Method method : methods) {
-			if (method.isDefault()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -85,6 +68,23 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 			this.methodHandleCache.put(method, handle);
 		}
 		return handle;
+	}
+
+	/**
+	 * Returns whether the {@code interfaceClass} declares {@link Method#isDefault()
+	 * default methods}.
+	 * @param interfaceClass the {@link Class} to inspect.
+	 * @return {@literal true} if {@code interfaceClass} declares a default method.
+	 * @since 2.2
+	 */
+	public static boolean hasDefaultMethods(Class<?> interfaceClass) {
+		Method[] methods = ReflectionUtils.getAllDeclaredMethods(interfaceClass);
+		for (Method method : methods) {
+			if (method.isDefault()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -175,13 +175,10 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 		private static MethodHandle doLookup(Method method, Lookup lookup)
 				throws NoSuchMethodException, IllegalAccessException {
-
 			MethodType methodType = MethodType.methodType(method.getReturnType(), method.getParameterTypes());
-
 			if (Modifier.isStatic(method.getModifiers())) {
 				return lookup.findStatic(method.getDeclaringClass(), method.getName(), methodType);
 			}
-
 			return lookup.findSpecial(method.getDeclaringClass(), method.getName(), methodType,
 					method.getDeclaringClass());
 		}

@@ -48,16 +48,6 @@ public final class Pair<S, T> {
 	}
 
 	/**
-	 * Creates a new {@link Pair} for the given elements.
-	 * @param first must not be {@literal null}.
-	 * @param second must not be {@literal null}.
-	 * @return
-	 */
-	public static <S, T> Pair<S, T> of(S first, T second) {
-		return new Pair<>(first, second);
-	}
-
-	/**
 	 * Returns the first element of the {@link Pair}.
 	 * @return
 	 */
@@ -71,14 +61,6 @@ public final class Pair<S, T> {
 	 */
 	public T getSecond() {
 		return this.second;
-	}
-
-	/**
-	 * A collector to create a {@link Map} from a {@link Stream} of {@link Pair}s.
-	 * @return
-	 */
-	public static <S, T> Collector<Pair<S, T>, ?, Map<S, T>> toMap() {
-		return Collectors.toMap(Pair::getFirst, Pair::getSecond);
 	}
 
 	@Override
@@ -106,6 +88,24 @@ public final class Pair<S, T> {
 	@Override
 	public String toString() {
 		return String.format("%s->%s", this.first, this.second);
+	}
+
+	/**
+	 * Creates a new {@link Pair} for the given elements.
+	 * @param first must not be {@literal null}.
+	 * @param second must not be {@literal null}.
+	 * @return
+	 */
+	public static <S, T> Pair<S, T> of(S first, T second) {
+		return new Pair<>(first, second);
+	}
+
+	/**
+	 * A collector to create a {@link Map} from a {@link Stream} of {@link Pair}s.
+	 * @return
+	 */
+	public static <S, T> Collector<Pair<S, T>, ?, Map<S, T>> toMap() {
+		return Collectors.toMap(Pair::getFirst, Pair::getSecond);
 	}
 
 }

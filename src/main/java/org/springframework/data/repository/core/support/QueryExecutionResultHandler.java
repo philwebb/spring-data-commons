@@ -217,15 +217,6 @@ class QueryExecutionResultHandler {
 		}
 
 		/**
-		 * Create a {@link ReturnTypeDescriptor} from a {@link Method}.
-		 * @param method
-		 * @return
-		 */
-		static ReturnTypeDescriptor of(Method method) {
-			return new ReturnTypeDescriptor(method);
-		}
-
-		/**
 		 * Return the {@link TypeDescriptor} for a nested type declared within the method
 		 * parameter described by {@code nestingLevel} .
 		 * @param nestingLevel the nesting level. {@code 0} is the first level, {@code 1}
@@ -246,6 +237,15 @@ class QueryExecutionResultHandler {
 			default:
 				return TypeDescriptor.nested(this.methodParameter, nestingLevel);
 			}
+		}
+
+		/**
+		 * Create a {@link ReturnTypeDescriptor} from a {@link Method}.
+		 * @param method
+		 * @return
+		 */
+		static ReturnTypeDescriptor of(Method method) {
+			return new ReturnTypeDescriptor(method);
 		}
 
 	}

@@ -32,25 +32,6 @@ import org.springframework.data.util.ProxyUtils;
 public interface Example<T> {
 
 	/**
-	 * Create a new {@link Example} including all non-null properties by default.
-	 * @param probe must not be {@literal null}.
-	 * @return
-	 */
-	static <T> Example<T> of(T probe) {
-		return new TypedExample<>(probe, ExampleMatcher.matching());
-	}
-
-	/**
-	 * Create a new {@link Example} using the given {@link ExampleMatcher}.
-	 * @param probe must not be {@literal null}.
-	 * @param matcher must not be {@literal null}.
-	 * @return
-	 */
-	static <T> Example<T> of(T probe, ExampleMatcher matcher) {
-		return new TypedExample<>(probe, matcher);
-	}
-
-	/**
 	 * Get the example used.
 	 * @return never {@literal null}.
 	 */
@@ -71,6 +52,25 @@ public interface Example<T> {
 	@SuppressWarnings("unchecked")
 	default Class<T> getProbeType() {
 		return (Class<T>) ProxyUtils.getUserClass(getProbe().getClass());
+	}
+
+	/**
+	 * Create a new {@link Example} including all non-null properties by default.
+	 * @param probe must not be {@literal null}.
+	 * @return
+	 */
+	static <T> Example<T> of(T probe) {
+		return new TypedExample<>(probe, ExampleMatcher.matching());
+	}
+
+	/**
+	 * Create a new {@link Example} using the given {@link ExampleMatcher}.
+	 * @param probe must not be {@literal null}.
+	 * @param matcher must not be {@literal null}.
+	 * @return
+	 */
+	static <T> Example<T> of(T probe, ExampleMatcher matcher) {
+		return new TypedExample<>(probe, matcher);
 	}
 
 }

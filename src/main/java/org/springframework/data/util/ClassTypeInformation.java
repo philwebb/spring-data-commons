@@ -63,29 +63,6 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 	private final Class<S> type;
 
 	/**
-	 * Simple factory method to easily create new instances of
-	 * {@link ClassTypeInformation}.
-	 * @param <S>
-	 * @param type must not be {@literal null}.
-	 * @return
-	 */
-	public static <S> ClassTypeInformation<S> from(Class<S> type) {
-		Assert.notNull(type, "Type must not be null!");
-		return (ClassTypeInformation<S>) cache.computeIfAbsent(type, ClassTypeInformation::new);
-	}
-
-	/**
-	 * Creates a {@link TypeInformation} from the given method's return type.
-	 * @param method must not be {@literal null}.
-	 * @return
-	 */
-	public static <S> TypeInformation<S> fromReturnTypeOf(Method method) {
-		Assert.notNull(method, "Method must not be null!");
-		return (TypeInformation<S>) ClassTypeInformation.from(method.getDeclaringClass())
-				.createInfo(method.getGenericReturnType());
-	}
-
-	/**
 	 * Creates {@link ClassTypeInformation} for the given type.
 	 * @param type
 	 */
@@ -151,6 +128,29 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 	@Override
 	public String toString() {
 		return this.type.getName();
+	}
+
+	/**
+	 * Simple factory method to easily create new instances of
+	 * {@link ClassTypeInformation}.
+	 * @param <S>
+	 * @param type must not be {@literal null}.
+	 * @return
+	 */
+	public static <S> ClassTypeInformation<S> from(Class<S> type) {
+		Assert.notNull(type, "Type must not be null!");
+		return (ClassTypeInformation<S>) cache.computeIfAbsent(type, ClassTypeInformation::new);
+	}
+
+	/**
+	 * Creates a {@link TypeInformation} from the given method's return type.
+	 * @param method must not be {@literal null}.
+	 * @return
+	 */
+	public static <S> TypeInformation<S> fromReturnTypeOf(Method method) {
+		Assert.notNull(method, "Method must not be null!");
+		return (TypeInformation<S>) ClassTypeInformation.from(method.getDeclaringClass())
+				.createInfo(method.getGenericReturnType());
 	}
 
 }

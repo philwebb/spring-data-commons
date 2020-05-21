@@ -29,25 +29,6 @@ import java.util.function.Function;
 public interface Page<T> extends Slice<T> {
 
 	/**
-	 * Creates a new empty {@link Page}.
-	 * @return an empty page
-	 * @since 2.0
-	 */
-	static <T> Page<T> empty() {
-		return empty(Pageable.unpaged());
-	}
-
-	/**
-	 * Creates a new empty {@link Page} for the given {@link Pageable}.
-	 * @param pageable must not be {@literal null}.
-	 * @return the page instance
-	 * @since 2.0
-	 */
-	static <T> Page<T> empty(Pageable pageable) {
-		return new PageImpl<>(Collections.emptyList(), pageable, 0);
-	}
-
-	/**
 	 * Returns the number of total pages.
 	 * @return the number of total pages
 	 */
@@ -69,5 +50,24 @@ public interface Page<T> extends Slice<T> {
 	 */
 	@Override
 	<U> Page<U> map(Function<? super T, ? extends U> converter);
+
+	/**
+	 * Creates a new empty {@link Page}.
+	 * @return an empty page
+	 * @since 2.0
+	 */
+	static <T> Page<T> empty() {
+		return empty(Pageable.unpaged());
+	}
+
+	/**
+	 * Creates a new empty {@link Page} for the given {@link Pageable}.
+	 * @param pageable must not be {@literal null}.
+	 * @return the page instance
+	 * @since 2.0
+	 */
+	static <T> Page<T> empty(Pageable pageable) {
+		return new PageImpl<>(Collections.emptyList(), pageable, 0);
+	}
 
 }

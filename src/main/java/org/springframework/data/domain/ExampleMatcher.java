@@ -47,34 +47,6 @@ import org.springframework.util.ObjectUtils;
 public interface ExampleMatcher {
 
 	/**
-	 * Create a new {@link ExampleMatcher} including all non-null properties by default
-	 * matching <strong>all</strong> predicates derived from the example.
-	 * @return new instance of {@link ExampleMatcher}.
-	 * @see #matchingAll()
-	 */
-	static ExampleMatcher matching() {
-		return matchingAll();
-	}
-
-	/**
-	 * Create a new {@link ExampleMatcher} including all non-null properties by default
-	 * matching <strong>any</strong> predicate derived from the example.
-	 * @return new instance of {@link ExampleMatcher}.
-	 */
-	static ExampleMatcher matchingAny() {
-		return new TypedExampleMatcher().withMode(MatchMode.ANY);
-	}
-
-	/**
-	 * Create a new {@link ExampleMatcher} including all non-null properties by default
-	 * matching <strong>all</strong> predicates derived from the example.
-	 * @return new instance of {@link ExampleMatcher}.
-	 */
-	static ExampleMatcher matchingAll() {
-		return new TypedExampleMatcher().withMode(MatchMode.ALL);
-	}
-
-	/**
 	 * Returns a copy of this {@link ExampleMatcher} with the specified
 	 * {@code propertyPaths}. This instance is immutable and unaffected by this method
 	 * call.
@@ -250,6 +222,34 @@ public interface ExampleMatcher {
 	MatchMode getMatchMode();
 
 	/**
+	 * Create a new {@link ExampleMatcher} including all non-null properties by default
+	 * matching <strong>all</strong> predicates derived from the example.
+	 * @return new instance of {@link ExampleMatcher}.
+	 * @see #matchingAll()
+	 */
+	static ExampleMatcher matching() {
+		return matchingAll();
+	}
+
+	/**
+	 * Create a new {@link ExampleMatcher} including all non-null properties by default
+	 * matching <strong>any</strong> predicate derived from the example.
+	 * @return new instance of {@link ExampleMatcher}.
+	 */
+	static ExampleMatcher matchingAny() {
+		return new TypedExampleMatcher().withMode(MatchMode.ANY);
+	}
+
+	/**
+	 * Create a new {@link ExampleMatcher} including all non-null properties by default
+	 * matching <strong>all</strong> predicates derived from the example.
+	 * @return new instance of {@link ExampleMatcher}.
+	 */
+	static ExampleMatcher matchingAll() {
+		return new TypedExampleMatcher().withMode(MatchMode.ALL);
+	}
+
+	/**
 	 * Null handling for creating criterion out of an {@link Example}.
 	 */
 	enum NullHandler {
@@ -287,27 +287,6 @@ public interface ExampleMatcher {
 		 * Creates an unconfigured {@link GenericPropertyMatcher}.
 		 */
 		public GenericPropertyMatcher() {
-		}
-
-		/**
-		 * Creates a new {@link GenericPropertyMatcher} with a {@link StringMatcher} and
-		 * {@code ignoreCase}.
-		 * @param stringMatcher must not be {@literal null}.
-		 * @param ignoreCase
-		 * @return
-		 */
-		public static GenericPropertyMatcher of(StringMatcher stringMatcher, boolean ignoreCase) {
-			return new GenericPropertyMatcher().stringMatcher(stringMatcher).ignoreCase(ignoreCase);
-		}
-
-		/**
-		 * Creates a new {@link GenericPropertyMatcher} with a {@link StringMatcher} and
-		 * {@code ignoreCase}.
-		 * @param stringMatcher must not be {@literal null}.
-		 * @return
-		 */
-		public static GenericPropertyMatcher of(StringMatcher stringMatcher) {
-			return new GenericPropertyMatcher().stringMatcher(stringMatcher);
 		}
 
 		/**
@@ -442,6 +421,27 @@ public interface ExampleMatcher {
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.ignoreCase);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.valueTransformer);
 			return result;
+		}
+
+		/**
+		 * Creates a new {@link GenericPropertyMatcher} with a {@link StringMatcher} and
+		 * {@code ignoreCase}.
+		 * @param stringMatcher must not be {@literal null}.
+		 * @param ignoreCase
+		 * @return
+		 */
+		public static GenericPropertyMatcher of(StringMatcher stringMatcher, boolean ignoreCase) {
+			return new GenericPropertyMatcher().stringMatcher(stringMatcher).ignoreCase(ignoreCase);
+		}
+
+		/**
+		 * Creates a new {@link GenericPropertyMatcher} with a {@link StringMatcher} and
+		 * {@code ignoreCase}.
+		 * @param stringMatcher must not be {@literal null}.
+		 * @return
+		 */
+		public static GenericPropertyMatcher of(StringMatcher stringMatcher) {
+			return new GenericPropertyMatcher().stringMatcher(stringMatcher);
 		}
 
 	}

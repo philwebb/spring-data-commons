@@ -61,17 +61,6 @@ public final class MethodInvocationRecorder {
 	}
 
 	/**
-	 * Creates a new {@link Recorded} for the given type.
-	 * @param type must not be {@literal null}.
-	 * @return
-	 */
-	public static <T> Recorded<T> forProxyOf(Class<T> type) {
-		Assert.notNull(type, "Type must not be null!");
-		Assert.isTrue(!Modifier.isFinal(type.getModifiers()), "Type to record invocations on must not be final!");
-		return new MethodInvocationRecorder().create(type);
-	}
-
-	/**
 	 * Creates a new {@link Recorded} for the given type based on the current
 	 * {@link MethodInvocationRecorder} setup.
 	 * @param type
@@ -95,6 +84,17 @@ public final class MethodInvocationRecorder {
 
 	private Optional<String> getPropertyPath(List<PropertyNameDetectionStrategy> strategies) {
 		return this.interceptor.flatMap((it) -> it.getPropertyPath(strategies));
+	}
+
+	/**
+	 * Creates a new {@link Recorded} for the given type.
+	 * @param type must not be {@literal null}.
+	 * @return
+	 */
+	public static <T> Recorded<T> forProxyOf(Class<T> type) {
+		Assert.notNull(type, "Type must not be null!");
+		Assert.isTrue(!Modifier.isFinal(type.getModifiers()), "Type to record invocations on must not be final!");
+		return new MethodInvocationRecorder().create(type);
 	}
 
 	private class RecordingMethodInterceptor implements org.aopalliance.intercept.MethodInterceptor {

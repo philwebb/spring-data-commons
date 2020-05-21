@@ -56,24 +56,6 @@ public abstract class ReturnedType {
 	}
 
 	/**
-	 * Creates a new {@link ReturnedType} for the given returned type, domain type and
-	 * {@link ProjectionFactory}.
-	 * @param returnedType must not be {@literal null}.
-	 * @param domainType must not be {@literal null}.
-	 * @param factory must not be {@literal null}.
-	 * @return
-	 */
-	static ReturnedType of(Class<?> returnedType, Class<?> domainType, ProjectionFactory factory) {
-		Assert.notNull(returnedType, "Returned type must not be null!");
-		Assert.notNull(domainType, "Domain type must not be null!");
-		Assert.notNull(factory, "ProjectionFactory must not be null!");
-		return cache.computeIfAbsent(CacheKey.of(returnedType, domainType, factory.hashCode()),
-				(key) -> returnedType.isInterface()
-						? new ReturnedInterface(factory.getProjectionInformation(returnedType), domainType)
-						: new ReturnedClass(returnedType, domainType));
-	}
-
-	/**
 	 * Returns the entity type.
 	 * @return
 	 */
@@ -122,6 +104,24 @@ public abstract class ReturnedType {
 	 * @return
 	 */
 	public abstract List<String> getInputProperties();
+
+	/**
+	 * Creates a new {@link ReturnedType} for the given returned type, domain type and
+	 * {@link ProjectionFactory}.
+	 * @param returnedType must not be {@literal null}.
+	 * @param domainType must not be {@literal null}.
+	 * @param factory must not be {@literal null}.
+	 * @return
+	 */
+	static ReturnedType of(Class<?> returnedType, Class<?> domainType, ProjectionFactory factory) {
+		Assert.notNull(returnedType, "Returned type must not be null!");
+		Assert.notNull(domainType, "Domain type must not be null!");
+		Assert.notNull(factory, "ProjectionFactory must not be null!");
+		return cache.computeIfAbsent(CacheKey.of(returnedType, domainType, factory.hashCode()),
+				(key) -> returnedType.isInterface()
+						? new ReturnedInterface(factory.getProjectionInformation(returnedType), domainType)
+						: new ReturnedClass(returnedType, domainType));
+	}
 
 	/**
 	 * A {@link ReturnedType} that's backed by an interface.

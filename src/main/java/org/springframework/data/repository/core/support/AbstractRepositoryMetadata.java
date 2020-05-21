@@ -62,19 +62,6 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 		this.crudMethods = Lazy.of(() -> new DefaultCrudMethods(this));
 	}
 
-	/**
-	 * Creates a new {@link RepositoryMetadata} for the given repository interface.
-	 * @param repositoryInterface must not be {@literal null}.
-	 * @return the repository metadata
-	 * @since 1.9
-	 */
-	public static RepositoryMetadata getMetadata(Class<?> repositoryInterface) {
-		Assert.notNull(repositoryInterface, "Repository interface must not be null!");
-		return Repository.class.isAssignableFrom(repositoryInterface)
-				? new DefaultRepositoryMetadata(repositoryInterface)
-				: new AnnotationRepositoryMetadata(repositoryInterface);
-	}
-
 	@Override
 	public Class<?> getReturnedDomainClass(Method method) {
 		TypeInformation<?> returnType = null;
@@ -114,6 +101,19 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 	@Override
 	public boolean isReactiveRepository() {
 		return ReactiveWrappers.usesReactiveType(this.repositoryInterface);
+	}
+
+	/**
+	 * Creates a new {@link RepositoryMetadata} for the given repository interface.
+	 * @param repositoryInterface must not be {@literal null}.
+	 * @return the repository metadata
+	 * @since 1.9
+	 */
+	public static RepositoryMetadata getMetadata(Class<?> repositoryInterface) {
+		Assert.notNull(repositoryInterface, "Repository interface must not be null!");
+		return Repository.class.isAssignableFrom(repositoryInterface)
+				? new DefaultRepositoryMetadata(repositoryInterface)
+				: new AnnotationRepositoryMetadata(repositoryInterface);
 	}
 
 }

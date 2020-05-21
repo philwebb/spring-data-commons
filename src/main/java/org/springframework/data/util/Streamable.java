@@ -43,40 +43,6 @@ import org.springframework.util.Assert;
 public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 
 	/**
-	 * Returns an empty {@link Streamable}.
-	 * @return will never be {@literal null}.
-	 */
-	static <T> Streamable<T> empty() {
-		return Collections::emptyIterator;
-	}
-
-	/**
-	 * Returns a {@link Streamable} with the given elements.
-	 * @param t the elements to return.
-	 * @return
-	 */
-	@SafeVarargs
-	static <T> Streamable<T> of(T... t) {
-		return () -> Arrays.asList(t).iterator();
-	}
-
-	/**
-	 * Returns a {@link Streamable} for the given {@link Iterable}.
-	 * @param iterable must not be {@literal null}.
-	 * @return
-	 */
-	static <T> Streamable<T> of(Iterable<T> iterable) {
-
-		Assert.notNull(iterable, "Iterable must not be null!");
-
-		return iterable::iterator;
-	}
-
-	static <T> Streamable<T> of(Supplier<? extends Stream<T>> supplier) {
-		return LazyStreamable.of(supplier);
-	}
-
-	/**
 	 * Creates a non-parallel {@link Stream} of the underlying {@link Iterable}.
 	 * @return will never be {@literal null}.
 	 */
@@ -197,6 +163,38 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	@Override
 	default Stream<T> get() {
 		return stream();
+	}
+
+	/**
+	 * Returns an empty {@link Streamable}.
+	 * @return will never be {@literal null}.
+	 */
+	static <T> Streamable<T> empty() {
+		return Collections::emptyIterator;
+	}
+
+	/**
+	 * Returns a {@link Streamable} with the given elements.
+	 * @param t the elements to return.
+	 * @return
+	 */
+	@SafeVarargs
+	static <T> Streamable<T> of(T... t) {
+		return () -> Arrays.asList(t).iterator();
+	}
+
+	/**
+	 * Returns a {@link Streamable} for the given {@link Iterable}.
+	 * @param iterable must not be {@literal null}.
+	 * @return
+	 */
+	static <T> Streamable<T> of(Iterable<T> iterable) {
+		Assert.notNull(iterable, "Iterable must not be null!");
+		return iterable::iterator;
+	}
+
+	static <T> Streamable<T> of(Supplier<? extends Stream<T>> supplier) {
+		return LazyStreamable.of(supplier);
 	}
 
 	/**

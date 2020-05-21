@@ -63,22 +63,6 @@ public final class Revisions<N extends Number & Comparable<N>, T> implements Str
 	}
 
 	/**
-	 * Creates a new {@link Revisions} instance for the given {@link Revision}s.
-	 * @return will never be {@literal null}.
-	 */
-	public static <N extends Number & Comparable<N>, T> Revisions<N, T> of(List<? extends Revision<N, T>> revisions) {
-		return new Revisions<>(revisions);
-	}
-
-	/**
-	 * Creates a new empty {@link Revisions} instance.
-	 * @return will never be {@literal null}.
-	 */
-	public static <N extends Number & Comparable<N>, T> Revisions<N, T> none() {
-		return new Revisions<>(Collections.emptyList());
-	}
-
-	/**
 	 * Returns the latest revision of the revisions backing the wrapper independently of
 	 * the order.
 	 * @return
@@ -108,6 +92,22 @@ public final class Revisions<N extends Number & Comparable<N>, T> implements Str
 	 */
 	public List<Revision<N, T>> getContent() {
 		return Collections.unmodifiableList(this.revisions);
+	}
+
+	/**
+	 * Creates a new {@link Revisions} instance for the given {@link Revision}s.
+	 * @return will never be {@literal null}.
+	 */
+	public static <N extends Number & Comparable<N>, T> Revisions<N, T> of(List<? extends Revision<N, T>> revisions) {
+		return new Revisions<>(revisions);
+	}
+
+	/**
+	 * Creates a new empty {@link Revisions} instance.
+	 * @return will never be {@literal null}.
+	 */
+	public static <N extends Number & Comparable<N>, T> Revisions<N, T> none() {
+		return new Revisions<>(Collections.emptyList());
 	}
 
 }

@@ -245,10 +245,6 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 			this.path = path;
 		}
 
-		static TypeAndPath of(TypeInformation<?> type, String path) {
-			return new TypeAndPath(type, path);
-		}
-
 		TypeInformation<?> getType() {
 			return this.type;
 		}
@@ -285,6 +281,10 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 					+ ")";
 		}
 
+		static TypeAndPath of(TypeInformation<?> type, String path) {
+			return new TypeAndPath(type, path);
+		}
+
 	}
 
 	static final class DefaultPersistentPropertyPaths<T, P extends PersistentProperty<P>>
@@ -300,19 +300,6 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		private DefaultPersistentPropertyPaths(TypeInformation<T> type, Iterable<PersistentPropertyPath<P>> paths) {
 			this.type = type;
 			this.paths = paths;
-		}
-
-		/**
-		 * Creates a new {@link DefaultPersistentPropertyPaths} instance
-		 * @param type
-		 * @param paths
-		 * @return
-		 */
-		static <T, P extends PersistentProperty<P>> PersistentPropertyPaths<T, P> of(TypeInformation<T> type,
-				Collection<PersistentPropertyPath<P>> paths) {
-			List<PersistentPropertyPath<P>> sorted = new ArrayList<>(paths);
-			Collections.sort(sorted, SHORTEST_PATH.thenComparing(ShortestSegmentFirst.INSTANCE));
-			return new DefaultPersistentPropertyPaths<>(type, sorted);
 		}
 
 		@Override
@@ -352,6 +339,19 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		public String toString() {
 			return "PersistentPropertyPathFactory.DefaultPersistentPropertyPaths(type=" + this.type + ", paths="
 					+ this.paths + ")";
+		}
+
+		/**
+		 * Creates a new {@link DefaultPersistentPropertyPaths} instance
+		 * @param type
+		 * @param paths
+		 * @return
+		 */
+		static <T, P extends PersistentProperty<P>> PersistentPropertyPaths<T, P> of(TypeInformation<T> type,
+				Collection<PersistentPropertyPath<P>> paths) {
+			List<PersistentPropertyPath<P>> sorted = new ArrayList<>(paths);
+			Collections.sort(sorted, SHORTEST_PATH.thenComparing(ShortestSegmentFirst.INSTANCE));
+			return new DefaultPersistentPropertyPaths<>(type, sorted);
 		}
 
 		/**

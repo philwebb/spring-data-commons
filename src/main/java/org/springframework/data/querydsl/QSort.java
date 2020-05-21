@@ -62,14 +62,6 @@ public class QSort extends Sort implements Serializable {
 		this.orderSpecifiers = orderSpecifiers;
 	}
 
-	public static QSort by(OrderSpecifier<?>... orderSpecifiers) {
-		return new QSort(orderSpecifiers);
-	}
-
-	public static QSort unsorted() {
-		return UNSORTED;
-	}
-
 	/**
 	 * Converts the given {@link OrderSpecifier}s into a list of {@link Order}s.
 	 * @param orderSpecifiers must not be {@literal null} or empty.
@@ -78,19 +70,6 @@ public class QSort extends Sort implements Serializable {
 	private static List<Order> toOrders(List<OrderSpecifier<?>> orderSpecifiers) {
 		Assert.notNull(orderSpecifiers, "Order specifiers must not be null!");
 		return orderSpecifiers.stream().map(QSort::toOrder).collect(Collectors.toList());
-	}
-
-	/**
-	 * Converts the given {@link OrderSpecifier} into an {@link Order}.
-	 * @param orderSpecifier must not be {@literal null}.
-	 * @return
-	 */
-	private static Order toOrder(OrderSpecifier<?> orderSpecifier) {
-		Assert.notNull(orderSpecifier, "Order specifier must not be null!");
-		Expression<?> target = orderSpecifier.getTarget();
-		Object targetElement = (target instanceof Path) ? preparePropertyPath((Path<?>) target) : target;
-		Assert.notNull(targetElement, "Target element must not be null!");
-		return Order.by(targetElement.toString()).with(orderSpecifier.isAscending() ? Direction.ASC : Direction.DESC);
 	}
 
 	/**
@@ -143,6 +122,27 @@ public class QSort extends Sort implements Serializable {
 		Path<?> root = path.getRoot();
 		return (root == null || path.equals(root)) ? path.toString()
 				: path.toString().substring(root.toString().length() + 1);
+	}
+
+	public static QSort by(OrderSpecifier<?>... orderSpecifiers) {
+		return new QSort(orderSpecifiers);
+	}
+
+	public static QSort unsorted() {
+		return UNSORTED;
+	}
+
+	/**
+	 * Converts the given {@link OrderSpecifier} into an {@link Order}.
+	 * @param orderSpecifier must not be {@literal null}.
+	 * @return
+	 */
+	private static Order toOrder(OrderSpecifier<?> orderSpecifier) {
+		Assert.notNull(orderSpecifier, "Order specifier must not be null!");
+		Expression<?> target = orderSpecifier.getTarget();
+		Object targetElement = (target instanceof Path) ? preparePropertyPath((Path<?>) target) : target;
+		Assert.notNull(targetElement, "Target element must not be null!");
+		return Order.by(targetElement.toString()).with(orderSpecifier.isAscending() ? Direction.ASC : Direction.DESC);
 	}
 
 }

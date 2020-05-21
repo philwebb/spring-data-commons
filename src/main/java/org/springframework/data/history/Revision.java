@@ -50,16 +50,6 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	}
 
 	/**
-	 * Creates a new {@link Revision} for the given {@link RevisionMetadata} and entity.
-	 * @param metadata must not be {@literal null}.
-	 * @param entity must not be {@literal null}.
-	 * @return
-	 */
-	public static <N extends Number & Comparable<N>, T> Revision<N, T> of(RevisionMetadata<N> metadata, T entity) {
-		return new Revision<>(metadata, entity);
-	}
-
-	/**
 	 * Returns the revision number of the revision.
 	 * @return the revision number.
 	 */
@@ -134,6 +124,16 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	public String toString() {
 		return String.format("Revision %s of entity %s - Revision metadata %s",
 				getRevisionNumber().map(Object::toString).orElse("<unknown>"), this.entity, this.metadata);
+	}
+
+	/**
+	 * Creates a new {@link Revision} for the given {@link RevisionMetadata} and entity.
+	 * @param metadata must not be {@literal null}.
+	 * @param entity must not be {@literal null}.
+	 * @return
+	 */
+	public static <N extends Number & Comparable<N>, T> Revision<N, T> of(RevisionMetadata<N> metadata, T entity) {
+		return new Revision<>(metadata, entity);
 	}
 
 }

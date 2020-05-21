@@ -86,11 +86,6 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 			this.publisher = publisher;
 		}
 
-		static EventPublishingMethodInterceptor of(EventPublishingMethod eventMethod,
-				ApplicationEventPublisher publisher) {
-			return new EventPublishingMethodInterceptor(eventMethod, publisher);
-		}
-
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
 			Object[] arguments = invocation.getArguments();
@@ -101,6 +96,11 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 			Object eventSource = (arguments.length != 1) ? result : arguments[0];
 			this.eventMethod.publishEventsFrom(eventSource, this.publisher);
 			return result;
+		}
+
+		static EventPublishingMethodInterceptor of(EventPublishingMethod eventMethod,
+				ApplicationEventPublisher publisher) {
+			return new EventPublishingMethodInterceptor(eventMethod, publisher);
 		}
 
 	}
@@ -125,25 +125,6 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		EventPublishingMethod(Method publishingMethod, Method clearingMethod) {
 			this.publishingMethod = publishingMethod;
 			this.clearingMethod = clearingMethod;
-		}
-
-		/**
-		 * Creates an {@link EventPublishingMethod} for the given type.
-		 * @param type must not be {@literal null}.
-		 * @return an {@link EventPublishingMethod} for the given type or {@literal null}
-		 * in case the given type does not expose an event publishing method.
-		 */
-		@Nullable
-		static EventPublishingMethod of(Class<?> type) {
-			Assert.notNull(type, "Type must not be null!");
-			EventPublishingMethod eventPublishingMethod = cache.get(type);
-			if (eventPublishingMethod != null) {
-				return eventPublishingMethod.orNull();
-			}
-			EventPublishingMethod result = from(getDetector(type, DomainEvents.class),
-					() -> getDetector(type, AfterDomainEventPublication.class));
-			cache.put(type, result);
-			return result.orNull();
 		}
 
 		/**
@@ -233,6 +214,25 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 				return (Collection<Object>) source;
 			}
 			return Collections.singletonList(source);
+		}
+
+		/**
+		 * Creates an {@link EventPublishingMethod} for the given type.
+		 * @param type must not be {@literal null}.
+		 * @return an {@link EventPublishingMethod} for the given type or {@literal null}
+		 * in case the given type does not expose an event publishing method.
+		 */
+		@Nullable
+		static EventPublishingMethod of(Class<?> type) {
+			Assert.notNull(type, "Type must not be null!");
+			EventPublishingMethod eventPublishingMethod = cache.get(type);
+			if (eventPublishingMethod != null) {
+				return eventPublishingMethod.orNull();
+			}
+			EventPublishingMethod result = from(getDetector(type, DomainEvents.class),
+					() -> getDetector(type, AfterDomainEventPublication.class));
+			cache.put(type, result);
+			return result.orNull();
 		}
 
 	}

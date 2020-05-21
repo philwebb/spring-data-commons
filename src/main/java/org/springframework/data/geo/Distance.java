@@ -66,29 +66,6 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	}
 
 	/**
-	 * Creates a {@link Range} between the given {@link Distance}.
-	 * @param min can be {@literal null}.
-	 * @param max can be {@literal null}.
-	 * @return will never be {@literal null}.
-	 */
-	public static Range<Distance> between(Distance min, Distance max) {
-		return Range.from(Bound.inclusive(min)).to(Bound.inclusive(max));
-	}
-
-	/**
-	 * Creates a new {@link Range} by creating minimum and maximum {@link Distance} from
-	 * the given values.
-	 * @param minValue
-	 * @param minMetric can be {@literal null}.
-	 * @param maxValue
-	 * @param maxMetric can be {@literal null}.
-	 * @return
-	 */
-	public static Range<Distance> between(double minValue, Metric minMetric, double maxValue, Metric maxMetric) {
-		return between(new Distance(minValue, minMetric), new Distance(maxValue, maxMetric));
-	}
-
-	/**
 	 * Returns the normalized value regarding the underlying {@link Metric}.
 	 * @return
 	 */
@@ -193,6 +170,29 @@ public final class Distance implements Serializable, Comparable<Distance> {
 			builder.append(" ").append(this.metric.toString());
 		}
 		return builder.toString();
+	}
+
+	/**
+	 * Creates a {@link Range} between the given {@link Distance}.
+	 * @param min can be {@literal null}.
+	 * @param max can be {@literal null}.
+	 * @return will never be {@literal null}.
+	 */
+	public static Range<Distance> between(Distance min, Distance max) {
+		return Range.from(Bound.inclusive(min)).to(Bound.inclusive(max));
+	}
+
+	/**
+	 * Creates a new {@link Range} by creating minimum and maximum {@link Distance} from
+	 * the given values.
+	 * @param minValue
+	 * @param minMetric can be {@literal null}.
+	 * @param maxValue
+	 * @param maxMetric can be {@literal null}.
+	 * @return
+	 */
+	public static Range<Distance> between(double minValue, Metric minMetric, double maxValue, Metric maxMetric) {
+		return between(new Distance(minValue, minMetric), new Distance(maxValue, maxMetric));
 	}
 
 }

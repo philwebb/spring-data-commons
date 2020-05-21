@@ -363,10 +363,6 @@ interface MethodLookups {
 				this.base = base;
 			}
 
-			static ParameterOverrideCriteria of(MethodParameter declared, MethodParameter base) {
-				return new ParameterOverrideCriteria(declared, base);
-			}
-
 			/**
 			 * @return base method parameter type.
 			 */
@@ -426,6 +422,10 @@ interface MethodLookups {
 			public String toString() {
 				return "MethodLookups.ReactiveTypeInteropMethodLookup.ParameterOverrideCriteria(declared="
 						+ this.getDeclared() + ", base=" + this.getBase() + ")";
+			}
+
+			static ParameterOverrideCriteria of(MethodParameter declared, MethodParameter base) {
+				return new ParameterOverrideCriteria(declared, base);
 			}
 
 		}

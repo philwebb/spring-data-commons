@@ -32,10 +32,6 @@ public final class TargetWrapper {
 		this.args = args;
 	}
 
-	static TargetWrapper of(Object target, Object[] args) {
-		return new TargetWrapper(target, args);
-	}
-
 	public Object getTarget() {
 		return this.target;
 	}
@@ -70,6 +66,10 @@ public final class TargetWrapper {
 	public String toString() {
 		return "SpelEvaluatingMethodInterceptor.TargetWrapper(target=" + this.getTarget() + ", args="
 				+ java.util.Arrays.deepToString(this.getArgs()) + ")";
+	}
+
+	static TargetWrapper of(Object target, Object[] args) {
+		return new TargetWrapper(target, args);
 	}
 
 }

@@ -44,39 +44,6 @@ public class PageRequest extends AbstractPageRequest {
 		this.sort = sort;
 	}
 
-	/**
-	 * Creates a new unsorted {@link PageRequest}.
-	 * @param page zero-based page index, must not be negative.
-	 * @param size the size of the page to be returned, must be greater than 0.
-	 * @since 2.0
-	 */
-	public static PageRequest of(int page, int size) {
-		return of(page, size, Sort.unsorted());
-	}
-
-	/**
-	 * Creates a new {@link PageRequest} with sort parameters applied.
-	 * @param page zero-based page index.
-	 * @param size the size of the page to be returned.
-	 * @param sort must not be {@literal null}, use {@link Sort#unsorted()} instead.
-	 * @since 2.0
-	 */
-	public static PageRequest of(int page, int size, Sort sort) {
-		return new PageRequest(page, size, sort);
-	}
-
-	/**
-	 * Creates a new {@link PageRequest} with sort direction and properties applied.
-	 * @param page zero-based page index, must not be negative.
-	 * @param size the size of the page to be returned, must be greater than 0.
-	 * @param direction must not be {@literal null}.
-	 * @param properties must not be {@literal null}.
-	 * @since 2.0
-	 */
-	public static PageRequest of(int page, int size, Direction direction, String... properties) {
-		return of(page, size, Sort.by(direction, properties));
-	}
-
 	@Override
 	public Sort getSort() {
 		return this.sort;
@@ -117,6 +84,39 @@ public class PageRequest extends AbstractPageRequest {
 	@Override
 	public String toString() {
 		return String.format("Page request [number: %d, size %d, sort: %s]", getPageNumber(), getPageSize(), this.sort);
+	}
+
+	/**
+	 * Creates a new unsorted {@link PageRequest}.
+	 * @param page zero-based page index, must not be negative.
+	 * @param size the size of the page to be returned, must be greater than 0.
+	 * @since 2.0
+	 */
+	public static PageRequest of(int page, int size) {
+		return of(page, size, Sort.unsorted());
+	}
+
+	/**
+	 * Creates a new {@link PageRequest} with sort parameters applied.
+	 * @param page zero-based page index.
+	 * @param size the size of the page to be returned.
+	 * @param sort must not be {@literal null}, use {@link Sort#unsorted()} instead.
+	 * @since 2.0
+	 */
+	public static PageRequest of(int page, int size, Sort sort) {
+		return new PageRequest(page, size, sort);
+	}
+
+	/**
+	 * Creates a new {@link PageRequest} with sort direction and properties applied.
+	 * @param page zero-based page index, must not be negative.
+	 * @param size the size of the page to be returned, must be greater than 0.
+	 * @param direction must not be {@literal null}.
+	 * @param properties must not be {@literal null}.
+	 * @since 2.0
+	 */
+	public static PageRequest of(int page, int size, Direction direction, String... properties) {
+		return of(page, size, Sort.by(direction, properties));
 	}
 
 }

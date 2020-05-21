@@ -106,19 +106,6 @@ public class MethodInvocationValidator implements MethodInterceptor {
 			this.methodParameters = methodParameters;
 		}
 
-		static Nullability of(Method method, ParameterNameDiscoverer discoverer) {
-			boolean nullableReturn = isNullableParameter(new MethodParameter(method, -1));
-			boolean[] nullableParameters = new boolean[method.getParameterCount()];
-			MethodParameter[] methodParameters = new MethodParameter[method.getParameterCount()];
-			for (int i = 0; i < method.getParameterCount(); i++) {
-				MethodParameter parameter = new MethodParameter(method, i);
-				parameter.initParameterNameDiscovery(discoverer);
-				nullableParameters[i] = isNullableParameter(parameter);
-				methodParameters[i] = parameter;
-			}
-			return new Nullability(nullableReturn, nullableParameters, methodParameters);
-		}
-
 		String getMethodParameterName(int index) {
 			String parameterName = this.methodParameters[index].getParameterName();
 			if (parameterName == null) {
@@ -185,6 +172,19 @@ public class MethodInvocationValidator implements MethodInterceptor {
 			return "MethodInvocationValidator.Nullability(nullableReturn=" + this.isNullableReturn()
 					+ ", nullableParameters=" + java.util.Arrays.toString(this.getNullableParameters())
 					+ ", methodParameters=" + java.util.Arrays.deepToString(this.getMethodParameters()) + ")";
+		}
+
+		static Nullability of(Method method, ParameterNameDiscoverer discoverer) {
+			boolean nullableReturn = isNullableParameter(new MethodParameter(method, -1));
+			boolean[] nullableParameters = new boolean[method.getParameterCount()];
+			MethodParameter[] methodParameters = new MethodParameter[method.getParameterCount()];
+			for (int i = 0; i < method.getParameterCount(); i++) {
+				MethodParameter parameter = new MethodParameter(method, i);
+				parameter.initParameterNameDiscovery(discoverer);
+				nullableParameters[i] = isNullableParameter(parameter);
+				methodParameters[i] = parameter;
+			}
+			return new Nullability(nullableReturn, nullableParameters, methodParameters);
 		}
 
 	}

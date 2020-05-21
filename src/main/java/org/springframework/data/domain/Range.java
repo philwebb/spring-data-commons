@@ -50,6 +50,57 @@ public final class Range<T extends Comparable<T>> {
 	}
 
 	/**
+	 * Returns whether the {@link Range} contains the given value.
+	 * @param value must not be {@literal null}.
+	 * @return
+	 */
+	public boolean contains(T value) {
+		Assert.notNull(value, "Reference value must not be null!");
+		boolean greaterThanLowerBound = this.lowerBound.getValue()
+				.map((it) -> this.lowerBound.isInclusive() ? it.compareTo(value) <= 0 : it.compareTo(value) < 0)
+				.orElse(true);
+		boolean lessThanUpperBound = this.upperBound.getValue()
+				.map((it) -> this.upperBound.isInclusive() ? it.compareTo(value) >= 0 : it.compareTo(value) > 0)
+				.orElse(true);
+		return greaterThanLowerBound && lessThanUpperBound;
+	}
+
+	public Range.Bound<T> getLowerBound() {
+		return this.lowerBound;
+	}
+
+	public Range.Bound<T> getUpperBound() {
+		return this.upperBound;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Range)) {
+			return false;
+		}
+		Range<?> range = (Range<?>) o;
+		if (!ObjectUtils.nullSafeEquals(this.lowerBound, range.lowerBound)) {
+			return false;
+		}
+		return ObjectUtils.nullSafeEquals(this.upperBound, range.upperBound);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = ObjectUtils.nullSafeHashCode(this.lowerBound);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.upperBound);
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s-%s", this.lowerBound.toPrefixString(), this.upperBound.toSuffixString());
+	}
+
+	/**
 	 * Returns an unbounded {@link Range}.
 	 * @return an unbounded range
 	 * @since 2.0
@@ -165,57 +216,6 @@ public final class Range<T extends Comparable<T>> {
 	}
 
 	/**
-	 * Returns whether the {@link Range} contains the given value.
-	 * @param value must not be {@literal null}.
-	 * @return
-	 */
-	public boolean contains(T value) {
-		Assert.notNull(value, "Reference value must not be null!");
-		boolean greaterThanLowerBound = this.lowerBound.getValue()
-				.map((it) -> this.lowerBound.isInclusive() ? it.compareTo(value) <= 0 : it.compareTo(value) < 0)
-				.orElse(true);
-		boolean lessThanUpperBound = this.upperBound.getValue()
-				.map((it) -> this.upperBound.isInclusive() ? it.compareTo(value) >= 0 : it.compareTo(value) > 0)
-				.orElse(true);
-		return greaterThanLowerBound && lessThanUpperBound;
-	}
-
-	public Range.Bound<T> getLowerBound() {
-		return this.lowerBound;
-	}
-
-	public Range.Bound<T> getUpperBound() {
-		return this.upperBound;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof Range)) {
-			return false;
-		}
-		Range<?> range = (Range<?>) o;
-		if (!ObjectUtils.nullSafeEquals(this.lowerBound, range.lowerBound)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.upperBound, range.upperBound);
-	}
-
-	@Override
-	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(this.lowerBound);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(this.upperBound);
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("%s-%s", this.lowerBound.toPrefixString(), this.upperBound.toSuffixString());
-	}
-
-	/**
 	 * Value object representing a boundary. A boundary can either be {@link #unbounded()
 	 * unbounded}, {@link #inclusive(Comparable) including its value} or
 	 * {@link #exclusive(Comparable) its value}.
@@ -237,6 +237,59 @@ public final class Range<T extends Comparable<T>> {
 		}
 
 		/**
+		 * Returns whether this boundary is bounded.
+		 * @return
+		 */
+		public boolean isBounded() {
+			return this.value.isPresent();
+		}
+
+		String toPrefixString() {
+			return getValue().map(Object::toString).map((it) -> isInclusive() ? "[".concat(it) : "(".concat(it))
+					.orElse("unbounded");
+		}
+
+		String toSuffixString() {
+			return getValue().map(Object::toString).map((it) -> isInclusive() ? it.concat("]") : it.concat(")"))
+					.orElse("unbounded");
+		}
+
+		public Optional<T> getValue() {
+			return this.value;
+		}
+
+		public boolean isInclusive() {
+			return this.inclusive;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) {
+				return true;
+			}
+			if (!(o instanceof Bound)) {
+				return false;
+			}
+			Bound<?> bound = (Bound<?>) o;
+			if (this.inclusive != bound.inclusive) {
+				return false;
+			}
+			return ObjectUtils.nullSafeEquals(this.value, bound.value);
+		}
+
+		@Override
+		public int hashCode() {
+			int result = ObjectUtils.nullSafeHashCode(this.value);
+			result = 31 * result + (this.inclusive ? 1 : 0);
+			return result;
+		}
+
+		@Override
+		public String toString() {
+			return this.value.map(Object::toString).orElse("unbounded");
+		}
+
+		/**
 		 * Creates an unbounded {@link Bound}.
 		 */
 		@SuppressWarnings("unchecked")
@@ -245,20 +298,11 @@ public final class Range<T extends Comparable<T>> {
 		}
 
 		/**
-		 * Returns whether this boundary is bounded.
-		 * @return
-		 */
-		public boolean isBounded() {
-			return this.value.isPresent();
-		}
-
-		/**
 		 * Creates a boundary including {@code value}.
 		 * @param value must not be {@literal null}.
 		 * @return
 		 */
 		public static <T extends Comparable<T>> Bound<T> inclusive(T value) {
-
 			Assert.notNull(value, "Value must not be null!");
 			return new Bound<>(Optional.of(value), true);
 		}
@@ -344,51 +388,6 @@ public final class Range<T extends Comparable<T>> {
 		 */
 		public static Bound<Double> exclusive(double value) {
 			return exclusive((Double) value);
-		}
-
-		String toPrefixString() {
-			return getValue().map(Object::toString).map((it) -> isInclusive() ? "[".concat(it) : "(".concat(it))
-					.orElse("unbounded");
-		}
-
-		String toSuffixString() {
-			return getValue().map(Object::toString).map((it) -> isInclusive() ? it.concat("]") : it.concat(")"))
-					.orElse("unbounded");
-		}
-
-		public Optional<T> getValue() {
-			return this.value;
-		}
-
-		public boolean isInclusive() {
-			return this.inclusive;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			}
-			if (!(o instanceof Bound)) {
-				return false;
-			}
-			Bound<?> bound = (Bound<?>) o;
-			if (this.inclusive != bound.inclusive) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.value, bound.value);
-		}
-
-		@Override
-		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(this.value);
-			result = 31 * result + (this.inclusive ? 1 : 0);
-			return result;
-		}
-
-		@Override
-		public String toString() {
-			return this.value.map(Object::toString).orElse("unbounded");
 		}
 
 	}

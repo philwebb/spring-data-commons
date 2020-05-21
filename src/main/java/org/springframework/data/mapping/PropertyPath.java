@@ -289,6 +289,11 @@ public class PropertyPath implements Streamable<PropertyPath> {
 		return result;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%s.%s", this.owningType.getType().getSimpleName(), toDotPath());
+	}
+
 	/**
 	 * Extracts the {@link PropertyPath} chain from the given source {@link String} and
 	 * type.
@@ -423,11 +428,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 			}
 		}
 		throw exception;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("%s.%s", this.owningType.getType().getSimpleName(), toDotPath());
 	}
 
 	private static final class Key {

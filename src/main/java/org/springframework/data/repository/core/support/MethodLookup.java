@@ -84,10 +84,6 @@ public interface MethodLookup {
 			this.method = method;
 		}
 
-		public static InvokedMethod of(Method method) {
-			return new InvokedMethod(method);
-		}
-
 		public Class<?> getDeclaringClass() {
 			return this.method.getDeclaringClass();
 		}
@@ -128,6 +124,10 @@ public interface MethodLookup {
 		@Override
 		public String toString() {
 			return "MethodLookup.InvokedMethod(method=" + this.getMethod() + ")";
+		}
+
+		public static InvokedMethod of(Method method) {
+			return new InvokedMethod(method);
 		}
 
 	}

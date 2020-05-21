@@ -46,10 +46,6 @@ final class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMa
 		this.valueFunction = valueFunction;
 	}
 
-	static <T, K, V> MultiValueMapCollector<T, K, V> of(Function<T, K> keyFunction, Function<T, V> valueFunction) {
-		return new MultiValueMapCollector<>(keyFunction, valueFunction);
-	}
-
 	@Override
 	public Supplier<MultiValueMap<K, V>> supplier() {
 		return () -> CollectionUtils.toMultiValueMap(new HashMap<>());
@@ -78,6 +74,10 @@ final class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMa
 	@Override
 	public Set<Characteristics> characteristics() {
 		return EnumSet.of(Characteristics.IDENTITY_FINISH, Characteristics.UNORDERED);
+	}
+
+	static <T, K, V> MultiValueMapCollector<T, K, V> of(Function<T, K> keyFunction, Function<T, V> valueFunction) {
+		return new MultiValueMapCollector<>(keyFunction, valueFunction);
 	}
 
 }

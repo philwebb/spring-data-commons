@@ -35,10 +35,6 @@ final class LazyStreamable<T> implements Streamable<T> {
 		this.stream = stream;
 	}
 
-	static <T> LazyStreamable<T> of(Supplier<? extends Stream<T>> stream) {
-		return new LazyStreamable<>(stream);
-	}
-
 	@Override
 	public Iterator<T> iterator() {
 		return stream().iterator();
@@ -56,6 +52,10 @@ final class LazyStreamable<T> implements Streamable<T> {
 	@Override
 	public String toString() {
 		return "LazyStreamable(stream=" + this.getStream() + ")";
+	}
+
+	static <T> LazyStreamable<T> of(Supplier<? extends Stream<T>> stream) {
+		return new LazyStreamable<>(stream);
 	}
 
 }

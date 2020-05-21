@@ -46,31 +46,6 @@ final class PropertyPathInformation implements PathInformation {
 		this.path = path;
 	}
 
-	/**
-	 * Creates a new {@link PropertyPathInformation} for the given path and type.
-	 * @param path must not be {@literal null} or empty.
-	 * @param type must not be {@literal null}.
-	 * @return
-	 */
-	static PropertyPathInformation of(String path, Class<?> type) {
-		return PropertyPathInformation.of(PropertyPath.from(path, type));
-	}
-
-	/**
-	 * Creates a new {@link PropertyPathInformation} for the given path and
-	 * {@link TypeInformation}.
-	 * @param path must not be {@literal null} or empty.
-	 * @param type must not be {@literal null}.
-	 * @return
-	 */
-	static PropertyPathInformation of(String path, TypeInformation<?> type) {
-		return PropertyPathInformation.of(PropertyPath.from(path, type));
-	}
-
-	private static PropertyPathInformation of(PropertyPath path) {
-		return new PropertyPathInformation(path);
-	}
-
 	@Override
 	public Class<?> getLeafType() {
 		return this.path.getLeafProperty().getType();
@@ -139,6 +114,31 @@ final class PropertyPathInformation implements PathInformation {
 	@Override
 	public String toString() {
 		return "PropertyPathInformation(path=" + this.path + ")";
+	}
+
+	/**
+	 * Creates a new {@link PropertyPathInformation} for the given path and type.
+	 * @param path must not be {@literal null} or empty.
+	 * @param type must not be {@literal null}.
+	 * @return
+	 */
+	static PropertyPathInformation of(String path, Class<?> type) {
+		return PropertyPathInformation.of(PropertyPath.from(path, type));
+	}
+
+	/**
+	 * Creates a new {@link PropertyPathInformation} for the given path and
+	 * {@link TypeInformation}.
+	 * @param path must not be {@literal null} or empty.
+	 * @param type must not be {@literal null}.
+	 * @return
+	 */
+	static PropertyPathInformation of(String path, TypeInformation<?> type) {
+		return PropertyPathInformation.of(PropertyPath.from(path, type));
+	}
+
+	private static PropertyPathInformation of(PropertyPath path) {
+		return new PropertyPathInformation(path);
 	}
 
 }

@@ -51,36 +51,6 @@ import org.springframework.util.ReflectionUtils;
 public interface RepositoryFragment<T> {
 
 	/**
-	 * Create an implemented {@link RepositoryFragment} backed by the
-	 * {@code implementation} object.
-	 * @param implementation must not be {@literal null}.
-	 * @return
-	 */
-	static <T> RepositoryFragment<T> implemented(T implementation) {
-		return new ImplementedRepositoryFragment<>(Optional.empty(), implementation);
-	}
-
-	/**
-	 * Create an implemented {@link RepositoryFragment} from a {@code interfaceClass}
-	 * backed by the {@code implementation} object.
-	 * @param implementation must not be {@literal null}.
-	 * @return
-	 */
-	static <T> RepositoryFragment<T> implemented(Class<T> interfaceClass, T implementation) {
-		return new ImplementedRepositoryFragment<>(Optional.of(interfaceClass), implementation);
-	}
-
-	/**
-	 * Create a structural {@link RepositoryFragment} given
-	 * {@code interfaceOrImplementation}.
-	 * @param interfaceOrImplementation must not be {@literal null}.
-	 * @return
-	 */
-	static <T> RepositoryFragment<T> structural(Class<T> interfaceOrImplementation) {
-		return new StructuralRepositoryFragment<>(interfaceOrImplementation);
-	}
-
-	/**
 	 * Attempt to find the {@link Method} by name and exact parameters. Returns
 	 * {@literal true} if the method was found or {@literal false} otherwise.
 	 * @param method must not be {@literal null}.
@@ -120,6 +90,36 @@ public interface RepositoryFragment<T> {
 	 * @return a new implemented {@link RepositoryFragment} for {@code implementation}.
 	 */
 	RepositoryFragment<T> withImplementation(T implementation);
+
+	/**
+	 * Create an implemented {@link RepositoryFragment} backed by the
+	 * {@code implementation} object.
+	 * @param implementation must not be {@literal null}.
+	 * @return
+	 */
+	static <T> RepositoryFragment<T> implemented(T implementation) {
+		return new ImplementedRepositoryFragment<>(Optional.empty(), implementation);
+	}
+
+	/**
+	 * Create an implemented {@link RepositoryFragment} from a {@code interfaceClass}
+	 * backed by the {@code implementation} object.
+	 * @param implementation must not be {@literal null}.
+	 * @return
+	 */
+	static <T> RepositoryFragment<T> implemented(Class<T> interfaceClass, T implementation) {
+		return new ImplementedRepositoryFragment<>(Optional.of(interfaceClass), implementation);
+	}
+
+	/**
+	 * Create a structural {@link RepositoryFragment} given
+	 * {@code interfaceOrImplementation}.
+	 * @param interfaceOrImplementation must not be {@literal null}.
+	 * @return
+	 */
+	static <T> RepositoryFragment<T> structural(Class<T> interfaceOrImplementation) {
+		return new StructuralRepositoryFragment<>(interfaceOrImplementation);
+	}
 
 	class StructuralRepositoryFragment<T> implements RepositoryFragment<T> {
 

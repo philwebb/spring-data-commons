@@ -86,59 +86,6 @@ public final class RepositoryComposition {
 	}
 
 	/**
-	 * Create an empty {@link RepositoryComposition}.
-	 * @return an empty {@link RepositoryComposition}.
-	 */
-	public static RepositoryComposition empty() {
-		return EMPTY;
-	}
-
-	/**
-	 * Create a {@link RepositoryComposition} for just a single {@code implementation}
-	 * with {@link MethodLookups#direct()} method lookup.
-	 * @param implementation must not be {@literal null}.
-	 * @return the {@link RepositoryComposition} for a single {@code implementation}.
-	 */
-	public static RepositoryComposition just(Object implementation) {
-		return new RepositoryComposition(RepositoryFragments.just(implementation), MethodLookups.direct(),
-				PASSTHRU_ARG_CONVERTER);
-	}
-
-	/**
-	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments}
-	 * with {@link MethodLookups#direct()} method lookup.
-	 * @param fragments must not be {@literal null}.
-	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment
-	 * fragments}.
-	 */
-	public static RepositoryComposition of(RepositoryFragment<?>... fragments) {
-		return of(Arrays.asList(fragments));
-	}
-
-	/**
-	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments}
-	 * with {@link MethodLookups#direct()} method lookup.
-	 * @param fragments must not be {@literal null}.
-	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment
-	 * fragments}.
-	 */
-	public static RepositoryComposition of(List<RepositoryFragment<?>> fragments) {
-		return new RepositoryComposition(RepositoryFragments.from(fragments), MethodLookups.direct(),
-				PASSTHRU_ARG_CONVERTER);
-	}
-
-	/**
-	 * Create a {@link RepositoryComposition} from {@link RepositoryFragments} and
-	 * {@link RepositoryMetadata} with {@link MethodLookups#direct()} method lookup.
-	 * @param fragments must not be {@literal null}.
-	 * @return the {@link RepositoryComposition} from {@link RepositoryFragments
-	 * fragments}.
-	 */
-	public static RepositoryComposition of(RepositoryFragments fragments) {
-		return new RepositoryComposition(fragments, MethodLookups.direct(), PASSTHRU_ARG_CONVERTER);
-	}
-
-	/**
 	 * Create a new {@link RepositoryComposition} retaining current configuration and
 	 * append {@link RepositoryFragment} to the new composition. The resulting composition
 	 * contains the appended {@link RepositoryFragment} as last element.
@@ -270,6 +217,59 @@ public final class RepositoryComposition {
 	}
 
 	/**
+	 * Create an empty {@link RepositoryComposition}.
+	 * @return an empty {@link RepositoryComposition}.
+	 */
+	public static RepositoryComposition empty() {
+		return EMPTY;
+	}
+
+	/**
+	 * Create a {@link RepositoryComposition} for just a single {@code implementation}
+	 * with {@link MethodLookups#direct()} method lookup.
+	 * @param implementation must not be {@literal null}.
+	 * @return the {@link RepositoryComposition} for a single {@code implementation}.
+	 */
+	public static RepositoryComposition just(Object implementation) {
+		return new RepositoryComposition(RepositoryFragments.just(implementation), MethodLookups.direct(),
+				PASSTHRU_ARG_CONVERTER);
+	}
+
+	/**
+	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments}
+	 * with {@link MethodLookups#direct()} method lookup.
+	 * @param fragments must not be {@literal null}.
+	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment
+	 * fragments}.
+	 */
+	public static RepositoryComposition of(RepositoryFragment<?>... fragments) {
+		return of(Arrays.asList(fragments));
+	}
+
+	/**
+	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments}
+	 * with {@link MethodLookups#direct()} method lookup.
+	 * @param fragments must not be {@literal null}.
+	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment
+	 * fragments}.
+	 */
+	public static RepositoryComposition of(List<RepositoryFragment<?>> fragments) {
+		return new RepositoryComposition(RepositoryFragments.from(fragments), MethodLookups.direct(),
+				PASSTHRU_ARG_CONVERTER);
+	}
+
+	/**
+	 * Create a {@link RepositoryComposition} from {@link RepositoryFragments} and
+	 * {@link RepositoryMetadata} with {@link MethodLookups#direct()} method lookup.
+	 * @param fragments must not be {@literal null}.
+	 * @return the {@link RepositoryComposition} from {@link RepositoryFragments
+	 * fragments}.
+	 */
+	public static RepositoryComposition of(RepositoryFragments fragments) {
+		return new RepositoryComposition(fragments, MethodLookups.direct(), PASSTHRU_ARG_CONVERTER);
+	}
+
+	/**
 	 * Value object representing an ordered list of {@link RepositoryFragment fragments}.
 	 */
 	public static final class RepositoryFragments implements Streamable<RepositoryFragment<?>> {
@@ -284,48 +284,6 @@ public final class RepositoryComposition {
 
 		private RepositoryFragments(List<RepositoryFragment<?>> fragments) {
 			this.fragments = fragments;
-		}
-
-		/**
-		 * Create empty {@link RepositoryFragments}.
-		 * @return empty {@link RepositoryFragments}.
-		 */
-		public static RepositoryFragments empty() {
-			return EMPTY;
-		}
-
-		/**
-		 * Create {@link RepositoryFragments} from just implementation objects.
-		 * @param implementations must not be {@literal null}.
-		 * @return the {@link RepositoryFragments} for {@code implementations}.
-		 */
-		public static RepositoryFragments just(Object... implementations) {
-			Assert.notNull(implementations, "Implementations must not be null!");
-			Assert.noNullElements(implementations, "Implementations must not contain null elements!");
-			return new RepositoryFragments(
-					Arrays.stream(implementations).map(RepositoryFragment::implemented).collect(Collectors.toList()));
-		}
-
-		/**
-		 * Create {@link RepositoryFragments} from {@link RepositoryFragments fragments}.
-		 * @param fragments must not be {@literal null}.
-		 * @return the {@link RepositoryFragments} for {@code implementations}.
-		 */
-		public static RepositoryFragments of(RepositoryFragment<?>... fragments) {
-			Assert.notNull(fragments, "RepositoryFragments must not be null!");
-			Assert.noNullElements(fragments, "RepositoryFragments must not contain null elements!");
-			return new RepositoryFragments(Arrays.asList(fragments));
-		}
-
-		/**
-		 * Create {@link RepositoryFragments} from a {@link List} of
-		 * {@link RepositoryFragment fragments}.
-		 * @param fragments must not be {@literal null}.
-		 * @return the {@link RepositoryFragments} for {@code implementations}.
-		 */
-		public static RepositoryFragments from(List<RepositoryFragment<?>> fragments) {
-			Assert.notNull(fragments, "RepositoryFragments must not be null!");
-			return new RepositoryFragments(new ArrayList<>(fragments));
 		}
 
 		/**
@@ -442,6 +400,48 @@ public final class RepositoryComposition {
 		@Override
 		public String toString() {
 			return this.fragments.toString();
+		}
+
+		/**
+		 * Create empty {@link RepositoryFragments}.
+		 * @return empty {@link RepositoryFragments}.
+		 */
+		public static RepositoryFragments empty() {
+			return EMPTY;
+		}
+
+		/**
+		 * Create {@link RepositoryFragments} from just implementation objects.
+		 * @param implementations must not be {@literal null}.
+		 * @return the {@link RepositoryFragments} for {@code implementations}.
+		 */
+		public static RepositoryFragments just(Object... implementations) {
+			Assert.notNull(implementations, "Implementations must not be null!");
+			Assert.noNullElements(implementations, "Implementations must not contain null elements!");
+			return new RepositoryFragments(
+					Arrays.stream(implementations).map(RepositoryFragment::implemented).collect(Collectors.toList()));
+		}
+
+		/**
+		 * Create {@link RepositoryFragments} from {@link RepositoryFragments fragments}.
+		 * @param fragments must not be {@literal null}.
+		 * @return the {@link RepositoryFragments} for {@code implementations}.
+		 */
+		public static RepositoryFragments of(RepositoryFragment<?>... fragments) {
+			Assert.notNull(fragments, "RepositoryFragments must not be null!");
+			Assert.noNullElements(fragments, "RepositoryFragments must not contain null elements!");
+			return new RepositoryFragments(Arrays.asList(fragments));
+		}
+
+		/**
+		 * Create {@link RepositoryFragments} from a {@link List} of
+		 * {@link RepositoryFragment fragments}.
+		 * @param fragments must not be {@literal null}.
+		 * @return the {@link RepositoryFragments} for {@code implementations}.
+		 */
+		public static RepositoryFragments from(List<RepositoryFragment<?>> fragments) {
+			Assert.notNull(fragments, "RepositoryFragments must not be null!");
+			return new RepositoryFragments(new ArrayList<>(fragments));
 		}
 
 	}

@@ -38,6 +38,13 @@ import org.springframework.util.Assert;
 public interface ConverterBuilder {
 
 	/**
+	 * Returns all {@link GenericConverter} instances to be registered for the current
+	 * {@link ConverterBuilder}.
+	 * @return
+	 */
+	Set<GenericConverter> getConverters();
+
+	/**
 	 * Creates a new {@link ReadingConverterBuilder} to produce a converter to read values
 	 * of the given source (the store type) into the given target (the domain type).
 	 * @param source must not be {@literal null}.
@@ -71,13 +78,6 @@ public interface ConverterBuilder {
 		return new DefaultConverterBuilder<>(new ConvertiblePair(target, source), Optional.of(function),
 				Optional.empty());
 	}
-
-	/**
-	 * Returns all {@link GenericConverter} instances to be registered for the current
-	 * {@link ConverterBuilder}.
-	 * @return
-	 */
-	Set<GenericConverter> getConverters();
 
 	/**
 	 * Exposes a writing converter.

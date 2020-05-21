@@ -42,18 +42,6 @@ final class SelectionSet<T> {
 	}
 
 	/**
-	 * creates a {@link SelectionSet} with a default fallback of {@literal null}, when no
-	 * element is found and an {@link IllegalStateException} when no element is found.
-	 */
-	static <T> SelectionSet<T> of(Collection<T> collection) {
-		return new SelectionSet<>(collection, defaultFallback());
-	}
-
-	static <T> SelectionSet<T> of(Collection<T> collection, Function<Collection<T>, Optional<T>> fallback) {
-		return new SelectionSet<>(collection, fallback);
-	}
-
-	/**
 	 * If this {@code SelectionSet} contains exactly one element it gets returned. If no
 	 * unique result can be identified the fallback function passed in at the constructor
 	 * gets called and its return value becomes the return value of this method.
@@ -74,6 +62,22 @@ final class SelectionSet<T> {
 				this.collection.stream().filter(predicate).collect(Collectors.toList()), this.fallback));
 	}
 
+	private Optional<T> findUniqueResult() {
+		return Optional.ofNullable((this.collection.size() != 1) ? null : this.collection.iterator().next());
+	}
+
+	/**
+	 * creates a {@link SelectionSet} with a default fallback of {@literal null}, when no
+	 * element is found and an {@link IllegalStateException} when no element is found.
+	 */
+	static <T> SelectionSet<T> of(Collection<T> collection) {
+		return new SelectionSet<>(collection, defaultFallback());
+	}
+
+	static <T> SelectionSet<T> of(Collection<T> collection, Function<Collection<T>, Optional<T>> fallback) {
+		return new SelectionSet<>(collection, fallback);
+	}
+
 	private static <S> Function<Collection<S>, Optional<S>> defaultFallback() {
 		return (c) -> {
 			if (c.isEmpty()) {
@@ -83,10 +87,6 @@ final class SelectionSet<T> {
 				throw new IllegalStateException("More then one element in collection.");
 			}
 		};
-	}
-
-	private Optional<T> findUniqueResult() {
-		return Optional.ofNullable((this.collection.size() != 1) ? null : this.collection.iterator().next());
 	}
 
 }

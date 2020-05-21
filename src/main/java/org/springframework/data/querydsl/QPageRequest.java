@@ -73,6 +73,26 @@ public class QPageRequest extends AbstractPageRequest {
 		this.sort = sort;
 	}
 
+	@Override
+	public Sort getSort() {
+		return this.sort;
+	}
+
+	@Override
+	public Pageable next() {
+		return QPageRequest.of(getPageNumber() + 1, getPageSize(), this.sort);
+	}
+
+	@Override
+	public Pageable previous() {
+		return QPageRequest.of(getPageNumber() - 1, getPageSize(), this.sort);
+	}
+
+	@Override
+	public Pageable first() {
+		return QPageRequest.of(0, getPageSize(), this.sort);
+	}
+
 	/**
 	 * Creates a new {@link QPageRequest}. Pages are zero indexed, thus providing 0 for
 	 * {@code page} will return the first page.
@@ -104,26 +124,6 @@ public class QPageRequest extends AbstractPageRequest {
 	 */
 	public static QPageRequest of(int page, int size, QSort sort) {
 		return new QPageRequest(page, size, sort);
-	}
-
-	@Override
-	public Sort getSort() {
-		return this.sort;
-	}
-
-	@Override
-	public Pageable next() {
-		return QPageRequest.of(getPageNumber() + 1, getPageSize(), this.sort);
-	}
-
-	@Override
-	public Pageable previous() {
-		return QPageRequest.of(getPageNumber() - 1, getPageSize(), this.sort);
-	}
-
-	@Override
-	public Pageable first() {
-		return QPageRequest.of(0, getPageSize(), this.sort);
 	}
 
 }

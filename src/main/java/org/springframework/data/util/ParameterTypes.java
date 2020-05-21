@@ -68,27 +68,6 @@ public class ParameterTypes {
 	}
 
 	/**
-	 * Returns the {@link ParameterTypes} for the given list of {@link TypeDescriptor}s.
-	 * @param types must not be {@literal null}.
-	 * @return
-	 */
-	public static ParameterTypes of(List<TypeDescriptor> types) {
-		Assert.notNull(types, "Types must not be null!");
-		return cache.computeIfAbsent(types, ParameterTypes::new);
-	}
-
-	/**
-	 * Returns the {@link ParameterTypes} for the given {@link Class}es.
-	 * @param types must not be {@literal null}.
-	 * @return
-	 */
-	static ParameterTypes of(Class<?>... types) {
-		Assert.notNull(types, "Types must not be null!");
-		Assert.noNullElements(types, "Types must not have null elements!");
-		return of(Arrays.stream(types).map(TypeDescriptor::valueOf).collect(Collectors.toList()));
-	}
-
-	/**
 	 * Returns whether the parameter types are valid for the given {@link Method}. That
 	 * means, a parameter value list with the given type arrangement is a valid list to
 	 * invoke the given method.
@@ -238,6 +217,27 @@ public class ParameterTypes {
 	public String toString() {
 		return this.types.stream().map(TypeDescriptor::getType).map(Class::getSimpleName)
 				.collect(Collectors.joining(", ", "(", ")"));
+	}
+
+	/**
+	 * Returns the {@link ParameterTypes} for the given list of {@link TypeDescriptor}s.
+	 * @param types must not be {@literal null}.
+	 * @return
+	 */
+	public static ParameterTypes of(List<TypeDescriptor> types) {
+		Assert.notNull(types, "Types must not be null!");
+		return cache.computeIfAbsent(types, ParameterTypes::new);
+	}
+
+	/**
+	 * Returns the {@link ParameterTypes} for the given {@link Class}es.
+	 * @param types must not be {@literal null}.
+	 * @return
+	 */
+	static ParameterTypes of(Class<?>... types) {
+		Assert.notNull(types, "Types must not be null!");
+		Assert.noNullElements(types, "Types must not have null elements!");
+		return of(Arrays.stream(types).map(TypeDescriptor::valueOf).collect(Collectors.toList()));
 	}
 
 	/**

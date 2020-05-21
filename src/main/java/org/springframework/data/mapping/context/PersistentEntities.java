@@ -51,16 +51,6 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	}
 
 	/**
-	 * Creates a new {@link PersistentEntities} for the given {@link MappingContext}s.
-	 * @param contexts must not be {@literal null}.
-	 * @return
-	 */
-	public static PersistentEntities of(MappingContext<?, ?>... contexts) {
-		Assert.notNull(contexts, "MappingContexts must not be null!");
-		return new PersistentEntities(Arrays.asList(contexts));
-	}
-
-	/**
 	 * Returns the {@link PersistentEntity} for the given type. Will consider all
 	 * {@link MappingContext}s registered but return {@literal Optional#empty()} in case
 	 * none of the registered ones already have a {@link PersistentEntity} registered for
@@ -176,6 +166,16 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 			throw new IllegalStateException(message);
 		}
 		return entities.isEmpty() ? null : entities.iterator().next();
+	}
+
+	/**
+	 * Creates a new {@link PersistentEntities} for the given {@link MappingContext}s.
+	 * @param contexts must not be {@literal null}.
+	 * @return
+	 */
+	public static PersistentEntities of(MappingContext<?, ?>... contexts) {
+		Assert.notNull(contexts, "MappingContexts must not be null!");
+		return new PersistentEntities(Arrays.asList(contexts));
 	}
 
 }

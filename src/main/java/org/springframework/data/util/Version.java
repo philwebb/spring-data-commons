@@ -60,37 +60,6 @@ public class Version implements Comparable<Version> {
 	}
 
 	/**
-	 * Parses the given string representation of a version into a {@link Version} object.
-	 * @param version must not be {@literal null} or empty.
-	 * @return
-	 */
-	public static Version parse(String version) {
-		Assert.hasText(version, "Version must not be null o empty!");
-		String[] parts = version.trim().split("\\.");
-		int[] intParts = new int[parts.length];
-		for (int i = 0; i < parts.length; i++) {
-			String input = (i == parts.length - 1) ? parts[i].replaceAll("\\D.*", "") : parts[i];
-			if (StringUtils.hasText(input)) {
-				try {
-					intParts[i] = Integer.parseInt(input);
-				}
-				catch (IllegalArgumentException ex) {
-					throw new IllegalArgumentException(String.format(VERSION_PARSE_ERROR, input, version), ex);
-				}
-			}
-		}
-		return new Version(intParts);
-	}
-
-	/**
-	 * Returns the Java version of the running JVM.
-	 * @return will never be {@literal null}.
-	 */
-	public static Version javaVersion() {
-		return parse(System.getProperty("java.version"));
-	}
-
-	/**
 	 * Returns whether the current {@link Version} is greater (newer) than the given one.
 	 * @param version
 	 * @return
@@ -189,6 +158,37 @@ public class Version implements Comparable<Version> {
 			digits.add(this.build);
 		}
 		return StringUtils.collectionToDelimitedString(digits, ".");
+	}
+
+	/**
+	 * Parses the given string representation of a version into a {@link Version} object.
+	 * @param version must not be {@literal null} or empty.
+	 * @return
+	 */
+	public static Version parse(String version) {
+		Assert.hasText(version, "Version must not be null o empty!");
+		String[] parts = version.trim().split("\\.");
+		int[] intParts = new int[parts.length];
+		for (int i = 0; i < parts.length; i++) {
+			String input = (i == parts.length - 1) ? parts[i].replaceAll("\\D.*", "") : parts[i];
+			if (StringUtils.hasText(input)) {
+				try {
+					intParts[i] = Integer.parseInt(input);
+				}
+				catch (IllegalArgumentException ex) {
+					throw new IllegalArgumentException(String.format(VERSION_PARSE_ERROR, input, version), ex);
+				}
+			}
+		}
+		return new Version(intParts);
+	}
+
+	/**
+	 * Returns the Java version of the running JVM.
+	 * @return will never be {@literal null}.
+	 */
+	public static Version javaVersion() {
+		return parse(System.getProperty("java.version"));
 	}
 
 }

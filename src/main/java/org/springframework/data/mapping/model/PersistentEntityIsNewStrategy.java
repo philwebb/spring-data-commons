@@ -58,6 +58,22 @@ final class PersistentEntityIsNewStrategy implements IsNewStrategy {
 		}
 	}
 
+	@Override
+	public boolean isNew(Object entity) {
+		Object value = this.valueLookup.apply(entity);
+		if (value == null) {
+			return true;
+		}
+		if (this.valueType != null && !this.valueType.isPrimitive()) {
+			return value == null;
+		}
+		if (Number.class.isInstance(value)) {
+			return ((Number) value).longValue() == 0;
+		}
+		throw new IllegalArgumentException(String
+				.format("Could not determine whether %s is new! Unsupported identifier or version property!", entity));
+	}
+
 	/**
 	 * Creates a new {@link PersistentEntityIsNewStrategy} to only consider the identifier
 	 * of the given entity.
@@ -76,22 +92,6 @@ final class PersistentEntityIsNewStrategy implements IsNewStrategy {
 	 */
 	static PersistentEntityIsNewStrategy of(PersistentEntity<?, ?> entity) {
 		return new PersistentEntityIsNewStrategy(entity, false);
-	}
-
-	@Override
-	public boolean isNew(Object entity) {
-		Object value = this.valueLookup.apply(entity);
-		if (value == null) {
-			return true;
-		}
-		if (this.valueType != null && !this.valueType.isPrimitive()) {
-			return value == null;
-		}
-		if (Number.class.isInstance(value)) {
-			return ((Number) value).longValue() == 0;
-		}
-		throw new IllegalArgumentException(String
-				.format("Could not determine whether %s is new! Unsupported identifier or version property!", entity));
 	}
 
 }

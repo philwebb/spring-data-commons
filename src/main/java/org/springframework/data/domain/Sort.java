@@ -357,36 +357,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		}
 
 		/**
-		 * Creates a new {@link Order} instance. Takes a single property. Direction
-		 * defaults to {@link Sort#DEFAULT_DIRECTION}.
-		 * @param property must not be {@literal null} or empty.
-		 * @since 2.0
-		 */
-		public static Order by(String property) {
-			return new Order(DEFAULT_DIRECTION, property);
-		}
-
-		/**
-		 * Creates a new {@link Order} instance. Takes a single property. Direction is
-		 * {@link Direction#ASC} and NullHandling {@link NullHandling#NATIVE}.
-		 * @param property must not be {@literal null} or empty.
-		 * @since 2.0
-		 */
-		public static Order asc(String property) {
-			return new Order(Direction.ASC, property, DEFAULT_NULL_HANDLING);
-		}
-
-		/**
-		 * Creates a new {@link Order} instance. Takes a single property. Direction is
-		 * {@link Direction#DESC} and NullHandling {@link NullHandling#NATIVE}.
-		 * @param property must not be {@literal null} or empty.
-		 * @since 2.0
-		 */
-		public static Order desc(String property) {
-			return new Order(Direction.DESC, property, DEFAULT_NULL_HANDLING);
-		}
-
-		/**
 		 * Creates a new {@link Order} instance. if order is {@literal null} then order
 		 * defaults to {@link Sort#DEFAULT_DIRECTION}
 		 * @param direction can be {@literal null}, will default to
@@ -566,6 +536,36 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 				result += ", ignoring case";
 			}
 			return result;
+		}
+
+		/**
+		 * Creates a new {@link Order} instance. Takes a single property. Direction
+		 * defaults to {@link Sort#DEFAULT_DIRECTION}.
+		 * @param property must not be {@literal null} or empty.
+		 * @since 2.0
+		 */
+		public static Order by(String property) {
+			return new Order(DEFAULT_DIRECTION, property);
+		}
+
+		/**
+		 * Creates a new {@link Order} instance. Takes a single property. Direction is
+		 * {@link Direction#ASC} and NullHandling {@link NullHandling#NATIVE}.
+		 * @param property must not be {@literal null} or empty.
+		 * @since 2.0
+		 */
+		public static Order asc(String property) {
+			return new Order(Direction.ASC, property, DEFAULT_NULL_HANDLING);
+		}
+
+		/**
+		 * Creates a new {@link Order} instance. Takes a single property. Direction is
+		 * {@link Direction#DESC} and NullHandling {@link NullHandling#NATIVE}.
+		 * @param property must not be {@literal null} or empty.
+		 * @since 2.0
+		 */
+		public static Order desc(String property) {
+			return new Order(Direction.DESC, property, DEFAULT_NULL_HANDLING);
 		}
 
 	}
