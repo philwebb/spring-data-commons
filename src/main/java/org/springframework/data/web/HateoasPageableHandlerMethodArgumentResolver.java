@@ -31,9 +31,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static org.springframework.hateoas.TemplateVariable.VariableType.REQUEST_PARAM;
-import static org.springframework.hateoas.TemplateVariable.VariableType.REQUEST_PARAM_CONTINUED;
-
 /**
  * Extension of {@link PageableHandlerMethodArgumentResolver} that also supports enhancing
  * URIs using Spring HATEOAS support.
@@ -83,7 +80,7 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 		boolean append = !queryParameters.isEmpty();
 		for (String propertyName : Arrays.asList(pagePropertyName, sizePropertyName)) {
 			if (!queryParameters.containsKey(propertyName)) {
-				VariableType type = append ? REQUEST_PARAM_CONTINUED : REQUEST_PARAM;
+				VariableType type = append ? VariableType.REQUEST_PARAM_CONTINUED : VariableType.REQUEST_PARAM;
 				String description = String.format("pagination.%s.description", propertyName);
 				names.add(new TemplateVariable(propertyName, type, description));
 			}

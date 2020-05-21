@@ -29,6 +29,7 @@ import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.springframework.core.GenericTypeResolver;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ResolvableType;
 import org.springframework.data.repository.Repository;
@@ -38,8 +39,6 @@ import org.springframework.data.repository.util.QueryExecutionConverters;
 import org.springframework.data.repository.util.ReactiveWrapperConverters;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
-
-import static org.springframework.core.GenericTypeResolver.resolveParameterType;
 
 /**
  * Implementations of method lookup functions.
@@ -178,7 +177,7 @@ interface MethodLookups {
 				Type genericType = genericTypes[i];
 				Class<?> type = types[i];
 				MethodParameter parameter = new MethodParameter(invokedMethod, i);
-				Class<?> parameterType = resolveParameterType(parameter, this.repositoryInterface);
+				Class<?> parameterType = GenericTypeResolver.resolveParameterType(parameter, this.repositoryInterface);
 				if (genericType instanceof TypeVariable<?>) {
 					if (!matchesGenericType((TypeVariable<?>) genericType,
 							ResolvableType.forMethodParameter(parameter))) {
@@ -240,7 +239,8 @@ interface MethodLookups {
 		 */
 		private Predicate<ParameterOverrideCriteria> matchParameterOrComponentType(Class<?> repositoryInterface) {
 			return (parameterCriteria) -> {
-				Class<?> parameterType = resolveParameterType(parameterCriteria.getDeclared(), repositoryInterface);
+				Class<?> parameterType = GenericTypeResolver.resolveParameterType(parameterCriteria.getDeclared(),
+						repositoryInterface);
 				Type genericType = parameterCriteria.getGenericBaseType();
 				if (genericType instanceof TypeVariable<?>) {
 					if (!matchesGenericType((TypeVariable<?>) genericType,

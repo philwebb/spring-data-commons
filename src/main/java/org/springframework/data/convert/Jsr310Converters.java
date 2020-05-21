@@ -34,10 +34,6 @@ import javax.annotation.Nonnull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 
-import static java.time.Instant.ofEpochMilli;
-import static java.time.LocalDateTime.ofInstant;
-import static java.time.ZoneId.systemDefault;
-
 /**
  * Helper class to register JSR-310 specific {@link Converter} implementations in case the
  * we're running on Java 8.
@@ -94,7 +90,7 @@ public abstract class Jsr310Converters {
 		@Nonnull
 		@Override
 		public LocalDateTime convert(Date source) {
-			return ofInstant(source.toInstant(), systemDefault());
+			return LocalDateTime.ofInstant(source.toInstant(), ZoneId.systemDefault());
 		}
 
 	}
@@ -107,7 +103,7 @@ public abstract class Jsr310Converters {
 		@Nonnull
 		@Override
 		public Date convert(LocalDateTime source) {
-			return Date.from(source.atZone(systemDefault()).toInstant());
+			return Date.from(source.atZone(ZoneId.systemDefault()).toInstant());
 		}
 
 	}
@@ -120,7 +116,8 @@ public abstract class Jsr310Converters {
 		@Nonnull
 		@Override
 		public LocalDate convert(Date source) {
-			return ofInstant(ofEpochMilli(source.getTime()), systemDefault()).toLocalDate();
+			return LocalDateTime.ofInstant(Instant.ofEpochMilli(source.getTime()), ZoneId.systemDefault())
+					.toLocalDate();
 		}
 
 	}
@@ -133,7 +130,7 @@ public abstract class Jsr310Converters {
 		@Nonnull
 		@Override
 		public Date convert(LocalDate source) {
-			return Date.from(source.atStartOfDay(systemDefault()).toInstant());
+			return Date.from(source.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
 
 	}
@@ -146,7 +143,8 @@ public abstract class Jsr310Converters {
 		@Nonnull
 		@Override
 		public LocalTime convert(Date source) {
-			return ofInstant(ofEpochMilli(source.getTime()), systemDefault()).toLocalTime();
+			return LocalDateTime.ofInstant(Instant.ofEpochMilli(source.getTime()), ZoneId.systemDefault())
+					.toLocalTime();
 		}
 
 	}
@@ -159,7 +157,7 @@ public abstract class Jsr310Converters {
 		@Nonnull
 		@Override
 		public Date convert(LocalTime source) {
-			return Date.from(source.atDate(LocalDate.now()).atZone(systemDefault()).toInstant());
+			return Date.from(source.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toInstant());
 		}
 
 	}
@@ -198,7 +196,7 @@ public abstract class Jsr310Converters {
 		@Nonnull
 		@Override
 		public Instant convert(LocalDateTime source) {
-			return source.atZone(systemDefault()).toInstant();
+			return source.atZone(ZoneId.systemDefault()).toInstant();
 		}
 
 	}
@@ -211,7 +209,7 @@ public abstract class Jsr310Converters {
 		@Nonnull
 		@Override
 		public LocalDateTime convert(Instant source) {
-			return LocalDateTime.ofInstant(source, systemDefault());
+			return LocalDateTime.ofInstant(source, ZoneId.systemDefault());
 		}
 
 	}

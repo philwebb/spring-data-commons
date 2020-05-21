@@ -22,7 +22,6 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.domain.ExampleMatcher.matching;
 
 /**
  * Test for {@link Example}.
@@ -56,10 +55,10 @@ class ExampleUnitTests {
 
 	@Test // DATACMNS-900
 	void shouldCompareUsingHashCodeAndEquals() throws Exception {
-		Example<Person> example = Example.of(this.person, matching().withIgnoreCase("firstname"));
-		Example<Person> sameAsExample = Example.of(this.person, matching().withIgnoreCase("firstname"));
+		Example<Person> example = Example.of(this.person, ExampleMatcher.matching().withIgnoreCase("firstname"));
+		Example<Person> sameAsExample = Example.of(this.person, ExampleMatcher.matching().withIgnoreCase("firstname"));
 		Example<Person> different = Example.of(this.person,
-				matching().withMatcher("firstname", GenericPropertyMatchers.contains()));
+				ExampleMatcher.matching().withMatcher("firstname", GenericPropertyMatchers.contains()));
 		assertThat(example.hashCode()).isEqualTo(sameAsExample.hashCode());
 		assertThat(example.hashCode()).isNotEqualTo(different.hashCode());
 		assertThat(example).isEqualTo(sameAsExample);

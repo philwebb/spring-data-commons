@@ -33,8 +33,6 @@ import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
-
 /**
  * {@link BeanDefinitionParser} that parses an {@link AuditingHandler}
  * {@link BeanDefinition}
@@ -100,9 +98,10 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	}
 
 	private BeanDefinition createLazyInitTargetSourceBeanDefinition(String auditorAwareRef) {
-		BeanDefinitionBuilder targetSourceBuilder = rootBeanDefinition(LazyInitTargetSource.class);
+		BeanDefinitionBuilder targetSourceBuilder = BeanDefinitionBuilder
+				.rootBeanDefinition(LazyInitTargetSource.class);
 		targetSourceBuilder.addPropertyValue("targetBeanName", auditorAwareRef);
-		BeanDefinitionBuilder builder = rootBeanDefinition(ProxyFactoryBean.class);
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(ProxyFactoryBean.class);
 		builder.addPropertyValue("targetSource", targetSourceBuilder.getBeanDefinition());
 		return builder.getBeanDefinition();
 	}

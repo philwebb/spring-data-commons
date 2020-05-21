@@ -26,7 +26,6 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.springframework.test.util.ReflectionTestUtils.getField;
 
 /**
  * Unit tests for {@link TransactionalRepositoryFactoryBeanSupport}.
@@ -48,8 +47,8 @@ class TransactionRepositoryFactoryBeanSupportUnitTests {
 			if (advisor.getAdvice() instanceof TransactionInterceptor) {
 				found = true;
 				TransactionInterceptor interceptor = (TransactionInterceptor) advisor.getAdvice();
-				assertThat(getField(interceptor.getTransactionAttributeSource(), "enableDefaultTransactions"))
-						.isEqualTo(false);
+				assertThat(ReflectionTestUtils.getField(interceptor.getTransactionAttributeSource(),
+						"enableDefaultTransactions")).isEqualTo(false);
 				break;
 			}
 		}

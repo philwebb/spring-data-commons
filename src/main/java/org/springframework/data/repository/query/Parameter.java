@@ -33,8 +33,6 @@ import org.springframework.data.util.Lazy;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
 
-import static java.lang.String.format;
-
 /**
  * Class to abstract a single parameter of a query method. It is held in the context of a
  * {@link Parameters} instance.
@@ -116,10 +114,10 @@ public class Parameter {
 	 */
 	public String getPlaceholder() {
 		if (isNamedParameter()) {
-			return format(NAMED_PARAMETER_TEMPLATE, getName().get());
+			return String.format(NAMED_PARAMETER_TEMPLATE, getName().get());
 		}
 		else {
-			return format(POSITION_PARAMETER_TEMPLATE, getIndex());
+			return String.format(POSITION_PARAMETER_TEMPLATE, getIndex());
 		}
 	}
 
@@ -168,7 +166,7 @@ public class Parameter {
 
 	@Override
 	public String toString() {
-		return format("%s:%s", isNamedParameter() ? getName() : "#" + getIndex(), getType().getName());
+		return String.format("%s:%s", isNamedParameter() ? getName() : "#" + getIndex(), getType().getName());
 	}
 
 	/**

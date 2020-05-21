@@ -29,9 +29,6 @@ import org.springframework.data.domain.Sort.Order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.querydsl.QQSortUnitTests_WrapperToWrapWrapperForUserWrapper.wrapperToWrapWrapperForUserWrapper;
-import static org.springframework.data.querydsl.QQSortUnitTests_WrapperToWrapWrapperForUserWrapper_WrapperForUserWrapper.wrapperForUserWrapper;
-import static org.springframework.data.querydsl.QQSortUnitTests_WrapperToWrapWrapperForUserWrapper_WrapperForUserWrapper_UserWrapper.userWrapper;
 
 /**
  * Unit tests for {@link QSort}.
@@ -119,19 +116,25 @@ class QSortUnitTests {
 
 	@Test // DATACMNS-621
 	void shouldCreateSortForNestedPathCorrectly() {
-		QSort sort = new QSort(userWrapper.user.firstname.asc());
+		QSort sort = new QSort(
+				QQSortUnitTests_WrapperToWrapWrapperForUserWrapper_WrapperForUserWrapper_UserWrapper.userWrapper.user.firstname
+						.asc());
 		assertThat(sort).contains(new Order(Direction.ASC, "user.firstname"));
 	}
 
 	@Test // DATACMNS-621
 	void shouldCreateSortForDeepNestedPathCorrectly() {
-		QSort sort = new QSort(wrapperForUserWrapper.wrapper.user.firstname.asc());
+		QSort sort = new QSort(
+				QQSortUnitTests_WrapperToWrapWrapperForUserWrapper_WrapperForUserWrapper.wrapperForUserWrapper.wrapper.user.firstname
+						.asc());
 		assertThat(sort).contains(new Order(Direction.ASC, "wrapper.user.firstname"));
 	}
 
 	@Test // DATACMNS-621
 	void shouldCreateSortForReallyDeepNestedPathCorrectly() {
-		QSort sort = new QSort(wrapperToWrapWrapperForUserWrapper.wrapperForUserWrapper.wrapper.user.firstname.asc());
+		QSort sort = new QSort(
+				QQSortUnitTests_WrapperToWrapWrapperForUserWrapper.wrapperToWrapWrapperForUserWrapper.wrapperForUserWrapper.wrapper.user.firstname
+						.asc());
 		assertThat(sort).contains(new Order(Direction.ASC, "wrapperForUserWrapper.wrapper.user.firstname"));
 	}
 

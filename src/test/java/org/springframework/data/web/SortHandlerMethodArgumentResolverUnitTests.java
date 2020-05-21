@@ -36,8 +36,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.springframework.data.domain.Sort.Direction.ASC;
-import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * Unit tests for {@link SortHandlerMethodArgumentResolver}.
@@ -139,7 +137,7 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 	void sortParamIsInvalidPropertyWhenMultiProperty() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("sort", "property1,,DESC");
-		assertThat(resolveSort(request, PARAMETER)).isEqualTo(Sort.by(DESC, "property1"));
+		assertThat(resolveSort(request, PARAMETER)).isEqualTo(Sort.by(Direction.DESC, "property1"));
 	}
 
 	@Test // DATACMNS-408
@@ -147,7 +145,7 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("sort", "property,DESC");
 		request.addParameter("sort", "");
-		assertThat(resolveSort(request, PARAMETER)).isEqualTo(Sort.by(DESC, "property"));
+		assertThat(resolveSort(request, PARAMETER)).isEqualTo(Sort.by(Direction.DESC, "property"));
 	}
 
 	@Test // DATACMNS-658
@@ -155,15 +153,17 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("sort", "property,DESC,IgnoreCase");
 		request.addParameter("sort", "");
-		assertThat(resolveSort(request, PARAMETER)).isEqualTo(Sort.by(new Order(DESC, "property").ignoreCase()));
+		assertThat(resolveSort(request, PARAMETER))
+				.isEqualTo(Sort.by(new Order(Direction.DESC, "property").ignoreCase()));
 	}
 
 	@Test // DATACMNS-658
 	void sortParamHandlesMultiplePropertiesWithSortOrderAndIgnoreCase() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("sort", "property1,property2,DESC,IgnoreCase");
-		assertThat(resolveSort(request, PARAMETER)).isEqualTo(
-				Sort.by(new Order(DESC, "property1").ignoreCase(), new Order(DESC, "property2").ignoreCase()));
+		assertThat(resolveSort(request, PARAMETER))
+				.isEqualTo(Sort.by(new Order(Direction.DESC, "property1").ignoreCase(),
+						new Order(Direction.DESC, "property2").ignoreCase()));
 	}
 
 	@Test // DATACMNS-658
@@ -171,15 +171,17 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("sort", "property,IgnoreCase");
 		request.addParameter("sort", "");
-		assertThat(resolveSort(request, PARAMETER)).isEqualTo(Sort.by(new Order(ASC, "property").ignoreCase()));
+		assertThat(resolveSort(request, PARAMETER))
+				.isEqualTo(Sort.by(new Order(Direction.ASC, "property").ignoreCase()));
 	}
 
 	@Test // DATACMNS-658
 	void returnsDefaultCaseInsensitive() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("sort", "");
-		assertThat(resolveSort(request, getParameterOfMethod("simpleDefaultWithDirectionCaseInsensitive"))).isEqualTo(
-				Sort.by(new Order(DESC, "firstname").ignoreCase(), new Order(DESC, "lastname").ignoreCase()));
+		assertThat(resolveSort(request, getParameterOfMethod("simpleDefaultWithDirectionCaseInsensitive")))
+				.isEqualTo(Sort.by(new Order(Direction.DESC, "firstname").ignoreCase(),
+						new Order(Direction.DESC, "lastname").ignoreCase()));
 	}
 
 	@Test // DATACMNS-379

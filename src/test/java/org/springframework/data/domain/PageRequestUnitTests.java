@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Sort.Direction;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.springframework.data.domain.UnitTestUtils.assertEqualsAndHashcode;
-import static org.springframework.data.domain.UnitTestUtils.assertNotEqualsAndHashcode;
 
 /**
  * Unit test for {@link PageRequest}.
@@ -44,15 +42,15 @@ class PageRequestUnitTests extends AbstractPageRequestUnitTests {
 		Sort sort = Sort.by(Direction.DESC, "foo");
 		AbstractPageRequest request = PageRequest.of(0, 10, sort);
 		// Equals itself
-		assertEqualsAndHashcode(request, request);
+		UnitTestUtils.assertEqualsAndHashcode(request, request);
 		// Equals another instance with same setup
-		assertEqualsAndHashcode(request, PageRequest.of(0, 10, sort));
+		UnitTestUtils.assertEqualsAndHashcode(request, PageRequest.of(0, 10, sort));
 		// Equals without sort entirely
-		assertEqualsAndHashcode(PageRequest.of(0, 10), PageRequest.of(0, 10));
+		UnitTestUtils.assertEqualsAndHashcode(PageRequest.of(0, 10), PageRequest.of(0, 10));
 		// Is not equal to instance without sort
-		assertNotEqualsAndHashcode(request, PageRequest.of(0, 10));
+		UnitTestUtils.assertNotEqualsAndHashcode(request, PageRequest.of(0, 10));
 		// Is not equal to instance with another sort
-		assertNotEqualsAndHashcode(request, PageRequest.of(0, 10, Direction.ASC, "foo"));
+		UnitTestUtils.assertNotEqualsAndHashcode(request, PageRequest.of(0, 10, Direction.ASC, "foo"));
 	}
 
 	@Test // DATACMNS-1581

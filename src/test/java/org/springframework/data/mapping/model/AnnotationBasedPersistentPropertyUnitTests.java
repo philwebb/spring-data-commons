@@ -16,6 +16,7 @@
 package org.springframework.data.mapping.model;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -41,9 +42,6 @@ import org.springframework.data.mapping.context.SamplePersistentProperty;
 import org.springframework.lang.Nullable;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -356,7 +354,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ FIELD, METHOD, ANNOTATION_TYPE })
+	@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE })
 	public @interface MyAnnotation {
 
 		String value() default "";
@@ -364,14 +362,14 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ FIELD, METHOD })
+	@Target({ ElementType.FIELD, ElementType.METHOD })
 	@MyAnnotation
 	public @interface MyAnnotationAsMeta {
 
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ FIELD, METHOD })
+	@Target({ ElementType.FIELD, ElementType.METHOD })
 	@MyAnnotation
 	public @interface MyComposedAnnotationUsingAliasFor {
 
@@ -381,7 +379,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ FIELD, METHOD })
+	@Target({ ElementType.FIELD, ElementType.METHOD })
 	@interface RevisedAnnnotationWithAliasFor {
 
 		@AliasFor("value")
@@ -393,7 +391,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ FIELD, METHOD, ANNOTATION_TYPE })
+	@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE })
 	@Id
 	public @interface MyId {
 
@@ -453,7 +451,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 	@ReadOnlyProperty
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target(FIELD)
+	@Target(ElementType.FIELD)
 	@interface CustomReadOnly {
 
 	}

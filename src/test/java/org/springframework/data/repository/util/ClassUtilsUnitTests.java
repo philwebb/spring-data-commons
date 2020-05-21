@@ -29,8 +29,6 @@ import org.springframework.scheduling.annotation.Async;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.springframework.data.repository.util.ClassUtils.assertReturnTypeAssignable;
-import static org.springframework.data.repository.util.ClassUtils.hasProperty;
 
 /**
  * Unit test for {@link ClassUtils}.
@@ -41,20 +39,20 @@ class ClassUtilsUnitTests {
 
 	@Test
 	void rejectsInvalidReturnType() {
-		assertThatIllegalStateException().isThrownBy(() -> assertReturnTypeAssignable(
+		assertThatIllegalStateException().isThrownBy(() -> ClassUtils.assertReturnTypeAssignable(
 				SomeDao.class.getMethod("findByFirstname", Pageable.class, String.class), User.class));
 	}
 
 	@Test
 	void determinesValidFieldsCorrectly() {
-		assertThat(hasProperty(User.class, "firstname")).isTrue();
-		assertThat(hasProperty(User.class, "Firstname")).isTrue();
-		assertThat(hasProperty(User.class, "address")).isFalse();
+		assertThat(ClassUtils.hasProperty(User.class, "firstname")).isTrue();
+		assertThat(ClassUtils.hasProperty(User.class, "Firstname")).isTrue();
+		assertThat(ClassUtils.hasProperty(User.class, "address")).isFalse();
 	}
 
 	@Test // DATACMNS-769
 	void unwrapsWrapperTypesBeforeAssignmentCheck() throws Exception {
-		assertReturnTypeAssignable(UserRepository.class.getMethod("findAsync", Pageable.class), Page.class);
+		ClassUtils.assertReturnTypeAssignable(UserRepository.class.getMethod("findAsync", Pageable.class), Page.class);
 	}
 
 	@SuppressWarnings("unused")

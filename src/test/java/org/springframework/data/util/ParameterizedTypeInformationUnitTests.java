@@ -18,6 +18,7 @@ package org.springframework.data.util;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -30,10 +31,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.data.util.ClassTypeInformation.from;
 
 /**
  * Unit tests for {@link ParameterizedTypeInformation}.
@@ -55,8 +54,8 @@ class ParameterizedTypeInformationUnitTests {
 
 	@Test
 	void considersTypeInformationsWithDifferingParentsNotEqual() {
-		TypeDiscoverer<String> stringParent = new TypeDiscoverer<>(String.class, emptyMap());
-		TypeDiscoverer<Object> objectParent = new TypeDiscoverer<>(Object.class, emptyMap());
+		TypeDiscoverer<String> stringParent = new TypeDiscoverer<>(String.class, Collections.emptyMap());
+		TypeDiscoverer<Object> objectParent = new TypeDiscoverer<>(Object.class, Collections.emptyMap());
 		ParameterizedTypeInformation<Object> first = new ParameterizedTypeInformation<>(this.one, stringParent);
 		ParameterizedTypeInformation<Object> second = new ParameterizedTypeInformation<>(this.one, objectParent);
 		assertThat(first).isNotEqualTo(second);
@@ -64,7 +63,7 @@ class ParameterizedTypeInformationUnitTests {
 
 	@Test
 	void considersTypeInformationsWithSameParentsNotEqual() {
-		TypeDiscoverer<String> stringParent = new TypeDiscoverer<>(String.class, emptyMap());
+		TypeDiscoverer<String> stringParent = new TypeDiscoverer<>(String.class, Collections.emptyMap());
 		ParameterizedTypeInformation<Object> first = new ParameterizedTypeInformation<>(this.one, stringParent);
 		ParameterizedTypeInformation<Object> second = new ParameterizedTypeInformation<>(this.one, stringParent);
 		assertThat(first.equals(second)).isTrue();
@@ -85,14 +84,14 @@ class ParameterizedTypeInformationUnitTests {
 
 	@Test // DATACMNS-446
 	void createsToStringRepresentation() {
-		assertThat(from(Foo.class).getProperty("param").toString()).isEqualTo(
+		assertThat(ClassTypeInformation.from(Foo.class).getProperty("param").toString()).isEqualTo(
 				"org.springframework.data.util.ParameterizedTypeInformationUnitTests$Localized<java.lang.String>");
 	}
 
 	@Test // DATACMNS-485
 	void hashCodeShouldBeConsistentWithEqualsForResolvedTypes() {
-		TypeInformation<?> first = from(First.class).getProperty("property");
-		TypeInformation<?> second = from(Second.class).getProperty("property");
+		TypeInformation<?> first = ClassTypeInformation.from(First.class).getProperty("property");
+		TypeInformation<?> second = ClassTypeInformation.from(Second.class).getProperty("property");
 		assertThat(first).isEqualTo(second);
 		assertThat(first).satisfies(
 				left -> assertThat(second).satisfies(right -> assertThat(left.hashCode()).isEqualTo(right.hashCode())));
@@ -100,7 +99,7 @@ class ParameterizedTypeInformationUnitTests {
 
 	@Test // DATACMNS-485
 	void getActualTypeShouldNotUnwrapParameterizedTypes() {
-		TypeInformation<?> type = from(First.class).getProperty("property");
+		TypeInformation<?> type = ClassTypeInformation.from(First.class).getProperty("property");
 		assertThat(type.getActualType()).isEqualTo(type);
 	}
 

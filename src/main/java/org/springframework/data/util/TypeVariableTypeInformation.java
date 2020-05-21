@@ -20,8 +20,7 @@ import java.lang.reflect.TypeVariable;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-
-import static org.springframework.util.ObjectUtils.nullSafeHashCode;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Special {@link TypeDiscoverer} to determine the actual type for a {@link TypeVariable}.
@@ -61,7 +60,7 @@ class TypeVariableTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 	@Override
 	public int hashCode() {
 		int result = 17;
-		result += 31 * nullSafeHashCode(getType());
+		result += 31 * ObjectUtils.nullSafeHashCode(getType());
 		return result;
 	}
 

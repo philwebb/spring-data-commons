@@ -37,8 +37,6 @@ import org.springframework.data.mapping.PersistentPropertyPathAccessor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import static org.springframework.data.mapping.AccessOptions.SetOptions.SetNulls.SKIP;
-
 /**
  * {@link PersistentPropertyPathAccessor} that propagates attempts to set property values
  * through collections and map values. I.e. if a {@link PersistentPropertyPath} contains a
@@ -160,7 +158,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	 */
 	@Nullable
 	private Object handleNull(PersistentPropertyPath<? extends PersistentProperty<?>> path, SetNulls handling) {
-		if (SKIP.equals(handling)) {
+		if (SetNulls.SKIP.equals(handling)) {
 			return null;
 		}
 		String nullIntermediateMessage = "Cannot lookup property %s on null intermediate! Original path was: %s on %s.";

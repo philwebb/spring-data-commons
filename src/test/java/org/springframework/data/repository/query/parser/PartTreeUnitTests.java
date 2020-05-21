@@ -32,26 +32,9 @@ import org.springframework.data.repository.query.parser.Part.IgnoreCaseType;
 import org.springframework.data.repository.query.parser.Part.Type;
 import org.springframework.data.repository.query.parser.PartTree.OrPart;
 
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
-import static org.springframework.data.repository.query.parser.Part.Type.ENDING_WITH;
-import static org.springframework.data.repository.query.parser.Part.Type.EXISTS;
-import static org.springframework.data.repository.query.parser.Part.Type.FALSE;
-import static org.springframework.data.repository.query.parser.Part.Type.GREATER_THAN_EQUAL;
-import static org.springframework.data.repository.query.parser.Part.Type.IS_EMPTY;
-import static org.springframework.data.repository.query.parser.Part.Type.IS_NOT_EMPTY;
-import static org.springframework.data.repository.query.parser.Part.Type.LESS_THAN_EQUAL;
-import static org.springframework.data.repository.query.parser.Part.Type.LIKE;
-import static org.springframework.data.repository.query.parser.Part.Type.NEAR;
-import static org.springframework.data.repository.query.parser.Part.Type.NOT_CONTAINING;
-import static org.springframework.data.repository.query.parser.Part.Type.NOT_LIKE;
-import static org.springframework.data.repository.query.parser.Part.Type.REGEX;
-import static org.springframework.data.repository.query.parser.Part.Type.SIMPLE_PROPERTY;
-import static org.springframework.data.repository.query.parser.Part.Type.STARTING_WITH;
-import static org.springframework.data.repository.query.parser.Part.Type.TRUE;
 
 /**
  * Unit tests for {@link PartTree}.
@@ -161,12 +144,12 @@ class PartTreeUnitTests {
 
 	@Test
 	void parsesNearCorrectly() {
-		assertType(Collections.singletonList("locationNear"), NEAR, "location");
+		assertType(Collections.singletonList("locationNear"), Type.NEAR, "location");
 	}
 
 	@Test
 	void supportToStringWithoutSortOrder() throws Exception {
-		assertType(Collections.singletonList("firstname"), SIMPLE_PROPERTY, "firstname");
+		assertType(Collections.singletonList("firstname"), Type.SIMPLE_PROPERTY, "firstname");
 	}
 
 	@Test
@@ -213,12 +196,12 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-78
 	void parsesLessThanEqualCorrectly() {
-		assertType(Arrays.asList("lastnameLessThanEqual", "lastnameIsLessThanEqual"), LESS_THAN_EQUAL, "lastname");
+		assertType(Arrays.asList("lastnameLessThanEqual", "lastnameIsLessThanEqual"), Type.LESS_THAN_EQUAL, "lastname");
 	}
 
 	@Test // DATACMNS-78
 	void parsesGreaterThanEqualCorrectly() {
-		assertType(Arrays.asList("lastnameGreaterThanEqual", "lastnameIsGreaterThanEqual"), GREATER_THAN_EQUAL,
+		assertType(Arrays.asList("lastnameGreaterThanEqual", "lastnameIsGreaterThanEqual"), Type.GREATER_THAN_EQUAL,
 				"lastname");
 	}
 
@@ -239,45 +222,45 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-94
 	void parsesExistsKeywordCorrectly() {
-		assertType(Collections.singletonList("lastnameExists"), EXISTS, "lastname", 0, false);
+		assertType(Collections.singletonList("lastnameExists"), Type.EXISTS, "lastname", 0, false);
 	}
 
 	@Test // DATACMNS-94
 	void parsesRegexKeywordCorrectly() {
-		assertType(asList("lastnameRegex", "lastnameMatchesRegex", "lastnameMatches"), REGEX, "lastname");
+		assertType(Arrays.asList("lastnameRegex", "lastnameMatchesRegex", "lastnameMatches"), Type.REGEX, "lastname");
 	}
 
 	@Test // DATACMNS-107
 	void parsesTrueKeywordCorrectly() {
-		assertType(asList("activeTrue", "activeIsTrue"), TRUE, "active", 0, false);
+		assertType(Arrays.asList("activeTrue", "activeIsTrue"), Type.TRUE, "active", 0, false);
 	}
 
 	@Test // DATACMNS-107
 	void parsesFalseKeywordCorrectly() {
-		assertType(asList("activeFalse", "activeIsFalse"), FALSE, "active", 0, false);
+		assertType(Arrays.asList("activeFalse", "activeIsFalse"), Type.FALSE, "active", 0, false);
 	}
 
 	@Test // DATACMNS-111
 	void parsesStartingWithKeywordCorrectly() {
-		assertType(asList("firstnameStartsWith", "firstnameStartingWith", "firstnameIsStartingWith"), STARTING_WITH,
-				"firstname");
+		assertType(Arrays.asList("firstnameStartsWith", "firstnameStartingWith", "firstnameIsStartingWith"),
+				Type.STARTING_WITH, "firstname");
 	}
 
 	@Test // DATACMNS-111
 	void parsesEndingWithKeywordCorrectly() {
-		assertType(asList("firstnameEndsWith", "firstnameEndingWith", "firstnameIsEndingWith"), ENDING_WITH,
+		assertType(Arrays.asList("firstnameEndsWith", "firstnameEndingWith", "firstnameIsEndingWith"), Type.ENDING_WITH,
 				"firstname");
 	}
 
 	@Test // DATACMNS-111
 	void parsesContainingKeywordCorrectly() {
-		assertType(asList("firstnameIsContaining", "firstnameContains", "firstnameContaining"), CONTAINING,
+		assertType(Arrays.asList("firstnameIsContaining", "firstnameContains", "firstnameContaining"), Type.CONTAINING,
 				"firstname");
 	}
 
 	@Test // DATACMNS-141
 	void parsesAfterKeywordCorrectly() {
-		assertType(asList("birthdayAfter", "birthdayIsAfter"), Type.AFTER, "birthday");
+		assertType(Arrays.asList("birthdayAfter", "birthdayIsAfter"), Type.AFTER, "birthday");
 	}
 
 	@Test // DATACMNS-141
@@ -287,12 +270,12 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-433
 	void parsesLikeKeywordCorrectly() {
-		assertType(asList("activeLike", "activeIsLike"), LIKE, "active");
+		assertType(Arrays.asList("activeLike", "activeIsLike"), Type.LIKE, "active");
 	}
 
 	@Test // DATACMNS-433
 	void parsesNotLikeKeywordCorrectly() {
-		assertType(asList("activeNotLike", "activeIsNotLike"), NOT_LIKE, "active");
+		assertType(Arrays.asList("activeNotLike", "activeIsNotLike"), Type.NOT_LIKE, "active");
 	}
 
 	@Test // DATACMNS-182
@@ -525,8 +508,8 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-581
 	void parsesIsNotContainingCorrectly() throws Exception {
-		assertType(asList("firstnameIsNotContaining", "firstnameNotContaining", "firstnameNotContains"), NOT_CONTAINING,
-				"firstname");
+		assertType(Arrays.asList("firstnameIsNotContaining", "firstnameNotContaining", "firstnameNotContains"),
+				Type.NOT_CONTAINING, "firstname");
 	}
 
 	@Test // DATACMNS-581
@@ -547,18 +530,18 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-1007
 	void parsesEmptyKeywordCorrectly() {
-		assertType(asList("friendsIsEmpty", "friendsEmpty"), IS_EMPTY, "friends", 0, false);
+		assertType(Arrays.asList("friendsIsEmpty", "friendsEmpty"), Type.IS_EMPTY, "friends", 0, false);
 	}
 
 	@Test // DATACMNS-1007
 	void parsesNotEmptyKeywordCorrectly() {
-		assertType(asList("friendsIsNotEmpty", "friendsNotEmpty"), IS_NOT_EMPTY, "friends", 0, false);
+		assertType(Arrays.asList("friendsIsNotEmpty", "friendsNotEmpty"), Type.IS_NOT_EMPTY, "friends", 0, false);
 	}
 
 	@Test // DATACMNS-1007
 	void parsesEmptyAsPropertyIfDifferentKeywordIsUsed() {
-		assertType(asList("emptyIsTrue"), TRUE, "empty", 0, false);
-		assertType(asList("emptyIs"), SIMPLE_PROPERTY, "empty", 1, true);
+		assertType(Arrays.asList("emptyIsTrue"), Type.TRUE, "empty", 0, false);
+		assertType(Arrays.asList("emptyIs"), Type.SIMPLE_PROPERTY, "empty", 1, true);
 	}
 
 	@Test // DATACMNS-1129

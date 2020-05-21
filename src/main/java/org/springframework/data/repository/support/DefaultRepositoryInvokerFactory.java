@@ -23,10 +23,9 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.core.RepositoryInformation;
+import org.springframework.data.util.Optionals;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.util.Assert;
-
-import static org.springframework.data.util.Optionals.mapIfAllPresent;
 
 /**
  * Default implementation of {@link RepositoryInvokerFactory} to inspect the requested
@@ -84,7 +83,7 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 	private RepositoryInvoker prepareInvokers(Class<?> domainType) {
 		Optional<RepositoryInformation> information = this.repositories.getRepositoryInformationFor(domainType);
 		Optional<Object> repository = this.repositories.getRepositoryFor(domainType);
-		return mapIfAllPresent(information, repository, this::createInvoker)
+		return Optionals.mapIfAllPresent(information, repository, this::createInvoker)
 				.orElseThrow(() -> new IllegalArgumentException(
 						String.format("No repository found for domain type: %s", domainType)));
 	}

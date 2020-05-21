@@ -33,7 +33,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.util.ClassTypeInformation.from;
 
 /**
  * Unit tests for {@link TypeDiscoverer}.
@@ -73,7 +72,7 @@ public class TypeDiscovererUnitTests {
 
 	@Test
 	void dealsWithTypesReferencingThemselves() {
-		TypeInformation<SelfReferencing> information = from(SelfReferencing.class);
+		TypeInformation<SelfReferencing> information = ClassTypeInformation.from(SelfReferencing.class);
 		TypeInformation<?> first = information.getProperty("parent").getMapValueType();
 		TypeInformation<?> second = first.getProperty("map").getMapValueType();
 		assertThat(second).isEqualTo(first);
@@ -81,7 +80,7 @@ public class TypeDiscovererUnitTests {
 
 	@Test
 	void dealsWithTypesReferencingThemselvesInAMap() {
-		TypeInformation<SelfReferencingMap> information = from(SelfReferencingMap.class);
+		TypeInformation<SelfReferencingMap> information = ClassTypeInformation.from(SelfReferencingMap.class);
 		TypeInformation<?> property = information.getProperty("map");
 		assertThat(property.getMapValueType()).isEqualTo(information);
 	}
@@ -128,7 +127,7 @@ public class TypeDiscovererUnitTests {
 	@SuppressWarnings("rawtypes")
 	void doesNotConsiderTypeImplementingIterableACollection() {
 		TypeDiscoverer<Person> discoverer = new TypeDiscoverer<>(Person.class, EMPTY_MAP);
-		TypeInformation reference = from(Address.class);
+		TypeInformation reference = ClassTypeInformation.from(Address.class);
 		TypeInformation<?> addresses = discoverer.getProperty("addresses");
 		assertThat(addresses).satisfies(it -> {
 			assertThat(it.isCollectionLike()).isFalse();
@@ -143,14 +142,14 @@ public class TypeDiscovererUnitTests {
 
 	@Test // DATACMNS-1342, DATACMNS-1430
 	void considersStreamableToBeCollectionLike() {
-		TypeInformation<SomeStreamable> type = from(SomeStreamable.class);
+		TypeInformation<SomeStreamable> type = ClassTypeInformation.from(SomeStreamable.class);
 		assertThat(type.isCollectionLike()).isTrue();
 		assertThat(type.getRequiredProperty("streamable").isCollectionLike()).isTrue();
 	}
 
 	@Test // DATACMNS-1419
 	void detectsSubTypes() {
-		ClassTypeInformation<Set> type = from(Set.class);
+		ClassTypeInformation<Set> type = ClassTypeInformation.from(Set.class);
 		assertThat(type.isSubTypeOf(Collection.class)).isTrue();
 		assertThat(type.isSubTypeOf(Set.class)).isFalse();
 		assertThat(type.isSubTypeOf(String.class)).isFalse();

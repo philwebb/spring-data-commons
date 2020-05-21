@@ -23,8 +23,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.domain.UnitTestUtils.assertEqualsAndHashcode;
-import static org.springframework.data.domain.UnitTestUtils.assertNotEqualsAndHashcode;
 
 /**
  * Unit test for {@link PageImpl}.
@@ -36,8 +34,8 @@ class PageImplUnitTests {
 	@Test
 	void assertEqualsForSimpleSetup() throws Exception {
 		PageImpl<String> page = new PageImpl<>(Collections.singletonList("Foo"));
-		assertEqualsAndHashcode(page, page);
-		assertEqualsAndHashcode(page, new PageImpl<>(Collections.singletonList("Foo")));
+		UnitTestUtils.assertEqualsAndHashcode(page, page);
+		UnitTestUtils.assertEqualsAndHashcode(page, new PageImpl<>(Collections.singletonList("Foo")));
 	}
 
 	@Test
@@ -45,11 +43,11 @@ class PageImplUnitTests {
 		Pageable pageable = PageRequest.of(0, 10);
 		List<String> content = Collections.singletonList("Foo");
 		PageImpl<String> page = new PageImpl<>(content, pageable, 100);
-		assertEqualsAndHashcode(page, page);
-		assertEqualsAndHashcode(page, new PageImpl<>(content, pageable, 100));
-		assertNotEqualsAndHashcode(page, new PageImpl<>(content, pageable, 90));
-		assertNotEqualsAndHashcode(page, new PageImpl<>(content, PageRequest.of(1, 10), 100));
-		assertNotEqualsAndHashcode(page, new PageImpl<>(content, PageRequest.of(0, 15), 100));
+		UnitTestUtils.assertEqualsAndHashcode(page, page);
+		UnitTestUtils.assertEqualsAndHashcode(page, new PageImpl<>(content, pageable, 100));
+		UnitTestUtils.assertNotEqualsAndHashcode(page, new PageImpl<>(content, pageable, 90));
+		UnitTestUtils.assertNotEqualsAndHashcode(page, new PageImpl<>(content, PageRequest.of(1, 10), 100));
+		UnitTestUtils.assertNotEqualsAndHashcode(page, new PageImpl<>(content, PageRequest.of(0, 15), 100));
 	}
 
 	@Test

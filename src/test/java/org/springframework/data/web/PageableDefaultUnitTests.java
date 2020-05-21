@@ -31,8 +31,6 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.springframework.data.web.SortDefaultUnitTests.SORT;
-import static org.springframework.data.web.SortDefaultUnitTests.SORT_FIELDS;
 
 /**
  * Base test class to test supporting of a {@link HandlerMethodArgumentResolver}
@@ -54,10 +52,11 @@ abstract class PageableDefaultUnitTests {
 
 	static final AbstractPageRequest REFERENCE_WITHOUT_SORT = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
 
-	static final AbstractPageRequest REFERENCE_WITH_SORT = PageRequest.of(PAGE_NUMBER, PAGE_SIZE, SORT);
+	static final AbstractPageRequest REFERENCE_WITH_SORT = PageRequest.of(PAGE_NUMBER, PAGE_SIZE,
+			SortDefaultUnitTests.SORT);
 
 	static final AbstractPageRequest REFERENCE_WITH_SORT_FIELDS = PageRequest.of(PAGE_NUMBER, PAGE_SIZE,
-			Sort.by(SORT_FIELDS));
+			Sort.by(SortDefaultUnitTests.SORT_FIELDS));
 
 	@Test
 	void supportsPageable() {

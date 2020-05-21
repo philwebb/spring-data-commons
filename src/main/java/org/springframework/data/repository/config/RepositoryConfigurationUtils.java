@@ -16,11 +16,10 @@
 package org.springframework.data.repository.config;
 
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.util.Assert;
-
-import static org.springframework.beans.factory.support.BeanDefinitionReaderUtils.GENERATED_BEAN_NAME_SEPARATOR;
 
 /**
  * Helper class to centralize common functionality that needs to be used in various places
@@ -46,7 +45,8 @@ public interface RepositoryConfigurationUtils {
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
 		Assert.notNull(configurationSource, "RepositoryConfigurationSource must not be null!");
 		Class<? extends RepositoryConfigurationExtension> extensionType = extension.getClass();
-		String beanName = extensionType.getName().concat(GENERATED_BEAN_NAME_SEPARATOR).concat("0");
+		String beanName = extensionType.getName().concat(BeanDefinitionReaderUtils.GENERATED_BEAN_NAME_SEPARATOR)
+				.concat("0");
 		if (registry.containsBeanDefinition(beanName)) {
 			return;
 		}

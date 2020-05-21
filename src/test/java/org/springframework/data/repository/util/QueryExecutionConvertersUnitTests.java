@@ -50,8 +50,6 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.data.repository.util.QueryExecutionConverters.getExecutionAdapter;
-import static org.springframework.data.repository.util.QueryExecutionConverters.unwrap;
 
 /**
  * Unit tests for {@link QueryExecutionConverters}.
@@ -236,9 +234,11 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-1065
 	void unwrapsVavrCollectionsToJavaOnes() {
-		assertThat(unwrap(io.vavr.collection.List.of(1, 2, 3))).isInstanceOf(List.class);
-		assertThat(unwrap(io.vavr.collection.LinkedHashSet.of(1, 2, 3))).isInstanceOf(Set.class);
-		assertThat(unwrap(io.vavr.collection.LinkedHashMap.of("key", "value"))).isInstanceOf(Map.class);
+		assertThat(QueryExecutionConverters.unwrap(io.vavr.collection.List.of(1, 2, 3))).isInstanceOf(List.class);
+		assertThat(QueryExecutionConverters.unwrap(io.vavr.collection.LinkedHashSet.of(1, 2, 3)))
+				.isInstanceOf(Set.class);
+		assertThat(QueryExecutionConverters.unwrap(io.vavr.collection.LinkedHashMap.of("key", "value")))
+				.isInstanceOf(Map.class);
 	}
 
 	@Test // DATACMNS-1065
@@ -264,7 +264,7 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-983
 	void exposesExecutionAdapterForJavaslangTry() throws Throwable {
-		Object result = getExecutionAdapter(Try.class).apply(() -> {
+		Object result = QueryExecutionConverters.getExecutionAdapter(Try.class).apply(() -> {
 			throw new IOException("Some message!");
 		});
 		assertThat(result).isInstanceOf(Failure.class);
@@ -282,7 +282,7 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-983
 	void exposesExecutionAdapterForVavrTry() throws Throwable {
-		Object result = getExecutionAdapter(io.vavr.control.Try.class).apply(() -> {
+		Object result = QueryExecutionConverters.getExecutionAdapter(io.vavr.control.Try.class).apply(() -> {
 			throw new IOException("Some message!");
 		});
 		assertThat(result).isInstanceOf(io.vavr.control.Try.Failure.class);

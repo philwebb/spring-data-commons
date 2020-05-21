@@ -18,10 +18,9 @@ package org.springframework.data.history;
 import java.time.Instant;
 import java.util.Optional;
 
+import org.springframework.data.util.Optionals;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
-
-import static org.springframework.data.util.Optionals.mapIfAllPresent;
 
 /**
  * Wrapper to contain {@link RevisionMetadata} as well as the revisioned entity.
@@ -96,7 +95,8 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 		if (other == null) {
 			return 1;
 		}
-		return mapIfAllPresent(getRevisionNumber(), other.getRevisionNumber(), Comparable::compareTo).orElse(-1);
+		return Optionals.mapIfAllPresent(getRevisionNumber(), other.getRevisionNumber(), Comparable::compareTo)
+				.orElse(-1);
 	}
 
 	@Override

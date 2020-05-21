@@ -31,9 +31,6 @@ import org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentR
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.springframework.data.web.PageableDefaultUnitTests.PAGE_NUMBER;
-import static org.springframework.data.web.PageableDefaultUnitTests.PAGE_SIZE;
-import static org.springframework.data.web.PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST;
 
 /**
  * Unit tests for {@link ReactivePageableHandlerMethodArgumentResolver}.
@@ -91,33 +88,39 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 	@Test // DATACMNS-1211
 	void usesDefaultPageSizeIfRequestPageSizeIsLessThanOne() {
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=0&size=0").build();
-		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter,
+				PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
 	void rejectsInvalidCustomDefaultForPageSize() throws Exception {
 		MethodParameter parameter = new MethodParameter(
 				Sample.class.getMethod("invalidDefaultPageSize", Pageable.class), 0);
-		assertThatIllegalStateException().isThrownBy(() -> assertSupportedAndResult(parameter, DEFAULT_PAGE_REQUEST))
+		assertThatIllegalStateException()
+				.isThrownBy(() -> assertSupportedAndResult(parameter,
+						PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST))
 				.withMessageContaining("invalidDefaultPageSize");
 	}
 
 	@Test // DATACMNS-1211
 	void fallsBackToFirstPageIfNegativePageNumberIsGiven() {
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=-1").build();
-		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter,
+				PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
 	void pageParamIsNotNumeric() {
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=a").build();
-		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter,
+				PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
 	void sizeParamIsNotNumeric() {
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?size=a").build();
-		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter,
+				PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
@@ -221,19 +224,22 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 		void invalidDefaultPageSize(@PageableDefault(size = 0) Pageable pageable);
 
-		void simpleDefault(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) Pageable pageable);
+		void simpleDefault(@PageableDefault(size = PageableDefaultUnitTests.PAGE_SIZE,
+				page = PageableDefaultUnitTests.PAGE_NUMBER) Pageable pageable);
 
-		void simpleDefaultWithSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER,
-				sort = { "firstname", "lastname" }) Pageable pageable);
+		void simpleDefaultWithSort(@PageableDefault(size = PageableDefaultUnitTests.PAGE_SIZE,
+				page = PageableDefaultUnitTests.PAGE_NUMBER, sort = { "firstname", "lastname" }) Pageable pageable);
 
-		void simpleDefaultWithSortAndDirection(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER,
-				sort = { "firstname", "lastname" }, direction = Direction.DESC) Pageable pageable);
+		void simpleDefaultWithSortAndDirection(
+				@PageableDefault(size = PageableDefaultUnitTests.PAGE_SIZE, page = PageableDefaultUnitTests.PAGE_NUMBER,
+						sort = { "firstname", "lastname" }, direction = Direction.DESC) Pageable pageable);
 
-		void simpleDefaultWithExternalSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) @SortDefault(
-				sort = { "firstname", "lastname" }, direction = Direction.DESC) Pageable pageable);
+		void simpleDefaultWithExternalSort(@PageableDefault(size = PageableDefaultUnitTests.PAGE_SIZE,
+				page = PageableDefaultUnitTests.PAGE_NUMBER) @SortDefault(sort = { "firstname", "lastname" },
+						direction = Direction.DESC) Pageable pageable);
 
-		void simpleDefaultWithContaineredExternalSort(
-				@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) @SortDefaults(@SortDefault(
+		void simpleDefaultWithContaineredExternalSort(@PageableDefault(size = PageableDefaultUnitTests.PAGE_SIZE,
+				page = PageableDefaultUnitTests.PAGE_NUMBER) @SortDefaults(@SortDefault(
 						sort = { "firstname", "lastname" }, direction = Direction.DESC)) Pageable pageable);
 
 		void invalidQualifiers(@Qualifier("foo") Pageable first, @Qualifier("foo") Pageable second);

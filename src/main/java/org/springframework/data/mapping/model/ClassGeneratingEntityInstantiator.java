@@ -35,21 +35,6 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
-import static org.springframework.asm.Opcodes.AALOAD;
-import static org.springframework.asm.Opcodes.ACC_PUBLIC;
-import static org.springframework.asm.Opcodes.ACC_SUPER;
-import static org.springframework.asm.Opcodes.ACC_VARARGS;
-import static org.springframework.asm.Opcodes.ALOAD;
-import static org.springframework.asm.Opcodes.ARETURN;
-import static org.springframework.asm.Opcodes.CHECKCAST;
-import static org.springframework.asm.Opcodes.DUP;
-import static org.springframework.asm.Opcodes.ICONST_0;
-import static org.springframework.asm.Opcodes.INVOKESPECIAL;
-import static org.springframework.asm.Opcodes.INVOKESTATIC;
-import static org.springframework.asm.Opcodes.INVOKEVIRTUAL;
-import static org.springframework.asm.Opcodes.NEW;
-import static org.springframework.asm.Opcodes.RETURN;
-
 /**
  * An {@link EntityInstantiator} that can generate byte code to speed-up dynamic object
  * instantiation. Uses the {@link PersistentEntity}'s {@link PreferredConstructor} to
@@ -333,8 +318,8 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		public byte[] generateBytecode(String internalClassName, PersistentEntity<?, ?> entity,
 				@Nullable PreferredConstructor<?, ?> constructor) {
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-			cw.visit(Opcodes.V1_6, ACC_PUBLIC + ACC_SUPER, internalClassName.replace('.', '/'), null, JAVA_LANG_OBJECT,
-					IMPLEMENTED_INTERFACES);
+			cw.visit(Opcodes.V1_6, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER, internalClassName.replace('.', '/'), null,
+					JAVA_LANG_OBJECT, IMPLEMENTED_INTERFACES);
 			visitDefaultConstructor(cw);
 			visitCreateMethod(cw, entity, constructor);
 			cw.visitEnd();
@@ -342,11 +327,11 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		}
 
 		private void visitDefaultConstructor(ClassWriter cw) {
-			MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, INIT, "()V", null, null);
+			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, INIT, "()V", null, null);
 			mv.visitCode();
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitMethodInsn(INVOKESPECIAL, JAVA_LANG_OBJECT, INIT, "()V", false);
-			mv.visitInsn(RETURN);
+			mv.visitVarInsn(Opcodes.ALOAD, 0);
+			mv.visitMethodInsn(Opcodes.INVOKESPECIAL, JAVA_LANG_OBJECT, INIT, "()V", false);
+			mv.visitInsn(Opcodes.RETURN);
 			mv.visitMaxs(0, 0); // (0, 0) = computed via ClassWriter.COMPUTE_MAXS
 			mv.visitEnd();
 		}
@@ -361,33 +346,33 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		private void visitCreateMethod(ClassWriter cw, PersistentEntity<?, ?> entity,
 				@Nullable PreferredConstructor<?, ?> constructor) {
 			String entityTypeResourcePath = Type.getInternalName(entity.getType());
-			MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_VARARGS, CREATE_METHOD_NAME,
+			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_VARARGS, CREATE_METHOD_NAME,
 					"([Ljava/lang/Object;)Ljava/lang/Object;", null, null);
 			mv.visitCode();
-			mv.visitTypeInsn(NEW, entityTypeResourcePath);
-			mv.visitInsn(DUP);
+			mv.visitTypeInsn(Opcodes.NEW, entityTypeResourcePath);
+			mv.visitInsn(Opcodes.DUP);
 			if (constructor != null) {
 				Constructor<?> ctor = constructor.getConstructor();
 				Class<?>[] parameterTypes = ctor.getParameterTypes();
 				List<? extends Parameter<Object, ?>> parameters = constructor.getParameters();
 				for (int i = 0; i < parameterTypes.length; i++) {
-					mv.visitVarInsn(ALOAD, 1);
+					mv.visitVarInsn(Opcodes.ALOAD, 1);
 					visitArrayIndex(mv, i);
-					mv.visitInsn(AALOAD);
+					mv.visitInsn(Opcodes.AALOAD);
 					if (parameterTypes[i].isPrimitive()) {
-						mv.visitInsn(DUP);
+						mv.visitInsn(Opcodes.DUP);
 						String parameterName = parameters.size() > i ? parameters.get(i).getName() : null;
 						insertAssertNotNull(mv,
 								parameterName == null ? String.format("at index %d", i) : parameterName);
 						insertUnboxInsns(mv, Type.getType(parameterTypes[i]).toString().charAt(0), "");
 					}
 					else {
-						mv.visitTypeInsn(CHECKCAST, Type.getInternalName(parameterTypes[i]));
+						mv.visitTypeInsn(Opcodes.CHECKCAST, Type.getInternalName(parameterTypes[i]));
 					}
 				}
-				mv.visitMethodInsn(INVOKESPECIAL, entityTypeResourcePath, INIT, Type.getConstructorDescriptor(ctor),
-						false);
-				mv.visitInsn(ARETURN);
+				mv.visitMethodInsn(Opcodes.INVOKESPECIAL, entityTypeResourcePath, INIT,
+						Type.getConstructorDescriptor(ctor), false);
+				mv.visitInsn(Opcodes.ARETURN);
 				mv.visitMaxs(0, 0); // (0, 0) = computed via ClassWriter.COMPUTE_MAXS
 				mv.visitEnd();
 			}
@@ -400,7 +385,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		 */
 		private static void visitArrayIndex(MethodVisitor mv, int idx) {
 			if (idx >= 0 && idx < 6) {
-				mv.visitInsn(ICONST_0 + idx);
+				mv.visitInsn(Opcodes.ICONST_0 + idx);
 				return;
 			}
 			mv.visitLdcInsn(idx);
@@ -415,7 +400,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		private static void insertAssertNotNull(MethodVisitor mv, String parameterName) {
 			// Assert.notNull(property)
 			mv.visitLdcInsn(String.format("Parameter %s must not be null!", parameterName));
-			mv.visitMethodInsn(INVOKESTATIC, "org/springframework/util/Assert", "notNull",
+			mv.visitMethodInsn(Opcodes.INVOKESTATIC, "org/springframework/util/Assert", "notNull",
 					String.format("(%s%s)V", String.format("L%s;", JAVA_LANG_OBJECT), "Ljava/lang/String;"), false);
 		}
 
@@ -433,51 +418,51 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 			switch (ch) {
 			case 'Z':
 				if (!stackDescriptor.equals("Ljava/lang/Boolean")) {
-					mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+					mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Boolean");
 				}
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
 				break;
 			case 'B':
 				if (!stackDescriptor.equals("Ljava/lang/Byte")) {
-					mv.visitTypeInsn(CHECKCAST, "java/lang/Byte");
+					mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Byte");
 				}
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B", false);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B", false);
 				break;
 			case 'C':
 				if (!stackDescriptor.equals("Ljava/lang/Character")) {
-					mv.visitTypeInsn(CHECKCAST, "java/lang/Character");
+					mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Character");
 				}
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C", false);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C", false);
 				break;
 			case 'D':
 				if (!stackDescriptor.equals("Ljava/lang/Double")) {
-					mv.visitTypeInsn(CHECKCAST, "java/lang/Double");
+					mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Double");
 				}
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
 				break;
 			case 'F':
 				if (!stackDescriptor.equals("Ljava/lang/Float")) {
-					mv.visitTypeInsn(CHECKCAST, "java/lang/Float");
+					mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Float");
 				}
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F", false);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F", false);
 				break;
 			case 'I':
 				if (!stackDescriptor.equals("Ljava/lang/Integer")) {
-					mv.visitTypeInsn(CHECKCAST, "java/lang/Integer");
+					mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Integer");
 				}
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
 				break;
 			case 'J':
 				if (!stackDescriptor.equals("Ljava/lang/Long")) {
-					mv.visitTypeInsn(CHECKCAST, "java/lang/Long");
+					mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Long");
 				}
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J", false);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J", false);
 				break;
 			case 'S':
 				if (!stackDescriptor.equals("Ljava/lang/Short")) {
-					mv.visitTypeInsn(CHECKCAST, "java/lang/Short");
+					mv.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Short");
 				}
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S", false);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S", false);
 				break;
 			default:
 				throw new IllegalArgumentException("Unboxing should not be attempted for descriptor '" + ch + "'");

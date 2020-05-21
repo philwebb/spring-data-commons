@@ -45,7 +45,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver.extractTypeInfo;
 
 /**
  * Unit tests for {@link QuerydslPredicateArgumentResolver}.
@@ -175,9 +174,12 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	void detectsDomainTypesCorrectly() {
 		TypeInformation USER_TYPE = ClassTypeInformation.from(User.class);
 		TypeInformation MODELA_AND_VIEW_TYPE = ClassTypeInformation.from(ModelAndView.class);
-		assertThat(extractTypeInfo(getMethodParameterFor("forEntity"))).isEqualTo(USER_TYPE);
-		assertThat(extractTypeInfo(getMethodParameterFor("forResourceOfUser"))).isEqualTo(USER_TYPE);
-		assertThat(extractTypeInfo(getMethodParameterFor("forModelAndView"))).isEqualTo(MODELA_AND_VIEW_TYPE);
+		assertThat(QuerydslPredicateArgumentResolver.extractTypeInfo(getMethodParameterFor("forEntity")))
+				.isEqualTo(USER_TYPE);
+		assertThat(QuerydslPredicateArgumentResolver.extractTypeInfo(getMethodParameterFor("forResourceOfUser")))
+				.isEqualTo(USER_TYPE);
+		assertThat(QuerydslPredicateArgumentResolver.extractTypeInfo(getMethodParameterFor("forModelAndView")))
+				.isEqualTo(MODELA_AND_VIEW_TYPE);
 	}
 
 	@Test // DATACMNS-1593

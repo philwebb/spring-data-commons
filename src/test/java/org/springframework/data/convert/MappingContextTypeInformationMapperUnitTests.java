@@ -30,7 +30,6 @@ import org.springframework.data.util.ClassTypeInformation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.util.ClassTypeInformation.from;
 
 /**
  * Unit tests for {@link MappingContextTypeInformationMapper}.
@@ -66,7 +65,7 @@ class MappingContextTypeInformationMapperUnitTests {
 		SampleMappingContext mappingContext = new SampleMappingContext();
 		mappingContext.initialize();
 		this.mapper = new MappingContextTypeInformationMapper(mappingContext);
-		assertThat(this.mapper.createAliasFor(from(Entity.class)).hasValue("foo")).isTrue();
+		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(Entity.class)).hasValue("foo")).isTrue();
 	}
 
 	@Test
@@ -74,7 +73,7 @@ class MappingContextTypeInformationMapperUnitTests {
 		SampleMappingContext mappingContext = new SampleMappingContext();
 		mappingContext.initialize();
 		this.mapper = new MappingContextTypeInformationMapper(mappingContext);
-		assertThat(this.mapper.createAliasFor(from(String.class)).isPresent()).isFalse();
+		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(String.class)).isPresent()).isFalse();
 	}
 
 	@Test
@@ -85,7 +84,7 @@ class MappingContextTypeInformationMapperUnitTests {
 		assertThat(this.mapper.resolveTypeFrom(Alias.of("foo"))).isNull();
 		PersistentEntity<?, SamplePersistentProperty> entity = mappingContext.getRequiredPersistentEntity(Entity.class);
 		assertThat(entity).isNotNull();
-		assertThat(this.mapper.resolveTypeFrom(Alias.of("foo"))).isEqualTo(from(Entity.class));
+		assertThat(this.mapper.resolveTypeFrom(Alias.of("foo"))).isEqualTo(ClassTypeInformation.from(Entity.class));
 	}
 
 	@Test // DATACMNS-485

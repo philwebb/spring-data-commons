@@ -16,13 +16,12 @@
 package org.springframework.data.convert;
 
 import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.core.convert.converter.Converter;
-
-import static java.lang.annotation.ElementType.TYPE;
 
 /**
  * Annotation to clarify intended usage of a {@link Converter} as reading converter in
@@ -30,7 +29,7 @@ import static java.lang.annotation.ElementType.TYPE;
  *
  * @author Oliver Gierke
  */
-@Target(TYPE)
+@Target(ElementType.TYPE)
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ReadingConverter {

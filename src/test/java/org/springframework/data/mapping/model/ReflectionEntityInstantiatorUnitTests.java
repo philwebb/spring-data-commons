@@ -29,6 +29,7 @@ import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.data.mapping.PreferredConstructor;
 import org.springframework.data.mapping.PreferredConstructor.Parameter;
 import org.springframework.data.mapping.model.ReflectionEntityInstantiatorUnitTests.Outer.Inner;
+import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.util.ReflectionUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,8 +40,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.data.mapping.model.ReflectionEntityInstantiator.INSTANCE;
-import static org.springframework.data.util.ClassTypeInformation.from;
 
 /**
  * Unit tests for {@link ReflectionEntityInstantiator}.
@@ -61,20 +60,20 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 	@Test
 	void instantiatesSimpleObjectCorrectly() {
 		doReturn(Object.class).when(this.entity).getType();
-		INSTANCE.createInstance(this.entity, this.provider);
+		ReflectionEntityInstantiator.INSTANCE.createInstance(this.entity, this.provider);
 	}
 
 	@Test
 	void instantiatesArrayCorrectly() {
 		doReturn(String[][].class).when(this.entity).getType();
-		INSTANCE.createInstance(this.entity, this.provider);
+		ReflectionEntityInstantiator.INSTANCE.createInstance(this.entity, this.provider);
 	}
 
 	@Test // DATACMNS-1126
 	void instantiatesTypeWithPreferredConstructorUsingParameterValueProvider() {
 		PreferredConstructor<Foo, P> constructor = PreferredConstructorDiscoverer.discover(Foo.class);
 		doReturn(constructor).when(this.entity).getPersistenceConstructor();
-		Object instance = INSTANCE.createInstance(this.entity, this.provider);
+		Object instance = ReflectionEntityInstantiator.INSTANCE.createInstance(this.entity, this.provider);
 		assertThat(instance).isInstanceOf(Foo.class);
 		assertThat(constructor).satisfies(
 				it -> verify(this.provider, times(1)).getParameterValue(it.getParameters().iterator().next()));
@@ -85,17 +84,17 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 	void throwsExceptionOnBeanInstantiationException() {
 		doReturn(PersistentEntity.class).when(this.entity).getType();
 		assertThatExceptionOfType(MappingInstantiationException.class)
-				.isThrownBy(() -> INSTANCE.createInstance(this.entity, this.provider));
+				.isThrownBy(() -> ReflectionEntityInstantiator.INSTANCE.createInstance(this.entity, this.provider));
 	}
 
 	@Test // DATACMNS-134
 	void createsInnerClassInstanceCorrectly() {
-		BasicPersistentEntity<Inner, P> entity = new BasicPersistentEntity<>(from(Inner.class));
+		BasicPersistentEntity<Inner, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Inner.class));
 		assertThat(entity.getPersistenceConstructor()).satisfies(it -> {
 			Parameter<Object, P> parameter = it.getParameters().iterator().next();
 			Object outer = new Outer();
 			when(this.provider.getParameterValue(parameter)).thenReturn(outer);
-			Inner instance = INSTANCE.createInstance(entity, this.provider);
+			Inner instance = ReflectionEntityInstantiator.INSTANCE.createInstance(entity, this.provider);
 			assertThat(instance).isNotNull();
 			// Hack to check synthetic field as compiles create different field names
 			// (e.g. this$0, this$1)
@@ -111,12 +110,12 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 	@Test // DATACMNS-283
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void capturesContextOnInstantiationException() throws Exception {
-		PersistentEntity<Sample, P> entity = new BasicPersistentEntity<>(from(Sample.class));
+		PersistentEntity<Sample, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Sample.class));
 		doReturn("FOO").when(this.provider).getParameterValue(any(Parameter.class));
 		Constructor constructor = Sample.class.getConstructor(Long.class, String.class);
 		List<Object> parameters = Arrays.asList("FOO", "FOO");
 		try {
-			INSTANCE.createInstance(entity, this.provider);
+			ReflectionEntityInstantiator.INSTANCE.createInstance(entity, this.provider);
 			fail("Expected MappingInstantiationException!");
 		}
 		catch (MappingInstantiationException ex) {

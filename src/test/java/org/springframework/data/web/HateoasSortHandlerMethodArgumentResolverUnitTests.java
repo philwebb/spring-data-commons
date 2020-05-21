@@ -21,12 +21,11 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.data.domain.Sort.Direction.ASC;
-import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * Unit tests for {@link HateoasSortHandlerMethodArgumentResolver}
@@ -38,9 +37,11 @@ class HateoasSortHandlerMethodArgumentResolverUnitTests extends SortHandlerMetho
 	@Test
 	void buildsUpRequestParameters() throws Exception {
 		assertUriStringFor(SORT, "sort=firstname,lastname,desc");
-		assertUriStringFor(Sort.by(ASC, "foo").and(Sort.by(DESC, "bar").and(Sort.by(ASC, "foobar"))),
+		assertUriStringFor(
+				Sort.by(Direction.ASC, "foo").and(Sort.by(Direction.DESC, "bar").and(Sort.by(Direction.ASC, "foobar"))),
 				"sort=foo,asc&sort=bar,desc&sort=foobar,asc");
-		assertUriStringFor(Sort.by(ASC, "foo").and(Sort.by(ASC, "bar").and(Sort.by(DESC, "foobar"))),
+		assertUriStringFor(
+				Sort.by(Direction.ASC, "foo").and(Sort.by(Direction.ASC, "bar").and(Sort.by(Direction.DESC, "foobar"))),
 				"sort=foo,bar,asc&sort=foobar,desc");
 	}
 

@@ -31,9 +31,7 @@ import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
-
-import static org.springframework.data.repository.util.ClassUtils.isGenericRepositoryInterface;
-import static org.springframework.util.ReflectionUtils.makeAccessible;
+import org.springframework.util.ReflectionUtils;
 
 /**
  * Default implementation of {@link RepositoryInformation}.
@@ -104,7 +102,7 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 
 	private Method cacheAndReturn(Method key, Method value) {
 		if (value != null) {
-			makeAccessible(value);
+			ReflectionUtils.makeAccessible(value);
 		}
 		this.methodCache.put(key, value);
 		return value;
@@ -163,7 +161,7 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	public boolean hasCustomMethod() {
 		Class<?> repositoryInterface = getRepositoryInterface();
 		// No detection required if no typing interface was configured
-		if (isGenericRepositoryInterface(repositoryInterface)) {
+		if (org.springframework.data.repository.util.ClassUtils.isGenericRepositoryInterface(repositoryInterface)) {
 			return false;
 		}
 		for (Method method : repositoryInterface.getMethods()) {

@@ -15,13 +15,12 @@
  */
 package org.springframework.data.repository.config;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptySet;
-import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
@@ -36,23 +35,23 @@ class SelectionSetUnitTests {
 
 	@Test // DATACMNS-764
 	void returnsUniqueResult() {
-		assertThat(SelectionSet.of(singleton("single value")).uniqueResult()).hasValue("single value");
+		assertThat(SelectionSet.of(Collections.singleton("single value")).uniqueResult()).hasValue("single value");
 	}
 
 	@Test // DATACMNS-764
 	void emptyCollectionReturnsNull() {
-		assertThat(SelectionSet.of(emptySet()).uniqueResult()).isEmpty();
+		assertThat(SelectionSet.of(Collections.emptySet()).uniqueResult()).isEmpty();
 	}
 
 	@Test // DATACMNS-764
 	void multipleElementsThrowException() {
-		assertThatIllegalStateException().isThrownBy(() -> SelectionSet.of(asList("one", "two")).uniqueResult());
+		assertThatIllegalStateException().isThrownBy(() -> SelectionSet.of(Arrays.asList("one", "two")).uniqueResult());
 	}
 
 	@Test // DATACMNS-764
 	void throwsCustomExceptionWhenConfigured() {
 		assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> {
-			SelectionSet.of(asList("one", "two"), c -> {
+			SelectionSet.of(Arrays.asList("one", "two"), c -> {
 				throw new NullPointerException();
 			}).uniqueResult();
 		});
@@ -60,20 +59,21 @@ class SelectionSetUnitTests {
 
 	@Test // DATACMNS-764
 	void usesFallbackWhenConfigured() {
-		assertThat(SelectionSet.of(asList("one", "two"), c -> Optional.of(String.valueOf(c.size()))).uniqueResult())
-				.hasValue("2");
+		assertThat(
+				SelectionSet.of(Arrays.asList("one", "two"), c -> Optional.of(String.valueOf(c.size()))).uniqueResult())
+						.hasValue("2");
 	}
 
 	@Test // DATACMNS-764
 	void returnsUniqueResultAfterFilter() {
-		SelectionSet<String> selection = SelectionSet.of(asList("one", "two", "three"))
+		SelectionSet<String> selection = SelectionSet.of(Arrays.asList("one", "two", "three"))
 				.filterIfNecessary(s -> s.contains("w"));
 		assertThat(selection.uniqueResult()).hasValue("two");
 	}
 
 	@Test // DATACMNS-764
 	void ignoresFilterWhenResultIsAlreadyUnique() {
-		SelectionSet<String> selection = SelectionSet.of(asList("one")).filterIfNecessary(s -> s.contains("w"));
+		SelectionSet<String> selection = SelectionSet.of(Arrays.asList("one")).filterIfNecessary(s -> s.contains("w"));
 		assertThat(selection.uniqueResult()).hasValue("one");
 	}
 

@@ -21,11 +21,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.NotWritablePropertyException;
 import org.springframework.lang.Nullable;
-
-import static org.springframework.util.ReflectionUtils.findField;
-import static org.springframework.util.ReflectionUtils.getField;
-import static org.springframework.util.ReflectionUtils.makeAccessible;
-import static org.springframework.util.ReflectionUtils.setField;
+import org.springframework.util.ReflectionUtils;
 
 /**
  * Custom extension of {@link BeanWrapperImpl} that falls back to direct field access in
@@ -50,13 +46,13 @@ public class DirectFieldAccessFallbackBeanWrapper extends BeanWrapperImpl {
 			return super.getPropertyValue(propertyName);
 		}
 		catch (NotReadablePropertyException ex) {
-			Field field = findField(getWrappedClass(), propertyName);
+			Field field = ReflectionUtils.findField(getWrappedClass(), propertyName);
 			if (field == null) {
 				throw new NotReadablePropertyException(getWrappedClass(), propertyName,
 						"Could not find field for property during fallback access!");
 			}
-			makeAccessible(field);
-			return getField(field, getWrappedInstance());
+			ReflectionUtils.makeAccessible(field);
+			return ReflectionUtils.getField(field, getWrappedInstance());
 		}
 	}
 
@@ -66,13 +62,13 @@ public class DirectFieldAccessFallbackBeanWrapper extends BeanWrapperImpl {
 			super.setPropertyValue(propertyName, value);
 		}
 		catch (NotWritablePropertyException ex) {
-			Field field = findField(getWrappedClass(), propertyName);
+			Field field = ReflectionUtils.findField(getWrappedClass(), propertyName);
 			if (field == null) {
 				throw new NotWritablePropertyException(getWrappedClass(), propertyName,
 						"Could not find field for property during fallback access!", ex);
 			}
-			makeAccessible(field);
-			setField(field, getWrappedInstance(), value);
+			ReflectionUtils.makeAccessible(field);
+			ReflectionUtils.setField(field, getWrappedInstance(), value);
 		}
 	}
 

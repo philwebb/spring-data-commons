@@ -36,13 +36,13 @@ import org.springframework.data.querydsl.Users;
 import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.Version;
 import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.springframework.test.util.ReflectionTestUtils.getField;
 
 /**
  * Unit tests for {@link QuerydslPredicateBuilder}.
@@ -127,8 +127,8 @@ class QuerydslPredicateBuilderUnitTests {
 	void resolvesCommaSeparatedArgumentToArrayCorrectly() {
 		this.values.add("address.lonLat", "40.740337,-73.995146");
 		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
-		Constant<Object> constant = (Constant<Object>) ((List<?>) getField(getField(predicate, "mixin"), "args"))
-				.get(1);
+		Constant<Object> constant = (Constant<Object>) ((List<?>) ReflectionTestUtils
+				.getField(ReflectionTestUtils.getField(predicate, "mixin"), "args")).get(1);
 		assertThat(constant.getConstant()).isEqualTo(new Double[] { 40.740337D, -73.995146D });
 	}
 
@@ -137,8 +137,8 @@ class QuerydslPredicateBuilderUnitTests {
 	void leavesCommaSeparatedArgumentUntouchedWhenTargetIsNotAnArray() {
 		this.values.add("address.city", "rivers,two");
 		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
-		Constant<Object> constant = (Constant<Object>) ((List<?>) getField(getField(predicate, "mixin"), "args"))
-				.get(1);
+		Constant<Object> constant = (Constant<Object>) ((List<?>) ReflectionTestUtils
+				.getField(ReflectionTestUtils.getField(predicate, "mixin"), "args")).get(1);
 		assertThat(constant.getConstant()).isEqualTo("rivers,two");
 	}
 

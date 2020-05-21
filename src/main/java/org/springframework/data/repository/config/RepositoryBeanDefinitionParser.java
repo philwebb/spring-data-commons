@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
 import org.springframework.beans.factory.parsing.ReaderContext;
+import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -29,8 +30,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.config.ConfigurationUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-
-import static org.springframework.beans.factory.support.BeanDefinitionReaderUtils.GENERATED_BEAN_NAME_SEPARATOR;
 
 /**
  * Base class to implement repository namespaces. These will typically consist of a main
@@ -89,7 +88,7 @@ public class RepositoryBeanDefinitionParser implements BeanDefinitionParser {
 	 * @return
 	 */
 	protected static boolean hasBean(Class<?> type, BeanDefinitionRegistry registry) {
-		String name = String.format("%s%s0", type.getName(), GENERATED_BEAN_NAME_SEPARATOR);
+		String name = String.format("%s%s0", type.getName(), BeanDefinitionReaderUtils.GENERATED_BEAN_NAME_SEPARATOR);
 		return registry.containsBeanDefinition(name);
 	}
 

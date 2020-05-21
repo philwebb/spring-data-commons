@@ -30,7 +30,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.springframework.data.web.PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST;
 
 /**
  * Unit tests for {@link PageableHandlerMethodArgumentResolver}. Pulls in defaulting tests
@@ -96,14 +95,17 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("page", "0");
 		request.addParameter("size", "0");
-		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter,
+				PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-377
 	void rejectsInvalidCustomDefaultForPageSize() throws Exception {
 		MethodParameter parameter = new MethodParameter(
 				Sample.class.getMethod("invalidDefaultPageSize", Pageable.class), 0);
-		assertThatIllegalStateException().isThrownBy(() -> assertSupportedAndResult(parameter, DEFAULT_PAGE_REQUEST))
+		assertThatIllegalStateException()
+				.isThrownBy(() -> assertSupportedAndResult(parameter,
+						PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST))
 				.withMessageContaining("invalidDefaultPageSize");
 	}
 
@@ -111,21 +113,24 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 	void fallsBackToFirstPageIfNegativePageNumberIsGiven() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("page", "-1");
-		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter,
+				PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-408
 	void pageParamIsNotNumeric() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("page", "a");
-		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter,
+				PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-408
 	void sizeParamIsNotNumeric() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("size", "a");
-		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter,
+				PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-477

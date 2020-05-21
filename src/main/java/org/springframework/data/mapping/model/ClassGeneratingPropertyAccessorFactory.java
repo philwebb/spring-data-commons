@@ -53,41 +53,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
-import static org.springframework.asm.Opcodes.AASTORE;
-import static org.springframework.asm.Opcodes.ACC_FINAL;
-import static org.springframework.asm.Opcodes.ACC_PRIVATE;
-import static org.springframework.asm.Opcodes.ACC_PUBLIC;
-import static org.springframework.asm.Opcodes.ACC_STATIC;
-import static org.springframework.asm.Opcodes.ACC_SUPER;
-import static org.springframework.asm.Opcodes.ACONST_NULL;
-import static org.springframework.asm.Opcodes.ALOAD;
-import static org.springframework.asm.Opcodes.ANEWARRAY;
-import static org.springframework.asm.Opcodes.ARETURN;
-import static org.springframework.asm.Opcodes.ASTORE;
-import static org.springframework.asm.Opcodes.ATHROW;
-import static org.springframework.asm.Opcodes.CHECKCAST;
-import static org.springframework.asm.Opcodes.DUP;
-import static org.springframework.asm.Opcodes.GETFIELD;
-import static org.springframework.asm.Opcodes.GETSTATIC;
-import static org.springframework.asm.Opcodes.GOTO;
-import static org.springframework.asm.Opcodes.ICONST_0;
-import static org.springframework.asm.Opcodes.ICONST_1;
-import static org.springframework.asm.Opcodes.INVOKEINTERFACE;
-import static org.springframework.asm.Opcodes.INVOKESPECIAL;
-import static org.springframework.asm.Opcodes.INVOKESTATIC;
-import static org.springframework.asm.Opcodes.INVOKEVIRTUAL;
-import static org.springframework.asm.Opcodes.NEW;
-import static org.springframework.asm.Opcodes.PUTFIELD;
-import static org.springframework.asm.Opcodes.PUTSTATIC;
-import static org.springframework.asm.Opcodes.RETURN;
-import static org.springframework.data.mapping.model.BytecodeUtil.autoboxIfNeeded;
-import static org.springframework.data.mapping.model.BytecodeUtil.autoboxType;
-import static org.springframework.data.mapping.model.BytecodeUtil.isAccessible;
-import static org.springframework.data.mapping.model.BytecodeUtil.isDefault;
-import static org.springframework.data.mapping.model.BytecodeUtil.referenceName;
-import static org.springframework.data.mapping.model.BytecodeUtil.signatureTypeName;
-import static org.springframework.data.mapping.model.BytecodeUtil.visitDefaultValue;
-
 /**
  * A factory that can generate byte code to speed-up dynamic property access. Uses the
  * {@link PersistentEntity}'s {@link PersistentProperty} to discover the access to
@@ -372,7 +337,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 */
 		static byte[] generateBytecode(String internalClassName, PersistentEntity<?, ?> entity) {
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-			cw.visit(Opcodes.V1_6, ACC_PUBLIC + ACC_SUPER, internalClassName, null, JAVA_LANG_OBJECT,
+			cw.visit(Opcodes.V1_6, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER, internalClassName, null, JAVA_LANG_OBJECT,
 					IMPLEMENTED_INTERFACES);
 			List<PersistentProperty<?>> persistentProperties = getPersistentProperties(entity);
 			visitFields(entity, persistentProperties, cw);
@@ -409,32 +374,37 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		private static void visitFields(PersistentEntity<?, ?> entity, List<PersistentProperty<?>> persistentProperties,
 				ClassWriter cw) {
 			cw.visitInnerClass(JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP, JAVA_LANG_INVOKE_METHOD_HANDLES, "Lookup",
-					ACC_PRIVATE + ACC_FINAL + ACC_STATIC);
-			cw.visitField(ACC_PRIVATE, BEAN_FIELD, getAccessibleTypeReferenceName(entity), null, null).visitEnd();
+					Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC);
+			cw.visitField(Opcodes.ACC_PRIVATE, BEAN_FIELD, getAccessibleTypeReferenceName(entity), null, null)
+					.visitEnd();
 			for (PersistentProperty<?> property : persistentProperties) {
 				if (property.isImmutable()) {
 					if (generateMethodHandle(entity, property.getWither())) {
-						cw.visitField(ACC_PRIVATE + ACC_FINAL + ACC_STATIC, witherName(property),
-								referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE), null, null).visitEnd();
+						cw.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC,
+								witherName(property), BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE), null,
+								null).visitEnd();
 					}
 				}
 				else {
 					if (generateMethodHandle(entity, property.getSetter())) {
-						cw.visitField(ACC_PRIVATE + ACC_FINAL + ACC_STATIC, setterName(property),
-								referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE), null, null).visitEnd();
+						cw.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC,
+								setterName(property), BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE), null,
+								null).visitEnd();
 					}
 				}
 				if (generateMethodHandle(entity, property.getGetter())) {
-					cw.visitField(ACC_PRIVATE + ACC_FINAL + ACC_STATIC, getterName(property),
-							referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE), null, null).visitEnd();
+					cw.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC, getterName(property),
+							BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE), null, null).visitEnd();
 				}
 				if (generateSetterMethodHandle(entity, property.getField())) {
 					if (!property.isImmutable()) {
-						cw.visitField(ACC_PRIVATE + ACC_FINAL + ACC_STATIC, fieldSetterName(property),
-								referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE), null, null).visitEnd();
+						cw.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC,
+								fieldSetterName(property), BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE),
+								null, null).visitEnd();
 					}
-					cw.visitField(ACC_PRIVATE + ACC_FINAL + ACC_STATIC, fieldGetterName(property),
-							referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE), null, null).visitEnd();
+					cw.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC,
+							fieldGetterName(property), BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE), null,
+							null).visitEnd();
 				}
 			}
 		}
@@ -452,26 +422,28 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				ClassWriter cw) {
 			// public EntityAccessor(Entity bean) or EntityAccessor(Object bean)
 			MethodVisitor mv;
-			mv = cw.visitMethod(ACC_PUBLIC, INIT, String.format("(%s)V", getAccessibleTypeReferenceName(entity)), null,
-					null);
+			mv = cw.visitMethod(Opcodes.ACC_PUBLIC, INIT,
+					String.format("(%s)V", getAccessibleTypeReferenceName(entity)), null, null);
 			mv.visitCode();
 			Label l0 = new Label();
 			mv.visitLabel(l0);
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitMethodInsn(INVOKESPECIAL, JAVA_LANG_OBJECT, INIT, "()V", false);
+			mv.visitVarInsn(Opcodes.ALOAD, 0);
+			mv.visitMethodInsn(Opcodes.INVOKESPECIAL, JAVA_LANG_OBJECT, INIT, "()V", false);
 			// Assert.notNull(bean)
-			mv.visitVarInsn(ALOAD, 1);
+			mv.visitVarInsn(Opcodes.ALOAD, 1);
 			mv.visitLdcInsn("Bean must not be null!");
-			mv.visitMethodInsn(INVOKESTATIC, "org/springframework/util/Assert", "notNull",
-					String.format("(%s%s)V", referenceName(JAVA_LANG_OBJECT), referenceName(JAVA_LANG_STRING)), false);
+			mv.visitMethodInsn(
+					Opcodes.INVOKESTATIC, "org/springframework/util/Assert", "notNull", String.format("(%s%s)V",
+							BytecodeUtil.referenceName(JAVA_LANG_OBJECT), BytecodeUtil.referenceName(JAVA_LANG_STRING)),
+					false);
 			// this.bean = bean
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitVarInsn(ALOAD, 1);
-			mv.visitFieldInsn(PUTFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
-			mv.visitInsn(RETURN);
+			mv.visitVarInsn(Opcodes.ALOAD, 0);
+			mv.visitVarInsn(Opcodes.ALOAD, 1);
+			mv.visitFieldInsn(Opcodes.PUTFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
+			mv.visitInsn(Opcodes.RETURN);
 			Label l3 = new Label();
 			mv.visitLabel(l3);
-			mv.visitLocalVariable(THIS_REF, referenceName(internalClassName), null, l0, l3, 0);
+			mv.visitLocalVariable(THIS_REF, BytecodeUtil.referenceName(internalClassName), null, l0, l3, 0);
 			mv.visitLocalVariable(BEAN_FIELD, getAccessibleTypeReferenceName(entity), null, l0, l3, 1);
 			mv.visitMaxs(2, 2);
 		}
@@ -496,22 +468,22 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 */
 		private static void visitStaticInitializer(PersistentEntity<?, ?> entity,
 				List<PersistentProperty<?>> persistentProperties, String internalClassName, ClassWriter cw) {
-			MethodVisitor mv = cw.visitMethod(ACC_STATIC, CLINIT, "()V", null, null);
+			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_STATIC, CLINIT, "()V", null, null);
 			mv.visitCode();
 			Label l0 = new Label();
 			Label l1 = new Label();
 			mv.visitLabel(l0);
 			// lookup = MethodHandles.lookup()
-			mv.visitMethodInsn(INVOKESTATIC, JAVA_LANG_INVOKE_METHOD_HANDLES, "lookup",
-					String.format("()%s", referenceName(JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP)), false);
-			mv.visitVarInsn(ASTORE, 0);
+			mv.visitMethodInsn(Opcodes.INVOKESTATIC, JAVA_LANG_INVOKE_METHOD_HANDLES, "lookup",
+					String.format("()%s", BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP)), false);
+			mv.visitVarInsn(Opcodes.ASTORE, 0);
 			List<Class<?>> entityClasses = getPropertyDeclaratingClasses(persistentProperties);
 			for (Class<?> entityClass : entityClasses) {
 				mv.visitLdcInsn(entityClass.getName());
-				mv.visitMethodInsn(INVOKESTATIC, JAVA_LANG_CLASS, "forName",
-						String.format("(%s)%s", referenceName(JAVA_LANG_STRING), referenceName(JAVA_LANG_CLASS)),
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, JAVA_LANG_CLASS, "forName", String.format("(%s)%s",
+						BytecodeUtil.referenceName(JAVA_LANG_STRING), BytecodeUtil.referenceName(JAVA_LANG_CLASS)),
 						false);
-				mv.visitVarInsn(ASTORE, classVariableIndex5(entityClasses, entityClass));
+				mv.visitVarInsn(Opcodes.ASTORE, classVariableIndex5(entityClasses, entityClass));
 			}
 			for (PersistentProperty<?> property : persistentProperties) {
 				if (property.usePropertyAccess()) {
@@ -532,16 +504,17 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				}
 			}
 			mv.visitLabel(l1);
-			mv.visitInsn(RETURN);
-			mv.visitLocalVariable("lookup", referenceName(JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP), null, l0, l1, 0);
-			mv.visitLocalVariable("field", referenceName(JAVA_LANG_REFLECT_FIELD), null, l0, l1, 1);
-			mv.visitLocalVariable("setter", referenceName(JAVA_LANG_REFLECT_METHOD), null, l0, l1, 2);
-			mv.visitLocalVariable("getter", referenceName(JAVA_LANG_REFLECT_METHOD), null, l0, l1, 3);
-			mv.visitLocalVariable("wither", referenceName(JAVA_LANG_REFLECT_METHOD), null, l0, l1, 4);
+			mv.visitInsn(Opcodes.RETURN);
+			mv.visitLocalVariable("lookup", BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP), null,
+					l0, l1, 0);
+			mv.visitLocalVariable("field", BytecodeUtil.referenceName(JAVA_LANG_REFLECT_FIELD), null, l0, l1, 1);
+			mv.visitLocalVariable("setter", BytecodeUtil.referenceName(JAVA_LANG_REFLECT_METHOD), null, l0, l1, 2);
+			mv.visitLocalVariable("getter", BytecodeUtil.referenceName(JAVA_LANG_REFLECT_METHOD), null, l0, l1, 3);
+			mv.visitLocalVariable("wither", BytecodeUtil.referenceName(JAVA_LANG_REFLECT_METHOD), null, l0, l1, 4);
 			for (Class<?> entityClass : entityClasses) {
 				int index = classVariableIndex5(entityClasses, entityClass);
-				mv.visitLocalVariable(String.format("class_%d", index), referenceName(JAVA_LANG_CLASS), null, l0, l1,
-						index);
+				mv.visitLocalVariable(String.format("class_%d", index), BytecodeUtil.referenceName(JAVA_LANG_CLASS),
+						null, l0, l1, index);
 			}
 			mv.visitMaxs(0, 0);
 			mv.visitEnd();
@@ -574,31 +547,32 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			// getter = <entity>.class.getDeclaredMethod()
 			Method getter = property.getGetter();
 			if (getter != null) {
-				mv.visitVarInsn(ALOAD, classVariableIndex5(entityClasses, getter.getDeclaringClass()));
+				mv.visitVarInsn(Opcodes.ALOAD, classVariableIndex5(entityClasses, getter.getDeclaringClass()));
 				mv.visitLdcInsn(getter.getName());
-				mv.visitInsn(ICONST_0);
-				mv.visitTypeInsn(ANEWARRAY, JAVA_LANG_CLASS);
-				mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_CLASS, "getDeclaredMethod",
-						String.format("(%s[%s)%s", referenceName(JAVA_LANG_STRING), referenceName(JAVA_LANG_CLASS),
-								referenceName(JAVA_LANG_REFLECT_METHOD)),
+				mv.visitInsn(Opcodes.ICONST_0);
+				mv.visitTypeInsn(Opcodes.ANEWARRAY, JAVA_LANG_CLASS);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_CLASS, "getDeclaredMethod",
+						String.format("(%s[%s)%s", BytecodeUtil.referenceName(JAVA_LANG_STRING),
+								BytecodeUtil.referenceName(JAVA_LANG_CLASS),
+								BytecodeUtil.referenceName(JAVA_LANG_REFLECT_METHOD)),
 						false);
-				mv.visitVarInsn(ASTORE, 3);
+				mv.visitVarInsn(Opcodes.ASTORE, 3);
 				// getter.setAccessible(true)
-				mv.visitVarInsn(ALOAD, 3);
-				mv.visitInsn(ICONST_1);
-				mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_REFLECT_METHOD, SET_ACCESSIBLE, "(Z)V", false);
-				mv.visitVarInsn(ALOAD, 0);
-				mv.visitVarInsn(ALOAD, 3);
-				mv.visitMethodInsn(
-						INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP, "unreflect", String.format("(%s)%s",
-								referenceName(JAVA_LANG_REFLECT_METHOD), referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE)),
+				mv.visitVarInsn(Opcodes.ALOAD, 3);
+				mv.visitInsn(Opcodes.ICONST_1);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_REFLECT_METHOD, SET_ACCESSIBLE, "(Z)V", false);
+				mv.visitVarInsn(Opcodes.ALOAD, 0);
+				mv.visitVarInsn(Opcodes.ALOAD, 3);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP, "unreflect",
+						String.format("(%s)%s", BytecodeUtil.referenceName(JAVA_LANG_REFLECT_METHOD),
+								BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE)),
 						false);
 			}
 			if (getter == null) {
-				mv.visitInsn(ACONST_NULL);
+				mv.visitInsn(Opcodes.ACONST_NULL);
 			}
-			mv.visitFieldInsn(PUTSTATIC, internalClassName, getterName(property),
-					referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
+			mv.visitFieldInsn(Opcodes.PUTSTATIC, internalClassName, getterName(property),
+					BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
 		}
 
 		/**
@@ -609,42 +583,44 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				Function<PersistentProperty<?>, String> setterNameFunction, int localVariableIndex) {
 			// method = <entity>.class.getDeclaredMethod()
 			if (method != null) {
-				mv.visitVarInsn(ALOAD, classVariableIndex5(entityClasses, method.getDeclaringClass()));
+				mv.visitVarInsn(Opcodes.ALOAD, classVariableIndex5(entityClasses, method.getDeclaringClass()));
 				mv.visitLdcInsn(method.getName());
-				mv.visitInsn(ICONST_1);
-				mv.visitTypeInsn(ANEWARRAY, JAVA_LANG_CLASS);
-				mv.visitInsn(DUP);
-				mv.visitInsn(ICONST_0);
+				mv.visitInsn(Opcodes.ICONST_1);
+				mv.visitTypeInsn(Opcodes.ANEWARRAY, JAVA_LANG_CLASS);
+				mv.visitInsn(Opcodes.DUP);
+				mv.visitInsn(Opcodes.ICONST_0);
 				Class<?> parameterType = method.getParameterTypes()[0];
 				if (parameterType.isPrimitive()) {
-					mv.visitFieldInsn(GETSTATIC, Type.getInternalName(autoboxType(method.getParameterTypes()[0])),
-							"TYPE", referenceName(JAVA_LANG_CLASS));
+					mv.visitFieldInsn(Opcodes.GETSTATIC,
+							Type.getInternalName(BytecodeUtil.autoboxType(method.getParameterTypes()[0])), "TYPE",
+							BytecodeUtil.referenceName(JAVA_LANG_CLASS));
 				}
 				else {
-					mv.visitLdcInsn(Type.getType(referenceName(parameterType)));
+					mv.visitLdcInsn(Type.getType(BytecodeUtil.referenceName(parameterType)));
 				}
-				mv.visitInsn(AASTORE);
-				mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_CLASS, "getDeclaredMethod",
-						String.format("(%s[%s)%s", referenceName(JAVA_LANG_STRING), referenceName(JAVA_LANG_CLASS),
-								referenceName(JAVA_LANG_REFLECT_METHOD)),
+				mv.visitInsn(Opcodes.AASTORE);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_CLASS, "getDeclaredMethod",
+						String.format("(%s[%s)%s", BytecodeUtil.referenceName(JAVA_LANG_STRING),
+								BytecodeUtil.referenceName(JAVA_LANG_CLASS),
+								BytecodeUtil.referenceName(JAVA_LANG_REFLECT_METHOD)),
 						false);
-				mv.visitVarInsn(ASTORE, localVariableIndex);
+				mv.visitVarInsn(Opcodes.ASTORE, localVariableIndex);
 				// wither/setter.setAccessible(true)
-				mv.visitVarInsn(ALOAD, localVariableIndex);
-				mv.visitInsn(ICONST_1);
-				mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_REFLECT_METHOD, SET_ACCESSIBLE, "(Z)V", false);
-				mv.visitVarInsn(ALOAD, 0);
-				mv.visitVarInsn(ALOAD, localVariableIndex);
-				mv.visitMethodInsn(
-						INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP, "unreflect", String.format("(%s)%s",
-								referenceName(JAVA_LANG_REFLECT_METHOD), referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE)),
+				mv.visitVarInsn(Opcodes.ALOAD, localVariableIndex);
+				mv.visitInsn(Opcodes.ICONST_1);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_REFLECT_METHOD, SET_ACCESSIBLE, "(Z)V", false);
+				mv.visitVarInsn(Opcodes.ALOAD, 0);
+				mv.visitVarInsn(Opcodes.ALOAD, localVariableIndex);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP, "unreflect",
+						String.format("(%s)%s", BytecodeUtil.referenceName(JAVA_LANG_REFLECT_METHOD),
+								BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE)),
 						false);
 			}
 			if (method == null) {
-				mv.visitInsn(ACONST_NULL);
+				mv.visitInsn(Opcodes.ACONST_NULL);
 			}
-			mv.visitFieldInsn(PUTSTATIC, internalClassName, setterNameFunction.apply(property),
-					referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
+			mv.visitFieldInsn(Opcodes.PUTSTATIC, internalClassName, setterNameFunction.apply(property),
+					BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
 		}
 
 		/**
@@ -655,52 +631,54 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			// field = <entity>.class.getDeclaredField()
 			Field field = property.getField();
 			if (field != null) {
-				mv.visitVarInsn(ALOAD, classVariableIndex5(entityClasses, field.getDeclaringClass()));
+				mv.visitVarInsn(Opcodes.ALOAD, classVariableIndex5(entityClasses, field.getDeclaringClass()));
 				mv.visitLdcInsn(field.getName());
-				mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_CLASS, "getDeclaredField", String.format("(%s)%s",
-						referenceName(JAVA_LANG_STRING), referenceName(JAVA_LANG_REFLECT_FIELD)), false);
-				mv.visitVarInsn(ASTORE, 1);
-				// field.setAccessible(true)
-				mv.visitVarInsn(ALOAD, 1);
-				mv.visitInsn(ICONST_1);
-				mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_REFLECT_FIELD, SET_ACCESSIBLE, "(Z)V", false);
-				// $fieldGetter = lookup.unreflectGetter(field)
-				mv.visitVarInsn(ALOAD, 0);
-				mv.visitVarInsn(ALOAD, 1);
-				mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP, "unreflectGetter",
-						String.format("(%s)%s", referenceName(JAVA_LANG_REFLECT_FIELD),
-								referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE)),
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_CLASS, "getDeclaredField",
+						String.format("(%s)%s", BytecodeUtil.referenceName(JAVA_LANG_STRING),
+								BytecodeUtil.referenceName(JAVA_LANG_REFLECT_FIELD)),
 						false);
-				mv.visitFieldInsn(PUTSTATIC, internalClassName, fieldGetterName(property),
-						referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
+				mv.visitVarInsn(Opcodes.ASTORE, 1);
+				// field.setAccessible(true)
+				mv.visitVarInsn(Opcodes.ALOAD, 1);
+				mv.visitInsn(Opcodes.ICONST_1);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_REFLECT_FIELD, SET_ACCESSIBLE, "(Z)V", false);
+				// $fieldGetter = lookup.unreflectGetter(field)
+				mv.visitVarInsn(Opcodes.ALOAD, 0);
+				mv.visitVarInsn(Opcodes.ALOAD, 1);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP, "unreflectGetter",
+						String.format("(%s)%s", BytecodeUtil.referenceName(JAVA_LANG_REFLECT_FIELD),
+								BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE)),
+						false);
+				mv.visitFieldInsn(Opcodes.PUTSTATIC, internalClassName, fieldGetterName(property),
+						BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
 				if (!property.isImmutable()) {
 					// $fieldSetter = lookup.unreflectSetter(field)
-					mv.visitVarInsn(ALOAD, 0);
-					mv.visitVarInsn(ALOAD, 1);
-					mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP, "unreflectSetter",
-							String.format("(%s)%s", referenceName(JAVA_LANG_REFLECT_FIELD),
-									referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE)),
+					mv.visitVarInsn(Opcodes.ALOAD, 0);
+					mv.visitVarInsn(Opcodes.ALOAD, 1);
+					mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLES_LOOKUP, "unreflectSetter",
+							String.format("(%s)%s", BytecodeUtil.referenceName(JAVA_LANG_REFLECT_FIELD),
+									BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE)),
 							false);
-					mv.visitFieldInsn(PUTSTATIC, internalClassName, fieldSetterName(property),
-							referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
+					mv.visitFieldInsn(Opcodes.PUTSTATIC, internalClassName, fieldSetterName(property),
+							BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
 				}
 			}
 		}
 
 		private static void visitBeanGetter(PersistentEntity<?, ?> entity, String internalClassName, ClassWriter cw) {
 			// public Object getBean()
-			MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "getBean",
-					String.format("()%s", referenceName(JAVA_LANG_OBJECT)), null, null);
+			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "getBean",
+					String.format("()%s", BytecodeUtil.referenceName(JAVA_LANG_OBJECT)), null, null);
 			mv.visitCode();
 			Label l0 = new Label();
 			// return this.bean
 			mv.visitLabel(l0);
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
-			mv.visitInsn(ARETURN);
+			mv.visitVarInsn(Opcodes.ALOAD, 0);
+			mv.visitFieldInsn(Opcodes.GETFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
+			mv.visitInsn(Opcodes.ARETURN);
 			Label l1 = new Label();
 			mv.visitLabel(l1);
-			mv.visitLocalVariable(THIS_REF, referenceName(internalClassName), null, l0, l1, 0);
+			mv.visitLocalVariable(THIS_REF, BytecodeUtil.referenceName(internalClassName), null, l0, l1, 0);
 			mv.visitMaxs(1, 1);
 			mv.visitEnd();
 		}
@@ -728,7 +706,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 */
 		private static void visitGetProperty(PersistentEntity<?, ?> entity,
 				List<PersistentProperty<?>> persistentProperties, String internalClassName, ClassWriter cw) {
-			MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "getProperty",
+			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "getProperty",
 					"(Lorg/springframework/data/mapping/PersistentProperty;)Ljava/lang/Object;",
 					"(Lorg/springframework/data/mapping/PersistentProperty<*>;)Ljava/lang/Object;", null);
 			mv.visitCode();
@@ -737,14 +715,14 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			mv.visitLabel(l0);
 			// Assert.notNull(property)
 			visitAssertNotNull(mv);
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
-			mv.visitVarInsn(ASTORE, 2);
+			mv.visitVarInsn(Opcodes.ALOAD, 0);
+			mv.visitFieldInsn(Opcodes.GETFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
+			mv.visitVarInsn(Opcodes.ASTORE, 2);
 			visitGetPropertySwitch(entity, persistentProperties, internalClassName, mv);
 			mv.visitLabel(l1);
 			visitThrowUnsupportedOperationException(mv, "No accessor to get property %s!");
-			mv.visitLocalVariable(THIS_REF, referenceName(internalClassName), null, l0, l1, 0);
-			mv.visitLocalVariable("property", referenceName(PERSISTENT_PROPERTY),
+			mv.visitLocalVariable(THIS_REF, BytecodeUtil.referenceName(internalClassName), null, l0, l1, 0);
+			mv.visitLocalVariable("property", BytecodeUtil.referenceName(PERSISTENT_PROPERTY),
 					"Lorg/springframework/data/mapping/PersistentProperty<*>;", l0, l1, 1);
 			mv.visitLocalVariable(BEAN_FIELD, getAccessibleTypeReferenceName(entity), null, l0, l1, 2);
 			mv.visitMaxs(0, 0);
@@ -767,10 +745,10 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				switchJumpLabels[i] = propertyStackAddress.label;
 			}
 			Label dfltLabel = new Label();
-			mv.visitVarInsn(ALOAD, 1);
-			mv.visitMethodInsn(INVOKEINTERFACE, PERSISTENT_PROPERTY, "getName",
-					String.format("()%s", referenceName(JAVA_LANG_STRING)), true);
-			mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_STRING, "hashCode", "()I", false);
+			mv.visitVarInsn(Opcodes.ALOAD, 1);
+			mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, PERSISTENT_PROPERTY, "getName",
+					String.format("()%s", BytecodeUtil.referenceName(JAVA_LANG_STRING)), true);
+			mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_STRING, "hashCode", "()I", false);
 			mv.visitLookupSwitchInsn(dfltLabel, hashes, switchJumpLabels);
 			for (PersistentProperty<?> property : persistentProperties) {
 				mv.visitLabel(propertyStackMap.get(property.getName()).label);
@@ -779,7 +757,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 					visitGetProperty0(entity, property, mv, internalClassName);
 				}
 				else {
-					mv.visitJumpInsn(GOTO, dfltLabel);
+					mv.visitJumpInsn(Opcodes.GOTO, dfltLabel);
 				}
 			}
 			mv.visitLabel(dfltLabel);
@@ -798,47 +776,51 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			if (property.usePropertyAccess() && getter != null) {
 				if (generateMethodHandle(entity, getter)) {
 					// $getter.invoke(bean)
-					mv.visitFieldInsn(GETSTATIC, internalClassName, getterName(property),
-							referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
-					mv.visitVarInsn(ALOAD, 2);
-					mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
-							String.format("(%s)%s", referenceName(JAVA_LANG_OBJECT), referenceName(JAVA_LANG_OBJECT)),
+					mv.visitFieldInsn(Opcodes.GETSTATIC, internalClassName, getterName(property),
+							BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
+					mv.visitVarInsn(Opcodes.ALOAD, 2);
+					mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
+							String.format("(%s)%s", BytecodeUtil.referenceName(JAVA_LANG_OBJECT),
+									BytecodeUtil.referenceName(JAVA_LANG_OBJECT)),
 							false);
 				}
 				else {
 					// bean.get...
-					mv.visitVarInsn(ALOAD, 2);
-					int invokeOpCode = INVOKEVIRTUAL;
+					mv.visitVarInsn(Opcodes.ALOAD, 2);
+					int invokeOpCode = Opcodes.INVOKEVIRTUAL;
 					Class<?> declaringClass = getter.getDeclaringClass();
 					boolean interfaceDefinition = declaringClass.isInterface();
 					if (interfaceDefinition) {
-						invokeOpCode = INVOKEINTERFACE;
+						invokeOpCode = Opcodes.INVOKEINTERFACE;
 					}
 					mv.visitMethodInsn(invokeOpCode, Type.getInternalName(declaringClass), getter.getName(),
-							String.format("()%s", signatureTypeName(getter.getReturnType())), interfaceDefinition);
-					autoboxIfNeeded(getter.getReturnType(), autoboxType(getter.getReturnType()), mv);
+							String.format("()%s", BytecodeUtil.signatureTypeName(getter.getReturnType())),
+							interfaceDefinition);
+					BytecodeUtil.autoboxIfNeeded(getter.getReturnType(),
+							BytecodeUtil.autoboxType(getter.getReturnType()), mv);
 				}
 			}
 			else {
 				Field field = property.getRequiredField();
 				if (generateMethodHandle(entity, field)) {
 					// $fieldGetter.invoke(bean)
-					mv.visitFieldInsn(GETSTATIC, internalClassName, fieldGetterName(property),
-							referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
-					mv.visitVarInsn(ALOAD, 2);
-					mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
-							String.format("(%s)%s", referenceName(JAVA_LANG_OBJECT), referenceName(JAVA_LANG_OBJECT)),
+					mv.visitFieldInsn(Opcodes.GETSTATIC, internalClassName, fieldGetterName(property),
+							BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
+					mv.visitVarInsn(Opcodes.ALOAD, 2);
+					mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
+							String.format("(%s)%s", BytecodeUtil.referenceName(JAVA_LANG_OBJECT),
+									BytecodeUtil.referenceName(JAVA_LANG_OBJECT)),
 							false);
 				}
 				else {
 					// bean.field
-					mv.visitVarInsn(ALOAD, 2);
-					mv.visitFieldInsn(GETFIELD, Type.getInternalName(field.getDeclaringClass()), field.getName(),
-							signatureTypeName(field.getType()));
-					autoboxIfNeeded(field.getType(), autoboxType(field.getType()), mv);
+					mv.visitVarInsn(Opcodes.ALOAD, 2);
+					mv.visitFieldInsn(Opcodes.GETFIELD, Type.getInternalName(field.getDeclaringClass()),
+							field.getName(), BytecodeUtil.signatureTypeName(field.getType()));
+					BytecodeUtil.autoboxIfNeeded(field.getType(), BytecodeUtil.autoboxType(field.getType()), mv);
 				}
 			}
-			mv.visitInsn(ARETURN);
+			mv.visitInsn(Opcodes.ARETURN);
 		}
 
 		/**
@@ -871,24 +853,24 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 */
 		private static void visitSetProperty(PersistentEntity<?, ?> entity,
 				List<PersistentProperty<?>> persistentProperties, String internalClassName, ClassWriter cw) {
-			MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "setProperty",
+			MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "setProperty",
 					"(Lorg/springframework/data/mapping/PersistentProperty;Ljava/lang/Object;)V",
 					"(Lorg/springframework/data/mapping/PersistentProperty<*>;Ljava/lang/Object;)V", null);
 			mv.visitCode();
 			Label l0 = new Label();
 			mv.visitLabel(l0);
 			visitAssertNotNull(mv);
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
-			mv.visitVarInsn(ASTORE, 3);
+			mv.visitVarInsn(Opcodes.ALOAD, 0);
+			mv.visitFieldInsn(Opcodes.GETFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
+			mv.visitVarInsn(Opcodes.ASTORE, 3);
 			visitSetPropertySwitch(entity, persistentProperties, internalClassName, mv);
 			Label l1 = new Label();
 			mv.visitLabel(l1);
 			visitThrowUnsupportedOperationException(mv, "No accessor to set property %s!");
-			mv.visitLocalVariable(THIS_REF, referenceName(internalClassName), null, l0, l1, 0);
+			mv.visitLocalVariable(THIS_REF, BytecodeUtil.referenceName(internalClassName), null, l0, l1, 0);
 			mv.visitLocalVariable("property", "Lorg/springframework/data/mapping/PersistentProperty;",
 					"Lorg/springframework/data/mapping/PersistentProperty<*>;", l0, l1, 1);
-			mv.visitLocalVariable("value", referenceName(JAVA_LANG_OBJECT), null, l0, l1, 2);
+			mv.visitLocalVariable("value", BytecodeUtil.referenceName(JAVA_LANG_OBJECT), null, l0, l1, 2);
 			mv.visitLocalVariable(BEAN_FIELD, getAccessibleTypeReferenceName(entity), null, l0, l1, 3);
 			mv.visitMaxs(0, 0);
 			mv.visitEnd();
@@ -910,10 +892,10 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				switchJumpLabels[i] = propertyStackAddress.label;
 			}
 			Label dfltLabel = new Label();
-			mv.visitVarInsn(ALOAD, 1);
-			mv.visitMethodInsn(INVOKEINTERFACE, PERSISTENT_PROPERTY, "getName",
-					String.format("()%s", referenceName(JAVA_LANG_STRING)), true);
-			mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_STRING, "hashCode", "()I", false);
+			mv.visitVarInsn(Opcodes.ALOAD, 1);
+			mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, PERSISTENT_PROPERTY, "getName",
+					String.format("()%s", BytecodeUtil.referenceName(JAVA_LANG_STRING)), true);
+			mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_STRING, "hashCode", "()I", false);
 			mv.visitLookupSwitchInsn(dfltLabel, hashes, switchJumpLabels);
 			for (PersistentProperty<?> property : persistentProperties) {
 				mv.visitLabel(propertyStackMap.get(property.getName()).label);
@@ -922,7 +904,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 					visitSetProperty0(entity, property, mv, internalClassName);
 				}
 				else {
-					mv.visitJumpInsn(GOTO, dfltLabel);
+					mv.visitJumpInsn(Opcodes.GOTO, dfltLabel);
 				}
 			}
 			mv.visitLabel(dfltLabel);
@@ -953,7 +935,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			else {
 				visitSetField(entity, property, mv, internalClassName);
 			}
-			mv.visitInsn(RETURN);
+			mv.visitInsn(Opcodes.RETURN);
 		}
 
 		/**
@@ -967,29 +949,29 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				MethodVisitor mv, String internalClassName, Method wither) {
 			if (generateMethodHandle(entity, wither)) {
 				// this. <- for later PUTFIELD
-				mv.visitVarInsn(ALOAD, 0);
+				mv.visitVarInsn(Opcodes.ALOAD, 0);
 				// $wither.invoke(bean)
-				mv.visitFieldInsn(GETSTATIC, internalClassName, witherName(property),
-						referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
-				mv.visitVarInsn(ALOAD, 3);
-				mv.visitVarInsn(ALOAD, 2);
-				mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
-						String.format("(%s%s)%s", referenceName(JAVA_LANG_OBJECT), referenceName(JAVA_LANG_OBJECT),
-								getAccessibleTypeReferenceName(entity)),
+				mv.visitFieldInsn(Opcodes.GETSTATIC, internalClassName, witherName(property),
+						BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
+				mv.visitVarInsn(Opcodes.ALOAD, 3);
+				mv.visitVarInsn(Opcodes.ALOAD, 2);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
+						String.format("(%s%s)%s", BytecodeUtil.referenceName(JAVA_LANG_OBJECT),
+								BytecodeUtil.referenceName(JAVA_LANG_OBJECT), getAccessibleTypeReferenceName(entity)),
 						false);
 				if (isAccessible(entity)) {
-					mv.visitTypeInsn(CHECKCAST, Type.getInternalName(entity.getType()));
+					mv.visitTypeInsn(Opcodes.CHECKCAST, Type.getInternalName(entity.getType()));
 				}
 			}
 			else {
 				// this. <- for later PUTFIELD
-				mv.visitVarInsn(ALOAD, 0);
+				mv.visitVarInsn(Opcodes.ALOAD, 0);
 				// bean.set...(object)
-				mv.visitVarInsn(ALOAD, 3);
-				mv.visitVarInsn(ALOAD, 2);
+				mv.visitVarInsn(Opcodes.ALOAD, 3);
+				mv.visitVarInsn(Opcodes.ALOAD, 2);
 				visitInvokeMethodSingleArg(mv, wither);
 			}
-			mv.visitFieldInsn(PUTFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
+			mv.visitFieldInsn(Opcodes.PUTFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
 		}
 
 		/**
@@ -1011,29 +993,31 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 					.orElseThrow(() -> new IllegalStateException(String
 							.format("No usable .copy(...) method found in entity %s", entity.getType().getName())));
 			// this. <- for later PUTFIELD
-			mv.visitVarInsn(ALOAD, 0);
+			mv.visitVarInsn(Opcodes.ALOAD, 0);
 			if (kotlinCopyMethod.shouldUsePublicCopyMethod(entity)) {
 				// PersonWithId.copy$(value)
-				mv.visitVarInsn(ALOAD, 3);
-				mv.visitVarInsn(ALOAD, 2);
+				mv.visitVarInsn(Opcodes.ALOAD, 3);
+				mv.visitVarInsn(Opcodes.ALOAD, 2);
 				visitInvokeMethodSingleArg(mv, kotlinCopyMethod.getPublicCopyMethod());
 			}
 			else {
 				Method copy = kotlinCopyMethod.getSyntheticCopyMethod();
 				Class<?>[] parameterTypes = copy.getParameterTypes();
 				// PersonWithId.copy$default..(bean, object, MASK, null)
-				mv.visitVarInsn(ALOAD, 3);
+				mv.visitVarInsn(Opcodes.ALOAD, 3);
 				KotlinCopyByProperty copyByProperty = kotlinCopyMethod.forProperty(property)
 						.orElseThrow(() -> new IllegalStateException(
 								String.format("No usable .copy(...) method found for property %s", property)));
 				for (int i = 1; i < kotlinCopyMethod.getParameterCount(); i++) {
 					if (copyByProperty.getParameterPosition() == i) {
-						mv.visitVarInsn(ALOAD, 2);
-						mv.visitTypeInsn(CHECKCAST, Type.getInternalName(autoboxType(parameterTypes[i])));
-						autoboxIfNeeded(autoboxType(parameterTypes[i]), parameterTypes[i], mv);
+						mv.visitVarInsn(Opcodes.ALOAD, 2);
+						mv.visitTypeInsn(Opcodes.CHECKCAST,
+								Type.getInternalName(BytecodeUtil.autoboxType(parameterTypes[i])));
+						BytecodeUtil.autoboxIfNeeded(BytecodeUtil.autoboxType(parameterTypes[i]), parameterTypes[i],
+								mv);
 						continue;
 					}
-					visitDefaultValue(parameterTypes[i], mv);
+					BytecodeUtil.visitDefaultValue(parameterTypes[i], mv);
 				}
 				copyByProperty.getDefaultMask().forEach(mv::visitLdcInsn);
 				mv.visitInsn(Opcodes.ACONST_NULL);
@@ -1041,7 +1025,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				mv.visitMethodInsn(invokeOpCode, Type.getInternalName(copy.getDeclaringClass()), copy.getName(),
 						getArgumentSignature(copy), false);
 			}
-			mv.visitFieldInsn(PUTFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
+			mv.visitFieldInsn(Opcodes.PUTFIELD, internalClassName, BEAN_FIELD, getAccessibleTypeReferenceName(entity));
 		}
 
 		/**
@@ -1061,18 +1045,19 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				MethodVisitor mv, String internalClassName, Method setter) {
 			if (generateMethodHandle(entity, setter)) {
 				// $setter.invoke(bean)
-				mv.visitFieldInsn(GETSTATIC, internalClassName, setterName(property),
-						referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
-				mv.visitVarInsn(ALOAD, 3);
-				mv.visitVarInsn(ALOAD, 2);
-				mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
-						String.format("(%s%s)V", referenceName(JAVA_LANG_OBJECT), referenceName(JAVA_LANG_OBJECT)),
+				mv.visitFieldInsn(Opcodes.GETSTATIC, internalClassName, setterName(property),
+						BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
+				mv.visitVarInsn(Opcodes.ALOAD, 3);
+				mv.visitVarInsn(Opcodes.ALOAD, 2);
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
+						String.format("(%s%s)V", BytecodeUtil.referenceName(JAVA_LANG_OBJECT),
+								BytecodeUtil.referenceName(JAVA_LANG_OBJECT)),
 						false);
 			}
 			else {
 				// bean.set...(object)
-				mv.visitVarInsn(ALOAD, 3);
-				mv.visitVarInsn(ALOAD, 2);
+				mv.visitVarInsn(Opcodes.ALOAD, 3);
+				mv.visitVarInsn(Opcodes.ALOAD, 2);
 
 				visitInvokeMethodSingleArg(mv, setter);
 			}
@@ -1097,25 +1082,26 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			if (field != null) {
 				if (generateSetterMethodHandle(entity, field)) {
 					// $fieldSetter.invoke(bean, object)
-					mv.visitFieldInsn(GETSTATIC, internalClassName, fieldSetterName(property),
-							referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
-					mv.visitVarInsn(ALOAD, 3);
-					mv.visitVarInsn(ALOAD, 2);
-					mv.visitMethodInsn(INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
-							String.format("(%s%s)V", referenceName(JAVA_LANG_OBJECT), referenceName(JAVA_LANG_OBJECT)),
+					mv.visitFieldInsn(Opcodes.GETSTATIC, internalClassName, fieldSetterName(property),
+							BytecodeUtil.referenceName(JAVA_LANG_INVOKE_METHOD_HANDLE));
+					mv.visitVarInsn(Opcodes.ALOAD, 3);
+					mv.visitVarInsn(Opcodes.ALOAD, 2);
+					mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, JAVA_LANG_INVOKE_METHOD_HANDLE, "invoke",
+							String.format("(%s%s)V", BytecodeUtil.referenceName(JAVA_LANG_OBJECT),
+									BytecodeUtil.referenceName(JAVA_LANG_OBJECT)),
 							false);
 				}
 				else {
 					// bean.field
-					mv.visitVarInsn(ALOAD, 3);
-					mv.visitVarInsn(ALOAD, 2);
+					mv.visitVarInsn(Opcodes.ALOAD, 3);
+					mv.visitVarInsn(Opcodes.ALOAD, 2);
 
 					Class<?> fieldType = field.getType();
 
-					mv.visitTypeInsn(CHECKCAST, Type.getInternalName(autoboxType(fieldType)));
-					autoboxIfNeeded(autoboxType(fieldType), fieldType, mv);
-					mv.visitFieldInsn(PUTFIELD, Type.getInternalName(field.getDeclaringClass()), field.getName(),
-							signatureTypeName(fieldType));
+					mv.visitTypeInsn(Opcodes.CHECKCAST, Type.getInternalName(BytecodeUtil.autoboxType(fieldType)));
+					BytecodeUtil.autoboxIfNeeded(BytecodeUtil.autoboxType(fieldType), fieldType, mv);
+					mv.visitFieldInsn(Opcodes.PUTFIELD, Type.getInternalName(field.getDeclaringClass()),
+							field.getName(), BytecodeUtil.signatureTypeName(fieldType));
 				}
 			}
 		}
@@ -1133,37 +1119,39 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			List<String> argumentTypes = new ArrayList<>();
 			for (Class<?> parameterType : method.getParameterTypes()) {
 				result.append("%s");
-				argumentTypes.add(signatureTypeName(parameterType));
+				argumentTypes.add(BytecodeUtil.signatureTypeName(parameterType));
 			}
 			result.append(")%s");
-			argumentTypes.add(signatureTypeName(method.getReturnType()));
+			argumentTypes.add(BytecodeUtil.signatureTypeName(method.getReturnType()));
 			return String.format(result.toString(), argumentTypes.toArray());
 		}
 
 		private static void visitAssertNotNull(MethodVisitor mv) {
 			// Assert.notNull(property)
-			mv.visitVarInsn(ALOAD, 1);
+			mv.visitVarInsn(Opcodes.ALOAD, 1);
 			mv.visitLdcInsn("Property must not be null!");
-			mv.visitMethodInsn(INVOKESTATIC, "org/springframework/util/Assert", "notNull",
-					String.format("(%s%s)V", referenceName(JAVA_LANG_OBJECT), referenceName(JAVA_LANG_STRING)), false);
+			mv.visitMethodInsn(
+					Opcodes.INVOKESTATIC, "org/springframework/util/Assert", "notNull", String.format("(%s%s)V",
+							BytecodeUtil.referenceName(JAVA_LANG_OBJECT), BytecodeUtil.referenceName(JAVA_LANG_STRING)),
+					false);
 		}
 
 		private static void visitThrowUnsupportedOperationException(MethodVisitor mv, String message) {
 			// throw new UnsupportedOperationException(msg)
-			mv.visitTypeInsn(NEW, JAVA_LANG_UNSUPPORTED_OPERATION_EXCEPTION);
-			mv.visitInsn(DUP);
+			mv.visitTypeInsn(Opcodes.NEW, JAVA_LANG_UNSUPPORTED_OPERATION_EXCEPTION);
+			mv.visitInsn(Opcodes.DUP);
 			mv.visitLdcInsn(message);
-			mv.visitInsn(ICONST_1);
-			mv.visitTypeInsn(ANEWARRAY, JAVA_LANG_OBJECT);
-			mv.visitInsn(DUP);
-			mv.visitInsn(ICONST_0);
-			mv.visitVarInsn(ALOAD, 1);
-			mv.visitInsn(AASTORE);
-			mv.visitMethodInsn(INVOKESTATIC, JAVA_LANG_STRING, "format",
+			mv.visitInsn(Opcodes.ICONST_1);
+			mv.visitTypeInsn(Opcodes.ANEWARRAY, JAVA_LANG_OBJECT);
+			mv.visitInsn(Opcodes.DUP);
+			mv.visitInsn(Opcodes.ICONST_0);
+			mv.visitVarInsn(Opcodes.ALOAD, 1);
+			mv.visitInsn(Opcodes.AASTORE);
+			mv.visitMethodInsn(Opcodes.INVOKESTATIC, JAVA_LANG_STRING, "format",
 					"(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;", false);
-			mv.visitMethodInsn(INVOKESPECIAL, JAVA_LANG_UNSUPPORTED_OPERATION_EXCEPTION, "<init>",
+			mv.visitMethodInsn(Opcodes.INVOKESPECIAL, JAVA_LANG_UNSUPPORTED_OPERATION_EXCEPTION, "<init>",
 					"(Ljava/lang/String;)V", false);
-			mv.visitInsn(ATHROW);
+			mv.visitInsn(Opcodes.ATHROW);
 		}
 
 		private static String fieldSetterName(PersistentProperty<?> property) {
@@ -1184,17 +1172,18 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 
 		private static String getterName(PersistentProperty<?> property) {
 			return String.format("$%s_getter", property.getName());
-		}
 
-		private static boolean isAccessible(PersistentEntity<?, ?> entity) {
-			return BytecodeUtil.isAccessible(entity.getType());
 		}
 
 		private static String getAccessibleTypeReferenceName(PersistentEntity<?, ?> entity) {
 			if (isAccessible(entity)) {
-				return referenceName(entity.getType());
+				return BytecodeUtil.referenceName(entity.getType());
 			}
-			return referenceName(JAVA_LANG_OBJECT);
+			return BytecodeUtil.referenceName(JAVA_LANG_OBJECT);
+		}
+
+		private static boolean isAccessible(PersistentEntity<?, ?> entity) {
+			return BytecodeUtil.isAccessible(entity.getType());
 		}
 
 		private static boolean generateSetterMethodHandle(PersistentEntity<?, ?> entity, @Nullable Field field) {
@@ -1215,7 +1204,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				return false;
 			}
 			if (isAccessible(entity)) {
-				if (Modifier.isProtected(member.getModifiers()) || isDefault(member.getModifiers())) {
+				if (Modifier.isProtected(member.getModifiers()) || BytecodeUtil.isDefault(member.getModifiers())) {
 					Package declaringPackage = member.getDeclaringClass().getPackage();
 					if (declaringPackage != null && !declaringPackage.equals(entity.getType().getPackage())) {
 						return true;
@@ -1247,18 +1236,19 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		Class<?> parameterType = parameterTypes[0];
 		Class<?> declaringClass = method.getDeclaringClass();
 		boolean interfaceDefinition = declaringClass.isInterface();
-		mv.visitTypeInsn(CHECKCAST, Type.getInternalName(autoboxType(parameterType)));
-		autoboxIfNeeded(autoboxType(parameterType), parameterType, mv);
+		mv.visitTypeInsn(Opcodes.CHECKCAST, Type.getInternalName(BytecodeUtil.autoboxType(parameterType)));
+		BytecodeUtil.autoboxIfNeeded(BytecodeUtil.autoboxType(parameterType), parameterType, mv);
 		int invokeOpCode = getInvokeOp(method, interfaceDefinition);
 		mv.visitMethodInsn(invokeOpCode, Type.getInternalName(method.getDeclaringClass()), method.getName(),
-				String.format("(%s)%s", signatureTypeName(parameterType), signatureTypeName(method.getReturnType())),
+				String.format("(%s)%s", BytecodeUtil.signatureTypeName(parameterType),
+						BytecodeUtil.signatureTypeName(method.getReturnType())),
 				interfaceDefinition);
 	}
 
 	private static int getInvokeOp(Method method, boolean interfaceDefinition) {
-		int invokeOpCode = Modifier.isStatic(method.getModifiers()) ? INVOKESTATIC : INVOKEVIRTUAL;
+		int invokeOpCode = Modifier.isStatic(method.getModifiers()) ? Opcodes.INVOKESTATIC : Opcodes.INVOKEVIRTUAL;
 		if (interfaceDefinition) {
-			invokeOpCode = INVOKEINTERFACE;
+			invokeOpCode = Opcodes.INVOKEINTERFACE;
 		}
 		return invokeOpCode;
 	}
@@ -1318,7 +1308,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 	 */
 	private static boolean hasKotlinCopyMethod(PersistentProperty<?> property) {
 		Class<?> type = property.getOwner().getType();
-		if (isAccessible(type) && KotlinDetector.isKotlinType(type)) {
+		if (BytecodeUtil.isAccessible(type) && KotlinDetector.isKotlinType(type)) {
 			return KotlinCopyMethod.findCopyMethod(type).filter(it -> it.supportsProperty(property)).isPresent();
 		}
 		return false;

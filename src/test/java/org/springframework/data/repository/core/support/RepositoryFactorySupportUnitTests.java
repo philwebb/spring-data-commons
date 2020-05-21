@@ -61,7 +61,6 @@ import org.springframework.transaction.interceptor.TransactionalProxy;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -196,7 +195,7 @@ class RepositoryFactorySupportUnitTests {
 
 	@Test // DATACMNS-509
 	void convertsWithSameElementType() {
-		List<String> names = singletonList("Dave");
+		List<String> names = Collections.singletonList("Dave");
 		when(this.factory.queryOne.execute(any(Object[].class))).thenReturn(names);
 		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
 		Set<String> result = repository.convertListToStringSet();
@@ -206,7 +205,7 @@ class RepositoryFactorySupportUnitTests {
 
 	@Test // DATACMNS-509
 	void convertsCollectionToOtherCollectionWithElementSuperType() {
-		List<String> names = singletonList("Dave");
+		List<String> names = Collections.singletonList("Dave");
 		when(this.factory.queryOne.execute(any(Object[].class))).thenReturn(names);
 		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
 		Set<Object> result = repository.convertListToObjectSet();
@@ -239,13 +238,13 @@ class RepositoryFactorySupportUnitTests {
 
 	@Test // DATACMNS-714
 	void wrapsExecutionResultIntoCompletableFutureWithEntityCollectionIfConfigured() throws Exception {
-		List<User> reference = singletonList(new User());
+		List<User> reference = Collections.singletonList(new User());
 		expect(prepareConvertingRepository(reference).readAllByFirstname("Foo"), reference);
 	}
 
 	@Test // DATACMNS-714
 	void wrapsExecutionResultIntoListenableFutureWithEntityCollectionIfConfigured() throws Exception {
-		List<User> reference = singletonList(new User());
+		List<User> reference = Collections.singletonList(new User());
 		expect(prepareConvertingRepository(reference).readAllByLastname("Foo"), reference);
 	}
 

@@ -31,8 +31,6 @@ import org.springframework.data.auditing.CurrentDateTimeProvider;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
-
 /**
  * A {@link ImportBeanDefinitionRegistrar} that serves as a base class for store specific
  * implementations for configuring audit support. Registers a {@link AuditingHandler}
@@ -160,9 +158,10 @@ public abstract class AuditingBeanDefinitionRegistrarSupport implements ImportBe
 	}
 
 	private BeanDefinition createLazyInitTargetSourceBeanDefinition(String auditorAwareRef) {
-		BeanDefinitionBuilder targetSourceBuilder = rootBeanDefinition(LazyInitTargetSource.class);
+		BeanDefinitionBuilder targetSourceBuilder = BeanDefinitionBuilder
+				.rootBeanDefinition(LazyInitTargetSource.class);
 		targetSourceBuilder.addPropertyValue("targetBeanName", auditorAwareRef);
-		BeanDefinitionBuilder builder = rootBeanDefinition(ProxyFactoryBean.class);
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(ProxyFactoryBean.class);
 		builder.addPropertyValue("targetSource", targetSourceBuilder.getBeanDefinition());
 		return builder.getBeanDefinition();
 	}

@@ -26,16 +26,13 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
-
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 /**
  * Spring Data specific Java {@link Stream} utility methods and classes.
@@ -73,7 +70,7 @@ public interface StreamUtils {
 	 * @return will never be {@literal null}.
 	 */
 	public static <T> Collector<T, ?, List<T>> toUnmodifiableList() {
-		return collectingAndThen(toList(), Collections::unmodifiableList);
+		return Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList);
 	}
 
 	/**
@@ -81,7 +78,7 @@ public interface StreamUtils {
 	 * @return will never be {@literal null}.
 	 */
 	public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
-		return collectingAndThen(toSet(), Collections::unmodifiableSet);
+		return Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet);
 	}
 
 	/**

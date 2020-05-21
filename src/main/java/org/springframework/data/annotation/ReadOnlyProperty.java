@@ -15,13 +15,10 @@
  */
 package org.springframework.data.annotation;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
 
 /**
  * Marks a field to be {@literal read-only} for the mapping framework and therefore will
@@ -31,7 +28,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * @since 1.9
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ FIELD, METHOD, ANNOTATION_TYPE })
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE })
 public @interface ReadOnlyProperty {
 
 }

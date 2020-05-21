@@ -21,14 +21,12 @@ import lombok.Getter;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.NullHandling;
 import org.springframework.data.domain.Sort.Order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.domain.Sort.NullHandling.NATIVE;
-import static org.springframework.data.domain.Sort.NullHandling.NULLS_FIRST;
-import static org.springframework.data.domain.Sort.NullHandling.NULLS_LAST;
 
 /**
  * Unit test for {@link Sort}.
@@ -127,22 +125,22 @@ class SortUnitTests {
 
 	@Test // DATACMNS-491
 	void orderWithNullHandlingHintNullsFirst() {
-		assertThat(Order.by("foo").nullsFirst().getNullHandling()).isEqualTo(NULLS_FIRST);
+		assertThat(Order.by("foo").nullsFirst().getNullHandling()).isEqualTo(NullHandling.NULLS_FIRST);
 	}
 
 	@Test // DATACMNS-491
 	void orderWithNullHandlingHintNullsLast() {
-		assertThat(Order.by("foo").nullsLast().getNullHandling()).isEqualTo(NULLS_LAST);
+		assertThat(Order.by("foo").nullsLast().getNullHandling()).isEqualTo(NullHandling.NULLS_LAST);
 	}
 
 	@Test // DATACMNS-491
 	void orderWithNullHandlingHintNullsNative() {
-		assertThat(Order.by("foo").nullsNative().getNullHandling()).isEqualTo(NATIVE);
+		assertThat(Order.by("foo").nullsNative().getNullHandling()).isEqualTo(NullHandling.NATIVE);
 	}
 
 	@Test // DATACMNS-491
 	void orderWithDefaultNullHandlingHint() {
-		assertThat(Order.by("foo").getNullHandling()).isEqualTo(NATIVE);
+		assertThat(Order.by("foo").getNullHandling()).isEqualTo(NullHandling.NATIVE);
 	}
 
 	@Test // DATACMNS-908

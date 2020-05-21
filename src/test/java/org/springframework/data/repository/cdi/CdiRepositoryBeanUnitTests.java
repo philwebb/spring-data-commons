@@ -18,6 +18,7 @@ package org.springframework.data.repository.cdi;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,9 +49,6 @@ import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
 import org.springframework.data.repository.query.RepositoryQuery;
 
-import static java.util.Collections.emptySet;
-import static java.util.Collections.singleton;
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.Mockito.mock;
@@ -68,10 +66,10 @@ class CdiRepositoryBeanUnitTests {
 
 	static final String PASSIVATION_ID = "javax.enterprise.inject.Default:org.springframework.data.repository.cdi.CdiRepositoryBeanUnitTests$SampleRepository";
 
-	static final Set<Annotation> NO_ANNOTATIONS = emptySet();
+	static final Set<Annotation> NO_ANNOTATIONS = Collections.emptySet();
 
-	static final Set<Annotation> SINGLE_ANNOTATION = singleton(
-			new CdiRepositoryExtensionSupport.DefaultAnnotationLiteral());
+	static final Set<Annotation> SINGLE_ANNOTATION = Collections
+			.singleton(new CdiRepositoryExtensionSupport.DefaultAnnotationLiteral());
 
 	@Mock
 	BeanManager beanManager;
@@ -231,12 +229,12 @@ class CdiRepositoryBeanUnitTests {
 
 		@Override
 		public List<RepositoryProxyPostProcessor> getRepositoryProxyPostProcessors() {
-			return singletonList(DummyRepositoryProxyPostProcessor.INSTANCE);
+			return Collections.singletonList(DummyRepositoryProxyPostProcessor.INSTANCE);
 		}
 
 		@Override
 		public List<QueryCreationListener<?>> getQueryCreationListeners() {
-			return singletonList(DummyQueryCreationListener.INSTANCE);
+			return Collections.singletonList(DummyQueryCreationListener.INSTANCE);
 		}
 
 	}

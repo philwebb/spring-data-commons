@@ -35,7 +35,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.format.support.DefaultFormattingConversionService;
 
-import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -63,7 +62,8 @@ class MapDataBinderUnitTests {
 		Map<String, Object> result = bind(values);
 		List<String> list = new ArrayList<>();
 		list.add("String");
-		assertThat(result).isEqualTo(singletonMap("foo", singletonMap("bar", singletonMap("fooBar", list))));
+		assertThat(result).isEqualTo(Collections.singletonMap("foo",
+				Collections.singletonMap("bar", Collections.singletonMap("fooBar", list))));
 	}
 
 	@Test // DATACMNS-630
@@ -75,7 +75,7 @@ class MapDataBinderUnitTests {
 		Map<String, Object> dave = new HashMap<>();
 		dave.put("firstname", "Dave");
 		dave.put("lastname", "Matthews");
-		assertThat(result).isEqualTo(singletonMap("foo", dave));
+		assertThat(result).isEqualTo(Collections.singletonMap("foo", dave));
 	}
 
 	@Test // DATACMNS-630

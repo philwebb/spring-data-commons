@@ -16,6 +16,7 @@
 package org.springframework.data.transaction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -33,8 +34,6 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.util.Assert;
-
-import static java.util.Arrays.asList;
 
 /**
  * {@link PlatformTransactionManager} implementation that orchestrates transaction
@@ -83,7 +82,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 		Assert.notNull(transactionManagers, "Transaction managers must not be null!");
 		Assert.isTrue(transactionManagers.length > 0, "At least one PlatformTransactionManager must be given!");
 		this.synchronizationManager = synchronizationManager;
-		this.transactionManagers = asList(transactionManagers);
+		this.transactionManagers = Arrays.asList(transactionManagers);
 	}
 
 	@Override

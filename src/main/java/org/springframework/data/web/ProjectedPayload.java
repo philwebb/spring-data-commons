@@ -16,11 +16,10 @@
 package org.springframework.data.web;
 
 import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Annotation to mark projection interfaces that are supposed to be used as projection
@@ -30,8 +29,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 1.13
  */
 @Documented
-@Retention(RUNTIME)
-@Target(TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
 public @interface ProjectedPayload {
 
 }

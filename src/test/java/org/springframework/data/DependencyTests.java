@@ -15,10 +15,9 @@
  */
 package org.springframework.data;
 
+import de.schauderhaft.degraph.check.JCheck;
 import org.junit.jupiter.api.Test;
 
-import static de.schauderhaft.degraph.check.JCheck.classpath;
-import static de.schauderhaft.degraph.check.JCheck.violationFree;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -28,8 +27,8 @@ public class DependencyTests {
 
 	@Test
 	public void noInternalPackageCycles() {
-		assertThat(classpath().noJars().including("org.springframework.data.**").filterClasspath("*target/classes")
-				.printOnFailure("degraph.graphml"), violationFree());
+		assertThat(JCheck.classpath().noJars().including("org.springframework.data.**")
+				.filterClasspath("*target/classes").printOnFailure("degraph.graphml"), JCheck.violationFree());
 	}
 
 }

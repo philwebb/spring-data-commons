@@ -28,7 +28,6 @@ import org.springframework.data.geo.Point;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.geo.format.PointFormatter.INSTANCE;
 
 /**
  * Unit tests for {@link PointFormatter}.
@@ -47,19 +46,20 @@ class PointFormatterUnitTests {
 	@Test
 	// DATAREST-279, DATACMNS-626
 	void rejectsArbitraryNonsense() {
-		assertThatIllegalArgumentException().isThrownBy(() -> INSTANCE.convert("foo")).withMessageContaining("comma");
+		assertThatIllegalArgumentException().isThrownBy(() -> PointFormatter.INSTANCE.convert("foo"))
+				.withMessageContaining("comma");
 	}
 
 	@Test
 	// DATAREST-279, DATACMNS-626
 	void rejectsMoreThanTwoCoordinates() {
-		assertThatIllegalArgumentException().isThrownBy(() -> INSTANCE.convert("10.8,20.9,30.10"));
+		assertThatIllegalArgumentException().isThrownBy(() -> PointFormatter.INSTANCE.convert("10.8,20.9,30.10"));
 	}
 
 	@Test
 	// DATAREST-279, DATACMNS-626
 	void rejectsInvalidCoordinate() {
-		assertThatIllegalArgumentException().isThrownBy(() -> INSTANCE.convert("10.8,foo"));
+		assertThatIllegalArgumentException().isThrownBy(() -> PointFormatter.INSTANCE.convert("10.8,foo"));
 	}
 
 	static Collection<String[]> parameters() {
@@ -70,13 +70,13 @@ class PointFormatterUnitTests {
 	@ParameterizedTest // DATAREST-279, DATACMNS-626
 	@MethodSource("parameters")
 	void convertsPointFromString(String source) {
-		assertThat(INSTANCE.convert(source)).isEqualTo(REFERENCE);
+		assertThat(PointFormatter.INSTANCE.convert(source)).isEqualTo(REFERENCE);
 	}
 
 	@ParameterizedTest // DATAREST-279, DATACMNS-626
 	@MethodSource("parameters")
 	void parsesPoint(String source) throws ParseException {
-		assertThat(INSTANCE.parse(source, Locale.US)).isEqualTo(REFERENCE);
+		assertThat(PointFormatter.INSTANCE.parse(source, Locale.US)).isEqualTo(REFERENCE);
 	}
 
 }

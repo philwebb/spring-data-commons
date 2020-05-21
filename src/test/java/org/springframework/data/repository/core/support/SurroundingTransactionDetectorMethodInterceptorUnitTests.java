@@ -21,7 +21,6 @@ import org.springframework.aop.framework.ReflectiveMethodInvocation;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.INSTANCE;
 
 /**
  * Unit tests for {@link SurroundingTransactionDetectorMethodInterceptor}.
@@ -33,13 +32,13 @@ class SurroundingTransactionDetectorMethodInterceptorUnitTests {
 	@Test // DATACMNS-959
 	void registersActiveSurroundingTransaction() throws Throwable {
 		TransactionSynchronizationManager.setActualTransactionActive(true);
-		INSTANCE.invoke(new StubMethodInvocation(true));
+		SurroundingTransactionDetectorMethodInterceptor.INSTANCE.invoke(new StubMethodInvocation(true));
 	}
 
 	@Test // DATACMNS-959
 	void registersNoSurroundingTransaction() throws Throwable {
 		TransactionSynchronizationManager.setActualTransactionActive(false);
-		INSTANCE.invoke(new StubMethodInvocation(false));
+		SurroundingTransactionDetectorMethodInterceptor.INSTANCE.invoke(new StubMethodInvocation(false));
 	}
 
 	static class StubMethodInvocation extends ReflectiveMethodInvocation {
@@ -53,7 +52,8 @@ class SurroundingTransactionDetectorMethodInterceptorUnitTests {
 
 		@Override
 		public Object proceed() throws Throwable {
-			assertThat(INSTANCE.isSurroundingTransactionActive()).isEqualTo(this.transactionActive);
+			assertThat(SurroundingTransactionDetectorMethodInterceptor.INSTANCE.isSurroundingTransactionActive())
+					.isEqualTo(this.transactionActive);
 			return null;
 		}
 

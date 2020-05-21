@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.ResourceLoader;
@@ -40,9 +41,6 @@ import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.AbstractRepositoryMetadata;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-
-import static org.springframework.beans.factory.support.BeanDefinitionReaderUtils.GENERATED_BEAN_NAME_SEPARATOR;
-import static org.springframework.beans.factory.support.BeanDefinitionReaderUtils.generateBeanName;
 
 /**
  * Base implementation of {@link RepositoryConfigurationExtension} to ease the
@@ -177,7 +175,7 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	public static String registerWithSourceAndGeneratedBeanName(AbstractBeanDefinition bean,
 			BeanDefinitionRegistry registry, Object source) {
 		bean.setSource(source);
-		String beanName = generateBeanName(bean, registry);
+		String beanName = BeanDefinitionReaderUtils.generateBeanName(bean, registry);
 		registry.registerBeanDefinition(beanName, bean);
 		return beanName;
 	}
@@ -231,7 +229,7 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 * @return
 	 */
 	public static boolean hasBean(Class<?> type, BeanDefinitionRegistry registry) {
-		String name = String.format("%s%s0", type.getName(), GENERATED_BEAN_NAME_SEPARATOR);
+		String name = String.format("%s%s0", type.getName(), BeanDefinitionReaderUtils.GENERATED_BEAN_NAME_SEPARATOR);
 		return registry.containsBeanDefinition(name);
 	}
 

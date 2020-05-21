@@ -18,7 +18,6 @@ package org.springframework.data.querydsl;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.data.querydsl.QuerydslUtils.toDotPath;
 
 /**
  * Unit tests for {@link QuerydslUtils}.
@@ -34,9 +33,10 @@ class QuerydslUtilsUnitTests {
 
 	@Test // DATACMNS-941
 	void skipsIntermediateDelegates() {
-		assertThat(toDotPath(QUser.user.as(QSpecialUser.class).as(QSpecialUser.class).specialProperty))
+		assertThat(QuerydslUtils.toDotPath(QUser.user.as(QSpecialUser.class).as(QSpecialUser.class).specialProperty))
 				.isEqualTo("specialProperty");
-		assertThat(toDotPath(QUser.user.as(QSpecialUser.class).specialProperty)).isEqualTo("specialProperty");
+		assertThat(QuerydslUtils.toDotPath(QUser.user.as(QSpecialUser.class).specialProperty))
+				.isEqualTo("specialProperty");
 	}
 
 }

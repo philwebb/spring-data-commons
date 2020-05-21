@@ -26,9 +26,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static org.springframework.hateoas.TemplateVariable.VariableType.REQUEST_PARAM;
-import static org.springframework.hateoas.TemplateVariable.VariableType.REQUEST_PARAM_CONTINUED;
-
 /**
  * Extension of {@link SortHandlerMethodArgumentResolver} that also supports enhancing
  * URIs using Spring HATEOAS support.
@@ -56,7 +53,7 @@ public class HateoasSortHandlerMethodArgumentResolver extends SortHandlerMethodA
 			return TemplateVariables.NONE;
 		}
 		String description = String.format("pagination.%s.description", sortParameter);
-		VariableType type = append ? REQUEST_PARAM_CONTINUED : REQUEST_PARAM;
+		VariableType type = append ? VariableType.REQUEST_PARAM_CONTINUED : VariableType.REQUEST_PARAM;
 		return new TemplateVariables(new TemplateVariable(sortParameter, type, description));
 	}
 

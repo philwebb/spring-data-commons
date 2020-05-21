@@ -41,8 +41,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static org.springframework.web.util.UriComponentsBuilder.fromUri;
-
 /**
  * {@link ResourceAssembler} to easily convert {@link Page} instances into
  * {@link PagedResources}.
@@ -244,7 +242,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	 * @return
 	 */
 	private Link createLink(UriTemplate base, Pageable pageable, LinkRelation relation) {
-		UriComponentsBuilder builder = fromUri(base.expand());
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUri(base.expand());
 		this.pageableResolver.enhance(builder, getMethodParameter(), pageable);
 		return Link.of(UriTemplate.of(builder.build().toString()), relation);
 	}

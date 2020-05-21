@@ -24,7 +24,7 @@ import rx.Completable;
 import rx.Observable;
 import rx.Single;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ReactiveWrapperConverters}.

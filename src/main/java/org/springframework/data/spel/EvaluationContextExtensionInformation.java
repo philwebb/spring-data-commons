@@ -31,6 +31,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.spel.EvaluationContextExtensionInformation.ExtensionTypeInformation.PublicMethodAndFieldFilter;
 import org.springframework.data.spel.spi.EvaluationContextExtension;
 import org.springframework.data.spel.spi.Function;
+import org.springframework.data.util.StreamUtils;
 import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -39,8 +40,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldFilter;
 import org.springframework.util.ReflectionUtils.MethodFilter;
-
-import static org.springframework.data.util.StreamUtils.toMultiMap;
 
 /**
  * Inspects the configured {@link EvaluationContextExtension} type for static methods and
@@ -219,7 +218,7 @@ class EvaluationContextExtensionInformation {
 		}
 
 		private MultiValueMap<String, Function> getFunctions(Object target) {
-			return this.methods.stream().collect(toMultiMap(Method::getName, m -> new Function(m, target)));
+			return this.methods.stream().collect(StreamUtils.toMultiMap(Method::getName, m -> new Function(m, target)));
 		}
 
 		/**

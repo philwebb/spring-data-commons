@@ -15,13 +15,10 @@
  */
 package org.springframework.data.annotation;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
 
 /**
  * Demarcates an identifier.
@@ -30,7 +27,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * @author Oliver Gierke
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ FIELD, METHOD, ANNOTATION_TYPE })
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE })
 public @interface Id {
 
 }

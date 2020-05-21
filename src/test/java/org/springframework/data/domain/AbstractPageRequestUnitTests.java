@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.domain.UnitTestUtils.assertEqualsAndHashcode;
-import static org.springframework.data.domain.UnitTestUtils.assertNotEqualsAndHashcode;
 
 /**
  * @author Thomas Darimont
@@ -56,13 +54,13 @@ public abstract class AbstractPageRequestUnitTests {
 	void equalsHonoursPageAndSize() {
 		AbstractPageRequest request = newPageRequest(0, 10);
 		// Equals itself
-		assertEqualsAndHashcode(request, request);
+		UnitTestUtils.assertEqualsAndHashcode(request, request);
 		// Equals same setup
-		assertEqualsAndHashcode(request, newPageRequest(0, 10));
+		UnitTestUtils.assertEqualsAndHashcode(request, newPageRequest(0, 10));
 		// Does not equal on different page
-		assertNotEqualsAndHashcode(request, newPageRequest(1, 10));
+		UnitTestUtils.assertNotEqualsAndHashcode(request, newPageRequest(1, 10));
 		// Does not equal on different size
-		assertNotEqualsAndHashcode(request, newPageRequest(0, 11));
+		UnitTestUtils.assertNotEqualsAndHashcode(request, newPageRequest(0, 11));
 	}
 
 	@Test // DATACMNS-377

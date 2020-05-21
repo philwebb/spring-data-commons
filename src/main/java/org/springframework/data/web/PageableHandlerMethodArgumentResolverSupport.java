@@ -27,9 +27,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import static org.springframework.data.web.SpringDataAnnotationUtils.assertPageableUniqueness;
-import static org.springframework.data.web.SpringDataAnnotationUtils.getSpecificPropertyOrDefaultFromValue;
-
 /**
  * Base class providing methods for handler method argument resolvers to create paging
  * information from web requests and thus allows injecting {@link Pageable} instances into
@@ -202,7 +199,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 
 	protected Pageable getPageable(MethodParameter methodParameter, @Nullable String pageString,
 			@Nullable String pageSizeString) {
-		assertPageableUniqueness(methodParameter);
+		SpringDataAnnotationUtils.assertPageableUniqueness(methodParameter);
 		Optional<Pageable> defaultOrFallback = getDefaultFromAnnotationOrFallback(methodParameter).toOptional();
 		Optional<Integer> page = parseAndApplyBoundaries(pageString, Integer.MAX_VALUE, true);
 		Optional<Integer> pageSize = parseAndApplyBoundaries(pageSizeString, this.maxPageSize, false);
@@ -248,7 +245,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 
 	private static Pageable getDefaultPageRequestFrom(MethodParameter parameter, PageableDefault defaults) {
 		Integer defaultPageNumber = defaults.page();
-		Integer defaultPageSize = getSpecificPropertyOrDefaultFromValue(defaults, "size");
+		Integer defaultPageSize = SpringDataAnnotationUtils.getSpecificPropertyOrDefaultFromValue(defaults, "size");
 		if (defaultPageSize < 1) {
 			Method annotatedMethod = parameter.getMethod();
 			throw new IllegalStateException(String.format(INVALID_DEFAULT_PAGE_SIZE, annotatedMethod));

@@ -34,6 +34,7 @@ import org.springframework.data.mapping.PreferredConstructor;
 import org.springframework.data.mapping.PreferredConstructor.Parameter;
 import org.springframework.data.mapping.model.ClassGeneratingEntityInstantiator.ObjectInstantiator;
 import org.springframework.data.mapping.model.ClassGeneratingEntityInstantiatorUnitTests.Outer.Inner;
+import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.util.ReflectionUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,7 +46,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.data.util.ClassTypeInformation.from;
 
 /**
  * Unit tests for {@link ClassGeneratingEntityInstantiator}.
@@ -98,7 +98,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	@Test // DATACMNS-134, DATACMNS-578
 	void createsInnerClassInstanceCorrectly() {
-		BasicPersistentEntity<Inner, P> entity = new BasicPersistentEntity<>(from(Inner.class));
+		BasicPersistentEntity<Inner, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Inner.class));
 		assertThat(entity.getPersistenceConstructor()).satisfies(constructor -> {
 			Parameter<Object, P> parameter = constructor.getParameters().iterator().next();
 			Object outer = new Outer();
@@ -119,7 +119,7 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 	@Test // DATACMNS-283, DATACMNS-578
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void capturesContextOnInstantiationException() throws Exception {
-		PersistentEntity<Sample, P> entity = new BasicPersistentEntity<>(from(Sample.class));
+		PersistentEntity<Sample, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Sample.class));
 		doReturn("FOO").when(this.provider).getParameterValue(any(Parameter.class));
 		Constructor constructor = Sample.class.getConstructor(Long.class, String.class);
 		List<Object> parameters = Arrays.asList("FOO", "FOO");
@@ -141,8 +141,9 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 	@Test // DATACMNS-1175
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void createsInstancesWithRecursionAndSameCtorArgCountCorrectly() {
-		PersistentEntity<SampleWithReference, P> outer = new BasicPersistentEntity<>(from(SampleWithReference.class));
-		PersistentEntity<Sample, P> inner = new BasicPersistentEntity<>(from(Sample.class));
+		PersistentEntity<SampleWithReference, P> outer = new BasicPersistentEntity<>(
+				ClassTypeInformation.from(SampleWithReference.class));
+		PersistentEntity<Sample, P> inner = new BasicPersistentEntity<>(ClassTypeInformation.from(Sample.class));
 		doReturn(2L, "FOO").when(this.provider).getParameterValue(any(Parameter.class));
 		ParameterValueProvider<P> recursive = new ParameterValueProvider<P>() {
 

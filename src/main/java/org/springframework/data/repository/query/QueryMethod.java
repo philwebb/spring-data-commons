@@ -26,14 +26,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.EntityMetadata;
 import org.springframework.data.repository.core.RepositoryMetadata;
+import org.springframework.data.repository.util.ClassUtils;
 import org.springframework.data.repository.util.QueryExecutionConverters;
 import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.Lazy;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
-
-import static org.springframework.data.repository.util.ClassUtils.getNumberOfOccurences;
-import static org.springframework.data.repository.util.ClassUtils.hasParameterOfType;
 
 /**
  * Abstraction of a method that is designated to execute a finder query. Enriches the
@@ -73,7 +71,7 @@ public class QueryMethod {
 		Assert.notNull(method, "Method must not be null!");
 		Assert.notNull(metadata, "Repository metadata must not be null!");
 		Assert.notNull(factory, "ProjectionFactory must not be null!");
-		Parameters.TYPES.stream().filter(type -> getNumberOfOccurences(method, type) > 1).findFirst()
+		Parameters.TYPES.stream().filter(type -> ClassUtils.getNumberOfOccurences(method, type) > 1).findFirst()
 				.ifPresent(type -> {
 					throw new IllegalStateException(
 							String.format("Method must only one argument of type %s! Offending method: %s",
@@ -83,11 +81,11 @@ public class QueryMethod {
 		this.unwrappedReturnType = potentiallyUnwrapReturnTypeFor(method);
 		this.parameters = createParameters(method);
 		this.metadata = metadata;
-		if (hasParameterOfType(method, Pageable.class)) {
+		if (ClassUtils.hasParameterOfType(method, Pageable.class)) {
 			if (!isStreamQuery()) {
 				assertReturnTypeAssignable(method, QueryExecutionConverters.getAllowedPageableTypes());
 			}
-			if (hasParameterOfType(method, Sort.class)) {
+			if (ClassUtils.hasParameterOfType(method, Sort.class)) {
 				throw new IllegalStateException(String.format(
 						"Method must not have Pageable *and* Sort parameter. "
 								+ "Use sorting capabilities on Pageable instead! Offending method: %s",

@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.jupiter.api.Test;
+import org.threeten.bp.DateTimeUtils;
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
@@ -33,7 +34,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.threeten.bp.DateTimeUtils.toInstant;
 
 /**
  * Unit tests for {@link ThreeTenBackPortConverters}.
@@ -44,6 +44,7 @@ import static org.threeten.bp.DateTimeUtils.toInstant;
 class ThreeTenBackPortConvertersUnitTests {
 
 	static final Date NOW = new Date();
+
 	static final ConversionService CONVERSION_SERVICE;
 
 	static {
@@ -92,13 +93,13 @@ class ThreeTenBackPortConvertersUnitTests {
 	@Test // DATACMNS-623
 	void convertsDateToInstant() {
 		Date now = new Date();
-		assertThat(CONVERSION_SERVICE.convert(now, Instant.class)).isEqualTo(toInstant(now));
+		assertThat(CONVERSION_SERVICE.convert(now, Instant.class)).isEqualTo(DateTimeUtils.toInstant(now));
 	}
 
 	@Test // DATACMNS-623
 	void convertsInstantToDate() {
 		Date now = new Date();
-		assertThat(CONVERSION_SERVICE.convert(toInstant(now), Date.class)).isEqualTo(now);
+		assertThat(CONVERSION_SERVICE.convert(DateTimeUtils.toInstant(now), Date.class)).isEqualTo(now);
 	}
 
 	@Test

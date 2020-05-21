@@ -30,8 +30,6 @@ import org.springframework.data.util.Lazy;
 import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
 
-import static java.lang.String.format;
-
 /**
  * Abstracts method parameters that have to be bound to query parameters or applied to the
  * query independently.
@@ -43,7 +41,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 
 	public static final List<Class<?>> TYPES = Arrays.asList(Pageable.class, Sort.class);
 
-	private static final String PARAM_ON_SPECIAL = format("You must not user @%s on a parameter typed %s or %s",
+	private static final String PARAM_ON_SPECIAL = String.format("You must not user @%s on a parameter typed %s or %s",
 			Param.class.getSimpleName(), Pageable.class.getSimpleName(), Sort.class.getSimpleName());
 
 	private static final String ALL_OR_NOTHING = String.format(

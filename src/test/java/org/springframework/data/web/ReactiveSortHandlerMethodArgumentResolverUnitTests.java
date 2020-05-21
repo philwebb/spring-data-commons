@@ -31,9 +31,6 @@ import org.springframework.util.StringUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.domain.Sort.Direction.DESC;
-import static org.springframework.data.web.SortDefaultUnitTests.SORT;
-import static org.springframework.data.web.SortDefaultUnitTests.SORT_FIELDS;
 
 /**
  * Unit tests for {@link ReactiveSortHandlerMethodArgumentResolver}.
@@ -62,12 +59,13 @@ class ReactiveSortHandlerMethodArgumentResolverUnitTests {
 
 	@Test // DATACMNS-1211
 	void discoversSimpleDefault() {
-		assertSupportedAndResolvedTo(getParameterOfMethod("simpleDefault"), Sort.by(SORT_FIELDS).ascending());
+		assertSupportedAndResolvedTo(getParameterOfMethod("simpleDefault"),
+				Sort.by(SortDefaultUnitTests.SORT_FIELDS).ascending());
 	}
 
 	@Test // DATACMNS-1211
 	void discoversSimpleDefaultWithDirection() {
-		assertSupportedAndResolvedTo(getParameterOfMethod("simpleDefaultWithDirection"), SORT);
+		assertSupportedAndResolvedTo(getParameterOfMethod("simpleDefaultWithDirection"), SortDefaultUnitTests.SORT);
 	}
 
 	@Test // DATACMNS-1211
@@ -132,7 +130,7 @@ class ReactiveSortHandlerMethodArgumentResolverUnitTests {
 	@Test // DATACMNS-1211
 	void sortParamIsInvalidPropertyWhenMultiProperty() {
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?sort=property1,,DESC").build();
-		assertThat(resolve(request, PARAMETER)).isEqualTo(Sort.by(DESC, "property1"));
+		assertThat(resolve(request, PARAMETER)).isEqualTo(Sort.by(Direction.DESC, "property1"));
 	}
 
 	@Test // DATACMNS-1211
@@ -150,7 +148,7 @@ class ReactiveSortHandlerMethodArgumentResolverUnitTests {
 	@Test // DATACMNS-1211
 	void sortParamIsEmptyWhenMultiParams() {
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?sort=property,DESC&sort=").build();
-		assertThat(resolve(request, PARAMETER)).isEqualTo(Sort.by(DESC, "property"));
+		assertThat(resolve(request, PARAMETER)).isEqualTo(Sort.by(Direction.DESC, "property"));
 	}
 
 	@Test // DATACMNS-1211

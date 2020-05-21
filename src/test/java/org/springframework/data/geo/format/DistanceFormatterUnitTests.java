@@ -29,7 +29,6 @@ import org.springframework.data.geo.Metrics;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.springframework.data.geo.format.DistanceFormatter.INSTANCE;
 
 /**
  * Unit tests for {@link DistanceFormatter}.
@@ -42,17 +41,17 @@ class DistanceFormatterUnitTests {
 
 	@Test // DATAREST-279, DATACMNS-626
 	void rejectsArbitraryNonsense() {
-		assertThatIllegalArgumentException().isThrownBy(() -> INSTANCE.convert("foo"));
+		assertThatIllegalArgumentException().isThrownBy(() -> DistanceFormatter.INSTANCE.convert("foo"));
 	}
 
 	@Test // DATAREST-279, DATACMNS-626
 	void rejectsUnsupportedMetric() {
-		assertThatIllegalArgumentException().isThrownBy(() -> INSTANCE.convert("10.8cm"));
+		assertThatIllegalArgumentException().isThrownBy(() -> DistanceFormatter.INSTANCE.convert("10.8cm"));
 	}
 
 	@Test // DATAREST-279, DATACMNS-626
 	void printsDistance() {
-		assertThat(INSTANCE.print(REFERENCE, Locale.US)).isEqualTo("10.8km");
+		assertThat(DistanceFormatter.INSTANCE.print(REFERENCE, Locale.US)).isEqualTo("10.8km");
 	}
 
 	static Collection<String[]> parameters() {
@@ -64,13 +63,13 @@ class DistanceFormatterUnitTests {
 	@ParameterizedTest // DATAREST-279, DATACMNS-626
 	@MethodSource("parameters")
 	void parsesDistanceFromString(String source) {
-		assertThat(INSTANCE.convert(source)).isEqualTo(REFERENCE);
+		assertThat(DistanceFormatter.INSTANCE.convert(source)).isEqualTo(REFERENCE);
 	}
 
 	@ParameterizedTest
 	@MethodSource("parameters")
 	void parsesDistances(String source) throws ParseException {
-		assertThat(INSTANCE.parse(source, Locale.US)).isEqualTo(REFERENCE);
+		assertThat(DistanceFormatter.INSTANCE.parse(source, Locale.US)).isEqualTo(REFERENCE);
 	}
 
 }

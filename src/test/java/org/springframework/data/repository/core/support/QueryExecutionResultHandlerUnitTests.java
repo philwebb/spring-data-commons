@@ -42,7 +42,6 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.util.Streamable;
 
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -292,7 +291,7 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-1165
 	@SuppressWarnings("unchecked")
 	void convertsIterableIntoStreamable() throws Exception {
-		Iterable<?> source = asList(new Object());
+		Iterable<?> source = Arrays.asList(new Object());
 		Object result = this.handler.postProcessInvocationResult(source, getMethod("streamable"));
 		assertThat(result).isInstanceOfSatisfying(Streamable.class,
 				it -> assertThat(it.stream().collect(Collectors.toList())).isEqualTo(source));
@@ -315,7 +314,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 	@Test // DATACMNS-1482
 	void nestedConversion() throws Exception {
-		Object result = this.handler.postProcessInvocationResult(asList(BigDecimal.ZERO, BigDecimal.ONE),
+		Object result = this.handler.postProcessInvocationResult(Arrays.asList(BigDecimal.ZERO, BigDecimal.ONE),
 				getMethod("listOfInteger"));
 		assertThat(result).isInstanceOfSatisfying(List.class, list -> {
 			SoftAssertions.assertSoftly(s -> {

@@ -28,8 +28,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.springframework.data.transaction.ChainedTransactionManagerTests.TestPlatformTransactionManager.createFailingTransactionManager;
-import static org.springframework.data.transaction.ChainedTransactionManagerTests.TestPlatformTransactionManager.createNonFailingTransactionManager;
 
 /**
  * Integration tests for {@link ChainedTransactionManager}.
@@ -44,7 +42,8 @@ class ChainedTransactionManagerTests {
 
 	@Test
 	void shouldCompleteSuccessfully() {
-		TestPlatformTransactionManager transactionManager = createNonFailingTransactionManager("single");
+		TestPlatformTransactionManager transactionManager = TestPlatformTransactionManager
+				.createNonFailingTransactionManager("single");
 		setupTransactionManagers(transactionManager);
 		createAndCommitTransaction();
 		assertThat(transactionManager).matches(TestPlatformTransactionManager::isCommitted);
@@ -52,15 +51,17 @@ class ChainedTransactionManagerTests {
 
 	@Test
 	void shouldThrowRolledBackExceptionForSingleTMFailure() {
-		setupTransactionManagers(createFailingTransactionManager("single"));
+		setupTransactionManagers(TestPlatformTransactionManager.createFailingTransactionManager("single"));
 		assertThatExceptionOfType(HeuristicCompletionException.class).isThrownBy(this::createAndCommitTransaction)
 				.matches(e -> e.getOutcomeState() == HeuristicCompletionException.STATE_ROLLED_BACK);
 	}
 
 	@Test
 	void shouldCommitAllRegisteredTransactionManagers() {
-		TestPlatformTransactionManager first = createNonFailingTransactionManager("first");
-		TestPlatformTransactionManager second = createNonFailingTransactionManager("second");
+		TestPlatformTransactionManager first = TestPlatformTransactionManager
+				.createNonFailingTransactionManager("first");
+		TestPlatformTransactionManager second = TestPlatformTransactionManager
+				.createNonFailingTransactionManager("second");
 		setupTransactionManagers(first, second);
 		createAndCommitTransaction();
 		assertThat(first).matches(TestPlatformTransactionManager::isCommitted);
@@ -69,8 +70,10 @@ class ChainedTransactionManagerTests {
 
 	@Test
 	void shouldCommitInReverseOrder() {
-		TestPlatformTransactionManager first = createNonFailingTransactionManager("first");
-		TestPlatformTransactionManager second = createNonFailingTransactionManager("second");
+		TestPlatformTransactionManager first = TestPlatformTransactionManager
+				.createNonFailingTransactionManager("first");
+		TestPlatformTransactionManager second = TestPlatformTransactionManager
+				.createNonFailingTransactionManager("second");
 		setupTransactionManagers(first, second);
 		createAndCommitTransaction();
 		assertThat(second.getCommitTime()).isLessThanOrEqualTo(first.getCommitTime());
@@ -79,25 +82,26 @@ class ChainedTransactionManagerTests {
 	@Test
 	void shouldThrowMixedRolledBackExceptionForNonFirstTMFailure() {
 		setupTransactionManagers(TestPlatformTransactionManager.createFailingTransactionManager("first"),
-				createNonFailingTransactionManager("second"));
+				TestPlatformTransactionManager.createNonFailingTransactionManager("second"));
 		assertThatExceptionOfType(HeuristicCompletionException.class).isThrownBy(this::createAndCommitTransaction)
 				.matches(e -> e.getOutcomeState() == HeuristicCompletionException.STATE_MIXED);
 	}
 
 	@Test
 	void shouldRollbackAllTransactionManagers() {
-		TestPlatformTransactionManager first = createNonFailingTransactionManager("first");
-		TestPlatformTransactionManager second = createNonFailingTransactionManager("second");
+		TestPlatformTransactionManager first = TestPlatformTransactionManager
+				.createNonFailingTransactionManager("first");
+		TestPlatformTransactionManager second = TestPlatformTransactionManager
+				.createNonFailingTransactionManager("second");
 		setupTransactionManagers(first, second);
 		createAndRollbackTransaction();
 		assertThat(first).matches(TestPlatformTransactionManager::wasRolledBack);
 		assertThat(second).matches(TestPlatformTransactionManager::wasRolledBack);
-
 	}
 
 	@Test
 	void shouldThrowExceptionOnFailingRollback() {
-		PlatformTransactionManager first = createFailingTransactionManager("first");
+		PlatformTransactionManager first = TestPlatformTransactionManager.createFailingTransactionManager("first");
 		setupTransactionManagers(first);
 		assertThatExceptionOfType(UnexpectedRollbackException.class).isThrownBy(this::createAndRollbackTransaction);
 	}
