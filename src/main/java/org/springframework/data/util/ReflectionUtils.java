@@ -71,43 +71,6 @@ public final class ReflectionUtils {
 	}
 
 	/**
-	 * A {@link FieldFilter} that has a description.
-	 */
-	public interface DescribedFieldFilter extends FieldFilter {
-
-		/**
-		 * Returns the description of the field filter. Used in exceptions being thrown in
-		 * case uniqueness shall be enforced on the field filter.
-		 * @return
-		 */
-		String getDescription();
-
-	}
-
-	/**
-	 * A {@link FieldFilter} for a given annotation.
-	 */
-	public static class AnnotationFieldFilter implements DescribedFieldFilter {
-
-		private final Class<? extends Annotation> annotationType;
-
-		public AnnotationFieldFilter(Class<? extends Annotation> annotationType) {
-			this.annotationType = annotationType;
-		}
-
-		@Override
-		public boolean matches(Field field) {
-			return AnnotationUtils.getAnnotation(field, this.annotationType) != null;
-		}
-
-		@Override
-		public String getDescription() {
-			return String.format("Annotation filter for %s", this.annotationType.getName());
-		}
-
-	}
-
-	/**
 	 * Finds the first field on the given class matching the given {@link FieldFilter}.
 	 * @param type must not be {@literal null}.
 	 * @param filter must not be {@literal null}.
@@ -372,6 +335,43 @@ public final class ReflectionUtils {
 			return Boolean.FALSE;
 		}
 		throw new IllegalArgumentException(String.format("Primitive type %s not supported!", type));
+	}
+
+	/**
+	 * A {@link FieldFilter} that has a description.
+	 */
+	public interface DescribedFieldFilter extends FieldFilter {
+
+		/**
+		 * Returns the description of the field filter. Used in exceptions being thrown in
+		 * case uniqueness shall be enforced on the field filter.
+		 * @return
+		 */
+		String getDescription();
+
+	}
+
+	/**
+	 * A {@link FieldFilter} for a given annotation.
+	 */
+	public static class AnnotationFieldFilter implements DescribedFieldFilter {
+
+		private final Class<? extends Annotation> annotationType;
+
+		public AnnotationFieldFilter(Class<? extends Annotation> annotationType) {
+			this.annotationType = annotationType;
+		}
+
+		@Override
+		public boolean matches(Field field) {
+			return AnnotationUtils.getAnnotation(field, this.annotationType) != null;
+		}
+
+		@Override
+		public String getDescription() {
+			return String.format("Annotation filter for %s", this.annotationType.getName());
+		}
+
 	}
 
 }

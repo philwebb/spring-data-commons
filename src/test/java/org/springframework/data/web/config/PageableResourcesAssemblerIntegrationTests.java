@@ -46,17 +46,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class PageableResourcesAssemblerIntegrationTests {
 
-	@Configuration
-	@EnableSpringDataWebSupport
-	static class Config {
-
-		@Bean
-		SampleController controller() {
-			return new SampleController();
-		}
-
-	}
-
 	@BeforeEach
 	void setUp() {
 		WebTestUtils.initWebTest();
@@ -85,6 +74,17 @@ class PageableResourcesAssemblerIntegrationTests {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("via-config-class.xml", getClass());
 		assertThat(context.getBean(PagedResourcesAssembler.class)).isNotNull();
 		context.close();
+	}
+
+	@Configuration
+	@EnableSpringDataWebSupport
+	static class Config {
+
+		@Bean
+		SampleController controller() {
+			return new SampleController();
+		}
+
 	}
 
 	@Controller

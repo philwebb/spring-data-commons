@@ -281,6 +281,16 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 				}));
 	}
 
+	private Object evaluateExpression(String expression) {
+		return evaluateExpression(expression, new Object[] { "parameterValue" });
+	}
+
+	private Object evaluateExpression(String expression, Object[] args) {
+		DefaultParameters parameters = new DefaultParameters(this.method);
+		EvaluationContext evaluationContext = this.provider.getEvaluationContext(parameters, args);
+		return new SpelExpressionParser().parseExpression(expression).getValue(evaluationContext);
+	}
+
 	@RequiredArgsConstructor
 	public static class DummyExtension implements org.springframework.data.spel.spi.EvaluationContextExtension {
 
@@ -332,16 +342,6 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 			return "from-extension-type";
 		}
 
-	}
-
-	private Object evaluateExpression(String expression) {
-		return evaluateExpression(expression, new Object[] { "parameterValue" });
-	}
-
-	private Object evaluateExpression(String expression, Object[] args) {
-		DefaultParameters parameters = new DefaultParameters(this.method);
-		EvaluationContext evaluationContext = this.provider.getEvaluationContext(parameters, args);
-		return new SpelExpressionParser().parseExpression(expression).getValue(evaluationContext);
 	}
 
 	interface SampleRepo {

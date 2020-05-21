@@ -81,6 +81,11 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		});
 	}
 
+	private static IllegalArgumentException rejectUnsupportedType(Object source) {
+		return new IllegalArgumentException(String.format("Invalid date type %s for member %s! Supported types are %s.",
+				source.getClass(), source, AnnotationAuditingMetadata.SUPPORTED_DATE_TYPES));
+	}
+
 	/**
 	 * An {@link AuditableBeanWrapper} that works with objects implementing
 	 */
@@ -201,11 +206,6 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 			});
 		}
 
-	}
-
-	private static IllegalArgumentException rejectUnsupportedType(Object source) {
-		return new IllegalArgumentException(String.format("Invalid date type %s for member %s! Supported types are %s.",
-				source.getClass(), source, AnnotationAuditingMetadata.SUPPORTED_DATE_TYPES));
 	}
 
 	/**

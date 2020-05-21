@@ -59,55 +59,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 class EnableSpringDataWebSupportIntegrationTests {
 
-	@Configuration
-	@EnableWebMvc
-	@EnableSpringDataWebSupport
-	static class SampleConfig {
-
-		@Bean
-		SampleController controller() {
-			return new SampleController();
-		}
-
-	}
-
-	@Configuration
-	@EnableWebMvc
-	@EnableSpringDataWebSupport
-	static class PageableResolverCustomizerConfig extends SampleConfig {
-
-		@Bean
-		PageableHandlerMethodArgumentResolverCustomizer testPageableResolverCustomizer() {
-			return pageableResolver -> pageableResolver.setMaxPageSize(100);
-		}
-
-	}
-
-	@Configuration
-	@EnableWebMvc
-	@EnableSpringDataWebSupport
-	static class SortResolverCustomizerConfig extends SampleConfig {
-
-		@Bean
-		SortHandlerMethodArgumentResolverCustomizer testSortResolverCustomizer() {
-			return sortResolver -> sortResolver.setSortParameter("foo");
-		}
-
-	}
-
-	@Configuration
-	@EnableSpringDataWebSupport
-	static class CustomEntityPathResolver {
-
-		static SimpleEntityPathResolver resolver = new SimpleEntityPathResolver("suffix");
-
-		@Bean
-		SimpleEntityPathResolver entityPathResolver() {
-			return resolver;
-		}
-
-	}
-
 	@Test // DATACMNS-330
 	void registersBasicBeanDefinitions() throws Exception {
 		ApplicationContext context = WebTestUtils.createApplicationContext(SampleConfig.class);
@@ -218,6 +169,55 @@ class EnableSpringDataWebSupportIntegrationTests {
 		assertThat(adapter).isNotNull();
 		List<HandlerMethodArgumentResolver> resolvers = adapter.getCustomArgumentResolvers();
 		Arrays.asList(resolverTypes).forEach(type -> assertThat(resolvers).hasAtLeastOneElementOfType(type));
+	}
+
+	@Configuration
+	@EnableWebMvc
+	@EnableSpringDataWebSupport
+	static class SampleConfig {
+
+		@Bean
+		SampleController controller() {
+			return new SampleController();
+		}
+
+	}
+
+	@Configuration
+	@EnableWebMvc
+	@EnableSpringDataWebSupport
+	static class PageableResolverCustomizerConfig extends SampleConfig {
+
+		@Bean
+		PageableHandlerMethodArgumentResolverCustomizer testPageableResolverCustomizer() {
+			return pageableResolver -> pageableResolver.setMaxPageSize(100);
+		}
+
+	}
+
+	@Configuration
+	@EnableWebMvc
+	@EnableSpringDataWebSupport
+	static class SortResolverCustomizerConfig extends SampleConfig {
+
+		@Bean
+		SortHandlerMethodArgumentResolverCustomizer testSortResolverCustomizer() {
+			return sortResolver -> sortResolver.setSortParameter("foo");
+		}
+
+	}
+
+	@Configuration
+	@EnableSpringDataWebSupport
+	static class CustomEntityPathResolver {
+
+		static SimpleEntityPathResolver resolver = new SimpleEntityPathResolver("suffix");
+
+		@Bean
+		SimpleEntityPathResolver entityPathResolver() {
+			return resolver;
+		}
+
 	}
 
 }

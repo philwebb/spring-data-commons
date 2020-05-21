@@ -38,17 +38,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class RepositoryBeanDefinitionRegistrarSupportIntegrationTests {
 
-	@Configuration
-	@EnableRepositories(excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*\\.excluded\\..*"))
-	static class SampleConfig {
-
-	}
-
-	@Configuration
-	static class TestConfig extends SampleConfig {
-
-	}
-
 	AnnotationConfigApplicationContext context;
 
 	@BeforeEach
@@ -97,6 +86,17 @@ class RepositoryBeanDefinitionRegistrarSupportIntegrationTests {
 		assertThat(definition.getResourceDescription()).contains(MyRepository.class.getName())
 				.contains(EnableRepositories.class.getSimpleName())
 				.contains(ClassUtils.getShortName(SampleConfig.class));
+	}
+
+	@Configuration
+	@EnableRepositories(excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*\\.excluded\\..*"))
+	static class SampleConfig {
+
+	}
+
+	@Configuration
+	static class TestConfig extends SampleConfig {
+
 	}
 
 }

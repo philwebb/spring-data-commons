@@ -53,6 +53,56 @@ public abstract class SpringDataJaxb {
 	}
 
 	/**
+	 * Unmarshals each element of the given {@link Collection} using the given
+	 * {@link XmlAdapter}.
+	 * @param source
+	 * @param adapter must not be {@literal null}.
+	 * @return the unmarshalled elements
+	 * @throws Exception
+	 */
+	public static <T, S> List<T> unmarshal(Collection<S> source, XmlAdapter<S, T> adapter) {
+		Assert.notNull(adapter, "Adapter must not be null!");
+		if (source == null || source.isEmpty()) {
+			return Collections.emptyList();
+		}
+		List<T> result = new ArrayList<>(source.size());
+		for (S element : source) {
+			try {
+				result.add(adapter.unmarshal(element));
+			}
+			catch (Exception ex) {
+				throw new RuntimeException(ex);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Marshals each of the elements of the given {@link Iterable} using the given
+	 * {@link XmlAdapter}.
+	 * @param source
+	 * @param adapter must not be {@literal null}.
+	 * @return the mashalled elements
+	 * @throws Exception
+	 */
+	public static <T, S> List<S> marshal(@Nullable Iterable<T> source, XmlAdapter<S, T> adapter) {
+		Assert.notNull(adapter, "Adapter must not be null!");
+		if (source == null) {
+			return Collections.emptyList();
+		}
+		List<S> result = new ArrayList<>();
+		for (T element : source) {
+			try {
+				result.add(adapter.marshal(element));
+			}
+			catch (Exception ex) {
+				throw new RuntimeException(ex);
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * The DTO for {@link Pageable}s/{@link PageRequest}s.
 	 */
 	@XmlRootElement(name = "page-request", namespace = NAMESPACE)
@@ -108,56 +158,6 @@ public abstract class SpringDataJaxb {
 		@XmlElementWrapper(name = "content")
 		List<Object> content;
 
-	}
-
-	/**
-	 * Unmarshals each element of the given {@link Collection} using the given
-	 * {@link XmlAdapter}.
-	 * @param source
-	 * @param adapter must not be {@literal null}.
-	 * @return the unmarshalled elements
-	 * @throws Exception
-	 */
-	public static <T, S> List<T> unmarshal(Collection<S> source, XmlAdapter<S, T> adapter) {
-		Assert.notNull(adapter, "Adapter must not be null!");
-		if (source == null || source.isEmpty()) {
-			return Collections.emptyList();
-		}
-		List<T> result = new ArrayList<>(source.size());
-		for (S element : source) {
-			try {
-				result.add(adapter.unmarshal(element));
-			}
-			catch (Exception ex) {
-				throw new RuntimeException(ex);
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Marshals each of the elements of the given {@link Iterable} using the given
-	 * {@link XmlAdapter}.
-	 * @param source
-	 * @param adapter must not be {@literal null}.
-	 * @return the mashalled elements
-	 * @throws Exception
-	 */
-	public static <T, S> List<S> marshal(@Nullable Iterable<T> source, XmlAdapter<S, T> adapter) {
-		Assert.notNull(adapter, "Adapter must not be null!");
-		if (source == null) {
-			return Collections.emptyList();
-		}
-		List<S> result = new ArrayList<>();
-		for (T element : source) {
-			try {
-				result.add(adapter.marshal(element));
-			}
-			catch (Exception ex) {
-				throw new RuntimeException(ex);
-			}
-		}
-		return result;
 	}
 
 }

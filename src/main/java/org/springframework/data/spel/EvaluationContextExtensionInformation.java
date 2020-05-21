@@ -94,6 +94,13 @@ class EvaluationContextExtensionInformation {
 				.orElse(RootObjectInformation.NONE);
 	}
 
+	private static Map<String, Object> discoverDeclaredProperties(Class<?> type) {
+		Map<String, Object> map = new HashMap<>();
+		ReflectionUtils.doWithFields(type, field -> map.put(field.getName(), field.get(null)),
+				PublicMethodAndFieldFilter.STATIC);
+		return map.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(map);
+	}
+
 	/**
 	 * Static information about the given {@link EvaluationContextExtension} type.
 	 * Discovers public static methods and fields. The fields' values are obtained
@@ -238,13 +245,6 @@ class EvaluationContextExtensionInformation {
 			}).orElseGet(Collections::emptyMap);
 		}
 
-	}
-
-	private static Map<String, Object> discoverDeclaredProperties(Class<?> type) {
-		Map<String, Object> map = new HashMap<>();
-		ReflectionUtils.doWithFields(type, field -> map.put(field.getName(), field.get(null)),
-				PublicMethodAndFieldFilter.STATIC);
-		return map.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(map);
 	}
 
 }

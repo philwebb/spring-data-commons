@@ -178,6 +178,68 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		}
 	}
 
+	private static void visitInvokeMethodSingleArg(MethodVisitor mv, Method method) {
+		Class<?>[] parameterTypes = method.getParameterTypes();
+		Class<?> parameterType = parameterTypes[0];
+		Class<?> declaringClass = method.getDeclaringClass();
+		boolean interfaceDefinition = declaringClass.isInterface();
+		mv.visitTypeInsn(Opcodes.CHECKCAST, Type.getInternalName(BytecodeUtil.autoboxType(parameterType)));
+		BytecodeUtil.autoboxIfNeeded(BytecodeUtil.autoboxType(parameterType), parameterType, mv);
+		int invokeOpCode = getInvokeOp(method, interfaceDefinition);
+		mv.visitMethodInsn(invokeOpCode, Type.getInternalName(method.getDeclaringClass()), method.getName(),
+				String.format("(%s)%s", BytecodeUtil.signatureTypeName(parameterType),
+						BytecodeUtil.signatureTypeName(method.getReturnType())),
+				interfaceDefinition);
+	}
+
+	private static int getInvokeOp(Method method, boolean interfaceDefinition) {
+		int invokeOpCode = Modifier.isStatic(method.getModifiers()) ? Opcodes.INVOKESTATIC : Opcodes.INVOKEVIRTUAL;
+		if (interfaceDefinition) {
+			invokeOpCode = Opcodes.INVOKEINTERFACE;
+		}
+		return invokeOpCode;
+	}
+
+	private static Map<String, PropertyStackAddress> createPropertyStackMap(
+			List<PersistentProperty<?>> persistentProperties) {
+		Map<String, PropertyStackAddress> stackmap = new HashMap<>();
+		for (PersistentProperty<?> property : persistentProperties) {
+			stackmap.put(property.getName(), new PropertyStackAddress(new Label(), property.getName().hashCode()));
+		}
+		return stackmap;
+	}
+
+	/**
+	 * @param property
+	 * @return {@literal true} if object mutation is supported.
+	 */
+	static boolean supportsMutation(PersistentProperty<?> property) {
+		if (property.isImmutable()) {
+			if (property.getWither() != null) {
+				return true;
+			}
+			if (hasKotlinCopyMethod(property)) {
+				return true;
+			}
+		}
+		return (property.usePropertyAccess() && property.getSetter() != null)
+				|| (property.getField() != null && !Modifier.isFinal(property.getField().getModifiers()));
+	}
+
+	/**
+	 * Check whether the owning type of {@link PersistentProperty} declares a
+	 * {@literal copy} method or {@literal copy} method with parameter defaulting.
+	 * @param type must not be {@literal null}.
+	 * @return
+	 */
+	private static boolean hasKotlinCopyMethod(PersistentProperty<?> property) {
+		Class<?> type = property.getOwner().getType();
+		if (BytecodeUtil.isAccessible(type) && KotlinDetector.isKotlinType(type)) {
+			return KotlinCopyMethod.findCopyMethod(type).filter(it -> it.supportsProperty(property)).isPresent();
+		}
+		return false;
+	}
+
 	/**
 	 * Generates {@link PersistentPropertyAccessor} classes to access properties of a
 	 * {@link PersistentEntity}. This code uses {@code private final static} held method
@@ -1231,37 +1293,6 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 
 	}
 
-	private static void visitInvokeMethodSingleArg(MethodVisitor mv, Method method) {
-		Class<?>[] parameterTypes = method.getParameterTypes();
-		Class<?> parameterType = parameterTypes[0];
-		Class<?> declaringClass = method.getDeclaringClass();
-		boolean interfaceDefinition = declaringClass.isInterface();
-		mv.visitTypeInsn(Opcodes.CHECKCAST, Type.getInternalName(BytecodeUtil.autoboxType(parameterType)));
-		BytecodeUtil.autoboxIfNeeded(BytecodeUtil.autoboxType(parameterType), parameterType, mv);
-		int invokeOpCode = getInvokeOp(method, interfaceDefinition);
-		mv.visitMethodInsn(invokeOpCode, Type.getInternalName(method.getDeclaringClass()), method.getName(),
-				String.format("(%s)%s", BytecodeUtil.signatureTypeName(parameterType),
-						BytecodeUtil.signatureTypeName(method.getReturnType())),
-				interfaceDefinition);
-	}
-
-	private static int getInvokeOp(Method method, boolean interfaceDefinition) {
-		int invokeOpCode = Modifier.isStatic(method.getModifiers()) ? Opcodes.INVOKESTATIC : Opcodes.INVOKEVIRTUAL;
-		if (interfaceDefinition) {
-			invokeOpCode = Opcodes.INVOKEINTERFACE;
-		}
-		return invokeOpCode;
-	}
-
-	private static Map<String, PropertyStackAddress> createPropertyStackMap(
-			List<PersistentProperty<?>> persistentProperties) {
-		Map<String, PropertyStackAddress> stackmap = new HashMap<>();
-		for (PersistentProperty<?> property : persistentProperties) {
-			stackmap.put(property.getName(), new PropertyStackAddress(new Label(), property.getName().hashCode()));
-		}
-		return stackmap;
-	}
-
 	/**
 	 * Stack map address for a particular property.
 	 */
@@ -1281,37 +1312,6 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			return Integer.compare(this.hash, o.hash);
 		}
 
-	}
-
-	/**
-	 * @param property
-	 * @return {@literal true} if object mutation is supported.
-	 */
-	static boolean supportsMutation(PersistentProperty<?> property) {
-		if (property.isImmutable()) {
-			if (property.getWither() != null) {
-				return true;
-			}
-			if (hasKotlinCopyMethod(property)) {
-				return true;
-			}
-		}
-		return (property.usePropertyAccess() && property.getSetter() != null)
-				|| (property.getField() != null && !Modifier.isFinal(property.getField().getModifiers()));
-	}
-
-	/**
-	 * Check whether the owning type of {@link PersistentProperty} declares a
-	 * {@literal copy} method or {@literal copy} method with parameter defaulting.
-	 * @param type must not be {@literal null}.
-	 * @return
-	 */
-	private static boolean hasKotlinCopyMethod(PersistentProperty<?> property) {
-		Class<?> type = property.getOwner().getType();
-		if (BytecodeUtil.isAccessible(type) && KotlinDetector.isKotlinType(type)) {
-			return KotlinCopyMethod.findCopyMethod(type).filter(it -> it.supportsProperty(property)).isPresent();
-		}
-		return false;
 	}
 
 }

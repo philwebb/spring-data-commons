@@ -86,20 +86,20 @@ class DefaultRepositoryConfigurationUnitTests {
 		return new DefaultRepositoryConfiguration<>(source, beanDefinition, this.extension);
 	}
 
-	@Value
-	@EqualsAndHashCode(callSuper = true)
-	private static class SimplerRepositoryConfigurationExtension extends RepositoryConfigurationExtensionSupport {
-
-		String repositoryFactoryBeanClassName, modulePrefix;
-
-	}
-
 	private static RootBeanDefinition createBeanDefinition(String repositoryInterfaceName) {
 		RootBeanDefinition beanDefinition = new RootBeanDefinition(repositoryInterfaceName);
 		ConstructorArgumentValues constructorArgumentValues = new ConstructorArgumentValues();
 		constructorArgumentValues.addGenericArgumentValue(MyRepository.class);
 		beanDefinition.setConstructorArgumentValues(constructorArgumentValues);
 		return beanDefinition;
+	}
+
+	@Value
+	@EqualsAndHashCode(callSuper = true)
+	private static class SimplerRepositoryConfigurationExtension extends RepositoryConfigurationExtensionSupport {
+
+		String repositoryFactoryBeanClassName, modulePrefix;
+
 	}
 
 	private interface NestedInterface {
