@@ -188,43 +188,14 @@ class EntityCallbackDiscoverer {
 		}
 		for (EntityCallback<?> callback : callbacks) {
 			if (supportsEvent(callback, entityType, callbackType)) {
-				if (allCallbacks == null) {
-					allCallbacks = new ArrayList<>();
-				}
-				allCallbacks.add(callback);
+				allCallbacks = addEntityCallback(allCallbacks, callback);
 			}
 		}
 		if (!callbackBeans.isEmpty()) {
 			BeanFactory beanFactory = getRequiredBeanFactory();
 			for (String callbackBeanName : callbackBeans) {
-				try {
-					Class<?> callbackImplType = beanFactory.getType(callbackBeanName);
-					if (callbackImplType == null || supportsEvent(callbackImplType, entityType)) {
-						EntityCallback<?> callback = beanFactory.getBean(callbackBeanName, EntityCallback.class);
-
-						if ((allCallbacks == null || !allCallbacks.contains(callback))
-								&& supportsEvent(callback, entityType, callbackType)) {
-							if (retriever != null) {
-								if (beanFactory.isSingleton(callbackBeanName)) {
-									retriever.entityCallbacks.add(callback);
-								}
-								else {
-									retriever.entityCallbackBeans.add(callbackBeanName);
-								}
-							}
-
-							if (allCallbacks == null) {
-								allCallbacks = new ArrayList<>();
-							}
-							allCallbacks.add(callback);
-						}
-					}
-				}
-				catch (NoSuchBeanDefinitionException ex) {
-					// Singleton callback instance (without backing bean definition)
-					// disappeared -
-					// probably in the middle of the destruction phase
-				}
+				allCallbacks = addEntityCallbackBean(entityType, callbackType, retriever, allCallbacks, beanFactory,
+						callbackBeanName);
 			}
 		}
 		if (allCallbacks == null) {
@@ -236,6 +207,44 @@ class EntityCallbackDiscoverer {
 			retriever.entityCallbacks.addAll(allCallbacks);
 		}
 		return allCallbacks;
+	}
+
+	private List<EntityCallback<?>> addEntityCallbackBean(ResolvableType entityType, ResolvableType callbackType,
+			CallbackRetriever retriever, List<EntityCallback<?>> allCallbacks, BeanFactory beanFactory,
+			String callbackBeanName) {
+		try {
+			Class<?> callbackImplType = beanFactory.getType(callbackBeanName);
+			if (callbackImplType == null || supportsEvent(callbackImplType, entityType)) {
+				EntityCallback<?> callback = beanFactory.getBean(callbackBeanName, EntityCallback.class);
+				if ((allCallbacks == null || !allCallbacks.contains(callback))
+						&& supportsEvent(callback, entityType, callbackType)) {
+					if (retriever != null) {
+						if (beanFactory.isSingleton(callbackBeanName)) {
+							retriever.entityCallbacks.add(callback);
+						}
+						else {
+							retriever.entityCallbackBeans.add(callbackBeanName);
+						}
+					}
+					allCallbacks = addEntityCallback(allCallbacks, callback);
+				}
+			}
+		}
+		catch (NoSuchBeanDefinitionException ex) {
+			// Singleton callback instance (without backing bean definition)
+			// disappeared -
+			// probably in the middle of the destruction phase
+		}
+		return allCallbacks;
+	}
+
+	private List<EntityCallback<?>> addEntityCallback(@Nullable List<EntityCallback<?>> callbacks,
+			EntityCallback<?> callback) {
+		if (callbacks == null) {
+			callbacks = new ArrayList<>();
+		}
+		callbacks.add(callback);
+		return callbacks;
 	}
 
 	/**

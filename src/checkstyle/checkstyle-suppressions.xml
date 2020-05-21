@@ -9,7 +9,6 @@
 	<suppress files=".*" checks="JavadocTagContinuationIndentation" />
 	<suppress files=".*" checks="JavadocType" />
 	<suppress files=".*" checks="JavadocVariable" />
-	<suppress files=".*" checks="NestedIfDepth" />
 	<suppress files=".*" checks="NonEmptyAtclauseDescription" />
 	<suppress files=".*" checks="OneTopLevelClass" />
 	<suppress files=".*" checks="RedundantImport" />
