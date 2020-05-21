@@ -42,7 +42,7 @@ import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
@@ -238,8 +238,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-1026
 	void throwsExceptionWhenStillAmbiguous() throws Exception {
 		this.provider = createContextProviderWithOverloads();
-		assertThatExceptionOfType(IllegalStateException.class)
-				.isThrownBy(() -> evaluateExpression("ambiguousOverloaded(23)"))
+		assertThatIllegalStateException().isThrownBy(() -> evaluateExpression("ambiguousOverloaded(23)"))
 				.withMessageContaining("ambiguousOverloaded").withMessageContaining("(java.lang.Integer)");
 	}
 

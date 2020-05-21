@@ -25,7 +25,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.ReflectionUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
@@ -73,8 +72,7 @@ class AbstractEntityInformationUnitTests {
 	void rejectsUnsupportedPrimitiveIdType() {
 		CustomEntityInformation<UnsupportedPrimitiveIdEntity, ?> information = new CustomEntityInformation<UnsupportedPrimitiveIdEntity, Boolean>(
 				UnsupportedPrimitiveIdEntity.class);
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> information.isNew(new UnsupportedPrimitiveIdEntity()))
+		assertThatIllegalArgumentException().isThrownBy(() -> information.isNew(new UnsupportedPrimitiveIdEntity()))
 				.withMessageContaining(boolean.class.getName());
 	}
 

@@ -17,7 +17,7 @@ package org.springframework.data.mapping;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit tests for {@link TargetAwareIdentifierAccessor}.
@@ -38,7 +38,7 @@ public class TargetAwareIdentifierAccessorUnitTests {
 			}
 
 		};
-		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(accessor::getRequiredIdentifier)
+		assertThatIllegalStateException().isThrownBy(accessor::getRequiredIdentifier)
 				.withMessageContaining(sample.toString());
 	}
 

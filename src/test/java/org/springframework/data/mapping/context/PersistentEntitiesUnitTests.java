@@ -28,8 +28,8 @@ import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.util.ClassTypeInformation;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -97,8 +97,7 @@ class PersistentEntitiesUnitTests {
 		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class)
 				.getPersistentProperty("longId");
 		PersistentEntities entities = PersistentEntities.of(context);
-		assertThatExceptionOfType(IllegalStateException.class)
-				.isThrownBy(() -> entities.getEntityUltimatelyReferredToBy(property))
+		assertThatIllegalStateException().isThrownBy(() -> entities.getEntityUltimatelyReferredToBy(property))
 				.withMessageContaining(FirstWithLongId.class.getName())
 				.withMessageContaining(SecondWithLongId.class.getName())
 				.withMessageContaining(Reference.class.getSimpleName());

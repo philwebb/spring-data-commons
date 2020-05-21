@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.repository.query.SpelQueryContext.QuotationMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link QuotationMap}.
@@ -92,7 +92,7 @@ class QuotationMapUnitTests {
 
 	@Test // DATAJPA-1235
 	void openEndedQuoteThrowsException() {
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> new QuotationMap("a'b"));
+		assertThatIllegalArgumentException().isThrownBy(() -> new QuotationMap("a'b"));
 	}
 
 	private static void isNotQuoted(String query, Object label, int... indexes) {

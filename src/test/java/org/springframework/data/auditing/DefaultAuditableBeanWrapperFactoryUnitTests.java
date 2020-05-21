@@ -31,7 +31,6 @@ import org.springframework.data.auditing.DefaultAuditableBeanWrapperFactory.Audi
 import org.springframework.data.auditing.DefaultAuditableBeanWrapperFactory.ReflectionAuditingBeanWrapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
@@ -87,7 +86,7 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 		ZonedDateTime zonedDateTime = ZonedDateTime.now();
 		Optional<AuditableBeanWrapper<Jsr310ThreeTenBpAuditedUser>> wrapper = this.factory.getBeanWrapperFor(user);
 		assertThat(wrapper).isNotEmpty();
-		assertThatExceptionOfType(IllegalArgumentException.class)
+		assertThatIllegalArgumentException()
 				.isThrownBy(() -> wrapper.ifPresent(it -> it.setLastModifiedDate(zonedDateTime)));
 	}
 

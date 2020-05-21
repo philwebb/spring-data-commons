@@ -33,7 +33,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.util.ReflectionUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -121,9 +121,8 @@ class RepositoryCompositionUnitTests {
 		RepositoryComposition mixed = RepositoryComposition.of(
 				RepositoryFragment.structural(QueryByExampleExecutor.class),
 				RepositoryFragment.implemented(this.backingRepo));
-		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(mixed::validateImplementation)
-				.withMessageContaining(
-						"Fragment org.springframework.data.repository.query.QueryByExampleExecutor has no implementation.");
+		assertThatIllegalStateException().isThrownBy(mixed::validateImplementation).withMessageContaining(
+				"Fragment org.springframework.data.repository.query.QueryByExampleExecutor has no implementation.");
 	}
 
 	@Test // DATACMNS-102

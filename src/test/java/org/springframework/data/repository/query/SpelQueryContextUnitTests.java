@@ -20,7 +20,7 @@ import java.util.function.BiFunction;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link SpelQueryContext}.
@@ -39,21 +39,18 @@ class SpelQueryContextUnitTests {
 
 	@Test // DATACMNS-1258
 	void nullParameterNameSourceThrowsException() {
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> SpelQueryContext.of(null, REPLACEMENT_SOURCE));
+		assertThatIllegalArgumentException().isThrownBy(() -> SpelQueryContext.of(null, REPLACEMENT_SOURCE));
 	}
 
 	@Test // DATACMNS-1258
 	void nullReplacementSourceThrowsException() {
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> SpelQueryContext.of(PARAMETER_NAME_SOURCE, null));
+		assertThatIllegalArgumentException().isThrownBy(() -> SpelQueryContext.of(PARAMETER_NAME_SOURCE, null));
 	}
 
 	@Test // DATACMNS-1258
 	void rejectsNullEvaluationContextProvider() {
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> context.withEvaluationContextProvider(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> context.withEvaluationContextProvider(null));
 	}
 
 	@Test // DATACMNS-1258

@@ -32,7 +32,8 @@ import org.springframework.data.mapping.callback.CapturingEntityCallback.SecondC
 import org.springframework.data.mapping.callback.CapturingEntityCallback.ThirdCallback;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit tests for {@link DefaultEntityCallbacks}.
@@ -83,9 +84,8 @@ class DefaultEntityCallbacksUnitTests {
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
 		callbacks.addEntityCallback(new InvalidEntityCallback() {
 		});
-		assertThatExceptionOfType(IllegalStateException.class)
-				.isThrownBy(() -> callbacks.callback(InvalidEntityCallback.class,
-						new PersonDocument(null, "Walter", null), "agr0", Float.POSITIVE_INFINITY));
+		assertThatIllegalStateException().isThrownBy(() -> callbacks.callback(InvalidEntityCallback.class,
+				new PersonDocument(null, "Walter", null), "agr0", Float.POSITIVE_INFINITY));
 	}
 
 	@Test // DATACMNS-1467
@@ -107,8 +107,7 @@ class DefaultEntityCallbacksUnitTests {
 	void errorsOnNullEntity() {
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
 		callbacks.addEntityCallback(new CapturingEntityCallback());
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> callbacks.callback(CapturingEntityCallback.class, null));
+		assertThatIllegalArgumentException().isThrownBy(() -> callbacks.callback(CapturingEntityCallback.class, null));
 	}
 
 	@Test // DATACMNS-1467
@@ -121,7 +120,7 @@ class DefaultEntityCallbacksUnitTests {
 		callbacks.addEntityCallback(second);
 		callbacks.addEntityCallback(third);
 		PersonDocument initial = new PersonDocument(null, "Walter", null);
-		assertThatExceptionOfType(IllegalArgumentException.class)
+		assertThatIllegalArgumentException()
 				.isThrownBy(() -> callbacks.callback(CapturingEntityCallback.class, initial));
 		assertThat(first.capturedValue()).isSameAs(initial);
 		assertThat(second.capturedValue()).isNotNull().isNotSameAs(initial);

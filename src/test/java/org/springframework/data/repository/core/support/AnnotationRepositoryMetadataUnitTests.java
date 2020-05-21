@@ -21,7 +21,7 @@ import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.data.repository.core.RepositoryMetadata;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link DefaultRepositoryMetadata}.
@@ -39,7 +39,7 @@ class AnnotationRepositoryMetadataUnitTests {
 
 	@Test // DATACMNS-37, DATACMNS-1375
 	void preventsUnannotatedInterface() {
-		assertThatExceptionOfType(IllegalArgumentException.class)
+		assertThatIllegalArgumentException()
 				.isThrownBy(() -> new AnnotationRepositoryMetadata(UnannotatedRepository.class))
 				.withMessageContaining(UnannotatedRepository.class.getName());
 	}

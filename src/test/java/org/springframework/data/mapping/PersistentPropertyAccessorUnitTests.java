@@ -39,6 +39,7 @@ import org.springframework.data.mapping.model.ConvertingPropertyAccessor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link PersistentPropertyAccessor}.
@@ -79,8 +80,7 @@ public class PersistentPropertyAccessorUnitTests {
 	@Test // DATACMNS-1275
 	public void rejectsEmptyPathToSetValues() {
 		setUp(new Order(null), "");
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> this.accessor.setProperty(this.path, "Oliver August"));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.accessor.setProperty(this.path, "Oliver August"));
 	}
 
 	@Test // DATACMNS-1275
@@ -157,7 +157,7 @@ public class PersistentPropertyAccessorUnitTests {
 		PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getPersistentEntity(WithContext.class);
 		PersistentProperty<?> property = entity.getRequiredPersistentProperty("collection");
 		TraversalContext traversal = new TraversalContext();
-		assertThatExceptionOfType(IllegalArgumentException.class)
+		assertThatIllegalArgumentException()
 				.isThrownBy(() -> traversal.registerHandler(property, Map.class, Function.identity()));
 	}
 

@@ -328,7 +328,7 @@ public class PropertyPathUnitTests {
 		}
 		assertThat(source.split("\\.").length).isGreaterThan(1000);
 		final String path = source;
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> PropertyPath.from(path, Left.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> PropertyPath.from(path, Left.class));
 	}
 
 	@Test // DATACMNS-1304

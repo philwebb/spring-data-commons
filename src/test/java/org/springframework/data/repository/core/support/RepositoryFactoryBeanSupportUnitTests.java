@@ -23,7 +23,8 @@ import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -49,7 +50,7 @@ class RepositoryFactoryBeanSupportUnitTests {
 	@Test // DATACMNS-432
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void initializationFailsWithMissingRepositoryInterface() {
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> new DummyRepositoryFactoryBean(null))
+		assertThatIllegalArgumentException().isThrownBy(() -> new DummyRepositoryFactoryBean(null))
 				.withMessageContaining("Repository interface");
 	}
 
@@ -74,7 +75,7 @@ class RepositoryFactoryBeanSupportUnitTests {
 
 		};
 		bean.afterPropertiesSet();
-		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> bean.getPersistentEntity());
+		assertThatIllegalStateException().isThrownBy(() -> bean.getPersistentEntity());
 	}
 
 	interface SampleRepository extends Repository<Object, Long> {

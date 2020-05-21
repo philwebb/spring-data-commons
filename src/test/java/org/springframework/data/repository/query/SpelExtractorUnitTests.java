@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.data.repository.query.SpelQueryContext.SpelExtractor;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link SpelExtractor}.
@@ -45,7 +45,7 @@ class SpelExtractorUnitTests {
 	@Test // DATACMNS-1258
 	void nullQueryThrowsException() {
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> context.parse(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> context.parse(null));
 	}
 
 	@Test // DATACMNS-1258

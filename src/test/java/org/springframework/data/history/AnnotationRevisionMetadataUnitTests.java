@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Reference;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit tests for {@link AnnotationRevisionMetadata}.
@@ -45,8 +45,8 @@ class AnnotationRevisionMetadataUnitTests {
 		Sample sample = new Sample();
 		RevisionMetadata<Long> metadata = getMetadata(sample);
 		assertThat(metadata.getRevisionNumber()).isEmpty();
-		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(metadata::getRequiredRevisionNumber);
-		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(metadata::getRequiredRevisionInstant);
+		assertThatIllegalStateException().isThrownBy(metadata::getRequiredRevisionNumber);
+		assertThatIllegalStateException().isThrownBy(metadata::getRequiredRevisionInstant);
 	}
 
 	@Test // DATACMNS-1173

@@ -224,7 +224,7 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	@Test // DATACMNS-934, DATACMNS-867
 	void rejectsNullAssociation() {
 		MutablePersistentEntity<Entity, T> entity = createEntity(Entity.class);
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> entity.addAssociation(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> entity.addAssociation(null));
 	}
 
 	@Test // DATACMNS-1141

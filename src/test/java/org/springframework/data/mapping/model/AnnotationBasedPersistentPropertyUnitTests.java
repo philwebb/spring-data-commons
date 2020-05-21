@@ -43,7 +43,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -233,28 +233,28 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@Test // DATACMNS-1359
 	public void missingRequiredGetterThrowsException() {
 		SamplePersistentProperty property = getProperty(Sample.class, "field");
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> property.getRequiredGetter())
+		assertThatIllegalArgumentException().isThrownBy(() -> property.getRequiredGetter())
 				.withMessageContaining("field").withMessageContaining(Sample.class.getName());
 	}
 
 	@Test // DATACMNS-1359
 	public void missingRequiredSetterThrowsException() {
 		SamplePersistentProperty property = getProperty(Sample.class, "field");
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> property.getRequiredSetter())
+		assertThatIllegalArgumentException().isThrownBy(() -> property.getRequiredSetter())
 				.withMessageContaining("field").withMessageContaining(Sample.class.getName());
 	}
 
 	@Test // DATACMNS-1359
 	public void missingRequiredWitherThrowsException() {
 		SamplePersistentProperty property = getProperty(Sample.class, "field");
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> property.getRequiredWither())
+		assertThatIllegalArgumentException().isThrownBy(() -> property.getRequiredWither())
 				.withMessageContaining("field").withMessageContaining(Sample.class.getName());
 	}
 
 	@Test
 	public void missingRequiredFieldThrowsException() {
 		SamplePersistentProperty property = getProperty(NoField.class, "firstname");
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> property.getRequiredField())
+		assertThatIllegalArgumentException().isThrownBy(() -> property.getRequiredField())
 				.withMessageContaining("firstname").withMessageContaining(NoField.class.getName());
 	}
 

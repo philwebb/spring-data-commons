@@ -18,7 +18,7 @@ package org.springframework.data.domain;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link AbstractAggregateRoot}.
@@ -67,22 +67,19 @@ class AbstractAggregateRootUnitTests {
 	@Test // DATACMNS-928, DATACMNS-1162
 	@SuppressWarnings("null")
 	void rejectsNullEvent() {
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> new SampleAggregate().andEvent(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new SampleAggregate().andEvent(null));
 	}
 
 	@Test // DATACMNS-928
 	@SuppressWarnings("null")
 	void rejectsNullEventForRegistration() {
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> new SampleAggregate().registerEvent(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new SampleAggregate().registerEvent(null));
 	}
 
 	@Test // DATACMNS-928, DATACMNS-1162
 	@SuppressWarnings("null")
 	void rejectsNullAggregate() {
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> new SampleAggregate().andEventsFrom(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new SampleAggregate().andEventsFrom(null));
 	}
 
 	static class SampleAggregate extends AbstractAggregateRoot<SampleAggregate> {

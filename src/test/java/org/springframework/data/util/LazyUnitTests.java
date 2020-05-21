@@ -24,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.Mockito.doReturn;
 
 /**
@@ -69,7 +69,7 @@ class LazyUnitTests {
 
 	@Test
 	void rejectsNullValueLookup() {
-		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> Lazy.of(() -> null).get());
+		assertThatIllegalStateException().isThrownBy(() -> Lazy.of(() -> null).get());
 	}
 
 	@Test

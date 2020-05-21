@@ -25,7 +25,6 @@ import org.springframework.data.domain.Sort.NullHandling;
 import org.springframework.data.domain.Sort.Order;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
@@ -156,7 +155,7 @@ class SortUnitTests {
 	@Test
 	@SuppressWarnings("null")
 	void preventsNullDirection() {
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Sort.by((Direction) null, "foo"))
+		assertThatIllegalArgumentException().isThrownBy(() -> Sort.by((Direction) null, "foo"))
 				.withMessageContaining("Direction");
 	}
 

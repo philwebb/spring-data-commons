@@ -22,8 +22,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 /**
  * Unit tests for {@link SelectionSet}
@@ -50,7 +50,7 @@ class SelectionSetUnitTests {
 
 	@Test // DATACMNS-764
 	void throwsCustomExceptionWhenConfigured() {
-		assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> {
+		assertThatNullPointerException().isThrownBy(() -> {
 			SelectionSet.of(Arrays.asList("one", "two"), c -> {
 				throw new NullPointerException();
 			}).uniqueResult();

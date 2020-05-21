@@ -34,7 +34,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -89,7 +89,7 @@ class QuerydslBindingsFactoryUnitTests {
 
 	@Test // DATACMNS-669
 	void rejectsPredicateResolutionIfDomainTypeCantBeAutoDetected() {
-		assertThatExceptionOfType(IllegalStateException.class)
+		assertThatIllegalStateException()
 				.isThrownBy(() -> this.factory.createBindingsFor(ClassTypeInformation.from(ModelAndView.class)))
 				.withMessageContaining(QuerydslPredicate.class.getSimpleName()).withMessageContaining("root");
 	}

@@ -21,7 +21,7 @@ import org.springframework.data.domain.AbstractPageRequest;
 import org.springframework.data.domain.AbstractPageRequestUnitTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * @author Thomas Darimont
@@ -49,8 +49,7 @@ public class QPageRequestUnitTests extends AbstractPageRequestUnitTests {
 
 	@Test // DATACMNS-1581
 	void rejectsNullSort() {
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> QPageRequest.of(0, 10, (QSort) null));
+		assertThatIllegalArgumentException().isThrownBy(() -> QPageRequest.of(0, 10, (QSort) null));
 	}
 
 }

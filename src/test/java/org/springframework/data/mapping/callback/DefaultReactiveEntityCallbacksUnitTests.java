@@ -29,7 +29,7 @@ import org.springframework.data.mapping.callback.CapturingEntityCallback.SecondC
 import org.springframework.data.mapping.callback.CapturingEntityCallback.ThirdCallback;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link DefaultReactiveEntityCallbacks}.
@@ -78,8 +78,7 @@ class DefaultReactiveEntityCallbacksUnitTests {
 	void errorsOnNullEntity() {
 		DefaultReactiveEntityCallbacks callbacks = new DefaultReactiveEntityCallbacks();
 		callbacks.addEntityCallback(new CapturingEntityCallback());
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> callbacks.callback(CapturingEntityCallback.class, null));
+		assertThatIllegalArgumentException().isThrownBy(() -> callbacks.callback(CapturingEntityCallback.class, null));
 	}
 
 	@Test // DATACMNS-1467

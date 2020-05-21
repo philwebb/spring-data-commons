@@ -35,7 +35,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.util.Streamable;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -140,14 +140,14 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 	@Test // DATACMNS-1498
 	void rejectsInvalidAttributeName() {
 		RepositoryConfigurationSource source = getConfigSource(DefaultConfiguration.class);
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> source.getAttribute("fooBar"));
+		assertThatIllegalArgumentException().isThrownBy(() -> source.getAttribute("fooBar"));
 	}
 
 	@Test // DATACMNS-1498
 	void lookupOfEmptyStringExposesAbsentValue() {
 		RepositoryConfigurationSource source = getConfigSource(DefaultConfiguration.class);
 		assertThat(source.getAttribute("namedQueriesLocation", String.class)).isEmpty();
-		assertThatExceptionOfType(IllegalArgumentException.class)
+		assertThatIllegalArgumentException()
 				.isThrownBy(() -> source.getRequiredAttribute("namedQueriesLocation", String.class));
 	}
 

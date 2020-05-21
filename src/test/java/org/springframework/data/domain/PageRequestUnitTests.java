@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.data.domain.Sort.Direction;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit test for {@link PageRequest}.
@@ -55,7 +55,7 @@ class PageRequestUnitTests extends AbstractPageRequestUnitTests {
 
 	@Test // DATACMNS-1581
 	void rejectsNullSort() {
-		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> PageRequest.of(0, 10, null));
+		assertThatIllegalArgumentException().isThrownBy(() -> PageRequest.of(0, 10, null));
 	}
 
 }

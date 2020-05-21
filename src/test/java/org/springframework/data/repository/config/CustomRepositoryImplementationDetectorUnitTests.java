@@ -32,7 +32,7 @@ import org.springframework.data.util.Streamable;
 import org.springframework.mock.env.MockEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -96,7 +96,7 @@ class CustomRepositoryImplementationDetectorUnitTests {
 
 	@Test // DATACMNS-764, DATACMNS-1371
 	void throwsExceptionWhenMultipleImplementationAreFound() {
-		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> {
+		assertThatIllegalStateException().isThrownBy(() -> {
 			ImplementationLookupConfiguration lookup = mock(ImplementationLookupConfiguration.class);
 			given(lookup.hasMatchingBeanName(any())).willReturn(true);
 			given(lookup.matches(any())).willReturn(true);

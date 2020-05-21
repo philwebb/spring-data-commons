@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.util.MethodInvocationRecorder.Recorded;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link MethodInvocationRecorder}.
@@ -36,8 +36,7 @@ class MethodInvocationRecorderUnitTests {
 
 	@Test // DATACMNS-1449
 	void rejectsFinalTypes() {
-		assertThatExceptionOfType(IllegalArgumentException.class)
-				.isThrownBy(() -> MethodInvocationRecorder.forProxyOf(FinalType.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> MethodInvocationRecorder.forProxyOf(FinalType.class));
 	}
 
 	@Test // DATACMNS-1449
