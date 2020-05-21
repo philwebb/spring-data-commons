@@ -139,11 +139,11 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 				.toMultiValueMap(new ConcurrentReferenceHashMap<>(16, ReferenceType.WEAK));
 		this.propertyAccessorFactory = BeanWrapperPropertyAccessorFactory.INSTANCE;
 		this.typeAlias = Lazy.of(() -> getAliasFromAnnotation(getType()));
-		this.isNewStrategy = Lazy.of(() -> Persistable.class.isAssignableFrom(information.getType()) 
+		this.isNewStrategy = Lazy.of(() -> Persistable.class.isAssignableFrom(information.getType())
 				? PersistableIsNewStrategy.INSTANCE : getFallbackIsNewStrategy());
 		this.isImmutable = Lazy.of(() -> isAnnotationPresent(Immutable.class));
-		this.requiresPropertyPopulation = Lazy.of(() -> !isImmutable() && this.properties.stream() 
-				.anyMatch(it -> !(isConstructorArgument(it) || it.isTransient())));
+		this.requiresPropertyPopulation = Lazy.of(() -> !isImmutable()
+				&& this.properties.stream().anyMatch(it -> !(isConstructorArgument(it) || it.isTransient())));
 	}
 
 	@Override
@@ -268,14 +268,12 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	}
 
 	private List<P> doFindPersistentProperty(Class<? extends Annotation> annotationType) {
-		List<P> annotatedProperties = this.properties.stream() 
-				.filter(it -> it.isAnnotationPresent(annotationType)) 
+		List<P> annotatedProperties = this.properties.stream().filter(it -> it.isAnnotationPresent(annotationType))
 				.collect(Collectors.toList());
 		if (!annotatedProperties.isEmpty()) {
 			return annotatedProperties;
 		}
-		return this.associations.stream() 
-				.map(Association::getInverse) 
+		return this.associations.stream().map(Association::getInverse)
 				.filter(it -> it.isAnnotationPresent(annotationType)).collect(Collectors.toList());
 	}
 
@@ -444,8 +442,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	 */
 	private static Alias getAliasFromAnnotation(Class<?> type) {
 		Optional<String> typeAliasValue = Optional
-				.ofNullable(AnnotatedElementUtils.findMergedAnnotation(type, TypeAlias.class))
-				.map(TypeAlias::value)
+				.ofNullable(AnnotatedElementUtils.findMergedAnnotation(type, TypeAlias.class)).map(TypeAlias::value)
 				.filter(StringUtils::hasText);
 
 		return Alias.ofNullable(typeAliasValue.orElse(null));

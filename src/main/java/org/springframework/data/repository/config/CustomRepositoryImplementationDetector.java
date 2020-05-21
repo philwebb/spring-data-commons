@@ -106,14 +106,11 @@ public class CustomRepositoryImplementationDetector {
 	public Optional<AbstractBeanDefinition> detectCustomImplementation(ImplementationLookupConfiguration lookup) {
 		Assert.notNull(lookup, "ImplementationLookupConfiguration must not be null!");
 		Set<BeanDefinition> definitions = this.implementationCandidates.getOptional()
-				.orElseGet(() -> findCandidateBeanDefinitions(lookup)).stream() 
-				.filter(lookup::matches) 
+				.orElseGet(() -> findCandidateBeanDefinitions(lookup)).stream().filter(lookup::matches)
 				.collect(StreamUtils.toUnmodifiableSet());
-		return SelectionSet 
-				.of(definitions, c -> c.isEmpty() ? Optional.empty() : throwAmbiguousCustomImplementationException(c)) 
-				.filterIfNecessary(lookup::hasMatchingBeanName) 
-				.uniqueResult() 
-				.map(AbstractBeanDefinition.class::cast);
+		return SelectionSet
+				.of(definitions, c -> c.isEmpty() ? Optional.empty() : throwAmbiguousCustomImplementationException(c))
+				.filterIfNecessary(lookup::hasMatchingBeanName).uniqueResult().map(AbstractBeanDefinition.class::cast);
 	}
 
 	private Set<BeanDefinition> findCandidateBeanDefinitions(ImplementationDetectionConfiguration config) {
@@ -125,15 +122,13 @@ public class CustomRepositoryImplementationDetector {
 		provider.setMetadataReaderFactory(config.getMetadataReaderFactory());
 		provider.addIncludeFilter((reader, factory) -> true);
 		config.getExcludeFilters().forEach(it -> provider.addExcludeFilter(it));
-		return config.getBasePackages().stream()
-				.flatMap(it -> provider.findCandidateComponents(it).stream())
+		return config.getBasePackages().stream().flatMap(it -> provider.findCandidateComponents(it).stream())
 				.collect(Collectors.toSet());
 	}
 
 	private static Optional<BeanDefinition> throwAmbiguousCustomImplementationException(
 			Collection<BeanDefinition> definitions) {
-		String implementationNames = definitions.stream()
-				.map(BeanDefinition::getBeanClassName)
+		String implementationNames = definitions.stream().map(BeanDefinition::getBeanClassName)
 				.collect(Collectors.joining(", "));
 		throw new IllegalStateException(String.format(AMBIGUOUS_CUSTOM_IMPLEMENTATIONS, implementationNames));
 	}

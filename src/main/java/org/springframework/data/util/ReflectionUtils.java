@@ -240,8 +240,7 @@ public final class ReflectionUtils {
 	public static Method findRequiredMethod(Class<?> type, String name, Class<?>... parameterTypes) {
 		Method result = org.springframework.util.ReflectionUtils.findMethod(type, name, parameterTypes);
 		if (result == null) {
-			String parameterTypeNames = Arrays.stream(parameterTypes) 
-					.map(Object::toString) 
+			String parameterTypeNames = Arrays.stream(parameterTypes).map(Object::toString)
 					.collect(Collectors.joining(", "));
 			throw new IllegalArgumentException(
 					String.format("Unable to find method %s(%s)on %s!", name, parameterTypeNames, type));
@@ -276,14 +275,12 @@ public final class ReflectionUtils {
 		Assert.notNull(type, "Type must not be null!");
 		Assert.hasText(name, "Name must not be null or empty!");
 		Assert.notNull(parameterTypes, "Parameter types must not be null!");
-		List<Class<?>> collect = Arrays.stream(parameterTypes)
-				.map(ResolvableType::getRawClass)
+		List<Class<?>> collect = Arrays.stream(parameterTypes).map(ResolvableType::getRawClass)
 				.collect(Collectors.toList());
 		Method method = org.springframework.util.ReflectionUtils.findMethod(type, name,
 				collect.toArray(new Class<?>[collect.size()]));
-		return Optional.ofNullable(method)
-				.filter(it -> IntStream.range(0, it.getParameterCount())
-						.allMatch(index -> ResolvableType.forMethodParameter(it, index).equals(parameterTypes[index])));
+		return Optional.ofNullable(method).filter(it -> IntStream.range(0, it.getParameterCount())
+				.allMatch(index -> ResolvableType.forMethodParameter(it, index).equals(parameterTypes[index])));
 	}
 
 	private static boolean argumentsMatch(Class<?>[] parameterTypes, Object[] arguments) {

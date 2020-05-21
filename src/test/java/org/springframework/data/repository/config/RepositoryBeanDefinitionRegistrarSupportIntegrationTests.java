@@ -99,9 +99,8 @@ class RepositoryBeanDefinitionRegistrarSupportIntegrationTests {
 
 		BeanDefinition definition = this.context.getBeanDefinition("myRepository");
 
-		assertThat(definition.getResourceDescription()) 
-				.contains(MyRepository.class.getName()) 
-				.contains(EnableRepositories.class.getSimpleName()) 
+		assertThat(definition.getResourceDescription()).contains(MyRepository.class.getName())
+				.contains(EnableRepositories.class.getSimpleName())
 				.contains(ClassUtils.getShortName(SampleConfig.class));
 	}
 

@@ -38,14 +38,14 @@ class SpelQueryContextUnitTests {
 	@Test // DATACMNS-1258
 	void nullParameterNameSourceThrowsException() {
 
-		assertThatExceptionOfType(IllegalArgumentException.class) 
+		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> SpelQueryContext.of(null, REPLACEMENT_SOURCE));
 	}
 
 	@Test // DATACMNS-1258
 	void nullReplacementSourceThrowsException() {
 
-		assertThatExceptionOfType(IllegalArgumentException.class) 
+		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> SpelQueryContext.of(PARAMETER_NAME_SOURCE, null));
 	}
 
@@ -54,7 +54,7 @@ class SpelQueryContextUnitTests {
 
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
 
-		assertThatExceptionOfType(IllegalArgumentException.class) 
+		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> context.withEvaluationContextProvider(null));
 	}
 

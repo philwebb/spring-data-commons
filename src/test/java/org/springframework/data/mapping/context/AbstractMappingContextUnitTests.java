@@ -75,7 +75,7 @@ class AbstractMappingContextUnitTests {
 		this.context = TypeRejectingMappingContext.rejecting(() -> new MappingException("Not supported!"),
 				Unsupported.class);
 
-		assertThatExceptionOfType(MappingException.class) 
+		assertThatExceptionOfType(MappingException.class)
 				.isThrownBy(() -> this.context.getPersistentEntity(Unsupported.class));
 	}
 
@@ -215,13 +215,13 @@ class AbstractMappingContextUnitTests {
 		TypeRejectingMappingContext context = TypeRejectingMappingContext.rejecting(() -> new RuntimeException(),
 				Unsupported.class);
 
-		assertThatExceptionOfType(RuntimeException.class) 
+		assertThatExceptionOfType(RuntimeException.class)
 				.isThrownBy(() -> context.getPersistentEntity(Unsupported.class));
 
 		// Second lookup still throws the exception as the temporarily created entity was
 		// not cached
 
-		assertThatExceptionOfType(RuntimeException.class) 
+		assertThatExceptionOfType(RuntimeException.class)
 				.isThrownBy(() -> context.getPersistentEntity(Unsupported.class));
 	}
 

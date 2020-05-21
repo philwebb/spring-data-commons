@@ -101,8 +101,7 @@ class QuerydslBindingsFactoryUnitTests {
 
 		assertThatExceptionOfType(IllegalStateException.class)
 				.isThrownBy(() -> this.factory.createBindingsFor(ClassTypeInformation.from(ModelAndView.class)))
-				.withMessageContaining(QuerydslPredicate.class.getSimpleName())
-				.withMessageContaining("root");
+				.withMessageContaining(QuerydslPredicate.class.getSimpleName()).withMessageContaining("root");
 
 	}
 

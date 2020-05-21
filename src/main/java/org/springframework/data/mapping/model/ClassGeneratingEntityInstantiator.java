@@ -137,11 +137,9 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	 */
 	boolean shouldUseReflectionEntityInstantiator(PersistentEntity<?, ?> entity) {
 		Class<?> type = entity.getType();
-		if (type.isInterface() 
-				|| type.isArray() 
-				|| Modifier.isPrivate(type.getModifiers()) 
-				|| type.isMemberClass() && !Modifier.isStatic(type.getModifiers()) 
-				|| ClassUtils.isCglibProxyClass(type)) { 
+		if (type.isInterface() || type.isArray() || Modifier.isPrivate(type.getModifiers())
+				|| type.isMemberClass() && !Modifier.isStatic(type.getModifiers())
+				|| ClassUtils.isCglibProxyClass(type)) {
 			return true;
 		}
 		PreferredConstructor<?, ?> persistenceConstructor = entity.getPersistenceConstructor();

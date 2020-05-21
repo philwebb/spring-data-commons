@@ -59,9 +59,9 @@ public final class KotlinReflectionUtils {
 		if (!KotlinDetector.isKotlinType(type)) {
 			return false;
 		}
-		return Arrays.stream(type.getDeclaredAnnotations()) 
-				.filter(annotation -> annotation.annotationType().getName().equals("kotlin.Metadata")) 
-				.map(annotation -> AnnotationUtils.getValue(annotation, "k")) 
+		return Arrays.stream(type.getDeclaredAnnotations())
+				.filter(annotation -> annotation.annotationType().getName().equals("kotlin.Metadata"))
+				.map(annotation -> AnnotationUtils.getValue(annotation, "k"))
 				.anyMatch(it -> Integer.valueOf(KotlinClassHeaderKind.CLASS.id).equals(it));
 	}
 
@@ -128,8 +128,7 @@ public final class KotlinReflectionUtils {
 		}
 		// see https://github.com/spring-projects/spring-framework/issues/23991
 		if (kotlinFunction.getParameters().size() > parameter.getParameterIndex() + 1) {
-			KType type = parameter.getParameterIndex() == -1 
-					? kotlinFunction.getReturnType() 
+			KType type = parameter.getParameterIndex() == -1 ? kotlinFunction.getReturnType()
 					: kotlinFunction.getParameters().get(parameter.getParameterIndex() + 1).getType();
 			return type.isMarkedNullable();
 		}
@@ -147,11 +146,8 @@ public final class KotlinReflectionUtils {
 	 */
 	private static Optional<? extends KFunction<?>> findKFunction(Method method) {
 		KClass<?> kotlinClass = JvmClassMappingKt.getKotlinClass(method.getDeclaringClass());
-		return kotlinClass.getMembers() 
-				.stream() 
-				.flatMap(KotlinReflectionUtils::toKFunctionStream) 
-				.filter(it -> isSame(it, method)) 
-				.findFirst();
+		return kotlinClass.getMembers().stream().flatMap(KotlinReflectionUtils::toKFunctionStream)
+				.filter(it -> isSame(it, method)).findFirst();
 	}
 
 	private static Stream<? extends KFunction<?>> toKFunctionStream(KCallable<?> it) {

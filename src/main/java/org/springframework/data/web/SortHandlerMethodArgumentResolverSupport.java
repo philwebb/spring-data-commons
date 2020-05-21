@@ -203,10 +203,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 			if (part == null) {
 				continue;
 			}
-			SortOrderParser.parse(part, delimiter) 
-					.parseIgnoreCase() 
-					.parseDirection() 
-					.forEachOrder(allOrders::add);
+			SortOrderParser.parse(part, delimiter).parseIgnoreCase().parseDirection().forEachOrder(allOrders::add);
 		}
 		return allOrders.isEmpty() ? Sort.unsorted() : Sort.by(allOrders);
 	}
@@ -366,9 +363,8 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * @return the parsing state object.
 		 */
 		public static SortOrderParser parse(String part, String delimiter) {
-			String[] elements = Arrays.stream(part.split(delimiter)) 
-					.filter(SortHandlerMethodArgumentResolver::notOnlyDots) 
-					.toArray(String[]::new);
+			String[] elements = Arrays.stream(part.split(delimiter))
+					.filter(SortHandlerMethodArgumentResolver::notOnlyDots).toArray(String[]::new);
 			return new SortOrderParser(elements);
 		}
 

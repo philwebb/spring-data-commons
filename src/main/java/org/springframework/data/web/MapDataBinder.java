@@ -164,11 +164,9 @@ class MapDataBinder extends WebDataBinder {
 				}
 				value = this.conversionService.convert(value, TypeDescriptor.forObject(value), typeDescriptor);
 			}
-			EvaluationContext context = SimpleEvaluationContext 
-					.forPropertyAccessors(new PropertyTraversingMapAccessor(this.type, this.conversionService)) 
-					.withConversionService(this.conversionService) 
-					.withRootObject(this.map) 
-					.build();
+			EvaluationContext context = SimpleEvaluationContext
+					.forPropertyAccessors(new PropertyTraversingMapAccessor(this.type, this.conversionService))
+					.withConversionService(this.conversionService).withRootObject(this.map).build();
 			Expression expression = PARSER.parseExpression(propertyName);
 			try {
 				expression.setValue(context, value);

@@ -210,10 +210,8 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 			return (Optional<A>) annotation;
 		}
 		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType, type -> {
-			return getAccessors() 
-					.map(it -> AnnotatedElementUtils.findMergedAnnotation(it, type)) 
-					.flatMap(StreamUtils::fromNullable) 
-					.findFirst();
+			return getAccessors().map(it -> AnnotatedElementUtils.findMergedAnnotation(it, type))
+					.flatMap(StreamUtils::fromNullable).findFirst();
 		});
 	}
 
@@ -247,9 +245,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 			return isEntity() ? getActualType() : null;
 		}
 		Class<?> targetType = reference.to();
-		return Class.class.equals(targetType) 
-				? isEntity() ? getActualType() : null 
-				: targetType;
+		return Class.class.equals(targetType) ? isEntity() ? getActualType() : null : targetType;
 	}
 
 	@Override
@@ -257,9 +253,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 		if (this.annotationCache.isEmpty()) {
 			populateAnnotationCache(getProperty());
 		}
-		String builder = this.annotationCache.values().stream() 
-				.flatMap(Optionals::toStream) 
-				.map(Object::toString) 
+		String builder = this.annotationCache.values().stream().flatMap(Optionals::toStream).map(Object::toString)
 				.collect(Collectors.joining(" "));
 		return builder + super.toString();
 	}

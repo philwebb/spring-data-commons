@@ -108,9 +108,8 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 		LongBasedAuditable source = new LongBasedAuditable();
 		source.dateModified = 42000L;
 
-		Optional<Long> result = this.factory.getBeanWrapperFor(source) 
-				.flatMap(AuditableBeanWrapper::getLastModifiedDate) 
-				.map(ta -> ta.getLong(ChronoField.INSTANT_SECONDS));
+		Optional<Long> result = this.factory.getBeanWrapperFor(source)
+				.flatMap(AuditableBeanWrapper::getLastModifiedDate).map(ta -> ta.getLong(ChronoField.INSTANT_SECONDS));
 
 		assertThat(result).hasValue(42L);
 	}
@@ -149,7 +148,7 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 		AuditedUser source = new AuditedUser();
 		source.setLastModifiedDate(now);
 
-		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(source) 
+		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(source)
 				.flatMap(AuditableBeanWrapper::getLastModifiedDate);
 
 		assertThat(result).hasValue(now);

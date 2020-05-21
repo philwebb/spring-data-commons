@@ -110,7 +110,7 @@ abstract class PageableDefaultUnitTests {
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
 
 		assertThatIllegalStateException()
-				.isThrownBy(() -> resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null)) 
+				.isThrownBy(() -> resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null))
 				.withMessageContaining("unique");
 	}
 
@@ -124,7 +124,7 @@ abstract class PageableDefaultUnitTests {
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
 
 		assertThatIllegalStateException()
-				.isThrownBy(() -> resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null)) 
+				.isThrownBy(() -> resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null))
 				.withMessageContaining("Ambiguous");
 	}
 

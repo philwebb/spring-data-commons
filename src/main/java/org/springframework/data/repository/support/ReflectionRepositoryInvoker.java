@@ -212,8 +212,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	@SuppressWarnings("unchecked")
 	private <T> Optional<T> returnAsOptional(@Nullable Object source) {
-		return (Optional<T>) (source instanceof Optional 
-				? source 
+		return (Optional<T>) (source instanceof Optional ? source
 				: Optional.ofNullable(QueryExecutionConverters.unwrap(source)));
 	}
 

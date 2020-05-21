@@ -151,8 +151,8 @@ class SpringDataWebConfigurationIntegrationTests {
 	 */
 	private static Condition<Object> instanceWithClassName(Class<?> expectedClass) {
 
-		return new Condition<>(it -> it.getClass().getName().equals(expectedClass.getName()), 
-				"with class name %s!", expectedClass.getName());
+		return new Condition<>(it -> it.getClass().getName().equals(expectedClass.getName()), "with class name %s!",
+				expectedClass.getName());
 	}
 
 	@Configuration

@@ -39,7 +39,7 @@ class PropertyAccessorClassGeneratorUnitTests {
 
 		PropertyAccessorClassGenerator.generateCustomAccessorClass(entity);
 
-		assertThatCode(() -> PropertyAccessorClassGenerator.generateCustomAccessorClass(entity)) 
+		assertThatCode(() -> PropertyAccessorClassGenerator.generateCustomAccessorClass(entity))
 				.doesNotThrowAnyException();
 	}
 

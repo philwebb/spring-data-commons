@@ -196,24 +196,21 @@ public class PropertyPathUnitTests {
 	public void rejectsInvalidPropertyWithLeadingUnderscore() {
 
 		assertThatExceptionOfType(PropertyReferenceException.class)
-				.isThrownBy(() -> PropertyPath.from("_id", Foo.class))
-				.withMessageContaining("property _id");
+				.isThrownBy(() -> PropertyPath.from("_id", Foo.class)).withMessageContaining("property _id");
 	}
 
 	@Test // DATACMNS-139
 	public void rejectsNestedInvalidPropertyWithLeadingUnderscore() {
 
 		assertThatExceptionOfType(PropertyReferenceException.class)
-				.isThrownBy(() -> PropertyPath.from("_foo_id", Sample2.class))
-				.withMessageContaining("property id");
+				.isThrownBy(() -> PropertyPath.from("_foo_id", Sample2.class)).withMessageContaining("property id");
 	}
 
 	@Test // DATACMNS-139
 	public void rejectsNestedInvalidPropertyExplictlySplitWithLeadingUnderscore() {
 
 		assertThatExceptionOfType(PropertyReferenceException.class)
-				.isThrownBy(() -> PropertyPath.from("_foo__id", Sample2.class))
-				.withMessageContaining("property _id");
+				.isThrownBy(() -> PropertyPath.from("_foo__id", Sample2.class)).withMessageContaining("property _id");
 	}
 
 	@Test // DATACMNS 158
@@ -225,8 +222,7 @@ public class PropertyPathUnitTests {
 	@Test
 	public void rejectsInvalidProperty() {
 
-		assertThatExceptionOfType(PropertyReferenceException.class)
-				.isThrownBy(() -> from("_foo_id", Sample2.class))
+		assertThatExceptionOfType(PropertyReferenceException.class).isThrownBy(() -> from("_foo_id", Sample2.class))
 				.matches(e -> e.getBaseProperty().getSegment().equals("_foo"));
 	}
 
@@ -281,7 +277,7 @@ public class PropertyPathUnitTests {
 	@Test // DATACMNS-381
 	public void exposesPreviouslyReferencedPathInExceptionMessage() {
 
-		assertThatExceptionOfType(PropertyReferenceException.class).isThrownBy(() -> from("userNameBar", Bar.class)) 
+		assertThatExceptionOfType(PropertyReferenceException.class).isThrownBy(() -> from("userNameBar", Bar.class))
 				.withMessageContaining("bar") // missing variable
 				.withMessageContaining("String") // type
 				.withMessageContaining("Bar.user.name"); // previously referenced path
@@ -310,15 +306,14 @@ public class PropertyPathUnitTests {
 	@Test // DATACMNS-546
 	public void returnsCompletePathIfResolutionFailedCompletely() {
 
-		assertThatExceptionOfType(PropertyReferenceException.class) 
+		assertThatExceptionOfType(PropertyReferenceException.class)
 				.isThrownBy(() -> from("somethingDifferent", Foo.class)).withMessageContaining("somethingDifferent");
 	}
 
 	@Test // DATACMNS-546
 	public void includesResolvedPathInExceptionMessage() {
 
-		assertThatExceptionOfType(PropertyReferenceException.class) 
-				.isThrownBy(() -> from("userFooName", Bar.class)) 
+		assertThatExceptionOfType(PropertyReferenceException.class).isThrownBy(() -> from("userFooName", Bar.class))
 				.withMessageContaining("fooName") // missing variable
 				.withMessageContaining(FooBar.class.getSimpleName()) // type
 				.withMessageContaining("Bar.user"); // previously referenced path
@@ -327,8 +322,8 @@ public class PropertyPathUnitTests {
 	@Test // DATACMNS-703
 	public void includesPropertyHintsOnTypos() {
 
-		assertThatExceptionOfType(PropertyReferenceException.class) 
-				.isThrownBy(() -> from("userAme", Foo.class)).withMessageContaining("userName");
+		assertThatExceptionOfType(PropertyReferenceException.class).isThrownBy(() -> from("userAme", Foo.class))
+				.withMessageContaining("userName");
 	}
 
 	@Test // DATACMNS-867
@@ -359,9 +354,8 @@ public class PropertyPathUnitTests {
 	@Test // DATACMNS-1199
 	public void rejectsNonExistantNestedPath() {
 
-		assertThatExceptionOfType(PropertyReferenceException.class) 
-				.isThrownBy(() -> from("user", Bar.class).nested("nonexistant")) 
-				.withMessageContaining("nonexistant") 
+		assertThatExceptionOfType(PropertyReferenceException.class)
+				.isThrownBy(() -> from("user", Bar.class).nested("nonexistant")).withMessageContaining("nonexistant")
 				.withMessageContaining("Bar.user");
 	}
 
@@ -378,8 +372,7 @@ public class PropertyPathUnitTests {
 
 		final String path = source;
 
-		assertThatExceptionOfType(IllegalArgumentException.class) 
-				.isThrownBy(() -> PropertyPath.from(path, Left.class));
+		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> PropertyPath.from(path, Left.class));
 	}
 
 	@Test // DATACMNS-1304

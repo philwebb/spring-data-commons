@@ -77,8 +77,7 @@ public abstract class AbstractQueryCreator<T, S> {
 	 * @return
 	 */
 	public T createQuery() {
-		return createQuery(this.parameters.map(ParameterAccessor::getSort) 
-				.orElse(Sort.unsorted()));
+		return createQuery(this.parameters.map(ParameterAccessor::getSort).orElse(Sort.unsorted()));
 	}
 
 	/**

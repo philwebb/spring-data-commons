@@ -91,8 +91,7 @@ public class DefaultCrudMethods implements CrudMethods {
 	private static Optional<Method> selectMostSuitableSaveMethod(RepositoryMetadata metadata) {
 		return asList(metadata.getDomainType(), Object.class).stream()
 				.flatMap(it -> toStream(findMethod(metadata.getRepositoryInterface(), SAVE, it)))
-				.flatMap(it -> toStream(getMostSpecificMethod(it, metadata.getRepositoryInterface())))
-				.findFirst();
+				.flatMap(it -> toStream(getMostSpecificMethod(it, metadata.getRepositoryInterface()))).findFirst();
 	}
 
 	/**
@@ -107,17 +106,12 @@ public class DefaultCrudMethods implements CrudMethods {
 	 * @return the most suitable method or {@literal null} if no method could be found.
 	 */
 	private static Optional<Method> selectMostSuitableDeleteMethod(RepositoryMetadata metadata) {
-		Stream<Pair<String, Class<?>>> source = Stream.of(
-				Pair.of(DELETE, metadata.getDomainType()), 
-				Pair.of(DELETE_BY_ID, metadata.getIdType()), 
-				Pair.of(DELETE, Object.class), 
-				Pair.of(DELETE_BY_ID, Object.class), 
-				Pair.of(DELETE, Iterable.class));
+		Stream<Pair<String, Class<?>>> source = Stream.of(Pair.of(DELETE, metadata.getDomainType()),
+				Pair.of(DELETE_BY_ID, metadata.getIdType()), Pair.of(DELETE, Object.class),
+				Pair.of(DELETE_BY_ID, Object.class), Pair.of(DELETE, Iterable.class));
 		Class<?> repositoryInterface = metadata.getRepositoryInterface();
-		return source
-				.flatMap(it -> toStream(findMethod(repositoryInterface, it.getFirst(), it.getSecond())))
-				.flatMap(it -> toStream(getMostSpecificMethod(it, repositoryInterface)))
-				.findFirst();
+		return source.flatMap(it -> toStream(findMethod(repositoryInterface, it.getFirst(), it.getSecond())))
+				.flatMap(it -> toStream(getMostSpecificMethod(it, repositoryInterface))).findFirst();
 	}
 
 	/**
@@ -134,8 +128,7 @@ public class DefaultCrudMethods implements CrudMethods {
 		Class<?> repositoryInterface = metadata.getRepositoryInterface();
 		Supplier<Optional<Method>> withPageableOrSort = () -> Stream.of(Pageable.class, Sort.class)
 				.flatMap(it -> toStream(findMethod(repositoryInterface, FIND_ALL, it)))
-				.flatMap(it -> toStream(getMostSpecificMethod(it, repositoryInterface)))
-				.findFirst();
+				.flatMap(it -> toStream(getMostSpecificMethod(it, repositoryInterface))).findFirst();
 		Supplier<Optional<Method>> withoutParameter = () -> findMethod(repositoryInterface, FIND_ALL)
 				.flatMap(it -> getMostSpecificMethod(it, repositoryInterface));
 		return firstNonEmpty(withPageableOrSort, withoutParameter);
@@ -153,8 +146,7 @@ public class DefaultCrudMethods implements CrudMethods {
 	private static Optional<Method> selectMostSuitableFindOneMethod(RepositoryMetadata metadata) {
 		return asList(metadata.getIdType(), Object.class).stream()
 				.flatMap(it -> toStream(findMethod(metadata.getRepositoryInterface(), FIND_ONE, it)))
-				.flatMap(it -> toStream(getMostSpecificMethod(it, metadata.getRepositoryInterface())))
-				.findFirst();
+				.flatMap(it -> toStream(getMostSpecificMethod(it, metadata.getRepositoryInterface()))).findFirst();
 	}
 
 	/**
@@ -167,9 +159,7 @@ public class DefaultCrudMethods implements CrudMethods {
 	 */
 	private static Optional<Method> getMostSpecificMethod(Method method, Class<?> type) {
 		return Optionals.toStream(Optional.ofNullable(ClassUtils.getMostSpecificMethod(method, type)))
-				.map(BridgeMethodResolver::findBridgedMethod)
-				.peek(ReflectionUtils::makeAccessible)
-				.findFirst();
+				.map(BridgeMethodResolver::findBridgedMethod).peek(ReflectionUtils::makeAccessible).findFirst();
 	}
 
 	@Override

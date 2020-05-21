@@ -149,15 +149,11 @@ class KotlinCopyMethod {
 		if (primaryConstructor == null) {
 			return Optional.empty();
 		}
-		List<KParameter> constructorArguments = primaryConstructor.getParameters() 
-				.stream() 
-				.filter(it -> it.getKind() == Kind.VALUE) 
-				.collect(Collectors.toList());
-		return Arrays.stream(type.getDeclaredMethods()).filter(it -> it.getName().equals("copy") 
-				&& !it.isSynthetic() 
-				&& !Modifier.isStatic(it.getModifiers()) 
-				&& it.getReturnType().equals(type) 
-				&& it.getParameterCount() == constructorArguments.size()) 
+		List<KParameter> constructorArguments = primaryConstructor.getParameters().stream()
+				.filter(it -> it.getKind() == Kind.VALUE).collect(Collectors.toList());
+		return Arrays.stream(type.getDeclaredMethods())
+				.filter(it -> it.getName().equals("copy") && !it.isSynthetic() && !Modifier.isStatic(it.getModifiers())
+						&& it.getReturnType().equals(type) && it.getParameterCount() == constructorArguments.size())
 				.filter(it -> {
 					KFunction<?> kotlinFunction = ReflectJvmMapping.getKotlinFunction(it);
 					if (kotlinFunction == null) {
@@ -189,12 +185,10 @@ class KotlinCopyMethod {
 	}
 
 	private static Optional<Method> findSyntheticCopyMethod(Class<?> type) {
-		return Arrays.stream(type.getDeclaredMethods()) 
-				.filter(it -> it.getName().equals("copy$default") 
-						&& Modifier.isStatic(it.getModifiers()) 
-						&& it.getReturnType().equals(type))
-				.filter(Method::isSynthetic) 
-				.findFirst();
+		return Arrays
+				.stream(type.getDeclaredMethods()).filter(it -> it.getName().equals("copy$default")
+						&& Modifier.isStatic(it.getModifiers()) && it.getReturnType().equals(type))
+				.filter(Method::isSynthetic).findFirst();
 	}
 
 	/**

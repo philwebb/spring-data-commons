@@ -159,8 +159,8 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-533
 	void shouldBeAbleToAccessCustomRootObjectPropertiesAndFunctions() {
 
-		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(Collections.singletonList( 
-				new DummyExtension("_first", "first") {
+		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(
+				Collections.singletonList(new DummyExtension("_first", "first") {
 					@Override
 					public CustomExtensionRootObject1 getRootObject() {
 						return new CustomExtensionRootObject1();
@@ -181,14 +181,13 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-533
 	void shouldBeAbleToAccessCustomRootObjectPropertiesAndFunctionsInMultipleExtensions() {
 
-		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(Arrays.asList( 
-				new DummyExtension("_first", "first") {
+		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(
+				Arrays.asList(new DummyExtension("_first", "first") {
 					@Override
 					public CustomExtensionRootObject1 getRootObject() {
 						return new CustomExtensionRootObject1();
 					}
-				}, 
-				new DummyExtension("_second", "second") {
+				}, new DummyExtension("_second", "second") {
 					@Override
 					public CustomExtensionRootObject2 getRootObject() {
 						return new CustomExtensionRootObject2();
@@ -209,16 +208,15 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 		final AtomicInteger counter = new AtomicInteger();
 
-		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(Collections.singletonList( 
-				new DummyExtension("_first", "first") {
+		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(
+				Collections.singletonList(new DummyExtension("_first", "first") {
 
 					@Override
 					public CustomExtensionRootObject1 getRootObject() {
 						counter.incrementAndGet();
 						return new CustomExtensionRootObject1();
 					}
-				}) 
-		);
+				}));
 
 		// inc counter / property access
 		assertThat(evaluateExpression("rootObjectInstanceField1")).isEqualTo("rootObjectInstanceF1");
@@ -274,10 +272,9 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 		this.provider = createContextProviderWithOverloads();
 
-		assertThatExceptionOfType(IllegalStateException.class) 
-				.isThrownBy(() -> evaluateExpression("ambiguousOverloaded(23)")) 
-				.withMessageContaining("ambiguousOverloaded") 
-				.withMessageContaining("(java.lang.Integer)");
+		assertThatExceptionOfType(IllegalStateException.class)
+				.isThrownBy(() -> evaluateExpression("ambiguousOverloaded(23)"))
+				.withMessageContaining("ambiguousOverloaded").withMessageContaining("(java.lang.Integer)");
 	}
 
 	@Test // DATACMNS-1518
@@ -319,8 +316,8 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 	private static ExtensionAwareQueryMethodEvaluationContextProvider createContextProviderWithOverloads() {
 
-		return new ExtensionAwareQueryMethodEvaluationContextProvider(Collections.singletonList( 
-				new DummyExtension("_first", "first") {
+		return new ExtensionAwareQueryMethodEvaluationContextProvider(
+				Collections.singletonList(new DummyExtension("_first", "first") {
 					@Override
 					public Object getRootObject() {
 						return new RootWithOverloads();

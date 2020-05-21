@@ -52,8 +52,8 @@ abstract class SortDefaultUnitTests {
 	void parsesSimpleSortStringCorrectly() {
 
 		assertSortStringParsedInto(Sort.by(Order.asc("username")), SORT_1);
-		assertSortStringParsedInto(Sort.by(Order.asc("username"), 
-				Order.desc("lastname"), Order.desc("firstname")), SORT_2);
+		assertSortStringParsedInto(Sort.by(Order.asc("username"), Order.desc("lastname"), Order.desc("firstname")),
+				SORT_2);
 		assertSortStringParsedInto(Sort.by("firstname", "lastname"), SORT_3);
 	}
 
@@ -102,10 +102,9 @@ abstract class SortDefaultUnitTests {
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
 
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null)) 
-				.withMessageContaining(SortDefault.class.getSimpleName()) 
-				.withMessageContaining(SortDefaults.class.getSimpleName()) 
-				.withMessageContaining(parameter.toString());
+				.isThrownBy(() -> resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null))
+				.withMessageContaining(SortDefault.class.getSimpleName())
+				.withMessageContaining(SortDefaults.class.getSimpleName()).withMessageContaining(parameter.toString());
 	}
 
 	@Test

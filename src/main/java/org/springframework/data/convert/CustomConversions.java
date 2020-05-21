@@ -119,12 +119,9 @@ public class CustomConversions {
 	public CustomConversions(ConverterConfiguration converterConfiguration) {
 		this.converterConfiguration = converterConfiguration;
 		List<Object> registeredConverters = collectPotentialConverterRegistrations(
-				converterConfiguration.getStoreConversions(), converterConfiguration.getUserConverters()).stream() 
-						.filter(this::isSupportedConverter) 
-						.filter(this::shouldRegister) 
-						.map(ConverterRegistrationIntent::getConverterRegistration) 
-						.map(this::register) 
-						.distinct() 
+				converterConfiguration.getStoreConversions(), converterConfiguration.getUserConverters()).stream()
+						.filter(this::isSupportedConverter).filter(this::shouldRegister)
+						.map(ConverterRegistrationIntent::getConverterRegistration).map(this::register).distinct()
 						.collect(Collectors.toList());
 		Collections.reverse(registeredConverters);
 		this.converters = Collections.unmodifiableList(registeredConverters);
@@ -186,21 +183,13 @@ public class CustomConversions {
 	private List<ConverterRegistrationIntent> collectPotentialConverterRegistrations(StoreConversions storeConversions,
 			Collection<?> converters) {
 		List<ConverterRegistrationIntent> converterRegistrations = new ArrayList<>();
-		converters.stream() 
-				.map(storeConversions::getRegistrationsFor) 
-				.flatMap(Streamable::stream) 
-				.map(ConverterRegistrationIntent::userConverters) 
+		converters.stream().map(storeConversions::getRegistrationsFor).flatMap(Streamable::stream)
+				.map(ConverterRegistrationIntent::userConverters).forEach(converterRegistrations::add);
+		storeConversions.getStoreConverters().stream().map(storeConversions::getRegistrationsFor)
+				.flatMap(Streamable::stream).map(ConverterRegistrationIntent::storeConverters)
 				.forEach(converterRegistrations::add);
-		storeConversions.getStoreConverters().stream() 
-				.map(storeConversions::getRegistrationsFor) 
-				.flatMap(Streamable::stream) 
-				.map(ConverterRegistrationIntent::storeConverters) 
-				.forEach(converterRegistrations::add);
-		DEFAULT_CONVERTERS.stream() 
-				.map(storeConversions::getRegistrationsFor) 
-				.flatMap(Streamable::stream) 
-				.map(ConverterRegistrationIntent::defaultConverters) 
-				.forEach(converterRegistrations::add);
+		DEFAULT_CONVERTERS.stream().map(storeConversions::getRegistrationsFor).flatMap(Streamable::stream)
+				.map(ConverterRegistrationIntent::defaultConverters).forEach(converterRegistrations::add);
 		return converterRegistrations;
 	}
 
@@ -724,8 +713,7 @@ public class CustomConversions {
 			}
 			else if (converter instanceof GenericConverter) {
 				Set<ConvertiblePair> convertibleTypes = GenericConverter.class.cast(converter).getConvertibleTypes();
-				return convertibleTypes == null 
-						? Streamable.empty() 
+				return convertibleTypes == null ? Streamable.empty()
 						: Streamable.of(convertibleTypes).map(it -> register(converter, it, isReading, isWriting));
 
 			}

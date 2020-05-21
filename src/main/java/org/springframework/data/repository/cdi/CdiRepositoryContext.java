@@ -113,9 +113,8 @@ public class CdiRepositoryContext {
 			Class<?> repositoryInterface) {
 		CdiImplementationDetectionConfiguration config = new CdiImplementationDetectionConfiguration(configuration,
 				this.metadataReaderFactory);
-		return this.metdata.getFragmentInterfaces(repositoryInterface.getName()) 
-				.map(it -> detectRepositoryFragmentConfiguration(it, config)) 
-				.flatMap(Optionals::toStream);
+		return this.metdata.getFragmentInterfaces(repositoryInterface.getName())
+				.map(it -> detectRepositoryFragmentConfiguration(it, config)).flatMap(Optionals::toStream);
 	}
 
 	/**

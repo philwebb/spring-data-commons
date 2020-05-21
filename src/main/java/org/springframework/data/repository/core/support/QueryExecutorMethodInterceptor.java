@@ -79,17 +79,15 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 					+ "you don't have any query lookup strategy defined. The "
 					+ "infrastructure apparently does not support query methods!");
 		}
-		this.queries = queryLookupStrategy 
-				.map(it -> mapMethodsToQuery(repositoryInformation, it, projectionFactory)) 
+		this.queries = queryLookupStrategy.map(it -> mapMethodsToQuery(repositoryInformation, it, projectionFactory))
 				.orElse(Collections.emptyMap());
 	}
 
 	private Map<Method, RepositoryQuery> mapMethodsToQuery(RepositoryInformation repositoryInformation,
 			QueryLookupStrategy lookupStrategy, ProjectionFactory projectionFactory) {
-		return repositoryInformation.getQueryMethods().stream() 
-				.map(method -> lookupQuery(method, repositoryInformation, lookupStrategy, projectionFactory)) 
-				.peek(pair -> invokeListeners(pair.getSecond())) 
-				.collect(Pair.toMap());
+		return repositoryInformation.getQueryMethods().stream()
+				.map(method -> lookupQuery(method, repositoryInformation, lookupStrategy, projectionFactory))
+				.peek(pair -> invokeListeners(pair.getSecond())).collect(Pair.toMap());
 	}
 
 	private Pair<Method, RepositoryQuery> lookupQuery(Method method, RepositoryInformation information,
@@ -112,12 +110,12 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 	@Nullable
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
 		Method method = invocation.getMethod();
-		QueryExecutionConverters.ExecutionAdapter executionAdapter = QueryExecutionConverters 
+		QueryExecutionConverters.ExecutionAdapter executionAdapter = QueryExecutionConverters
 				.getExecutionAdapter(method.getReturnType());
 		if (executionAdapter == null) {
 			return this.resultHandler.postProcessInvocationResult(doInvoke(invocation), method);
 		}
-		return executionAdapter 
+		return executionAdapter
 				.apply(() -> this.resultHandler.postProcessInvocationResult(doInvoke(invocation), method));
 	}
 

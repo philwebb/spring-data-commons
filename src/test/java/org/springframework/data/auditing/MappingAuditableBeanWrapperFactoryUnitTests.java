@@ -130,8 +130,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(reference);
 
-		assertLastModificationDate(calendar, 
-				Jsr310Converters.DateToLocalDateTimeConverter.INSTANCE.convert(reference));
+		assertLastModificationDate(calendar, Jsr310Converters.DateToLocalDateTimeConverter.INSTANCE.convert(reference));
 	}
 
 	@Test // DATACMNS-638
@@ -148,7 +147,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 
 		Date reference = new Date();
 
-		assertLastModificationDate(reference, 
+		assertLastModificationDate(reference,
 				Jsr310Converters.DateToLocalDateTimeConverter.INSTANCE.convert(reference));
 	}
 
@@ -175,7 +174,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		SampleWithInstant sample = new SampleWithInstant();
 		sample.modified = Instant.now();
 
-		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(sample) 
+		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(sample)
 				.flatMap(it -> it.getLastModifiedDate());
 
 		assertThat(result).hasValue(sample.modified);
@@ -269,7 +268,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		Sample sample = new Sample();
 		sample.lastModifiedDate = source;
 
-		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(sample) 
+		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(sample)
 				.flatMap(it -> it.getLastModifiedDate());
 
 		assertThat(result).hasValueSatisfying(ta -> compareTemporalAccessors(expected, ta));
@@ -280,15 +279,14 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		long actualSeconds = getInstantSeconds(actual);
 		long expectedSeconds = getInstantSeconds(expected);
 
-		return assertThat(actualSeconds) 
-				.describedAs("Difference is %s", actualSeconds - expectedSeconds) 
+		return assertThat(actualSeconds).describedAs("Difference is %s", actualSeconds - expectedSeconds)
 				.isEqualTo(expectedSeconds);
 	}
 
 	private static long getInstantSeconds(TemporalAccessor actual) {
 
-		return actual instanceof LocalDateTime 
-				? getInstantSeconds(((LocalDateTime) actual).atZone(ZoneId.systemDefault())) 
+		return actual instanceof LocalDateTime
+				? getInstantSeconds(((LocalDateTime) actual).atZone(ZoneId.systemDefault()))
 				: actual.getLong(ChronoField.INSTANT_SECONDS);
 	}
 

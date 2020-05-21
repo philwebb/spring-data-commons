@@ -130,9 +130,7 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 		if (results.isEmpty()) {
 			return new Distance(0, metric);
 		}
-		double averageDistance = results.stream()
-				.mapToDouble(it -> it.getDistance().getValue())
-				.average().orElse(0);
+		double averageDistance = results.stream().mapToDouble(it -> it.getDistance().getValue()).average().orElse(0);
 		return new Distance(averageDistance, metric);
 	}
 

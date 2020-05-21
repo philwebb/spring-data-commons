@@ -131,9 +131,8 @@ public abstract class ClassUtils {
 		Assert.notNull(method, "Method must not be null!");
 		Assert.notEmpty(types, "Types must not be null or empty!");
 		TypeInformation<?> returnType = getEffectivelyReturnedTypeFrom(method);
-		Arrays.stream(types)
-				.filter(it -> it.isAssignableFrom(returnType.getType()))
-				.findAny().orElseThrow(() -> new IllegalStateException(
+		Arrays.stream(types).filter(it -> it.isAssignableFrom(returnType.getType())).findAny()
+				.orElseThrow(() -> new IllegalStateException(
 						"Method has to have one of the following return types! " + Arrays.toString(types)));
 	}
 

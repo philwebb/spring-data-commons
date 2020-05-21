@@ -102,7 +102,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 	// configuration of the implementation at the interface level we pretty much invert
 	// this logic to inspect the
 	// originally invoked method first before digging down into the implementation class.
-	
+
 	// Unfortunately the Spring classes do not allow modifying this algorithm easily.
 	// That's why we have to copy the two
 	// classes 1:1. Only modifications done are inside

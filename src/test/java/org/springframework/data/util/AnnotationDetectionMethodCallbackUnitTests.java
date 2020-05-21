@@ -48,10 +48,8 @@ public class AnnotationDetectionMethodCallbackUnitTests {
 
 		AnnotationDetectionMethodCallback<Value> callback = new AnnotationDetectionMethodCallback<>(Value.class, true);
 
-		assertThatIllegalStateException() 
-				.isThrownBy(() -> ReflectionUtils.doWithMethods(Multiple.class, callback)) 
-				.withMessageContaining("Value") 
-				.withMessageContaining("getValue") 
+		assertThatIllegalStateException().isThrownBy(() -> ReflectionUtils.doWithMethods(Multiple.class, callback))
+				.withMessageContaining("Value").withMessageContaining("getValue")
 				.withMessageContaining("getOtherValue");
 	}
 

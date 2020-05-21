@@ -84,8 +84,8 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 		// Reject second type for same alias
 		if (this.typeMap.containsValue(alias)) {
 			this.typeMap.entrySet().stream()
-					.filter(it -> it.getValue().hasSamePresentValueAs(alias) && !it.getKey().equals(key))
-					.findFirst().ifPresent(it -> {
+					.filter(it -> it.getValue().hasSamePresentValueAs(alias) && !it.getKey().equals(key)).findFirst()
+					.ifPresent(it -> {
 						throw new IllegalArgumentException(String.format(
 								"Detected existing type mapping of %s to alias '%s' but attempted to bind the same alias to %s!",
 								key, alias, it.getKey()));

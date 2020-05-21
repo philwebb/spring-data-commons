@@ -70,8 +70,8 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 		this.metadata = metadata;
 		this.repositoryBaseClass = repositoryBaseClass;
 		this.composition = composition;
-		this.baseComposition = RepositoryComposition.of(RepositoryFragment.structural(repositoryBaseClass)) 
-				.withArgumentConverter(composition.getArgumentConverter()) 
+		this.baseComposition = RepositoryComposition.of(RepositoryFragment.structural(repositoryBaseClass))
+				.withArgumentConverter(composition.getArgumentConverter())
 				.withMethodLookup(composition.getMethodLookup());
 	}
 
@@ -128,8 +128,7 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	 * @return
 	 */
 	private boolean isQueryMethodCandidate(Method method) {
-		return !method.isBridge() && !method.isDefault() 
-				&& !Modifier.isStatic(method.getModifiers()) 
+		return !method.isBridge() && !method.isDefault() && !Modifier.isStatic(method.getModifiers())
 				&& (isQueryAnnotationPresentOn(method) || !isCustomMethod(method) && !isBaseClassMethod(method));
 	}
 

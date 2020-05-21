@@ -40,8 +40,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  */
 class PersistentPropertyPathFactoryUnitTests {
 
-	PersistentPropertyPathFactory<BasicPersistentEntity<Object, SamplePersistentProperty>, SamplePersistentProperty> factory = 
-			new PersistentPropertyPathFactory<>(new SampleMappingContext());
+	PersistentPropertyPathFactory<BasicPersistentEntity<Object, SamplePersistentProperty>, SamplePersistentProperty> factory = new PersistentPropertyPathFactory<>(
+			new SampleMappingContext());
 
 	@Test
 	void doesNotTryToLookupPersistentEntityForLeafProperty() {
@@ -74,8 +74,7 @@ class PersistentPropertyPathFactoryUnitTests {
 
 		assertThatExceptionOfType(InvalidPersistentPropertyPath.class)
 				.isThrownBy(() -> this.factory.from(PersonSample.class, "persons.firstname"))
-				.matches(e -> StringUtils.hasText(e.getMessage()))
-				.matches(e -> e.getResolvedPath().equals("persons"))
+				.matches(e -> StringUtils.hasText(e.getMessage())).matches(e -> e.getResolvedPath().equals("persons"))
 				.matches(e -> e.getUnresolvableSegment().equals("firstname"))
 				.matches(e -> this.factory.from(PersonSample.class, e.getResolvedPath()) != null);
 	}
@@ -83,7 +82,7 @@ class PersistentPropertyPathFactoryUnitTests {
 	@Test // DATACMNS-1116
 	void cachesPersistentPropertyPaths() {
 
-		assertThat(this.factory.from(PersonSample.class, "persons.name")) 
+		assertThat(this.factory.from(PersonSample.class, "persons.name"))
 				.isSameAs(this.factory.from(PersonSample.class, "persons.name"));
 	}
 
@@ -115,7 +114,7 @@ class PersistentPropertyPathFactoryUnitTests {
 	@Test // DATACMNS-1275
 	void returnsShortestsPathsFirst() {
 
-		Streamable<String> paths = this.factory.from(First.class, it -> true, it -> true) 
+		Streamable<String> paths = this.factory.from(First.class, it -> true, it -> true)
 				.map(PersistentPropertyPath::toDotPath);
 
 		assertThat(paths).containsExactly("third", "second", "third.lastname", "second.firstname");
@@ -124,19 +123,16 @@ class PersistentPropertyPathFactoryUnitTests {
 	@Test // DATACMNS-1275
 	void doesNotTraverseAssociationsByDefault() {
 
-		Streamable<String> paths = this.factory.from(First.class, it -> true) 
-				.map(PersistentPropertyPath::toDotPath);
+		Streamable<String> paths = this.factory.from(First.class, it -> true).map(PersistentPropertyPath::toDotPath);
 
-		assertThat(paths) 
-				.contains("third", "second", "second.firstname")
-				.doesNotContain("third.lastname");
+		assertThat(paths).contains("third", "second", "second.firstname").doesNotContain("third.lastname");
 	}
 
 	@Test // DATACMNS-1275
 	void traversesAssociationsIfTraversalGuardAllowsIt() {
 
-		PersistentPropertyPaths<First, SamplePersistentProperty> paths = 
-				this.factory.from(First.class, it -> true, it -> true);
+		PersistentPropertyPaths<First, SamplePersistentProperty> paths = this.factory.from(First.class, it -> true,
+				it -> true);
 
 		assertThat(paths.contains("third.lastname")).isTrue();
 		assertThat(paths.contains(PropertyPath.from("third.lastname", First.class)));
@@ -158,8 +154,7 @@ class PersistentPropertyPathFactoryUnitTests {
 				it -> !it.isEntity(), it -> true);
 
 		assertThat(paths.contains("second.firstname")).isTrue();
-		assertThat(paths.getFirst()) 
-				.hasValueSatisfying(it -> assertThat(it.toDotPath()).isEqualTo("third.lastname"));
+		assertThat(paths.getFirst()).hasValueSatisfying(it -> assertThat(it.toDotPath()).isEqualTo("third.lastname"));
 	}
 
 	static class PersonSample {

@@ -141,8 +141,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	 */
 	private List<EvaluationContextExtensionAdapter> toAdapters(
 			Collection<? extends EvaluationContextExtension> extensions) {
-		return extensions.stream()
-				.sorted(AnnotationAwareOrderComparator.INSTANCE)
+		return extensions.stream().sorted(AnnotationAwareOrderComparator.INSTANCE)
 				.map(it -> new EvaluationContextExtensionAdapter(it, getOrCreateInformation(it)))
 				.collect(Collectors.toList());
 	}
@@ -190,10 +189,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			if (this.adapterMap.containsKey(name)) {
 				return new TypedValue(this.adapterMap.get(name));
 			}
-			return this.adapters.stream()
-					.filter(it -> it.getProperties().containsKey(name))
-					.map(it -> lookupPropertyFrom(it, name))
-					.findFirst().orElse(TypedValue.NULL);
+			return this.adapters.stream().filter(it -> it.getProperties().containsKey(name))
+					.map(it -> lookupPropertyFrom(it, name)).findFirst().orElse(TypedValue.NULL);
 		}
 
 		@Nullable
@@ -203,8 +200,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			if (target instanceof EvaluationContextExtensionAdapter) {
 				return getMethodExecutor((EvaluationContextExtensionAdapter) target, name, argumentTypes).orElse(null);
 			}
-			return this.adapters.stream()
-					.flatMap(it -> Optionals.toStream(getMethodExecutor(it, name, argumentTypes)))
+			return this.adapters.stream().flatMap(it -> Optionals.toStream(getMethodExecutor(it, name, argumentTypes)))
 					.findFirst().orElse(null);
 		}
 

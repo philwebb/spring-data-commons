@@ -220,8 +220,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		superTypes.addAll(Arrays.asList(type.getInterfaces()));
 		superTypes.add(type.getSuperclass());
 		return Streamable.of(type.getInterfaces()).stream()
-				.flatMap(it -> Optionals.toStream(findPropertyDescriptor(it, fieldname)))
-				.findFirst();
+				.flatMap(it -> Optionals.toStream(findPropertyDescriptor(it, fieldname))).findFirst();
 	}
 
 	/**
@@ -292,9 +291,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	@Override
 	public boolean isCollectionLike() {
 		Class<?> rawType = getType();
-		return rawType.isArray() 
-				|| Iterable.class.equals(rawType) 
-				|| Collection.class.isAssignableFrom(rawType) 
+		return rawType.isArray() || Iterable.class.equals(rawType) || Collection.class.isAssignableFrom(rawType)
 				|| Streamable.class.isAssignableFrom(rawType);
 	}
 
@@ -329,8 +326,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	@Override
 	public List<TypeInformation<?>> getParameterTypes(Method method) {
 		Assert.notNull(method, "Method most not be null!");
-		return Streamable.of(method.getGenericParameterTypes()).stream()
-				.map(this::createInfo)
+		return Streamable.of(method.getGenericParameterTypes()).stream().map(this::createInfo)
 				.collect(Collectors.toList());
 	}
 
@@ -383,8 +379,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		Assert.isTrue(getType().isAssignableFrom(type.getType()),
 				() -> String.format("%s must be assignable from %s", getType(), type.getType()));
 		List<TypeInformation<?>> typeArguments = getTypeArguments();
-		return (TypeInformation<? extends S>) (typeArguments.isEmpty() 
-				? type 
+		return (TypeInformation<? extends S>) (typeArguments.isEmpty() ? type
 				: type.createInfo(new SyntheticParamterizedType(type, getTypeArguments())));
 	}
 
@@ -394,8 +389,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		if (arguments != null) {
 			return createInfo(arguments[index]);
 		}
-		return getSuperTypeInformation(bound) instanceof ParameterizedTypeInformation 
-				? ClassTypeInformation.OBJECT 
+		return getSuperTypeInformation(bound) instanceof ParameterizedTypeInformation ? ClassTypeInformation.OBJECT
 				: null;
 	}
 

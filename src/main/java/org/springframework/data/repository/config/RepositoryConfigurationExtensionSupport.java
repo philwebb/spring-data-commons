@@ -287,14 +287,12 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 		}
 		String message = String.format(MULTI_STORE_DROPPED, moduleName, repositoryInterface, moduleName);
 		if (!annotations.isEmpty()) {
-			message = message.concat(" consider annotating your entities with one of these annotations: ") 
-					.concat(toString(annotations)) 
-					.concat(types.isEmpty() ? "." : " (preferred)");
+			message = message.concat(" consider annotating your entities with one of these annotations: ")
+					.concat(toString(annotations)).concat(types.isEmpty() ? "." : " (preferred)");
 		}
 		if (!types.isEmpty()) {
-			message = message.concat(annotations.isEmpty() ? " consider" : ", or consider") 
-					.concat(" extending one of the following types with your repository: ") 
-					.concat(toString(types)) 
+			message = message.concat(annotations.isEmpty() ? " consider" : ", or consider")
+					.concat(" extending one of the following types with your repository: ").concat(toString(types))
 					.concat(".");
 		}
 		logger.info(message);
@@ -341,9 +339,7 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	}
 
 	private static String toString(Collection<? extends Class<?>> types) {
-		return types.stream() 
-				.map(Class::getName) 
-				.collect(Collectors.joining(", "));
+		return types.stream().map(Class::getName).collect(Collectors.joining(", "));
 	}
 
 }

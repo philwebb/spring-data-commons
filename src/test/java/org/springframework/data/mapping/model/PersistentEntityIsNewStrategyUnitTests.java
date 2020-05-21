@@ -81,8 +81,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 
 		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(UnsupportedPrimitiveIdEntity.class);
 
-		assertThatIllegalArgumentException() 
-				.isThrownBy(() -> PersistentEntityIsNewStrategy.of(entity)) 
+		assertThatIllegalArgumentException().isThrownBy(() -> PersistentEntityIsNewStrategy.of(entity))
 				.withMessageContaining(boolean.class.getSimpleName());
 	}
 

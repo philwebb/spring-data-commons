@@ -56,8 +56,7 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 	 */
 	private Revisions(List<? extends Revision<N, T>> revisions, boolean latestLast) {
 		Assert.notNull(revisions, "Revisions must not be null!");
-		this.revisions = revisions.stream()
-				.sorted(latestLast ? this.NATURAL_ORDER : this.NATURAL_ORDER.reversed())
+		this.revisions = revisions.stream().sorted(latestLast ? this.NATURAL_ORDER : this.NATURAL_ORDER.reversed())
 				.collect(StreamUtils.toUnmodifiableList());
 		this.latestLast = latestLast;
 	}

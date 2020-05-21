@@ -67,10 +67,8 @@ public interface Optionals {
 	public static <S, T> Optional<T> firstNonEmpty(Iterable<S> source, Function<S, Optional<T>> function) {
 		Assert.notNull(source, "Source must not be null!");
 		Assert.notNull(function, "Function must not be null!");
-		return Streamable.of(source).stream()
-				.map(function::apply)
-				.filter(Optional::isPresent)
-				.findFirst().orElseGet(Optional::empty);
+		return Streamable.of(source).stream().map(function::apply).filter(Optional::isPresent).findFirst()
+				.orElseGet(Optional::empty);
 	}
 
 	/**
@@ -83,10 +81,8 @@ public interface Optionals {
 	public static <S, T> T firstNonEmpty(Iterable<S> source, Function<S, T> function, T defaultValue) {
 		Assert.notNull(source, "Source must not be null!");
 		Assert.notNull(function, "Function must not be null!");
-		return Streamable.of(source).stream()
-				.map(function::apply)
-				.filter(it -> !it.equals(defaultValue))
-				.findFirst().orElse(defaultValue);
+		return Streamable.of(source).stream().map(function::apply).filter(it -> !it.equals(defaultValue)).findFirst()
+				.orElse(defaultValue);
 	}
 
 	/**
@@ -109,10 +105,8 @@ public interface Optionals {
 	 */
 	public static <T> Optional<T> firstNonEmpty(Iterable<Supplier<Optional<T>>> suppliers) {
 		Assert.notNull(suppliers, "Suppliers must not be null!");
-		return Streamable.of(suppliers).stream()
-				.map(Supplier::get)
-				.filter(Optional::isPresent)
-				.findFirst().orElse(Optional.empty());
+		return Streamable.of(suppliers).stream().map(Supplier::get).filter(Optional::isPresent).findFirst()
+				.orElse(Optional.empty());
 	}
 
 	/**

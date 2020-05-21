@@ -184,8 +184,7 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	@Override
 	public BootstrapMode getBootstrapMode() {
 		String attribute = this.element.getAttribute(BOOTSTRAP_MODE);
-		return StringUtils.hasText(attribute) 
-				? BootstrapMode.valueOf(attribute.toUpperCase(Locale.US)) 
+		return StringUtils.hasText(attribute) ? BootstrapMode.valueOf(attribute.toUpperCase(Locale.US))
 				: BootstrapMode.DEFAULT;
 	}
 
@@ -206,9 +205,8 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	 * @since 2.2
 	 */
 	private static BeanNameGenerator defaultBeanNameGenerator(@Nullable BeanNameGenerator generator) {
-		return generator == null || DefaultBeanNameGenerator.class.equals(generator.getClass()) 
-				? new AnnotationBeanNameGenerator() 
-				: generator;
+		return generator == null || DefaultBeanNameGenerator.class.equals(generator.getClass())
+				? new AnnotationBeanNameGenerator() : generator;
 	}
 
 }

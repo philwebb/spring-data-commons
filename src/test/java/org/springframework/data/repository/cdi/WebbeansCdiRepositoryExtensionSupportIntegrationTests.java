@@ -34,9 +34,7 @@ class WebbeansCdiRepositoryExtensionSupportIntegrationTests extends CdiRepositor
 	@BeforeAll
 	static void setUp() {
 
-		container = SeContainerInitializer.newInstance() 
-				.disableDiscovery() 
-				.addPackages(SampleRepository.class) 
+		container = SeContainerInitializer.newInstance().disableDiscovery().addPackages(SampleRepository.class)
 				.initialize();
 	}
 

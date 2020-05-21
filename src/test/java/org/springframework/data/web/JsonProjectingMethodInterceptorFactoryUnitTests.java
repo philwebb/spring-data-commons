@@ -49,7 +49,7 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 	void setUp() {
 
 		String json = "{\"firstname\" : \"Dave\", "
-				+ "\"address\" : { \"zipCode\" : \"01097\", \"city\" : \"Dresden\" }," 
+				+ "\"address\" : { \"zipCode\" : \"01097\", \"city\" : \"Dresden\" },"
 				+ "\"addresses\" : [ { \"zipCode\" : \"01097\", \"city\" : \"Dresden\" }]" + " }";
 
 		SpelAwareProxyProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();

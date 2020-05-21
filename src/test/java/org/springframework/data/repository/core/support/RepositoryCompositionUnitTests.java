@@ -148,8 +148,7 @@ class RepositoryCompositionUnitTests {
 				RepositoryFragment.structural(QueryByExampleExecutor.class),
 				RepositoryFragment.implemented(this.backingRepo));
 
-		assertThatExceptionOfType(IllegalStateException.class) 
-				.isThrownBy(mixed::validateImplementation) 
+		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(mixed::validateImplementation)
 				.withMessageContaining(
 						"Fragment org.springframework.data.repository.query.QueryByExampleExecutor has no implementation.");
 	}

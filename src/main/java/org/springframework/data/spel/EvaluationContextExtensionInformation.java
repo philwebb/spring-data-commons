@@ -128,8 +128,7 @@ class EvaluationContextExtensionInformation {
 
 		private static MultiValueMap<String, Function> discoverDeclaredFunctions(Class<?> type) {
 			MultiValueMap<String, Function> map = CollectionUtils.toMultiValueMap(new HashMap<>());
-			ReflectionUtils.doWithMethods(type, 
-					method -> map.add(method.getName(), new Function(method, null)), 
+			ReflectionUtils.doWithMethods(type, method -> map.add(method.getName(), new Function(method, null)),
 					PublicMethodAndFieldFilter.STATIC);
 			return CollectionUtils.unmodifiableMultiValueMap(map);
 		}
@@ -206,8 +205,7 @@ class EvaluationContextExtensionInformation {
 			Streamable<PropertyDescriptor> descriptors = Streamable.of(BeanUtils.getPropertyDescriptors(type));
 			ReflectionUtils.doWithMethods(type, method -> {
 				RootObjectInformation.this.methods.add(method);
-				descriptors.stream()
-						.filter(it -> method.equals(it.getReadMethod()))
+				descriptors.stream().filter(it -> method.equals(it.getReadMethod()))
 						.forEach(it -> RootObjectInformation.this.accessors.put(it.getName(), method));
 			}, PublicMethodAndFieldFilter.NON_STATIC);
 			ReflectionUtils.doWithFields(type, RootObjectInformation.this.fields::add,

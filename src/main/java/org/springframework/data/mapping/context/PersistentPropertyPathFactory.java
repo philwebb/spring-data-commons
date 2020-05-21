@@ -174,9 +174,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 */
 	private PersistentPropertyPath<P> createPersistentPropertyPath(String propertyPath, TypeInformation<?> type) {
 		String trimmedPath = propertyPath.trim();
-		List<String> parts = trimmedPath.isEmpty() 
-				? Collections.emptyList() 
-				: Arrays.asList(trimmedPath.split("\\."));
+		List<String> parts = trimmedPath.isEmpty() ? Collections.emptyList() : Arrays.asList(trimmedPath.split("\\."));
 		DefaultPersistentPropertyPath<P> path = DefaultPersistentPropertyPath.empty();
 		Iterator<String> iterator = parts.iterator();
 		E current = this.context.getRequiredPersistentEntity(type);
@@ -344,8 +342,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		@Override
 		public PersistentPropertyPaths<T, P> dropPathIfSegmentMatches(Predicate<? super P> predicate) {
 			Assert.notNull(predicate, "Predicate must not be null!");
-			List<PersistentPropertyPath<P>> paths = this.stream() 
-					.filter(it -> !it.stream().anyMatch(predicate)) 
+			List<PersistentPropertyPath<P>> paths = this.stream().filter(it -> !it.stream().anyMatch(predicate))
 					.collect(Collectors.toList());
 			return paths.equals(this.paths) ? this : new DefaultPersistentPropertyPaths<>(this.type, paths);
 		}
@@ -374,9 +371,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 				Function<PersistentProperty<?>, Integer> mapper = it -> it.getName().length();
 				Stream<Integer> leftNames = left.stream().map(mapper);
 				Stream<Integer> rightNames = right.stream().map(mapper);
-				return StreamUtils.zip(leftNames, rightNames, (l, r) -> l - r) 
-						.filter(it -> it != 0) 
-						.findFirst() 
+				return StreamUtils.zip(leftNames, rightNames, (l, r) -> l - r).filter(it -> it != 0).findFirst()
 						.orElse(0);
 			}
 

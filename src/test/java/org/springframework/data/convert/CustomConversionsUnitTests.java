@@ -199,8 +199,7 @@ class CustomConversionsUnitTests {
 	@Test // DATACMNS-1034
 	void registersConverterFromConverterAware() {
 
-		ConverterAware converters = ConverterBuilder 
-				.reading(Locale.class, CustomType.class, left -> new CustomType()) 
+		ConverterAware converters = ConverterBuilder.reading(Locale.class, CustomType.class, left -> new CustomType())
 				.andWriting(right -> Locale.GERMAN);
 
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,

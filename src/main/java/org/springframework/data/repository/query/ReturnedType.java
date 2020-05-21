@@ -253,13 +253,9 @@ public abstract class ReturnedType {
 		}
 
 		private boolean isDto() {
-			return !Object.class.equals(this.type) && 
-					!this.type.isEnum() && 
-					!isDomainSubtype() && 
-					!isPrimitiveOrWrapper() && 
-					!Number.class.isAssignableFrom(this.type) && 
-					!VOID_TYPES.contains(this.type) && 
-					!this.type.getPackage().getName().startsWith("java.");
+			return !Object.class.equals(this.type) && !this.type.isEnum() && !isDomainSubtype()
+					&& !isPrimitiveOrWrapper() && !Number.class.isAssignableFrom(this.type)
+					&& !VOID_TYPES.contains(this.type) && !this.type.getPackage().getName().startsWith("java.");
 		}
 
 		private boolean isDomainSubtype() {

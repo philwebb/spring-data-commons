@@ -190,8 +190,7 @@ class EnableSpringDataWebSupportIntegrationTests {
 		builder.queryParam("billingAddress.city", "City");
 		builder.queryParam("date", "2014-01-11");
 
-		mvc.perform(post(builder.build().toString())).
-				andExpect(status().isOk());
+		mvc.perform(post(builder.build().toString())).andExpect(status().isOk());
 	}
 
 	@Test // DATACMNS-660

@@ -84,9 +84,7 @@ public class ParameterTypes {
 	static ParameterTypes of(Class<?>... types) {
 		Assert.notNull(types, "Types must not be null!");
 		Assert.noNullElements(types, "Types must not have null elements!");
-		return of(Arrays.stream(types) 
-				.map(TypeDescriptor::valueOf) 
-				.collect(Collectors.toList()));
+		return of(Arrays.stream(types).map(TypeDescriptor::valueOf).collect(Collectors.toList()));
 	}
 
 	/**
@@ -112,7 +110,7 @@ public class ParameterTypes {
 	 * @return
 	 */
 	private boolean hasValidAlternativeFor(Method method) {
-		return this.alternatives.get().stream().anyMatch(it -> it.areValidTypes(method)) 
+		return this.alternatives.get().stream().anyMatch(it -> it.areValidTypes(method))
 				|| getParent().map(parent -> parent.hasValidAlternativeFor(method)).orElse(false);
 	}
 
@@ -134,10 +132,7 @@ public class ParameterTypes {
 	 */
 	boolean hasTypes(Class<?>... types) {
 		Assert.notNull(types, "Types must not be null!");
-		return Arrays.stream(types) 
-				.map(TypeDescriptor::valueOf) 
-				.collect(Collectors.toList())
-				.equals(this.types);
+		return Arrays.stream(types).map(TypeDescriptor::valueOf).collect(Collectors.toList()).equals(this.types);
 	}
 
 	/**
@@ -161,9 +156,7 @@ public class ParameterTypes {
 
 	@Override
 	public String toString() {
-		return this.types.stream() 
-				.map(TypeDescriptor::getType) 
-				.map(Class::getSimpleName) 
+		return this.types.stream().map(TypeDescriptor::getType).map(Class::getSimpleName)
 				.collect(Collectors.joining(", ", "(", ")"));
 	}
 
@@ -172,16 +165,13 @@ public class ParameterTypes {
 	}
 
 	protected final Optional<ParameterTypes> getParent(TypeDescriptor tail) {
-		return this.types.size() <= 1 
-				? Optional.empty() 
+		return this.types.size() <= 1 ? Optional.empty()
 				: Optional.of(ParentParameterTypes.of(this.types.subList(0, this.types.size() - 1), tail));
 	}
 
 	protected Optional<ParameterTypes> withLastVarArgs() {
 		TypeDescriptor lastDescriptor = this.types.get(this.types.size() - 1);
-		return lastDescriptor.isArray() 
-				? Optional.empty() 
-				: Optional.ofNullable(withVarArgs(lastDescriptor));
+		return lastDescriptor.isArray() ? Optional.empty() : Optional.ofNullable(withVarArgs(lastDescriptor));
 	}
 
 	@SuppressWarnings("null")
@@ -275,9 +265,7 @@ public class ParameterTypes {
 
 		@Override
 		protected Optional<ParameterTypes> withLastVarArgs() {
-			return !this.tail.isAssignableTo(super.getTail()) 
-					? Optional.empty() 
-					: super.withLastVarArgs();
+			return !this.tail.isAssignableTo(super.getTail()) ? Optional.empty() : super.withLastVarArgs();
 		}
 
 		@Override

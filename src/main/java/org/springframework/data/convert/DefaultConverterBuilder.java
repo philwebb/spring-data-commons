@@ -84,8 +84,7 @@ class DefaultConverterBuilder<S, T>
 
 	@Override
 	public Set<GenericConverter> getConverters() {
-		return Optionals
-				.toStream(getOptionalReadingConverter(), getOptionalWritingConverter())
+		return Optionals.toStream(getOptionalReadingConverter(), getOptionalWritingConverter())
 				.collect(Collectors.toSet());
 	}
 

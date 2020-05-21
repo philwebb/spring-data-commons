@@ -64,10 +64,8 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 	 */
 	public JsonProjectingMethodInterceptorFactory(MappingProvider mappingProvider) {
 		Assert.notNull(mappingProvider, "MappingProvider must not be null!");
-		Configuration build = Configuration.builder()
-				.options(Option.ALWAYS_RETURN_LIST)
-				.mappingProvider(mappingProvider)
-				.build();
+		Configuration build = Configuration.builder().options(Option.ALWAYS_RETURN_LIST)
+				.mappingProvider(mappingProvider).build();
 		this.context = JsonPath.using(build);
 	}
 

@@ -65,9 +65,8 @@ public class PartTree implements Streamable<OrPart> {
 
 	private static final String DELETE_PATTERN = "delete|remove";
 
-	private static final Pattern PREFIX_TEMPLATE = Pattern.compile( 
-			"^(" + QUERY_PATTERN + "|" + COUNT_PATTERN + "|" + EXISTS_PATTERN + "|" + DELETE_PATTERN
-					+ ")((\\p{Lu}.*?))??By");
+	private static final Pattern PREFIX_TEMPLATE = Pattern.compile("^(" + QUERY_PATTERN + "|" + COUNT_PATTERN + "|"
+			+ EXISTS_PATTERN + "|" + DELETE_PATTERN + ")((\\p{Lu}.*?))??By");
 
 	/**
 	 * The subject, for example "findDistinctUserByNameOrderByAge" would have the subject
@@ -231,10 +230,8 @@ public class PartTree implements Streamable<OrPart> {
 		 */
 		OrPart(String source, Class<?> domainClass, boolean alwaysIgnoreCase) {
 			String[] split = split(source, "And");
-			this.children = Arrays.stream(split)
-					.filter(StringUtils::hasText)
-					.map(part -> new Part(part, domainClass, alwaysIgnoreCase))
-					.collect(Collectors.toList());
+			this.children = Arrays.stream(split).filter(StringUtils::hasText)
+					.map(part -> new Part(part, domainClass, alwaysIgnoreCase)).collect(Collectors.toList());
 		}
 
 		@Override
@@ -367,10 +364,8 @@ public class PartTree implements Streamable<OrPart> {
 			if (parts.length > 2) {
 				throw new IllegalArgumentException("OrderBy must not be used more than once in a method name!");
 			}
-			this.nodes = Arrays.stream(split(parts[0], "Or")) 
-					.filter(StringUtils::hasText) 
-					.map(part -> new OrPart(part, domainClass, this.alwaysIgnoreCase)) 
-					.collect(Collectors.toList());
+			this.nodes = Arrays.stream(split(parts[0], "Or")).filter(StringUtils::hasText)
+					.map(part -> new OrPart(part, domainClass, this.alwaysIgnoreCase)).collect(Collectors.toList());
 			this.orderBySource = parts.length == 2 ? new OrderBySource(parts[1], Optional.of(domainClass))
 					: OrderBySource.EMPTY;
 		}

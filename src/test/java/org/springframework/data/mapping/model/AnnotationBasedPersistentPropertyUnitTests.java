@@ -265,10 +265,8 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		SamplePersistentProperty property = getProperty(Sample.class, "field");
 
-		assertThatExceptionOfType(IllegalArgumentException.class) 
-				.isThrownBy(() -> property.getRequiredGetter()) 
-				.withMessageContaining("field") 
-				.withMessageContaining(Sample.class.getName());
+		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> property.getRequiredGetter())
+				.withMessageContaining("field").withMessageContaining(Sample.class.getName());
 	}
 
 	@Test // DATACMNS-1359
@@ -276,10 +274,8 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		SamplePersistentProperty property = getProperty(Sample.class, "field");
 
-		assertThatExceptionOfType(IllegalArgumentException.class) 
-				.isThrownBy(() -> property.getRequiredSetter()) 
-				.withMessageContaining("field") 
-				.withMessageContaining(Sample.class.getName());
+		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> property.getRequiredSetter())
+				.withMessageContaining("field").withMessageContaining(Sample.class.getName());
 	}
 
 	@Test // DATACMNS-1359
@@ -287,10 +283,8 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		SamplePersistentProperty property = getProperty(Sample.class, "field");
 
-		assertThatExceptionOfType(IllegalArgumentException.class) 
-				.isThrownBy(() -> property.getRequiredWither()) 
-				.withMessageContaining("field") 
-				.withMessageContaining(Sample.class.getName());
+		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> property.getRequiredWither())
+				.withMessageContaining("field").withMessageContaining(Sample.class.getName());
 	}
 
 	@Test
@@ -298,10 +292,8 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		SamplePersistentProperty property = getProperty(NoField.class, "firstname");
 
-		assertThatExceptionOfType(IllegalArgumentException.class) 
-				.isThrownBy(() -> property.getRequiredField()) 
-				.withMessageContaining("firstname") 
-				.withMessageContaining(NoField.class.getName());
+		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> property.getRequiredField())
+				.withMessageContaining("firstname").withMessageContaining(NoField.class.getName());
 	}
 
 	@SuppressWarnings("unchecked")

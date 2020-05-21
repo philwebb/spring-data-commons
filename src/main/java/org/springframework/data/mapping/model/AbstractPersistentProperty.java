@@ -58,7 +58,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 	private final PersistentEntity<?, P> owner;
 
-	@SuppressWarnings("null") 
+	@SuppressWarnings("null")
 	private final Property property;
 
 	private final Lazy<Integer> hashCode;
@@ -90,8 +90,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 		this.hashCode = Lazy.of(property::hashCode);
 		this.usePropertyAccess = Lazy.of(() -> owner.getType().isInterface() || CAUSE_FIELD.equals(getField()));
 		this.entityTypeInformation = Lazy.of(() -> Optional.ofNullable(this.information.getActualType())
-				.filter(it -> !simpleTypeHolder.isSimpleType(it.getType()))
-				.filter(it -> !it.isCollectionLike())
+				.filter(it -> !simpleTypeHolder.isSimpleType(it.getType())).filter(it -> !it.isCollectionLike())
 				.filter(it -> !it.isMap()));
 		this.getter = property.getGetter().orElse(null);
 		this.setter = property.getSetter().orElse(null);
@@ -137,9 +136,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 		if (!isEntity()) {
 			return Collections.emptySet();
 		}
-		return this.entityTypeInformation.get()
-				.map(Collections::singleton)
-				.orElseGet(Collections::emptySet);
+		return this.entityTypeInformation.get().map(Collections::singleton).orElseGet(Collections::emptySet);
 	}
 
 	@Override

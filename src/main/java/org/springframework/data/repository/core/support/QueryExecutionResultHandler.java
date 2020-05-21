@@ -139,9 +139,7 @@ class QueryExecutionResultHandler {
 			return this.conversionService.canConvert(resultDescriptor, returnTypeDescriptor)
 					? this.conversionService.convert(result, returnTypeDescriptor) : result;
 		}
-		return Map.class.equals(expectedReturnType) 
-				? CollectionFactory.createMap(expectedReturnType, 0) 
-				: null;
+		return Map.class.equals(expectedReturnType) ? CollectionFactory.createMap(expectedReturnType, 0) : null;
 
 	}
 
@@ -170,7 +168,7 @@ class QueryExecutionResultHandler {
 	 * @return
 	 */
 	private boolean conversionRequired(TypeDescriptor source, TypeDescriptor target) {
-		return this.conversionService.canConvert(source, target) 
+		return this.conversionService.canConvert(source, target)
 				&& !this.conversionService.canBypassConvert(source, target);
 	}
 
@@ -185,9 +183,7 @@ class QueryExecutionResultHandler {
 		if (source == null) {
 			return null;
 		}
-		return Optional.class.isInstance(source) 
-				? Optional.class.cast(source).orElse(null) 
-				: source;
+		return Optional.class.isInstance(source) ? Optional.class.cast(source).orElse(null) : source;
 	}
 
 	/**
@@ -197,9 +193,7 @@ class QueryExecutionResultHandler {
 	 * @return
 	 */
 	private static boolean processingRequired(@Nullable Object source, Class<?> targetType) {
-		return !targetType.isInstance(source) 
-				|| source == null 
-				|| Collection.class.isInstance(source);
+		return !targetType.isInstance(source) || source == null || Collection.class.isInstance(source);
 	}
 
 	/**

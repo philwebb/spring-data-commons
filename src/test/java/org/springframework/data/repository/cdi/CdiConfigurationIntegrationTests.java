@@ -38,10 +38,8 @@ class CdiConfigurationIntegrationTests {
 	@BeforeAll
 	static void setUp() {
 
-		container = SeContainerInitializer.newInstance() 
-				.disableDiscovery() 
-				.addPackages(IsolatedComposedRepository.class) 
-				.initialize();
+		container = SeContainerInitializer.newInstance().disableDiscovery()
+				.addPackages(IsolatedComposedRepository.class).initialize();
 	}
 
 	@Test // DATACMNS-1233

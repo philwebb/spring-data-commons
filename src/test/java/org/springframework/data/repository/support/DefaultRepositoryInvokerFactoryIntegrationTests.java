@@ -67,9 +67,8 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 	@Test // DATACMNS-374, DATACMNS-589
 	void shouldThrowMeaningfulExceptionWhenTheRepositoryForAGivenDomainClassCannotBeFound() {
 
-		assertThatIllegalArgumentException() 
-				.isThrownBy(() -> this.factory.getInvokerFor(Object.class)) 
-				.withMessageContaining("No repository found for domain type: ") 
+		assertThatIllegalArgumentException().isThrownBy(() -> this.factory.getInvokerFor(Object.class))
+				.withMessageContaining("No repository found for domain type: ")
 				.withMessageContaining(Object.class.getName());
 	}
 
@@ -86,8 +85,7 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 
 		RepositoryInvoker invoker = this.factory.getInvokerFor(Product.class);
 
-		assertThat(invoker)
-				.isInstanceOf(ReflectionRepositoryInvoker.class)
+		assertThat(invoker).isInstanceOf(ReflectionRepositoryInvoker.class)
 				.isNotInstanceOf(CrudRepositoryInvoker.class);
 	}
 
@@ -96,8 +94,7 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 
 		RepositoryInvoker invoker = this.factory.getInvokerFor(User.class);
 
-		assertThat(invoker)
-				.isInstanceOf(CrudRepositoryInvoker.class)
+		assertThat(invoker).isInstanceOf(CrudRepositoryInvoker.class)
 				.isNotInstanceOf(PagingAndSortingRepositoryInvoker.class);
 	}
 

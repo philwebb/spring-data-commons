@@ -166,23 +166,16 @@ class ExampleMatcherUnitTests {
 	@Test // DATACMNS-900
 	void shouldCompareUsingHashCodeAndEquals() {
 
-		this.matcher = matching() 
-				.withIgnorePaths("foo", "bar", "baz") 
-				.withNullHandler(NullHandler.IGNORE) 
-				.withIgnoreCase("ignored-case") 
-				.withMatcher("hello", GenericPropertyMatchers.contains().caseSensitive()) 
+		this.matcher = matching().withIgnorePaths("foo", "bar", "baz").withNullHandler(NullHandler.IGNORE)
+				.withIgnoreCase("ignored-case").withMatcher("hello", GenericPropertyMatchers.contains().caseSensitive())
 				.withMatcher("world", GenericPropertyMatcher::endsWith);
 
-		ExampleMatcher sameAsMatcher = matching() 
-				.withIgnorePaths("foo", "bar", "baz") 
-				.withNullHandler(NullHandler.IGNORE) 
-				.withIgnoreCase("ignored-case") 
-				.withMatcher("hello", GenericPropertyMatchers.contains().caseSensitive()) 
+		ExampleMatcher sameAsMatcher = matching().withIgnorePaths("foo", "bar", "baz")
+				.withNullHandler(NullHandler.IGNORE).withIgnoreCase("ignored-case")
+				.withMatcher("hello", GenericPropertyMatchers.contains().caseSensitive())
 				.withMatcher("world", GenericPropertyMatcher::endsWith);
 
-		ExampleMatcher different = matching() 
-				.withIgnorePaths("foo", "bar", "baz") 
-				.withNullHandler(NullHandler.IGNORE) 
+		ExampleMatcher different = matching().withIgnorePaths("foo", "bar", "baz").withNullHandler(NullHandler.IGNORE)
 				.withMatcher("hello", GenericPropertyMatchers.contains().ignoreCase());
 
 		assertThat(this.matcher.hashCode()).isEqualTo(sameAsMatcher.hashCode()).isNotEqualTo(different.hashCode());

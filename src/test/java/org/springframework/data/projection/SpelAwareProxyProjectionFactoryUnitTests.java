@@ -57,13 +57,10 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 	@Test // DATACMNS-630
 	void excludesAtValueAnnotatedMethodsForInputProperties() {
 
-		List<PropertyDescriptor> properties = this.factory 
-				.getProjectionInformation(CustomerExcerpt.class) 
+		List<PropertyDescriptor> properties = this.factory.getProjectionInformation(CustomerExcerpt.class)
 				.getInputProperties();
 
-		assertThat(properties) 
-				.extracting(PropertyDescriptor::getName) 
-				.containsExactly("firstname");
+		assertThat(properties).extracting(PropertyDescriptor::getName).containsExactly("firstname");
 	}
 
 	@Test // DATACMNS-89

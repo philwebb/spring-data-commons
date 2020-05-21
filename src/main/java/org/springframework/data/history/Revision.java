@@ -96,8 +96,7 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 		if (that == null) {
 			return 1;
 		}
-		return mapIfAllPresent(getRevisionNumber(), that.getRevisionNumber(), 
-				Comparable::compareTo).orElse(-1);
+		return mapIfAllPresent(getRevisionNumber(), that.getRevisionNumber(), Comparable::compareTo).orElse(-1);
 	}
 
 	@Override

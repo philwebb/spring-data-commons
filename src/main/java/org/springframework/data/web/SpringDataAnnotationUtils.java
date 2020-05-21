@@ -86,9 +86,8 @@ abstract class SpringDataAnnotationUtils {
 	public static <T> T getSpecificPropertyOrDefaultFromValue(Annotation annotation, String property) {
 		Object propertyDefaultValue = AnnotationUtils.getDefaultValue(annotation, property);
 		Object propertyValue = AnnotationUtils.getValue(annotation, property);
-		Object result = ObjectUtils.nullSafeEquals(propertyDefaultValue, propertyValue) 
-				? AnnotationUtils.getValue(annotation) 
-				: propertyValue;
+		Object result = ObjectUtils.nullSafeEquals(propertyDefaultValue, propertyValue)
+				? AnnotationUtils.getValue(annotation) : propertyValue;
 		if (result == null) {
 			throw new IllegalStateException("Exepected to be able to look up an annotation property value but failed!");
 		}

@@ -63,10 +63,7 @@ class LazyUnitTests {
 
 		Object reference = new Object();
 
-		Object foo = Lazy.of(() -> null) 
-				.or(() -> null) 
-				.or(() -> reference) 
-				.get();
+		Object foo = Lazy.of(() -> null).or(() -> null).or(() -> reference).get();
 
 		assertThat(foo).isEqualTo(reference);
 	}
@@ -82,8 +79,7 @@ class LazyUnitTests {
 	@Test
 	void rejectsNullValueLookup() {
 
-		assertThatExceptionOfType(IllegalStateException.class) 
-				.isThrownBy(() -> Lazy.of(() -> null).get());
+		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> Lazy.of(() -> null).get());
 	}
 
 	@Test

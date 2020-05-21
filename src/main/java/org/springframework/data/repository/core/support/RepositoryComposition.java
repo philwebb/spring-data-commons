@@ -233,9 +233,10 @@ public class RepositoryComposition {
 	 * Validates that all {@link RepositoryFragment fragments} have an implementation.
 	 */
 	public void validateImplementation() {
-		this.fragments.stream().forEach(it -> it.getImplementation() 
-				.orElseThrow(() -> new IllegalStateException(String.format("Fragment %s has no implementation.",
-						ClassUtils.getQualifiedName(it.getSignatureContributor())))));
+		this.fragments.stream()
+				.forEach(it -> it.getImplementation()
+						.orElseThrow(() -> new IllegalStateException(String.format("Fragment %s has no implementation.",
+								ClassUtils.getQualifiedName(it.getSignatureContributor())))));
 	}
 
 	@Override
@@ -395,9 +396,8 @@ public class RepositoryComposition {
 		}
 
 		private RepositoryFragment<?> findImplementationFragment(Method key) {
-			return stream().filter(it -> it.hasMethod(key)) 
-					.filter(it -> it.getImplementation().isPresent()) 
-					.findFirst().orElseThrow(
+			return stream().filter(it -> it.hasMethod(key)).filter(it -> it.getImplementation().isPresent()).findFirst()
+					.orElseThrow(
 							() -> new IllegalArgumentException(String.format("No fragment found for method %s", key)));
 		}
 
@@ -406,8 +406,7 @@ public class RepositoryComposition {
 				Supplier<Stream<Method>> methodStreamSupplier) {
 			for (MethodPredicate methodPredicate : lookup.getLookups()) {
 				Optional<Method> resolvedMethod = methodStreamSupplier.get()
-						.filter(it -> methodPredicate.test(invokedMethod, it)) 
-						.findFirst();
+						.filter(it -> methodPredicate.test(invokedMethod, it)).findFirst();
 				if (resolvedMethod.isPresent()) {
 					return resolvedMethod.get();
 				}

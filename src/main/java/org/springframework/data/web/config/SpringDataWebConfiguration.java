@@ -84,8 +84,8 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 
 	@Bean
 	public PageableHandlerMethodArgumentResolver pageableResolver() {
-		PageableHandlerMethodArgumentResolver pageableResolver = 
-				new PageableHandlerMethodArgumentResolver(sortResolver());
+		PageableHandlerMethodArgumentResolver pageableResolver = new PageableHandlerMethodArgumentResolver(
+				sortResolver());
 		customizePageableResolver(pageableResolver);
 		return pageableResolver;
 	}
@@ -131,7 +131,7 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 			converters.add(0, converter);
 		}
 		if (ClassUtils.isPresent("org.xmlbeam.XBProjector", this.context.getClassLoader())) {
-			converters.add(0, this.context.getBeanProvider(XmlBeamHttpMessageConverter.class) 
+			converters.add(0, this.context.getBeanProvider(XmlBeamHttpMessageConverter.class)
 					.getIfAvailable(XmlBeamHttpMessageConverter::new));
 		}
 	}

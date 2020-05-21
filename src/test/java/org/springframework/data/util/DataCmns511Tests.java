@@ -35,14 +35,13 @@ public class DataCmns511Tests {
 
 		TypeInformation<?> createdBy = ClassTypeInformation.from(AbstractRole.class).getProperty("createdBy");
 
-		assertThat(createdBy.getProperty("roles").getActualType().getProperty("createdBy"))
-				.satisfies(second -> {
+		assertThat(createdBy.getProperty("roles").getActualType().getProperty("createdBy")).satisfies(second -> {
 
-					TypeInformation<?> third = second.getProperty("roles").getActualType().getProperty("createdBy");
+			TypeInformation<?> third = second.getProperty("roles").getActualType().getProperty("createdBy");
 
-					assertThat(third).isEqualTo(second);
-					assertThat(third.hashCode()).isEqualTo(second.hashCode());
-				});
+			assertThat(third).isEqualTo(second);
+			assertThat(third.hashCode()).isEqualTo(second.hashCode());
+		});
 	}
 
 	static class AbstractRole<USER extends AbstractUser<USER, ROLE>, ROLE extends AbstractRole<USER, ROLE>>

@@ -346,12 +346,11 @@ public class ClassTypeInformationUnitTests {
 
 		ClassTypeInformation<Foo> root = from(Foo.class);
 
-		assertThat(root.getProperty("abstractBar").specialize(from(Bar.class)))
-				.satisfies(it -> {
-					assertThat(it.getType()).isEqualTo(Bar.class);
-					assertThat(it.getProperty("field").getType()).isEqualTo(Character.class);
-					assertThat(it.getProperty("anotherField").getType()).isEqualTo(Integer.class);
-				});
+		assertThat(root.getProperty("abstractBar").specialize(from(Bar.class))).satisfies(it -> {
+			assertThat(it.getType()).isEqualTo(Bar.class);
+			assertThat(it.getProperty("field").getType()).isEqualTo(Character.class);
+			assertThat(it.getProperty("anotherField").getType()).isEqualTo(Integer.class);
+		});
 	}
 
 	@Test // DATACMNS-783

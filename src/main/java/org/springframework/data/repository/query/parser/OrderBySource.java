@@ -105,8 +105,7 @@ class OrderBySource {
 			return direction.map(it -> new Order(it, propertyPath.toDotPath()))
 					.orElseGet(() -> Order.by(propertyPath.toDotPath()));
 
-		}).orElseGet(() -> direction
-				.map(it -> new Order(it, StringUtils.uncapitalize(propertySource)))
+		}).orElseGet(() -> direction.map(it -> new Order(it, StringUtils.uncapitalize(propertySource)))
 				.orElseGet(() -> Order.by(StringUtils.uncapitalize(propertySource))));
 	}
 

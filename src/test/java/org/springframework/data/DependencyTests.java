@@ -29,13 +29,8 @@ public class DependencyTests {
 	@Test
 	public void noInternalPackageCycles() {
 
-		assertThat(classpath() 
-				.noJars() 
-				.including("org.springframework.data.**") 
-				.filterClasspath("*target/classes") 
-				.printOnFailure("degraph.graphml"), 
-				violationFree() 
-		);
+		assertThat(classpath().noJars().including("org.springframework.data.**").filterClasspath("*target/classes")
+				.printOnFailure("degraph.graphml"), violationFree());
 	}
 
 }

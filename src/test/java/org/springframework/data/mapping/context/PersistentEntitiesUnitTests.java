@@ -108,15 +108,15 @@ class PersistentEntitiesUnitTests {
 		context.getPersistentEntity(FirstWithLongId.class);
 		context.getPersistentEntity(SecondWithLongId.class);
 
-		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class) 
+		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class)
 				.getPersistentProperty("longId");
 
 		PersistentEntities entities = PersistentEntities.of(context);
 
 		assertThatExceptionOfType(IllegalStateException.class)
-				.isThrownBy(() -> entities.getEntityUltimatelyReferredToBy(property)) 
-				.withMessageContaining(FirstWithLongId.class.getName()) 
-				.withMessageContaining(SecondWithLongId.class.getName()) 
+				.isThrownBy(() -> entities.getEntityUltimatelyReferredToBy(property))
+				.withMessageContaining(FirstWithLongId.class.getName())
+				.withMessageContaining(SecondWithLongId.class.getName())
 				.withMessageContaining(Reference.class.getSimpleName());
 	}
 
@@ -127,7 +127,7 @@ class PersistentEntitiesUnitTests {
 		context.getPersistentEntity(FirstWithLongId.class);
 		context.getPersistentEntity(SecondWithLongId.class);
 
-		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class) 
+		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class)
 				.getPersistentProperty("qualifiedLongId");
 
 		PersistentEntity<?, ?> entity = PersistentEntities.of(context).getEntityUltimatelyReferredToBy(property);
@@ -143,7 +143,7 @@ class PersistentEntitiesUnitTests {
 		context.getPersistentEntity(FirstWithGenericId.class);
 		context.getPersistentEntity(SecondWithGenericId.class);
 
-		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class) 
+		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class)
 				.getPersistentProperty("generic");
 
 		PersistentEntity<?, ?> entity = PersistentEntities.of(context).getEntityUltimatelyReferredToBy(property);

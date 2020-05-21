@@ -33,8 +33,7 @@ public interface EvaluationContextProvider {
 	 * A simple default {@link EvaluationContextProvider} returning a
 	 * {@link StandardEvaluationContext} with the given root object.
 	 */
-	static EvaluationContextProvider DEFAULT = rootObject -> rootObject == null 
-			? new StandardEvaluationContext() 
+	static EvaluationContextProvider DEFAULT = rootObject -> rootObject == null ? new StandardEvaluationContext()
 			: new StandardEvaluationContext(rootObject);
 
 	/**

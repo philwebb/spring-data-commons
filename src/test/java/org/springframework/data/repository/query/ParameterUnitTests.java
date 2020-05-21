@@ -51,12 +51,7 @@ class ParameterUnitTests {
 
 	@NotNull
 	private MethodParameter getMethodParameter(String methodName) throws NoSuchMethodException {
-		return new MethodParameter( 
-				this.getClass().getDeclaredMethod( 
-						methodName, 
-						Class.class 
-				), 
-				0);
+		return new MethodParameter(this.getClass().getDeclaredMethod(methodName, Class.class), 0);
 	}
 
 	<T> List<T> dynamicProjectionWithList(Class<T> type) {

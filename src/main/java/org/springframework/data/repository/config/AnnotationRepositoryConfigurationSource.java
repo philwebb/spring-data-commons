@@ -149,9 +149,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		Set<String> packages = new HashSet<>();
 		packages.addAll(Arrays.asList(value));
 		packages.addAll(Arrays.asList(basePackages));
-		Arrays.stream(basePackageClasses)
-				.map(ClassUtils::getPackageName)
-				.forEach(it -> packages.add(it));
+		Arrays.stream(basePackageClasses).map(ClassUtils::getPackageName).forEach(it -> packages.add(it));
 		return Streamable.of(packages);
 	}
 
@@ -241,9 +239,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		Assert.isInstanceOf(type, value,
 				() -> String.format("Attribute value for %s is of type %s but was expected to be of type %s!", name,
 						value.getClass(), type));
-		Object result = String.class.isInstance(value) 
-				? StringUtils.hasText((String) value) ? value : null 
-				: value;
+		Object result = String.class.isInstance(value) ? StringUtils.hasText((String) value) ? value : null : value;
 		return Optional.ofNullable(type.cast(result));
 	}
 
@@ -351,7 +347,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @return
 	 */
 	private static boolean hasExplicitFilters(AnnotationAttributes attributes) {
-		return Stream.of("includeFilters", "excludeFilters") 
+		return Stream.of("includeFilters", "excludeFilters")
 				.anyMatch(it -> attributes.getAnnotationArray(it).length > 0);
 	}
 
@@ -366,9 +362,8 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @since 2.2
 	 */
 	private static BeanNameGenerator defaultBeanNameGenerator(@Nullable BeanNameGenerator generator) {
-		return generator == null || ConfigurationClassPostProcessor.IMPORT_BEAN_NAME_GENERATOR.equals(generator) 
-				? new AnnotationBeanNameGenerator() 
-				: generator;
+		return generator == null || ConfigurationClassPostProcessor.IMPORT_BEAN_NAME_GENERATOR.equals(generator)
+				? new AnnotationBeanNameGenerator() : generator;
 	}
 
 }

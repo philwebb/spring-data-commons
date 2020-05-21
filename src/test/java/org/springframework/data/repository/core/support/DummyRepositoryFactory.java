@@ -90,9 +90,8 @@ public class DummyRepositoryFactory extends RepositoryFactorySupport {
 
 		RepositoryFragments fragments = super.getRepositoryFragments(metadata);
 
-		return QuerydslPredicateExecutor.class.isAssignableFrom(metadata.getRepositoryInterface()) 
-				? fragments.append(RepositoryFragments.just(this.querydsl)) 
-				: fragments;
+		return QuerydslPredicateExecutor.class.isAssignableFrom(metadata.getRepositoryInterface())
+				? fragments.append(RepositoryFragments.just(this.querydsl)) : fragments;
 	}
 
 	/**

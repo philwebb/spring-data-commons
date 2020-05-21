@@ -252,10 +252,9 @@ class RepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-656
 	void rejectsNullRepositoryProxyPostProcessor() {
 
-		assertThatThrownBy( 
-				() -> this.factory.addRepositoryProxyPostProcessor(null)) 
-						.isInstanceOf(IllegalArgumentException.class) 
-						.hasMessageContaining(RepositoryProxyPostProcessor.class.getSimpleName());
+		assertThatThrownBy(() -> this.factory.addRepositoryProxyPostProcessor(null))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining(RepositoryProxyPostProcessor.class.getSimpleName());
 	}
 
 	@Test // DATACMNS-715, SPR-13109
@@ -303,11 +302,9 @@ class RepositoryFactorySupportUnitTests {
 		doReturn(CustomRepositoryBaseClass.class).when(information).getRepositoryBaseClass();
 		EntityInformation entityInformation = mock(EntityInformation.class);
 
-		assertThatThrownBy( 
-				() -> this.factory.getTargetRepositoryViaReflection(information, entityInformation, "Foo")) 
-						.isInstanceOf(IllegalStateException.class) 
-						.hasMessageContaining(entityInformation.getClass().getName()) 
-						.hasMessageContaining(String.class.getName());
+		assertThatThrownBy(() -> this.factory.getTargetRepositoryViaReflection(information, entityInformation, "Foo"))
+				.isInstanceOf(IllegalStateException.class).hasMessageContaining(entityInformation.getClass().getName())
+				.hasMessageContaining(String.class.getName());
 	}
 
 	@Test
@@ -326,10 +323,8 @@ class RepositoryFactorySupportUnitTests {
 
 		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
 
-		assertThatThrownBy( 
-				() -> repository.findById("")) 
-						.isInstanceOf(EmptyResultDataAccessException.class) 
-						.hasMessageContaining("Result must not be null!");
+		assertThatThrownBy(() -> repository.findById("")).isInstanceOf(EmptyResultDataAccessException.class)
+				.hasMessageContaining("Result must not be null!");
 
 		assertThat(repository.findByUsername("")).isNull();
 	}
@@ -339,10 +334,8 @@ class RepositoryFactorySupportUnitTests {
 
 		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class);
 
-		assertThatThrownBy( 
-				() -> repository.findByClass(null)) 
-						.isInstanceOf(IllegalArgumentException.class) 
-						.hasMessageContaining("must not be null!");
+		assertThatThrownBy(() -> repository.findByClass(null)).isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("must not be null!");
 	}
 
 	@Test // DATACMNS-1154
@@ -360,10 +353,8 @@ class RepositoryFactorySupportUnitTests {
 
 		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
 
-		assertThatThrownBy( 
-				() -> repository.findById(null)) 
-						.isInstanceOf(IllegalArgumentException.class) 
-						.hasMessageContaining("must not be null!"); 
+		assertThatThrownBy(() -> repository.findById(null)).isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("must not be null!");
 	}
 
 	@Test // DATACMNS-1154

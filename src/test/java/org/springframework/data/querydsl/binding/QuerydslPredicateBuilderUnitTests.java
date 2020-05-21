@@ -223,7 +223,7 @@ class QuerydslPredicateBuilderUnitTests {
 
 		this.values.add("firstname", " ");
 
-		assertThat(this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS)) 
+		assertThat(this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS))
 				.isEqualTo(QUser.user.firstname.eq(" "));
 	}
 

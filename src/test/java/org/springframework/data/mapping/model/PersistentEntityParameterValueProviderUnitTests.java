@@ -84,8 +84,7 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 		assertThat(entity.getPersistenceConstructor())
 				.satisfies(constructor -> assertThatExceptionOfType(MappingException.class)
 						.isThrownBy(() -> provider.getParameterValue(constructor.getParameters().iterator().next()))
-						.withMessageContaining("bar")
-						.withMessageContaining(Entity.class.getName()));
+						.withMessageContaining("bar").withMessageContaining(Entity.class.getName()));
 	}
 
 	static class Outer {
