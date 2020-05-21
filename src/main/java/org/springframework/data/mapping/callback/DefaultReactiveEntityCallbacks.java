@@ -15,8 +15,6 @@
  */
 package org.springframework.data.mapping.callback;
 
-import reactor.core.publisher.Mono;
-
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -24,6 +22,8 @@ import java.util.function.BiFunction;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Mono;
+
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.core.ResolvableType;
 import org.springframework.util.Assert;

@@ -15,8 +15,6 @@
  */
 package org.springframework.data.web;
 
-import static org.springframework.hateoas.TemplateVariable.VariableType.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +30,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import static org.springframework.hateoas.TemplateVariable.VariableType.REQUEST_PARAM;
+import static org.springframework.hateoas.TemplateVariable.VariableType.REQUEST_PARAM_CONTINUED;
 
 /**
  * Extension of {@link PageableHandlerMethodArgumentResolver} that also supports enhancing

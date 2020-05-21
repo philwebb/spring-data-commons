@@ -15,11 +15,6 @@
  */
 package org.springframework.data.mapping.model;
 
-import static org.assertj.core.api.Assertions.*;
-
-import lombok.Getter;
-import lombok.Setter;
-
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -32,8 +27,11 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.mapping.Association;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
@@ -42,6 +40,8 @@ import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.Optionals;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.ReflectionUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link AbstractPersistentProperty}.

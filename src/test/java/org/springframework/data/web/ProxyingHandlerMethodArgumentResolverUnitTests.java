@@ -15,15 +15,16 @@
  */
 package org.springframework.data.web;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.lang.reflect.Method;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.data.web.ProjectingJackson2HttpMessageConverterUnitTests.SampleInterface;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ProxyingHandlerMethodArgumentResolver}.

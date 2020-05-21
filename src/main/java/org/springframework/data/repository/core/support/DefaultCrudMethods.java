@@ -15,9 +15,6 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static java.util.Arrays.*;
-import static org.springframework.data.util.Optionals.*;
-
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -34,6 +31,10 @@ import org.springframework.data.util.Pair;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
+
+import static java.util.Arrays.asList;
+import static org.springframework.data.util.Optionals.firstNonEmpty;
+import static org.springframework.data.util.Optionals.toStream;
 
 /**
  * Default implementation to discover CRUD methods based on the given

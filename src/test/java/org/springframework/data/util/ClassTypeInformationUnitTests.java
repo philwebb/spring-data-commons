@@ -15,11 +15,6 @@
  */
 package org.springframework.data.util;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.util.ClassTypeInformation.from;
-
-import io.vavr.collection.Traversable;
-
 import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Collection;
@@ -28,8 +23,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 
+import io.vavr.collection.Traversable;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.mapping.Person;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.springframework.data.util.ClassTypeInformation.from;
 
 /**
  * Unit tests for {@link ClassTypeInformation}.

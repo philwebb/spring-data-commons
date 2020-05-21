@@ -15,13 +15,13 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collection;
 
+import com.google.common.base.Optional;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -29,7 +29,8 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.util.ClassUtils;
 
-import com.google.common.base.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link DefaultRepositoryMetadata}.

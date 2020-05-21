@@ -15,10 +15,10 @@
  */
 package org.springframework.data.querydsl;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.querydsl.QuerydslUtils.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.querydsl.QuerydslUtils.toDotPath;
 
 /**
  * Unit tests for {@link QuerydslUtils}.

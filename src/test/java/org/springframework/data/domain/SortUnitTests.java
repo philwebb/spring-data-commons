@@ -15,16 +15,20 @@
  */
 package org.springframework.data.domain;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.domain.Sort.NullHandling.*;
-
-import lombok.Getter;
-
 import java.util.Collection;
 
+import lombok.Getter;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.springframework.data.domain.Sort.NullHandling.NATIVE;
+import static org.springframework.data.domain.Sort.NullHandling.NULLS_FIRST;
+import static org.springframework.data.domain.Sort.NullHandling.NULLS_LAST;
 
 /**
  * Unit test for {@link Sort}.

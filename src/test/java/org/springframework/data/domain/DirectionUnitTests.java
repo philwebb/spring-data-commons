@@ -1,9 +1,11 @@
 package org.springframework.data.domain;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.domain.Sort.Direction;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit test for {@link Direction}.

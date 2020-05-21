@@ -15,9 +15,6 @@
  */
 package org.springframework.data.convert;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.threeten.bp.DateTimeUtils.*;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,14 +22,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
+
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.convert.support.GenericConversionService;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.threeten.bp.DateTimeUtils.toInstant;
 
 /**
  * Unit tests for {@link ThreeTenBackPortConverters}.

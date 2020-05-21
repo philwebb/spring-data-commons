@@ -15,8 +15,6 @@
  */
 package org.springframework.data.web.config;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Collection;
 import java.util.Date;
 
@@ -26,6 +24,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Oliver Gierke

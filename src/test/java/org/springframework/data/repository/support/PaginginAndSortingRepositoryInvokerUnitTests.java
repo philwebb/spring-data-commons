@@ -15,10 +15,6 @@
  */
 package org.springframework.data.repository.support;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.data.repository.support.RepositoryInvocationTestUtils.*;
-
 import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
@@ -31,8 +27,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.DefaultRepositoryMetadata;
-import org.springframework.data.repository.support.RepositoryInvocationTestUtils.*;
+import org.springframework.data.repository.support.RepositoryInvocationTestUtils.VerifyingMethodInterceptor;
 import org.springframework.format.support.DefaultFormattingConversionService;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.data.repository.support.RepositoryInvocationTestUtils.expectInvocationOf;
+import static org.springframework.data.repository.support.RepositoryInvocationTestUtils.getVerifyingRepositoryProxy;
 
 /**
  * Unit tests for {@link PagingAndSortingRepositoryInvoker}.

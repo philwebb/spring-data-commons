@@ -15,11 +15,12 @@
  */
 package org.springframework.data.repository.query;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.function.BiFunction;
 
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link SpelQueryContext}.

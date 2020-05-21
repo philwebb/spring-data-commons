@@ -15,13 +15,14 @@
  */
 package org.springframework.data.util;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.lang.reflect.Method;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.util.ReflectionUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link ParameterTypes}.

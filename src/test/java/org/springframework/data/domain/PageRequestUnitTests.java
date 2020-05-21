@@ -15,11 +15,13 @@
  */
 package org.springframework.data.domain;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.domain.UnitTestUtils.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.domain.Sort.Direction;
+
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.springframework.data.domain.UnitTestUtils.assertEqualsAndHashcode;
+import static org.springframework.data.domain.UnitTestUtils.assertNotEqualsAndHashcode;
 
 /**
  * Unit test for {@link PageRequest}.

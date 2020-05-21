@@ -17,11 +17,11 @@ package org.springframework.data.querydsl.binding;
 
 import java.beans.PropertyDescriptor;
 
+import com.querydsl.core.types.Path;
+
 import org.springframework.data.mapping.PropertyPath;
 import org.springframework.data.querydsl.EntityPathResolver;
 import org.springframework.lang.Nullable;
-
-import com.querydsl.core.types.Path;
 
 /**
  * Internal abstraction of mapped paths.

@@ -15,13 +15,6 @@
  */
 package org.springframework.data.mapping.model;
 
-import static org.assertj.core.api.Assertions.*;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Value;
-import lombok.experimental.Wither;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,7 +22,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Value;
+import lombok.experimental.Wither;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.mapping.AccessOptions;
 import org.springframework.data.mapping.AccessOptions.SetOptions.SetNulls;
 import org.springframework.data.mapping.PersistentEntity;
@@ -37,6 +35,9 @@ import org.springframework.data.mapping.PersistentPropertyPath;
 import org.springframework.data.mapping.PersistentPropertyPathAccessor;
 import org.springframework.data.mapping.context.SampleMappingContext;
 import org.springframework.data.mapping.context.SamplePersistentProperty;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * Unit tests for {@link SimplePersistentPropertyPathAccessor}.

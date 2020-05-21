@@ -15,15 +15,16 @@
  */
 package org.springframework.data.repository.query;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.core.MethodParameter;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link Parameter}.

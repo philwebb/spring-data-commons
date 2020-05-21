@@ -15,11 +15,13 @@
  */
 package org.springframework.data.repository.query;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.repository.query.SpelQueryContext.QuotationMap;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link QuotationMap}.

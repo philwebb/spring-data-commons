@@ -17,6 +17,7 @@ package org.springframework.data.crossstore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.transaction.support.TransactionSynchronization;
 
 public class ChangeSetBackedTransactionSynchronization implements TransactionSynchronization {

@@ -15,13 +15,12 @@
  */
 package org.springframework.data.mapping.context;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.annotation.Reference;
 import org.springframework.data.mapping.MappingException;
 import org.springframework.data.mapping.PersistentPropertyPath;
@@ -30,6 +29,9 @@ import org.springframework.data.mapping.PropertyPath;
 import org.springframework.data.mapping.model.BasicPersistentEntity;
 import org.springframework.data.util.Streamable;
 import org.springframework.util.StringUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link PersistentPropertyPathFactory}.

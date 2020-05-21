@@ -15,10 +15,6 @@
  */
 package org.springframework.data.repository.util;
 
-import scala.Function0;
-import scala.Option;
-import scala.runtime.AbstractFunction0;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,6 +27,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 import java.util.stream.Stream;
+
+import com.google.common.base.Optional;
+import scala.Function0;
+import scala.Option;
+import scala.runtime.AbstractFunction0;
 
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
@@ -53,8 +54,6 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import com.google.common.base.Optional;
 
 /**
  * Converters to potentially wrap the execution of a repository method into a variety of

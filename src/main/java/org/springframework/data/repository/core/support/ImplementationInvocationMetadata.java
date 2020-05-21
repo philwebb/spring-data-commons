@@ -15,18 +15,16 @@
  */
 package org.springframework.data.repository.core.support;
 
+import java.lang.reflect.Method;
+
 import kotlin.coroutines.Continuation;
 import kotlin.reflect.KFunction;
 import kotlinx.coroutines.reactive.AwaitKt;
-
-import java.lang.reflect.Method;
-
 import org.reactivestreams.Publisher;
 
 import org.springframework.core.KotlinDetector;
 import org.springframework.data.repository.util.ReactiveWrapperConverters;
 import org.springframework.data.util.KotlinReflectionUtils;
-import org.springframework.data.util.ReflectionUtils;
 import org.springframework.lang.Nullable;
 
 /**

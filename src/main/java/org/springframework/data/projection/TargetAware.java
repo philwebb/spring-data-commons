@@ -15,11 +15,11 @@
  */
 package org.springframework.data.projection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.aop.RawTargetAccess;
 import org.springframework.core.DecoratingProxy;
 import org.springframework.lang.Nullable;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Extension of {@link org.springframework.aop.TargetClassAware} to be able to ignore the

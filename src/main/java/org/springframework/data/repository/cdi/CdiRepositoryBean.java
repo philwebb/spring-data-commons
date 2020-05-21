@@ -39,6 +39,7 @@ import javax.enterprise.inject.spi.PassivationCapable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.repository.config.CustomRepositoryImplementationDetector;
 import org.springframework.data.repository.config.RepositoryFragmentConfiguration;
 import org.springframework.data.repository.core.support.RepositoryComposition.RepositoryFragments;

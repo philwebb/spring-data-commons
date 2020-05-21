@@ -15,8 +15,6 @@
  */
 package org.springframework.data.convert;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -43,6 +41,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link Jsr310Converters}.

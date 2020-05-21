@@ -15,25 +15,24 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.assertj.core.api.Assertions.*;
+import java.lang.reflect.Method;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import reactor.core.publisher.Flux;
-import rx.Observable;
-
-import java.lang.reflect.Method;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
+import rx.Observable;
 
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.data.repository.reactive.ReactiveSortingRepository;
 import org.springframework.data.repository.reactive.RxJava2CrudRepository;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ReactiveRepositoryInformation}.

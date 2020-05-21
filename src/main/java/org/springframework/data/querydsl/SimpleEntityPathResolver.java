@@ -19,11 +19,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Optional;
 
+import com.querydsl.core.types.EntityPath;
+
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
-
-import com.querydsl.core.types.EntityPath;
 
 /**
  * Simple implementation of {@link EntityPathResolver} to lookup a query class by

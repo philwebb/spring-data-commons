@@ -15,17 +15,16 @@
  */
 package org.springframework.data.repository.util;
 
-import static org.assertj.core.api.AssertionsForClassTypes.*;
-
 import io.reactivex.Maybe;
+import org.junit.jupiter.api.Test;
+import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rx.Completable;
 import rx.Observable;
 import rx.Single;
 
-import org.junit.jupiter.api.Test;
-import org.reactivestreams.Publisher;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * Unit tests for {@link ReactiveWrapperConverters}.

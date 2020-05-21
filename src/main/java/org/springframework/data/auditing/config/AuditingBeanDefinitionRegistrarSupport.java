@@ -15,8 +15,6 @@
  */
 package org.springframework.data.auditing.config;
 
-import static org.springframework.beans.factory.support.BeanDefinitionBuilder.*;
-
 import java.lang.annotation.Annotation;
 
 import org.springframework.aop.framework.ProxyFactoryBean;
@@ -32,6 +30,8 @@ import org.springframework.data.auditing.AuditingHandler;
 import org.springframework.data.auditing.CurrentDateTimeProvider;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
 
 /**
  * A {@link ImportBeanDefinitionRegistrar} that serves as a base class for store specific

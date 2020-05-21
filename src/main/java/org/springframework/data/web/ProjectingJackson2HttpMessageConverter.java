@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -34,9 +37,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 
 /**
  * {@link HttpMessageConverter} implementation to enable projected JSON binding to

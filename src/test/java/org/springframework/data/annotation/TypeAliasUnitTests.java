@@ -15,12 +15,13 @@
  */
 package org.springframework.data.annotation;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.util.AnnotatedTypeScanner;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link TypeAlias}.

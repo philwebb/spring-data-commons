@@ -15,10 +15,11 @@
  */
 package org.springframework.data.querydsl.binding;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Optional;
 
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.StringPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,9 +30,8 @@ import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.data.querydsl.User;
 import org.springframework.data.util.ClassTypeInformation;
 
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.StringPath;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link QuerydslBindings}.
@@ -272,7 +272,7 @@ class QuerydslBindingsUnitTests {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.springframework.data.querydsl.binding.SingleValueBinding#bind(com.querydsl.
 		 * core.types.Path, java.lang.Object)

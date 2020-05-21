@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.cdi;
 
-import static org.assertj.core.api.Assertions.*;
-
 import javax.enterprise.inject.se.SeContainer;
 import javax.enterprise.inject.se.SeContainerInitializer;
 
@@ -25,6 +23,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.data.repository.cdi.isolated.IsolatedComposedRepository;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * CDI integration tests for {@link CdiRepositoryConfiguration}.

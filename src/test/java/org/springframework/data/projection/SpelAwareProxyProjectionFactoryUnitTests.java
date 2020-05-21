@@ -15,8 +15,6 @@
  */
 package org.springframework.data.projection;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.beans.PropertyDescriptor;
 import java.util.List;
 
@@ -25,6 +23,9 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.NotWritablePropertyException;
 import org.springframework.beans.factory.annotation.Value;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link SpelAwareProxyProjectionFactory}.

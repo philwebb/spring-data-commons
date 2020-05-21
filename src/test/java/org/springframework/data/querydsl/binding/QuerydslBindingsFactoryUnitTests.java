@@ -15,14 +15,14 @@
  */
 package org.springframework.data.querydsl.binding;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import java.util.Collections;
 import java.util.Optional;
 
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.data.querydsl.QUser;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
@@ -33,8 +33,10 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.Predicate;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link QuerydslBindingsFactory}.
@@ -106,6 +108,7 @@ class QuerydslBindingsFactoryUnitTests {
 
 	static class SpecificBinding implements QuerydslBinderCustomizer<QUser> {
 
+		@Override
 		public void customize(QuerydslBindings bindings, QUser user) {
 
 			bindings.bind(user.firstname).firstOptional((path, value) -> value.map(it -> path.eq(it.toUpperCase())));

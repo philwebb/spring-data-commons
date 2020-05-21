@@ -15,15 +15,15 @@
  */
 package org.springframework.data.mapping.model;
 
-import kotlin.reflect.KCallable;
-import kotlin.reflect.KParameter;
-import kotlin.reflect.KParameter.Kind;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import kotlin.reflect.KCallable;
+import kotlin.reflect.KParameter;
+import kotlin.reflect.KParameter.Kind;
 
 import org.springframework.core.KotlinDetector;
 import org.springframework.data.mapping.MappingException;

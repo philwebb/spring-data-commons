@@ -15,10 +15,12 @@
  */
 package org.springframework.data.mapping.context;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.mapping.context.AbstractMappingContext.PersistentPropertyFilter.PropertyMatch;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link PropertyMatch}. Introduced for DATACMNS-228.

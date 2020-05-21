@@ -15,9 +15,9 @@
  */
 package org.springframework.data.mapping.callback;
 
-import reactor.core.publisher.Mono;
-
 import java.util.function.BiFunction;
+
+import reactor.core.publisher.Mono;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

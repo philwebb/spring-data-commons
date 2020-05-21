@@ -17,12 +17,12 @@ package org.springframework.data.querydsl;
 
 import java.util.Optional;
 
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 
 /**
  * Interface to allow execution of QueryDsl {@link Predicate} instances.

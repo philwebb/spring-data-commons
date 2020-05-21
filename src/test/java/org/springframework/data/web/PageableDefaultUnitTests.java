@@ -15,9 +15,6 @@
  */
 package org.springframework.data.web;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.web.SortDefaultUnitTests.*;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.Test;
@@ -31,6 +28,11 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.springframework.data.web.SortDefaultUnitTests.SORT;
+import static org.springframework.data.web.SortDefaultUnitTests.SORT_FIELDS;
 
 /**
  * Base test class to test supporting of a {@link HandlerMethodArgumentResolver}

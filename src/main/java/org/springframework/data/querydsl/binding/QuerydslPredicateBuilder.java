@@ -25,6 +25,10 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+
 import org.springframework.beans.PropertyValues;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.Property;
@@ -36,10 +40,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.Predicate;
 
 /**
  * Builder assembling {@link Predicate} out of {@link PropertyValues}.

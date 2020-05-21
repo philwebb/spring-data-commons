@@ -15,15 +15,15 @@
  */
 package org.springframework.data.util;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.util.StreamUtils.*;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.util.StreamUtils.createStreamFromIterator;
 
 /**
  * Spring Data specific Java {@link Stream} utility methods and classes.

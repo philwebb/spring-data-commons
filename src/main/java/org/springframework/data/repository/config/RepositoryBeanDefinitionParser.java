@@ -15,7 +15,7 @@
  */
 package org.springframework.data.repository.config;
 
-import static org.springframework.beans.factory.support.BeanDefinitionReaderUtils.*;
+import org.w3c.dom.Element;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
@@ -29,7 +29,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.config.ConfigurationUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-import org.w3c.dom.Element;
+
+import static org.springframework.beans.factory.support.BeanDefinitionReaderUtils.GENERATED_BEAN_NAME_SEPARATOR;
 
 /**
  * Base class to implement repository namespaces. These will typically consist of a main

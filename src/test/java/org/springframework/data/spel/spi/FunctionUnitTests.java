@@ -15,14 +15,15 @@
  */
 package org.springframework.data.spel.spi;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.util.ReflectionUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link Function}.

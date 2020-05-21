@@ -15,9 +15,6 @@
  */
 package org.springframework.data.web;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.domain.Sort.Direction.*;
-
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +33,11 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.ServletWebRequest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.springframework.data.domain.Sort.Direction.ASC;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * Unit tests for {@link SortHandlerMethodArgumentResolver}.

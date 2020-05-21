@@ -15,8 +15,6 @@
  */
 package org.springframework.data.web.config;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +36,8 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link PagedResourcesAssembler}.

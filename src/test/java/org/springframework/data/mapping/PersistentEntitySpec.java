@@ -15,7 +15,7 @@
  */
 package org.springframework.data.mapping;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Some test methods that define expected behaviour for {@link PersistentEntity}

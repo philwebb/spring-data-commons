@@ -15,9 +15,6 @@
  */
 package org.springframework.data.util;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.util.ClassTypeInformation.from;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -33,6 +30,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.springframework.data.util.ClassTypeInformation.from;
 
 /**
  * Unit tests for {@link TypeDiscoverer}.

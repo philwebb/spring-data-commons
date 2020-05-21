@@ -15,15 +15,15 @@
  */
 package org.springframework.data.mapping;
 
-import static org.assertj.core.api.Assertions.*;
-
 import lombok.Value;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.convert.EntityInstantiators;
 import org.springframework.data.mapping.context.SampleMappingContext;
 import org.springframework.data.mapping.context.SamplePersistentProperty;
 import org.springframework.data.mapping.model.InstantiationAwarePropertyAccessor;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Oliver Drotbohm

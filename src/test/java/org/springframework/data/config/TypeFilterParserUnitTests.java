@@ -15,8 +15,6 @@
  */
 package org.springframework.data.config;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,6 +25,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import org.springframework.beans.factory.parsing.ReaderContext;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -37,8 +37,7 @@ import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.data.config.TypeFilterParser.Type;
 import org.springframework.util.xml.DomUtils;
 
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link TypeFilterParser}.

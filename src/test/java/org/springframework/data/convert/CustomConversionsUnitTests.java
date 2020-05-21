@@ -15,9 +15,6 @@
  */
 package org.springframework.data.convert;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -30,6 +27,8 @@ import java.util.function.Predicate;
 
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
+import org.threeten.bp.LocalDateTime;
+
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
@@ -45,7 +44,12 @@ import org.springframework.data.convert.Jsr310Converters.LocalDateTimeToDateConv
 import org.springframework.data.convert.ThreeTenBackPortConverters.LocalDateTimeToJavaTimeInstantConverter;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mapping.model.SimpleTypeHolder;
-import org.threeten.bp.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for {@link CustomConversions}.

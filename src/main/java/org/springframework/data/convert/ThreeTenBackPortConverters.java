@@ -15,11 +15,6 @@
  */
 package org.springframework.data.convert;
 
-import static org.threeten.bp.DateTimeUtils.*;
-import static org.threeten.bp.Instant.*;
-import static org.threeten.bp.LocalDateTime.*;
-import static org.threeten.bp.ZoneId.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,14 +24,21 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.util.ClassUtils;
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZoneOffset;
+
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.util.ClassUtils;
+
+import static org.threeten.bp.DateTimeUtils.toDate;
+import static org.threeten.bp.DateTimeUtils.toInstant;
+import static org.threeten.bp.Instant.ofEpochMilli;
+import static org.threeten.bp.LocalDateTime.ofInstant;
+import static org.threeten.bp.ZoneId.systemDefault;
 
 /**
  * Helper class to register {@link Converter} implementations for the ThreeTen Backport

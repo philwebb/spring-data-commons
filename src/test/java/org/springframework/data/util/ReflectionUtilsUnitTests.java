@@ -15,19 +15,21 @@
  */
 package org.springframework.data.util;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.mapping.model.TypeCreatingSyntheticClassKt;
 import org.springframework.data.repository.sample.User;
 import org.springframework.data.util.ReflectionUtils.DescribedFieldFilter;
 import org.springframework.util.ReflectionUtils.FieldFilter;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit tests for {@link ReflectionUtils}.

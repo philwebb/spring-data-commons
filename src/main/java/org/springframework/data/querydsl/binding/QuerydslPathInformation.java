@@ -17,13 +17,13 @@ package org.springframework.data.querydsl.binding;
 
 import java.beans.PropertyDescriptor;
 
+import com.querydsl.core.types.Path;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.querydsl.EntityPathResolver;
 import org.springframework.data.querydsl.QuerydslUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
-
-import com.querydsl.core.types.Path;
 
 /**
  * {@link PathInformation} based on a Querydsl {@link Path}.

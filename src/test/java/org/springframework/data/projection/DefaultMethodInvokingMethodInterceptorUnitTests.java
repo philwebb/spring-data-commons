@@ -15,12 +15,13 @@
  */
 package org.springframework.data.projection;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assumptions.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.MethodHandleLookup;
 import org.springframework.data.util.Version;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Unit tests for {@link DefaultMethodInvokingMethodInterceptor}.

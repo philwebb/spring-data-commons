@@ -18,6 +18,8 @@ package org.springframework.data.web.config;
 import java.util.List;
 import java.util.Optional;
 
+import com.querydsl.core.types.Predicate;
+
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +34,6 @@ import org.springframework.data.querydsl.binding.QuerydslBindingsFactory;
 import org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.querydsl.core.types.Predicate;
 
 /**
  * Querydsl-specific web configuration for Spring Data. Registers a

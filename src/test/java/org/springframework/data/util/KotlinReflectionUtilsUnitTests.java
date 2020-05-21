@@ -15,9 +15,6 @@
  */
 package org.springframework.data.util;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assumptions.*;
-
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -27,6 +24,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.KotlinDetector;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Unit tests for {@link KotlinReflectionUtilsUnitTests}.

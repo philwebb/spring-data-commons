@@ -15,20 +15,6 @@
  */
 package org.springframework.data.repository.util;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.repository.util.QueryExecutionConverters.*;
-
-import io.vavr.collection.Seq;
-import io.vavr.control.Try;
-import io.vavr.control.Try.Failure;
-import lombok.Value;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import rx.Completable;
-import rx.Observable;
-import rx.Single;
-import scala.Option;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -40,9 +26,21 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
+import com.google.common.base.Optional;
+import io.vavr.collection.Seq;
+import io.vavr.control.Try;
+import io.vavr.control.Try.Failure;
+import lombok.Value;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import rx.Completable;
+import rx.Observable;
+import rx.Single;
+import scala.Option;
+
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
@@ -51,7 +49,9 @@ import org.springframework.data.util.Streamable;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import com.google.common.base.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.repository.util.QueryExecutionConverters.getExecutionAdapter;
+import static org.springframework.data.repository.util.QueryExecutionConverters.unwrap;
 
 /**
  * Unit tests for {@link QueryExecutionConverters}.

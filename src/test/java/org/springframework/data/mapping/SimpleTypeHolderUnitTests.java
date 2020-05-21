@@ -15,8 +15,6 @@
  */
 package org.springframework.data.mapping;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.Collections;
@@ -26,6 +24,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.data.mapping.model.SimpleTypeHolder;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link SimpleTypeHolder}.

@@ -15,9 +15,9 @@
  */
 package org.springframework.data.mapping;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link TargetAwareIdentifierAccessor}.

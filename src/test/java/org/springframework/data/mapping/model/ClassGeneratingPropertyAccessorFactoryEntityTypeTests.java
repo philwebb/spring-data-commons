@@ -15,17 +15,18 @@
  */
 package org.springframework.data.mapping.model;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.Serializable;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.context.SampleMappingContext;
 import org.springframework.data.mapping.context.SamplePersistentProperty;
 import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.data.repository.core.support.PersistentEntityInformation;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ClassGeneratingPropertyAccessorFactory} covering interface and

@@ -19,6 +19,8 @@ import java.util.Properties;
 
 import javax.annotation.Nonnull;
 
+import org.w3c.dom.Element;
+
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -29,7 +31,6 @@ import org.springframework.data.repository.core.NamedQueries;
 import org.springframework.data.repository.core.support.PropertiesBasedNamedQueries;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.w3c.dom.Element;
 
 /**
  * {@link BeanDefinitionParser} to create {@link BeanDefinition}s of {@link NamedQueries}

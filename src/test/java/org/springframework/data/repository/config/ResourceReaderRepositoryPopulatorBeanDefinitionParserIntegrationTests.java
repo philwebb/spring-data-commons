@@ -15,11 +15,10 @@
  */
 package org.springframework.data.repository.config;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -29,6 +28,8 @@ import org.springframework.data.repository.init.ResourceReaderRepositoryPopulato
 import org.springframework.data.repository.init.UnmarshallingResourceReader;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for the initializer namespace elements.

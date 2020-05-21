@@ -15,15 +15,16 @@
  */
 package org.springframework.data.projection;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.beans.FeatureDescriptor;
 import java.beans.PropertyDescriptor;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Value;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link DefaultProjectionInformation}.

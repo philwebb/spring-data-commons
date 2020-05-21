@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.query;
 
-import static java.lang.String.*;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +32,8 @@ import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.Lazy;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
+
+import static java.lang.String.format;
 
 /**
  * Class to abstract a single parameter of a query method. It is held in the context of a

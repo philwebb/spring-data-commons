@@ -15,8 +15,6 @@
  */
 package org.springframework.data.type.classreading;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +23,9 @@ import java.net.URLClassLoader;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.core.io.DefaultResourceLoader;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit tests for {@link MethodsMetadataReaderFactory}.

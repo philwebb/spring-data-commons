@@ -15,8 +15,6 @@
  */
 package org.springframework.data.web;
 
-import static org.springframework.hateoas.TemplateVariable.VariableType.*;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.TemplateVariable;
@@ -27,6 +25,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import static org.springframework.hateoas.TemplateVariable.VariableType.REQUEST_PARAM;
+import static org.springframework.hateoas.TemplateVariable.VariableType.REQUEST_PARAM_CONTINUED;
 
 /**
  * Extension of {@link SortHandlerMethodArgumentResolver} that also supports enhancing

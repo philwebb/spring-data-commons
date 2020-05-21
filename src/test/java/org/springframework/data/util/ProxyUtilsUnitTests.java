@@ -15,13 +15,14 @@
  */
 package org.springframework.data.util;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.Serializable;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.data.util.ProxyUtils.ProxyDetector;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ProxyUtils}.

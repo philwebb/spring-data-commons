@@ -15,13 +15,13 @@
  */
 package org.springframework.data.web.querydsl;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver.*;
-
 import java.util.Optional;
 
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,8 +43,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver.extractTypeInfo;
 
 /**
  * Unit tests for {@link QuerydslPredicateArgumentResolver}.
@@ -258,6 +259,7 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 	static class SpecificBinding implements QuerydslBinderCustomizer<QUser> {
 
+		@Override
 		public void customize(QuerydslBindings bindings, QUser user) {
 
 			bindings.bind(user.firstname).firstOptional((path, value) -> value.map(it -> path.eq(it.toUpperCase())));

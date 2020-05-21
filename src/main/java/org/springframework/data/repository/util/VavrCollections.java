@@ -15,10 +15,6 @@
  */
 package org.springframework.data.repository.util;
 
-import io.vavr.collection.LinkedHashMap;
-import io.vavr.collection.LinkedHashSet;
-import io.vavr.collection.Traversable;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -27,6 +23,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+
+import io.vavr.collection.LinkedHashMap;
+import io.vavr.collection.LinkedHashSet;
+import io.vavr.collection.Traversable;
 
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.ConditionalGenericConverter;

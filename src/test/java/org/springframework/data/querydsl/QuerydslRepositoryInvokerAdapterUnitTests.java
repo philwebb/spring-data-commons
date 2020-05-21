@@ -15,10 +15,9 @@
  */
 package org.springframework.data.querydsl;
 
-import static org.mockito.Mockito.*;
-
 import java.io.Serializable;
 
+import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +28,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.support.RepositoryInvoker;
 
-import com.querydsl.core.types.Predicate;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for {@link QuerydslRepositoryInvokerAdapter}.

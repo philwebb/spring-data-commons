@@ -15,10 +15,6 @@
  */
 package org.springframework.data.web;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.domain.Sort.Direction.*;
-import static org.springframework.data.web.SortDefaultUnitTests.*;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +28,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
 import org.springframework.mock.web.server.MockServerWebExchange;
 import org.springframework.util.StringUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.springframework.data.domain.Sort.Direction.DESC;
+import static org.springframework.data.web.SortDefaultUnitTests.SORT;
+import static org.springframework.data.web.SortDefaultUnitTests.SORT_FIELDS;
 
 /**
  * Unit tests for {@link ReactiveSortHandlerMethodArgumentResolver}.

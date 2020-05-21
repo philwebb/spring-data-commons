@@ -18,13 +18,13 @@ package org.springframework.data.querydsl.binding;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.util.Assert;
-
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.CollectionPathBase;
 import com.querydsl.core.types.dsl.SimpleExpression;
+
+import org.springframework.util.Assert;
 
 /**
  * Default implementation of {@link MultiValueBinding} creating {@link Predicate} based on

@@ -15,12 +15,11 @@
  */
 package org.springframework.data.geo;
 
-import static org.assertj.core.api.Assertions.*;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link GeoModule}.

@@ -15,13 +15,13 @@
  */
 package org.springframework.data.util;
 
-import static org.springframework.util.ObjectUtils.*;
-
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import static org.springframework.util.ObjectUtils.nullSafeHashCode;
 
 /**
  * Special {@link TypeDiscoverer} to determine the actual type for a {@link TypeVariable}.

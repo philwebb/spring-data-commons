@@ -15,16 +15,10 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import java.io.Serializable;
 
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
-import reactor.core.publisher.Mono;
-import rx.Single;
-
-import java.io.Serializable;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,9 +27,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Mono;
+import rx.Single;
 
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.reactive.ReactiveSortingRepository;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link RepositoryFactorySupport} using reactive wrapper types.

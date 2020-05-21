@@ -18,13 +18,13 @@ package org.springframework.data.querydsl;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
+import com.querydsl.core.types.Predicate;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.support.RepositoryInvoker;
 import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
-
-import com.querydsl.core.types.Predicate;
 
 /**
  * {@link RepositoryInvoker} that is aware of a {@link QuerydslPredicateExecutor} and

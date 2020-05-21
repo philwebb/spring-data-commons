@@ -15,15 +15,17 @@
  */
 package org.springframework.data.web.config;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.DocumentContext;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
+import org.xmlbeam.XBProjector;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,10 +36,8 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.instrument.classloading.ShadowingClassLoader;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.ReflectionUtils;
-import org.xmlbeam.XBProjector;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.DocumentContext;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link SpringDataWebConfiguration}.

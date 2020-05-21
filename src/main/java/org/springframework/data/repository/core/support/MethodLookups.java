@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.springframework.core.GenericTypeResolver.*;
-
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -40,6 +38,8 @@ import org.springframework.data.repository.util.QueryExecutionConverters;
 import org.springframework.data.repository.util.ReactiveWrapperConverters;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
+
+import static org.springframework.core.GenericTypeResolver.resolveParameterType;
 
 /**
  * Implementations of method lookup functions.

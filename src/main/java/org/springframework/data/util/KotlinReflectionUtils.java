@@ -15,6 +15,11 @@
  */
 package org.springframework.data.util;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import kotlin.jvm.JvmClassMappingKt;
 import kotlin.reflect.KCallable;
 import kotlin.reflect.KClass;
@@ -24,11 +29,6 @@ import kotlin.reflect.KProperty;
 import kotlin.reflect.KType;
 import kotlin.reflect.jvm.KTypesJvm;
 import kotlin.reflect.jvm.ReflectJvmMapping;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.springframework.core.KotlinDetector;
 import org.springframework.core.MethodParameter;

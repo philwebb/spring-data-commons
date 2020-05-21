@@ -15,12 +15,6 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static java.util.Collections.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.data.repository.core.support.DummyRepositoryFactory.*;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -55,6 +49,7 @@ import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.data.repository.core.NamedQueries;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;
+import org.springframework.data.repository.core.support.DummyRepositoryFactory.MyRepositoryQuery;
 import org.springframework.data.repository.core.support.RepositoryComposition.RepositoryFragments;
 import org.springframework.data.repository.query.RepositoryQuery;
 import org.springframework.data.repository.sample.User;
@@ -65,6 +60,17 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.interceptor.TransactionalProxy;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link RepositoryFactorySupport}.

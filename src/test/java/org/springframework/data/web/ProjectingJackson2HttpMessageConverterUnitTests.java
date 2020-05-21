@@ -15,13 +15,14 @@
  */
 package org.springframework.data.web;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.http.MediaType;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ProjectingJackson2HttpMessageConverter}.

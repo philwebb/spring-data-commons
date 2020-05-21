@@ -21,6 +21,10 @@ import java.util.Map;
 import javax.annotation.Nullable;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.xml.sax.SAXParseException;
+import org.xmlbeam.XBProjector;
+import org.xmlbeam.config.DefaultXMLFactoriesConfig;
+
 import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpInputMessage;
@@ -32,9 +36,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
-import org.xml.sax.SAXParseException;
-import org.xmlbeam.XBProjector;
-import org.xmlbeam.config.DefaultXMLFactoriesConfig;
 
 /**
  * A read-only {@link HttpMessageConverter} to create XMLBeam-based projection instances

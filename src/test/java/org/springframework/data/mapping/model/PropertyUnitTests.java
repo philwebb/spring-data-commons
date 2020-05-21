@@ -15,14 +15,14 @@
  */
 package org.springframework.data.mapping.model;
 
-import static org.assertj.core.api.Assertions.*;
-
 import lombok.Value;
 import lombok.With;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.util.ReflectionUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link Property}.

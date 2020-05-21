@@ -1,7 +1,5 @@
 package org.springframework.data.repository.sample;
 
-import static org.mockito.Mockito.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +8,8 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.support.DummyRepositoryFactoryBean;
 import org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport;
 import org.springframework.data.repository.support.Repositories;
+
+import static org.mockito.Mockito.mock;
 
 @Configuration
 public class SampleConfiguration {

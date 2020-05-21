@@ -15,8 +15,6 @@
  */
 package org.springframework.data.transaction;
 
-import static java.util.Arrays.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +23,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.transaction.HeuristicCompletionException;
@@ -34,6 +33,8 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.util.Assert;
+
+import static java.util.Arrays.asList;
 
 /**
  * {@link PlatformTransactionManager} implementation that orchestrates transaction

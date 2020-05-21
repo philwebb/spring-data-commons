@@ -15,14 +15,11 @@
  */
 package org.springframework.data.repository.config;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
+
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.core.env.Environment;
@@ -33,6 +30,12 @@ import org.springframework.core.type.classreading.SimpleMetadataReaderFactory;
 import org.springframework.data.repository.config.CustomRepositoryImplementationDetectorUnitTests.First.CanonicalSampleRepositoryTestImpl;
 import org.springframework.data.util.Streamable;
 import org.springframework.mock.env.MockEnvironment;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * tests {@link CustomRepositoryImplementationDetector}

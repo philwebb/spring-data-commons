@@ -15,12 +15,13 @@
  */
 package org.springframework.data.querydsl;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 
 import org.springframework.data.domain.AbstractPageRequest;
 import org.springframework.data.domain.AbstractPageRequestUnitTests;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * @author Thomas Darimont
@@ -29,7 +30,7 @@ public class QPageRequestUnitTests extends AbstractPageRequestUnitTests {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.springframework.data.domain.AbstractPageRequestUnitTests#newPageRequest(int,
 	 * int)

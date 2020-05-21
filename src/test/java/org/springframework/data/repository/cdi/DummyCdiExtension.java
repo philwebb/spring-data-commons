@@ -31,6 +31,7 @@ import javax.enterprise.inject.spi.BeanManager;
 
 import org.apache.webbeans.context.AbstractContext;
 import org.mockito.Mockito;
+
 import org.springframework.data.repository.config.CustomRepositoryImplementationDetector;
 import org.springframework.data.repository.core.support.DummyRepositoryFactory;
 

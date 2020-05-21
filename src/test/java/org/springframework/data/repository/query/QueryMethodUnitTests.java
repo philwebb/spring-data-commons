@@ -15,11 +15,6 @@
  */
 package org.springframework.data.repository.query;
 
-import static org.assertj.core.api.Assertions.*;
-
-import io.vavr.collection.Seq;
-import io.vavr.control.Option;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -27,6 +22,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
+import io.vavr.collection.Seq;
+import io.vavr.control.Option;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.data.domain.Page;
@@ -38,6 +35,10 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.AbstractRepositoryMetadata;
 import org.springframework.data.repository.core.support.DefaultRepositoryMetadata;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit tests for {@link QueryMethod}.

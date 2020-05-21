@@ -15,8 +15,6 @@
  */
 package org.springframework.data.util;
 
-import static java.util.stream.Collectors.*;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +32,10 @@ import java.util.stream.StreamSupport;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Spring Data specific Java {@link Stream} utility methods and classes.

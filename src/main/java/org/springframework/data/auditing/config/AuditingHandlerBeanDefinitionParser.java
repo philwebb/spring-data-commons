@@ -15,9 +15,9 @@
  */
 package org.springframework.data.auditing.config;
 
-import static org.springframework.beans.factory.support.BeanDefinitionBuilder.*;
-
 import javax.annotation.Nonnull;
+
+import org.w3c.dom.Element;
 
 import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.aop.target.LazyInitTargetSource;
@@ -32,7 +32,8 @@ import org.springframework.data.config.ParsingUtils;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.w3c.dom.Element;
+
+import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
 
 /**
  * {@link BeanDefinitionParser} that parses an {@link AuditingHandler}

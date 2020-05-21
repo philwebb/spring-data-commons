@@ -15,10 +15,11 @@
  */
 package org.springframework.data.geo;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.util.SerializationUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link Box}.

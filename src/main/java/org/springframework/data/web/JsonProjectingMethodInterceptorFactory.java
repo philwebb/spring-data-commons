@@ -15,9 +15,6 @@
  */
 package org.springframework.data.web;
 
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -27,6 +24,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
+import com.jayway.jsonpath.ParseContext;
+import com.jayway.jsonpath.PathNotFoundException;
+import com.jayway.jsonpath.TypeRef;
+import com.jayway.jsonpath.spi.mapper.MappingProvider;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -38,16 +46,6 @@ import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.Option;
-import com.jayway.jsonpath.ParseContext;
-import com.jayway.jsonpath.PathNotFoundException;
-import com.jayway.jsonpath.TypeRef;
-import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 /**
  * {@link MethodInterceptorFactory} to create a {@link MethodInterceptor} that will

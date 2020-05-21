@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.support;
 
-import static org.springframework.data.util.Optionals.*;
-
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,6 +25,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.util.Assert;
+
+import static org.springframework.data.util.Optionals.mapIfAllPresent;
 
 /**
  * Default implementation of {@link RepositoryInvokerFactory} to inspect the requested

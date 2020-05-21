@@ -15,12 +15,13 @@
  */
 package org.springframework.data.repository.init;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.core.io.ClassPathResource;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link JacksonResourceReader}.

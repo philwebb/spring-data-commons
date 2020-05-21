@@ -15,14 +15,17 @@
  */
 package org.springframework.data.geo;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.geo.Metrics.*;
-
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.domain.Range;
 import org.springframework.data.domain.Range.Bound;
 import org.springframework.util.SerializationUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.geo.Metrics.KILOMETERS;
+import static org.springframework.data.geo.Metrics.MILES;
+import static org.springframework.data.geo.Metrics.NEUTRAL;
 
 /**
  * Unit tests for {@link Distance}.

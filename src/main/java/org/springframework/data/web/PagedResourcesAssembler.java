@@ -15,8 +15,6 @@
  */
 package org.springframework.data.web;
 
-import static org.springframework.web.util.UriComponentsBuilder.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +40,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 
 /**
  * {@link ResourceAssembler} to easily convert {@link Page} instances into

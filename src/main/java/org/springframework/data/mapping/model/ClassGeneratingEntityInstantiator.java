@@ -15,8 +15,6 @@
  */
 package org.springframework.data.mapping.model;
 
-import static org.springframework.asm.Opcodes.*;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -36,6 +34,21 @@ import org.springframework.data.mapping.PreferredConstructor.Parameter;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
+
+import static org.springframework.asm.Opcodes.AALOAD;
+import static org.springframework.asm.Opcodes.ACC_PUBLIC;
+import static org.springframework.asm.Opcodes.ACC_SUPER;
+import static org.springframework.asm.Opcodes.ACC_VARARGS;
+import static org.springframework.asm.Opcodes.ALOAD;
+import static org.springframework.asm.Opcodes.ARETURN;
+import static org.springframework.asm.Opcodes.CHECKCAST;
+import static org.springframework.asm.Opcodes.DUP;
+import static org.springframework.asm.Opcodes.ICONST_0;
+import static org.springframework.asm.Opcodes.INVOKESPECIAL;
+import static org.springframework.asm.Opcodes.INVOKESTATIC;
+import static org.springframework.asm.Opcodes.INVOKEVIRTUAL;
+import static org.springframework.asm.Opcodes.NEW;
+import static org.springframework.asm.Opcodes.RETURN;
 
 /**
  * An {@link EntityInstantiator} that can generate byte code to speed-up dynamic object

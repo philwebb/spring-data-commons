@@ -15,17 +15,17 @@
  */
 package org.springframework.data.querydsl.binding;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
+import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.querydsl.QUser;
 
-import com.querydsl.core.types.Predicate;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Christoph Strobl

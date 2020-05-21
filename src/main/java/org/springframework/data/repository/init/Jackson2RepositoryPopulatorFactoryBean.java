@@ -15,10 +15,10 @@
  */
 package org.springframework.data.repository.init;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.lang.Nullable;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * {@link FactoryBean} to set up a {@link ResourceReaderRepositoryPopulator} with a

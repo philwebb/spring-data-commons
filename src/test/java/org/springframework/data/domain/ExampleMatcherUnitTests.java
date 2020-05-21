@@ -15,11 +15,19 @@
  */
 package org.springframework.data.domain;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.domain.ExampleMatcher.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
+import org.springframework.data.domain.ExampleMatcher.NullHandler;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.springframework.data.domain.ExampleMatcher.matching;
+import static org.springframework.data.domain.ExampleMatcher.matchingAll;
+import static org.springframework.data.domain.ExampleMatcher.matchingAny;
 
 /**
  * Unit test for {@link ExampleMatcher}.

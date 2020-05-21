@@ -15,12 +15,12 @@
  */
 package org.springframework.data.querydsl;
 
+import com.querydsl.core.types.OrderSpecifier;
+
 import org.springframework.data.domain.AbstractPageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
-
-import com.querydsl.core.types.OrderSpecifier;
 
 /**
  * Basic Java Bean implementation of {@link Pageable} with support for QueryDSL.

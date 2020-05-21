@@ -21,12 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.util.Assert;
-
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.util.Assert;
 
 /**
  * Sort option for queries that wraps a Querydsl {@link OrderSpecifier}.

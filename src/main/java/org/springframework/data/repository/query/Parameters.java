@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.query;
 
-import static java.lang.String.*;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +29,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.util.Lazy;
 import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
+
+import static java.lang.String.format;
 
 /**
  * Abstracts method parameters that have to be bound to query parameters or applied to the

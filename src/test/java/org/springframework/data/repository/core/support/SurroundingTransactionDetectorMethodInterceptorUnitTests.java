@@ -15,12 +15,13 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.aop.framework.ReflectiveMethodInvocation;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.INSTANCE;
 
 /**
  * Unit tests for {@link SurroundingTransactionDetectorMethodInterceptor}.

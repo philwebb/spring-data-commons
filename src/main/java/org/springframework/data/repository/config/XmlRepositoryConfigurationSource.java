@@ -19,6 +19,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.w3c.dom.Element;
+
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -35,7 +37,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.w3c.dom.Element;
 
 /**
  * XML based {@link RepositoryConfigurationSource}. Uses configuration defined on

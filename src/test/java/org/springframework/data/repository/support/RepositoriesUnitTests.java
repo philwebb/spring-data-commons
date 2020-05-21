@@ -17,8 +17,6 @@ import org.springframework.data.repository.core.support.DefaultRepositoryMetadat
  */
 package org.springframework.data.repository.support;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -52,6 +50,9 @@ import org.springframework.data.repository.core.support.DummyRepositoryInformati
 import org.springframework.data.repository.core.support.RepositoryFactoryInformation;
 import org.springframework.data.repository.query.QueryMethod;
 import org.springframework.util.ClassUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link Repositories}.

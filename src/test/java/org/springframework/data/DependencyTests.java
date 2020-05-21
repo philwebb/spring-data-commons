@@ -15,10 +15,11 @@
  */
 package org.springframework.data;
 
-import static de.schauderhaft.degraph.check.JCheck.*;
-import static org.junit.Assert.*;
-
 import org.junit.jupiter.api.Test;
+
+import static de.schauderhaft.degraph.check.JCheck.classpath;
+import static de.schauderhaft.degraph.check.JCheck.violationFree;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Jens Schauder

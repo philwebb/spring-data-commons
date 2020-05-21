@@ -15,12 +15,11 @@
  */
 package org.springframework.data.util;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.lang.annotation.ElementType;
 import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.data.util.nonnull.NullableAnnotatedType;
 import org.springframework.data.util.nonnull.packagelevel.NonNullOnPackage;
@@ -28,6 +27,8 @@ import org.springframework.data.util.nonnull.type.Jsr305NonnullAnnotatedType;
 import org.springframework.data.util.nonnull.type.NonAnnotatedType;
 import org.springframework.data.util.nonnull.type.NonNullableParameters;
 import org.springframework.util.ReflectionUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link NullableUtils}.

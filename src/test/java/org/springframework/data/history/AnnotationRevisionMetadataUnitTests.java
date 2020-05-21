@@ -15,8 +15,6 @@
  */
 package org.springframework.data.history;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -25,8 +23,12 @@ import java.util.Date;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Reference;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link AnnotationRevisionMetadata}.

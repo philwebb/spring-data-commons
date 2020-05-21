@@ -18,6 +18,8 @@ package org.springframework.data.querydsl.binding;
 import java.util.Map;
 import java.util.Optional;
 
+import com.querydsl.core.types.EntityPath;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -29,8 +31,6 @@ import org.springframework.data.repository.support.Repositories;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
-
-import com.querydsl.core.types.EntityPath;
 
 /**
  * Factory to create {@link QuerydslBindings} using an {@link EntityPathResolver}.

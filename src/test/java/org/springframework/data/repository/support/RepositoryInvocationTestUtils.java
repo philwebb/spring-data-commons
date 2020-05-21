@@ -15,15 +15,16 @@
  */
 package org.springframework.data.repository.support;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+
 import org.springframework.aop.framework.ProxyFactory;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Utility methods to create {@link RepositoryInvoker} instances that get a verifying

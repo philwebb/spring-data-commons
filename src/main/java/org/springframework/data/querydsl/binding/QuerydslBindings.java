@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import com.querydsl.core.types.Path;
+
 import org.springframework.data.mapping.PropertyPath;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.data.util.ClassTypeInformation;
@@ -32,8 +34,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-
-import com.querydsl.core.types.Path;
 
 /**
  * {@link QuerydslBindings} allows definition of path specific bindings.

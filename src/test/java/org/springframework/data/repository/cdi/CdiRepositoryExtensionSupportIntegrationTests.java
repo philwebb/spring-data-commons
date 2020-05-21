@@ -15,9 +15,9 @@
  */
 package org.springframework.data.repository.cdi;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Common integration tests for Spring Data repository CDI extension.

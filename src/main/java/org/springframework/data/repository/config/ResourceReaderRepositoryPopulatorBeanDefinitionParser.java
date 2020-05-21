@@ -19,13 +19,14 @@ import java.util.Arrays;
 
 import javax.annotation.Nonnull;
 
+import org.w3c.dom.Element;
+
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
 import org.springframework.data.repository.init.UnmarshallerRepositoryPopulatorFactoryBean;
 import org.springframework.util.StringUtils;
-import org.w3c.dom.Element;
 
 /**
  * {@link BeanDefinitionParser} to parse repository initializers.

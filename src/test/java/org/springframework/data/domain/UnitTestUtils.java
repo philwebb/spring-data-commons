@@ -1,6 +1,6 @@
 package org.springframework.data.domain;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Oliver Gierke

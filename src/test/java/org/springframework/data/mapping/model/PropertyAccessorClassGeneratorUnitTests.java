@@ -15,13 +15,14 @@
  */
 package org.springframework.data.mapping.model;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.context.SampleMappingContext;
 import org.springframework.data.mapping.context.SamplePersistentProperty;
 import org.springframework.data.mapping.model.ClassGeneratingPropertyAccessorFactory.PropertyAccessorClassGenerator;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * Unit tests for {@link PropertyAccessorClassGeneratorUnitTests}.

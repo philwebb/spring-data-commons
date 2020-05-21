@@ -15,8 +15,6 @@
  */
 package org.springframework.data.domain.jaxb;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Arrays;
@@ -37,6 +35,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.custommonkey.xmlunit.Diff;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -47,6 +46,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for custom JAXB conversions for Spring Data value objects.

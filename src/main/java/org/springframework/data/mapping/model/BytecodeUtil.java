@@ -15,13 +15,14 @@
  */
 package org.springframework.data.mapping.model;
 
-import static org.springframework.asm.Opcodes.*;
-
 import java.lang.reflect.Modifier;
 
 import org.springframework.asm.MethodVisitor;
 import org.springframework.asm.Opcodes;
 import org.springframework.asm.Type;
+
+import static org.springframework.asm.Opcodes.INVOKESTATIC;
+import static org.springframework.asm.Opcodes.INVOKEVIRTUAL;
 
 /**
  * Utility methods used for ASM-based class generation during runtime.

@@ -15,8 +15,6 @@
  */
 package org.springframework.data.auditing;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +27,9 @@ import org.mockito.quality.Strictness;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mapping.context.PersistentEntities;
 import org.springframework.data.mapping.context.SampleMappingContext;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit test for {@code AuditingHandler}.

@@ -19,6 +19,9 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.util.Optional;
 
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.CollectionPathBase;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.mapping.PropertyPath;
 import org.springframework.data.querydsl.EntityPathResolver;
@@ -26,9 +29,6 @@ import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
-
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.CollectionPathBase;
 
 /**
  * {@link PropertyPath} based implementation of {@link PathInformation}.

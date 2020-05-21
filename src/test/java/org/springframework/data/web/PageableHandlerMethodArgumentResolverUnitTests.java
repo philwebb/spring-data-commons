@@ -15,11 +15,9 @@
  */
 package org.springframework.data.web;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.web.PageableHandlerMethodArgumentResolver.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +26,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.SortDefault.SortDefaults;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.ServletWebRequest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.springframework.data.web.PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST;
 
 /**
  * Unit tests for {@link PageableHandlerMethodArgumentResolver}. Pulls in defaulting tests

@@ -15,18 +15,6 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.*;
-
-import io.vavr.control.Option;
-import io.vavr.control.Try;
-import lombok.Value;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import rx.Completable;
-import rx.Observable;
-import rx.Single;
-
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -38,12 +26,25 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import io.vavr.control.Option;
+import io.vavr.control.Try;
+import lombok.Value;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import rx.Completable;
+import rx.Observable;
+import rx.Single;
+
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.util.Streamable;
+
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link QueryExecutionResultHandler}.

@@ -15,22 +15,21 @@
  */
 package org.springframework.data.repository.util;
 
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import kotlinx.coroutines.flow.Flow;
-import kotlinx.coroutines.reactive.ReactiveFlowKt;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import rx.Observable;
-import rx.Single;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.reactive.ReactiveFlowKt;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import rx.Observable;
+import rx.Single;
 
 import org.springframework.core.ReactiveAdapter;
 import org.springframework.core.ReactiveAdapterRegistry;

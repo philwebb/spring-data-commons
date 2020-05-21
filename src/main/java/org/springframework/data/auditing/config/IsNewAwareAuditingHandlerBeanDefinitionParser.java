@@ -15,9 +15,10 @@
  */
 package org.springframework.data.auditing.config;
 
+import org.w3c.dom.Element;
+
 import org.springframework.data.auditing.IsNewAwareAuditingHandler;
 import org.springframework.data.mapping.context.MappingContext;
-import org.w3c.dom.Element;
 
 /**
  * {@link AuditingHandlerBeanDefinitionParser} that will register am

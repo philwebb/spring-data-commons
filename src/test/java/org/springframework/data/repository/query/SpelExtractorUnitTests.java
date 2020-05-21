@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.query;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +23,10 @@ import java.util.function.BiFunction;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.repository.query.SpelQueryContext.SpelExtractor;
+
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link SpelExtractor}.

@@ -15,14 +15,15 @@
  */
 package org.springframework.data.type.classreading;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.core.type.MethodMetadata;
 import org.springframework.data.type.MethodsMetadata;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link DefaultMethodsMetadataReader}.

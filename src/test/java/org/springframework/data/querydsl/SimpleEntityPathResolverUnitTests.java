@@ -15,11 +15,13 @@
  */
 package org.springframework.data.querydsl;
 
-import static org.assertj.core.api.Assertions.*;
-
+import com.querydsl.core.annotations.QueryEntity;
 import org.junit.jupiter.api.Test;
 
-import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.data.querydsl.QUser;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit test for {@link SimpleEntityPathResolver}.

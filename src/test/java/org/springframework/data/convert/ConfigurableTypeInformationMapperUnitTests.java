@@ -15,8 +15,6 @@
  */
 package org.springframework.data.convert;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +27,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.mapping.Alias;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.data.util.ClassTypeInformation;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link ConfigurableTypeInformationMapper}.

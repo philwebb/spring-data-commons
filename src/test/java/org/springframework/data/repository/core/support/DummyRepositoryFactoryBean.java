@@ -15,12 +15,12 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.mockito.Mockito.*;
-
 import java.io.Serializable;
 
 import org.springframework.data.mapping.context.SampleMappingContext;
 import org.springframework.data.repository.Repository;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * @author Oliver Gierke

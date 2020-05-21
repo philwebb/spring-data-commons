@@ -15,18 +15,18 @@
  */
 package org.springframework.data.querydsl.binding;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assumptions.*;
-import static org.springframework.test.util.ReflectionTestUtils.*;
-
 import java.text.ParseException;
 import java.util.List;
 
+import com.querydsl.collections.CollQueryFactory;
+import com.querydsl.core.types.Constant;
+import com.querydsl.core.types.Predicate;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.querydsl.QSpecialUser;
 import org.springframework.data.querydsl.QUser;
 import org.springframework.data.querydsl.QUserWrapper;
@@ -39,9 +39,10 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import com.querydsl.collections.CollQueryFactory;
-import com.querydsl.core.types.Constant;
-import com.querydsl.core.types.Predicate;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.springframework.test.util.ReflectionTestUtils.getField;
 
 /**
  * Unit tests for {@link QuerydslPredicateBuilder}.

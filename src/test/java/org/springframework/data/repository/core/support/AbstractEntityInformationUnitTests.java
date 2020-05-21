@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.Serializable;
 
 import org.junit.jupiter.api.Test;
@@ -25,6 +23,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.ReflectionUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link AbstractEntityInformation}.

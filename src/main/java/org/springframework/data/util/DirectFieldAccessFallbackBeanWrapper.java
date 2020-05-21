@@ -15,14 +15,17 @@
  */
 package org.springframework.data.util;
 
-import static org.springframework.util.ReflectionUtils.*;
-
 import java.lang.reflect.Field;
 
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.NotWritablePropertyException;
 import org.springframework.lang.Nullable;
+
+import static org.springframework.util.ReflectionUtils.findField;
+import static org.springframework.util.ReflectionUtils.getField;
+import static org.springframework.util.ReflectionUtils.makeAccessible;
+import static org.springframework.util.ReflectionUtils.setField;
 
 /**
  * Custom extension of {@link BeanWrapperImpl} that falls back to direct field access in

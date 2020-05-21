@@ -15,9 +15,6 @@
  */
 package org.springframework.data.repository.config;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-
 import java.lang.annotation.Annotation;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +35,11 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.StandardAnnotationMetadata;
 import org.springframework.data.repository.config.basepackage.FragmentImpl;
 import org.springframework.data.repository.core.support.DummyRepositoryFactoryBean;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Integration test for {@link RepositoryBeanDefinitionRegistrarSupport}.

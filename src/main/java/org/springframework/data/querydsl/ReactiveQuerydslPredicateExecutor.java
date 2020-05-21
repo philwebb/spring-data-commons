@@ -15,13 +15,12 @@
  */
 package org.springframework.data.querydsl;
 
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import org.springframework.data.domain.Sort;
-
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 
 /**
  * Interface to issue queries using Querydsl {@link Predicate} instances. <br />

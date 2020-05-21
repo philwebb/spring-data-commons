@@ -15,13 +15,11 @@
  */
 package org.springframework.data.convert;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.util.ClassTypeInformation.from;
-
 import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mapping.Alias;
 import org.springframework.data.mapping.PersistentEntity;
@@ -29,6 +27,10 @@ import org.springframework.data.mapping.context.SampleMappingContext;
 import org.springframework.data.mapping.context.SamplePersistentProperty;
 import org.springframework.data.util.AnnotatedTypeScanner;
 import org.springframework.data.util.ClassTypeInformation;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.springframework.data.util.ClassTypeInformation.from;
 
 /**
  * Unit tests for {@link MappingContextTypeInformationMapper}.

@@ -15,9 +15,6 @@
  */
 package org.springframework.data.repository.config;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +28,10 @@ import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.config.AnnotationRepositoryConfigurationSourceUnitTests.Person;
 import org.springframework.data.repository.sample.SampleAnnotatedRepository;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.mockito.Mockito.mock;
 
 /**
  * Unit tests for {@link RepositoryComponentProvider}.

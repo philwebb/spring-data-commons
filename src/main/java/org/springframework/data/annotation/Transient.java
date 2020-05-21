@@ -15,11 +15,13 @@
  */
 package org.springframework.data.annotation;
 
-import static java.lang.annotation.ElementType.*;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
 
 /**
  * Marks a field to be transient for the mapping framework. Thus the property will not be

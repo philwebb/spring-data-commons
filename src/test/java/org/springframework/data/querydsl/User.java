@@ -18,10 +18,10 @@ package org.springframework.data.querydsl;
 import java.util.Date;
 import java.util.List;
 
+import com.querydsl.core.annotations.QueryEntity;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-
-import com.querydsl.core.annotations.QueryEntity;
 
 /**
  * @author Oliver Gierke

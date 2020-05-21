@@ -15,12 +15,12 @@
  */
 package org.springframework.data.querydsl;
 
-import org.springframework.lang.Nullable;
-import org.springframework.util.StringUtils;
-
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.PathMetadata;
 import com.querydsl.core.types.PathType;
+
+import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
 
 /**
  * Utility class for Querydsl.

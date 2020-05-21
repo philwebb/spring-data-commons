@@ -15,11 +15,6 @@
  */
 package org.springframework.data.repository.support;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.data.repository.support.RepositoryInvocationTestUtils.*;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,10 +41,20 @@ import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.DefaultRepositoryMetadata;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.support.CrudRepositoryInvokerUnitTests.PersonRepository;
-import org.springframework.data.repository.support.RepositoryInvocationTestUtils.*;
+import org.springframework.data.repository.support.RepositoryInvocationTestUtils.VerifyingMethodInterceptor;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.data.repository.support.RepositoryInvocationTestUtils.expectInvocationOf;
+import static org.springframework.data.repository.support.RepositoryInvocationTestUtils.getVerifyingRepositoryProxy;
 
 /**
  * Integration tests for {@link ReflectionRepositoryInvoker}.

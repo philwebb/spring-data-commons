@@ -15,9 +15,6 @@
  */
 package org.springframework.data.mapping;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.mapping.PropertyPath.from;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +24,12 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.fail;
+import static org.springframework.data.mapping.PropertyPath.from;
 
 /**
  * Unit tests for {@link PropertyPath}.

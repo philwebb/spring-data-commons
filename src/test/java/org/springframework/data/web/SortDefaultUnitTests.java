@@ -15,8 +15,6 @@
  */
 package org.springframework.data.web;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -27,6 +25,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.web.SortDefault.SortDefaults;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link SortDefault}.

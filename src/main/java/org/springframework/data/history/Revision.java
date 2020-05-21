@@ -15,13 +15,13 @@
  */
 package org.springframework.data.history;
 
-import static org.springframework.data.util.Optionals.*;
-
 import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
+
+import static org.springframework.data.util.Optionals.mapIfAllPresent;
 
 /**
  * Wrapper to contain {@link RevisionMetadata} as well as the revisioned entity.

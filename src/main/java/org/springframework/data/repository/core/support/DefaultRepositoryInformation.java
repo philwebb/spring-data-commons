@@ -15,9 +15,6 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.springframework.data.repository.util.ClassUtils.*;
-import static org.springframework.util.ReflectionUtils.*;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
@@ -34,6 +31,9 @@ import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+
+import static org.springframework.data.repository.util.ClassUtils.isGenericRepositoryInterface;
+import static org.springframework.util.ReflectionUtils.makeAccessible;
 
 /**
  * Default implementation of {@link RepositoryInformation}.

@@ -15,8 +15,6 @@
  */
 package org.springframework.data.mapping.model;
 
-import static org.springframework.data.mapping.AccessOptions.SetOptions.SetNulls.*;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,6 +35,8 @@ import org.springframework.data.mapping.PersistentPropertyPath;
 import org.springframework.data.mapping.PersistentPropertyPathAccessor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import static org.springframework.data.mapping.AccessOptions.SetOptions.SetNulls.SKIP;
 
 /**
  * {@link PersistentPropertyPathAccessor} that propagates attempts to set property values

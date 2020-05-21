@@ -15,14 +15,15 @@
  */
 package org.springframework.data.util;
 
-import static org.assertj.core.api.Assertions.*;
-
-import lombok.Getter;
-
 import java.util.Collection;
 
+import lombok.Getter;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.util.MethodInvocationRecorder.Recorded;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link MethodInvocationRecorder}.

@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.mockito.Mockito.*;
-
 import java.lang.reflect.Method;
 import java.util.Optional;
 
@@ -32,6 +30,9 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
 import org.springframework.data.repository.query.RepositoryQuery;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Mark Paluch

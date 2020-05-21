@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.core.support;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -24,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
@@ -32,6 +31,8 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.CrudMethods;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests dor {@link DefaultCrudMethods}.

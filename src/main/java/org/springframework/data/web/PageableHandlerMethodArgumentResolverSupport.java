@@ -15,8 +15,6 @@
  */
 package org.springframework.data.web;
 
-import static org.springframework.data.web.SpringDataAnnotationUtils.*;
-
 import java.lang.reflect.Method;
 import java.util.Optional;
 
@@ -28,6 +26,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import static org.springframework.data.web.SpringDataAnnotationUtils.assertPageableUniqueness;
+import static org.springframework.data.web.SpringDataAnnotationUtils.getSpecificPropertyOrDefaultFromValue;
 
 /**
  * Base class providing methods for handler method argument resolvers to create paging

@@ -15,13 +15,15 @@
  */
 package org.springframework.data.annotation;
 
-import static java.lang.annotation.ElementType.*;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.core.annotation.AliasFor;
+
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
 
 /**
  * Meta-annotation to be used to annotate annotations that mark references to other

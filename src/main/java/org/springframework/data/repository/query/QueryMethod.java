@@ -15,8 +15,6 @@
  */
 package org.springframework.data.repository.query;
 
-import static org.springframework.data.repository.util.ClassUtils.*;
-
 import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -33,6 +31,9 @@ import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.Lazy;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
+
+import static org.springframework.data.repository.util.ClassUtils.getNumberOfOccurences;
+import static org.springframework.data.repository.util.ClassUtils.hasParameterOfType;
 
 /**
  * Abstraction of a method that is designated to execute a finder query. Enriches the

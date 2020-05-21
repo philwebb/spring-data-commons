@@ -15,10 +15,6 @@
  */
 package org.springframework.data.repository.query.parser;
 
-import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.repository.query.parser.Part.Type.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,12 +24,34 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mapping.PropertyPath;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.data.repository.query.parser.Part.IgnoreCaseType;
 import org.springframework.data.repository.query.parser.Part.Type;
 import org.springframework.data.repository.query.parser.PartTree.OrPart;
+
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
+import static org.springframework.data.repository.query.parser.Part.Type.ENDING_WITH;
+import static org.springframework.data.repository.query.parser.Part.Type.EXISTS;
+import static org.springframework.data.repository.query.parser.Part.Type.FALSE;
+import static org.springframework.data.repository.query.parser.Part.Type.GREATER_THAN_EQUAL;
+import static org.springframework.data.repository.query.parser.Part.Type.IS_EMPTY;
+import static org.springframework.data.repository.query.parser.Part.Type.IS_NOT_EMPTY;
+import static org.springframework.data.repository.query.parser.Part.Type.LESS_THAN_EQUAL;
+import static org.springframework.data.repository.query.parser.Part.Type.LIKE;
+import static org.springframework.data.repository.query.parser.Part.Type.NEAR;
+import static org.springframework.data.repository.query.parser.Part.Type.NOT_CONTAINING;
+import static org.springframework.data.repository.query.parser.Part.Type.NOT_LIKE;
+import static org.springframework.data.repository.query.parser.Part.Type.REGEX;
+import static org.springframework.data.repository.query.parser.Part.Type.SIMPLE_PROPERTY;
+import static org.springframework.data.repository.query.parser.Part.Type.STARTING_WITH;
+import static org.springframework.data.repository.query.parser.Part.Type.TRUE;
 
 /**
  * Unit tests for {@link PartTree}.

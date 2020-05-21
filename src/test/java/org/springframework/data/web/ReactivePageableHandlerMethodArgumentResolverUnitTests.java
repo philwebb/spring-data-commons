@@ -15,10 +15,6 @@
  */
 package org.springframework.data.web;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.web.PageableDefaultUnitTests.*;
-import static org.springframework.data.web.PageableHandlerMethodArgumentResolver.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +27,13 @@ import org.springframework.data.web.SortDefault.SortDefaults;
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
 import org.springframework.mock.web.server.MockServerWebExchange;
 import org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentResolver;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.springframework.data.web.PageableDefaultUnitTests.PAGE_NUMBER;
+import static org.springframework.data.web.PageableDefaultUnitTests.PAGE_SIZE;
+import static org.springframework.data.web.PageableHandlerMethodArgumentResolverSupport.DEFAULT_PAGE_REQUEST;
 
 /**
  * Unit tests for {@link ReactivePageableHandlerMethodArgumentResolver}.

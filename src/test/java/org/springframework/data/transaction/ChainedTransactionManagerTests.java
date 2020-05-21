@@ -15,9 +15,6 @@
  */
 package org.springframework.data.transaction;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.transaction.ChainedTransactionManagerTests.TestPlatformTransactionManager.*;
-
 import org.junit.jupiter.api.Test;
 
 import org.springframework.transaction.HeuristicCompletionException;
@@ -28,6 +25,11 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.support.AbstractTransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.springframework.data.transaction.ChainedTransactionManagerTests.TestPlatformTransactionManager.createFailingTransactionManager;
+import static org.springframework.data.transaction.ChainedTransactionManagerTests.TestPlatformTransactionManager.createNonFailingTransactionManager;
 
 /**
  * Integration tests for {@link ChainedTransactionManager}.

@@ -15,9 +15,6 @@
  */
 package org.springframework.data.geo.format;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.geo.format.PointFormatter.*;
-
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,6 +25,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import org.springframework.data.geo.Point;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.springframework.data.geo.format.PointFormatter.INSTANCE;
 
 /**
  * Unit tests for {@link PointFormatter}.

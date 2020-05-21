@@ -15,19 +15,20 @@
  */
 package org.springframework.data.auditing;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.auditing.DefaultAuditableBeanWrapperFactory.ReflectionAuditingBeanWrapper;
 import org.springframework.data.convert.Jsr310Converters.LocalDateTimeToDateConverter;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ReflectionAuditingBeanWrapper}.

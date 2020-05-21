@@ -15,9 +15,6 @@
  */
 package org.springframework.data.geo.format;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.geo.format.DistanceFormatter.*;
-
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,6 +26,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.springframework.data.geo.format.DistanceFormatter.INSTANCE;
 
 /**
  * Unit tests for {@link DistanceFormatter}.

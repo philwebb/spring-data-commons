@@ -15,12 +15,13 @@
  */
 package org.springframework.data.mapping;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.mapping.context.SampleMappingContext;
 import org.springframework.data.mapping.context.SamplePersistentProperty;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for Mapping metadata.

@@ -15,17 +15,18 @@
  */
 package org.springframework.data.mapping;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mapping.PreferredConstructor.Parameter;
 import org.springframework.data.mapping.PreferredConstructorDiscovererUnitTests.Outer.Inner;
 import org.springframework.data.mapping.model.BasicPersistentEntity;
 import org.springframework.data.mapping.model.PreferredConstructorDiscoverer;
 import org.springframework.data.util.ClassTypeInformation;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link PreferredConstructorDiscoverer}.

@@ -15,8 +15,6 @@
  */
 package org.springframework.data.spel;
 
-import static org.springframework.data.util.StreamUtils.*;
-
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -41,6 +39,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldFilter;
 import org.springframework.util.ReflectionUtils.MethodFilter;
+
+import static org.springframework.data.util.StreamUtils.toMultiMap;
 
 /**
  * Inspects the configured {@link EvaluationContextExtension} type for static methods and
