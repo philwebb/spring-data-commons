@@ -250,8 +250,6 @@ public interface ExampleMatcher {
 
 	/**
 	 * Null handling for creating criterion out of an {@link Example}.
-	 *
-	 * @author Christoph Strobl
 	 */
 	enum NullHandler {
 
@@ -261,8 +259,7 @@ public interface ExampleMatcher {
 
 	/**
 	 * Callback to configure a matcher.
-	 *
-	 * @author Mark Paluch
+	 * 
 	 * @param <T>
 	 */
 	interface MatcherConfigurer<T> {
@@ -274,8 +271,6 @@ public interface ExampleMatcher {
 	/**
 	 * A generic property matcher that specifies {@link StringMatcher string matching} and
 	 * case sensitivity.
-	 *
-	 * @author Mark Paluch
 	 */
 	class GenericPropertyMatcher {
 
@@ -452,8 +447,6 @@ public interface ExampleMatcher {
 
 	/**
 	 * Predefined property matchers to create a {@link GenericPropertyMatcher}.
-	 *
-	 * @author Mark Paluch
 	 */
 	class GenericPropertyMatchers {
 
@@ -532,9 +525,6 @@ public interface ExampleMatcher {
 
 	/**
 	 * Match modes for treatment of {@link String} values.
-	 *
-	 * @author Christoph Strobl
-	 * @author Jens Schauder
 	 */
 	enum StringMatcher {
 
@@ -578,8 +568,6 @@ public interface ExampleMatcher {
 	}
 
 	/**
-	 * @author Christoph Strobl
-	 * @author Oliver Gierke
 	 * @since 1.12
 	 */
 	enum NoOpPropertyValueTransformer implements ExampleMatcher.PropertyValueTransformer {
@@ -597,8 +585,6 @@ public interface ExampleMatcher {
 	/**
 	 * Define specific property handling for a Dot-Path.
 	 *
-	 * @author Christoph Strobl
-	 * @author Mark Paluch
 	 * @since 1.12
 	 */
 	class PropertySpecifier {
@@ -744,8 +730,6 @@ public interface ExampleMatcher {
 	/**
 	 * Define specific property handling for Dot-Paths.
 	 *
-	 * @author Christoph Strobl
-	 * @author Mark Paluch
 	 * @since 1.12
 	 */
 	class PropertySpecifiers {
@@ -803,7 +787,6 @@ public interface ExampleMatcher {
 	 * The match modes to expose so that clients can find about how to concatenate the
 	 * predicates.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.13
 	 * @see ExampleMatcher#isAllMatching()
 	 */

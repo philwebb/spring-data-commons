@@ -113,8 +113,6 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	/**
 	 * A {@link MethodInterceptor} that forwards all invocations of methods (by name and
 	 * parameter types) that are available on a given target object
-	 *
-	 * @author Oliver Gierke
 	 */
 	static class DelegatingMethodInterceptor implements MethodInterceptor {
 

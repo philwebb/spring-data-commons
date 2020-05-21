@@ -270,8 +270,6 @@ public class RepositoryComposition {
 
 	/**
 	 * Value object representing an ordered list of {@link RepositoryFragment fragments}.
-	 *
-	 * @author Mark Paluch
 	 */
 	public static class RepositoryFragments implements Streamable<RepositoryFragment<?>> {
 

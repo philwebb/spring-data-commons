@@ -269,8 +269,6 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 
 	/**
 	 * Helper to easily build request parameter expressions for {@link Sort} instances.
-	 *
-	 * @author Oliver Gierke
 	 */
 	class ExpressionBuilder {
 
@@ -328,7 +326,6 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	/**
 	 * Parser for sort {@link Order}.
 	 *
-	 * @author Mark Paluch
 	 * @since 2.3
 	 */
 	static class SortOrderParser {

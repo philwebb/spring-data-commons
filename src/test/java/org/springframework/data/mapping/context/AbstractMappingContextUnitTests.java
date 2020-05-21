@@ -279,8 +279,6 @@ class AbstractMappingContextUnitTests {
 	/**
 	 * Extension of {@link SampleMappingContext} to reject the creation of certain types
 	 * with a configurable exception.
-	 *
-	 * @author Oliver Drotbohm
 	 */
 	@Value
 	@EqualsAndHashCode(callSuper = false)

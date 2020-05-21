@@ -292,8 +292,6 @@ public class QuerydslBindings {
 
 	/**
 	 * A binder for {@link Path}s.
-	 *
-	 * @author Oliver Gierke
 	 */
 	public class PathBinder<P extends Path<? extends T>, T> {
 
@@ -344,8 +342,6 @@ public class QuerydslBindings {
 	 * A special {@link PathBinder} that additionally registers the binding under a
 	 * dedicated alias. The original path is still registered but blacklisted so that it
 	 * becomes unavailable except it's explicitly whitelisted.
-	 *
-	 * @author Oliver Gierke
 	 */
 	public class AliasingPathBinder<P extends Path<? extends T>, T> extends PathBinder<P, T> {
 
@@ -408,8 +404,6 @@ public class QuerydslBindings {
 
 	/**
 	 * A binder for types.
-	 *
-	 * @author Oliver Gierke
 	 */
 	public final class TypeBinder<T> {
 
@@ -448,9 +442,7 @@ public class QuerydslBindings {
 
 	/**
 	 * A pair of a {@link Path} and the registered {@link MultiValueBinding}.
-	 *
-	 * @author Christoph Strobl
-	 * @author Oliver Gierke
+	 * 
 	 * @since 1.11
 	 */
 	private static final class PathAndBinding<P extends Path<? extends T>, T> {

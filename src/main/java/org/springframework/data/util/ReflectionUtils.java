@@ -72,8 +72,6 @@ public final class ReflectionUtils {
 
 	/**
 	 * A {@link FieldFilter} that has a description.
-	 *
-	 * @author Oliver Gierke
 	 */
 	public interface DescribedFieldFilter extends FieldFilter {
 
@@ -88,8 +86,6 @@ public final class ReflectionUtils {
 
 	/**
 	 * A {@link FieldFilter} for a given annotation.
-	 *
-	 * @author Oliver Gierke
 	 */
 	public static class AnnotationFieldFilter implements DescribedFieldFilter {
 

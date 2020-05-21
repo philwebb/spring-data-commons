@@ -465,8 +465,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	/**
 	 * Method interceptor that calls methods on the {@link RepositoryComposition}.
-	 *
-	 * @author Mark Paluch
 	 */
 	public class ImplementationMethodExecutionInterceptor implements MethodInterceptor {
 
@@ -495,8 +493,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	/**
 	 * {@link QueryCreationListener} collecting the {@link QueryMethod}s created for all
 	 * query methods of the repository interface.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class QueryCollectingQueryCreationListener implements QueryCreationListener<RepositoryQuery> {
 
@@ -519,9 +515,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	/**
 	 * Simple value object to build up keys to cache {@link RepositoryInformation}
 	 * instances.
-	 *
-	 * @author Oliver Gierke
-	 * @author Mark Paluch
 	 */
 	private static final class RepositoryInformationCacheKey {
 

@@ -67,7 +67,6 @@ public @interface SortDefault {
 	 * method parameter.
 	 *
 	 * @since 1.6
-	 * @author Oliver Gierke
 	 */
 	@Documented
 	@Retention(RetentionPolicy.RUNTIME)

@@ -193,8 +193,6 @@ class KotlinCopyMethod {
 
 	/**
 	 * Value object to represent Kotlin {@literal copy$default} invocation metadata.
-	 *
-	 * @author Mark Paluch
 	 */
 	static class KotlinCopyByProperty {
 

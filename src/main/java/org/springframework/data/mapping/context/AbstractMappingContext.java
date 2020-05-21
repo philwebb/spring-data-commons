@@ -393,8 +393,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 	/**
 	 * {@link FieldCallback} to create {@link PersistentProperty} instances.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private final class PersistentPropertyCreator implements FieldCallback {
 
@@ -461,8 +459,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	/**
 	 * Filter rejecting static fields as well as artificially introduced ones. See
 	 * {@link PersistentPropertyFilter#UNMAPPED_PROPERTIES} for details.
-	 *
-	 * @author Oliver Gierke
 	 */
 	static enum PersistentPropertyFilter implements FieldFilter {
 
@@ -505,7 +501,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		 * types.
 		 *
 		 * @since 1.4
-		 * @author Oliver Gierke
 		 */
 		static class PropertyMatch {
 

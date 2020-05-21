@@ -172,7 +172,6 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 * Value object to represent constructor parameters.
 	 *
 	 * @param <T> the type of the parameter
-	 * @author Oliver Gierke
 	 */
 	public static class Parameter<T, P extends PersistentProperty<P>> {
 

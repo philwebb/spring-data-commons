@@ -88,7 +88,6 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 	/**
 	 * Captures {@link PersistentProperty} instances equipped with auditing annotations.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.8
 	 */
 	static class MappingAuditingMetadata {
@@ -142,7 +141,6 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 	 * {@link AuditableBeanWrapper} using {@link MappingAuditingMetadata} and a
 	 * {@link PersistentPropertyAccessor} to set values on auditing properties.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.8
 	 */
 	static class MappingMetadataAuditableBeanWrapper<T> extends DateConvertingAuditableBeanWrapper<T> {

@@ -171,8 +171,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	 * Custom {@link MethodInterceptor} to expose the proxy target class even if we set
 	 * {@link ProxyFactory#setOpaque(boolean)} to true to prevent properties on
 	 * {@link Advised} to be rendered.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class TargetAwareMethodInterceptor implements MethodInterceptor {
 
@@ -217,8 +215,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 	/**
 	 * {@link MethodInterceptorFactory} handling {@link Map}s as target objects.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static enum MapAccessingMethodInterceptorFactory implements MethodInterceptorFactory {
 
@@ -240,8 +236,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	/**
 	 * {@link MethodInterceptorFactory} to create a
 	 * {@link PropertyAccessingMethodInterceptor} for arbitrary objects.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static enum PropertyAccessingMethodInvokerFactory implements MethodInterceptorFactory {
 

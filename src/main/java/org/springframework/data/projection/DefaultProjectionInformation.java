@@ -103,8 +103,6 @@ class DefaultProjectionInformation implements ProjectionInformation {
 	/**
 	 * Internal helper to detect {@link PropertyDescriptor} instances for a given type.
 	 *
-	 * @author Mark Paluch
-	 * @author Oliver Gierke
 	 * @since 2.1
 	 */
 	private static class PropertyDescriptorSource {

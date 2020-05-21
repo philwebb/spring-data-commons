@@ -144,8 +144,6 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 	 * {@link org.springframework.core.type.filter.TypeFilter} that only matches
 	 * interfaces. Thus setting this up makes only sense providing an interface type as
 	 * {@code targetType}.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class InterfaceTypeFilter extends AssignableTypeFilter {
 
@@ -169,8 +167,6 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 	/**
 	 * Helper class to create a {@link TypeFilter} that matches if all the delegates
 	 * match.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class AllTypeFilter implements TypeFilter {
 

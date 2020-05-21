@@ -127,8 +127,6 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 
 	/**
 	 * Wrapper class to expose an object to the SpEL expression as {@code target}.
-	 *
-	 * @author Oliver Gierke
 	 */
 	static final class TargetWrapper {
 

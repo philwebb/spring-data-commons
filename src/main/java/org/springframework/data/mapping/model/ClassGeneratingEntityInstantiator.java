@@ -185,10 +185,6 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	/**
 	 * Adapter to forward an invocation of the {@link EntityInstantiator} API to an
 	 * {@link ObjectInstantiator}.
-	 *
-	 * @author Thomas Darimont
-	 * @author Oliver Gierke
-	 * @author Mark Paluch
 	 */
 	private static class EntityInstantiatorAdapter implements EntityInstantiator {
 
@@ -241,9 +237,6 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	/**
 	 * Needs to be public as otherwise the implementation class generated does not see the
 	 * interface from the classloader.
-	 *
-	 * @author Thomas Darimont
-	 * @author Oliver Gierke
 	 */
 	public interface ObjectInstantiator {
 
@@ -288,9 +281,6 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	 * 	}
 	 * }
 	 * </pre>
-	 *
-	 * @author Thomas Darimont
-	 * @author Mark Paluch
 	 */
 	static class ObjectInstantiatorClassGenerator {
 

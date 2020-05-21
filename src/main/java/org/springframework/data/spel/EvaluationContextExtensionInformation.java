@@ -99,8 +99,6 @@ class EvaluationContextExtensionInformation {
 	 * Static information about the given {@link EvaluationContextExtension} type.
 	 * Discovers public static methods and fields. The fields' values are obtained
 	 * directly, the methods are exposed {@link Function} invocations.
-	 *
-	 * @author Oliver Gierke
 	 */
 	public static class ExtensionTypeInformation {
 
@@ -176,8 +174,6 @@ class EvaluationContextExtensionInformation {
 
 	/**
 	 * Information about the root object of an extension.
-	 *
-	 * @author Oliver Gierke
 	 */
 	static class RootObjectInformation {
 

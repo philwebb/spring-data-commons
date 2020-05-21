@@ -55,6 +55,7 @@ import org.springframework.util.ClassUtils;
  *
  * @author Mark Paluch
  * @author Oliver Gierke
+ * @author Christoph Strobl
  * @since 2.0
  * @see ReactiveWrappers
  * @see ReactiveAdapterRegistry
@@ -174,9 +175,6 @@ public abstract class ReactiveWrapperConverters {
 	/**
 	 * Wrapper descriptor that can apply a {@link Function} to map items inside its
 	 * stream.
-	 *
-	 * @author Mark Paluch
-	 * @author Christoph Strobl
 	 */
 	private static interface ReactiveTypeWrapper<T> {
 
@@ -379,8 +377,7 @@ public abstract class ReactiveWrapperConverters {
 	/**
 	 * A {@link Converter} to convert a {@link Publisher} to {@link Flux}.
 	 *
-	 * @author Mark Paluch
-	 * @author 2.0
+	 * @since 2.0
 	 */
 	private static enum PublisherToFluxConverter implements Converter<Publisher<?>, Flux<?>> {
 
@@ -397,8 +394,7 @@ public abstract class ReactiveWrapperConverters {
 	/**
 	 * A {@link Converter} to convert a {@link Publisher} to {@link Mono}.
 	 *
-	 * @author Mark Paluch
-	 * @author 2.0
+	 * @since 2.0
 	 */
 	private static enum PublisherToMonoConverter implements Converter<Publisher<?>, Mono<?>> {
 
@@ -419,8 +415,7 @@ public abstract class ReactiveWrapperConverters {
 	/**
 	 * A {@link Converter} to convert a {@link Publisher} to {@link Flow}.
 	 *
-	 * @author Mark Paluch
-	 * @author 2.3
+	 * @since 2.3
 	 */
 	private static enum PublisherToFlowConverter implements Converter<Publisher<?>, Flow<?>> {
 
@@ -470,8 +465,7 @@ public abstract class ReactiveWrapperConverters {
 	/**
 	 * Holder for delayed initialization of {@link ReactiveAdapterRegistry}.
 	 *
-	 * @author Mark Paluch
-	 * @author 2.0
+	 * @since 2.0
 	 */
 	static class RegistryHolder {
 

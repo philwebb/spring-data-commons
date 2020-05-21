@@ -40,6 +40,7 @@ import static org.mockito.Mockito.when;
  * to simulate behavior for test cases.
  *
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 public class DummyRepositoryFactory extends RepositoryFactorySupport {
 
@@ -94,9 +95,6 @@ public class DummyRepositoryFactory extends RepositoryFactorySupport {
 				? fragments.append(RepositoryFragments.just(this.querydsl)) : fragments;
 	}
 
-	/**
-	 * @author Mark Paluch
-	 */
 	public interface MyRepositoryQuery extends RepositoryQuery {
 
 	}

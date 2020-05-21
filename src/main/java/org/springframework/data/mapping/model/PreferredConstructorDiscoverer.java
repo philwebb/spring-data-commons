@@ -75,10 +75,6 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 	/**
 	 * Helper class to find a {@link PreferredConstructor}.
 	 *
-	 * @author Oliver Gierke
-	 * @author Christoph Strobl
-	 * @author Roman Rodov
-	 * @author Mark Paluch
 	 * @since 2.0
 	 */
 	enum Discoverers {

@@ -451,8 +451,6 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	/**
 	 * A null-object implementation of {@link IdentifierAccessor} to be able to return an
 	 * accessor for entities that do not have an identifier property.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class AbsentIdentifierAccessor extends TargetAwareIdentifierAccessor {
 
@@ -471,8 +469,6 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	/**
 	 * Simple {@link Comparator} adaptor to delegate ordering to the inverse properties of
 	 * the association.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static final class AssociationComparator<P extends PersistentProperty<P>>
 			implements Comparator<Association<P>>, Serializable {

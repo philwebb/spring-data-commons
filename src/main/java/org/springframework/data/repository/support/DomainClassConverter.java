@@ -104,7 +104,6 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 	 * Converter to create domain types from any source that can be converted into the
 	 * domain types identifier type.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.10
 	 */
 	private class ToEntityConverter implements ConditionalGenericConverter {
@@ -169,7 +168,6 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 	 * Converter to turn domain types into their identifiers or any transitively
 	 * convertible type.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.10
 	 */
 	class ToIdConverter implements ConditionalGenericConverter {

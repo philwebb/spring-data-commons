@@ -357,7 +357,6 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		 * Simple {@link Comparator} to sort {@link PersistentPropertyPath} instances by
 		 * their property segment's name length.
 		 *
-		 * @author Oliver Gierke
 		 * @since 2.1
 		 */
 		private enum ShortestSegmentFirst

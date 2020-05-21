@@ -219,7 +219,6 @@ public final class Range<T extends Comparable<T>> {
 	 * unbounded}, {@link #inclusive(Comparable) including its value} or
 	 * {@link #exclusive(Comparable) its value}.
 	 *
-	 * @author Mark Paluch
 	 * @since 2.0
 	 */
 	public static final class Bound<T extends Comparable<T>> {
@@ -396,7 +395,6 @@ public final class Range<T extends Comparable<T>> {
 	/**
 	 * Builder for {@link Range} allowing to specify the upper boundary.
 	 *
-	 * @author Mark Paluch
 	 * @since 2.0
 	 */
 	public static class RangeBuilder<T extends Comparable<T>> {

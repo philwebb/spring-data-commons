@@ -438,16 +438,10 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	}
 
-	/**
-	 * @author Thomas Darimont
-	 */
 	public static class ObjCtorDefault {
 
 	}
 
-	/**
-	 * @author Thomas Darimont
-	 */
 	public static class ObjCtorNoArgs {
 
 		public boolean ctorInvoked;
@@ -458,9 +452,6 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	}
 
-	/**
-	 * @author Thomas Darimont
-	 */
 	public static class ObjCtor1ParamString {
 
 		public boolean ctorInvoked;
@@ -474,9 +465,6 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	}
 
-	/**
-	 * @author Thomas Darimont
-	 */
 	public static class ObjCtor2ParamStringString {
 
 		public boolean ctorInvoked;
@@ -493,9 +481,6 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	}
 
-	/**
-	 * @author Thomas Darimont
-	 */
 	public static class ObjectCtor1ParamInt {
 
 		public int param1;
@@ -506,9 +491,6 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 
 	}
 
-	/**
-	 * @author Thomas Darimont
-	 */
 	public static class ObjectCtor7ParamsString5IntsString {
 
 		public String param1;

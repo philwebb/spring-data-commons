@@ -305,8 +305,6 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 	 * 	}
 	 * }
 	 * </pre>
-	 *
-	 * @author Mark Paluch
 	 */
 	static class PropertyAccessorClassGenerator {
 
@@ -1276,8 +1274,6 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 
 	/**
 	 * Stack map address for a particular property.
-	 *
-	 * @author Mark Paluch
 	 */
 	static class PropertyStackAddress implements Comparable<PropertyStackAddress> {
 

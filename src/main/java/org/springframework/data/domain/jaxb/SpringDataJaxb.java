@@ -54,8 +54,6 @@ public abstract class SpringDataJaxb {
 
 	/**
 	 * The DTO for {@link Pageable}s/{@link PageRequest}s.
-	 *
-	 * @author Oliver Gierke
 	 */
 	@XmlRootElement(name = "page-request", namespace = NAMESPACE)
 	@XmlAccessorType(XmlAccessType.FIELD)
@@ -71,8 +69,6 @@ public abstract class SpringDataJaxb {
 
 	/**
 	 * The DTO for {@link Sort}.
-	 *
-	 * @author Oliver Gierke
 	 */
 	@XmlRootElement(name = "sort", namespace = NAMESPACE)
 	@XmlAccessorType(XmlAccessType.FIELD)
@@ -85,8 +81,6 @@ public abstract class SpringDataJaxb {
 
 	/**
 	 * The DTO for {@link Order}.
-	 *
-	 * @author Oliver Gierke
 	 */
 	@XmlRootElement(name = "order", namespace = NAMESPACE)
 	@XmlAccessorType(XmlAccessType.FIELD)
@@ -104,8 +98,6 @@ public abstract class SpringDataJaxb {
 
 	/**
 	 * The DTO for {@link Page}.
-	 *
-	 * @author Oliver Gierke
 	 */
 	@XmlRootElement(name = "page", namespace = NAMESPACE)
 	@XmlAccessorType(XmlAccessType.FIELD)

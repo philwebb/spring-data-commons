@@ -116,8 +116,6 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 	/**
 	 * Custom extension of {@link ClassPathScanningCandidateComponentProvider} to make
 	 * sure interfaces to not get dropped from scanning results.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class InterfaceAwareScanner extends ClassPathScanningCandidateComponentProvider {
 

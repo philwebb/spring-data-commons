@@ -149,8 +149,6 @@ class DefaultRepositoryMetadataUnitTests {
 	 * <li>Check that {@link ClassUtils#getDomainClass(Class)} traverses interface
 	 * hierarchy</li>
 	 * </ol>
-	 *
-	 * @author Oliver Gierke
 	 */
 	private interface SomeDao extends Serializable, UserRepository {
 
@@ -160,8 +158,6 @@ class DefaultRepositoryMetadataUnitTests {
 
 	/**
 	 * Sample interface to test recursive lookup of domain class.
-	 *
-	 * @author Oliver Gierke
 	 */
 	static interface ExtensionOfUserCustomExtendedDao extends UserCustomExtendedRepository {
 
@@ -182,8 +178,6 @@ class DefaultRepositoryMetadataUnitTests {
 
 	/**
 	 * Helper class to reproduce #256.
-	 *
-	 * @author Oliver Gierke
 	 */
 	static class GenericEntity<T> {
 

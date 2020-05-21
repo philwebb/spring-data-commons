@@ -146,7 +146,6 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 	 * the bitmask represents only 32 bit states, it requires additional masks (slots) if
 	 * more than 32 arguments are represented.
 	 *
-	 * @author Mark Paluch
 	 * @since 2.0
 	 */
 	static class DefaultingKotlinClassInstantiatorAdapter implements EntityInstantiator {

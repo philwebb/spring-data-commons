@@ -125,7 +125,6 @@ public class TypeFilterParser {
 	 * Enum representing all the filter types available for {@code include} and
 	 * {@code exclude} elements. This acts as factory for {@link TypeFilter} instances.
 	 *
-	 * @author Oliver Gierke
 	 * @see #getFilter(String, ClassLoader)
 	 */
 	private static enum FilterType {

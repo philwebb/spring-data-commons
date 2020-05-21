@@ -216,7 +216,6 @@ public class ResultProcessor {
 	/**
 	 * A simple {@link Converter} that will return the source value as is.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.12
 	 */
 	private static enum NoOpConverter implements Converter<Object, Object> {

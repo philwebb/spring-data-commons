@@ -403,8 +403,6 @@ public class CustomConversions {
 
 	/**
 	 * Value object to cache custom conversion targets.
-	 *
-	 * @author Mark Paluch
 	 */
 	static class ConversionTargetsCache {
 
@@ -456,8 +454,6 @@ public class CustomConversions {
 	/**
 	 * Value object for a specific {@code Class source type} to determine possible target
 	 * conversion types.
-	 *
-	 * @author Mark Paluch
 	 */
 	static class TargetTypes {
 
@@ -496,7 +492,6 @@ public class CustomConversions {
 	 * supported types.
 	 *
 	 * @since 2.3
-	 * @author Christoph Strobl
 	 */
 	protected static class ConverterRegistrationIntent {
 
@@ -575,9 +570,6 @@ public class CustomConversions {
 
 	/**
 	 * Conversion registration information.
-	 *
-	 * @author Oliver Gierke
-	 * @author Mark Paluch
 	 */
 	private static class ConverterRegistration {
 
@@ -653,8 +645,6 @@ public class CustomConversions {
 	 * Value type to capture store-specific extensions to the {@link CustomConversions}.
 	 * Allows to forward store specific default conversions and a set of types that are
 	 * supposed to be considered simple.
-	 *
-	 * @author Oliver Gierke
 	 */
 	public static class StoreConversions {
 
@@ -795,8 +785,7 @@ public class CustomConversions {
 	/**
 	 * Value object holding the actual {@link StoreConversions} and custom
 	 * {@link Converter converters} configured for registration.
-	 *
-	 * @author Christoph Strobl
+	 * 
 	 * @since 2.3
 	 */
 	protected static class ConverterConfiguration {

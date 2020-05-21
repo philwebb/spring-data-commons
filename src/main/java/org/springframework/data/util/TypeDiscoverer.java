@@ -432,7 +432,6 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	/**
 	 * A synthetic {@link ParameterizedType}.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.11
 	 */
 	private static class SyntheticParamterizedType implements ParameterizedType {

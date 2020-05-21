@@ -45,7 +45,6 @@ import org.springframework.util.Assert;
  * @author Christoph Strobl
  * @author Peter Rietzler
  * @author Jens Schauder
- * @author Mark Paluch
  */
 public class CustomRepositoryImplementationDetector {
 

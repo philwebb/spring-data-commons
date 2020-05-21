@@ -290,8 +290,6 @@ public abstract class QueryExecutionConverters {
 	/**
 	 * Base class for converters that create instances of wrapper types such as Google
 	 * Guava's and JDK 8's {@code Optional} types.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static abstract class AbstractWrapperTypeConverter implements GenericConverter {
 
@@ -351,8 +349,6 @@ public abstract class QueryExecutionConverters {
 
 	/**
 	 * A Spring {@link Converter} to support Google Guava's {@link Optional}.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class NullableWrapperToGuavaOptionalConverter extends AbstractWrapperTypeConverter {
 
@@ -378,8 +374,6 @@ public abstract class QueryExecutionConverters {
 
 	/**
 	 * A Spring {@link Converter} to support JDK 8's {@link java.util.Optional}.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class NullableWrapperToJdk8OptionalConverter extends AbstractWrapperTypeConverter {
 
@@ -406,8 +400,6 @@ public abstract class QueryExecutionConverters {
 	/**
 	 * A Spring {@link Converter} to support returning {@link Future} instances from
 	 * repository methods.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class NullableWrapperToFutureConverter extends AbstractWrapperTypeConverter {
 
@@ -430,8 +422,6 @@ public abstract class QueryExecutionConverters {
 	/**
 	 * A Spring {@link Converter} to support returning {@link CompletableFuture} instances
 	 * from repository methods.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class NullableWrapperToCompletableFutureConverter extends AbstractWrapperTypeConverter {
 
@@ -457,8 +447,7 @@ public abstract class QueryExecutionConverters {
 
 	/**
 	 * A Spring {@link Converter} to support Scala's {@link Option}.
-	 *
-	 * @author Oliver Gierke
+	 * 
 	 * @since 1.13
 	 */
 	private static class NullableWrapperToScalaOptionConverter extends AbstractWrapperTypeConverter {
@@ -481,8 +470,7 @@ public abstract class QueryExecutionConverters {
 	/**
 	 * Converter to convert from {@link NullableWrapper} into JavaSlang's
 	 * {@link io.vavr.control.Option}.
-	 *
-	 * @author Oliver Gierke
+	 * 
 	 * @since 2.0
 	 */
 	private static class NullableWrapperToVavrOptionConverter extends AbstractWrapperTypeConverter {
@@ -510,8 +498,6 @@ public abstract class QueryExecutionConverters {
 
 	/**
 	 * A {@link Converter} to unwrap Guava {@link Optional} instances.
-	 *
-	 * @author Oliver Gierke
 	 * @since 1.12
 	 */
 	private enum GuavaOptionalUnwrapper implements Converter<Object, Object> {
@@ -528,8 +514,6 @@ public abstract class QueryExecutionConverters {
 
 	/**
 	 * A {@link Converter} to unwrap JDK 8 {@link java.util.Optional} instances.
-	 *
-	 * @author Oliver Gierke
 	 * @since 1.12
 	 */
 	private enum Jdk8OptionalUnwrapper implements Converter<Object, Object> {
@@ -547,8 +531,6 @@ public abstract class QueryExecutionConverters {
 	/**
 	 * A {@link Converter} to unwrap a Scala {@link Option} instance.
 	 *
-	 * @author Oliver Gierke
-	 * @author Mark Paluch
 	 * @since 1.12
 	 */
 	private enum ScalOptionUnwrapper implements Converter<Object, Object> {
@@ -576,7 +558,6 @@ public abstract class QueryExecutionConverters {
 	/**
 	 * Converter to unwrap Vavr {@link io.vavr.control.Option} instances.
 	 *
-	 * @author Oliver Gierke
 	 * @since 2.0
 	 */
 	private enum VavrOptionUnwrapper implements Converter<Object, Object> {

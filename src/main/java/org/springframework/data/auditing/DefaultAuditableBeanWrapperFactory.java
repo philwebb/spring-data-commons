@@ -83,8 +83,6 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 	/**
 	 * An {@link AuditableBeanWrapper} that works with objects implementing
-	 *
-	 * @author Oliver Gierke
 	 */
 	static class AuditableInterfaceBeanWrapper
 			extends DateConvertingAuditableBeanWrapper<Auditable<Object, ?, TemporalAccessor>> {
@@ -145,7 +143,6 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 	 * convert {@link TemporalAccessor} values into compatible types when setting
 	 * date/time information.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.8
 	 */
 	abstract static class DateConvertingAuditableBeanWrapper<T> implements AuditableBeanWrapper<T> {
@@ -214,8 +211,6 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 	/**
 	 * An {@link AuditableBeanWrapper} implementation that sets values on the target
 	 * object using reflection.
-	 *
-	 * @author Oliver Gierke
 	 */
 	static class ReflectionAuditingBeanWrapper<T> extends DateConvertingAuditableBeanWrapper<T> {
 

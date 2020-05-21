@@ -71,7 +71,6 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 	 * {@link MethodInterceptor} to publish events exposed an aggregate on calls to a save
 	 * method on the repository.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.13
 	 */
 	static class EventPublishingMethodInterceptor implements MethodInterceptor {
@@ -108,7 +107,6 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 	/**
 	 * Abstraction of a method on the aggregate root that exposes the events to publish.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.13
 	 */
 	static class EventPublishingMethod {

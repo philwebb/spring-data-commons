@@ -43,6 +43,7 @@ import org.springframework.util.StringUtils;
  * @author Christoph Strobl
  * @author Mark Paluch
  * @author Shaun Chyxion
+ * @author Phillip Webb
  */
 public class PartTree implements Streamable<OrPart> {
 
@@ -250,11 +251,6 @@ public class PartTree implements Streamable<OrPart> {
 	 * Represents the subject part of the query. E.g.
 	 * {@code findDistinctUserByNameOrderByAge} would have the subject
 	 * {@code DistinctUser}.
-	 *
-	 * @author Phil Webb
-	 * @author Oliver Gierke
-	 * @author Christoph Strobl
-	 * @author Thomas Darimont
 	 */
 	private static class Subject {
 
@@ -343,9 +339,6 @@ public class PartTree implements Streamable<OrPart> {
 
 	/**
 	 * Represents the predicate part of the query.
-	 *
-	 * @author Oliver Gierke
-	 * @author Phil Webb
 	 */
 	private static class Predicate implements Streamable<OrPart> {
 

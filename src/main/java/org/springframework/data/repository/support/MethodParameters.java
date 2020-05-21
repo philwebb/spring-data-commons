@@ -112,8 +112,6 @@ class MethodParameters {
 	/**
 	 * Custom {@link MethodParameter} extension that will favor the name configured in the
 	 * {@link AnnotationAttribute} if set over discovering it.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class AnnotationNamingMethodParameter extends MethodParameter {
 

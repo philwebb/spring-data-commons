@@ -81,7 +81,6 @@ public interface ConverterBuilder {
 	/**
 	 * Exposes a writing converter.
 	 *
-	 * @author Oliver Gierke
 	 * @since 2.0
 	 */
 	interface WritingConverterAware {
@@ -97,7 +96,6 @@ public interface ConverterBuilder {
 	/**
 	 * Exposes a reading converter.
 	 *
-	 * @author Oliver Gierke
 	 * @since 2.0
 	 */
 	interface ReadingConverterAware {
@@ -114,7 +112,6 @@ public interface ConverterBuilder {
 	 * Interface to represent an intermediate setup step of {@link ConverterAware}
 	 * defining a reading converter first.
 	 *
-	 * @author Oliver Gierke
 	 * @since 2.0
 	 */
 	interface ReadingConverterBuilder<T, S> extends ConverterBuilder, ReadingConverterAware {
@@ -133,7 +130,6 @@ public interface ConverterBuilder {
 	 * Interface to represent an intermediate setup step of {@link ConverterAware}
 	 * defining a writing converter first.
 	 *
-	 * @author Oliver Gierke
 	 * @since 2.0
 	 */
 	interface WritingConverterBuilder<S, T> extends ConverterBuilder, WritingConverterAware {
@@ -151,7 +147,6 @@ public interface ConverterBuilder {
 	/**
 	 * A {@link ConverterBuilder} aware of both a reading and writing converter.
 	 *
-	 * @author Oliver Gierke
 	 * @since 2.0
 	 */
 	interface ConverterAware extends ConverterBuilder, ReadingConverterAware, WritingConverterAware {

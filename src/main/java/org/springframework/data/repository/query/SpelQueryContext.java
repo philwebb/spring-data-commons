@@ -40,6 +40,7 @@ import org.springframework.util.Assert;
  * @author Jens Schauder
  * @author Gerrit Meier
  * @author Mark Paluch
+ * @author Oliver Gierke
  * @since 2.1
  */
 public class SpelQueryContext {
@@ -114,7 +115,6 @@ public class SpelQueryContext {
 	 * An extension of {@link SpelQueryContext} that can create {@link SpelEvaluator}
 	 * instances as it also knows about a {@link QueryMethodEvaluationContextProvider}.
 	 *
-	 * @author Oliver Gierke
 	 * @since 2.1
 	 */
 	public static class EvaluatingSpelQueryContext extends SpelQueryContext {
@@ -166,8 +166,6 @@ public class SpelQueryContext {
 	 * The parser detects quoted parts of the query string and does not detect SpEL
 	 * expressions inside such quoted parts of the query.
 	 *
-	 * @author Jens Schauder
-	 * @author Oliver Gierke
 	 * @since 2.1
 	 */
 	public class SpelExtractor {
@@ -257,8 +255,6 @@ public class SpelQueryContext {
 	 * Value object to analyze a {@link String} to determine the parts of the
 	 * {@link String} that are quoted and offers an API to query that information.
 	 *
-	 * @author Jens Schauder
-	 * @author Oliver Gierke
 	 * @since 2.1
 	 */
 	static class QuotationMap {

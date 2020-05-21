@@ -221,7 +221,6 @@ public class RepositoryConfigurationDelegate {
 	 * Customer {@link ContextAnnotationAutowireCandidateResolver} that also considers all
 	 * injection points for lazy repositories lazy.
 	 *
-	 * @author Oliver Gierke
 	 * @since 2.1
 	 */
 	static class LazyRepositoryInjectionPointResolver extends ContextAnnotationAutowireCandidateResolver {

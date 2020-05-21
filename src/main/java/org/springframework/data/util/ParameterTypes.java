@@ -242,8 +242,6 @@ public class ParameterTypes {
 	/**
 	 * Extension of {@link ParameterTypes} that remembers the seed tail and only adds
 	 * typed varargs if the current tail is assignable to the seed one.
-	 *
-	 * @author Oliver Drotbohm
 	 */
 	static class ParentParameterTypes extends ParameterTypes {
 

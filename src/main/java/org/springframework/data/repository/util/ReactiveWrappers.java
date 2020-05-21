@@ -79,8 +79,6 @@ public abstract class ReactiveWrappers {
 
 	/**
 	 * Enumeration of supported reactive libraries.
-	 *
-	 * @author Mark Paluch
 	 */
 	public static enum ReactiveLibrary {
 

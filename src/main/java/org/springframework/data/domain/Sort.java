@@ -41,6 +41,7 @@ import org.springframework.util.StringUtils;
  * @author Oliver Gierke
  * @author Thomas Darimont
  * @author Mark Paluch
+ * @author Kevin Raymond
  */
 public class Sort implements Streamable<org.springframework.data.domain.Sort.Order>, Serializable {
 
@@ -227,7 +228,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	/**
 	 * Enumeration for sort directions.
 	 *
-	 * @author Oliver Gierke
 	 */
 	public static enum Direction {
 
@@ -289,7 +289,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	/**
 	 * Enumeration for null handling hints that can be used in {@link Order} expressions.
 	 *
-	 * @author Thomas Darimont
 	 * @since 1.8
 	 */
 	public static enum NullHandling {
@@ -316,9 +315,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	/**
 	 * PropertyPath implements the pairing of an {@link Direction} and a property. It is
 	 * used to provide input for {@link Sort}
-	 *
-	 * @author Oliver Gierke
-	 * @author Kevin Raymond
 	 */
 	public static class Order implements Serializable {
 
@@ -576,7 +572,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	/**
 	 * Extension of Sort to use method handles to define properties to sort by.
 	 *
-	 * @author Oliver Gierke
 	 * @since 2.2
 	 */
 	public static class TypedSort<T> extends Sort {

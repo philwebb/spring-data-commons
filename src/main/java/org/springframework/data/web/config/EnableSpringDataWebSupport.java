@@ -112,7 +112,6 @@ public @interface EnableSpringDataWebSupport {
 	 * Import selector to register {@link QuerydslWebConfiguration} as configuration class
 	 * if Querydsl is on the classpath.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.11
 	 */
 	static class QuerydslActivator implements ImportSelector {

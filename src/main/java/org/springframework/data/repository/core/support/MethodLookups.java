@@ -98,8 +98,6 @@ interface MethodLookups {
 	/**
 	 * Default {@link MethodLookup} considering repository Id and entity types permitting
 	 * calls to methods with assignable arguments.
-	 *
-	 * @author Mark Paluch
 	 */
 	class RepositoryAwareMethodLookup implements MethodLookup {
 
@@ -203,8 +201,6 @@ interface MethodLookups {
 	/**
 	 * Extension to {@link RepositoryAwareMethodLookup} considering reactive type adoption
 	 * and entity types permitting calls to methods with assignable arguments.
-	 *
-	 * @author Mark Paluch
 	 */
 	class ReactiveTypeInteropMethodLookup extends RepositoryAwareMethodLookup {
 

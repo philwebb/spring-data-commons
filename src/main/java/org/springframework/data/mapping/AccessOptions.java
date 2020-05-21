@@ -57,8 +57,6 @@ public class AccessOptions {
 
 	/**
 	 * Access options for getting values for property paths.
-	 *
-	 * @author Oliver Drotbohm
 	 */
 	public static class GetOptions {
 
@@ -83,8 +81,6 @@ public class AccessOptions {
 
 		/**
 		 * How to handle null values during a {@link PersistentPropertyPath} traversal.
-		 *
-		 * @author Oliver Drotbohm
 		 */
 		public enum GetNulls {
 
@@ -205,8 +201,6 @@ public class AccessOptions {
 
 	/**
 	 * Access options for setting values for property paths.
-	 *
-	 * @author Oliver Drotbohm
 	 */
 	public static class SetOptions {
 
@@ -237,8 +231,6 @@ public class AccessOptions {
 
 		/**
 		 * How to handle intermediate {@literal null} values when setting
-		 *
-		 * @author Oliver Drotbohm
 		 */
 		public enum SetNulls {
 
@@ -264,8 +256,6 @@ public class AccessOptions {
 
 		/**
 		 * How to propagate setting values that cross collection and map properties.
-		 *
-		 * @author Oliver Drotbohm
 		 */
 		public enum Propagation {
 

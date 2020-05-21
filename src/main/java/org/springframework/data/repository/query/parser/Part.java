@@ -36,6 +36,9 @@ import org.springframework.util.ObjectUtils;
  * @author Oliver Gierke
  * @author Martin Baumgartner
  * @author Jens Schauder
+ * @author Thomas Darimont
+ * @author Michael Cramer
+ * @author Phillip Webb
  */
 public class Part {
 
@@ -153,10 +156,6 @@ public class Part {
 
 	/**
 	 * The type of a method name part. Used to create query parts in various ways.
-	 *
-	 * @author Oliver Gierke
-	 * @author Thomas Darimont
-	 * @author Michael Cramer
 	 */
 	public static enum Type {
 
@@ -405,8 +404,6 @@ public class Part {
 
 	/**
 	 * The various types of ignore case that are supported.
-	 *
-	 * @author Phillip Webb
 	 */
 	public enum IgnoreCaseType {
 

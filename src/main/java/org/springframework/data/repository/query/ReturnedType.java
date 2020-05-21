@@ -126,7 +126,6 @@ public abstract class ReturnedType {
 	/**
 	 * A {@link ReturnedType} that's backed by an interface.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.12
 	 */
 	private static final class ReturnedInterface extends ReturnedType {
@@ -185,7 +184,6 @@ public abstract class ReturnedType {
 	/**
 	 * A {@link ReturnedType} that's backed by an actual class.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.12
 	 */
 	private static final class ReturnedClass extends ReturnedType {

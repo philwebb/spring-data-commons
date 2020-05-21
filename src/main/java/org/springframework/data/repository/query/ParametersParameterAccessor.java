@@ -157,8 +157,6 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 	/**
 	 * Iterator class to allow traversing all bindable parameters inside the accessor.
-	 *
-	 * @author Oliver Gierke
 	 */
 	private static class BindableParameterIterator implements Iterator<Object> {
 

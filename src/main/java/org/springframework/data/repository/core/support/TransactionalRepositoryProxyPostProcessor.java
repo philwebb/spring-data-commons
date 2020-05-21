@@ -131,7 +131,6 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 	 * @see org.springframework.transaction.interceptor.TransactionInterceptor#setTransactionAttributeSource
 	 * @see org.springframework.transaction.interceptor.TransactionProxyFactoryBean#setTransactionAttributeSource
 	 */
-
 	@SuppressWarnings({ "serial", "null" })
 	static class CustomAnnotationTransactionAttributeSource extends AbstractFallbackTransactionAttributeSource
 			implements Serializable {

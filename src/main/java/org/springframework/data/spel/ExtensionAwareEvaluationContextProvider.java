@@ -147,8 +147,6 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	}
 
 	/**
-	 * @author Thomas Darimont
-	 * @author Oliver Gierke
 	 * @see 1.9
 	 */
 	private class ExtensionAwarePropertyAccessor implements PropertyAccessor, MethodResolver {
@@ -260,7 +258,6 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	/**
 	 * {@link MethodExecutor} to invoke {@link Function} instances.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.9
 	 */
 	private static class FunctionMethodExecutor implements MethodExecutor {
@@ -291,7 +288,6 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	 * {@link EvaluationContextExtensionInformation}) as well as the values exposed by the
 	 * extension itself.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.9
 	 */
 	private static class EvaluationContextExtensionAdapter {

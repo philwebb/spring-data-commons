@@ -93,7 +93,6 @@ class MapDataBinder extends WebDataBinder {
 	 * {@link PropertyAccessor} to store and retrieve values in a {@link Map}. Uses Spring
 	 * Expression language to create deeply nested Map structures.
 	 *
-	 * @author Oliver Gierke
 	 * @since 1.10
 	 */
 	private static class MapPropertyAccessor extends AbstractPropertyAccessor {
@@ -192,7 +191,6 @@ class MapDataBinder extends WebDataBinder {
 		 * A special {@link MapAccessor} that traverses properties on the configured type
 		 * to automatically create nested Map and collection values as necessary.
 		 *
-		 * @author Oliver Gierke
 		 * @since 1.10
 		 */
 		private static final class PropertyTraversingMapAccessor extends MapAccessor {
