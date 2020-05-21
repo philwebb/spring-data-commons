@@ -43,34 +43,26 @@ class RevisionUnitTests {
 
 	@Test
 	void comparesCorrectly() {
-
 		when(this.firstMetadata.getRevisionNumber()).thenReturn(Optional.of(1));
 		when(this.secondMetadata.getRevisionNumber()).thenReturn(Optional.of(2));
-
 		Revision<Integer, Object> first = Revision.of(this.firstMetadata, new Object());
 		Revision<Integer, Object> second = Revision.of(this.secondMetadata, new Object());
-
 		List<Revision<Integer, Object>> revisions = Stream.of(second, first).sorted().collect(Collectors.toList());
-
 		assertThat(revisions.get(0)).isEqualTo(first);
 		assertThat(revisions.get(1)).isEqualTo(second);
 	}
 
 	@Test // DATACMNS-187
 	void returnsRevisionNumber() {
-
 		Optional<Integer> reference = Optional.of(4711);
 		when(this.firstMetadata.getRevisionNumber()).thenReturn(reference);
-
 		assertThat(Revision.of(this.firstMetadata, new Object()).getRevisionNumber()).isEqualTo(reference);
 	}
 
 	@Test // DATACMNS-1251
 	void returnsRevisionInstant() {
-
 		Optional<Instant> reference = Optional.of(Instant.now());
 		when(this.firstMetadata.getRevisionInstant()).thenReturn(reference);
-
 		assertThat(Revision.of(this.firstMetadata, new Object()).getRevisionInstant()).isEqualTo(reference);
 	}
 

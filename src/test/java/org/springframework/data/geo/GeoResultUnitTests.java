@@ -40,13 +40,11 @@ class GeoResultUnitTests {
 
 	@Test // DATACMNS-437
 	void considersSameInstanceEqual() {
-
 		assertThat(this.first.equals(this.first)).isTrue();
 	}
 
 	@Test // DATACMNS-437
 	void considersSameValuesAsEqual() {
-
 		assertThat(this.first.equals(this.second)).isTrue();
 		assertThat(this.second.equals(this.first)).isTrue();
 		assertThat(this.first.equals(this.third)).isFalse();
@@ -64,9 +62,7 @@ class GeoResultUnitTests {
 
 	@Test // DATACMNS-482
 	void testSerialization() {
-
 		GeoResult<String> result = new GeoResult<>("test", new Distance(2));
-
 		@SuppressWarnings("unchecked")
 		GeoResult<String> serialized = (GeoResult<String>) SerializationUtils
 				.deserialize(SerializationUtils.serialize(result));

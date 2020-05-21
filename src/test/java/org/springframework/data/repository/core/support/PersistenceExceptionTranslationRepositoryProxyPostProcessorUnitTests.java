@@ -51,12 +51,9 @@ class PersistenceExceptionTranslationRepositoryProxyPostProcessorUnitTests {
 
 	@Test // DATACMNS-318
 	void setsUpBasicInstance() throws Exception {
-
 		RepositoryProxyPostProcessor postProcessor = new PersistenceExceptionTranslationRepositoryProxyPostProcessor(
 				this.beanFactory);
-
 		postProcessor.postProcess(this.proxyFactory, null);
-
 		verify(this.proxyFactory).addAdvice(isA(PersistenceExceptionTranslationInterceptor.class));
 	}
 

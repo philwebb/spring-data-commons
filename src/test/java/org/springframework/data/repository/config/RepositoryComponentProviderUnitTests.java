@@ -45,10 +45,8 @@ class RepositoryComponentProviderUnitTests {
 
 	@Test
 	void findsAnnotatedRepositoryInterface() {
-
 		RepositoryComponentProvider provider = new RepositoryComponentProvider(Collections.emptyList(), this.registry);
 		Set<BeanDefinition> components = provider.findCandidateComponents("org.springframework.data.repository.sample");
-
 		assertThat(components).hasSize(4);
 		assertThat(components).extracting(BeanDefinition::getBeanClassName)
 				.contains(SampleAnnotatedRepository.class.getName());
@@ -56,26 +54,20 @@ class RepositoryComponentProviderUnitTests {
 
 	@Test
 	void limitsFoundRepositoriesToIncludeFiltersOnly() {
-
 		List<? extends TypeFilter> filters = Collections
 				.singletonList(new AssignableTypeFilter(MyOtherRepository.class));
-
 		RepositoryComponentProvider provider = new RepositoryComponentProvider(filters, this.registry);
 		Set<BeanDefinition> components = provider.findCandidateComponents("org.springframework.data.repository");
-
 		assertThat(components).hasSize(1);
 		assertThat(components).extracting(BeanDefinition::getBeanClassName).contains(MyOtherRepository.class.getName());
 	}
 
 	@Test // DATACMNS-90
 	void shouldConsiderNestedRepositoryInterfacesIfEnabled() {
-
 		RepositoryComponentProvider provider = new RepositoryComponentProvider(Collections.emptyList(), this.registry);
 		provider.setConsiderNestedRepositoryInterfaces(true);
-
 		Set<BeanDefinition> components = provider.findCandidateComponents("org.springframework.data.repository.config");
 		String nestedRepositoryClassName = "org.springframework.data.repository.config.RepositoryComponentProviderUnitTests$MyNestedRepository";
-
 		assertThat(components.size()).isGreaterThanOrEqualTo(1);
 		assertThat(components).extracting(BeanDefinition::getBeanClassName).contains(nestedRepositoryClassName);
 	}
@@ -88,9 +80,7 @@ class RepositoryComponentProviderUnitTests {
 
 	@Test // DATACMNS-1098
 	void exposesBeanDefinitionRegistry() {
-
 		RepositoryComponentProvider provider = new RepositoryComponentProvider(Collections.emptyList(), this.registry);
-
 		assertThat(provider.getRegistry()).isEqualTo(this.registry);
 	}
 

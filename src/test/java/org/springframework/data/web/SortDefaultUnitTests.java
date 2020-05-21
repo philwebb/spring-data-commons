@@ -39,18 +39,21 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 abstract class SortDefaultUnitTests {
 
 	static final String SORT_0 = "username";
+
 	static final String SORT_1 = "username,asc";
+
 	static final String[] SORT_2 = new String[] { "username,ASC", "lastname,firstname,DESC" };
+
 	static final String SORT_3 = "firstname,lastname";
 
 	static final String[] SORT_FIELDS = new String[] { "firstname", "lastname" };
+
 	static final Direction SORT_DIRECTION = Direction.DESC;
 
 	static final Sort SORT = Sort.by(SORT_DIRECTION, SORT_FIELDS);
 
 	@Test
 	void parsesSimpleSortStringCorrectly() {
-
 		assertSortStringParsedInto(Sort.by(Order.asc("username")), SORT_1);
 		assertSortStringParsedInto(Sort.by(Order.asc("username"), Order.desc("lastname"), Order.desc("firstname")),
 				SORT_2);
@@ -58,10 +61,8 @@ abstract class SortDefaultUnitTests {
 	}
 
 	private static void assertSortStringParsedInto(Sort expected, String... source) {
-
 		SortHandlerMethodArgumentResolver resolver = new SortHandlerMethodArgumentResolver();
 		Sort sort = resolver.parseParameterIntoSort(Arrays.asList(source), ",");
-
 		assertThat(sort).isEqualTo(expected);
 	}
 
@@ -87,7 +88,6 @@ abstract class SortDefaultUnitTests {
 
 	@Test
 	void rejectsNonSortParameter() {
-
 		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod",
 				String.class);
 		assertThat(getResolver().supportsParameter(parameter)).isFalse();
@@ -95,12 +95,9 @@ abstract class SortDefaultUnitTests {
 
 	@Test
 	void rejectsDoubleAnnotatedMethod() {
-
 		MethodParameter parameter = getParameterOfMethod("invalid");
-
 		HandlerMethodArgumentResolver resolver = new SortHandlerMethodArgumentResolver();
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
-
 		assertThatIllegalArgumentException()
 				.isThrownBy(() -> resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null))
 				.withMessageContaining(SortDefault.class.getSimpleName())
@@ -109,10 +106,8 @@ abstract class SortDefaultUnitTests {
 
 	@Test
 	void discoversContaineredDefault() throws Exception {
-
 		MethodParameter parameter = getParameterOfMethod("containeredDefault");
 		Sort reference = Sort.by("foo", "bar");
-
 		assertSupportedAndResolvedTo(parameter, reference);
 	}
 
@@ -123,7 +118,6 @@ abstract class SortDefaultUnitTests {
 	protected abstract Class<?> getControllerClass();
 
 	private void assertSupportedAndResolvedTo(MethodParameter parameter, Sort sort) throws Exception {
-
 		HandlerMethodArgumentResolver resolver = getResolver();
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
 		assertThat(resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null)).isEqualTo(sort);

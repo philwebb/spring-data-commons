@@ -49,10 +49,13 @@ import static org.springframework.data.web.SortDefaultUnitTests.SORT_FIELDS;
 abstract class PageableDefaultUnitTests {
 
 	static final int PAGE_SIZE = 47;
+
 	static final int PAGE_NUMBER = 23;
 
 	static final AbstractPageRequest REFERENCE_WITHOUT_SORT = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
+
 	static final AbstractPageRequest REFERENCE_WITH_SORT = PageRequest.of(PAGE_NUMBER, PAGE_SIZE, SORT);
+
 	static final AbstractPageRequest REFERENCE_WITH_SORT_FIELDS = PageRequest.of(PAGE_NUMBER, PAGE_SIZE,
 			Sort.by(SORT_FIELDS));
 
@@ -63,7 +66,6 @@ abstract class PageableDefaultUnitTests {
 
 	@Test
 	void doesNotSupportNonPageable() {
-
 		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "unsupportedMethod",
 				String.class);
 		assertThat(getResolver().supportsParameter(parameter)).isFalse();
@@ -102,13 +104,10 @@ abstract class PageableDefaultUnitTests {
 
 	@Test
 	void rejectsInvalidQulifiers() throws Exception {
-
 		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "invalidQualifiers",
 				Pageable.class, Pageable.class);
-
 		HandlerMethodArgumentResolver resolver = getResolver();
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
-
 		assertThatIllegalStateException()
 				.isThrownBy(() -> resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null))
 				.withMessageContaining("unique");
@@ -116,13 +115,10 @@ abstract class PageableDefaultUnitTests {
 
 	@Test
 	void rejectsNoQualifiers() throws Exception {
-
 		MethodParameter parameter = TestUtils.getParameterOfMethod(getControllerClass(), "noQualifiers", Pageable.class,
 				Pageable.class);
-
 		HandlerMethodArgumentResolver resolver = getResolver();
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
-
 		assertThatIllegalStateException()
 				.isThrownBy(() -> resolver.resolveArgument(parameter, null, TestUtils.getWebRequest(), null))
 				.withMessageContaining("Ambiguous");
@@ -139,13 +135,11 @@ abstract class PageableDefaultUnitTests {
 
 	protected void assertSupportedAndResult(MethodParameter parameter, Pageable pageable, NativeWebRequest request)
 			throws Exception {
-
 		assertSupportedAndResult(parameter, pageable, request, getResolver());
 	}
 
 	protected void assertSupportedAndResult(MethodParameter parameter, Pageable pageable, NativeWebRequest request,
 			HandlerMethodArgumentResolver resolver) throws Exception {
-
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
 		assertThat(resolver.resolveArgument(parameter, null, request, null)).isEqualTo(pageable);
 	}

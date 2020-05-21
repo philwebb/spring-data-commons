@@ -32,17 +32,13 @@ class SurroundingTransactionDetectorMethodInterceptorUnitTests {
 
 	@Test // DATACMNS-959
 	void registersActiveSurroundingTransaction() throws Throwable {
-
 		TransactionSynchronizationManager.setActualTransactionActive(true);
-
 		INSTANCE.invoke(new StubMethodInvocation(true));
 	}
 
 	@Test // DATACMNS-959
 	void registersNoSurroundingTransaction() throws Throwable {
-
 		TransactionSynchronizationManager.setActualTransactionActive(false);
-
 		INSTANCE.invoke(new StubMethodInvocation(false));
 	}
 
@@ -57,9 +53,7 @@ class SurroundingTransactionDetectorMethodInterceptorUnitTests {
 
 		@Override
 		public Object proceed() throws Throwable {
-
 			assertThat(INSTANCE.isSurroundingTransactionActive()).isEqualTo(this.transactionActive);
-
 			return null;
 		}
 

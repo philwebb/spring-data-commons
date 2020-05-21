@@ -66,29 +66,22 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 
 	@Parameters(name = "{5}")
 	public static List<Object[]> parameters() {
-
 		SampleMappingContext context = new SampleMappingContext();
-
 		KotlinClassGeneratingEntityInstantiator generatingInstantiator = new KotlinClassGeneratingEntityInstantiator();
 		ReflectionEntityInstantiator reflectionInstantiator = ReflectionEntityInstantiator.INSTANCE;
-
 		List<Object[]> fixtures = new ArrayList<>();
 		fixtures.addAll(createFixture(context, With32Args.class, 32, generatingInstantiator));
 		fixtures.addAll(createFixture(context, With32Args.class, 32, reflectionInstantiator));
 		fixtures.addAll(createFixture(context, With33Args.class, 33, generatingInstantiator));
 		fixtures.addAll(createFixture(context, With33Args.class, 33, reflectionInstantiator));
-
 		return fixtures;
 	}
 
 	private static List<Object[]> createFixture(SampleMappingContext context, Class<?> entityType, int propertyCount,
 			EntityInstantiator entityInstantiator) {
-
 		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = context
 				.getPersistentEntity(entityType);
-
 		return IntStream.range(0, propertyCount).mapToObj(i -> {
-
 			return new Object[] { persistentEntity, propertyCount, i, Integer.toString(i), entityInstantiator,
 					String.format("Property %d for %s using %s", i, entityType.getSimpleName(),
 							entityInstantiator.getClass().getSimpleName()) };
@@ -97,13 +90,9 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 
 	@Test // DATACMNS-1402
 	public void shouldCreateInstanceWithSinglePropertySet() {
-
 		Object instance = this.entityInstantiator.createInstance(this.entity, new SingleParameterValueProvider());
-
 		for (int i = 0; i < this.propertyCount; i++) {
-
 			Object value = ReflectionTestUtils.getField(instance, Integer.toString(i));
-
 			if (this.propertyUnderTestIndex == i) {
 				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo(this.valueToSet);
 			}
@@ -115,13 +104,9 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 
 	@Test // DATACMNS-1402
 	public void shouldCreateInstanceWithAllExceptSinglePropertySet() {
-
 		Object instance = this.entityInstantiator.createInstance(this.entity, new AllButParameterValueProvider());
-
 		for (int i = 0; i < this.propertyCount; i++) {
-
 			Object value = ReflectionTestUtils.getField(instance, Integer.toString(i));
-
 			if (this.propertyUnderTestIndex == i) {
 				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo("");
 			}
@@ -138,7 +123,6 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 
 		@Override
 		public <T> T getParameterValue(Parameter<T, SamplePersistentProperty> parameter) {
-
 			if (parameter.getName().equals(ParameterizedKotlinInstantiatorUnitTests.this.propertyUnderTestName)) {
 				return (T) ParameterizedKotlinInstantiatorUnitTests.this.valueToSet;
 			}
@@ -154,7 +138,6 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 
 		@Override
 		public <T> T getParameterValue(Parameter<T, SamplePersistentProperty> parameter) {
-
 			if (!parameter.getName().equals(ParameterizedKotlinInstantiatorUnitTests.this.propertyUnderTestName)) {
 				return (T) parameter.getName();
 			}

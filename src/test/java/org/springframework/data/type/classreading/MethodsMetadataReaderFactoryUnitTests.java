@@ -36,37 +36,29 @@ class MethodsMetadataReaderFactoryUnitTests {
 
 	@Test // DATACMNS-1206
 	void shouldReadFromDefaultClassLoader() throws IOException {
-
 		MethodsMetadataReaderFactory factory = new MethodsMetadataReaderFactory();
 		MethodsMetadataReader reader = factory.getMetadataReader(getClass().getName());
-
 		assertThat(reader).isNotNull();
 	}
 
 	@Test // DATACMNS-1206
 	void shouldReadFromClassLoader() throws IOException {
-
 		MethodsMetadataReaderFactory factory = new MethodsMetadataReaderFactory(getClass().getClassLoader());
 		MethodsMetadataReader reader = factory.getMetadataReader(getClass().getName());
-
 		assertThat(reader).isNotNull();
 	}
 
 	@Test // DATACMNS-1206
 	void shouldNotFindClass() {
-
 		MethodsMetadataReaderFactory factory = new MethodsMetadataReaderFactory(new URLClassLoader(new URL[0], null));
-
 		assertThatThrownBy(() -> factory.getMetadataReader(getClass().getName()))
 				.isInstanceOf(FileNotFoundException.class);
 	}
 
 	@Test // DATACMNS-1206
 	void shouldReadFromResourceLoader() throws IOException {
-
 		MethodsMetadataReaderFactory factory = new MethodsMetadataReaderFactory(new DefaultResourceLoader());
 		MethodsMetadataReader reader = factory.getMetadataReader(getClass().getName());
-
 		assertThat(reader).isNotNull();
 	}
 

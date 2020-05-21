@@ -35,21 +35,16 @@ class PageImplUnitTests {
 
 	@Test
 	void assertEqualsForSimpleSetup() throws Exception {
-
 		PageImpl<String> page = new PageImpl<>(Collections.singletonList("Foo"));
-
 		assertEqualsAndHashcode(page, page);
 		assertEqualsAndHashcode(page, new PageImpl<>(Collections.singletonList("Foo")));
 	}
 
 	@Test
 	void assertEqualsForComplexSetup() throws Exception {
-
 		Pageable pageable = PageRequest.of(0, 10);
 		List<String> content = Collections.singletonList("Foo");
-
 		PageImpl<String> page = new PageImpl<>(content, pageable, 100);
-
 		assertEqualsAndHashcode(page, page);
 		assertEqualsAndHashcode(page, new PageImpl<>(content, pageable, 100));
 		assertNotEqualsAndHashcode(page, new PageImpl<>(content, pageable, 90));
@@ -69,13 +64,10 @@ class PageImplUnitTests {
 
 	@Test
 	void returnsNextPageable() {
-
 		Page<Object> page = new PageImpl<>(Collections.singletonList(new Object()), PageRequest.of(0, 1), 10);
-
 		assertThat(page.isFirst()).isTrue();
 		assertThat(page.hasPrevious()).isFalse();
 		assertThat(page.previousPageable().isPaged()).isFalse();
-
 		assertThat(page.isLast()).isFalse();
 		assertThat(page.hasNext()).isTrue();
 		assertThat(page.nextPageable()).isEqualTo(PageRequest.of(1, 1));
@@ -83,13 +75,10 @@ class PageImplUnitTests {
 
 	@Test
 	void returnsPreviousPageable() {
-
 		Page<Object> page = new PageImpl<>(Collections.singletonList(new Object()), PageRequest.of(1, 1), 2);
-
 		assertThat(page.isFirst()).isFalse();
 		assertThat(page.hasPrevious()).isTrue();
 		assertThat(page.previousPageable()).isEqualTo(PageRequest.of(0, 1));
-
 		assertThat(page.isLast()).isTrue();
 		assertThat(page.hasNext()).isFalse();
 		assertThat(page.nextPageable().isPaged()).isFalse();
@@ -97,10 +86,8 @@ class PageImplUnitTests {
 
 	@Test
 	void createsPageForEmptyContentCorrectly() {
-
 		List<String> list = Collections.emptyList();
 		Page<String> page = new PageImpl<>(list);
-
 		assertThat(page.getContent()).isEqualTo(list);
 		assertThat(page.getNumber()).isEqualTo(0);
 		assertThat(page.getNumberOfElements()).isEqualTo(0);
@@ -117,9 +104,7 @@ class PageImplUnitTests {
 
 	@Test // DATACMNS-323
 	void returnsCorrectTotalPages() {
-
 		Page<String> page = new PageImpl<>(Collections.singletonList("a"));
-
 		assertThat(page.getTotalPages()).isEqualTo(1);
 		assertThat(page.hasNext()).isFalse();
 		assertThat(page.hasPrevious()).isFalse();
@@ -127,10 +112,8 @@ class PageImplUnitTests {
 
 	@Test // DATACMNS-635
 	void transformsPageCorrectly() {
-
 		Page<Integer> transformed = new PageImpl<>(Arrays.asList("foo", "bar"), PageRequest.of(0, 2), 10)
 				.map(String::length);
-
 		assertThat(transformed.getContent()).hasSize(2);
 		assertThat(transformed.getContent()).contains(3, 3);
 	}
@@ -161,29 +144,23 @@ class PageImplUnitTests {
 
 	@Test // DATACMNS-713
 	void doesNotAdapttotalIfPageIsEmpty() {
-
 		assertThat(new PageImpl<>(Collections.<String>emptyList(), PageRequest.of(1, 10), 0).getTotalElements())
 				.isEqualTo(0L);
 	}
 
 	@Test // DATACMNS-1476
 	void returnsSelfPagablesIfThePageIsAlreadyTheFirstOrLastOne() {
-
 		Pageable pageable = PageRequest.of(0, 2);
 		Slice<String> page = new PageImpl<>(Arrays.asList("foo", "bar"), pageable, 2);
-
 		assertThat(page.previousPageable()).isEqualTo(Pageable.unpaged());
 		assertThat(page.previousOrFirstPageable()).isEqualTo(pageable);
-
 		assertThat(page.nextPageable()).isEqualTo(Pageable.unpaged());
 		assertThat(page.nextOrLastPageable()).isEqualTo(pageable);
 	}
 
 	@Test // DATACMNS-1613
 	void usesContentLengthForSizeIfNoPageableGiven() {
-
 		Page<Integer> page = new PageImpl<>(Arrays.asList(1, 2));
-
 		assertThat(page.getSize()).isEqualTo(2);
 		assertThat(page.getTotalPages()).isEqualTo(1);
 		assertThat(page.hasPrevious()).isFalse();

@@ -54,19 +54,15 @@ class ProjectingJackson2HttpMessageConverterUnitTests {
 
 	@Test // DATACMNS-972
 	void doesNotConsiderTypeVariableBoundTo() throws Throwable {
-
 		Method method = BaseController.class.getDeclaredMethod("createEntity", AbstractDto.class);
 		Type type = method.getGenericParameterTypes()[0];
-
 		assertThat(this.converter.canRead(type, BaseController.class, this.ANYTHING_JSON)).isFalse();
 	}
 
 	@Test // DATACMNS-972
 	void genericTypeOnConcreteOne() throws Throwable {
-
 		Method method = ConcreteController.class.getMethod("createEntity", AbstractDto.class);
 		Type type = method.getGenericParameterTypes()[0];
-
 		assertThat(this.converter.canRead(type, ConcreteController.class, this.ANYTHING_JSON)).isFalse();
 	}
 

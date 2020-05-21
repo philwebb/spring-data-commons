@@ -68,37 +68,31 @@ class CustomConversionsUnitTests {
 		public boolean isSimpleType(Class<?> type) {
 			return type.getName().startsWith("java.time") ? false : super.isSimpleType(type);
 		}
+
 	};
 
 	@Test // DATACMNS-1035
 	void findsBasicReadAndWriteConversions() {
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(FormatToStringConverter.INSTANCE, StringToFormatConverter.INSTANCE));
-
 		assertThat(conversions.getCustomWriteTarget(Format.class)).hasValue(String.class);
 		assertThat(conversions.getCustomWriteTarget(String.class)).isNotPresent();
-
 		assertThat(conversions.hasCustomReadTarget(String.class, Format.class)).isTrue();
 		assertThat(conversions.hasCustomReadTarget(String.class, Locale.class)).isFalse();
 	}
 
 	@Test // DATACMNS-1035
 	void considersSubtypesCorrectly() {
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(NumberToStringConverter.INSTANCE, StringToNumberConverter.INSTANCE));
-
 		assertThat(conversions.getCustomWriteTarget(Long.class)).hasValue(String.class);
 		assertThat(conversions.hasCustomReadTarget(String.class, Long.class)).isTrue();
 	}
 
 	@Test // DATACMNS-1101
 	void considersSubtypeCachingCorrectly() {
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(NumberToStringConverter.INSTANCE, StringToNumberConverter.INSTANCE));
-
 		assertThat(conversions.getCustomWriteTarget(Long.class, Object.class)).isEmpty();
 		assertThat(conversions.getCustomWriteTarget(Long.class)).hasValue(String.class);
 		assertThat(conversions.getCustomWriteTarget(Long.class, Object.class)).isEmpty();
@@ -106,19 +100,15 @@ class CustomConversionsUnitTests {
 
 	@Test // DATACMNS-1035
 	void populatesConversionServiceCorrectly() {
-
 		GenericConversionService conversionService = new DefaultConversionService();
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(StringToFormatConverter.INSTANCE));
 		conversions.registerConvertersIn(conversionService);
-
 		assertThat(conversionService.canConvert(String.class, Format.class)).isTrue();
 	}
 
 	@Test // DATAMONGO-259, DATACMNS-1035
 	void doesNotConsiderTypeSimpleIfOnlyReadConverterIsRegistered() {
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(StringToFormatConverter.INSTANCE));
 		assertThat(conversions.isSimpleType(Format.class)).isFalse();
@@ -126,7 +116,6 @@ class CustomConversionsUnitTests {
 
 	@Test // DATAMONGO-298, DATACMNS-1035
 	void discoversConvertersForSubtypesOfMongoTypes() {
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(StringToIntegerConverter.INSTANCE));
 		assertThat(conversions.hasCustomReadTarget(String.class, Integer.class)).isTrue();
@@ -135,7 +124,6 @@ class CustomConversionsUnitTests {
 
 	@Test // DATAMONGO-795, DATACMNS-1035
 	void favorsCustomConverterForIndeterminedTargetType() {
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(DateTimeToStringConverter.INSTANCE));
 		assertThat(conversions.getCustomWriteTarget(DateTime.class)).hasValue(String.class);
@@ -143,18 +131,15 @@ class CustomConversionsUnitTests {
 
 	@Test // DATAMONGO-881, DATACMNS-1035
 	void customConverterOverridesDefault() {
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(CustomDateTimeConverter.INSTANCE));
 		GenericConversionService conversionService = new DefaultConversionService();
 		conversions.registerConvertersIn(conversionService);
-
 		assertThat(conversionService.convert(new DateTime(), Date.class)).isEqualTo(new Date(0));
 	}
 
 	@Test // DATAMONGO-1001, DATACMNS-1035
 	void shouldSelectPropertCustomWriteTargetForCglibProxiedType() {
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(FormatToStringConverter.INSTANCE));
 		assertThat(conversions.getCustomWriteTarget(createProxyTypeFor(Format.class))).hasValue(String.class);
@@ -162,7 +147,6 @@ class CustomConversionsUnitTests {
 
 	@Test // DATAMONGO-1001, DATACMNS-1035
 	void shouldSelectPropertCustomReadTargetForCglibProxiedType() {
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Arrays.asList(CustomObjectToStringConverter.INSTANCE));
 		assertThat(conversions.hasCustomReadTarget(createProxyTypeFor(Object.class), String.class)).isTrue();
@@ -170,122 +154,92 @@ class CustomConversionsUnitTests {
 
 	@Test // DATAMONGO-1131, DATACMNS-1035
 	void registersConvertersForJsr310() {
-
 		CustomConversions customConversions = new CustomConversions(StoreConversions.NONE, Collections.emptyList());
-
 		assertThat(customConversions.hasCustomWriteTarget(java.time.LocalDateTime.class)).isTrue();
 	}
 
 	@Test // DATAMONGO-1131, DATACMNS-1035
 	void registersConvertersForThreeTenBackPort() {
-
 		CustomConversions customConversions = new CustomConversions(StoreConversions.NONE, Collections.emptyList());
-
 		assertThat(customConversions.hasCustomWriteTarget(LocalDateTime.class)).isTrue();
 	}
 
 	@Test // DATAMONGO-1302, DATACMNS-1035
 	void registersConverterFactoryCorrectly() {
-
 		StoreConversions conversions = StoreConversions
 				.of(new SimpleTypeHolder(Collections.singleton(Format.class), true));
-
 		CustomConversions customConversions = new CustomConversions(conversions,
 				Collections.singletonList(new FormatConverterFactory()));
-
 		assertThat(customConversions.getCustomWriteTarget(String.class, SimpleDateFormat.class)).isPresent();
 	}
 
 	@Test // DATACMNS-1034
 	void registersConverterFromConverterAware() {
-
 		ConverterAware converters = ConverterBuilder.reading(Locale.class, CustomType.class, left -> new CustomType())
 				.andWriting(right -> Locale.GERMAN);
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.NONE,
 				Collections.singletonList(converters));
-
 		assertThat(conversions.hasCustomWriteTarget(CustomType.class)).isTrue();
 		assertThat(conversions.hasCustomReadTarget(Locale.class, CustomType.class)).isTrue();
-
 		ConfigurableConversionService conversionService = new GenericConversionService();
 		conversions.registerConvertersIn(conversionService);
-
 		assertThat(conversionService.canConvert(CustomType.class, Locale.class)).isTrue();
 		assertThat(conversionService.canConvert(Locale.class, CustomType.class)).isTrue();
 	}
 
 	@Test // DATACMNS-1615
 	void skipsUnsupportedDefaultWritingConverter() {
-
 		ConverterRegistry registry = mock(ConverterRegistry.class);
-
 		new CustomConversions(StoreConversions.of(DATE_EXCLUDING_SIMPLE_TYPE_HOLDER), Collections.emptyList())
 				.registerConvertersIn(registry);
-
 		verify(registry, never()).addConverter(any(LocalDateTimeToJavaTimeInstantConverter.class));
 	}
 
 	@Test // DATACMNS-1665
 	void registersStoreConverter() {
-
 		ConverterRegistry registry = mock(ConverterRegistry.class);
-
 		SimpleTypeHolder holder = new SimpleTypeHolder(Collections.emptySet(), true);
-
 		CustomConversions conversions = new CustomConversions(StoreConversions.of(holder, PointToMapConverter.INSTANCE),
 				Collections.emptyList());
 		conversions.registerConvertersIn(registry);
-
 		assertThat(conversions.isSimpleType(Point.class));
 		verify(registry).addConverter(any(PointToMapConverter.class));
 	}
 
 	@Test // DATACMNS-1615
 	void doesNotSkipUnsupportedUserConverter() {
-
 		ConverterRegistry registry = mock(ConverterRegistry.class);
-
 		new CustomConversions(StoreConversions.of(DATE_EXCLUDING_SIMPLE_TYPE_HOLDER),
 				Collections.singletonList(LocalDateTimeToJavaTimeInstantConverter.INSTANCE))
 						.registerConvertersIn(registry);
-
 		verify(registry).addConverter(any(LocalDateTimeToJavaTimeInstantConverter.class));
 	}
 
 	@Test // DATACMNS-1615
 	void skipsConverterBasedOnConfiguration() {
-
 		ConverterRegistry registry = mock(ConverterRegistry.class);
-
 		ConverterConfiguration config = new ConverterConfiguration(StoreConversions.NONE, Collections.emptyList(),
 				Predicate.<ConvertiblePair>isEqual(new ConvertiblePair(java.time.LocalDateTime.class, Date.class))
 						.negate());
 		new CustomConversions(config).registerConvertersIn(registry);
-
 		verify(registry, never()).addConverter(any(LocalDateTimeToDateConverter.class));
 	}
 
 	@Test // DATACMNS-1615
 	void doesNotSkipUserConverterConverterEvenWhenConfigurationWouldNotAllowIt() {
-
 		ConverterRegistry registry = mock(ConverterRegistry.class);
-
 		ConverterConfiguration config = new ConverterConfiguration(StoreConversions.NONE,
 				Collections.singletonList(LocalDateTimeToDateConverter.INSTANCE),
 				Predicate.<ConvertiblePair>isEqual(new ConvertiblePair(java.time.LocalDateTime.class, Date.class))
 						.negate());
 		new CustomConversions(config).registerConvertersIn(registry);
-
 		verify(registry).addConverter(any(LocalDateTimeToDateConverter.class));
 	}
 
 	private static Class<?> createProxyTypeFor(Class<?> type) {
-
 		ProxyFactory factory = new ProxyFactory();
 		factory.setProxyTargetClass(true);
 		factory.setTargetClass(type);
-
 		return factory.getProxy().getClass();
 	}
 
@@ -407,11 +361,9 @@ class CustomConversionsUnitTests {
 
 			@Override
 			public T convert(String source) {
-
 				if (source.length() == 0) {
 					return null;
 				}
-
 				try {
 					return this.targetType.newInstance();
 				}

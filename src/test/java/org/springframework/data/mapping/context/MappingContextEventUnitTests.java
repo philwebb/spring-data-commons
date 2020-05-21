@@ -41,21 +41,18 @@ class MappingContextEventUnitTests<E extends PersistentEntity<?, P>, P extends P
 
 	@Test
 	void returnsPersistentEntityHandedToTheEvent() {
-
 		MappingContextEvent<E, P> event = new MappingContextEvent<>(this.mappingContext, this.entity);
 		assertThat(event.getPersistentEntity()).isEqualTo(this.entity);
 	}
 
 	@Test
 	void usesMappingContextAsEventSource() {
-
 		MappingContextEvent<E, P> event = new MappingContextEvent<>(this.mappingContext, this.entity);
 		assertThat(event.getSource()).isEqualTo(this.mappingContext);
 	}
 
 	@Test
 	void detectsEmittingMappingContextCorrectly() {
-
 		MappingContextEvent<E, P> event = new MappingContextEvent<>(this.mappingContext, this.entity);
 		assertThat(event.wasEmittedBy(this.mappingContext)).isTrue();
 		assertThat(event.wasEmittedBy(this.otherMappingContext)).isFalse();

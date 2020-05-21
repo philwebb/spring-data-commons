@@ -42,7 +42,6 @@ class SnakeCaseFieldNamingStrategyUnitTests {
 
 	@Test // DATACMNS-523
 	void rendersSnakeCaseFieldNames() {
-
 		assertFieldNameForPropertyName("fooBar", "foo_bar");
 		assertFieldNameForPropertyName("FooBar", "foo_bar");
 		assertFieldNameForPropertyName("foo_bar", "foo_bar");
@@ -50,7 +49,6 @@ class SnakeCaseFieldNamingStrategyUnitTests {
 	}
 
 	private void assertFieldNameForPropertyName(String propertyName, String fieldName) {
-
 		when(this.property.getName()).thenReturn(propertyName);
 		assertThat(this.strategy.getFieldName(this.property)).isEqualTo(fieldName);
 	}

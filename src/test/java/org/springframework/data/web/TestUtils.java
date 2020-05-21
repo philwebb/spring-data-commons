@@ -41,13 +41,11 @@ class TestUtils {
 	}
 
 	static MethodParameter getParameterOfMethod(Class<?> controller, String name, Class<?>... argumentTypes) {
-
 		Method method = getMethod(controller, name, argumentTypes);
 		return new MethodParameter(method, 0);
 	}
 
 	static Method getMethod(Class<?> controller, String name, Class<?>... argumentTypes) {
-
 		try {
 			return controller.getMethod(name, argumentTypes);
 		}

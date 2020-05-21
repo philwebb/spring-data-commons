@@ -47,58 +47,42 @@ class MapAccessingMethodInterceptorUnitTests {
 
 	@Test // DATACMNS-630
 	void forwardsObjectMethodsToBackingMap() throws Throwable {
-
 		Map<String, Object> map = Collections.emptyMap();
-
 		when(this.invocation.proceed()).thenReturn(map.toString());
 		when(this.invocation.getMethod()).thenReturn(Object.class.getMethod("toString"));
-
 		MapAccessingMethodInterceptor interceptor = new MapAccessingMethodInterceptor(map);
 		Object result = interceptor.invoke(this.invocation);
-
 		assertThat(result).isEqualTo(map.toString());
 	}
 
 	@Test // DATACMNS-630
 	void setterInvocationStoresValueInMap() throws Throwable {
-
 		Map<String, Object> map = new HashMap<>();
-
 		when(this.invocation.getMethod()).thenReturn(Sample.class.getMethod("setName", String.class));
 		when(this.invocation.getArguments()).thenReturn(new Object[] { "Foo" });
-
 		Object result = new MapAccessingMethodInterceptor(map).invoke(this.invocation);
-
 		assertThat(result).isNull();
 		assertThat(map.get("name")).isEqualTo("Foo");
 	}
 
 	@Test // DATACMNS-630
 	void getterInvocationReturnsValueFromMap() throws Throwable {
-
 		Map<String, Object> map = new HashMap<>();
 		map.put("name", "Foo");
-
 		when(this.invocation.getMethod()).thenReturn(Sample.class.getMethod("getName"));
-
 		Object result = new MapAccessingMethodInterceptor(map).invoke(this.invocation);
-
 		assertThat(result).isEqualTo("Foo");
 	}
 
 	@Test // DATACMNS-630
 	void getterReturnsNullIfMapDoesNotContainValue() throws Throwable {
-
 		Map<String, Object> map = new HashMap<>();
-
 		when(this.invocation.getMethod()).thenReturn(Sample.class.getMethod("getName"));
-
 		assertThat(new MapAccessingMethodInterceptor(map).invoke(this.invocation)).isNull();
 	}
 
 	@Test // DATACMNS-630
 	void rejectsNonAccessorInvocation() throws Throwable {
-
 		when(this.invocation.getMethod()).thenReturn(Sample.class.getMethod("someMethod"));
 		assertThatIllegalArgumentException()
 				.isThrownBy(() -> new MapAccessingMethodInterceptor(Collections.emptyMap()).invoke(this.invocation));

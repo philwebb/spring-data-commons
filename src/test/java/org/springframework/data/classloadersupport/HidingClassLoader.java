@@ -42,9 +42,7 @@ public class HidingClassLoader extends ShadowingClassLoader {
 	private final Collection<String> hidden;
 
 	HidingClassLoader(Collection<String> hidden) {
-
 		super(ClassLoader.getSystemClassLoader(), false);
-
 		this.hidden = hidden;
 	}
 
@@ -55,16 +53,13 @@ public class HidingClassLoader extends ShadowingClassLoader {
 	 * @return
 	 */
 	public static HidingClassLoader hide(Class<?>... packages) {
-
 		Assert.notNull(packages, "Packages must not be null!");
-
 		return new HidingClassLoader(
 				Arrays.stream(packages).map(it -> it.getPackage().getName()).collect(Collectors.toList()));
 	}
 
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
-
 		checkIfHidden(name);
 		return super.loadClass(name);
 	}
@@ -76,13 +71,11 @@ public class HidingClassLoader extends ShadowingClassLoader {
 
 	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
-
 		checkIfHidden(name);
 		return super.findClass(name);
 	}
 
 	private void checkIfHidden(String name) throws ClassNotFoundException {
-
 		if (this.hidden.stream().anyMatch(it -> name.startsWith(it))) {
 			throw new ClassNotFoundException();
 		}

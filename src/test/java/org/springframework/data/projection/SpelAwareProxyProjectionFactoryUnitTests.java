@@ -45,53 +45,41 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 
 	@Test // DATAREST-221, DATACMNS-630
 	void exposesSpelInvokingMethod() {
-
 		Customer customer = new Customer();
 		customer.firstname = "Dave";
 		customer.lastname = "Matthews";
-
 		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class, customer);
 		assertThat(excerpt.getFullName()).isEqualTo("Dave Matthews");
 	}
 
 	@Test // DATACMNS-630
 	void excludesAtValueAnnotatedMethodsForInputProperties() {
-
 		List<PropertyDescriptor> properties = this.factory.getProjectionInformation(CustomerExcerpt.class)
 				.getInputProperties();
-
 		assertThat(properties).extracting(PropertyDescriptor::getName).containsExactly("firstname");
 	}
 
 	@Test // DATACMNS-89
 	void considersProjectionUsingAtValueNotClosed() {
-
 		ProjectionInformation information = this.factory.getProjectionInformation(CustomerExcerpt.class);
-
 		assertThat(information.isClosed()).isFalse();
 	}
 
 	@Test // DATACMNS-820
 	void setsValueUsingProjection() {
-
 		Customer customer = new Customer();
 		customer.firstname = "Dave";
-
 		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class, customer);
 		excerpt.setFirstname("Carl");
-
 		assertThat(customer.firstname).isEqualTo("Carl");
 	}
 
 	@Test // DATACMNS-820
 	void settingNotWriteablePropertyFails() {
-
 		Customer customer = new Customer();
 		customer.firstname = "Dave";
-
 		ProjectionWithNotWriteableProperty projection = this.factory
 				.createProjection(ProjectionWithNotWriteableProperty.class, customer);
-
 		assertThatExceptionOfType(NotWritablePropertyException.class).isThrownBy(() -> projection.setFirstName("Carl"));
 	}
 

@@ -35,7 +35,6 @@ class ReactiveWrappersUnitTests {
 
 	@Test // DATACMNS-836
 	void isSingleLikeShouldReportCorrectNoTypes() {
-
 		assertThat(ReactiveWrappers.isNoValueType(Mono.class)).isFalse();
 		assertThat(ReactiveWrappers.isNoValueType(Flux.class)).isFalse();
 		assertThat(ReactiveWrappers.isNoValueType(Single.class)).isFalse();
@@ -50,7 +49,6 @@ class ReactiveWrappersUnitTests {
 
 	@Test // DATACMNS-836
 	void isSingleLikeShouldReportCorrectSingleTypes() {
-
 		assertThat(ReactiveWrappers.isSingleValueType(Mono.class)).isTrue();
 		assertThat(ReactiveWrappers.isSingleValueType(Flux.class)).isFalse();
 		assertThat(ReactiveWrappers.isSingleValueType(Single.class)).isTrue();
@@ -66,7 +64,6 @@ class ReactiveWrappersUnitTests {
 
 	@Test // DATACMNS-836
 	void isCollectionLikeShouldReportCorrectCollectionTypes() {
-
 		assertThat(ReactiveWrappers.isMultiValueType(Mono.class)).isFalse();
 		assertThat(ReactiveWrappers.isMultiValueType(Flux.class)).isTrue();
 		assertThat(ReactiveWrappers.isMultiValueType(Single.class)).isFalse();

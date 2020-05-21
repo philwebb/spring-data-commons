@@ -33,40 +33,30 @@ public class DirectFieldAccessFallbackBeanWrapperUnitTests {
 
 	@Test // DATACMNS-452
 	public void usesFieldAccessForReadIfNoAccessorCanBeFound() {
-
 		Sample sample = new Sample();
 		sample.firstname = "Dave";
-
 		BeanWrapper wrapper = new DirectFieldAccessFallbackBeanWrapper(sample);
-
 		assertThat(wrapper.getPropertyValue("firstname")).isEqualTo("Dave");
 	}
 
 	@Test // DATACMNS-452
 	public void usesFieldAccessForWriteIfNoAccessorCanBeFound() {
-
 		Sample sample = new Sample();
-
 		BeanWrapper wrapper = new DirectFieldAccessFallbackBeanWrapper(sample);
 		wrapper.setPropertyValue("firstname", "Dave");
-
 		assertThat(sample.firstname).isEqualTo("Dave");
 	}
 
 	@Test // DATACMNS-452
 	public void throwsAppropriateExceptionIfNoFieldFoundForRead() {
-
 		BeanWrapper wrapper = new DirectFieldAccessFallbackBeanWrapper(new Sample());
-
 		assertThatExceptionOfType(NotReadablePropertyException.class)
 				.isThrownBy(() -> wrapper.getPropertyValue("lastname"));
 	}
 
 	@Test // DATACMNS-452
 	public void throwsAppropriateExceptionIfNoFieldFoundForWrite() {
-
 		BeanWrapper wrapper = new DirectFieldAccessFallbackBeanWrapper(new Sample());
-
 		assertThatExceptionOfType(NotWritablePropertyException.class)
 				.isThrownBy(() -> wrapper.setPropertyValue("lastname", "Matthews"));
 	}

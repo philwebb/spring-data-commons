@@ -31,10 +31,8 @@ public class ParsingUtilsUnitTests {
 
 	@Test // DATCMNS-486
 	public void splitsCamelCaseWithAllSortsOfCharacters() {
-
 		String sample = "prefix" + "이름" + "Anders" + "Øre" + "År" + "Property1" + "생일" + "Foo_bar" + "FOO_BAR"
 				+ "Bar$foo" + "BAR$FOO" + "Suffix";
-
 		List<String> result = ParsingUtils.splitCamelCaseToLower(sample);
 		assertThat(result).contains("prefix", "이름", "anders", "øre", "år", "property1", "생일", "foo_bar", "foo_bar",
 				"bar$foo", "bar$foo", "suffix");

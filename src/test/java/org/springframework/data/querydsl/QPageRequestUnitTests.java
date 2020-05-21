@@ -35,25 +35,20 @@ public class QPageRequestUnitTests extends AbstractPageRequestUnitTests {
 
 	@Test
 	void constructsQPageRequestWithOrderSpecifiers() {
-
 		QUser user = QUser.user;
 		QPageRequest pageRequest = QPageRequest.of(0, 10, user.firstname.asc());
-
 		assertThat(pageRequest.getSort()).isEqualTo(QSort.by(user.firstname.asc()));
 	}
 
 	@Test
 	void constructsQPageRequestWithQSort() {
-
 		QUser user = QUser.user;
 		QPageRequest pageRequest = QPageRequest.of(0, 10, QSort.by(user.firstname.asc()));
-
 		assertThat(pageRequest.getSort()).isEqualTo(QSort.by(user.firstname.asc()));
 	}
 
 	@Test // DATACMNS-1581
 	void rejectsNullSort() {
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> QPageRequest.of(0, 10, (QSort) null));
 	}

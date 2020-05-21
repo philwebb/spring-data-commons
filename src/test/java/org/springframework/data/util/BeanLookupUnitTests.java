@@ -48,17 +48,13 @@ public class BeanLookupUnitTests {
 
 	@BeforeEach
 	public void setUp() {
-
 		this.beans = new HashMap<>();
-
 		doReturn(this.beans).when(this.beanFactory).getBeansOfType(EntityPathResolver.class, false, false);
 	}
 
 	@Test // DATACMNS-1235
 	public void returnsUniqueBeanByType() {
-
 		this.beans.put("foo", SimpleEntityPathResolver.INSTANCE);
-
 		assertThat(BeanLookup.lazyIfAvailable(EntityPathResolver.class, this.beanFactory).get())
 				.isEqualTo(SimpleEntityPathResolver.INSTANCE);
 	}
@@ -70,10 +66,8 @@ public class BeanLookupUnitTests {
 
 	@Test // DATACMNS-1235
 	public void throwsExceptionIfMultipleBeansAreAvailable() {
-
 		this.beans.put("foo", SimpleEntityPathResolver.INSTANCE);
 		this.beans.put("bar", SimpleEntityPathResolver.INSTANCE);
-
 		assertThatExceptionOfType(NoUniqueBeanDefinitionException.class)
 				.isThrownBy(() -> BeanLookup.lazyIfAvailable(EntityPathResolver.class, this.beanFactory).get())
 				.withMessageContaining("foo").withMessageContaining("bar")

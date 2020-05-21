@@ -30,17 +30,14 @@ class DefaultImplementationLookupConfigurationUnitTests {
 
 	@Test // DATACMNS-1439
 	void shouldConsiderBeanNameDecapitalization() {
-
 		ImplementationDetectionConfiguration idcMock = mock(ImplementationDetectionConfiguration.class);
 		when(idcMock.getImplementationPostfix()).thenReturn("Impl");
-
 		assertThat(getImplementationBeanName(idcMock, "com.acme.UDPRepository")).isEqualTo("UDPRepositoryImpl");
 		assertThat(getImplementationBeanName(idcMock, "com.acme.UdpRepository")).isEqualTo("udpRepositoryImpl");
 	}
 
 	private static String getImplementationBeanName(ImplementationDetectionConfiguration idcMock,
 			String interfaceName) {
-
 		DefaultImplementationLookupConfiguration configuration = new DefaultImplementationLookupConfiguration(idcMock,
 				interfaceName);
 		return configuration.getImplementationBeanName();

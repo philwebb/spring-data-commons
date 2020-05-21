@@ -69,6 +69,7 @@ class CdiRepositoryBeanUnitTests {
 	static final String PASSIVATION_ID = "javax.enterprise.inject.Default:org.springframework.data.repository.cdi.CdiRepositoryBeanUnitTests$SampleRepository";
 
 	static final Set<Annotation> NO_ANNOTATIONS = emptySet();
+
 	static final Set<Annotation> SINGLE_ANNOTATION = singleton(
 			new CdiRepositoryExtensionSupport.DefaultAnnotationLiteral());
 
@@ -98,10 +99,8 @@ class CdiRepositoryBeanUnitTests {
 
 	@Test
 	void returnsBasicMetadata() {
-
 		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS,
 				SampleRepository.class, this.beanManager);
-
 		assertThat(bean.getBeanClass()).isEqualTo(SampleRepository.class);
 		assertThat(bean.getName()).isEqualTo(SampleRepository.class.getName());
 		assertThat(bean.isNullable()).isFalse();
@@ -109,10 +108,8 @@ class CdiRepositoryBeanUnitTests {
 
 	@Test
 	void returnsAllImplementedTypes() {
-
 		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS,
 				SampleRepository.class, this.beanManager);
-
 		Set<Type> types = bean.getTypes();
 		assertThat(types).containsExactlyInAnyOrder(SampleRepository.class, Repository.class);
 	}
@@ -120,17 +117,14 @@ class CdiRepositoryBeanUnitTests {
 	@Test
 	@SuppressWarnings("unchecked")
 	void detectsStereotypes() {
-
 		DummyCdiRepositoryBean<StereotypedSampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS,
 				StereotypedSampleRepository.class, this.beanManager);
-
 		assertThat(bean.getStereotypes()).containsExactly(StereotypeAnnotation.class);
 	}
 
 	@Test // DATACMNS-299
 	@SuppressWarnings("rawtypes")
 	void scopeDefaultsToApplicationScoped() {
-
 		Bean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, SampleRepository.class,
 				this.beanManager);
 		assertThat(bean.getScope()).isEqualTo(ApplicationScoped.class);
@@ -138,18 +132,14 @@ class CdiRepositoryBeanUnitTests {
 
 	@Test // DATACMNS-322
 	void createsPassivationId() {
-
 		CdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>(SINGLE_ANNOTATION,
 				SampleRepository.class, this.beanManager);
-
 		assertThat(bean.getId()).isEqualTo(PASSIVATION_ID);
 	}
 
 	@Test // DATACMNS-764
 	void passesCorrectBeanNameToTheImplementationDetector() {
-
 		CustomRepositoryImplementationDetector detector = mock(CustomRepositoryImplementationDetector.class);
-
 		CdiRepositoryBean<SampleRepository> bean = new CdiRepositoryBean<SampleRepository>(SINGLE_ANNOTATION,
 				SampleRepository.class, this.beanManager, Optional.of(detector)) {
 
@@ -158,17 +148,13 @@ class CdiRepositoryBeanUnitTests {
 					Class<SampleRepository> repositoryType, Optional<Object> customImplementation) {
 				return null;
 			}
+
 		};
-
 		bean.create(mock(CreationalContext.class), SampleRepository.class);
-
 		ArgumentCaptor<ImplementationLookupConfiguration> captor = ArgumentCaptor
 				.forClass(ImplementationLookupConfiguration.class);
-
 		verify(detector).detectCustomImplementation(captor.capture());
-
 		ImplementationLookupConfiguration configuration = captor.getValue();
-
 		assertThat(configuration.getImplementationBeanName())
 				.isEqualTo("cdiRepositoryBeanUnitTests.SampleRepositoryImpl");
 		assertThat(configuration.getImplementationClassName())
@@ -177,17 +163,16 @@ class CdiRepositoryBeanUnitTests {
 
 	@Test // DATACMNS-1233
 	void appliesRepositoryConfiguration() {
-
 		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<SampleRepository>(NO_ANNOTATIONS,
 				SampleRepository.class, this.beanManager) {
+
 			@Override
 			protected CdiRepositoryConfiguration lookupConfiguration(BeanManager beanManager, Set qualifiers) {
 				return RepositoryConfiguration.INSTANCE;
 			}
+
 		};
-
 		bean.applyConfiguration(this.repositoryFactory);
-
 		verify(this.repositoryFactory).setEvaluationContextProvider(QueryMethodEvaluationContextProvider.DEFAULT);
 		verify(this.repositoryFactory).setNamedQueries(PropertiesBasedNamedQueries.EMPTY);
 		verify(this.repositoryFactory).setRepositoryBaseClass(String.class);

@@ -35,11 +35,9 @@ class MethodParametersUnitTests {
 
 	@Test
 	void prefersAnnotatedParameterOverDiscovered() throws Exception {
-
 		Method method = Sample.class.getMethod("method", String.class, String.class, Object.class);
 		MethodParameters parameters = new MethodParameters(method,
 				Optional.of(new AnnotationAttribute(Qualifier.class)));
-
 		assertThat(parameters.getParameter("param")).isPresent();
 		assertThat(parameters.getParameter("foo")).isPresent();
 		assertThat(parameters.getParameter("another")).isNotPresent();
@@ -50,12 +48,9 @@ class MethodParametersUnitTests {
 	 */
 	@Test
 	void returnsParametersOfAGivenType() throws Exception {
-
 		Method method = Sample.class.getMethod("method", String.class, String.class, Object.class);
 		MethodParameters methodParameters = new MethodParameters(method);
-
 		List<MethodParameter> objectParameters = methodParameters.getParametersOfType(Object.class);
-
 		assertThat(objectParameters).hasSize(1);
 		assertThat(objectParameters.get(0).getParameterIndex()).isEqualTo(2);
 	}

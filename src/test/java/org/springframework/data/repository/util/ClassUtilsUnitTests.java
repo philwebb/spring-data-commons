@@ -47,7 +47,6 @@ class ClassUtilsUnitTests {
 
 	@Test
 	void determinesValidFieldsCorrectly() {
-
 		assertThat(hasProperty(User.class, "firstname")).isTrue();
 		assertThat(hasProperty(User.class, "Firstname")).isTrue();
 		assertThat(hasProperty(User.class, "address")).isFalse();

@@ -58,7 +58,6 @@ class RepositoryBeanDefinitionRegistrarSupportIntegrationTests {
 
 	@AfterEach
 	void tearDown() {
-
 		if (this.context != null) {
 			this.context.close();
 		}
@@ -72,14 +71,12 @@ class RepositoryBeanDefinitionRegistrarSupportIntegrationTests {
 
 	@Test // DATACMNS-47
 	void testBootstrappingWithInheritedConfigClasses() {
-
 		assertThat(this.context.getBean(MyRepository.class)).isNotNull();
 		assertThat(this.context.getBean(MyOtherRepository.class)).isNotNull();
 	}
 
 	@Test // DATACMNS-47
 	void beanDefinitionSourceIsSetForJavaConfigScannedBeans() {
-
 		BeanDefinition definition = this.context.getBeanDefinition("myRepository");
 		assertThat(definition.getSource()).isNotNull();
 	}
@@ -96,9 +93,7 @@ class RepositoryBeanDefinitionRegistrarSupportIntegrationTests {
 
 	@Test // DATACMNS-1620
 	void registeredBeanDefinitionsContainHumanReadableResourceDescription() {
-
 		BeanDefinition definition = this.context.getBeanDefinition("myRepository");
-
 		assertThat(definition.getResourceDescription()).contains(MyRepository.class.getName())
 				.contains(EnableRepositories.class.getSimpleName())
 				.contains(ClassUtils.getShortName(SampleConfig.class));

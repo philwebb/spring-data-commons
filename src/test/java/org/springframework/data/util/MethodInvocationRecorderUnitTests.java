@@ -36,40 +36,31 @@ class MethodInvocationRecorderUnitTests {
 
 	@Test // DATACMNS-1449
 	void rejectsFinalTypes() {
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> MethodInvocationRecorder.forProxyOf(FinalType.class));
 	}
 
 	@Test // DATACMNS-1449
 	void createsPropertyPathForSimpleMethodReference() {
-
 		Recorded<Bar> wrapper = this.recorder.record(Foo::getBar);
-
 		assertThat(wrapper.getPropertyPath()).hasValue("bar");
 	}
 
 	@Test // DATACMNS-1449
 	void createsPropertyPathForNestedMethodReference() {
-
 		Recorded<FooBar> wrapper = this.recorder.record(Foo::getBar).record(Bar::getFooBar);
-
 		assertThat(wrapper.getPropertyPath()).hasValue("bar.fooBar");
 	}
 
 	@Test // DATACMNS-1449
 	void createsPropertyPathForNestedCall() {
-
 		Recorded<FooBar> wrapper = this.recorder.record((Foo source) -> source.getBar().getFooBar());
-
 		assertThat(wrapper.getPropertyPath()).hasValue("bar.fooBar");
 	}
 
 	@Test // DATACMNS-1449
 	void usesCustomPropertyNamingStrategy() {
-
 		Recorded<Bar> recorded = MethodInvocationRecorder.forProxyOf(Foo.class).record(Foo::getBar);
-
 		assertThat(recorded.getPropertyPath(method -> method.getName())).hasValue("getBar");
 	}
 
@@ -80,9 +71,7 @@ class MethodInvocationRecorderUnitTests {
 
 	@Test // DATACMNS-1449
 	void recordsInvocationOnInterface() {
-
 		Recorded<Sample> recorder = MethodInvocationRecorder.forProxyOf(Sample.class);
-
 		assertThat(recorder.record(Sample::getName).getPropertyPath()).hasValue("name");
 	}
 

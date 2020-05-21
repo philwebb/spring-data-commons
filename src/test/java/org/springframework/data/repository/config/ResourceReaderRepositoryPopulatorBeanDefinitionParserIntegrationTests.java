@@ -41,46 +41,37 @@ class ResourceReaderRepositoryPopulatorBeanDefinitionParserIntegrationTests {
 
 	@Test // DATACMNS-333
 	void registersJackson2InitializerCorrectly() {
-
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
 		reader.loadBeanDefinitions(getPopulatorResource());
-
 		BeanDefinition definition = beanFactory.getBeanDefinition("jackson2-populator");
 		assertThat(definition).isNotNull();
-
 		Object bean = beanFactory.getBean("jackson2-populator");
 		assertThat(bean).isInstanceOf(ResourceReaderRepositoryPopulator.class);
 		Object resourceReader = ReflectionTestUtils.getField(bean, "reader");
 		assertThat(resourceReader).isInstanceOf(Jackson2ResourceReader.class);
-
 		Object resources = ReflectionTestUtils.getField(bean, "resources");
 		assertIsListOfClasspathResourcesWithPath(resources, "org/springframework/data/repository/init/data.json");
 	}
 
 	@Test // DATACMNS-58
 	void registersXmlInitializerCorrectly() {
-
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
 		reader.loadBeanDefinitions(getPopulatorResource());
-
 		BeanDefinition definition = beanFactory.getBeanDefinition("xml-populator");
 		assertThat(definition).isNotNull();
-
 		Object bean = beanFactory.getBean("xml-populator");
 		assertThat(bean).isInstanceOf(ResourceReaderRepositoryPopulator.class);
 		Object resourceReader = ReflectionTestUtils.getField(bean, "reader");
 		assertThat(resourceReader).isInstanceOf(UnmarshallingResourceReader.class);
 		Object unmarshaller = ReflectionTestUtils.getField(resourceReader, "unmarshaller");
 		assertThat(unmarshaller).isInstanceOf(Jaxb2Marshaller.class);
-
 		Object resources = ReflectionTestUtils.getField(bean, "resources");
 		assertIsListOfClasspathResourcesWithPath(resources, "org/springframework/data/repository/init/data.xml");
 	}
 
 	private static void assertIsListOfClasspathResourcesWithPath(Object source, String path) {
-
 		assertThat(source).isInstanceOf(List.class);
 		List<?> list = (List<?>) source;
 		assertThat(list).isNotEmpty();

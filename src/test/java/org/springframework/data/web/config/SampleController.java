@@ -35,21 +35,16 @@ class SampleController {
 
 	@RequestMapping("/proxy")
 	String someMethod(SampleDto sampleDto) {
-
 		assertThat(sampleDto).isNotNull();
 		assertThat(sampleDto.getName()).isEqualTo("Foo");
 		assertThat(sampleDto.getDate()).isNotNull();
-
 		Collection<Address> shippingAddresses = sampleDto.getShippingAddresses();
-
 		assertThat(shippingAddresses).hasSize(1);
 		assertThat(shippingAddresses.iterator().next().getZipCode()).isEqualTo("ZIP");
 		assertThat(shippingAddresses.iterator().next().getCity()).isEqualTo("City");
-
 		assertThat(sampleDto.getBillingAddress()).isNotNull();
 		assertThat(sampleDto.getBillingAddress().getZipCode()).isEqualTo("ZIP");
 		assertThat(sampleDto.getBillingAddress().getCity()).isEqualTo("City");
-
 		return "view";
 	}
 

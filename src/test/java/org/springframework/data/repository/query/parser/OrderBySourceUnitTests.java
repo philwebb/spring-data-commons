@@ -44,7 +44,6 @@ class OrderBySourceUnitTests {
 
 	@Test
 	void handlesMultipleDirectionsCorrectly() {
-
 		OrderBySource orderBySource = new OrderBySource("LastnameAscUsernameDesc");
 		assertThat(orderBySource.toSort())
 				.isEqualTo(Sort.by("lastname").ascending().and(Sort.by("username").descending()));
@@ -57,14 +56,12 @@ class OrderBySourceUnitTests {
 
 	@Test
 	void usesNestedPropertyCorrectly() throws Exception {
-
 		OrderBySource source = new OrderBySource("BarNameDesc", Optional.of(Foo.class));
 		assertThat(source.toSort()).isEqualTo(Sort.by("bar.name").descending());
 	}
 
 	@Test // DATACMNS-641
 	void defaultsSortOrderToAscendingSort() {
-
 		OrderBySource source = new OrderBySource("lastname");
 		assertThat(source.toSort()).isEqualTo(Sort.by("lastname"));
 	}

@@ -43,33 +43,27 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		WebTestUtils.initWebTest();
-
 		HateoasPageableHandlerMethodArgumentResolver hateoasPageableHandlerMethodArgumentResolver = new HateoasPageableHandlerMethodArgumentResolver();
 		this.resolver = new PagedResourcesAssemblerArgumentResolver(hateoasPageableHandlerMethodArgumentResolver, null);
 	}
 
 	@Test // DATACMNS-418
 	void createsPlainAssemblerWithoutContext() throws Exception {
-
 		Method method = Controller.class.getMethod("noContext", PagedResourcesAssembler.class);
 		Object result = this.resolver.resolveArgument(new MethodParameter(method, 0), null, null, null);
-
 		assertThat(result).isInstanceOf(PagedResourcesAssembler.class);
 		assertThat(result).isNotInstanceOf(MethodParameterAwarePagedResourcesAssembler.class);
 	}
 
 	@Test // DATACMNS-418
 	void selectsUniquePageableParameter() throws Exception {
-
 		Method method = Controller.class.getMethod("unique", PagedResourcesAssembler.class, Pageable.class);
 		assertSelectsParameter(method, 1);
 	}
 
 	@Test // DATACMNS-418
 	void selectsUniquePageableParameterForQualifiedAssembler() throws Exception {
-
 		Method method = Controller.class.getMethod("unnecessarilyQualified", PagedResourcesAssembler.class,
 				Pageable.class);
 		assertSelectsParameter(method, 1);
@@ -77,14 +71,12 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 
 	@Test // DATACMNS-418
 	void selectsUniqueQualifiedPageableParameter() throws Exception {
-
 		Method method = Controller.class.getMethod("qualifiedUnique", PagedResourcesAssembler.class, Pageable.class);
 		assertSelectsParameter(method, 1);
 	}
 
 	@Test // DATACMNS-418
 	void selectsQualifiedPageableParameter() throws Exception {
-
 		Method method = Controller.class.getMethod("qualified", PagedResourcesAssembler.class, Pageable.class,
 				Pageable.class);
 		assertSelectsParameter(method, 1);
@@ -107,60 +99,48 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 
 	@Test // DATACMNS-419
 	void doesNotFailForTemplatedMethodMapping() throws Exception {
-
 		Method method = Controller.class.getMethod("methodWithPathVariable", PagedResourcesAssembler.class);
 		Object result = this.resolver.resolveArgument(new MethodParameter(method, 0), null, null, null);
-
 		assertThat(result).isNotNull();
 	}
 
 	@Test // DATACMNS-513
 	void detectsMappingOfInvokedSubType() throws Exception {
-
 		Method method = Controller.class.getMethod("methodWithMapping", PagedResourcesAssembler.class);
-
 		// Simulate HandlerMethod.HandlerMethodParameter.getDeclaringClass()
 		// as it's returning the invoked class as the declared one
 		MethodParameter methodParameter = new MethodParameter(method, 0) {
+
 			@Override
 			public java.lang.Class<?> getDeclaringClass() {
 				return SubController.class;
 			}
+
 		};
-
 		Object result = this.resolver.resolveArgument(methodParameter, null, null, null);
-
 		assertThat(result).isInstanceOf(PagedResourcesAssembler.class);
-
 		Optional<UriComponents> uriComponents = (Optional<UriComponents>) ReflectionTestUtils.getField(result,
 				"baseUri");
-
 		assertThat(uriComponents).hasValueSatisfying(it -> {
 			assertThat(it.getPath()).isEqualTo("/foo/mapping");
 		});
 	}
 
 	private void assertSelectsParameter(Method method, int expectedIndex) {
-
 		MethodParameter parameter = new MethodParameter(method, 0);
-
 		Object result = this.resolver.resolveArgument(parameter, null, null, null);
 		assertMethodParameterAwarePagedResourcesAssemblerFor(result, new MethodParameter(method, expectedIndex));
 	}
 
 	private static void assertMethodParameterAwarePagedResourcesAssemblerFor(Object result, MethodParameter parameter) {
-
 		assertThat(result).isInstanceOf(MethodParameterAwarePagedResourcesAssembler.class);
 		MethodParameterAwarePagedResourcesAssembler<?> assembler = (MethodParameterAwarePagedResourcesAssembler<?>) result;
-
 		assertThat(assembler.getMethodParameter()).isEqualTo(parameter);
 	}
 
 	private void assertRejectsAmbiguity(String methodName) throws Exception {
-
 		Method method = Controller.class.getMethod(methodName, PagedResourcesAssembler.class, Pageable.class,
 				Pageable.class);
-
 		assertThatIllegalStateException()
 				.isThrownBy(() -> this.resolver.resolveArgument(new MethodParameter(method, 0), null, null, null));
 	}

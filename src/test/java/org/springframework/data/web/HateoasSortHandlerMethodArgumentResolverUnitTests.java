@@ -37,7 +37,6 @@ class HateoasSortHandlerMethodArgumentResolverUnitTests extends SortHandlerMetho
 
 	@Test
 	void buildsUpRequestParameters() throws Exception {
-
 		assertUriStringFor(SORT, "sort=firstname,lastname,desc");
 		assertUriStringFor(Sort.by(ASC, "foo").and(Sort.by(DESC, "bar").and(Sort.by(ASC, "foobar"))),
 				"sort=foo,asc&sort=bar,desc&sort=foobar,asc");
@@ -52,9 +51,7 @@ class HateoasSortHandlerMethodArgumentResolverUnitTests extends SortHandlerMetho
 
 	@Test // DATACMNS-418
 	void returnCorrectTemplateVariables() {
-
 		UriComponents uriComponents = UriComponentsBuilder.fromPath("/").build();
-
 		HateoasSortHandlerMethodArgumentResolver resolver = new HateoasSortHandlerMethodArgumentResolver();
 		assertThat(resolver.getSortTemplateVariables(null, uriComponents).toString()).isEqualTo("{?sort}");
 	}
@@ -64,12 +61,9 @@ class HateoasSortHandlerMethodArgumentResolverUnitTests extends SortHandlerMetho
 	}
 
 	private void assertUriStringFor(Sort sort, String expected, String baseUri) throws Exception {
-
 		UriComponentsBuilder builder = UriComponentsBuilder.fromUri(new URI(baseUri));
 		MethodParameter parameter = getParameterOfMethod("supportedMethod");
-
 		new HateoasSortHandlerMethodArgumentResolver().enhance(builder, parameter, sort);
-
 		assertThat(builder.build().toUriString()).endsWith(expected);
 	}
 

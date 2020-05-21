@@ -38,20 +38,16 @@ public class AnnotationDetectionFieldCallbackUnitTests {
 
 	@Test // DATACMNS-616
 	public void looksUpValueFromPrivateField() {
-
 		AnnotationDetectionFieldCallback callback = new AnnotationDetectionFieldCallback(Autowired.class);
 		ReflectionUtils.doWithFields(Sample.class, callback);
-
 		assertThat(callback.getType()).isEqualTo(String.class);
 		assertThat(callback.<Object>getValue(new Sample("foo"))).isEqualTo("foo");
 	}
 
 	@Test // DATACMNS-616
 	public void returnsNullForObjectNotContainingAFieldWithTheConfiguredAnnotation() {
-
 		AnnotationDetectionFieldCallback callback = new AnnotationDetectionFieldCallback(Autowired.class);
 		ReflectionUtils.doWithFields(Empty.class, callback);
-
 		assertThat(callback.getType()).isNull();
 		assertThat(callback.<Object>getValue(new Empty())).isNull();
 	}

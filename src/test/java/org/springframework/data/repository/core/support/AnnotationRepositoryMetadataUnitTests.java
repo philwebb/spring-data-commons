@@ -32,16 +32,13 @@ class AnnotationRepositoryMetadataUnitTests {
 
 	@Test
 	void handlesRepositoryProxyAnnotationCorrectly() {
-
 		RepositoryMetadata metadata = new AnnotationRepositoryMetadata(AnnotatedRepository.class);
-
 		assertThat(metadata.getDomainType()).isEqualTo(User.class);
 		assertThat(metadata.getIdType()).isEqualTo(Integer.class);
 	}
 
 	@Test // DATACMNS-37, DATACMNS-1375
 	void preventsUnannotatedInterface() {
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> new AnnotationRepositoryMetadata(UnannotatedRepository.class))
 				.withMessageContaining(UnannotatedRepository.class.getName());

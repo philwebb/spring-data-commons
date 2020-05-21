@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 abstract class UnitTestUtils {
 
 	private UnitTestUtils() {
-
 	}
 
 	/**
@@ -18,7 +17,6 @@ abstract class UnitTestUtils {
 	 * @param second
 	 */
 	static void assertEqualsAndHashcode(Object first, Object second) {
-
 		assertThat(first).isEqualTo(second);
 		assertThat(second).isEqualTo(first);
 		assertThat(first.hashCode()).isEqualTo(second.hashCode());
@@ -30,7 +28,6 @@ abstract class UnitTestUtils {
 	 * @param second
 	 */
 	static void assertNotEqualsAndHashcode(Object first, Object second) {
-
 		assertThat(first).isNotEqualTo(second);
 		assertThat(second).isNotEqualTo(first);
 		assertThat(first.hashCode()).isNotEqualTo(second.hashCode());

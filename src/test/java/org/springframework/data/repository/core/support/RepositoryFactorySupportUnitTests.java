@@ -107,87 +107,68 @@ class RepositoryFactorySupportUnitTests {
 
 	@Test
 	void invokesCustomQueryCreationListenerForSpecialRepositoryQueryOnly() {
-
 		Mockito.reset(this.factory.strategy);
-
 		when(this.factory.strategy.resolveQuery(any(Method.class), any(RepositoryMetadata.class),
 				any(ProjectionFactory.class), any(NamedQueries.class))).thenReturn(this.factory.queryOne,
 						this.factory.queryTwo);
-
 		this.factory.addQueryCreationListener(this.listener);
 		this.factory.addQueryCreationListener(this.otherListener);
-
 		this.factory.getRepository(ObjectRepository.class);
-
 		verify(this.listener, times(1)).onCreation(any(MyRepositoryQuery.class));
 		verify(this.otherListener, times(2)).onCreation(any(RepositoryQuery.class));
 	}
 
 	@Test // DATACMNS-1538
 	void invokesCustomRepositoryProxyPostProcessor() {
-
 		this.factory.addRepositoryProxyPostProcessor(this.repositoryPostProcessor);
 		this.factory.getRepository(ObjectRepository.class);
-
 		verify(this.repositoryPostProcessor, times(1)).postProcess(any(ProxyFactory.class),
 				any(RepositoryInformation.class));
 	}
 
 	@Test
 	void routesCallToRedeclaredMethodIntoTarget() {
-
 		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class);
 		repository.save(repository);
-
 		verify(this.backingRepo, times(1)).save(any(Object.class));
 	}
 
 	@Test
 	void invokesCustomMethodIfItRedeclaresACRUDOne() {
-
 		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class, this.customImplementation);
 		repository.findById(1);
-
 		verify(this.customImplementation, times(1)).findById(1);
 		verify(this.backingRepo, times(0)).findById(1);
 	}
 
 	@Test // DATACMNS-102
 	void invokesCustomMethodCompositionMethodIfItRedeclaresACRUDOne() {
-
 		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class,
 				RepositoryFragments.just(this.customImplementation));
 		repository.findById(1);
-
 		verify(this.customImplementation, times(1)).findById(1);
 		verify(this.backingRepo, times(0)).findById(1);
 	}
 
 	@Test
 	void createsRepositoryInstanceWithCustomIntermediateRepository() {
-
 		CustomRepository repository = this.factory.getRepository(CustomRepository.class);
 		Pageable pageable = PageRequest.of(0, 10);
-
 		when(this.backingRepo.findAll(pageable)).thenReturn(new PageImpl<>(Collections.emptyList()));
 		repository.findAll(pageable);
-
 		verify(this.backingRepo, times(1)).findAll(pageable);
 	}
 
 	@Test
 	@SuppressWarnings("unchecked")
 	void createsProxyForAnnotatedRepository() {
-
 		Class<?> repositoryInterface = AnnotatedRepository.class;
 		Class<? extends Repository<?, ?>> foo = (Class<? extends Repository<?, ?>>) repositoryInterface;
-
 		assertThat(this.factory.getRepository(foo)).isNotNull();
 	}
 
 	@Test // DATACMNS-341
 	void usesDefaultClassLoaderIfNullConfigured() {
-
 		this.factory.setBeanClassLoader(null);
 		assertThat(ReflectionTestUtils.getField(this.factory, "classLoader"))
 				.isEqualTo(ClassUtils.getDefaultClassLoader());
@@ -195,63 +176,45 @@ class RepositoryFactorySupportUnitTests {
 
 	@Test // DATACMNS-489
 	void wrapsExecutionResultIntoFutureIfConfigured() throws Exception {
-
 		final Object reference = new Object();
-
 		when(this.factory.queryOne.execute(any(Object[].class))).then(invocation -> {
 			Thread.sleep(500);
 			return reference;
 		});
-
 		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
-
 		AsyncAnnotationBeanPostProcessor processor = new AsyncAnnotationBeanPostProcessor();
 		processor.setBeanFactory(new DefaultListableBeanFactory());
 		repository = (ConvertingRepository) processor.postProcessAfterInitialization(repository, null);
-
 		Future<Object> future = repository.findByFirstname("Foo");
-
 		assertThat(future.isDone()).isFalse();
-
 		while (!future.isDone()) {
 			Thread.sleep(300);
 		}
-
 		assertThat(future.get()).isEqualTo(reference);
-
 		verify(this.factory.queryOne, times(1)).execute(any(Object[].class));
 	}
 
 	@Test // DATACMNS-509
 	void convertsWithSameElementType() {
-
 		List<String> names = singletonList("Dave");
-
 		when(this.factory.queryOne.execute(any(Object[].class))).thenReturn(names);
-
 		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
 		Set<String> result = repository.convertListToStringSet();
-
 		assertThat(result).hasSize(1);
 		assertThat(result.iterator().next()).isEqualTo("Dave");
 	}
 
 	@Test // DATACMNS-509
 	void convertsCollectionToOtherCollectionWithElementSuperType() {
-
 		List<String> names = singletonList("Dave");
-
 		when(this.factory.queryOne.execute(any(Object[].class))).thenReturn(names);
-
 		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
 		Set<Object> result = repository.convertListToObjectSet();
-
 		assertThat(result).containsExactly("Dave");
 	}
 
 	@Test // DATACMNS-656
 	void rejectsNullRepositoryProxyPostProcessor() {
-
 		assertThatThrownBy(() -> this.factory.addRepositoryProxyPostProcessor(null))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining(RepositoryProxyPostProcessor.class.getSimpleName());
@@ -264,44 +227,34 @@ class RepositoryFactorySupportUnitTests {
 
 	@Test // DATACMNS-714
 	void wrapsExecutionResultIntoCompletableFutureIfConfigured() throws Exception {
-
 		User reference = new User();
-
 		expect(prepareConvertingRepository(reference).findOneByFirstname("Foo"), reference);
 	}
 
 	@Test // DATACMNS-714
 	void wrapsExecutionResultIntoListenableFutureIfConfigured() throws Exception {
-
 		User reference = new User();
-
 		expect(prepareConvertingRepository(reference).findOneByLastname("Foo"), reference);
 	}
 
 	@Test // DATACMNS-714
 	void wrapsExecutionResultIntoCompletableFutureWithEntityCollectionIfConfigured() throws Exception {
-
 		List<User> reference = singletonList(new User());
-
 		expect(prepareConvertingRepository(reference).readAllByFirstname("Foo"), reference);
 	}
 
 	@Test // DATACMNS-714
 	void wrapsExecutionResultIntoListenableFutureWithEntityCollectionIfConfigured() throws Exception {
-
 		List<User> reference = singletonList(new User());
-
 		expect(prepareConvertingRepository(reference).readAllByLastname("Foo"), reference);
 	}
 
 	@Test // DATACMNS-763
 	@SuppressWarnings("rawtypes")
 	void rejectsRepositoryBaseClassWithInvalidConstructor() {
-
 		RepositoryInformation information = mock(RepositoryInformation.class);
 		doReturn(CustomRepositoryBaseClass.class).when(information).getRepositoryBaseClass();
 		EntityInformation entityInformation = mock(EntityInformation.class);
-
 		assertThatThrownBy(() -> this.factory.getTargetRepositoryViaReflection(information, entityInformation, "Foo"))
 				.isInstanceOf(IllegalStateException.class).hasMessageContaining(entityInformation.getClass().getName())
 				.hasMessageContaining(String.class.getName());
@@ -309,94 +262,70 @@ class RepositoryFactorySupportUnitTests {
 
 	@Test
 	void callsStaticMethodOnInterface() {
-
 		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class, this.customImplementation);
-
 		assertThat(repository.staticMethodDelegate()).isEqualTo("OK");
-
 		verifyNoInteractions(this.customImplementation);
 		verifyNoInteractions(this.backingRepo);
 	}
 
 	@Test // DATACMNS-1154
 	void considersRequiredReturnValue() {
-
 		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
-
 		assertThatThrownBy(() -> repository.findById("")).isInstanceOf(EmptyResultDataAccessException.class)
 				.hasMessageContaining("Result must not be null!");
-
 		assertThat(repository.findByUsername("")).isNull();
 	}
 
 	@Test // DATACMNS-1154
 	void considersRequiredParameter() {
-
 		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class);
-
 		assertThatThrownBy(() -> repository.findByClass(null)).isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("must not be null!");
 	}
 
 	@Test // DATACMNS-1154
 	void shouldAllowVoidMethods() {
-
 		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class, this.backingRepo);
-
 		repository.deleteAll();
-
 		verify(this.backingRepo).deleteAll();
 	}
 
 	@Test // DATACMNS-1154
 	void considersRequiredKotlinParameter() {
-
 		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
-
 		assertThatThrownBy(() -> repository.findById(null)).isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("must not be null!");
 	}
 
 	@Test // DATACMNS-1154
 	void considersRequiredKotlinNullableParameter() {
-
 		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
-
 		assertThat(repository.findByOptionalId(null)).isNull();
 	}
 
 	@Test // DATACMNS-1197
 	void considersNullabilityForKotlinInterfaceProperties() {
-
 		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
-
 		assertThatThrownBy(repository::getFindRouteQuery).isInstanceOf(EmptyResultDataAccessException.class);
 	}
 
 	private ConvertingRepository prepareConvertingRepository(final Object expectedValue) {
-
 		when(this.factory.queryOne.execute(any(Object[].class))).then(invocation -> {
 			Thread.sleep(200);
 			return expectedValue;
 		});
-
 		AsyncAnnotationBeanPostProcessor processor = new AsyncAnnotationBeanPostProcessor();
 		processor.setBeanFactory(new DefaultListableBeanFactory());
-
 		return (ConvertingRepository) processor
 				.postProcessAfterInitialization(this.factory.getRepository(ConvertingRepository.class), null);
 	}
 
 	private void expect(Future<?> future, Object value) throws Exception {
-
 		assertThat(future.isDone()).isFalse();
-
 		while (!future.isDone()) {
 			Thread.sleep(50);
 		}
-
 		assertThat(future.get()).isEqualTo(value);
-
 		verify(this.factory.queryOne, times(1)).execute(any(Object[].class));
 	}
 

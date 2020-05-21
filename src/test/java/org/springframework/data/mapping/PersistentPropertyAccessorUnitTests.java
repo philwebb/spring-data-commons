@@ -62,68 +62,50 @@ public class PersistentPropertyAccessorUnitTests {
 
 	@Test // DATACMNS-1275
 	public void looksUpValueForPropertyPath() {
-
 		Order order = new Order(new Customer("Dave"));
-
 		setUp(order, "customer.firstname");
-
 		assertThat(this.accessor.getProperty(this.path)).isEqualTo("Dave");
 	}
 
 	@Test // DATACMNS-1275
 	public void setsPropertyOnNestedPath() {
-
 		Customer customer = new Customer("Dave");
 		Order order = new Order(customer);
-
 		setUp(order, "customer.firstname");
-
 		this.accessor.setProperty(this.path, "Oliver August");
-
 		assertThat(customer.firstname).isEqualTo("Oliver August");
 	}
 
 	@Test // DATACMNS-1275
 	public void rejectsEmptyPathToSetValues() {
-
 		setUp(new Order(null), "");
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> this.accessor.setProperty(this.path, "Oliver August"));
 	}
 
 	@Test // DATACMNS-1275
 	public void rejectsIntermediateNullValuesForRead() {
-
 		setUp(new Order(null), "customer.firstname");
-
 		assertThatExceptionOfType(MappingException.class).isThrownBy(() -> this.accessor.getProperty(this.path));
 	}
 
 	@Test // DATACMNS-1275
 	public void rejectsIntermediateNullValuesForWrite() {
-
 		setUp(new Order(null), "customer.firstname");
-
 		assertThatExceptionOfType(MappingException.class)
 				.isThrownBy(() -> this.accessor.setProperty(this.path, "Oliver August"));
 	}
 
 	@Test // DATACMNS-1322
 	public void correctlyReplacesObjectInstancesWhenSettingPropertyPathOnImmutableObjects() {
-
 		PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getPersistentEntity(Outer.class);
 		PersistentPropertyPath<SamplePersistentProperty> path = this.context
 				.getPersistentPropertyPath("immutable.value", entity.getType());
-
 		NestedImmutable immutable = new NestedImmutable("foo");
 		Outer outer = new Outer(immutable);
-
 		PersistentPropertyAccessor accessor = entity.getPropertyAccessor(outer);
 		accessor.setProperty(path, "bar");
-
 		Object result = accessor.getBean();
-
 		assertThat(result).isInstanceOfSatisfying(Outer.class, it -> {
 			assertThat(it.immutable).isNotSameAs(immutable);
 			assertThat(it).isNotSameAs(outer);
@@ -132,29 +114,22 @@ public class PersistentPropertyAccessorUnitTests {
 
 	@Test // DATACMNS-1377
 	public void shouldConvertToPropertyPathLeafType() {
-
 		Order order = new Order(new Customer("1"));
-
 		PersistentPropertyAccessor<Order> accessor = this.context.getPersistentEntity(Order.class)
 				.getPropertyAccessor(order);
 		ConvertingPropertyAccessor<Order> convertingAccessor = new ConvertingPropertyAccessor<>(accessor,
 				new DefaultConversionService());
-
 		PersistentPropertyPath<SamplePersistentProperty> path = this.context
 				.getPersistentPropertyPath("customer.firstname", Order.class);
-
 		convertingAccessor.setProperty(path, 2);
-
 		assertThat(convertingAccessor.getBean().getCustomer().getFirstname()).isEqualTo("2");
 	}
 
 	@Test // DATACMNS-1555
 	public void usesTraversalContextToTraverseCollections() {
-
 		WithContext withContext = WithContext.builder().collection(Collections.singleton("value"))
 				.list(Collections.singletonList("value")).set(Collections.singleton("value"))
 				.map(Collections.singletonMap("key", "value")).string(" value ").build();
-
 		Spec collectionHelper = Spec.of("collection",
 				(context, property) -> context.registerCollectionHandler(property, it -> it.iterator().next()));
 		Spec listHelper = Spec.of("list",
@@ -165,31 +140,23 @@ public class PersistentPropertyAccessorUnitTests {
 				(context, property) -> context.registerMapHandler(property, it -> it.get("key")));
 		Spec stringHelper = Spec.of("string",
 				(context, property) -> context.registerHandler(property, String.class, it -> it.trim()));
-
 		Stream.of(collectionHelper, listHelper, setHelper, mapHelper, stringHelper).forEach(it -> {
-
 			PersistentEntity<Object, SamplePersistentProperty> entity = this.context
 					.getPersistentEntity(WithContext.class);
 			PersistentProperty<?> property = entity.getRequiredPersistentProperty(it.name);
 			PersistentPropertyAccessor<WithContext> accessor = entity.getPropertyAccessor(withContext);
-
 			TraversalContext traversalContext = it.registrar.apply(new TraversalContext(), property);
-
 			PersistentPropertyPath<SamplePersistentProperty> propertyPath = this.context
 					.getPersistentPropertyPath(it.name, WithContext.class);
-
 			assertThat(accessor.getProperty(propertyPath, traversalContext)).isEqualTo("value");
 		});
 	}
 
 	@Test // DATACMNS-1555
 	public void traversalContextRejectsInvalidPropertyHandler() {
-
 		PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getPersistentEntity(WithContext.class);
 		PersistentProperty<?> property = entity.getRequiredPersistentProperty("collection");
-
 		TraversalContext traversal = new TraversalContext();
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> traversal.registerHandler(property, Map.class, Function.identity()));
 	}

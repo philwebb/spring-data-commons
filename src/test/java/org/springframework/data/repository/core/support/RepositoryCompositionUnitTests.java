@@ -56,98 +56,71 @@ class RepositoryCompositionUnitTests {
 	@BeforeEach
 	@SuppressWarnings("rawtypes")
 	void before() {
-
 		RepositoryInformation repositoryInformation = new DefaultRepositoryInformation(
 				new DefaultRepositoryMetadata(PersonRepository.class), this.backingRepo.getClass(),
 				RepositoryComposition.empty());
-
 		RepositoryFragment<QueryByExampleExecutor> mixin = RepositoryFragment.implemented(QueryByExampleExecutor.class,
 				this.queryByExampleExecutor);
-
 		RepositoryFragment<PersonRepository> base = RepositoryFragment.implemented(this.backingRepo);
-
 		this.repositoryComposition = RepositoryComposition.of(RepositoryFragments.of(mixin, base))
 				.withMethodLookup(MethodLookups.forRepositoryTypes(repositoryInformation));
 	}
 
 	@Test // DATACMNS-102
 	void shouldReportIfEmpty() {
-
 		assertThat(RepositoryComposition.empty().isEmpty()).isTrue();
 		assertThat(this.repositoryComposition.isEmpty()).isFalse();
 	}
 
 	@Test // DATACMNS-102
 	void shouldCallSaveOnBackingRepo() throws Throwable {
-
 		Method save = ReflectionUtils.findMethod(PersonRepository.class, "save", Person.class);
-
 		Method method = this.repositoryComposition.findMethod(save).get();
-
 		Person person = new Person();
 		this.repositoryComposition.invoke(method, person);
-
 		verify(this.backingRepo).save(person);
 	}
 
 	@Test // DATACMNS-102
 	void shouldCallObjectSaveOnBackingRepo() throws Throwable {
-
 		Method save = ReflectionUtils.findMethod(PersonRepository.class, "save", Object.class);
-
 		Method method = this.repositoryComposition.findMethod(save).get();
-
 		Person person = new Person();
 		this.repositoryComposition.invoke(method, person);
-
 		verify(this.backingRepo).save((Object) person);
 	}
 
 	@Test // DATACMNS-102
 	void shouldCallFindOneOnMixin() throws Throwable {
-
 		Method findOne = ReflectionUtils.findMethod(PersonRepository.class, "findOne", Example.class);
-
 		Method method = this.repositoryComposition.findMethod(findOne).get();
-
 		Person person = new Person();
 		Example<Person> example = Example.of(person);
-
 		this.repositoryComposition.invoke(method, example);
-
 		verify(this.queryByExampleExecutor).findOne(example);
 	}
 
 	@Test // DATACMNS-102
 	void shouldCallMethodsInOrder() throws Throwable {
-
 		RepositoryInformation repositoryInformation = new DefaultRepositoryInformation(
 				new DefaultRepositoryMetadata(OrderedRepository.class), OrderedRepository.class,
 				RepositoryComposition.empty());
-
 		RepositoryFragment<?> foo = RepositoryFragment.implemented(FooMixinImpl.INSTANCE);
 		RepositoryFragment<?> bar = RepositoryFragment.implemented(BarMixinImpl.INSTANCE);
-
 		RepositoryComposition fooBar = RepositoryComposition.of(RepositoryFragments.of(foo, bar))
 				.withMethodLookup(MethodLookups.forRepositoryTypes(repositoryInformation));
-
 		RepositoryComposition barFoo = RepositoryComposition.of(RepositoryFragments.of(bar, foo))
 				.withMethodLookup(MethodLookups.forRepositoryTypes(repositoryInformation));
-
 		Method getString = ReflectionUtils.findMethod(OrderedRepository.class, "getString");
-
 		assertThat(fooBar.invoke(fooBar.findMethod(getString).get())).isEqualTo("foo");
-
 		assertThat(barFoo.invoke(barFoo.findMethod(getString).get())).isEqualTo("bar");
 	}
 
 	@Test // DATACMNS-102
 	void shouldValidateStructuralFragments() {
-
 		RepositoryComposition mixed = RepositoryComposition.of(
 				RepositoryFragment.structural(QueryByExampleExecutor.class),
 				RepositoryFragment.implemented(this.backingRepo));
-
 		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(mixed::validateImplementation)
 				.withMessageContaining(
 						"Fragment org.springframework.data.repository.query.QueryByExampleExecutor has no implementation.");
@@ -155,20 +128,16 @@ class RepositoryCompositionUnitTests {
 
 	@Test // DATACMNS-102
 	void shouldValidateImplementationFragments() {
-
 		RepositoryComposition mixed = RepositoryComposition.of(RepositoryFragment.implemented(this.backingRepo));
-
 		mixed.validateImplementation();
 	}
 
 	@Test // DATACMNS-102
 	@SuppressWarnings("rawtypes")
 	void shouldAppendCorrectly() {
-
 		RepositoryFragment<PersonRepository> initial = RepositoryFragment.implemented(this.backingRepo);
 		RepositoryFragment<QueryByExampleExecutor> structural = RepositoryFragment
 				.structural(QueryByExampleExecutor.class);
-
 		assertThat(RepositoryComposition.of(initial).append(structural).getFragments()).containsSequence(initial,
 				structural);
 		assertThat(RepositoryComposition.of(initial).append(RepositoryFragments.of(structural)).getFragments())

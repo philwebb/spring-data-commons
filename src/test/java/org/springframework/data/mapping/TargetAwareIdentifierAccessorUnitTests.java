@@ -29,17 +29,15 @@ public class TargetAwareIdentifierAccessorUnitTests {
 
 	@Test // DATACMNS-1015
 	public void throwsExceptionContainingInformationAboutTargetIfIdentifierAbsent() {
-
 		Object sample = new Object();
-
 		IdentifierAccessor accessor = new TargetAwareIdentifierAccessor(sample) {
 
 			@Override
 			public Object getIdentifier() {
 				return null;
 			}
-		};
 
+		};
 		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(accessor::getRequiredIdentifier)
 				.withMessageContaining(sample.toString());
 	}

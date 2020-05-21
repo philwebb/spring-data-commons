@@ -44,19 +44,15 @@ class PropertyAccessingMethodInterceptorUnitTests {
 
 	@Test // DATAREST-221
 	void triggersPropertyAccessOnTarget() throws Throwable {
-
 		Source source = new Source();
 		source.firstname = "Dave";
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("getFirstname"));
 		MethodInterceptor interceptor = new PropertyAccessingMethodInterceptor(source);
-
 		assertThat(interceptor.invoke(this.invocation)).isEqualTo("Dave");
 	}
 
 	@Test // DATAREST-221
 	void throwsAppropriateExceptionIfThePropertyCannotBeFound() throws Throwable {
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("getLastname"));
 		assertThatExceptionOfType(NotReadablePropertyException.class)
 				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(new Source()).invoke(this.invocation));
@@ -64,53 +60,40 @@ class PropertyAccessingMethodInterceptorUnitTests {
 
 	@Test // DATAREST-221
 	void forwardsObjectMethodInvocation() throws Throwable {
-
 		when(this.invocation.getMethod()).thenReturn(Object.class.getMethod("toString"));
-
 		new PropertyAccessingMethodInterceptor(new Source()).invoke(this.invocation);
 	}
 
 	@Test // DATACMNS-630
 	void rejectsNonAccessorMethod() throws Throwable {
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("someGarbage"));
-
 		assertThatIllegalStateException()
 				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(new Source()).invoke(this.invocation));
 	}
 
 	@Test // DATACMNS-820
 	void triggersWritePropertyAccessOnTarget() throws Throwable {
-
 		Source source = new Source();
 		source.firstname = "Dave";
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("setFirstname", String.class));
 		when(this.invocation.getArguments()).thenReturn(new Object[] { "Carl" });
-
 		new PropertyAccessingMethodInterceptor(source).invoke(this.invocation);
-
 		assertThat(source.firstname).isEqualTo("Carl");
 	}
 
 	@Test // DATACMNS-820
 	void throwsAppropriateExceptionIfTheInvocationHasNoArguments() throws Throwable {
-
 		Source source = new Source();
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("setFirstname", String.class));
 		when(this.invocation.getArguments()).thenReturn(new Object[0]);
-
 		assertThatIllegalStateException()
 				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(source).invoke(this.invocation));
 	}
 
 	@Test // DATACMNS-820
 	void throwsAppropriateExceptionIfThePropertyCannotWritten() throws Throwable {
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("setGarbage", String.class));
 		when(this.invocation.getArguments()).thenReturn(new Object[] { "Carl" });
-
 		assertThatExceptionOfType(NotWritablePropertyException.class)
 				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(new Source()).invoke(this.invocation));
 	}

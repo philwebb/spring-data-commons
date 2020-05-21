@@ -30,7 +30,6 @@ class RepositoryFragmentUnitTests {
 	@Test // DATACMNS-1289
 	@SuppressWarnings("unchecked")
 	void fragmentCreationFromUnrelatedTypesShouldFail() {
-
 		assertThatThrownBy(() -> RepositoryFragment.implemented((Class) CustomFragment.class, new UnrelatedImpl()))
 				.hasMessageMatching("Fragment implementation .*UnrelatedImpl does not implement .*!")
 				.isInstanceOf(IllegalArgumentException.class);

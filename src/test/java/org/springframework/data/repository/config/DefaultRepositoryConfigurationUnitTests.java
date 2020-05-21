@@ -57,9 +57,7 @@ class DefaultRepositoryConfigurationUnitTests {
 
 	@Test
 	void supportsBasicConfiguration() {
-
 		RepositoryConfiguration<RepositoryConfigurationSource> configuration = getConfiguration(this.source);
-
 		assertThat(configuration.getConfigurationSource()).isEqualTo(this.source);
 		assertThat(configuration.getRepositoryInterface()).isEqualTo("com.acme.MyRepository");
 		assertThat(configuration.getQueryLookupStrategyKey()).isEqualTo(Key.CREATE_IF_NOT_FOUND);
@@ -73,9 +71,7 @@ class DefaultRepositoryConfigurationUnitTests {
 
 	@Test // DATACMNS-1018
 	void prefersSourcesRepositoryFactoryBeanClass() {
-
 		when(this.source.getRepositoryFactoryBeanClassName()).thenReturn(Optional.of("custom"));
-
 		assertThat(getConfiguration(this.source).getRepositoryFactoryBeanClassName()).isEqualTo("custom");
 	}
 
@@ -99,13 +95,10 @@ class DefaultRepositoryConfigurationUnitTests {
 	}
 
 	private static RootBeanDefinition createBeanDefinition(String repositoryInterfaceName) {
-
 		RootBeanDefinition beanDefinition = new RootBeanDefinition(repositoryInterfaceName);
-
 		ConstructorArgumentValues constructorArgumentValues = new ConstructorArgumentValues();
 		constructorArgumentValues.addGenericArgumentValue(MyRepository.class);
 		beanDefinition.setConstructorArgumentValues(constructorArgumentValues);
-
 		return beanDefinition;
 	}
 

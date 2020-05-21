@@ -72,33 +72,26 @@ class SpringDataJaxbUnitTests {
 
 	@BeforeEach
 	void setUp() throws Exception {
-
 		JAXBContext context = JAXBContext.newInstance("org.springframework.data.domain.jaxb");
-
 		this.marshaller = context.createMarshaller();
 		this.marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
 		this.unmarshaller = context.createUnmarshaller();
 	}
 
 	@Test
 	void usesCustomTypeAdapterForPageRequests() throws Exception {
-
 		StringWriter writer = new StringWriter();
 		Wrapper wrapper = new Wrapper();
 		wrapper.pageable = this.pageable;
 		wrapper.sort = this.sort;
 		wrapper.pageableWithoutSort = PageRequest.of(10, 20);
 		this.marshaller.marshal(wrapper, writer);
-
 		assertThat(new Diff(this.reference, writer.toString()).similar()).isTrue();
 	}
 
 	@Test
 	void readsPageRequest() throws Exception {
-
 		Object result = this.unmarshaller.unmarshal(this.resource.getFile());
-
 		assertThat(result).isInstanceOf(Wrapper.class);
 		assertThat(((Wrapper) result).pageable).isEqualTo(this.pageable);
 		assertThat(((Wrapper) result).sort).isEqualTo(this.sort);
@@ -106,31 +99,23 @@ class SpringDataJaxbUnitTests {
 
 	@Test
 	void writesPlainPage() throws Exception {
-
 		PageWrapper wrapper = new PageWrapper();
 		Content content = new Content();
 		content.name = "Foo";
 		wrapper.page = new PageImpl<>(Collections.singletonList(content));
 		wrapper.pageWithLinks = new PageImpl<>(Collections.singletonList(content));
-
 		this.marshaller.marshal(wrapper, new StringWriter());
 	}
 
 	private static String readFile(Resource resource) {
-
 		try {
-
 			Scanner scanner = new Scanner(resource.getInputStream());
 			StringBuilder builder = new StringBuilder();
-
 			while (scanner.hasNextLine()) {
 				builder.append(scanner.nextLine()).append("\n");
 			}
-
 			scanner.close();
-
 			return builder.toString();
-
 		}
 		catch (IOException o_O) {
 			throw new RuntimeException(o_O);

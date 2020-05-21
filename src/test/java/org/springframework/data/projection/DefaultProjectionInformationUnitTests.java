@@ -36,39 +36,30 @@ class DefaultProjectionInformationUnitTests {
 
 	@Test // DATACMNS-89
 	void discoversInputProperties() {
-
 		ProjectionInformation information = new DefaultProjectionInformation(CustomerProjection.class);
-
 		assertThat(toNames(information.getInputProperties())).contains("firstname", "lastname");
 	}
 
 	@Test // DATACMNS-1206
 	void omitsInputPropertiesAcceptingArguments() {
-
 		ProjectionInformation information = new DefaultProjectionInformation(ProjectionAcceptingArguments.class);
-
 		assertThat(toNames(information.getInputProperties())).containsOnly("lastname");
 	}
 
 	@Test // DATACMNS-89
 	void discoversAllInputProperties() {
-
 		ProjectionInformation information = new DefaultProjectionInformation(ExtendedProjection.class);
-
 		assertThat(toNames(information.getInputProperties())).containsExactly("age", "firstname", "lastname");
 	}
 
 	@Test // DATACMNS-1206
 	void discoversInputPropertiesInOrder() {
-
 		ProjectionInformation information = new DefaultProjectionInformation(SameMethodNamesInAlternateOrder.class);
-
 		assertThat(toNames(information.getInputProperties())).containsExactly("firstname", "lastname");
 	}
 
 	@Test // DATACMNS-1206
 	void discoversAllInputPropertiesInOrder() {
-
 		assertThat(toNames(new DefaultProjectionInformation(CompositeProjection.class).getInputProperties()))
 				.containsExactly("firstname", "lastname", "age");
 		assertThat(toNames(new DefaultProjectionInformation(ReorderedCompositeProjection.class).getInputProperties()))
@@ -77,15 +68,12 @@ class DefaultProjectionInformationUnitTests {
 
 	@Test // DATACMNS-967
 	void doesNotConsiderDefaultMethodInputProperties() {
-
 		ProjectionInformation information = new DefaultProjectionInformation(WithDefaultMethod.class);
-
 		assertThat(information.isClosed()).isTrue();
 		assertThat(toNames(information.getInputProperties())).containsExactly("firstname");
 	}
 
 	private static List<String> toNames(List<PropertyDescriptor> descriptors) {
-
 		return descriptors.stream().map(FeatureDescriptor::getName).distinct().collect(Collectors.toList());
 	}
 

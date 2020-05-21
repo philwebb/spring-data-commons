@@ -36,36 +36,31 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 public class PropertyReferenceExceptionUnitTests {
 
 	static final TypeInformation<Sample> TYPE_INFO = ClassTypeInformation.from(Sample.class);
+
 	static final List<PropertyPath> NO_PATHS = Collections.emptyList();
 
 	@Test
 	public void rejectsNullPropertyName() {
-
 		assertThatIllegalArgumentException().isThrownBy(() -> new PropertyReferenceException(null, TYPE_INFO, NO_PATHS))
 				.withMessageContaining("name");
 	}
 
 	@Test
 	public void rejectsNullType() {
-
 		assertThatIllegalArgumentException().isThrownBy(() -> new PropertyReferenceException("nme", null, NO_PATHS))
 				.withMessageContaining("Type");
 	}
 
 	@Test
 	public void rejectsNullPaths() {
-
 		assertThatIllegalArgumentException().isThrownBy(() -> new PropertyReferenceException("nme", TYPE_INFO, null))
 				.withMessageContaining("paths");
 	}
 
 	@Test // DATACMNS-801
 	public void exposesPotentialMatch() {
-
 		PropertyReferenceException exception = new PropertyReferenceException("nme", TYPE_INFO, NO_PATHS);
-
 		Collection<String> matches = exception.getPropertyMatches();
-
 		assertThat(matches).containsExactly("name");
 	}
 

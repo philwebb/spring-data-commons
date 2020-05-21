@@ -52,14 +52,12 @@ public class ReflectionUtilsUnitTests {
 
 	@Test
 	public void findsFieldByFilter() {
-
 		Field field = ReflectionUtils.findField(Sample.class, (FieldFilter) new FieldNameFieldFilter("field"));
 		assertThat(field).isEqualTo(this.reference);
 	}
 
 	@Test
 	public void returnsNullIfNoFieldFound() {
-
 		Field field = ReflectionUtils.findField(Sample.class, (FieldFilter) new FieldNameFieldFilter("foo"));
 		assertThat(field).isNull();
 	}
@@ -72,25 +70,18 @@ public class ReflectionUtilsUnitTests {
 
 	@Test
 	public void findsUniqueField() {
-
 		Field field = ReflectionUtils.findField(Sample.class, new FieldNameFieldFilter("field"), false);
 		assertThat(field).isEqualTo(this.reference);
 	}
 
 	@Test
 	public void findsFieldInSuperclass() {
-
-		class Subclass extends Sample {
-
-		}
-
 		Field field = ReflectionUtils.findField(Subclass.class, new FieldNameFieldFilter("field"));
 		assertThat(field).isEqualTo(this.reference);
 	}
 
 	@Test
 	public void setsNonPublicField() {
-
 		Sample sample = new Sample();
 		Field field = ReflectionUtils.findField(Sample.class, new FieldNameFieldFilter("first"));
 		ReflectionUtils.setField(field, sample, "foo");
@@ -119,14 +110,12 @@ public class ReflectionUtilsUnitTests {
 
 	@Test // DATACMNS-1154
 	public void discoversNoReturnType() throws Exception {
-
 		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("noReturnValue"), -1);
 		assertThat(ReflectionUtils.isNullable(parameter)).isTrue();
 	}
 
 	@Test // DATACMNS-1154
 	public void discoversNullableReturnType() throws Exception {
-
 		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("nullableReturnValue"),
 				-1);
 		assertThat(ReflectionUtils.isNullable(parameter)).isTrue();
@@ -134,7 +123,6 @@ public class ReflectionUtilsUnitTests {
 
 	@Test // DATACMNS-1154
 	public void discoversNonNullableReturnType() throws Exception {
-
 		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("mandatoryReturnValue"),
 				-1);
 		assertThat(ReflectionUtils.isNullable(parameter)).isFalse();
@@ -142,7 +130,6 @@ public class ReflectionUtilsUnitTests {
 
 	@Test // DATACMNS-1154
 	public void discoversNullableParameter() throws Exception {
-
 		MethodParameter parameter = new MethodParameter(
 				DummyInterface.class.getDeclaredMethod("nullableParameter", User.class), 0);
 		assertThat(ReflectionUtils.isNullable(parameter)).isTrue();
@@ -150,7 +137,6 @@ public class ReflectionUtilsUnitTests {
 
 	@Test // DATACMNS-1154
 	public void discoversNonNullablePrimitiveParameter() throws Exception {
-
 		MethodParameter parameter = new MethodParameter(DummyInterface.class.getDeclaredMethod("primitive", int.class),
 				0);
 		assertThat(ReflectionUtils.isNullable(parameter)).isFalse();
@@ -158,14 +144,12 @@ public class ReflectionUtilsUnitTests {
 
 	@Test // DATACMNS-1171
 	public void discoversKotlinClass() {
-
 		assertThat(ReflectionUtils.isKotlinClass(TypeCreatingSyntheticClass.class)).isTrue();
 		assertThat(ReflectionUtils.isSupportedKotlinClass(TypeCreatingSyntheticClass.class)).isTrue();
 	}
 
 	@Test // DATACMNS-1171
 	public void discoversUnsupportedKotlinClass() {
-
 		assertThat(ReflectionUtils.isKotlinClass(TypeCreatingSyntheticClassKt.class)).isTrue();
 		assertThat(ReflectionUtils.isSupportedKotlinClass(TypeCreatingSyntheticClassKt.class)).isFalse();
 	}
@@ -176,6 +160,10 @@ public class ReflectionUtilsUnitTests {
 
 		@Autowired
 		String first, second;
+
+	}
+
+	class Subclass extends Sample {
 
 	}
 

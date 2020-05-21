@@ -34,25 +34,17 @@ class FunctionUnitTests {
 
 	@Test // DATACMNS-1518
 	void detectsVarArgsOverload() {
-
 		Method method = ReflectionUtils.findMethod(Sample.class, "someMethod", String[].class);
-
 		Function function = new Function(method, new Sample());
-
 		TypeDescriptor stringDescriptor = TypeDescriptor.valueOf(String.class);
-
 		assertThat(function.supports(Arrays.asList(stringDescriptor, stringDescriptor))).isTrue();
 	}
 
 	@Test // DATACMNS-1518
 	void detectsObjectVarArgsOverload() {
-
 		Method method = ReflectionUtils.findMethod(Sample.class, "onePlusObjectVarargs", String.class, Object[].class);
-
 		Function function = new Function(method, new Sample());
-
 		TypeDescriptor stringDescriptor = TypeDescriptor.valueOf(String.class);
-
 		assertThat(function.supports(Arrays.asList(stringDescriptor, stringDescriptor))).isTrue();
 	}
 

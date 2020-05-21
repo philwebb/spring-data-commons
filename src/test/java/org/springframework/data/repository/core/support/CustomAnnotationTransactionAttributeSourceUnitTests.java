@@ -32,13 +32,10 @@ class CustomAnnotationTransactionAttributeSourceUnitTests {
 
 	@Test
 	void usesCustomTransactionConfigurationOnInterface() throws SecurityException, NoSuchMethodException {
-
 		CustomAnnotationTransactionAttributeSource source = new TransactionalRepositoryProxyPostProcessor.CustomAnnotationTransactionAttributeSource();
-
 		TransactionAttribute attribute = source.getTransactionAttribute(Bar.class.getMethod("bar", Object.class),
 				FooImpl.class);
 		assertThat(attribute.isReadOnly()).isFalse();
-
 		attribute = source.getTransactionAttribute(Bar.class.getMethod("foo"), FooImpl.class);
 		assertThat(attribute.isReadOnly()).isFalse();
 	}

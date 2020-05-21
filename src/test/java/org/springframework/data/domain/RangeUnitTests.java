@@ -39,9 +39,7 @@ class RangeUnitTests {
 
 	@Test // DATACMNS-651
 	void excludesLowerBoundIfConfigured() {
-
 		Range<Long> range = Range.from(Bound.exclusive(10L)).to(Bound.inclusive(20L));
-
 		assertThat(range.contains(10L)).isFalse();
 		assertThat(range.contains(20L)).isTrue();
 		assertThat(range.contains(15L)).isTrue();
@@ -51,9 +49,7 @@ class RangeUnitTests {
 
 	@Test // DATACMNS-651
 	void excludesUpperBoundIfConfigured() {
-
 		Range<Long> range = Range.of(Bound.inclusive(10L), Bound.exclusive(20L));
-
 		assertThat(range.contains(10L)).isTrue();
 		assertThat(range.contains(20L)).isFalse();
 		assertThat(range.contains(15L)).isTrue();
@@ -63,9 +59,7 @@ class RangeUnitTests {
 
 	@Test // DATACMNS-651, DATACMNS-1050
 	void handlesOpenUpperBoundCorrectly() {
-
 		Range<Long> range = Range.of(Bound.inclusive(10L), Bound.unbounded());
-
 		assertThat(range.contains(10L)).isTrue();
 		assertThat(range.contains(20L)).isTrue();
 		assertThat(range.contains(15L)).isTrue();
@@ -78,9 +72,7 @@ class RangeUnitTests {
 
 	@Test // DATACMNS-651, DATACMNS-1050
 	void handlesOpenLowerBoundCorrectly() {
-
 		Range<Long> range = Range.of(Bound.unbounded(), Bound.inclusive(20L));
-
 		assertThat(range.contains(10L)).isTrue();
 		assertThat(range.contains(20L)).isTrue();
 		assertThat(range.contains(15L)).isTrue();
@@ -92,30 +84,23 @@ class RangeUnitTests {
 
 	@Test // DATACMNS-1050
 	void createsInclusiveBoundaryCorrectly() {
-
 		Bound<Integer> bound = Bound.inclusive(10);
-
 		assertThat(bound.isInclusive()).isTrue();
 		assertThat(bound.getValue()).contains(10);
 	}
 
 	@Test // DATACMNS-1050
 	void createsExclusiveBoundaryCorrectly() {
-
 		Bound<Double> bound = Bound.exclusive(10d);
-
 		assertThat(bound.isInclusive()).isFalse();
 		assertThat(bound.getValue()).contains(10d);
 	}
 
 	@Test // DATACMNS-1050
 	void createsRangeFromBoundariesCorrectly() {
-
 		Bound<Long> lower = Bound.inclusive(10L);
 		Bound<Long> upper = Bound.inclusive(20L);
-
 		Range<Long> range = Range.of(lower, upper);
-
 		assertThat(range.contains(9L)).isFalse();
 		assertThat(range.contains(10L)).isTrue();
 		assertThat(range.contains(20L)).isTrue();
@@ -124,9 +109,7 @@ class RangeUnitTests {
 
 	@Test // DATACMNS-1050
 	void shouldExclusiveBuildRangeLowerFirst() {
-
 		Range<Long> range = Range.from(Bound.exclusive(10L)).to(Bound.exclusive(20L));
-
 		assertThat(range.contains(9L)).isFalse();
 		assertThat(range.contains(10L)).isFalse();
 		assertThat(range.contains(11L)).isTrue();
@@ -138,9 +121,7 @@ class RangeUnitTests {
 
 	@Test // DATACMNS-1050
 	void shouldBuildRange() {
-
 		Range<Long> range = Range.from(Bound.inclusive(10L)).to(Bound.inclusive(20L));
-
 		assertThat(range.contains(9L)).isFalse();
 		assertThat(range.contains(10L)).isTrue();
 		assertThat(range.contains(11L)).isTrue();
@@ -152,9 +133,7 @@ class RangeUnitTests {
 
 	@Test // DATACMNS-1050
 	void createsUnboundedRange() {
-
 		Range<Long> range = Range.unbounded();
-
 		assertThat(range.contains(10L)).isTrue();
 		assertThat(range.getLowerBound().getValue()).isEmpty();
 		assertThat(range.getUpperBound().getValue()).isEmpty();
@@ -162,36 +141,28 @@ class RangeUnitTests {
 
 	@Test // DATACMNS-1499
 	void createsOpenRange() {
-
 		Range<Long> range = Range.open(5L, 10L);
-
 		assertThat(range.contains(5L)).isFalse();
 		assertThat(range.contains(10L)).isFalse();
 	}
 
 	@Test // DATACMNS-1499
 	void createsClosedRange() {
-
 		Range<Long> range = Range.closed(5L, 10L);
-
 		assertThat(range.contains(5L)).isTrue();
 		assertThat(range.contains(10L)).isTrue();
 	}
 
 	@Test // DATACMNS-1499
 	void createsLeftOpenRange() {
-
 		Range<Long> range = Range.leftOpen(5L, 10L);
-
 		assertThat(range.contains(5L)).isFalse();
 		assertThat(range.contains(10L)).isTrue();
 	}
 
 	@Test // DATACMNS-1499
 	void createsRightOpenRange() {
-
 		Range<Long> range = Range.rightOpen(5L, 10L);
-
 		assertThat(range.contains(5L)).isTrue();
 		assertThat(range.contains(10L)).isFalse();
 	}

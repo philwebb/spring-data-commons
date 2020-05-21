@@ -37,39 +37,29 @@ class TransactionRepositoryFactoryBeanSupportUnitTests {
 
 	@Test // DATACMNS-656
 	void disablesDefaultTransactionsIfConfigured() {
-
 		SampleTransactionalRepositoryFactoryBean factoryBean = new SampleTransactionalRepositoryFactoryBean();
 		factoryBean.setEnableDefaultTransactions(false);
 		factoryBean.setBeanFactory(new DefaultListableBeanFactory());
 		factoryBean.afterPropertiesSet();
-
 		CrudRepository<Object, Long> repository = factoryBean.getObject();
-
 		Advisor[] advisors = ((Advised) repository).getAdvisors();
 		boolean found = false;
-
 		for (Advisor advisor : advisors) {
-
 			if (advisor.getAdvice() instanceof TransactionInterceptor) {
-
 				found = true;
-
 				TransactionInterceptor interceptor = (TransactionInterceptor) advisor.getAdvice();
 				assertThat(getField(interceptor.getTransactionAttributeSource(), "enableDefaultTransactions"))
 						.isEqualTo(false);
 				break;
 			}
 		}
-
 		assertThat(found).isTrue();
 	}
 
 	@Test // DATACMNS-880
 	void propagatesBeanFactoryToSuperClass() {
-
 		SampleTransactionalRepositoryFactoryBean factoryBean = new SampleTransactionalRepositoryFactoryBean();
 		factoryBean.setBeanFactory(new DefaultListableBeanFactory());
-
 		assertThat(ReflectionTestUtils.getField(factoryBean, RepositoryFactoryBeanSupport.class, "beanFactory"))
 				.isNotNull();
 	}

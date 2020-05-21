@@ -48,19 +48,15 @@ class ReactiveRepositoryInformationUnitTests {
 
 	@Test // DATACMNS-836
 	void discoversRxJava1MethodWithoutComparingReturnType() throws Exception {
-
 		Method reference = extractTargetMethodFromRepository(RxJava1InterfaceWithGenerics.class, "deleteAll");
-
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("deleteAll");
 	}
 
 	@Test // DATACMNS-836
 	void discoversRxJava1MethodWithConvertibleArguments() throws Exception {
-
 		Method reference = extractTargetMethodFromRepository(RxJava1InterfaceWithGenerics.class, "saveAll",
 				Observable.class);
-
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("saveAll");
 		assertThat(reference.getParameterTypes()[0]).isEqualTo(Publisher.class);
@@ -68,19 +64,15 @@ class ReactiveRepositoryInformationUnitTests {
 
 	@Test // DATACMNS-988
 	void discoversRxJava2MethodWithoutComparingReturnType() throws Exception {
-
 		Method reference = extractTargetMethodFromRepository(RxJava2InterfaceWithGenerics.class, "deleteAll");
-
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("deleteAll");
 	}
 
 	@Test // DATACMNS-988
 	void discoversRxJava2MethodWithConvertibleArguments() throws Exception {
-
 		Method reference = extractTargetMethodFromRepository(RxJava2InterfaceWithGenerics.class, "saveAll",
 				Flowable.class);
-
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("saveAll");
 		assertThat(reference.getParameterTypes()[0]).isEqualTo(Publisher.class);
@@ -88,10 +80,8 @@ class ReactiveRepositoryInformationUnitTests {
 
 	@Test // DATACMNS-836
 	void discoversMethodAssignableArguments() throws Exception {
-
 		Method reference = extractTargetMethodFromRepository(ReactiveSortingRepository.class, "saveAll",
 				Publisher.class);
-
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("saveAll");
 		assertThat(reference.getParameterTypes()[0]).isEqualTo(Publisher.class);
@@ -99,10 +89,8 @@ class ReactiveRepositoryInformationUnitTests {
 
 	@Test // DATACMNS-836
 	void discoversMethodExactIterableArguments() throws Exception {
-
 		Method reference = extractTargetMethodFromRepository(ReactiveJavaInterfaceWithGenerics.class, "saveAll",
 				Iterable.class);
-
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("saveAll");
 		assertThat(reference.getParameterTypes()[0]).isEqualTo(Iterable.class);
@@ -110,10 +98,8 @@ class ReactiveRepositoryInformationUnitTests {
 
 	@Test // DATACMNS-836
 	void discoversMethodExactObjectArguments() throws Exception {
-
 		Method reference = extractTargetMethodFromRepository(ReactiveJavaInterfaceWithGenerics.class, "save",
 				Object.class);
-
 		assertThat(reference.getDeclaringClass()).isEqualTo(ReactiveCrudRepository.class);
 		assertThat(reference.getName()).isEqualTo("save");
 		assertThat(reference.getParameterTypes()[0]).isEqualTo(Object.class);
@@ -121,20 +107,15 @@ class ReactiveRepositoryInformationUnitTests {
 
 	@Test // DATACMNS-1023
 	void usesCorrectSaveOverload() throws Exception {
-
 		Method reference = extractTargetMethodFromRepository(DummyRepository.class, "saveAll", Iterable.class);
-
 		assertThat(reference).isEqualTo(ReactiveCrudRepository.class.getMethod("saveAll", Iterable.class));
 	}
 
 	private Method extractTargetMethodFromRepository(Class<?> repositoryType, String methodName, Class<?>... args)
 			throws NoSuchMethodException {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(repositoryType);
-
 		RepositoryComposition composition = RepositoryComposition.of(RepositoryFragment.structural(BASE_CLASS))
 				.withMethodLookup(MethodLookups.forReactiveTypes(metadata));
-
 		return composition.findMethod(repositoryType.getMethod(methodName, args)).get();
 	}
 

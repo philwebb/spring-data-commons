@@ -55,47 +55,35 @@ class MappingContextTypeInformationMapperUnitTests {
 
 	@Test
 	void extractsAliasInfoFromMappingContext() {
-
 		this.mappingContext.setInitialEntitySet(Collections.singleton(Entity.class));
 		this.mappingContext.initialize();
-
 		this.mapper = new MappingContextTypeInformationMapper(this.mappingContext);
-
 		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(Entity.class)).hasValue("foo")).isTrue();
 	}
 
 	@Test
 	void extractsAliasForUnknownType() {
-
 		SampleMappingContext mappingContext = new SampleMappingContext();
 		mappingContext.initialize();
-
 		this.mapper = new MappingContextTypeInformationMapper(mappingContext);
-
 		assertThat(this.mapper.createAliasFor(from(Entity.class)).hasValue("foo")).isTrue();
 	}
 
 	@Test
 	void doesNotReturnTypeAliasForSimpleType() {
-
 		SampleMappingContext mappingContext = new SampleMappingContext();
 		mappingContext.initialize();
-
 		this.mapper = new MappingContextTypeInformationMapper(mappingContext);
 		assertThat(this.mapper.createAliasFor(from(String.class)).isPresent()).isFalse();
 	}
 
 	@Test
 	void detectsTypeForUnknownEntity() {
-
 		SampleMappingContext mappingContext = new SampleMappingContext();
 		mappingContext.initialize();
-
 		this.mapper = new MappingContextTypeInformationMapper(mappingContext);
 		assertThat(this.mapper.resolveTypeFrom(Alias.of("foo"))).isNull();
-
 		PersistentEntity<?, SamplePersistentProperty> entity = mappingContext.getRequiredPersistentEntity(Entity.class);
-
 		assertThat(entity).isNotNull();
 		assertThat(this.mapper.resolveTypeFrom(Alias.of("foo"))).isEqualTo(from(Entity.class));
 	}
@@ -103,13 +91,10 @@ class MappingContextTypeInformationMapperUnitTests {
 	@Test // DATACMNS-485
 	@SuppressWarnings("unchecked")
 	void createsTypeMapperForGenericTypesWithDifferentBindings() {
-
 		AnnotatedTypeScanner scanner = new AnnotatedTypeScanner(TypeAlias.class);
-
 		SampleMappingContext context = new SampleMappingContext();
 		context.setInitialEntitySet(scanner.findTypes(getClass().getPackage().getName()));
 		context.initialize();
-
 		new MappingContextTypeInformationMapper(context);
 	}
 

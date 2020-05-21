@@ -31,9 +31,7 @@ public class DummyRepositoryFactoryBean<T extends Repository<S, ID>, S, ID exten
 	private final T repository;
 
 	public DummyRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
-
 		super(repositoryInterface);
-
 		this.repository = mock(repositoryInterface);
 		setMappingContext(new SampleMappingContext());
 	}

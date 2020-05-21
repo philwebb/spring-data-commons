@@ -45,53 +45,42 @@ class PaginginAndSortingRepositoryInvokerUnitTests {
 
 	@Test // DATACMNS-589
 	void invokesFindAllWithPageableByDefault() throws Exception {
-
 		Repository repository = mock(Repository.class);
 		Method method = PagingAndSortingRepository.class.getMethod("findAll", Pageable.class);
-
 		getInvokerFor(repository, expectInvocationOf(method)).invokeFindAll(PageRequest.of(0, 10));
 		getInvokerFor(repository, expectInvocationOf(method)).invokeFindAll(Pageable.unpaged());
 	}
 
 	@Test // DATACMNS-589
 	void invokesFindAllWithSortByDefault() throws Exception {
-
 		Repository repository = mock(Repository.class);
 		Method method = PagingAndSortingRepository.class.getMethod("findAll", Sort.class);
-
 		getInvokerFor(repository, expectInvocationOf(method)).invokeFindAll(Sort.by("foo"));
 		getInvokerFor(repository, expectInvocationOf(method)).invokeFindAll(Sort.unsorted());
 	}
 
 	@Test // DATACMNS-589
 	void invokesRedeclaredFindAllWithPageable() throws Exception {
-
 		RepositoryWithRedeclaredFindAllWithPageable repository = mock(
 				RepositoryWithRedeclaredFindAllWithPageable.class);
 		Method method = RepositoryWithRedeclaredFindAllWithPageable.class.getMethod("findAll", Pageable.class);
-
 		when(repository.findAll(any(Pageable.class))).thenReturn(Page.empty());
-
 		getInvokerFor(repository, expectInvocationOf(method)).invokeFindAll(PageRequest.of(0, 10));
 		getInvokerFor(repository, expectInvocationOf(method)).invokeFindAll(Pageable.unpaged());
 	}
 
 	@Test // DATACMNS-589
 	void invokesRedeclaredFindAllWithSort() throws Exception {
-
 		RepositoryWithRedeclaredFindAllWithSort repository = mock(RepositoryWithRedeclaredFindAllWithSort.class);
 		Method method = RepositoryWithRedeclaredFindAllWithSort.class.getMethod("findAll", Sort.class);
-
 		getInvokerFor(repository, expectInvocationOf(method)).invokeFindAll(Sort.by("foo"));
 		getInvokerFor(repository, expectInvocationOf(method)).invokeFindAll(Sort.unsorted());
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static RepositoryInvoker getInvokerFor(Object repository) {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(repository.getClass().getInterfaces()[0]);
 		GenericConversionService conversionService = new DefaultFormattingConversionService();
-
 		return new PagingAndSortingRepositoryInvoker((PagingAndSortingRepository) repository, metadata,
 				conversionService);
 	}

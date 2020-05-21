@@ -61,7 +61,6 @@ class ResourceReaderRepositoryInitializerUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		this.reader = mock(ResourceReader.class);
 		this.publisher = mock(ApplicationEventPublisher.class);
 		this.resource = mock(Resource.class);
@@ -69,44 +68,34 @@ class ResourceReaderRepositoryInitializerUnitTests {
 
 	@Test
 	void storesSingleObjectCorrectly() throws Exception {
-
 		Product reference = new Product();
 		setUpReferenceAndInititalize(reference);
-
 		verify(this.productRepository).save(reference);
 	}
 
 	@Test
 	void storesCollectionOfObjectsCorrectly() throws Exception {
-
 		Product product = new Product();
 		Collection<Product> reference = Collections.singletonList(product);
-
 		setUpReferenceAndInititalize(reference);
-
 		verify(this.productRepository, times(1)).save(product);
 	}
 
 	@Test // DATACMNS-224
 	void emitsRepositoriesPopulatedEventIfPublisherConfigured() throws Exception {
-
 		RepositoryPopulator populator = setUpReferenceAndInititalize(new User(), this.publisher);
-
 		ApplicationEvent event = new RepositoriesPopulatedEvent(populator, this.repositories);
 		verify(this.publisher, times(1)).publishEvent(event);
 	}
 
 	private RepositoryPopulator setUpReferenceAndInititalize(Object reference, ApplicationEventPublisher publish)
 			throws Exception {
-
 		when(this.reader.readFrom(any(), any())).thenReturn(reference);
 		when(this.productRepository.save(any())).then(AdditionalAnswers.returnsFirstArg());
-
 		ResourceReaderRepositoryPopulator populator = new ResourceReaderRepositoryPopulator(this.reader);
 		populator.setResources(this.resource);
 		populator.setApplicationEventPublisher(this.publisher);
 		populator.populate(this.repositories);
-
 		return populator;
 	}
 

@@ -51,7 +51,6 @@ class SelectionSetUnitTests {
 
 	@Test // DATACMNS-764
 	void throwsCustomExceptionWhenConfigured() {
-
 		assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> {
 			SelectionSet.of(asList("one", "two"), c -> {
 				throw new NullPointerException();
@@ -67,18 +66,14 @@ class SelectionSetUnitTests {
 
 	@Test // DATACMNS-764
 	void returnsUniqueResultAfterFilter() {
-
 		SelectionSet<String> selection = SelectionSet.of(asList("one", "two", "three"))
 				.filterIfNecessary(s -> s.contains("w"));
-
 		assertThat(selection.uniqueResult()).hasValue("two");
 	}
 
 	@Test // DATACMNS-764
 	void ignoresFilterWhenResultIsAlreadyUnique() {
-
 		SelectionSet<String> selection = SelectionSet.of(asList("one")).filterIfNecessary(s -> s.contains("w"));
-
 		assertThat(selection.uniqueResult()).hasValue("one");
 	}
 

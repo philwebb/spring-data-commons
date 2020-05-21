@@ -43,7 +43,6 @@ class AnnotationAttributeUnitTests {
 
 	@Test // DATACMNS-607
 	void looksUpAttributeFromAnnotatedElement() {
-
 		AnnotationAttribute attribute = new AnnotationAttribute(Component.class);
 		assertThat(attribute.getValueFrom(Sample.class)).hasValue("foo");
 	}

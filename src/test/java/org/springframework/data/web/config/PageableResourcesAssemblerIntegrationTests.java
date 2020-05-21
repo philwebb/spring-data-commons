@@ -64,14 +64,10 @@ class PageableResourcesAssemblerIntegrationTests {
 
 	@Test
 	void injectsPagedResourcesAssembler() {
-
 		WebApplicationContext context = WebTestUtils.createApplicationContext(Config.class);
 		SampleController controller = context.getBean(SampleController.class);
-
 		assertThat(controller.assembler).isNotNull();
-
 		PagedModel<EntityModel<Person>> resources = controller.sample(PageRequest.of(1, 1));
-
 		assertThat(resources.getLink(IanaLinkRelations.PREV)).isNotNull();
 		assertThat(resources.getLink(IanaLinkRelations.NEXT)).isNotNull();
 		assertThat(resources.getLink(IanaLinkRelations.SELF)).isNotNull();
@@ -79,7 +75,6 @@ class PageableResourcesAssemblerIntegrationTests {
 
 	@Test // DATACMNS-471
 	void setsUpPagedResourcesAssemblerFromManualXmlConfig() {
-
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("manual.xml", getClass());
 		assertThat(context.getBean(PagedResourcesAssembler.class)).isNotNull();
 		context.close();
@@ -87,7 +82,6 @@ class PageableResourcesAssemblerIntegrationTests {
 
 	@Test // DATACMNS-471
 	void setsUpPagedResourcesAssemblerFromJavaConfigXmlConfig() {
-
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("via-config-class.xml", getClass());
 		assertThat(context.getBean(PagedResourcesAssembler.class)).isNotNull();
 		context.close();
@@ -101,10 +95,8 @@ class PageableResourcesAssemblerIntegrationTests {
 
 		@RequestMapping("/persons")
 		PagedModel<EntityModel<Person>> sample(Pageable pageable) {
-
 			Page<Person> page = new PageImpl<>(Collections.singletonList(new Person()), pageable,
 					pageable.getOffset() + pageable.getPageSize() + 1);
-
 			return this.assembler.toModel(page);
 		}
 

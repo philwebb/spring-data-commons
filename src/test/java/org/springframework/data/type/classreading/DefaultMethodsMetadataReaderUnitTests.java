@@ -34,13 +34,9 @@ class DefaultMethodsMetadataReaderUnitTests {
 
 	@Test // DATACMNS-1206
 	void shouldReadClassMethods() throws IOException {
-
 		MethodsMetadata metadata = getMethodsMetadata(Foo.class);
-
 		assertThat(metadata.getMethods()).hasSize(3);
-
 		Iterator<MethodMetadata> iterator = metadata.getMethods().iterator();
-
 		assertThat(iterator.next().getMethodName()).isEqualTo("one");
 		assertThat(iterator.next().getMethodName()).isEqualTo("two");
 		assertThat(iterator.next().getMethodName()).isEqualTo("three");
@@ -48,13 +44,9 @@ class DefaultMethodsMetadataReaderUnitTests {
 
 	@Test // DATACMNS-1206
 	void shouldReadInterfaceMethods() throws IOException {
-
 		MethodsMetadata metadata = getMethodsMetadata(Baz.class);
-
 		assertThat(metadata.getMethods()).hasSize(3);
-
 		Iterator<MethodMetadata> iterator = metadata.getMethods().iterator();
-
 		assertThat(iterator.next().getMethodName()).isEqualTo("one");
 		assertThat(iterator.next().getMethodName()).isEqualTo("two");
 		assertThat(iterator.next().getMethodName()).isEqualTo("three");
@@ -62,27 +54,21 @@ class DefaultMethodsMetadataReaderUnitTests {
 
 	@Test // DATACMNS-1206
 	void shouldMetadata() throws IOException {
-
 		MethodsMetadataReaderFactory factory = new MethodsMetadataReaderFactory();
 		MethodsMetadataReader metadataReader = factory.getMetadataReader(getClass().getName());
-
 		assertThat(metadataReader.getClassMetadata()).isNotNull();
 		assertThat(metadataReader.getAnnotationMetadata()).isNotNull();
 	}
 
 	@Test // DATACMNS-1206
 	void shouldReturnMethodMetadataByName() throws IOException {
-
 		MethodsMetadata metadata = getMethodsMetadata(Foo.class);
-
 		assertThat(metadata.getMethods()).hasSize(3);
-
 		assertThat(metadata.getMethods("one")).extracting(MethodMetadata::getMethodName).contains("one");
 		assertThat(metadata.getMethods("foo")).isEmpty();
 	}
 
 	private static MethodsMetadata getMethodsMetadata(Class<?> classToIntrospect) throws IOException {
-
 		MethodsMetadataReaderFactory factory = new MethodsMetadataReaderFactory();
 		MethodsMetadataReader metadataReader = factory.getMetadataReader(classToIntrospect.getName());
 		return metadataReader.getMethodsMetadata();

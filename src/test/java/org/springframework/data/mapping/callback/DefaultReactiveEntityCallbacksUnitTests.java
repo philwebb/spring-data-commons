@@ -41,45 +41,33 @@ class DefaultReactiveEntityCallbacksUnitTests {
 
 	@Test // DATACMNS-1467
 	void dispatchResolvesOnSubscribe() {
-
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyConfig.class);
-
 		DefaultReactiveEntityCallbacks callbacks = new DefaultReactiveEntityCallbacks(ctx);
-
 		PersonDocument personDocument = new PersonDocument(null, "Walter", null);
 		Mono<PersonDocument> afterCallback = callbacks.callback(ReactiveBeforeSaveCallback.class, personDocument);
-
 		assertThat(personDocument.getSsn()).isNull();
-
 		afterCallback.as(StepVerifier::create).consumeNextWith(it -> assertThat(it.getSsn()).isEqualTo(6))
 				.verifyComplete();
 	}
 
 	@Test // DATACMNS-1467
 	void invokeGenericEvent() {
-
 		DefaultReactiveEntityCallbacks callbacks = new DefaultReactiveEntityCallbacks();
 		callbacks.addEntityCallback(new GenericPersonCallback());
-
 		callbacks.callback(GenericPersonCallback.class, new PersonDocument(null, "Walter", null))
 				.as(StepVerifier::create).consumeNextWith(it -> assertThat(it.getSsn()).isEqualTo(6)).verifyComplete();
 	}
 
 	@Test // DATACMNS-1467
 	void passesInvocationResultOnAlongTheChain() {
-
 		CapturingEntityCallback first = new FirstCallback();
 		CapturingEntityCallback second = new SecondCallback();
-
 		DefaultReactiveEntityCallbacks callbacks = new DefaultReactiveEntityCallbacks();
 		callbacks.addEntityCallback(first);
 		callbacks.addEntityCallback(second);
-
 		PersonDocument initial = new PersonDocument(null, "Walter", null);
-
 		callbacks.callback(CapturingEntityCallback.class, initial).as(StepVerifier::create).expectNextCount(1)
 				.verifyComplete();
-
 		assertThat(first.capturedValue()).isSameAs(initial);
 		assertThat(first.capturedValues()).hasSize(1);
 		assertThat(second.capturedValue()).isNotSameAs(initial);
@@ -88,31 +76,24 @@ class DefaultReactiveEntityCallbacksUnitTests {
 
 	@Test // DATACMNS-1467
 	void errorsOnNullEntity() {
-
 		DefaultReactiveEntityCallbacks callbacks = new DefaultReactiveEntityCallbacks();
 		callbacks.addEntityCallback(new CapturingEntityCallback());
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> callbacks.callback(CapturingEntityCallback.class, null));
 	}
 
 	@Test // DATACMNS-1467
 	void errorsOnNullValueReturnedByCallbackEntity() {
-
 		CapturingEntityCallback first = new FirstCallback();
 		CapturingEntityCallback second = new SecondCallback(null);
 		CapturingEntityCallback third = new ThirdCallback();
-
 		DefaultReactiveEntityCallbacks callbacks = new DefaultReactiveEntityCallbacks();
 		callbacks.addEntityCallback(first);
 		callbacks.addEntityCallback(second);
 		callbacks.addEntityCallback(third);
-
 		PersonDocument initial = new PersonDocument(null, "Walter", null);
-
 		callbacks.callback(CapturingEntityCallback.class, initial).as(StepVerifier::create)
 				.expectError(IllegalArgumentException.class).verify();
-
 		assertThat(first.capturedValue()).isSameAs(initial);
 		assertThat(second.capturedValue()).isNotNull().isNotSameAs(initial);
 		assertThat(third.capturedValues()).isEmpty();
@@ -138,10 +119,8 @@ class DefaultReactiveEntityCallbacksUnitTests {
 
 		@Override
 		public Mono<Person> onBeforeSave(Person object) {
-
 			PersonDocument result = new PersonDocument(object.getFirstName().length(), object.getFirstName(),
 					object.getLastName());
-
 			return Mono.just(result);
 		}
 
@@ -150,7 +129,6 @@ class DefaultReactiveEntityCallbacksUnitTests {
 	static class GenericPersonCallback implements EntityCallback<Person> {
 
 		public Person onBeforeSave(Person value) {
-
 			value.setSsn(value.getFirstName().length());
 			return value;
 		}

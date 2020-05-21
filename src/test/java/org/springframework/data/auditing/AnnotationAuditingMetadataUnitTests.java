@@ -41,9 +41,7 @@ class AnnotationAuditingMetadataUnitTests {
 
 	@Test
 	void checkAnnotationDiscovery() {
-
 		AnnotationAuditingMetadata metadata = AnnotationAuditingMetadata.getMetadata(AnnotatedUser.class);
-
 		assertThat(metadata).isNotNull();
 		assertThat(metadata.getCreatedByField()).hasValue(createdByField);
 		assertThat(metadata.getCreatedDateField()).hasValue(createdDateField);
@@ -53,21 +51,17 @@ class AnnotationAuditingMetadataUnitTests {
 
 	@Test
 	void checkCaching() {
-
 		AnnotationAuditingMetadata firstCall = AnnotationAuditingMetadata.getMetadata(AnnotatedUser.class);
 		assertThat(firstCall).isNotNull();
-
 		AnnotationAuditingMetadata secondCall = AnnotationAuditingMetadata.getMetadata(AnnotatedUser.class);
 		assertThat(firstCall).isEqualTo(secondCall);
 	}
 
 	@Test
 	void checkIsAuditable() {
-
 		AnnotationAuditingMetadata metadata = AnnotationAuditingMetadata.getMetadata(AnnotatedUser.class);
 		assertThat(metadata).isNotNull();
 		assertThat(metadata.isAuditable()).isTrue();
-
 		metadata = AnnotationAuditingMetadata.getMetadata(NonAuditableUser.class);
 		assertThat(metadata).isNotNull();
 		assertThat(metadata.isAuditable()).isFalse();

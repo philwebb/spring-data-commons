@@ -59,16 +59,13 @@ class QueryExecutionResultHandlerUnitTests {
 
 	@Test // DATACMNS-610
 	void convertsListsToSet() throws Exception {
-
 		Method method = getMethod("set");
 		List<Entity> source = Collections.singletonList(new Entity());
-
 		assertThat(this.handler.postProcessInvocationResult(source, method)).isInstanceOf(Set.class);
 	}
 
 	@Test // DATACMNS-483
 	void turnsNullIntoJdk8Optional() throws Exception {
-
 		Object result = this.handler.postProcessInvocationResult(null, getMethod("jdk8Optional"));
 		assertThat(result).isEqualTo(Optional.empty());
 	}
@@ -76,19 +73,15 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-483
 	@SuppressWarnings("unchecked")
 	void wrapsValueIntoJdk8Optional() throws Exception {
-
 		Entity entity = new Entity();
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("jdk8Optional"));
 		assertThat(result).isInstanceOf(Optional.class);
-
 		Optional<Entity> optional = (Optional<Entity>) result;
 		assertThat(optional).isEqualTo(Optional.of(entity));
 	}
 
 	@Test // DATACMNS-483
 	void turnsNullIntoGuavaOptional() throws Exception {
-
 		Object result = this.handler.postProcessInvocationResult(null, getMethod("guavaOptional"));
 		assertThat(result).isEqualTo(com.google.common.base.Optional.absent());
 	}
@@ -96,12 +89,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-483
 	@SuppressWarnings("unchecked")
 	void wrapsValueIntoGuavaOptional() throws Exception {
-
 		Entity entity = new Entity();
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("guavaOptional"));
 		assertThat(result).isInstanceOf(com.google.common.base.Optional.class);
-
 		com.google.common.base.Optional<Entity> optional = (com.google.common.base.Optional<Entity>) result;
 		assertThat(optional).isEqualTo(com.google.common.base.Optional.of(entity));
 	}
@@ -114,12 +104,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaSingleIntoPublisher() throws Exception {
-
 		Single<Entity> entity = Single.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("publisher"));
 		assertThat(result).isInstanceOf(Publisher.class);
-
 		Mono<Entity> mono = Mono.from((Publisher<Entity>) result);
 		assertThat(mono.block()).isEqualTo(entity.toBlocking().value());
 	}
@@ -127,12 +114,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaSingleIntoMono() throws Exception {
-
 		Single<Entity> entity = Single.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
-
 		Mono<Entity> mono = (Mono<Entity>) result;
 		assertThat(mono.block()).isEqualTo(entity.toBlocking().value());
 	}
@@ -140,12 +124,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaSingleIntoFlux() throws Exception {
-
 		Single<Entity> entity = Single.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("flux"));
 		assertThat(result).isInstanceOf(Flux.class);
-
 		Flux<Entity> flux = (Flux<Entity>) result;
 		assertThat(flux.next().block()).isEqualTo(entity.toBlocking().value());
 	}
@@ -153,12 +134,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaObservableIntoPublisher() throws Exception {
-
 		Observable<Entity> entity = Observable.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("publisher"));
 		assertThat(result).isInstanceOf(Publisher.class);
-
 		Mono<Entity> mono = Mono.from((Publisher<Entity>) result);
 		assertThat(mono.block()).isEqualTo(entity.toBlocking().first());
 	}
@@ -166,12 +144,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaObservableIntoMono() throws Exception {
-
 		Observable<Entity> entity = Observable.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
-
 		Mono<Entity> mono = (Mono<Entity>) result;
 		assertThat(mono.block()).isEqualTo(entity.toBlocking().first());
 	}
@@ -179,12 +154,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaObservableIntoFlux() throws Exception {
-
 		Observable<Entity> entity = Observable.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("flux"));
 		assertThat(result).isInstanceOf(Flux.class);
-
 		Flux<Entity> flux = (Flux<Entity>) result;
 		assertThat(flux.next().block()).isEqualTo(entity.toBlocking().first());
 	}
@@ -192,12 +164,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaObservableIntoSingle() throws Exception {
-
 		Observable<Entity> entity = Observable.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("single"));
 		assertThat(result).isInstanceOf(Single.class);
-
 		Single<Entity> single = (Single<Entity>) result;
 		assertThat(single.toBlocking().value()).isEqualTo(entity.toBlocking().first());
 	}
@@ -205,12 +174,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaSingleIntoObservable() throws Exception {
-
 		Single<Entity> entity = Single.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("observable"));
 		assertThat(result).isInstanceOf(Observable.class);
-
 		Observable<Entity> observable = (Observable<Entity>) result;
 		assertThat(observable.toBlocking().first()).isEqualTo(entity.toBlocking().value());
 	}
@@ -218,12 +184,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsReactorMonoIntoSingle() throws Exception {
-
 		Mono<Entity> entity = Mono.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("single"));
 		assertThat(result).isInstanceOf(Single.class);
-
 		Single<Entity> single = (Single<Entity>) result;
 		assertThat(single.toBlocking().value()).isEqualTo(entity.block());
 	}
@@ -231,12 +194,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsReactorMonoIntoCompletable() throws Exception {
-
 		Mono<Entity> entity = Mono.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("completable"));
 		assertThat(result).isInstanceOf(Completable.class);
-
 		Completable completable = (Completable) result;
 		assertThat(completable.get()).isNull();
 	}
@@ -244,12 +204,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsReactorMonoIntoCompletableWithException() throws Exception {
-
 		Mono<Entity> entity = Mono.error(new InvalidDataAccessApiUsageException("err"));
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("completable"));
 		assertThat(result).isInstanceOf(Completable.class);
-
 		Completable completable = (Completable) result;
 		assertThat(completable.get()).isInstanceOf(InvalidDataAccessApiUsageException.class);
 	}
@@ -257,12 +214,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaCompletableIntoMono() throws Exception {
-
 		Completable entity = Completable.complete();
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
-
 		Mono mono = (Mono) result;
 		assertThat(mono.block()).isNull();
 	}
@@ -270,26 +224,19 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsRxJavaCompletableIntoMonoWithException() throws Exception {
-
 		Completable entity = Completable.error(new InvalidDataAccessApiUsageException("err"));
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
-
 		Mono mono = (Mono) result;
-
 		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(mono::block);
 	}
 
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsReactorMonoIntoObservable() throws Exception {
-
 		Mono<Entity> entity = Mono.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("observable"));
 		assertThat(result).isInstanceOf(Observable.class);
-
 		Observable<Entity> observable = (Observable<Entity>) result;
 		assertThat(observable.toBlocking().first()).isEqualTo(entity.block());
 	}
@@ -297,12 +244,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsReactorFluxIntoSingle() throws Exception {
-
 		Flux<Entity> entity = Flux.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("single"));
 		assertThat(result).isInstanceOf(Single.class);
-
 		Single<Entity> single = (Single<Entity>) result;
 		assertThat(single.toBlocking().value()).isEqualTo(entity.next().block());
 	}
@@ -310,12 +254,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsReactorFluxIntoObservable() throws Exception {
-
 		Flux<Entity> entity = Flux.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("observable"));
 		assertThat(result).isInstanceOf(Observable.class);
-
 		Observable<Entity> observable = (Observable<Entity>) result;
 		assertThat(observable.toBlocking().first()).isEqualTo(entity.next().block());
 	}
@@ -323,12 +264,9 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsReactorFluxIntoMono() throws Exception {
-
 		Flux<Entity> entity = Flux.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
-
 		Mono<Entity> mono = (Mono<Entity>) result;
 		assertThat(mono.block()).isEqualTo(entity.next().block());
 	}
@@ -336,54 +274,40 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-836
 	@SuppressWarnings("unchecked")
 	void convertsReactorMonoIntoFlux() throws Exception {
-
 		Mono<Entity> entity = Mono.just(new Entity());
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("flux"));
 		assertThat(result).isInstanceOf(Flux.class);
-
 		Flux<Entity> flux = (Flux<Entity>) result;
 		assertThat(flux.next().block()).isEqualTo(entity.block());
 	}
 
 	@Test // DATACMNS-1056
 	void convertsOptionalToThirdPartyOption() throws Exception {
-
 		Entity value = new Entity();
 		Optional<Entity> entity = Optional.of(value);
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("option"));
-
 		assertThat(result).isInstanceOfSatisfying(Option.class, it -> assertThat(it.get()).isEqualTo(value));
 	}
 
 	@Test // DATACMNS-1165
 	@SuppressWarnings("unchecked")
 	void convertsIterableIntoStreamable() throws Exception {
-
 		Iterable<?> source = asList(new Object());
-
 		Object result = this.handler.postProcessInvocationResult(source, getMethod("streamable"));
-
 		assertThat(result).isInstanceOfSatisfying(Streamable.class,
 				it -> assertThat(it.stream().collect(Collectors.toList())).isEqualTo(source));
 	}
 
 	@Test // DATACMNS-938
 	void resolvesNestedWrapperIfOuterDoesntNeedConversion() throws Exception {
-
 		Entity entity = new Entity();
-
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("tryOfOption"));
-
 		assertThat(result).isInstanceOfSatisfying(Option.class, it -> assertThat(it.get()).isEqualTo(entity));
 	}
 
 	@Test // DATACMNS-1430
 	void convertsElementsAndValueIntoCustomStreamable() throws Exception {
-
 		Object result = this.handler.postProcessInvocationResult(Arrays.asList("foo"), getMethod("customStreamable"));
-
 		assertThat(result).isInstanceOfSatisfying(CustomStreamableWrapper.class, it -> {
 			assertThat(it).containsExactly("foo");
 		});
@@ -391,14 +315,10 @@ class QueryExecutionResultHandlerUnitTests {
 
 	@Test // DATACMNS-1482
 	void nestedConversion() throws Exception {
-
 		Object result = this.handler.postProcessInvocationResult(asList(BigDecimal.ZERO, BigDecimal.ONE),
 				getMethod("listOfInteger"));
-
 		assertThat(result).isInstanceOfSatisfying(List.class, list -> {
-
 			SoftAssertions.assertSoftly(s -> {
-
 				// for making the test failure more obvious:
 				s.assertThat(list).allMatch(it -> Integer.class.isInstance(it));
 				s.assertThat(list).containsExactly(0, 1);
@@ -408,9 +328,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 	@Test // DATACMNS-1552
 	void keepsVavrOptionType() throws Exception {
-
 		Option<Entity> source = Option.of(new Entity());
-
 		assertThat(this.handler.postProcessInvocationResult(source, getMethod("option"))).isSameAs(source);
 	}
 

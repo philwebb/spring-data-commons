@@ -37,14 +37,11 @@ class RepositoryFactoryBeanSupportUnitTests {
 	@Test // DATACMNS-341
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void setsConfiguredClassLoaderOnRepositoryFactory() {
-
 		ClassLoader classLoader = mock(ClassLoader.class);
-
 		RepositoryFactoryBeanSupport factoryBean = new DummyRepositoryFactoryBean(SampleRepository.class);
 		factoryBean.setBeanClassLoader(classLoader);
 		factoryBean.setLazyInit(true);
 		factoryBean.afterPropertiesSet();
-
 		Object factory = ReflectionTestUtils.getField(factoryBean, "factory");
 		assertThat(ReflectionTestUtils.getField(factory, "classLoader")).isEqualTo(classLoader);
 	}
@@ -52,26 +49,21 @@ class RepositoryFactoryBeanSupportUnitTests {
 	@Test // DATACMNS-432
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void initializationFailsWithMissingRepositoryInterface() {
-
 		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> new DummyRepositoryFactoryBean(null))
 				.withMessageContaining("Repository interface");
 	}
 
 	@Test // DATACMNS-1117
 	void returnsRepositoryInformationForFragmentSetup() {
-
 		RepositoryFactoryBeanSupport<SampleWithQuerydslRepository, Object, Long> factoryBean = new DummyRepositoryFactoryBean<>(
 				SampleWithQuerydslRepository.class);
 		factoryBean.afterPropertiesSet();
-
 		RepositoryInformation information = factoryBean.getRepositoryInformation();
-
 		assertThat(information.getQueryMethods()).isEmpty();
 	}
 
 	@Test // DATACMNS-1345
 	void reportsMappingContextUnavailableForPersistentEntityLookup() {
-
 		RepositoryFactoryBeanSupport<SampleRepository, Object, Long> bean = new RepositoryFactoryBeanSupport<SampleRepository, Object, Long>(
 				SampleRepository.class) {
 
@@ -79,10 +71,9 @@ class RepositoryFactoryBeanSupportUnitTests {
 			protected RepositoryFactorySupport createRepositoryFactory() {
 				return new DummyRepositoryFactory(mock(SampleRepository.class));
 			}
+
 		};
-
 		bean.afterPropertiesSet();
-
 		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> bean.getPersistentEntity());
 	}
 

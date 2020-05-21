@@ -53,39 +53,28 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 
 	@Test // DATAREST-221, DATACMNS-630
 	void invokesMethodOnTarget() throws Throwable {
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("propertyFromTarget"));
-
 		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), null,
 				this.parser, Projection.class);
-
 		assertThat(interceptor.invoke(this.invocation)).isEqualTo("property");
 	}
 
 	@Test // DATAREST-221, DATACMNS-630
 	void invokesMethodOnBean() throws Throwable {
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("invokeBean"));
-
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
 		factory.registerSingleton("someBean", new SomeBean());
-
 		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(),
 				factory, this.parser, Projection.class);
-
 		assertThat(interceptor.invoke(this.invocation)).isEqualTo("value");
 	}
 
 	@Test // DATACMNS-630
 	void forwardNonAtValueAnnotatedMethodToDelegate() throws Throwable {
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("getName"));
-
 		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(),
 				new DefaultListableBeanFactory(), this.parser, Projection.class);
-
 		interceptor.invoke(this.invocation);
-
 		verify(this.delegate).invoke(this.invocation);
 	}
 
@@ -97,31 +86,23 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 
 	@Test // DATACMNS-630
 	void allowsMapAccessViaPropertyExpression() throws Throwable {
-
 		Map<String, Object> map = new HashMap<>();
 		map.put("name", "Dave");
-
 		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("propertyFromTarget"));
-
 		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, map,
 				new DefaultListableBeanFactory(), this.parser, Projection.class);
-
 		assertThat(interceptor.invoke(this.invocation)).isEqualTo("Dave");
 	}
 
 	@Test // DATACMNS-1150
 	void forwardsParameterIntoSpElExpressionEvaluation() throws Throwable {
-
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
 		factory.registerSingleton("someBean", new SomeBean());
-
 		when(this.invocation.getMethod())
 				.thenReturn(Projection.class.getMethod("invokeBeanWithParameter", Integer.class));
 		when(this.invocation.getArguments()).thenReturn(new Object[] { 1 });
-
 		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), factory,
 				this.parser, Projection.class);
-
 		assertThat(interceptor.invoke(this.invocation)).isEqualTo("property1");
 	}
 

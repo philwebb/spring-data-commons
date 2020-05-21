@@ -43,7 +43,6 @@ class AbstractRepositoryMetadataUnitTests {
 
 	@Test // DATACMNS-98
 	void discoversSimpleReturnTypeCorrectly() throws Exception {
-
 		RepositoryMetadata metadata = new DummyRepositoryMetadata(UserRepository.class);
 		Method method = UserRepository.class.getMethod("findSingle");
 		assertThat(metadata.getReturnedDomainClass(method)).isEqualTo(User.class);
@@ -58,7 +57,6 @@ class AbstractRepositoryMetadataUnitTests {
 
 	@Test // DATACMNS-98
 	void determinesReturnTypeFromPageable() throws Exception {
-
 		RepositoryMetadata metadata = new DummyRepositoryMetadata(ExtendingRepository.class);
 		Method method = ExtendingRepository.class.getMethod("findByFirstname", Pageable.class, String.class);
 		assertThat(metadata.getReturnedDomainClass(method)).isEqualTo(User.class);
@@ -66,14 +64,12 @@ class AbstractRepositoryMetadataUnitTests {
 
 	@Test // DATACMNS-453
 	void nonPageableRepository() {
-
 		RepositoryMetadata metadata = new DummyRepositoryMetadata(UserRepository.class);
 		assertThat(metadata.isPagingRepository()).isFalse();
 	}
 
 	@Test // DATACMNS-453
 	void pageableRepository() {
-
 		RepositoryMetadata metadata = new DummyRepositoryMetadata(PagedRepository.class);
 		assertThat(metadata.isPagingRepository()).isTrue();
 	}
@@ -87,7 +83,6 @@ class AbstractRepositoryMetadataUnitTests {
 
 	@Test // DATACMNS-98
 	void handlesGenericTypeInReturnedCollectionCorrectly() throws SecurityException, NoSuchMethodException {
-
 		RepositoryMetadata metadata = new DummyRepositoryMetadata(ExtendingRepository.class);
 		Method method = ExtendingRepository.class.getMethod("anotherMethod");
 		assertThat(metadata.getReturnedDomainClass(method)).isEqualTo(Map.class);
@@ -95,20 +90,15 @@ class AbstractRepositoryMetadataUnitTests {
 
 	@Test // DATACMNS-471
 	void detectsArrayReturnTypeCorrectly() throws Exception {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(PagedRepository.class);
 		Method method = PagedRepository.class.getMethod("returnsArray");
-
 		assertThat(metadata.getReturnedDomainClass(method)).isEqualTo(User.class);
 	}
 
 	@Test // DATACMNS-1299
 	void doesNotUnwrapCustomTypeImplementingIterable() throws Exception {
-
 		RepositoryMetadata metadata = AbstractRepositoryMetadata.getMetadata(ContainerRepository.class);
-
 		Method method = ContainerRepository.class.getMethod("someMethod");
-
 		assertThat(metadata.getReturnedDomainClass(method)).isEqualTo(Container.class);
 	}
 

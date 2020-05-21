@@ -65,9 +65,7 @@ class CrudRepositoryInvokerUnitTests {
 
 	@Test // DATACMNS-589, DATAREST-216
 	void invokesRedeclaredSave() {
-
 		when(this.orderRepository.save(any())).then(AdditionalAnswers.returnsFirstArg());
-
 		getInvokerFor(this.orderRepository, expectInvocationOnType(OrderRepository.class)).invokeSave(new Order());
 	}
 
@@ -83,41 +81,33 @@ class CrudRepositoryInvokerUnitTests {
 
 	@Test // DATACMNS-589
 	void invokesSaveOnCrudRepository() throws Exception {
-
 		Method method = CrudRepository.class.getMethod("save", Object.class);
 		getInvokerFor(this.personRepository, expectInvocationOf(method)).invokeSave(new Person());
 	}
 
 	@Test // DATACMNS-589
 	void invokesFindOneOnCrudRepository() throws Exception {
-
 		Method method = CrudRepository.class.getMethod("findById", Object.class);
 		getInvokerFor(this.personRepository, expectInvocationOf(method)).invokeFindById(1L);
 	}
 
 	@Test // DATACMNS-589, DATAREST-216
 	void invokesDeleteOnCrudRepository() throws Exception {
-
 		Method method = CrudRepository.class.getMethod("deleteById", Object.class);
 		getInvokerFor(this.personRepository, expectInvocationOf(method)).invokeDeleteById(1L);
 	}
 
 	@Test // DATACMNS-589
 	void invokesFindAllOnCrudRepository() throws Exception {
-
 		Method method = CrudRepository.class.getMethod("findAll");
-
 		getInvokerFor(this.orderRepository, expectInvocationOf(method)).invokeFindAll(Pageable.unpaged());
 		getInvokerFor(this.orderRepository, expectInvocationOf(method)).invokeFindAll(Sort.unsorted());
 	}
 
 	@Test // DATACMNS-589
 	void invokesCustomFindAllTakingASort() throws Exception {
-
 		CrudWithFindAllWithSort repository = mock(CrudWithFindAllWithSort.class);
-
 		Method findAllWithSort = CrudWithFindAllWithSort.class.getMethod("findAll", Sort.class);
-
 		getInvokerFor(repository, expectInvocationOf(findAllWithSort)).invokeFindAll(Sort.unsorted());
 		getInvokerFor(repository, expectInvocationOf(findAllWithSort)).invokeFindAll(PageRequest.of(0, 10));
 		getInvokerFor(repository, expectInvocationOf(findAllWithSort)).invokeFindAll(Pageable.unpaged());
@@ -125,23 +115,17 @@ class CrudRepositoryInvokerUnitTests {
 
 	@Test // DATACMNS-589
 	void invokesCustomFindAllTakingAPageable() throws Exception {
-
 		CrudWithFindAllWithPageable repository = mock(CrudWithFindAllWithPageable.class);
-
 		Method findAllWithPageable = CrudWithFindAllWithPageable.class.getMethod("findAll", Pageable.class);
-
 		getInvokerFor(repository, expectInvocationOf(findAllWithPageable)).invokeFindAll(Pageable.unpaged());
 		getInvokerFor(repository, expectInvocationOf(findAllWithPageable)).invokeFindAll(PageRequest.of(0, 10));
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static RepositoryInvoker getInvokerFor(Object repository, VerifyingMethodInterceptor interceptor) {
-
 		Object proxy = getVerifyingRepositoryProxy(repository, interceptor);
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(repository.getClass().getInterfaces()[0]);
 		GenericConversionService conversionService = new DefaultFormattingConversionService();
-
 		return new CrudRepositoryInvoker((CrudRepository) proxy, metadata, conversionService);
 	}
 

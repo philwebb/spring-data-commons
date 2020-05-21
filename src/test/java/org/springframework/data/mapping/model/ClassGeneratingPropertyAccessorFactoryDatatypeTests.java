@@ -47,11 +47,9 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	private final SampleMappingContext mappingContext = new SampleMappingContext();
 
 	static List<Object[]> parameters() throws Exception {
-
 		List<Object[]> parameters = new ArrayList<>();
 		List<Class<?>> types = Arrays.asList(FieldAccess.class, PropertyAccess.class, PrivateFinalFieldAccess.class,
 				PrivateFinalPropertyAccess.class);
-
 		parameters.addAll(parameters(types, "primitiveInteger", Integer.valueOf(1)));
 		parameters.addAll(parameters(types, "primitiveIntegerArray", new int[] { 1, 2, 3 }));
 		parameters.addAll(parameters(types, "boxedInteger", Integer.valueOf(1)));
@@ -86,33 +84,25 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 		parameters.addAll(parameters(types, "boxedLongArray", new Long[] { Long.valueOf(1L) }));
 		parameters.addAll(parameters(types, "string", "hello"));
 		parameters.addAll(parameters(types, "stringArray", new String[] { "hello", "world" }));
-
 		return parameters;
 	}
 
 	private static List<Object[]> parameters(List<Class<?>> types, String propertyName, Object value) throws Exception {
-
 		List<Object[]> parameters = new ArrayList<>();
-
 		for (Class<?> type : types) {
-
 			Constructor<?>[] constructors = type.getDeclaredConstructors();
 			constructors[0].setAccessible(true);
 			parameters.add(new Object[] { constructors[0].newInstance(), propertyName, value,
 					type.getSimpleName() + "/" + propertyName });
 		}
-
 		return parameters;
 	}
 
 	@ParameterizedTest(name = "{3}") // DATACMNS-809
 	@MethodSource("parameters")
 	void shouldSetAndGetProperty(Object bean, String propertyName, Object value, String displayName) {
-
 		assertThat(getProperty(bean, propertyName)).satisfies(property -> {
-
 			PersistentPropertyAccessor persistentPropertyAccessor = getPersistentPropertyAccessor(bean);
-
 			persistentPropertyAccessor.setProperty(property, value);
 			assertThat(persistentPropertyAccessor.getProperty(property)).isEqualTo(value);
 		});
@@ -122,10 +112,8 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	@MethodSource("parameters")
 	void shouldUseClassPropertyAccessorFactory(Object bean, String propertyName, Object value, String displayName)
 			throws Exception {
-
 		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = this.mappingContext
 				.getRequiredPersistentEntity(bean.getClass());
-
 		assertThat(ReflectionTestUtils.getField(persistentEntity, "propertyAccessorFactory"))
 				.isInstanceOfSatisfying(InstantiationAwarePropertyAccessorFactory.class, it -> {
 					assertThat(ReflectionTestUtils.getField(it, "delegate"))
@@ -138,7 +126,6 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	}
 
 	private PersistentProperty<?> getProperty(Object bean, String name) {
-
 		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = this.mappingContext
 				.getRequiredPersistentEntity(bean.getClass());
 		return persistentEntity.getPersistentProperty(name);

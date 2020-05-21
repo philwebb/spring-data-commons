@@ -45,9 +45,7 @@ class DefaultCrudMethodsUnitTests {
 
 	@Test
 	void detectsMethodsOnCrudRepository() throws Exception {
-
 		Class<DomainCrudRepository> type = DomainCrudRepository.class;
-
 		assertFindAllMethodOn(type, type.getMethod("findAll"));
 		assertDeleteMethodOn(type, type.getMethod("delete", Object.class));
 		assertSaveMethodPresent(type, true);
@@ -55,9 +53,7 @@ class DefaultCrudMethodsUnitTests {
 
 	@Test
 	void detectsMethodsOnPagingAndSortingRepository() throws Exception {
-
 		Class<DomainPagingAndSortingRepository> type = DomainPagingAndSortingRepository.class;
-
 		assertFindAllMethodOn(type, type.getMethod("findAll", Pageable.class));
 		assertDeleteMethodOn(type, type.getMethod("delete", Object.class));
 		assertSaveMethodPresent(type, true);
@@ -65,42 +61,34 @@ class DefaultCrudMethodsUnitTests {
 
 	@Test
 	void detectsFindAllWithSortParameterOnSortingRepository() throws Exception {
-
 		Class<RepositoryWithCustomSortingFindAll> type = RepositoryWithCustomSortingFindAll.class;
-
 		assertFindAllMethodOn(type, type.getMethod("findAll", Sort.class));
 		assertSaveMethodPresent(type, false);
 	}
 
 	@Test // DATACMNS-393
 	void selectsFindAllWithSortParameterOnRepositoryAmongUnsuitableAlternatives() throws Exception {
-
 		Class<RepositoryWithInvalidPagingFallbackToSortFindAll> type = RepositoryWithInvalidPagingFallbackToSortFindAll.class;
-
 		assertFindAllMethodOn(type, type.getMethod("findAll", Sort.class));
 		assertSaveMethodPresent(type, false);
 	}
 
 	@Test
 	void detectsMethodsOnCustomRepository() throws Exception {
-
 		Class<RepositoryWithCustomSortingAndPagingFindAll> type = RepositoryWithCustomSortingAndPagingFindAll.class;
 		assertFindAllMethodOn(type, type.getMethod("findAll", Pageable.class));
-
 		Class<RepositoryWithIterableDeleteOnly> type1 = RepositoryWithIterableDeleteOnly.class;
 		assertDeleteMethodOn(type1, type1.getMethod("delete", Iterable.class));
 	}
 
 	@Test
 	void doesNotDetectInvalidlyDeclaredMethods() throws Exception {
-
 		Class<RepositoryWithInvalidPagingFindAll> type = RepositoryWithInvalidPagingFindAll.class;
 		assertFindAllMethodOn(type, Optional.empty());
 	}
 
 	@Test // DATACMNS-393
 	void detectsOverloadedMethodsCorrectly() throws Exception {
-
 		Class<RepositoryWithAllCrudMethodOverloaded> type = RepositoryWithAllCrudMethodOverloaded.class;
 		assertFindOneMethodOn(type, type.getDeclaredMethod("findById", Long.class));
 		assertDeleteMethodOn(type, type.getDeclaredMethod("deleteById", Long.class));
@@ -110,7 +98,6 @@ class DefaultCrudMethodsUnitTests {
 
 	@Test // DATACMNS-393
 	void ignoresWrongOverloadedMethods() throws Exception {
-
 		Class<RepositoryWithAllCrudMethodOverloadedWrong> type = RepositoryWithAllCrudMethodOverloadedWrong.class;
 		assertFindOneMethodOn(type, CrudRepository.class.getDeclaredMethod("findById", Object.class));
 		assertDeleteMethodOn(type, CrudRepository.class.getDeclaredMethod("delete", Object.class));
@@ -126,27 +113,22 @@ class DefaultCrudMethodsUnitTests {
 
 	@Test // DATACMNS-539
 	void detectsOverriddenDeleteMethodForEntity() throws Exception {
-
 		assertDeleteMethodOn(RepositoryWithDeleteMethodForEntityOverloaded.class,
 				RepositoryWithDeleteMethodForEntityOverloaded.class.getMethod("delete", Domain.class));
 	}
 
 	@Test // DATACMNS-619
 	void exposedMethodsAreAccessible() {
-
 		CrudMethods methods = getMethodsFor(RepositoryWithAllCrudMethodOverloaded.class);
-
 		Arrays.asList(methods.getSaveMethod(), methods.getDeleteMethod(), methods.getFindAllMethod(),
 				methods.getFindOneMethod())
 				.forEach(method -> assertThat(method).hasValueSatisfying(it -> assertThat(it.isAccessible()).isTrue()));
 	}
 
 	private static CrudMethods getMethodsFor(Class<?> repositoryInterface) {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(repositoryInterface);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, PagingAndSortingRepository.class,
 				RepositoryComposition.empty());
-
 		return new DefaultCrudMethods(information);
 	}
 
@@ -155,41 +137,31 @@ class DefaultCrudMethodsUnitTests {
 	}
 
 	private static void assertFindAllMethodOn(Class<?> type, Optional<Method> method) {
-
 		CrudMethods methods = getMethodsFor(type);
-
 		assertThat(methods.hasFindAllMethod()).isEqualTo(method.isPresent());
 		assertThat(methods.getFindAllMethod()).isEqualTo(method);
 	}
 
 	private static void assertFindOneMethodOn(Class<?> type, Method method) {
-
 		CrudMethods methods = getMethodsFor(type);
-
 		assertThat(methods.hasFindOneMethod()).isEqualTo(method != null);
 		assertThat(methods.getFindOneMethod()).hasValue(method);
 	}
 
 	private static void assertDeleteMethodOn(Class<?> type, Method method) {
-
 		CrudMethods methods = getMethodsFor(type);
-
 		assertThat(methods.hasDelete()).isEqualTo(method != null);
 		assertThat(methods.getDeleteMethod()).hasValue(method);
 	}
 
 	private static void assertSaveMethodOn(Class<?> type, Method method) {
-
 		CrudMethods methods = getMethodsFor(type);
-
 		assertThat(methods.hasSaveMethod()).isEqualTo(method != null);
 		assertThat(methods.getSaveMethod()).hasValue(method);
 	}
 
 	private static void assertSaveMethodPresent(Class<?> type, boolean present) {
-
 		CrudMethods methods = getMethodsFor(type);
-
 		assertThat(methods.hasSaveMethod()).isEqualTo(present);
 		assertThat(methods.getSaveMethod().isPresent()).isEqualTo(present);
 	}

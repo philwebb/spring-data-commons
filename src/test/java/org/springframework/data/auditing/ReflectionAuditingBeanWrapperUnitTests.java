@@ -56,7 +56,6 @@ class ReflectionAuditingBeanWrapperUnitTests {
 
 	@Test
 	void setsDateTimeFieldCorrectly() {
-
 		this.wrapper.setCreatedDate(this.time);
 		assertThat(this.user.createdDate)
 				.isEqualTo(new DateTime(LocalDateTimeToDateConverter.INSTANCE.convert(this.time)));
@@ -64,44 +63,37 @@ class ReflectionAuditingBeanWrapperUnitTests {
 
 	@Test
 	void setsDateFieldCorrectly() {
-
 		this.wrapper.setLastModifiedDate(this.time);
 		assertThat(this.user.lastModifiedDate).isEqualTo(LocalDateTimeToDateConverter.INSTANCE.convert(this.time));
 	}
 
 	@Test
 	void setsLongFieldCorrectly() {
-
-		class Sample {
-
-			@CreatedDate
-			Long createdDate;
-
-			@LastModifiedDate
-			long modifiedDate;
-
-		}
-
 		Sample sample = new Sample();
 		AuditableBeanWrapper<Sample> wrapper = new ReflectionAuditingBeanWrapper<>(this.conversionService, sample);
-
 		wrapper.setCreatedDate(this.time);
 		assertThat(sample.createdDate).isEqualTo(this.time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
-
 		wrapper.setLastModifiedDate(this.time);
 		assertThat(sample.modifiedDate).isEqualTo(this.time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
 	}
 
 	@Test
 	void setsAuditorFieldsCorrectly() {
-
 		Object object = new Object();
-
 		this.wrapper.setCreatedBy(object);
 		assertThat(this.user.createdBy).isEqualTo(object);
-
 		this.wrapper.setLastModifiedBy(object);
 		assertThat(this.user.lastModifiedBy).isEqualTo(object);
+	}
+
+	class Sample {
+
+		@CreatedDate
+		Long createdDate;
+
+		@LastModifiedDate
+		long modifiedDate;
+
 	}
 
 }

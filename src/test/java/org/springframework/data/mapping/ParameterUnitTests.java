@@ -48,50 +48,40 @@ class ParameterUnitTests<P extends PersistentProperty<P>> {
 
 	@Test
 	void twoParametersWithIdenticalSetupEqual() {
-
 		Parameter<Object, P> left = new Parameter<>("name", this.type, this.annotations, this.entity);
 		Parameter<Object, P> right = new Parameter<>("name", this.type, this.annotations, this.entity);
-
 		assertThat(left).isEqualTo(right);
 		assertThat(left.hashCode()).isEqualTo(right.hashCode());
 	}
 
 	@Test
 	void twoParametersWithIdenticalSetupAndNullNameEqual() {
-
 		Parameter<Object, P> left = new Parameter<>(null, this.type, this.annotations, this.entity);
 		Parameter<Object, P> right = new Parameter<>(null, this.type, this.annotations, this.entity);
-
 		assertThat(left).isEqualTo(right);
 		assertThat(left.hashCode()).isEqualTo(right.hashCode());
 	}
 
 	@Test
 	void twoParametersWithIdenticalAndNullEntitySetupEqual() {
-
 		Parameter<Object, P> left = new Parameter<>("name", this.type, this.annotations, null);
 		Parameter<Object, P> right = new Parameter<>("name", this.type, this.annotations, null);
-
 		assertThat(left).isEqualTo(right);
 		assertThat(left.hashCode()).isEqualTo(right.hashCode());
 	}
 
 	@Test
 	void twoParametersWithDifferentNameAreNotEqual() {
-
 		Parameter<Object, P> left = new Parameter<>("first", this.type, this.annotations, this.entity);
 		Parameter<Object, P> right = new Parameter<>("second", this.type, this.annotations, this.entity);
-
 		assertThat(left).isNotEqualTo(right);
 	}
 
 	@Test
 	void twoParametersWithDifferenTypeAreNotEqual() {
-
 		Parameter<Object, P> left = new Parameter<>("name", this.type, this.annotations, this.entity);
 		Parameter<String, P> right = new Parameter<>("name", ClassTypeInformation.from(String.class), this.annotations,
 				this.stringEntity);
-
 		assertThat(left).isNotEqualTo(right);
 	}
 

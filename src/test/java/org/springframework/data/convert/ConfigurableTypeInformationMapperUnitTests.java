@@ -54,24 +54,20 @@ class ConfigurableTypeInformationMapperUnitTests<T extends PersistentProperty<T>
 
 	@Test
 	void rejectsNonBijectionalMap() {
-
 		Map<Class<?>, String> map = new HashMap<>();
 		map.put(String.class, "1");
 		map.put(Object.class, "1");
-
 		assertThatIllegalArgumentException().isThrownBy(() -> new ConfigurableTypeInformationMapper(map));
 	}
 
 	@Test
 	void writesMapKeyForType() {
-
 		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(String.class))).isEqualTo(Alias.of("1"));
 		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(Object.class))).isEqualTo(Alias.NONE);
 	}
 
 	@Test
 	void readsTypeForMapKey() {
-
 		assertThat(this.mapper.resolveTypeFrom(Alias.of("1"))).isEqualTo(ClassTypeInformation.from(String.class));
 		assertThat(this.mapper.resolveTypeFrom(Alias.of("unmapped"))).isNull();
 	}

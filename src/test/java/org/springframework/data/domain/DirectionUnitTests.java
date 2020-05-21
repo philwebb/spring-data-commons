@@ -16,7 +16,6 @@ class DirectionUnitTests {
 
 	@Test
 	void jpaValueMapping() throws Exception {
-
 		assertThat(Direction.fromString("asc")).isEqualTo(Direction.ASC);
 		assertThat(Direction.fromString("desc")).isEqualTo(Direction.DESC);
 	}

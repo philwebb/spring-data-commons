@@ -66,12 +66,10 @@ class DefaultRepositoryInformationUnitTests {
 
 	@Test
 	void discoversRepositoryBaseClassMethod() throws Exception {
-
 		Method method = FooRepository.class.getMethod("findById", Integer.class);
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		DefaultRepositoryInformation information = new DefaultRepositoryInformation(metadata, REPOSITORY,
 				RepositoryComposition.empty().withMethodLookup(MethodLookups.forRepositoryTypes(metadata)));
-
 		Method reference = information.getTargetClassMethod(method);
 		assertThat(reference.getDeclaringClass()).isEqualTo(REPOSITORY);
 		assertThat(reference.getName()).isEqualTo("findById");
@@ -79,222 +77,172 @@ class DefaultRepositoryInformationUnitTests {
 
 	@Test
 	void discoveresNonRepositoryBaseClassMethod() throws Exception {
-
 		Method method = FooRepository.class.getMethod("findById", Long.class);
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		DefaultRepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.empty().withMethodLookup(MethodLookups.forRepositoryTypes(metadata)));
-
 		assertThat(information.getTargetClassMethod(method)).isEqualTo(method);
 	}
 
 	@Test
 	void discoversCustomlyImplementedCrudMethod() throws SecurityException, NoSuchMethodException {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.just(this.customImplementation));
-
 		Method source = FooRepositoryCustom.class.getMethod("save", User.class);
 		Method expected = this.customImplementation.getClass().getMethod("save", User.class);
-
 		assertThat(information.getTargetClassMethod(source)).isEqualTo(expected);
 	}
 
 	@Test
 	void considersIntermediateMethodsAsFinderMethods() {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(ConcreteRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.empty());
-
 		assertThat(information.hasCustomMethod()).isFalse();
 	}
 
 	@Test
 	void discoversIntermediateMethodsAsBackingMethods() throws NoSuchMethodException, SecurityException {
-
 		DefaultRepositoryMetadata metadata = new DefaultRepositoryMetadata(CustomRepository.class);
 		DefaultRepositoryInformation information = new DefaultRepositoryInformation(metadata,
 				PagingAndSortingRepository.class, RepositoryComposition.empty());
-
 		Method method = CustomRepository.class.getMethod("findAll", Pageable.class);
 		assertThat(information.isBaseClassMethod(method)).isTrue();
-
 		method = getMethodFrom(CustomRepository.class, "existsById");
-
 		assertThat(information.isBaseClassMethod(method)).isTrue();
 		assertThat(information.getQueryMethods()).isEmpty();
 	}
 
 	@Test // DATACMNS-151
 	void doesNotConsiderManuallyDefinedSaveMethodAQueryMethod() {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(CustomRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, PagingAndSortingRepository.class,
 				RepositoryComposition.empty());
-
 		assertThat(information.getQueryMethods()).isEmpty();
 	}
 
 	@Test // DATACMNS-151
 	void doesNotConsiderRedeclaredSaveMethodAQueryMethod() throws Exception {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(ConcreteRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.empty());
-
 		Method saveMethod = BaseRepository.class.getMethod("save", Object.class);
 		Method deleteMethod = BaseRepository.class.getMethod("delete", Object.class);
-
 		Iterable<Method> queryMethods = information.getQueryMethods();
-
 		assertThat(queryMethods).doesNotContain(saveMethod, deleteMethod);
 	}
 
 	@Test
 	void onlyReturnsMostConcreteQueryMethod() throws Exception {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(ConcreteRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.empty());
-
 		Method intermediateMethod = BaseRepository.class.getMethod("genericMethodToOverride", String.class);
 		Method concreteMethod = ConcreteRepository.class.getMethod("genericMethodToOverride", String.class);
-
 		Iterable<Method> queryMethods = information.getQueryMethods();
-
 		assertThat(queryMethods).contains(concreteMethod);
 		assertThat(queryMethods).doesNotContain(intermediateMethod);
 	}
 
 	@Test // DATACMNS-193
 	void detectsQueryMethodCorrectly() {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(ConcreteRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.empty());
-
 		Method queryMethod = getMethodFrom(ConcreteRepository.class, "findBySomethingDifferent");
-
 		assertThat(information.getQueryMethods()).contains(queryMethod);
 		assertThat(information.isQueryMethod(queryMethod)).isTrue();
 	}
 
 	@Test // DATACMNS-364
 	void ignoresCrudMethodsAnnotatedWithQuery() throws Exception {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(ConcreteRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.empty());
-
 		Method method = BaseRepository.class.getMethod("findById", Object.class);
-
 		assertThat(information.getQueryMethods()).contains(method);
 	}
 
 	@Test // DATACMNS-385
 	void findsTargetSaveForIterableIfEntityImplementsIterable() throws Exception {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(BossRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.empty());
-
 		Method method = BossRepository.class.getMethod("saveAll", Iterable.class);
 		Method reference = CrudRepository.class.getMethod("saveAll", Iterable.class);
-
 		assertThat(information.getTargetClassMethod(method)).isEqualTo(reference);
 	}
 
 	@Test // DATACMNS-441
 	void getQueryShouldNotReturnAnyBridgeMethods() {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(CustomDefaultRepositoryMethodsRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.empty());
-
 		assertThat(information.getQueryMethods()).allMatch(method -> !method.isBridge());
 	}
 
 	@Test // DATACMNS-854
 	void discoversCustomlyImplementedCrudMethodWithGenerics() throws SecurityException, NoSuchMethodException {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.just(this.customImplementation));
-
 		Method source = FooRepositoryCustom.class.getMethod("exists", Object.class);
 		Method expected = this.customImplementation.getClass().getMethod("exists", Object.class);
-
 		assertThat(information.getTargetClassMethod(source)).isEqualTo(expected);
 	}
 
 	@Test // DATACMNS-912
 	void discoversCustomlyImplementedCrudMethodWithGenericParameters() throws Exception {
-
 		GenericsSaveRepositoryImpl customImplementation = new GenericsSaveRepositoryImpl();
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(GenericsSaveRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, RepositoryFactorySupport.class,
 				RepositoryComposition.just(customImplementation)
 						.withMethodLookup(MethodLookups.forRepositoryTypes(metadata)));
-
 		Method customBaseRepositoryMethod = GenericsSaveRepository.class.getMethod("save", Object.class);
 		assertThat(information.isCustomMethod(customBaseRepositoryMethod)).isTrue();
 	}
 
 	@Test // DATACMNS-939
 	void ignoresStaticMethod() throws SecurityException, NoSuchMethodException {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.just(this.customImplementation));
-
 		Method method = FooRepository.class.getMethod("staticMethod");
-
 		assertThat(information.getQueryMethods()).doesNotContain(method);
 	}
 
 	@Test // DATACMNS-939
 	void ignoresDefaultMethod() throws SecurityException, NoSuchMethodException {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.just(this.customImplementation));
-
 		Method method = FooRepository.class.getMethod("defaultMethod");
-
 		assertThat(information.getQueryMethods()).doesNotContain(method);
 	}
 
 	@Test // DATACMNS-943
 	void usesCorrectSaveOverload() throws Exception {
-
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(DummyRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, DummyRepositoryImpl.class,
 				RepositoryComposition.empty());
-
 		Method method = DummyRepository.class.getMethod("saveAll", Iterable.class);
-
 		assertThat(information.getTargetClassMethod(method))
 				.isEqualTo(DummyRepositoryImpl.class.getMethod("saveAll", Iterable.class));
 	}
 
 	@Test // DATACMNS-1008, DATACMNS-912, DATACMNS-854
 	void discoversCustomlyImplementedCrudMethodWithoutGenericParameters() throws Exception {
-
 		SimpleSaveRepositoryImpl customImplementation = new SimpleSaveRepositoryImpl();
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(SimpleSaveRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, RepositoryFactorySupport.class,
 				RepositoryComposition.just(customImplementation)
 						.withMethodLookup(MethodLookups.forRepositoryTypes(metadata)));
-
 		Method customBaseRepositoryMethod = SimpleSaveRepository.class.getMethod("save", Object.class);
 		assertThat(information.isCustomMethod(customBaseRepositoryMethod)).isTrue();
 	}
 
 	private static Method getMethodFrom(Class<?> type, String name) {
-
 		return Arrays.stream(type.getMethods()).filter(method -> method.getName().equals(name)).findFirst()
 				.orElseThrow(() -> new IllegalStateException("No method found with name ".concat(name).concat("!")));
 	}

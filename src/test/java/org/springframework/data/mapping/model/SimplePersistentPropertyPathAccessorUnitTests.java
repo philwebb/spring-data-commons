@@ -55,57 +55,43 @@ class SimplePersistentPropertyPathAccessorUnitTests {
 
 	@Test // DATACMNS-1438
 	void setsPropertyContainingCollectionPathForAllElements() {
-
 		Customers customers = new Customers(Arrays.asList(this.first, this.second), Collections.emptyMap());
-
 		assertFirstnamesSetFor(customers, "customers.firstname");
 	}
 
 	@Test // DATACMNS-1438
 	void setsPropertyContainingMapPathForAllValues() {
-
 		Map<String, Customer> map = new HashMap<>();
 		map.put("1", this.first);
 		map.put("2", this.second);
-
 		Customers customers = new Customers(Collections.emptyList(), map);
-
 		assertFirstnamesSetFor(customers, "customerMap.firstname");
 	}
 
 	@Test // DATACMNS-1461
 	void skipsNullValueIfConfigured() {
-
 		CustomerWrapper wrapper = new CustomerWrapper(null);
-
 		PersistentPropertyPathAccessor<CustomerWrapper> accessor = getAccessor(wrapper);
 		PersistentPropertyPath<SamplePersistentProperty> path = this.context
 				.getPersistentPropertyPath("customer.firstname", CustomerWrapper.class);
-
 		assertThatCode(() -> {
 			accessor.setProperty(path, "Dave", AccessOptions.defaultSetOptions().withNullHandling(SetNulls.SKIP));
 		}).doesNotThrowAnyException();
 	}
 
 	private void assertFirstnamesSetFor(Customers customers, String path) {
-
 		PersistentPropertyPath<SamplePersistentProperty> propertyPath = this.context.getPersistentPropertyPath(path,
 				Customers.class);
-
 		getAccessor(customers).setProperty(propertyPath, "firstname");
-
 		Stream.of(this.first, this.second).forEach(it -> {
 			assertThat(it.firstname).isEqualTo("firstname");
 		});
 	}
 
 	private <T> PersistentPropertyPathAccessor<T> getAccessor(T source) {
-
 		Class<? extends Object> type = source.getClass();
-
 		PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getRequiredPersistentEntity(type);
 		PersistentPropertyPathAccessor<T> accessor = entity.getPropertyPathAccessor(source);
-
 		return accessor;
 	}
 

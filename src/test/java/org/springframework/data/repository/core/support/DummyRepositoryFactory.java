@@ -56,9 +56,7 @@ public class DummyRepositoryFactory extends RepositoryFactorySupport {
 	private final Object repository;
 
 	public DummyRepositoryFactory(Object repository) {
-
 		this.repository = repository;
-
 		when(this.strategy.resolveQuery(ArgumentMatchers.any(Method.class),
 				ArgumentMatchers.any(RepositoryMetadata.class), ArgumentMatchers.any(ProjectionFactory.class),
 				ArgumentMatchers.any(NamedQueries.class))).thenReturn(this.queryOne);
@@ -88,9 +86,7 @@ public class DummyRepositoryFactory extends RepositoryFactorySupport {
 
 	@Override
 	protected RepositoryFragments getRepositoryFragments(RepositoryMetadata metadata) {
-
 		RepositoryFragments fragments = super.getRepositoryFragments(metadata);
-
 		return QuerydslPredicateExecutor.class.isAssignableFrom(metadata.getRepositoryInterface())
 				? fragments.append(RepositoryFragments.just(this.querydsl)) : fragments;
 	}

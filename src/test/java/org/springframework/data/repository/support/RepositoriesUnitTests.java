@@ -68,28 +68,22 @@ class RepositoriesUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.registerBeanDefinition("addressRepository", getRepositoryBeanDefinition(AddressRepository.class));
 		beanFactory.registerBeanDefinition("personRepository", getRepositoryBeanDefinition(PersonRepository.class));
-
 		this.context = new GenericApplicationContext(beanFactory);
 		this.context.refresh();
 	}
 
 	private AbstractBeanDefinition getRepositoryBeanDefinition(Class<?> repositoryInterface) {
-
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(DummyRepositoryFactoryBean.class);
 		builder.addConstructorArgValue(repositoryInterface);
-
 		return builder.getBeanDefinition();
 	}
 
 	@Test
 	void doesNotConsiderCrudRepositoriesOnly() {
-
 		Repositories repositories = new Repositories(this.context);
-
 		assertThat(repositories.hasRepositoryFor(Person.class)).isTrue();
 		assertThat(repositories.hasRepositoryFor(Address.class)).isTrue();
 	}
@@ -108,7 +102,6 @@ class RepositoriesUnitTests {
 
 	@Test // DATACMNS-256
 	void exposesPersistentEntityForDomainTypes() {
-
 		Repositories repositories = new Repositories(this.context);
 		assertThat(repositories.getPersistentEntity(Person.class)).isNotNull();
 		assertThat(repositories.getPersistentEntity(Address.class)).isNotNull();
@@ -121,66 +114,48 @@ class RepositoriesUnitTests {
 
 	@Test // DATACMNS-673
 	void discoversRepositoryForAlternativeDomainType() {
-
 		RepositoryMetadata metadata = new CustomRepositoryMetadata(SampleRepository.class);
 		RepositoryFactoryInformation<?, ?> information = new SampleRepoFactoryInformation<>(metadata);
-
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.getBeanFactory().registerSingleton("foo", information);
 		context.refresh();
-
 		Repositories repositories = new Repositories(context);
-
 		assertThat(repositories.getRepositoryFor(Sample.class)).isNotNull();
 		assertThat(repositories.getRepositoryFor(SampleEntity.class)).isNotNull();
-
 		context.close();
 	}
 
 	@Test // DATACMNS-794
 	void exposesRepositoryFactoryInformationForRepository() {
-
 		Optional<RepositoryInformation> information = new Repositories(this.context)
 				.getRepositoryInformation(PersonRepository.class);
-
 		assertThat(information)
 				.hasValueSatisfying(it -> assertThat(it.getRepositoryInterface()).isEqualTo(PersonRepository.class));
 	}
 
 	@Test // DATACMNS-1215
 	void exposesRepositoryForProxyType() {
-
 		ProxyFactory factory = new ProxyFactory();
 		factory.setTarget(new Person());
 		factory.setProxyTargetClass(true);
-
 		Object proxy = factory.getProxy();
-
 		assertThat(ClassUtils.isCglibProxy(proxy)).isTrue();
-
 		Repositories repositories = new Repositories(this.context);
-
 		assertThat(repositories.hasRepositoryFor(proxy.getClass())).isTrue();
 		assertThat(repositories.getRepositoryFor(proxy.getClass())).isNotEmpty();
 	}
 
 	@Test // DATACMNS-1448
 	void keepsPrimaryRepositoryInCaseOfMultipleOnes() {
-
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.registerBeanDefinition("first", getRepositoryBeanDefinition(FirstRepository.class));
-
 		AbstractBeanDefinition definition = getRepositoryBeanDefinition(PrimaryRepository.class);
 		definition.setPrimary(true);
-
 		beanFactory.registerBeanDefinition("primary", definition);
 		beanFactory.registerBeanDefinition("third", getRepositoryBeanDefinition(ThirdRepository.class));
-
 		this.context = new GenericApplicationContext(beanFactory);
 		this.context.refresh();
-
 		Repositories repositories = new Repositories(beanFactory);
-
 		assertThat(repositories.getRepositoryFor(SomeEntity.class)).hasValueSatisfying(it -> {
 			assertThat(it).isInstanceOf(PrimaryRepository.class);
 		});
@@ -252,11 +227,8 @@ class RepositoriesUnitTests {
 		 * @param repositoryInterface
 		 */
 		CustomRepositoryMetadata(Class<?> repositoryInterface) {
-
 			super(repositoryInterface);
-
 			String domainType = super.getDomainType().getName().concat("Entity");
-
 			try {
 				this.domainType = ClassUtils.forName(domainType, CustomRepositoryMetadata.class.getClassLoader());
 			}

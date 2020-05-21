@@ -28,10 +28,8 @@ public class Users {
 	public static final List<User> USERS;
 
 	static {
-
 		OLIVER = new User("Oliver", "Gierke", new Address("Somewhere", "Dresden"));
 		CHRISTOPH = new User("Christoph", "Strobl", new Address("Somewhere", "Linz"));
-
 		USERS = Arrays.asList(OLIVER, CHRISTOPH);
 	}
 

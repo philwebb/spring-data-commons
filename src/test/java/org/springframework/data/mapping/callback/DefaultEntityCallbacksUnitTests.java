@@ -44,61 +44,45 @@ class DefaultEntityCallbacksUnitTests {
 
 	@Test // DATACMNS-1467
 	void shouldDispatchCallback() {
-
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyConfig.class);
-
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks(ctx);
-
 		PersonDocument personDocument = new PersonDocument(null, "Walter", null);
 		PersonDocument afterCallback = callbacks.callback(BeforeSaveCallback.class, personDocument);
-
 		assertThat(afterCallback.getSsn()).isEqualTo(6);
 	}
 
 	@Test // DATACMNS-1467
 	void shouldDispatchCallsToLambdaReceivers() {
-
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(LambdaConfig.class);
-
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks(ctx);
-
 		PersonDocument personDocument = new PersonDocument(null, "Walter", null);
 		PersonDocument afterCallback = callbacks.callback(BeforeSaveCallback.class, personDocument);
-
 		assertThat(afterCallback).isSameAs(personDocument);
 	}
 
 	@Test // DATACMNS-1467
 	void invokeGenericEvent() {
-
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
 		callbacks.addEntityCallback(new GenericPersonCallback());
-
 		Person afterCallback = callbacks.callback(GenericPersonCallback.class,
 				new PersonDocument(null, "Walter", null));
-
 		assertThat(afterCallback.getSsn()).isEqualTo(6);
 	}
 
 	@Test // DATACMNS-1467
 	void invokeGenericEventWithArgs() {
-
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
 		callbacks.addEntityCallback(new GenericPersonCallbackWithArgs());
-
 		Person afterCallback = callbacks.callback(GenericPersonCallbackWithArgs.class,
 				new PersonDocument(null, "Walter", null), "agr0", Float.POSITIVE_INFINITY);
-
 		assertThat(afterCallback.getSsn()).isEqualTo(6);
 	}
 
 	@Test // DATACMNS-1467
 	void invokeInvalidEvent() {
-
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
 		callbacks.addEntityCallback(new InvalidEntityCallback() {
 		});
-
 		assertThatExceptionOfType(IllegalStateException.class)
 				.isThrownBy(() -> callbacks.callback(InvalidEntityCallback.class,
 						new PersonDocument(null, "Walter", null), "agr0", Float.POSITIVE_INFINITY));
@@ -106,18 +90,13 @@ class DefaultEntityCallbacksUnitTests {
 
 	@Test // DATACMNS-1467
 	void passesInvocationResultOnAlongTheChain() {
-
 		CapturingEntityCallback first = new FirstCallback();
 		CapturingEntityCallback second = new SecondCallback();
-
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
 		callbacks.addEntityCallback(first);
 		callbacks.addEntityCallback(second);
-
 		PersonDocument initial = new PersonDocument(null, "Walter", null);
-
 		callbacks.callback(CapturingEntityCallback.class, initial);
-
 		assertThat(first.capturedValue()).isSameAs(initial);
 		assertThat(first.capturedValues()).hasSize(1);
 		assertThat(second.capturedValue()).isNotSameAs(initial);
@@ -126,31 +105,24 @@ class DefaultEntityCallbacksUnitTests {
 
 	@Test // DATACMNS-1467
 	void errorsOnNullEntity() {
-
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
 		callbacks.addEntityCallback(new CapturingEntityCallback());
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> callbacks.callback(CapturingEntityCallback.class, null));
 	}
 
 	@Test // DATACMNS-1467
 	void errorsOnNullValueReturnedByCallbackEntity() {
-
 		CapturingEntityCallback first = new FirstCallback();
 		CapturingEntityCallback second = new SecondCallback(null);
 		CapturingEntityCallback third = new ThirdCallback();
-
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks();
 		callbacks.addEntityCallback(first);
 		callbacks.addEntityCallback(second);
 		callbacks.addEntityCallback(third);
-
 		PersonDocument initial = new PersonDocument(null, "Walter", null);
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> callbacks.callback(CapturingEntityCallback.class, initial));
-
 		assertThat(first.capturedValue()).isSameAs(initial);
 		assertThat(second.capturedValue()).isNotNull().isNotSameAs(initial);
 		assertThat(third.capturedValues()).isEmpty();
@@ -158,19 +130,13 @@ class DefaultEntityCallbacksUnitTests {
 
 	@Test // DATACMNS-1467
 	void detectsMultipleCallbacksWithinOneClass() {
-
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
 				MultipleCallbacksInOneClassConfig.class);
-
 		DefaultEntityCallbacks callbacks = new DefaultEntityCallbacks(ctx);
-
 		PersonDocument personDocument = new PersonDocument(null, "Walter", null);
 		callbacks.callback(BeforeSaveCallback.class, personDocument);
-
 		assertThat(ctx.getBean("callbacks", MultipleCallbacks.class).invocations).containsExactly("save");
-
 		callbacks.callback(BeforeConvertCallback.class, personDocument);
-
 		assertThat(ctx.getBean("callbacks", MultipleCallbacks.class).invocations).containsExactly("save", "convert");
 	}
 
@@ -240,7 +206,6 @@ class DefaultEntityCallbacksUnitTests {
 
 		@Override
 		public Person onBeforeSave(Person object) {
-
 			object.setSsn(object.getFirstName().length());
 			return object;
 		}
@@ -263,7 +228,6 @@ class DefaultEntityCallbacksUnitTests {
 	static class GenericPersonCallback implements EntityCallback<Person> {
 
 		public Person onBeforeSave(Person value) {
-
 			value.setSsn(value.getFirstName().length());
 			return value;
 		}
@@ -294,14 +258,12 @@ class DefaultEntityCallbacksUnitTests {
 
 		@Override
 		public Person onBeforeConvert(Person object) {
-
 			this.invocations.add("convert");
 			return object;
 		}
 
 		@Override
 		public Person onBeforeSave(Person object) {
-
 			this.invocations.add("save");
 			return object;
 		}

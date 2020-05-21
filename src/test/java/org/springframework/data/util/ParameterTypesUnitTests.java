@@ -33,60 +33,43 @@ public class ParameterTypesUnitTests {
 
 	@Test // DATACMNS-1518
 	public void detectsDirectMatch() {
-
 		Method method = ReflectionUtils.findMethod(Sample.class, "twoStrings", String.class, String.class);
-
 		ParameterTypes types = ParameterTypes.of(String.class, String.class);
-
 		assertThat(types.areValidFor(method)).isTrue();
 		assertThat(types.exactlyMatchParametersOf(method)).isTrue();
 	}
 
 	@Test // DATACMNS-1518
 	public void supportsSimpleVarArg() {
-
 		Method method = ReflectionUtils.findMethod(Sample.class, "stringPlusStringVarArg", String.class,
 				String[].class);
-
 		ParameterTypes types = ParameterTypes.of(String.class, String.class);
-
 		assertThat(types.areValidFor(method)).isTrue();
 		assertThat(types.exactlyMatchParametersOf(method)).isFalse();
 	}
 
 	@Test // DATACMNS-1518
 	public void supportsTrailingObjectVarArg() {
-
 		Method method = ReflectionUtils.findMethod(Sample.class, "stringPlusObjectVarArg", String.class,
 				Object[].class);
-
 		ParameterTypes types = ParameterTypes.of(String.class, String.class);
-
 		assertThat(types.areValidFor(method)).isTrue();
 		assertThat(types.exactlyMatchParametersOf(method)).isFalse();
 	}
 
 	@Test // DATACMNS-1518
 	public void supportsObjectVarArg() {
-
 		Method method = ReflectionUtils.findMethod(Sample.class, "objectVarArg", Object[].class);
-
 		ParameterTypes types = ParameterTypes.of(String.class, String.class);
-
 		assertThat(types.areValidFor(method)).isTrue();
 		assertThat(types.exactlyMatchParametersOf(method)).isFalse();
-
 	}
 
 	@Test // DATACMNS-1518
 	public void doesNotAddNonObjectVarArgsForParents() {
-
 		ParameterTypes types = ParameterTypes.of(String.class, String.class, Integer.class, Integer.class);
-
 		List<ParameterTypes> alternatives = types.getAllAlternatives();
-
 		assertThat(alternatives).hasSize(6);
-
 		assertThat(alternatives)
 				.anyMatch(it -> it.hasTypes(String.class, String.class, Integer.class, Integer[].class));
 		assertThat(alternatives).anyMatch(it -> it.hasTypes(String.class, String.class, Integer.class, Object[].class));

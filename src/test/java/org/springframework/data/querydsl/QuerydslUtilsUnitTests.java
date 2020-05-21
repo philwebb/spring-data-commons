@@ -34,7 +34,6 @@ class QuerydslUtilsUnitTests {
 
 	@Test // DATACMNS-941
 	void skipsIntermediateDelegates() {
-
 		assertThat(toDotPath(QUser.user.as(QSpecialUser.class).as(QSpecialUser.class).specialProperty))
 				.isEqualTo("specialProperty");
 		assertThat(toDotPath(QUser.user.as(QSpecialUser.class).specialProperty)).isEqualTo("specialProperty");

@@ -38,37 +38,29 @@ public class ProxyingHandlerMethodArgumentResolverUnitTests {
 
 	@Test // DATACMNS-776
 	void supportAnnotatedInterface() throws Exception {
-
 		Method method = Controller.class.getMethod("with", AnnotatedInterface.class);
 		MethodParameter parameter = new MethodParameter(method, 0);
-
 		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
 	}
 
 	@Test // DATACMNS-776
 	void supportsUnannotatedInterfaceFromUserPackage() throws Exception {
-
 		Method method = Controller.class.getMethod("with", SampleInterface.class);
 		MethodParameter parameter = new MethodParameter(method, 0);
-
 		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
 	}
 
 	@Test // DATACMNS-776
 	void doesNotSupportUnannotatedInterfaceFromSpringNamespace() throws Exception {
-
 		Method method = Controller.class.getMethod("with", UnannotatedInterface.class);
 		MethodParameter parameter = new MethodParameter(method, 0);
-
 		assertThat(this.resolver.supportsParameter(parameter)).isFalse();
 	}
 
 	@Test // DATACMNS-776
 	void doesNotSupportCoreJavaType() throws Exception {
-
 		Method method = Controller.class.getMethod("with", List.class);
 		MethodParameter parameter = new MethodParameter(method, 0);
-
 		assertThat(this.resolver.supportsParameter(parameter)).isFalse();
 	}
 

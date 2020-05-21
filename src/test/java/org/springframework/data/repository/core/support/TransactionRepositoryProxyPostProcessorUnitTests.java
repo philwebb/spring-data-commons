@@ -70,11 +70,9 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 
 	@Test
 	void setsUpBasicInstance() throws Exception {
-
 		RepositoryProxyPostProcessor postProcessor = new TransactionalRepositoryProxyPostProcessor(this.beanFactory,
 				"txManager", true);
 		postProcessor.postProcess(this.proxyFactory, this.repositoryInformation);
-
 		verify(this.proxyFactory).addAdvice(any(TransactionInterceptor.class));
 	}
 
@@ -90,29 +88,21 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 
 	@Test // DATACMNS-732
 	void considersJtaTransactional() throws Exception {
-
 		Method method = SampleRepository.class.getMethod("methodWithJtaOneDotTwoAtTransactional");
-
 		TransactionAttributeSource attributeSource = new CustomAnnotationTransactionAttributeSource();
 		TransactionAttribute attribute = attributeSource.getTransactionAttribute(method, SampleRepository.class);
-
 		assertThat(attribute).isNotNull();
 	}
 
 	private void assertTransactionAttributeFor(Class<?> implementationClass) throws Exception {
-
 		Method repositorySaveMethod = SampleRepository.class.getMethod("save", Sample.class);
 		Method implementationClassMethod = implementationClass.getMethod("save", Object.class);
-
 		when(this.repositoryInformation.getTargetClassMethod(repositorySaveMethod))
 				.thenReturn(implementationClassMethod);
-
 		CustomAnnotationTransactionAttributeSource attributeSource = new CustomAnnotationTransactionAttributeSource();
 		attributeSource.setRepositoryInformation(this.repositoryInformation);
-
 		TransactionAttribute attribute = attributeSource.getTransactionAttribute(repositorySaveMethod,
 				SampleImplementation.class);
-
 		assertThat(attribute).isNotNull();
 	}
 

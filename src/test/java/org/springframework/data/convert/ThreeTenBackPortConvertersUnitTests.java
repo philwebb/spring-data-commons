@@ -47,13 +47,10 @@ class ThreeTenBackPortConvertersUnitTests {
 	static final ConversionService CONVERSION_SERVICE;
 
 	static {
-
 		GenericConversionService conversionService = new GenericConversionService();
-
 		for (Converter<?, ?> converter : ThreeTenBackPortConverters.getConvertersToRegister()) {
 			conversionService.addConverter(converter);
 		}
-
 		CONVERSION_SERVICE = conversionService;
 	}
 
@@ -65,7 +62,6 @@ class ThreeTenBackPortConvertersUnitTests {
 
 	@Test // DATACMNS-606
 	void convertsLocalDateTimeToDate() {
-
 		LocalDateTime now = LocalDateTime.now();
 		assertThat(format(CONVERSION_SERVICE.convert(now, Date.class), "yyyy-MM-dd'T'HH:mm:ss.SSS"))
 				.isEqualTo(now.toString());
@@ -78,7 +74,6 @@ class ThreeTenBackPortConvertersUnitTests {
 
 	@Test // DATACMNS-606
 	void convertsLocalDateToDate() {
-
 		LocalDate now = LocalDate.now();
 		assertThat(format(CONVERSION_SERVICE.convert(now, Date.class), "yyyy-MM-dd")).isEqualTo(now.toString());
 	}
@@ -90,32 +85,27 @@ class ThreeTenBackPortConvertersUnitTests {
 
 	@Test // DATACMNS-606
 	void convertsLocalTimeToDate() {
-
 		LocalTime now = LocalTime.now();
 		assertThat(format(CONVERSION_SERVICE.convert(now, Date.class), "HH:mm:ss.SSS")).isEqualTo(now.toString());
 	}
 
 	@Test // DATACMNS-623
 	void convertsDateToInstant() {
-
 		Date now = new Date();
 		assertThat(CONVERSION_SERVICE.convert(now, Instant.class)).isEqualTo(toInstant(now));
 	}
 
 	@Test // DATACMNS-623
 	void convertsInstantToDate() {
-
 		Date now = new Date();
 		assertThat(CONVERSION_SERVICE.convert(toInstant(now), Date.class)).isEqualTo(now);
 	}
 
 	@Test
 	void convertsZoneIdToStringAndBack() {
-
 		Map<String, ZoneId> ids = new HashMap<>();
 		ids.put("Europe/Berlin", ZoneId.of("Europe/Berlin"));
 		ids.put("+06:00", ZoneId.of("+06:00"));
-
 		for (Entry<String, ZoneId> entry : ids.entrySet()) {
 			assertThat(CONVERSION_SERVICE.convert(entry.getValue(), String.class)).isEqualTo(entry.getKey());
 			assertThat(CONVERSION_SERVICE.convert(entry.getKey(), ZoneId.class)).isEqualTo(entry.getValue());

@@ -46,13 +46,10 @@ class IdPropertyIdentifierAccessorUnitTests {
 
 	@Test // DATACMNS-599
 	void returnsIdentifierValue() {
-
 		SampleWithId sample = new SampleWithId();
 		sample.id = 1L;
-
 		IdentifierAccessor accessor = new IdPropertyIdentifierAccessor(
 				this.mappingContext.getRequiredPersistentEntity(SampleWithId.class), sample);
-
 		assertThat(accessor.getIdentifier()).isEqualTo(sample.id);
 	}
 

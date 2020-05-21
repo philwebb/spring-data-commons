@@ -57,28 +57,23 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		AnnotationMetadata annotationMetadata = new StandardAnnotationMetadata(SampleConfiguration.class, true);
 		this.environment = new StandardEnvironment();
 		this.resourceLoader = new DefaultResourceLoader();
 		this.registry = mock(BeanDefinitionRegistry.class);
-
 		this.source = new AnnotationRepositoryConfigurationSource(annotationMetadata, EnableRepositories.class,
 				this.resourceLoader, this.environment, this.registry);
 	}
 
 	@Test // DATACMNS-47
 	void findsBasePackagesForClasses() {
-
 		assertThat(this.source.getBasePackages())
 				.contains(AnnotationRepositoryConfigurationSourceUnitTests.class.getPackage().getName());
 	}
 
 	@Test // DATACMNS-47, DATACMNS-102
 	void evaluatesExcludeFiltersCorrectly() {
-
 		Streamable<BeanDefinition> candidates = this.source.getCandidates(new DefaultResourceLoader());
-
 		assertThat(candidates).extracting("beanClassName")
 				.contains(MyRepository.class.getName(), ComposedRepository.class.getName())
 				.doesNotContain(MyOtherRepository.class.getName(), ExcludedRepository.class.getName());
@@ -86,25 +81,20 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 
 	@Test // DATACMNS-47
 	void defaultsToPackageOfAnnotatedClass() {
-
 		AnnotationRepositoryConfigurationSource source = getConfigSource(DefaultConfiguration.class);
 		Iterable<String> packages = source.getBasePackages();
-
 		assertThat(packages).contains(DefaultConfiguration.class.getPackage().getName());
 		assertThat(source.shouldConsiderNestedRepositories()).isFalse();
 	}
 
 	@Test // DATACMNS-47
 	void returnsConfiguredBasePackage() {
-
 		AnnotationRepositoryConfigurationSource source = getConfigSource(DefaultConfigurationWithBasePackage.class);
-
 		assertThat(source.getBasePackages()).contains("foo");
 	}
 
 	@Test // DATACMNS-90
 	void returnsConsiderNestedRepositories() {
-
 		AnnotationRepositoryConfigurationSource source = getConfigSource(
 				DefaultConfigurationWithNestedRepositories.class);
 		assertThat(source.shouldConsiderNestedRepositories()).isTrue();
@@ -112,44 +102,36 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 
 	@Test // DATACMNS-456
 	void findsStringAttributeByName() {
-
 		RepositoryConfigurationSource source = getConfigSource(DefaultConfigurationWithBasePackage.class);
 		assertThat(source.getAttribute("namedQueriesLocation")).hasValue("bar");
 	}
 
 	@Test // DATACMNS-502
 	void returnsEmptyStringForBasePackage() throws Exception {
-
 		StandardAnnotationMetadata metadata = new StandardAnnotationMetadata(
 				getClass().getClassLoader().loadClass("TypeInDefaultPackage"), true);
 		RepositoryConfigurationSource configurationSource = new AnnotationRepositoryConfigurationSource(metadata,
 				EnableRepositories.class, this.resourceLoader, this.environment, this.registry);
-
 		assertThat(configurationSource.getBasePackages()).contains("");
 	}
 
 	@Test // DATACMNS-526
 	void detectsExplicitFilterConfiguration() {
-
 		assertThat(getConfigSource(ConfigurationWithExplicitFilter.class).usesExplicitFilters()).isTrue();
 		assertThat(getConfigSource(DefaultConfiguration.class).usesExplicitFilters()).isFalse();
 	}
 
 	@Test // DATACMNS-542
 	void ignoresMissingRepositoryBaseClassNameAttribute() {
-
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(ConfigWithSampleAnnotation.class, true);
 		RepositoryConfigurationSource configurationSource = new AnnotationRepositoryConfigurationSource(metadata,
 				SampleAnnotation.class, this.resourceLoader, this.environment, this.registry);
-
 		assertThat(configurationSource.getRepositoryBaseClassName()).isNotPresent();
 	}
 
 	@Test // DATACMNS-1498
 	void allowsLookupOfNonStringAttribute() {
-
 		RepositoryConfigurationSource source = getConfigSource(DefaultConfiguration.class);
-
 		assertThat(source.getAttribute("repositoryBaseClass", Class.class)).hasValue(PagingAndSortingRepository.class);
 		assertThat(source.getRequiredAttribute("repositoryBaseClass", Class.class))
 				.isEqualTo(PagingAndSortingRepository.class);
@@ -157,24 +139,19 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 
 	@Test // DATACMNS-1498
 	void rejectsInvalidAttributeName() {
-
 		RepositoryConfigurationSource source = getConfigSource(DefaultConfiguration.class);
-
 		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> source.getAttribute("fooBar"));
 	}
 
 	@Test // DATACMNS-1498
 	void lookupOfEmptyStringExposesAbsentValue() {
-
 		RepositoryConfigurationSource source = getConfigSource(DefaultConfiguration.class);
-
 		assertThat(source.getAttribute("namedQueriesLocation", String.class)).isEmpty();
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> source.getRequiredAttribute("namedQueriesLocation", String.class));
 	}
 
 	private AnnotationRepositoryConfigurationSource getConfigSource(Class<?> type) {
-
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(type, true);
 		return new AnnotationRepositoryConfigurationSource(metadata, EnableRepositories.class, this.resourceLoader,
 				this.environment, this.registry);

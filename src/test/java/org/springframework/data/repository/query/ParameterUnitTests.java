@@ -35,17 +35,13 @@ class ParameterUnitTests {
 
 	@Test // DATAJPA-1185
 	void classParameterWithSameTypeParameterAsReturnedListIsDynamicProjectionParameter() throws Exception {
-
 		Parameter parameter = new Parameter(getMethodParameter("dynamicProjectionWithList"));
-
 		assertThat(parameter.isDynamicProjectionParameter()).isTrue();
 	}
 
 	@Test // DATAJPA-1185
 	void classParameterWithSameTypeParameterAsReturnedStreamIsDynamicProjectionParameter() throws Exception {
-
 		Parameter parameter = new Parameter(getMethodParameter("dynamicProjectionWithStream"));
-
 		assertThat(parameter.isDynamicProjectionParameter()).isTrue();
 	}
 

@@ -33,18 +33,14 @@ class DefaultMethodInvokingMethodInterceptorUnitTests {
 
 	@Test // DATACMNS-1376
 	void shouldApplyEncapsulatedLookupOnJava9AndHigher() {
-
 		assumeThat(Version.javaVersion()).isGreaterThanOrEqualTo(Version.parse("9.0"));
-
 		assertThat(MethodHandleLookup.getMethodHandleLookup()).isEqualTo(MethodHandleLookup.ENCAPSULATED);
 		assertThat(MethodHandleLookup.ENCAPSULATED.isAvailable()).isTrue();
 	}
 
 	@Test // DATACMNS-1376
 	void shouldApplyOpenLookupOnJava8() {
-
 		assumeThat(Version.javaVersion()).isLessThan(Version.parse("1.8.9999"));
-
 		assertThat(MethodHandleLookup.getMethodHandleLookup()).isEqualTo(MethodHandleLookup.OPEN);
 		assertThat(MethodHandleLookup.OPEN.isAvailable()).isTrue();
 		assertThat(MethodHandleLookup.ENCAPSULATED.isAvailable()).isFalse();

@@ -58,76 +58,59 @@ public class TypeDiscovererUnitTests {
 
 	@Test
 	void isNotEqualIfTypesDiffer() {
-
 		TypeDiscoverer<Object> objectTypeInfo = new TypeDiscoverer<>(Object.class, EMPTY_MAP);
 		TypeDiscoverer<String> stringTypeInfo = new TypeDiscoverer<>(String.class, EMPTY_MAP);
-
 		assertThat(objectTypeInfo.equals(stringTypeInfo)).isFalse();
 	}
 
 	@Test
 	void isNotEqualIfTypeVariableMapsDiffer() {
-
 		assertThat(this.firstMap.equals(this.secondMap)).isFalse();
-
 		TypeDiscoverer<Object> first = new TypeDiscoverer<>(Object.class, this.firstMap);
 		TypeDiscoverer<Object> second = new TypeDiscoverer<>(Object.class, this.secondMap);
-
 		assertThat(first.equals(second)).isFalse();
 	}
 
 	@Test
 	void dealsWithTypesReferencingThemselves() {
-
 		TypeInformation<SelfReferencing> information = from(SelfReferencing.class);
 		TypeInformation<?> first = information.getProperty("parent").getMapValueType();
 		TypeInformation<?> second = first.getProperty("map").getMapValueType();
-
 		assertThat(second).isEqualTo(first);
 	}
 
 	@Test
 	void dealsWithTypesReferencingThemselvesInAMap() {
-
 		TypeInformation<SelfReferencingMap> information = from(SelfReferencingMap.class);
 		TypeInformation<?> property = information.getProperty("map");
-
 		assertThat(property.getMapValueType()).isEqualTo(information);
 	}
 
 	@Test
 	void returnsComponentAndValueTypesForMapExtensions() {
-
 		TypeInformation<?> discoverer = new TypeDiscoverer<>(CustomMap.class, EMPTY_MAP);
-
 		assertThat(discoverer.getMapValueType().getType()).isEqualTo(Locale.class);
 		assertThat(discoverer.getComponentType().getType()).isEqualTo(String.class);
 	}
 
 	@Test
 	void returnsComponentTypeForCollectionExtension() {
-
 		TypeDiscoverer<CustomCollection> discoverer = new TypeDiscoverer<>(CustomCollection.class, this.firstMap);
-
 		assertThat(discoverer.getComponentType().getType()).isEqualTo(String.class);
 	}
 
 	@Test
 	void returnsComponentTypeForArrays() {
-
 		TypeDiscoverer<String[]> discoverer = new TypeDiscoverer<>(String[].class, EMPTY_MAP);
-
 		assertThat(discoverer.getComponentType().getType()).isEqualTo(String.class);
 	}
 
 	@Test // DATACMNS-57
 	void discoveresConstructorParameterTypesCorrectly() throws NoSuchMethodException, SecurityException {
-
 		TypeDiscoverer<GenericConstructors> discoverer = new TypeDiscoverer<>(GenericConstructors.class, this.firstMap);
 		Constructor<GenericConstructors> constructor = GenericConstructors.class.getConstructor(List.class,
 				Locale.class);
 		List<TypeInformation<?>> types = discoverer.getParameterTypes(constructor);
-
 		assertThat(types).hasSize(2);
 		assertThat(types.get(0).getType()).isEqualTo(List.class);
 		assertThat(types.get(0).getComponentType().getType()).isEqualTo(String.class);
@@ -136,9 +119,7 @@ public class TypeDiscovererUnitTests {
 	@Test
 	@SuppressWarnings("rawtypes")
 	void returnsNullForComponentAndValueTypesForRawMaps() {
-
 		TypeDiscoverer<Map> discoverer = new TypeDiscoverer<>(Map.class, EMPTY_MAP);
-
 		assertThat(discoverer.getComponentType()).isNull();
 		assertThat(discoverer.getMapValueType()).isNull();
 	}
@@ -146,19 +127,14 @@ public class TypeDiscovererUnitTests {
 	@Test // DATACMNS-167
 	@SuppressWarnings("rawtypes")
 	void doesNotConsiderTypeImplementingIterableACollection() {
-
 		TypeDiscoverer<Person> discoverer = new TypeDiscoverer<>(Person.class, EMPTY_MAP);
 		TypeInformation reference = from(Address.class);
-
 		TypeInformation<?> addresses = discoverer.getProperty("addresses");
-
 		assertThat(addresses).satisfies(it -> {
 			assertThat(it.isCollectionLike()).isFalse();
 			assertThat(it.getComponentType()).isEqualTo(reference);
 		});
-
 		TypeInformation<?> adressIterable = discoverer.getProperty("addressIterable");
-
 		assertThat(adressIterable).satisfies(it -> {
 			assertThat(it.isCollectionLike()).isTrue();
 			assertThat(it.getComponentType()).isEqualTo(reference);
@@ -167,18 +143,14 @@ public class TypeDiscovererUnitTests {
 
 	@Test // DATACMNS-1342, DATACMNS-1430
 	void considersStreamableToBeCollectionLike() {
-
 		TypeInformation<SomeStreamable> type = from(SomeStreamable.class);
-
 		assertThat(type.isCollectionLike()).isTrue();
 		assertThat(type.getRequiredProperty("streamable").isCollectionLike()).isTrue();
 	}
 
 	@Test // DATACMNS-1419
 	void detectsSubTypes() {
-
 		ClassTypeInformation<Set> type = from(Set.class);
-
 		assertThat(type.isSubTypeOf(Collection.class)).isTrue();
 		assertThat(type.isSubTypeOf(Set.class)).isFalse();
 		assertThat(type.isSubTypeOf(String.class)).isFalse();

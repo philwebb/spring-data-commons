@@ -33,7 +33,6 @@ class PropertyUnitTests {
 
 	@Test // DATACMNS-1322
 	void shouldNotFindWitherMethod() {
-
 		assertThat(Property.of(ClassTypeInformation.from(ImmutableType.class),
 				ReflectionUtils.findField(ImmutableType.class, "id")).getWither()).isEmpty();
 		assertThat(Property.of(ClassTypeInformation.from(ImmutableType.class),
@@ -42,10 +41,8 @@ class PropertyUnitTests {
 
 	@Test // DATACMNS-1322
 	void shouldDiscoverWitherMethod() {
-
 		Property property = Property.of(ClassTypeInformation.from(WitherType.class),
 				ReflectionUtils.findField(WitherType.class, "id"));
-
 		assertThat(property.getWither()).isPresent().hasValueSatisfying(actual -> {
 			assertThat(actual.getName()).isEqualTo("withId");
 			assertThat(actual.getReturnType()).isEqualTo(WitherType.class);
@@ -54,10 +51,8 @@ class PropertyUnitTests {
 
 	@Test // DATACMNS-1421
 	void shouldDiscoverDerivedWitherMethod() {
-
 		Property property = Property.of(ClassTypeInformation.from(DerivedWitherClass.class),
 				ReflectionUtils.findField(DerivedWitherClass.class, "id"));
-
 		assertThat(property.getWither()).isPresent().hasValueSatisfying(actual -> {
 			assertThat(actual.getName()).isEqualTo("withId");
 			assertThat(actual.getReturnType()).isEqualTo(DerivedWitherClass.class);
@@ -67,10 +62,8 @@ class PropertyUnitTests {
 
 	@Test // DATACMNS-1421
 	void shouldNotDiscoverWitherMethodWithIncompatibleReturnType() {
-
 		Property property = Property.of(ClassTypeInformation.from(AnotherLevel.class),
 				ReflectionUtils.findField(AnotherLevel.class, "id"));
-
 		assertThat(property.getWither()).isEmpty();
 	}
 

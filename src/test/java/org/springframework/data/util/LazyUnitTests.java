@@ -44,41 +44,31 @@ class LazyUnitTests {
 
 	@Test
 	void createsLazyOptional() {
-
 		doReturn(Optional.empty()).when(this.optionalSupplier).get();
-
 		assertThat(Lazy.of(this.optionalSupplier).get()).isEmpty();
 	}
 
 	@Test
 	void createsLazyFromValue() {
-
 		Object value = new Object();
-
 		assertThat(Lazy.of(value).get()).isEqualTo(value);
 	}
 
 	@Test
 	void returnsLastValueInChain() {
-
 		Object reference = new Object();
-
 		Object foo = Lazy.of(() -> null).or(() -> null).or(() -> reference).get();
-
 		assertThat(foo).isEqualTo(reference);
 	}
 
 	@Test
 	void returnsCachedInstanceOnMultipleAccesses() {
-
 		Lazy<Object> lazy = Lazy.of(() -> new Object());
-
 		assertThat(lazy.get()).isSameAs(lazy.get());
 	}
 
 	@Test
 	void rejectsNullValueLookup() {
-
 		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> Lazy.of(() -> null).get());
 	}
 
@@ -94,12 +84,9 @@ class LazyUnitTests {
 
 	@Test
 	void ignoresElseIfValuePresent() {
-
 		Object first = new Object();
 		Object second = new Object();
-
 		Lazy<Object> nonEmpty = Lazy.of(() -> first);
-
 		assertThat(nonEmpty.orElse(second)).isEqualTo(first);
 		assertThat(nonEmpty.or(second).get()).isEqualTo(first);
 		assertThat(nonEmpty.or(() -> second).get()).isEqualTo(first);
@@ -107,11 +94,8 @@ class LazyUnitTests {
 
 	@Test
 	void returnsElseValue() {
-
 		Object reference = new Object();
-
 		Lazy<Object> empty = Lazy.of(() -> null);
-
 		assertThat(empty.orElse(reference)).isEqualTo(reference);
 		assertThat(empty.or(reference).get()).isEqualTo(reference);
 		assertThat(empty.or(() -> reference).get()).isEqualTo(reference);

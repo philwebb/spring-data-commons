@@ -37,12 +37,10 @@ class RepositoryInvocationTestUtils {
 
 	@SuppressWarnings("unchecked")
 	static <T> T getVerifyingRepositoryProxy(T target, VerifyingMethodInterceptor interceptor) {
-
 		ProxyFactory factory = new ProxyFactory();
 		factory.setInterfaces(target.getClass().getInterfaces());
 		factory.setTarget(target);
 		factory.addAdvice(interceptor);
-
 		return (T) factory.getProxy();
 	}
 
@@ -73,18 +71,14 @@ class RepositoryInvocationTestUtils {
 
 		@Override
 		public Object invoke(MethodInvocation invocation) throws Throwable {
-
 			if (!this.methods.isEmpty()) {
 				assertThat(this.methods).contains(invocation.getMethod());
 			}
 			else {
-
 				Class<?> type = invocation.getMethod().getDeclaringClass();
-
 				assertThat(type).as("Expected methods invocation on %s but was invoked on %s!",
 						this.expectedInvocationTarget, type).isEqualTo(this.expectedInvocationTarget);
 			}
-
 			return invocation.proceed();
 		}
 

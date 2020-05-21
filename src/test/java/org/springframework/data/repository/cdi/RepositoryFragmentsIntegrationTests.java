@@ -35,18 +35,15 @@ class RepositoryFragmentsIntegrationTests {
 
 	@BeforeAll
 	static void setUp() {
-
 		container = SeContainerInitializer.newInstance().disableDiscovery().addPackages(ComposedRepository.class)
 				.initialize();
 	}
 
 	@Test // DATACMNS-1233
 	void shouldInvokeCustomImplementationLast() {
-
 		ComposedRepository repository = getBean(ComposedRepository.class);
 		ComposedRepositoryImpl customImplementation = getBean(ComposedRepositoryImpl.class);
 		AnotherFragmentInterfaceImpl shadowed = getBean(AnotherFragmentInterfaceImpl.class);
-
 		assertThat(repository.getShadowed()).isEqualTo(2);
 		assertThat(customImplementation.getShadowed()).isEqualTo(1);
 		assertThat(shadowed.getShadowed()).isEqualTo(2);
@@ -54,11 +51,9 @@ class RepositoryFragmentsIntegrationTests {
 
 	@Test // DATACMNS-1233
 	void shouldRespectInterfaceOrder() {
-
 		ComposedRepository repository = getBean(ComposedRepository.class);
 		FragmentInterfaceImpl fragment = getBean(FragmentInterfaceImpl.class);
 		AnotherFragmentInterfaceImpl shadowed = getBean(AnotherFragmentInterfaceImpl.class);
-
 		assertThat(repository.getPriority()).isEqualTo(1);
 		assertThat(fragment.getPriority()).isEqualTo(1);
 		assertThat(shadowed.getPriority()).isEqualTo(2);

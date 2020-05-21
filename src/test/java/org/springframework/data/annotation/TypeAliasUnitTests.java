@@ -33,10 +33,8 @@ class TypeAliasUnitTests {
 	@Test // DATACMNS-547
 	@SuppressWarnings("unchecked")
 	void scanningforAtPersistentFindsTypeAliasAnnotatedTypes() {
-
 		AnnotatedTypeScanner scanner = new AnnotatedTypeScanner(Persistent.class);
 		Set<Class<?>> types = scanner.findTypes(getClass().getPackage().getName());
-
 		assertThat(types).containsExactlyInAnyOrder(SampleType.class, TypeAlias.class);
 	}
 

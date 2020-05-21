@@ -42,31 +42,24 @@ class CircleUnitTests {
 
 	@Test // DATACMNS-437
 	void considersTwoCirclesEqualCorrectly() {
-
 		Circle left = new Circle(1, 1, 1);
 		Circle right = new Circle(1, 1, 1);
-
 		assertThat(left).isEqualTo(right);
 		assertThat(right).isEqualTo(left);
-
 		right = new Circle(new Point(1, 1), new Distance(1));
-
 		assertThat(left).isEqualTo(right);
 		assertThat(right).isEqualTo(left);
 	}
 
 	@Test // DATACMNS-437
 	void testToString() {
-
 		assertThat(new Circle(1, 1, 1).toString())
 				.isEqualTo("Circle: [center=Point [x=1.000000, y=1.000000], radius=1.0]");
 	}
 
 	@Test // DATACMNS-482
 	void testSerialization() {
-
 		Circle circle = new Circle(1, 1, 1);
-
 		Circle serialized = (Circle) SerializationUtils.deserialize(SerializationUtils.serialize(circle));
 		assertThat(serialized).isEqualTo(circle);
 	}

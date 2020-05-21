@@ -195,13 +195,9 @@ class PartTreeUnitTests {
 
 	@Test
 	void detectsSpecificIgnoreCase() throws Exception {
-
 		PartTree tree = partTree("findByFirstnameIgnoreCaseAndLastname");
-
 		assertPart(tree, parts("firstnameIgnoreCase", "lastname"));
-
 		Iterator<Part> parts = tree.getParts().iterator();
-
 		assertThat(parts.next().shouldIgnoreCase()).isEqualTo(IgnoreCaseType.ALWAYS);
 		assertThat(parts.next().shouldIgnoreCase()).isEqualTo(IgnoreCaseType.NEVER);
 	}
@@ -228,19 +224,15 @@ class PartTreeUnitTests {
 
 	@Test
 	void returnsAllParts() {
-
 		PartTree tree = partTree("findByLastnameAndFirstname");
 		assertPart(tree, parts("lastname", "firstname"));
 	}
 
 	@Test
 	void returnsAllPartsOfType() {
-
 		PartTree tree = partTree("findByLastnameAndFirstnameGreaterThan");
-
 		Collection<Part> parts = toCollection(tree.getParts(Type.SIMPLE_PROPERTY));
 		assertThat(parts).containsExactly(part("lastname"));
-
 		parts = toCollection(tree.getParts(Type.GREATER_THAN));
 		assertThat(parts).containsExactly(new Part("FirstnameGreaterThan", User.class));
 	}
@@ -305,7 +297,6 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-182
 	void parsesContainingCorrectly() {
-
 		PartTree tree = new PartTree("findAllByLegalNameContainingOrCommonNameContainingAllIgnoringCase",
 				Organization.class);
 		assertPart(tree, new Part[] { new Part("legalNameContaining", Organization.class, true) },
@@ -314,9 +305,7 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-221
 	void parsesSpecialCharactersCorrectly() {
-
 		PartTree tree = new PartTree("findByØreAndÅrOrderByÅrAsc", DomainObjectWithSpecialChars.class);
-
 		assertPart(tree, new Part[] { new Part("øre", DomainObjectWithSpecialChars.class),
 				new Part("år", DomainObjectWithSpecialChars.class) });
 		assertThat(tree.getSort().getOrderFor("år").isAscending()).isTrue();
@@ -324,9 +313,7 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-363
 	void parsesSpecialCharactersOnlyCorrectly_Korean() {
-
 		PartTree tree = new PartTree("findBy이름And생일OrderBy생일Asc", DomainObjectWithSpecialChars.class);
-
 		assertPart(tree, new Part[] { new Part("이름", DomainObjectWithSpecialChars.class),
 				new Part("생일", DomainObjectWithSpecialChars.class) });
 		assertThat(tree.getSort().getOrderFor("생일").isAscending()).isTrue();
@@ -334,9 +321,7 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-363
 	void parsesSpecialUnicodeCharactersMixedWithRegularCharactersCorrectly_Korean() {
-
 		PartTree tree = new PartTree("findBy이름AndOrderIdOrderBy생일Asc", DomainObjectWithSpecialChars.class);
-
 		assertPart(tree, new Part[] { new Part("이름", DomainObjectWithSpecialChars.class),
 				new Part("order.id", DomainObjectWithSpecialChars.class) });
 		assertThat(tree.getSort().getOrderFor("생일").isAscending()).isTrue();
@@ -344,53 +329,24 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-363
 	void parsesNestedSpecialUnicodeCharactersMixedWithRegularCharactersCorrectly_Korean() {
-
-		PartTree tree = new PartTree("findBy" + "이름" + "And" + "OrderId" + "And" + "Nested_이름" // we
-																								// use
-																								// _
-																								// here
-																								// to
-																								// mark
-																								// the
-																								// beginning
-																								// of
-																								// a
-																								// new
-																								// property
-																								// reference
-																								// "이름"
-				+ "Or" + "NestedOrderId" + "OrderBy" + "생일" + "Asc", DomainObjectWithSpecialChars.class);
-
+		// We use _ here to mark the beginning of a new property reference "이름"
+		PartTree tree = new PartTree("findBy" + "이름" + "And" + "OrderId" + "And" + "Nested_이름" + "Or" + "NestedOrderId"
+				+ "OrderBy" + "생일" + "Asc", DomainObjectWithSpecialChars.class);
 		Iterator<OrPart> parts = tree.iterator();
 		assertPartsIn(parts.next(),
 				new Part[] { new Part("이름", DomainObjectWithSpecialChars.class),
 						new Part("order.id", DomainObjectWithSpecialChars.class),
 						new Part("nested.이름", DomainObjectWithSpecialChars.class) });
 		assertPartsIn(parts.next(), new Part[] { new Part("nested.order.id", DomainObjectWithSpecialChars.class) });
-
 		assertThat(tree.getSort().getOrderFor("생일").isAscending()).isTrue();
 	}
 
 	@Test // DATACMNS-363
 	void parsesNestedSpecialUnicodeCharactersMixedWithRegularCharactersCorrectly_KoreanNumbersSymbols() {
-
+		// We use _ here to mark the beginning of a new property reference "이름"
 		PartTree tree = new PartTree("findBy" + "이름" + "And" + "OrderId" + "And" + "Anders" + "And" + "Property1"
-				+ "And" + "Øre" + "And" + "År" + "Or" + "NestedOrderId" + "And" + "Nested_property1" // we
-																										// use
-																										// _
-																										// here
-																										// to
-																										// mark
-																										// the
-																										// beginning
-																										// of
-																										// a
-																										// new
-																										// property
-																										// reference
-																										// "이름"
-				+ "And" + "Property1" + "OrderBy" + "생일" + "Asc", DomainObjectWithSpecialChars.class);
-
+				+ "And" + "Øre" + "And" + "År" + "Or" + "NestedOrderId" + "And" + "Nested_property1" + "And"
+				+ "Property1" + "OrderBy" + "생일" + "Asc", DomainObjectWithSpecialChars.class);
 		Iterator<OrPart> parts = tree.iterator();
 		assertPartsIn(parts.next(),
 				new Part[] { new Part("이름", DomainObjectWithSpecialChars.class),
@@ -403,52 +359,43 @@ class PartTreeUnitTests {
 				new Part[] { new Part("nested.order.id", DomainObjectWithSpecialChars.class),
 						new Part("nested.property1", DomainObjectWithSpecialChars.class),
 						new Part("property1", DomainObjectWithSpecialChars.class) });
-
 		assertThat(tree.getSort().getOrderFor("생일").isAscending()).isTrue();
 	}
 
 	@Test // DATACMNS-303
 	void identifiesSimpleCountByCorrectly() {
-
 		PartTree tree = new PartTree("countByLastname", User.class);
 		assertThat(tree.isCountProjection()).isTrue();
 	}
 
 	@Test // DATACMNS-875
 	void identifiesSimpleExistsByCorrectly() {
-
 		PartTree tree = new PartTree("existsByLastname", User.class);
 		assertThat(tree.isExistsProjection()).isEqualTo(true);
 	}
 
 	@Test // DATACMNS-399
 	void queryPrefixShouldBeSupportedInRepositoryQueryMethods() {
-
 		PartTree tree = new PartTree("queryByFirstnameAndLastname", User.class);
 		Iterable<Part> parts = tree.getParts();
-
 		assertThat(parts).containsExactly(part("firstname"), part("lastname"));
 	}
 
 	@Test // DATACMNS-1645
 	void searchPrefixShouldBeSupportedInRepositoryQueryMethods() {
-
 		PartTree tree = new PartTree("searchByFirstnameAndLastname", User.class);
 		Iterable<Part> parts = tree.getParts();
-
 		assertThat(parts).containsExactly(part("firstname"), part("lastname"));
 	}
 
 	@Test // DATACMNS-303
 	void identifiesExtendedCountByCorrectly() {
-
 		PartTree tree = new PartTree("countUserByLastname", User.class);
 		assertThat(tree.isCountProjection()).isTrue();
 	}
 
 	@Test // DATACMNS-303
 	void identifiesCountAndDistinctByCorrectly() {
-
 		PartTree tree = new PartTree("countDistinctUserByLastname", User.class);
 		assertThat(tree.isCountProjection()).isTrue();
 		assertThat(tree.isDistinct()).isTrue();
@@ -476,37 +423,31 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-387
 	void buildsPartTreeFromEmptyPredicateCorrectly() {
-
 		PartTree tree = new PartTree("findAllByOrderByLastnameAsc", User.class);
-
 		assertThat(tree.getParts()).isEmpty();
 		assertThat(tree.getSort()).isEqualTo(Sort.by("lastname").ascending());
 	}
 
 	@Test // DATACMNS-448
 	void identifiesSimpleDeleteByCorrectly() {
-
 		PartTree tree = new PartTree("deleteByLastname", User.class);
 		assertThat(tree.isDelete()).isTrue();
 	}
 
 	@Test // DATACMNS-448
 	void identifiesExtendedDeleteByCorrectly() {
-
 		PartTree tree = new PartTree("deleteUserByLastname", User.class);
 		assertThat(tree.isDelete()).isTrue();
 	}
 
 	@Test // DATACMNS-448
 	void identifiesSimpleRemoveByCorrectly() {
-
 		PartTree tree = new PartTree("removeByLastname", User.class);
 		assertThat(tree.isDelete()).isTrue();
 	}
 
 	@Test // DATACMNS-448
 	void identifiesExtendedRemoveByCorrectly() {
-
 		PartTree tree = new PartTree("removeUserByLastname", User.class);
 		assertThat(tree.isDelete()).isTrue();
 	}
@@ -578,7 +519,6 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-875
 	void shouldNotSupportLimitingExistQueries() {
-
 		assertLimiting("existsFirst10DistinctUsersByLastname", User.class, false, null, true);
 		assertLimiting("existsTop10DistinctUsersByLastname", User.class, false, null, true);
 	}
@@ -591,22 +531,16 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-581
 	void buildsPartTreeForNotContainingCorrectly() throws Exception {
-
 		PartTree tree = new PartTree("findAllByLegalNameNotContaining", Organization.class);
 		assertPart(tree, new Part[] { new Part("legalNameNotContaining", Organization.class) });
 	}
 
 	@Test // DATACMNS-750
 	void doesNotFailOnPropertiesContainingAKeyword() {
-
 		PartTree partTree = new PartTree("findBySomeInfoIn", Category.class);
-
 		Iterable<Part> parts = partTree.getParts();
-
 		assertThat(parts).hasSize(1);
-
 		Part part = parts.iterator().next();
-
 		assertThat(part.getType()).isEqualTo(Type.IN);
 		assertThat(part.getProperty()).isEqualTo(PropertyPath.from("someInfo", Category.class));
 	}
@@ -623,21 +557,16 @@ class PartTreeUnitTests {
 
 	@Test // DATACMNS-1007
 	void parsesEmptyAsPropertyIfDifferentKeywordIsUsed() {
-
 		assertType(asList("emptyIsTrue"), TRUE, "empty", 0, false);
 		assertType(asList("emptyIs"), SIMPLE_PROPERTY, "empty", 1, true);
 	}
 
 	@Test // DATACMNS-1129
 	void emptyTreeDoesNotContainParts() {
-
 		PartTree tree = partTree("");
-
 		assertThat(tree).isEmpty();
 		assertThat(tree.hasPredicate()).isFalse();
-
 		tree = partTree("findByOrderByFirstname");
-
 		assertThat(tree).isEmpty();
 		assertThat(tree.hasPredicate()).isFalse();
 	}
@@ -649,7 +578,6 @@ class PartTreeUnitTests {
 	 */
 	@Test // DATACMNS-1570
 	void specialCapitalizationInSubject() {
-
 		assertThatThrownBy(() -> new PartTree("findByZIndex", SpecialCapitalization.class))
 				.isInstanceOf(PropertyReferenceException.class);
 	}
@@ -661,24 +589,19 @@ class PartTreeUnitTests {
 	 */
 	@Test // DATACMNS-1570
 	void specialCapitalizationInOrderBy() {
-
 		assertThatThrownBy(() -> new PartTree("findByOrderByZIndex", SpecialCapitalization.class))
 				.isInstanceOf(PropertyReferenceException.class);
 	}
 
 	@Test // DATACMNS-1570
 	void allCapsInSubject() {
-
 		PartTree tree = new PartTree("findByURL", SpecialCapitalization.class);
-
 		assertThat(tree).hasSize(1);
 	}
 
 	@Test // DATACMNS-1570
 	void allCapsInOrderBy() {
-
 		PartTree tree = new PartTree("findByOrderByURL", SpecialCapitalization.class);
-
 		assertThat(tree.getSort()).hasSize(1);
 	}
 
@@ -688,9 +611,7 @@ class PartTreeUnitTests {
 
 	private static void assertLimiting(String methodName, Class<?> entityType, boolean limiting, Integer maxResults,
 			boolean distinct) {
-
 		PartTree tree = new PartTree(methodName, entityType);
-
 		assertThat(tree.isLimiting()).isEqualTo(limiting);
 		assertThat(tree.getMaxResults()).isEqualTo(maxResults);
 		assertThat(tree.isDistinct()).isEqualTo(distinct);
@@ -702,7 +623,6 @@ class PartTreeUnitTests {
 
 	private static void assertType(Iterable<String> sources, Type type, String property, int numberOfArguments,
 			boolean parameterRequired) {
-
 		for (String source : sources) {
 			Part part = part(source);
 			assertThat(part.getType()).isEqualTo(type);
@@ -733,32 +653,25 @@ class PartTreeUnitTests {
 	}
 
 	private void assertPart(PartTree tree, Part[]... parts) {
-
 		Iterator<OrPart> orParts = tree.iterator();
-
 		for (Part[] part : parts) {
 			assertThat(orParts.hasNext()).isTrue();
 			assertPartsIn(orParts.next(), part);
 		}
-
 		assertThat(orParts.hasNext()).isFalse();
 	}
 
 	private void assertPartsIn(OrPart orPart, Part[] part) {
-
 		Iterator<Part> partIterator = orPart.iterator();
-
 		for (int k = 0; k < part.length; k++) {
 			assertThat(partIterator.hasNext()).as("Expected %d parts but have %d", part.length, k).isTrue();
 			Part next = partIterator.next();
 			assertThat(part[k]).as("Expected %s but got %s!", part[k], next).isEqualTo(next);
 		}
-
 		assertThat(partIterator.hasNext()).as("Too many parts!").isFalse();
 	}
 
 	private static <T> Collection<T> toCollection(Iterable<T> iterable) {
-
 		List<T> result = new ArrayList<>();
 		for (T element : iterable) {
 			result.add(element);

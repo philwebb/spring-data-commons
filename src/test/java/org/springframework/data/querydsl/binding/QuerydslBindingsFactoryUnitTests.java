@@ -57,19 +57,14 @@ class QuerydslBindingsFactoryUnitTests {
 	@Test // DATACMNS-669
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void createBindingsShouldHonorQuerydslBinderCustomizerHookWhenPresent() {
-
 		Repositories repositories = mock(Repositories.class);
-
 		when(repositories.hasRepositoryFor(User.class)).thenReturn(true);
 		when(repositories.getRepositoryFor(User.class)).thenReturn(Optional.of(new SampleRepo()));
-
 		QuerydslBindingsFactory factory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
 		ReflectionTestUtils.setField(factory, "repositories", Optional.of(repositories));
-
 		QuerydslBindings bindings = factory.createBindingsFor(USER_TYPE);
 		Optional<MultiValueBinding<Path<Object>, Object>> binding = bindings
 				.getBindingForPath(PropertyPathInformation.of("firstname", User.class));
-
 		assertThat(binding).hasValueSatisfying(it -> {
 			Optional<Predicate> bind = it.bind((Path) QUser.user.firstname, Collections.singleton("rand"));
 			assertThat(bind).hasValue(QUser.user.firstname.contains("rand"));
@@ -79,17 +74,13 @@ class QuerydslBindingsFactoryUnitTests {
 	@Test // DATACMNS-669
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void shouldReuseExistingQuerydslBinderCustomizer() {
-
 		AutowireCapableBeanFactory beanFactory = mock(AutowireCapableBeanFactory.class);
 		when(beanFactory.getBean(SpecificBinding.class)).thenReturn(new SpecificBinding());
-
 		QuerydslBindingsFactory factory = new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE);
 		ReflectionTestUtils.setField(factory, "beanFactory", Optional.of(beanFactory));
-
 		QuerydslBindings bindings = factory.createBindingsFor(USER_TYPE, SpecificBinding.class);
 		Optional<MultiValueBinding<Path<Object>, Object>> binding = bindings
 				.getBindingForPath(PropertyPathInformation.of("firstname", User.class));
-
 		assertThat(binding).hasValueSatisfying(it -> {
 			Optional<Predicate> bind = it.bind((Path) QUser.user.firstname, Collections.singleton("rand"));
 			assertThat(bind).hasValue(QUser.user.firstname.eq("RAND"));
@@ -98,21 +89,17 @@ class QuerydslBindingsFactoryUnitTests {
 
 	@Test // DATACMNS-669
 	void rejectsPredicateResolutionIfDomainTypeCantBeAutoDetected() {
-
 		assertThatExceptionOfType(IllegalStateException.class)
 				.isThrownBy(() -> this.factory.createBindingsFor(ClassTypeInformation.from(ModelAndView.class)))
 				.withMessageContaining(QuerydslPredicate.class.getSimpleName()).withMessageContaining("root");
-
 	}
 
 	static class SpecificBinding implements QuerydslBinderCustomizer<QUser> {
 
 		@Override
 		public void customize(QuerydslBindings bindings, QUser user) {
-
 			bindings.bind(user.firstname).firstOptional((path, value) -> value.map(it -> path.eq(it.toUpperCase())));
 			bindings.bind(user.lastname).firstOptional((path, value) -> value.map(it -> path.toLowerCase().eq(it)));
-
 			bindings.excluding(user.address);
 		}
 

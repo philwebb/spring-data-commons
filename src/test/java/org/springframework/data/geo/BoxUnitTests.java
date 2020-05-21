@@ -37,7 +37,6 @@ class BoxUnitTests {
 
 	@Test // DATACMNS-437
 	void equalsWorksCorrectly() {
-
 		assertThat(this.first.equals(this.second)).isTrue();
 		assertThat(this.second.equals(this.first)).isTrue();
 		assertThat(this.first.equals(this.third)).isFalse();
@@ -45,14 +44,12 @@ class BoxUnitTests {
 
 	@Test // DATACMNS-437
 	void hashCodeWorksCorrectly() {
-
 		assertThat(this.first.hashCode()).isEqualTo(this.second.hashCode());
 		assertThat(this.first.hashCode()).isNotEqualTo(this.third.hashCode());
 	}
 
 	@Test // DATACMNS-437
 	void testToString() {
-
 		assertThat(this.first.toString())
 				.isEqualTo("Box [Point [x=1.000000, y=1.000000], Point [x=2.000000, y=2.000000]]");
 	}

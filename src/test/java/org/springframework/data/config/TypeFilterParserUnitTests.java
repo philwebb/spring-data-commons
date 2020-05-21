@@ -62,31 +62,23 @@ class TypeFilterParserUnitTests {
 
 	@BeforeEach
 	void setUp() throws SAXException, IOException, ParserConfigurationException {
-
 		this.parser = new TypeFilterParser(this.context, this.classLoader);
-
 		Resource sampleXmlFile = new ClassPathResource("type-filter-test.xml", TypeFilterParserUnitTests.class);
-
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
-
 		this.documentElement = factory.newDocumentBuilder().parse(sampleXmlFile.getInputStream()).getDocumentElement();
 	}
 
 	@Test
 	void parsesIncludesCorrectly() throws Exception {
-
 		Element element = DomUtils.getChildElementByTagName(this.documentElement, "firstSample");
-
 		Iterable<TypeFilter> filters = this.parser.parseTypeFilters(element, Type.INCLUDE);
 		assertThat(filters).hasAtLeastOneElementOfType(AssignableTypeFilter.class);
 	}
 
 	@Test
 	void parsesExcludesCorrectly() throws Exception {
-
 		Element element = DomUtils.getChildElementByTagName(this.documentElement, "secondSample");
-
 		Iterable<TypeFilter> filters = this.parser.parseTypeFilters(element, Type.EXCLUDE);
 		assertThat(filters).hasAtLeastOneElementOfType(AssignableTypeFilter.class);
 	}

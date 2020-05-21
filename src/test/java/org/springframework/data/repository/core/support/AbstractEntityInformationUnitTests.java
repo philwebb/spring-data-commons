@@ -44,45 +44,35 @@ class AbstractEntityInformationUnitTests {
 
 	@Test
 	void considersEntityNewIfGetIdReturnsNull() throws Exception {
-
 		EntityInformation<Object, Serializable> metadata = new DummyEntityInformation<>(Object.class);
-
 		assertThat(metadata.isNew(null)).isTrue();
 		assertThat(metadata.isNew(new Object())).isFalse();
 	}
 
 	@Test // DATACMNS-357
 	void detectsNewStateForPrimitiveIds() {
-
 		CustomEntityInformation<PrimitiveIdEntity, Serializable> fooEn = new CustomEntityInformation<>(
 				PrimitiveIdEntity.class);
-
 		PrimitiveIdEntity entity = new PrimitiveIdEntity();
 		assertThat(fooEn.isNew(entity)).isTrue();
-
 		entity.id = 5L;
 		assertThat(fooEn.isNew(entity)).isFalse();
 	}
 
 	@Test // DATACMNS-357
 	void detectsNewStateForPrimitiveWrapperIds() {
-
 		CustomEntityInformation<PrimitiveWrapperIdEntity, Serializable> fooEn = new CustomEntityInformation<>(
 				PrimitiveWrapperIdEntity.class);
-
 		PrimitiveWrapperIdEntity entity = new PrimitiveWrapperIdEntity();
 		assertThat(fooEn.isNew(entity)).isTrue();
-
 		entity.id = 5L;
 		assertThat(fooEn.isNew(entity)).isFalse();
 	}
 
 	@Test // DATACMNS-357
 	void rejectsUnsupportedPrimitiveIdType() {
-
 		CustomEntityInformation<UnsupportedPrimitiveIdEntity, ?> information = new CustomEntityInformation<UnsupportedPrimitiveIdEntity, Boolean>(
 				UnsupportedPrimitiveIdEntity.class);
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> information.isNew(new UnsupportedPrimitiveIdEntity()))
 				.withMessageContaining(boolean.class.getName());

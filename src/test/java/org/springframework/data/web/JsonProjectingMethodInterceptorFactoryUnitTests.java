@@ -47,16 +47,12 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		String json = "{\"firstname\" : \"Dave\", "
 				+ "\"address\" : { \"zipCode\" : \"01097\", \"city\" : \"Dresden\" },"
 				+ "\"addresses\" : [ { \"zipCode\" : \"01097\", \"city\" : \"Dresden\" }]" + " }";
-
 		SpelAwareProxyProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
-
 		MappingProvider mappingProvider = new JacksonMappingProvider(new ObjectMapper());
 		projectionFactory.registerMethodInvokerFactory(new JsonProjectingMethodInterceptorFactory(mappingProvider));
-
 		this.projectionFactory = projectionFactory;
 		this.customer = projectionFactory.createProjection(Customer.class, new ByteArrayInputStream(json.getBytes()));
 	}
@@ -103,34 +99,27 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 
 	@Test // DATCMNS-885
 	void accessCollectionPropertyThatUsesJsonPathProjectionInTurn() {
-
 		List<AnotherAddressProjection> projections = this.customer.getAnotherAddressProjections();
-
 		assertThat(projections).hasSize(1);
 		assertThat(projections.get(0).getZipCodeButNotCity()).isEqualTo("01097");
 	}
 
 	@Test // DATCMNS-885
 	void accessAsCollectionPropertyThatUsesJsonPathProjectionInTurn() {
-
 		Set<AnotherAddressProjection> projections = this.customer.getAnotherAddressProjectionAsCollection();
-
 		assertThat(projections).hasSize(1);
 		assertThat(projections.iterator().next().getZipCodeButNotCity()).isEqualTo("01097");
 	}
 
 	@Test // DATCMNS-885
 	void accessNestedPropertyButStayOnRootLevel() {
-
 		Name name = this.customer.getName();
-
 		assertThat(name).isNotNull();
 		assertThat(name.getFirstname()).isEqualTo("Dave");
 	}
 
 	@Test // DATACMNS-885
 	void accessNestedFields() {
-
 		assertThat(this.customer.getNestedCity()).isEqualTo("Dresden");
 		assertThat(this.customer.getNestedCities()).hasSize(2);
 	}

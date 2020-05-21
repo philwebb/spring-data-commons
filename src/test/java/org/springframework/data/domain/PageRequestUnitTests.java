@@ -41,29 +41,22 @@ class PageRequestUnitTests extends AbstractPageRequestUnitTests {
 
 	@Test
 	void equalsRegardsSortCorrectly() {
-
 		Sort sort = Sort.by(Direction.DESC, "foo");
 		AbstractPageRequest request = PageRequest.of(0, 10, sort);
-
 		// Equals itself
 		assertEqualsAndHashcode(request, request);
-
 		// Equals another instance with same setup
 		assertEqualsAndHashcode(request, PageRequest.of(0, 10, sort));
-
 		// Equals without sort entirely
 		assertEqualsAndHashcode(PageRequest.of(0, 10), PageRequest.of(0, 10));
-
 		// Is not equal to instance without sort
 		assertNotEqualsAndHashcode(request, PageRequest.of(0, 10));
-
 		// Is not equal to instance with another sort
 		assertNotEqualsAndHashcode(request, PageRequest.of(0, 10, Direction.ASC, "foo"));
 	}
 
 	@Test // DATACMNS-1581
 	void rejectsNullSort() {
-
 		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> PageRequest.of(0, 10, null));
 	}
 

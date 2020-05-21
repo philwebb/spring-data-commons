@@ -55,16 +55,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class Jsr310ConvertersUnitTests {
 
 	static final Date NOW = new Date();
+
 	static final ConversionService CONVERSION_SERVICE;
 
 	static {
-
 		GenericConversionService conversionService = new GenericConversionService();
-
 		for (Converter<?, ?> converter : Jsr310Converters.getConvertersToRegister()) {
 			conversionService.addConverter(converter);
 		}
-
 		CONVERSION_SERVICE = conversionService;
 	}
 
@@ -81,7 +79,6 @@ class Jsr310ConvertersUnitTests {
 	@Test
 	// DATACMNS-606, DATACMNS-1091
 	void convertsLocalDateTimeToDate() {
-
 		LocalDateTime now = LocalDateTime.now();
 		assertThat(CONVERSION_SERVICE.convert(now, Date.class)).matches(formatted(now, FORMAT_FULL));
 	}
@@ -95,7 +92,6 @@ class Jsr310ConvertersUnitTests {
 	@Test
 	// DATACMNS-606, DATACMNS-1091
 	void convertsLocalDateToDate() {
-
 		LocalDate now = LocalDate.now();
 		assertThat(CONVERSION_SERVICE.convert(now, Date.class)).matches(formatted(now, FORMAT_DATE));
 	}
@@ -109,7 +105,6 @@ class Jsr310ConvertersUnitTests {
 	@Test
 	// DATACMNS-606, DATACMNS-1091
 	void convertsLocalTimeToDate() {
-
 		LocalTime now = LocalTime.now();
 		assertThat(CONVERSION_SERVICE.convert(now, Date.class)).matches(formatted(now, FORMAT_TIME));
 	}
@@ -117,7 +112,6 @@ class Jsr310ConvertersUnitTests {
 	@Test
 	// DATACMNS-623
 	void convertsDateToInstant() {
-
 		Date now = new Date();
 		assertThat(CONVERSION_SERVICE.convert(now, Instant.class)).isEqualTo(now.toInstant());
 	}
@@ -125,18 +119,15 @@ class Jsr310ConvertersUnitTests {
 	@Test
 	// DATACMNS-623
 	void convertsInstantToDate() {
-
 		Date now = new Date();
 		assertThat(CONVERSION_SERVICE.convert(now.toInstant(), Date.class)).isEqualTo(now);
 	}
 
 	@Test
 	void convertsZoneIdToStringAndBack() {
-
 		Map<String, ZoneId> ids = new HashMap<>();
 		ids.put("Europe/Berlin", ZoneId.of("Europe/Berlin"));
 		ids.put("+06:00", ZoneId.of("+06:00"));
-
 		for (Entry<String, ZoneId> entry : ids.entrySet()) {
 			assertThat(CONVERSION_SERVICE.convert(entry.getValue(), String.class)).isEqualTo(entry.getKey());
 			assertThat(CONVERSION_SERVICE.convert(entry.getKey(), ZoneId.class)).isEqualTo(entry.getValue());
@@ -146,50 +137,39 @@ class Jsr310ConvertersUnitTests {
 	@Test
 	// DATACMNS-1243
 	void convertsLocalDateTimeToInstantAndBack() {
-
 		LocalDateTime dateTime = LocalDateTime.now();
-
 		Instant instant = CONVERSION_SERVICE.convert(dateTime, Instant.class);
 		LocalDateTime convertedDateTime = CONVERSION_SERVICE.convert(dateTime, LocalDateTime.class);
-
 		assertThat(convertedDateTime).isEqualTo(dateTime);
 	}
 
 	@Test
 	// DATACMNS-1440
 	void convertsIsoFormattedStringToLocalDate() {
-
 		LocalDate date = LocalDate.now();
-
 		assertThat(CONVERSION_SERVICE.convert(date.toString(), LocalDate.class)).isEqualTo(date);
 	}
 
 	@Test
 	// DATACMNS-1440
 	void convertsIsoFormattedStringToLocalDateTime() {
-
 		LocalDateTime date = LocalDateTime.now();
-
 		assertThat(CONVERSION_SERVICE.convert(date.toString(), LocalDateTime.class)).isEqualTo(date);
 	}
 
 	@Test
 	// DATACMNS-1440
 	void convertsIsoFormattedStringToInstant() {
-
 		Instant date = Instant.now();
-
 		assertThat(CONVERSION_SERVICE.convert(date.toString(), Instant.class)).isEqualTo(date);
 	}
 
 	private static Predicate<Date> formatted(Temporal expected, String format) {
-
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
 		return d -> format(d, format).equals(formatter.format(expected));
 	}
 
 	private static Predicate<Temporal> formatted(Date expected, String format) {
-
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
 		return d -> formatter.format(d).equals(format(expected, format));
 	}
@@ -199,21 +179,17 @@ class Jsr310ConvertersUnitTests {
 	}
 
 	static Stream<Object[]> parameters() {
-
 		List<Object[]> duration = Arrays.asList(new Object[][] { { "PT240H", Duration.ofDays(10) },
 				{ "PT2H", Duration.ofHours(2) }, { "PT3M", Duration.ofMinutes(3) }, { "PT4S", Duration.ofSeconds(4) },
 				{ "PT0.005S", Duration.ofMillis(5) }, { "PT0.000000006S", Duration.ofNanos(6) } });
-
 		List<Object[]> period = Arrays.asList(new Object[][] { { "P2D", Period.ofDays(2) },
 				{ "P21D", Period.ofWeeks(3) }, { "P4M", Period.ofMonths(4) }, { "P5Y", Period.ofYears(5) }, });
-
 		return Stream.concat(duration.stream(), period.stream());
 	}
 
 	@ParameterizedTest // DATACMNS-951
 	@MethodSource("parameters")
 	void convertsPeriodToStringAndBack(String string, Object target) {
-
 		assertThat(CONVERSION_SERVICE.convert(target, String.class)).isEqualTo(string);
 		assertThat(CONVERSION_SERVICE.convert(string, target.getClass())).isEqualTo(target);
 	}

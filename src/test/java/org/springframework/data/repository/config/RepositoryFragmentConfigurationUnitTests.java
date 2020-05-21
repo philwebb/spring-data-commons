@@ -28,7 +28,6 @@ class RepositoryFragmentConfigurationUnitTests {
 
 	@Test // DATACMNS-1439
 	void shouldConsiderBeanNameDecapitalization() {
-
 		assertThat(getImplementationBeanName("com.acme.UDPRepository")).isEqualTo("UDPRepository");
 		assertThat(getImplementationBeanName("com.acme.UdpRepository")).isEqualTo("udpRepository");
 	}

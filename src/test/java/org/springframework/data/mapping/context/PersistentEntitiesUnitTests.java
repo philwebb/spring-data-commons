@@ -55,64 +55,48 @@ class PersistentEntitiesUnitTests {
 
 	@Test // DATACMNS-458
 	void returnsPersistentEntitiesFromMappingContexts() {
-
 		when(this.first.hasPersistentEntityFor(Sample.class)).thenReturn(false);
 		when(this.second.hasPersistentEntityFor(Sample.class)).thenReturn(true);
-
 		PersistentEntities.of(this.first, this.second).getPersistentEntity(Sample.class);
-
 		verify(this.first, times(1)).hasPersistentEntityFor(Sample.class);
 		verify(this.first, times(0)).getRequiredPersistentEntity(Sample.class);
-
 		verify(this.second, times(1)).hasPersistentEntityFor(Sample.class);
 		verify(this.second, times(1)).getRequiredPersistentEntity(Sample.class);
 	}
 
 	@Test // DATACMNS-458
 	void indicatesManagedType() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		context.setInitialEntitySet(Collections.singleton(Sample.class));
 		context.initialize();
-
 		PersistentEntities entities = PersistentEntities.of(context);
-
 		assertThat(entities.getPersistentEntity(Sample.class)).isPresent();
 		assertThat(entities.getPersistentEntity(Object.class)).isNotPresent();
 		assertThat(entities.getManagedTypes()).contains(ClassTypeInformation.from(Sample.class));
-
 		assertThat(entities.getPersistentEntity(Sample.class))
 				.hasValueSatisfying(it -> assertThat(entities).contains(it));
 	}
 
 	@Test // DATACMNS-1318
 	void detectsReferredToEntity() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		context.getPersistentEntity(Sample.class);
-
 		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class)
 				.getPersistentProperty("sampleId");
-
 		PersistentEntity<?, ?> referredToEntity = PersistentEntities.of(context)
 				.getEntityUltimatelyReferredToBy(property);
-
 		assertThat(referredToEntity).isNotNull();
 		assertThat(referredToEntity.getType()).isEqualTo(Sample.class);
 	}
 
 	@Test // DATACMNS-1318
 	void rejectsAmbiguousIdentifierType() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		context.getPersistentEntity(FirstWithLongId.class);
 		context.getPersistentEntity(SecondWithLongId.class);
-
 		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class)
 				.getPersistentProperty("longId");
-
 		PersistentEntities entities = PersistentEntities.of(context);
-
 		assertThatExceptionOfType(IllegalStateException.class)
 				.isThrownBy(() -> entities.getEntityUltimatelyReferredToBy(property))
 				.withMessageContaining(FirstWithLongId.class.getName())
@@ -122,32 +106,24 @@ class PersistentEntitiesUnitTests {
 
 	@Test // DATACMNS-1318
 	void allowsExplicitlyQualifiedReference() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		context.getPersistentEntity(FirstWithLongId.class);
 		context.getPersistentEntity(SecondWithLongId.class);
-
 		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class)
 				.getPersistentProperty("qualifiedLongId");
-
 		PersistentEntity<?, ?> entity = PersistentEntities.of(context).getEntityUltimatelyReferredToBy(property);
-
 		assertThat(entity).isNotNull();
 		assertThat(entity.getType()).isEqualTo(FirstWithLongId.class);
 	}
 
 	@Test // DATACMNS-1318
 	void allowsGenericReference() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		context.getPersistentEntity(FirstWithGenericId.class);
 		context.getPersistentEntity(SecondWithGenericId.class);
-
 		SamplePersistentProperty property = context.getRequiredPersistentEntity(WithReference.class)
 				.getPersistentProperty("generic");
-
 		PersistentEntity<?, ?> entity = PersistentEntities.of(context).getEntityUltimatelyReferredToBy(property);
-
 		assertThat(entity).isNotNull();
 		assertThat(entity.getType()).isEqualTo(SecondWithGenericId.class);
 	}

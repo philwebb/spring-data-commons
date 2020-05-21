@@ -50,9 +50,7 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 
 	@Test // DATACMNS-134
 	void usesParentObjectAsImplicitFirstConstructorArgument() {
-
 		Object outer = new Outer();
-
 		PersistentEntity<Inner, P> entity = new BasicPersistentEntity<Inner, P>(
 				ClassTypeInformation.from(Inner.class)) {
 
@@ -60,14 +58,12 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 			public P getPersistentProperty(String name) {
 				return PersistentEntityParameterValueProviderUnitTests.this.property;
 			}
+
 		};
-
 		assertThat(entity.getPersistenceConstructor()).satisfies(constructor -> {
-
 			Iterator<Parameter<Object, P>> iterator = constructor.getParameters().iterator();
 			ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity,
 					this.propertyValueProvider, outer);
-
 			assertThat(provider.getParameterValue(iterator.next())).isEqualTo(outer);
 			assertThat(provider.getParameterValue(iterator.next())).isNull();
 			assertThat(iterator.hasNext()).isFalse();
@@ -76,11 +72,9 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 
 	@Test
 	void rejectsPropertyIfNameDoesNotMatch() {
-
 		PersistentEntity<Entity, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Entity.class));
 		ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity,
 				this.propertyValueProvider, Optional.of(this.property));
-
 		assertThat(entity.getPersistenceConstructor())
 				.satisfies(constructor -> assertThatExceptionOfType(MappingException.class)
 						.isThrownBy(() -> provider.getParameterValue(constructor.getParameters().iterator().next()))
@@ -94,7 +88,6 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 			Object myObject;
 
 			Inner(Object myObject) {
-
 			}
 
 		}
@@ -106,7 +99,6 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 		String foo;
 
 		public Entity(String bar) {
-
 		}
 
 	}

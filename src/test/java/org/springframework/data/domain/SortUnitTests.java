@@ -89,16 +89,13 @@ class SortUnitTests {
 
 	@Test
 	void allowsCombiningSorts() {
-
 		Sort sort = Sort.by("foo").and(Sort.by("bar"));
 		assertThat(sort).containsExactly(Order.by("foo"), Order.by("bar"));
 	}
 
 	@Test
 	void handlesAdditionalNullSort() {
-
 		Sort sort = Sort.by("foo").and(Sort.unsorted());
-
 		assertThat(sort).containsExactly(Order.by("foo"));
 	}
 
@@ -109,7 +106,6 @@ class SortUnitTests {
 
 	@Test // DATACMNS-281, DATACMNS-1021
 	void orderDoesNotIgnoreCaseByDefault() {
-
 		assertThat(Order.by("foo").isIgnoreCase()).isFalse();
 		assertThat(Order.asc("foo").isIgnoreCase()).isFalse();
 		assertThat(Order.desc("foo").isIgnoreCase()).isFalse();
@@ -117,17 +113,14 @@ class SortUnitTests {
 
 	@Test // DATACMNS-1021
 	void createsOrderWithDirection() {
-
 		assertThat(Order.asc("foo").getDirection()).isEqualTo(Direction.ASC);
 		assertThat(Order.desc("foo").getDirection()).isEqualTo(Direction.DESC);
 	}
 
 	@Test // DATACMNS-436
 	void ordersWithDifferentIgnoreCaseDoNotEqual() {
-
 		Order foo = Order.by("foo");
 		Order fooIgnoreCase = Order.by("foo").ignoreCase();
-
 		assertThat(foo).isNotEqualTo(fooIgnoreCase);
 		assertThat(foo.hashCode()).isNotEqualTo(fooIgnoreCase.hashCode());
 	}
@@ -154,10 +147,8 @@ class SortUnitTests {
 
 	@Test // DATACMNS-908
 	void createsNewOrderForDifferentProperty() {
-
 		Order source = Order.desc("foo").nullsFirst().ignoreCase();
 		Order result = source.withProperty("bar");
-
 		assertThat(result.getProperty()).isEqualTo("bar");
 		assertThat(result.getDirection()).isEqualTo(source.getDirection());
 		assertThat(result.getNullHandling()).isEqualTo(source.getNullHandling());
@@ -167,20 +158,16 @@ class SortUnitTests {
 	@Test
 	@SuppressWarnings("null")
 	void preventsNullDirection() {
-
 		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Sort.by((Direction) null, "foo"))
 				.withMessageContaining("Direction");
 	}
 
 	@Test // DATACMNS-1450
 	void translatesTypedSortCorrectly() {
-
 		assertThat(Sort.sort(Sample.class).by(Sample::getNested).by(Nested::getFirstname))
 				.containsExactly(Order.by("nested.firstname"));
-
 		assertThat(Sort.sort(Sample.class).by((Sample it) -> it.getNested().getFirstname()))
 				.containsExactly(Order.by("nested.firstname"));
-
 		assertThat(Sort.sort(Sample.class).by(Sample::getNesteds).by(Nested::getFirstname))
 				.containsExactly(Order.by("nesteds.firstname"));
 	}

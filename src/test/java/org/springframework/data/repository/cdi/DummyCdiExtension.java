@@ -46,11 +46,8 @@ public class DummyCdiExtension extends CdiRepositoryExtensionSupport {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void afterBeanDiscovery(@Observes AfterBeanDiscovery afterBeanDiscovery, BeanManager beanManager) {
-
 		afterBeanDiscovery.addContext(new MyCustomScope());
-
 		for (Entry<Class<?>, Set<Annotation>> type : getRepositoryTypes()) {
-
 			DummyCdiRepositoryBean bean = new DummyCdiRepositoryBean(type.getValue(), type.getKey(), beanManager,
 					Optional.of(getCustomImplementationDetector()));
 			registerBean(bean);
@@ -76,9 +73,7 @@ public class DummyCdiExtension extends CdiRepositoryExtensionSupport {
 
 		@Override
 		protected T create(CreationalContext<T> creationalContext, Class<T> repositoryType) {
-
 			T mock = Mockito.mock(repositoryType);
-
 			return create(() -> new DummyRepositoryFactory(mock), repositoryType);
 		}
 

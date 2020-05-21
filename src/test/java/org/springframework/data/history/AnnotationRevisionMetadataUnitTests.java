@@ -42,100 +42,72 @@ class AnnotationRevisionMetadataUnitTests {
 
 	@Test // DATACMNS-1173
 	void exposesNoInformationOnEmptyProbe() {
-
 		Sample sample = new Sample();
 		RevisionMetadata<Long> metadata = getMetadata(sample);
-
 		assertThat(metadata.getRevisionNumber()).isEmpty();
-
 		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(metadata::getRequiredRevisionNumber);
-
 		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(metadata::getRequiredRevisionInstant);
-
 	}
 
 	@Test // DATACMNS-1173
 	void exposesRevisionNumber() {
-
 		Sample sample = new Sample();
 		sample.revisionNumber = 1L;
-
 		RevisionMetadata<Long> metadata = getMetadata(sample);
-
 		this.softly.assertThat(metadata.getRevisionNumber()).hasValue(1L);
 		this.softly.assertThat(metadata.getRequiredRevisionNumber()).isEqualTo(1L);
-
 		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1173
 	void exposesRevisionDateAndInstantForLocalDateTime() {
-
 		Sample sample = new Sample();
 		sample.revisionDate = LocalDateTime.now();
 		Instant expectedInstant = sample.revisionDate.atZone(ZoneId.systemDefault()).toInstant();
-
 		RevisionMetadata<Long> metadata = getMetadata(sample);
-
 		this.softly.assertThat(metadata.getRevisionInstant()).hasValue(expectedInstant);
 		this.softly.assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(expectedInstant);
-
 		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1251
 	void exposesRevisionDateAndInstantForInstant() {
-
 		SampleWithInstant sample = new SampleWithInstant();
 		sample.revisionInstant = Instant.now();
 		LocalDateTime expectedLocalDateTime = LocalDateTime.ofInstant(sample.revisionInstant, ZoneId.systemDefault());
-
 		RevisionMetadata<Long> metadata = getMetadata(sample);
-
 		this.softly.assertThat(metadata.getRevisionInstant()).hasValue(sample.revisionInstant);
 		this.softly.assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(sample.revisionInstant);
-
 		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1290
 	void exposesRevisionDateAndInstantForLong() {
-
 		SampleWithLong sample = new SampleWithLong();
 		sample.revisionLong = 4711L;
-
 		Instant expectedInstant = Instant.ofEpochMilli(sample.revisionLong);
 		LocalDateTime expectedLocalDateTime = LocalDateTime.ofInstant(expectedInstant, ZoneId.systemDefault());
-
 		RevisionMetadata<Long> metadata = getMetadata(sample);
-
 		this.softly.assertThat(metadata.getRevisionInstant()).hasValue(expectedInstant);
 		this.softly.assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(expectedInstant);
-
 		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1384
 	void supportsTimestampRevisionInstant() {
-
 		SampleWithTimestamp sample = new SampleWithTimestamp();
 		Instant now = Instant.now();
 		sample.revision = Timestamp.from(now);
-
 		RevisionMetadata<Long> metadata = getMetadata(sample);
-
 		assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(now);
 	}
 
 	@Test // DATACMNS-1384
 	void supportsDateRevisionInstant() {
-
 		SampleWithDate sample = new SampleWithDate();
 		Date date = new Date();
 		sample.revision = date;
-
 		RevisionMetadata<Long> metadata = getMetadata(sample);
-
 		assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(date.toInstant());
 	}
 

@@ -34,7 +34,6 @@ public class WebTestUtils {
 	 * current thread.
 	 */
 	public static void initWebTest() {
-
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		ServletRequestAttributes requestAttributes = new ServletRequestAttributes(request);
 		RequestContextHolder.setRequestAttributes(requestAttributes);
@@ -56,20 +55,15 @@ public class WebTestUtils {
 	 * @return
 	 */
 	public static WebApplicationContext createApplicationContext(ClassLoader classLoader, Class<?>... configClasses) {
-
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 		if (classLoader != null) {
 			context.setClassLoader(classLoader);
 		}
-
 		context.setServletContext(new MockServletContext());
-
 		for (Class<?> configClass : configClasses) {
 			context.register(configClass);
 		}
-
 		context.refresh();
-
 		return context;
 	}
 

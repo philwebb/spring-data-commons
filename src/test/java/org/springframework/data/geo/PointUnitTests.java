@@ -37,7 +37,6 @@ class PointUnitTests {
 
 	@Test // DATACMNS-437
 	void equalsIsImplementedCorrectly() {
-
 		assertThat(new Point(1.5, 1.5)).isEqualTo(new Point(1.5, 1.5));
 		assertThat(new Point(1.5, 1.5)).isNotEqualTo(new Point(2.0, 2.0));
 		assertThat(new Point(2.0, 2.0)).isNotEqualTo(new Point(1.5, 1.5));
@@ -50,9 +49,7 @@ class PointUnitTests {
 
 	@Test // DATACMNS-482
 	void testSerialization() {
-
 		Point point = new Point(1.5, 1.5);
-
 		Point serialized = (Point) SerializationUtils.deserialize(SerializationUtils.serialize(point));
 		assertThat(serialized).isEqualTo(point);
 	}

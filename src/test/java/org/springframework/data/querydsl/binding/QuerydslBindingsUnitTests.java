@@ -49,7 +49,6 @@ class QuerydslBindingsUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		this.builder = new QuerydslPredicateBuilder(new DefaultConversionService(), SimpleEntityPathResolver.INSTANCE);
 		this.bindings = new QuerydslBindings();
 	}
@@ -61,131 +60,98 @@ class QuerydslBindingsUnitTests {
 
 	@Test // DATACMNS-669
 	void returnsEmptyOptionalIfNoBindingRegisteredForPath() {
-
 		PathInformation path = PropertyPathInformation.of("lastname", User.class);
-
 		assertThat(this.bindings.getBindingForPath(path)).isEmpty();
 	}
 
 	@Test // DATACMNS-669
 	void returnsRegisteredBindingForSimplePath() {
-
 		this.bindings.bind(QUser.user.firstname).first(CONTAINS_BINDING);
-
 		PathInformation path = PropertyPathInformation.of("firstname", User.class);
-
 		assertAdapterWithTargetBinding(this.bindings.getBindingForPath(path), CONTAINS_BINDING);
 	}
 
 	@Test // DATACMNS-669
 	void getBindingForPathShouldReturnSpeficicBindingForNestedElementsWhenAvailable() {
-
 		this.bindings.bind(QUser.user.address.street).first(CONTAINS_BINDING);
-
 		PathInformation path = PropertyPathInformation.of("address.street", User.class);
-
 		assertAdapterWithTargetBinding(this.bindings.getBindingForPath(path), CONTAINS_BINDING);
 	}
 
 	@Test // DATACMNS-669
 	void getBindingForPathShouldReturnSpeficicBindingForTypes() {
-
 		this.bindings.bind(String.class).first(CONTAINS_BINDING);
-
 		PathInformation path = PropertyPathInformation.of("address.street", User.class);
 		assertAdapterWithTargetBinding(this.bindings.getBindingForPath(path), CONTAINS_BINDING);
 	}
 
 	@Test // DATACMNS-669
 	void propertyNotExplicitlyIncludedAndWithoutTypeBindingIsNotAvailable() {
-
 		this.bindings.bind(String.class).first(CONTAINS_BINDING);
-
 		PathInformation path = PropertyPathInformation.of("inceptionYear", User.class);
-
 		assertThat(this.bindings.getBindingForPath(path)).isEmpty();
 	}
 
 	@Test // DATACMNS-669
 	void pathIsAvailableIfTypeBasedBindingWasRegistered() {
-
 		this.bindings.bind(String.class).first(CONTAINS_BINDING);
-
 		assertThat(this.bindings.isPathAvailable("inceptionYear", User.class)).isTrue();
 	}
 
 	@Test // DATACMNS-669
 	void explicitlyIncludedPathIsAvailable() {
-
 		this.bindings.including(QUser.user.inceptionYear);
-
 		assertThat(this.bindings.isPathAvailable("inceptionYear", User.class)).isTrue();
 	}
 
 	@Test // DATACMNS-669
 	void notExplicitlyIncludedPathIsNotAvailable() {
-
 		this.bindings.including(QUser.user.inceptionYear);
-
 		assertThat(this.bindings.isPathAvailable("firstname", User.class)).isFalse();
 	}
 
 	@Test // DATACMNS-669
 	void excludedPathIsNotAvailable() {
-
 		this.bindings.excluding(QUser.user.inceptionYear);
-
 		assertThat(this.bindings.isPathAvailable("inceptionYear", User.class)).isFalse();
 	}
 
 	@Test // DATACMNS-669
 	void pathIsAvailableIfNotExplicitlyExcluded() {
-
 		this.bindings.excluding(QUser.user.inceptionYear);
-
 		assertThat(this.bindings.isPathAvailable("firstname", User.class)).isTrue();
 	}
 
 	@Test // DATACMNS-669
 	void pathIsAvailableIfItsBothBlackAndWhitelisted() {
-
 		this.bindings.excluding(QUser.user.firstname);
 		this.bindings.including(QUser.user.firstname);
-
 		assertThat(this.bindings.isPathAvailable("firstname", User.class)).isTrue();
 	}
 
 	@Test // DATACMNS-669
 	void nestedPathIsNotAvailableIfAParanetPathWasExcluded() {
-
 		this.bindings.excluding(QUser.user.address);
-
 		assertThat(this.bindings.isPathAvailable("address.city", User.class)).isFalse();
 	}
 
 	@Test // DATACMNS-669
 	void pathIsAvailableIfConcretePathIsAvailableButParentExcluded() {
-
 		this.bindings.excluding(QUser.user.address);
 		this.bindings.including(QUser.user.address.city);
-
 		assertThat(this.bindings.isPathAvailable("address.city", User.class)).isTrue();
 	}
 
 	@Test // DATACMNS-669
 	void isPathAvailableShouldReturnFalseWhenPartialPathContainedInExcludingAndConcretePathToDifferentPropertyIsIncluded() {
-
 		this.bindings.excluding(QUser.user.address);
 		this.bindings.including(QUser.user.address.city);
-
 		assertThat(this.bindings.isPathAvailable("address.street", User.class)).isFalse();
 	}
 
 	@Test // DATACMNS-669
 	void whitelistsPropertiesCorrectly() {
-
 		this.bindings.including(QUser.user.firstname, QUser.user.address.street);
-
 		assertThat(this.bindings.isPathAvailable("firstname", User.class)).isTrue();
 		assertThat(this.bindings.isPathAvailable("address.street", User.class)).isTrue();
 		assertThat(this.bindings.isPathAvailable("lastname", User.class)).isFalse();
@@ -204,60 +170,44 @@ class QuerydslBindingsUnitTests {
 
 	@Test // DATACMNS-787
 	void aliasesBinding() {
-
 		this.bindings.bind(QUser.user.address.city).as("city").first(CONTAINS_BINDING);
-
 		PathInformation path = this.bindings.getPropertyPath("city", ClassTypeInformation.from(User.class));
-
 		assertThat(path).isNotNull();
 		assertThat(this.bindings.isPathAvailable("city", User.class)).isTrue();
-
 		// Aliasing implicitly blacklists original path
 		assertThat(this.bindings.isPathAvailable("address.city", User.class)).isFalse();
 	}
 
 	@Test // DATACMNS-787
 	void explicitlyIncludesOriginalBindingDespiteAlias() {
-
 		this.bindings.including(QUser.user.address.city);
 		this.bindings.bind(QUser.user.address.city).as("city").first(CONTAINS_BINDING);
-
 		PathInformation path = this.bindings.getPropertyPath("city", ClassTypeInformation.from(User.class));
-
 		assertThat(path).isNotNull();
 		assertThat(this.bindings.isPathAvailable("city", User.class)).isTrue();
-
 		assertThat(this.bindings.isPathAvailable("address.city", User.class)).isTrue();
-
 		PathInformation propertyPath = this.bindings.getPropertyPath("address.city",
 				ClassTypeInformation.from(User.class));
 		assertThat(propertyPath).isNotNull();
-
 		assertAdapterWithTargetBinding(this.bindings.getBindingForPath(propertyPath), CONTAINS_BINDING);
 	}
 
 	@Test // DATACMNS-787
 	void registedAliasWithNullBinding() {
-
 		this.bindings.bind(QUser.user.address.city).as("city").withDefaultBinding();
-
 		PathInformation path = this.bindings.getPropertyPath("city", ClassTypeInformation.from(User.class));
 		assertThat(path).isNotNull();
-
 		assertThat(this.bindings.getBindingForPath(path)).isNotPresent();
 	}
 
 	@Test // DATACMNS-941
 	void registersBindingForPropertyOfSubtype() {
-
 		this.bindings.bind(QUser.user.as(QSpecialUser.class).specialProperty).first(ContainsBinding.INSTANCE);
-
 		assertThat(this.bindings.isPathAvailable("specialProperty", User.class)).isTrue();
 	}
 
 	private static <P extends Path<? extends S>, S> void assertAdapterWithTargetBinding(
 			Optional<MultiValueBinding<P, S>> binding, SingleValueBinding<? extends Path<?>, ?> expected) {
-
 		assertThat(binding).hasValueSatisfying(it -> {
 			// assertThat(binding,
 			// is(instanceOf(QuerydslBindings.MultiValueBindingAdapter.class)));

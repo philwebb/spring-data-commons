@@ -41,13 +41,11 @@ public class CamelCaseAbbreviatingFieldNamingStrategyUnitTests {
 
 	@Test // DATACMNS-523
 	void abbreviatesToCamelCase() {
-
 		assertFieldNameForPropertyName("fooBar", "fb");
 		assertFieldNameForPropertyName("fooBARFooBar", "fbfb");
 	}
 
 	private void assertFieldNameForPropertyName(String propertyName, String fieldName) {
-
 		when(this.property.getName()).thenReturn(propertyName);
 		assertThat(this.strategy.getFieldName(this.property)).isEqualTo(fieldName);
 	}

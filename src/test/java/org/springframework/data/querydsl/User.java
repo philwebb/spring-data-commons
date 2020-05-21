@@ -45,7 +45,6 @@ public class User {
 	public Long inceptionYear;
 
 	public User(String firstname, String lastname, Address address) {
-
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.address = address;

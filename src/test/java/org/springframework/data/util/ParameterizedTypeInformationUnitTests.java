@@ -55,83 +55,64 @@ class ParameterizedTypeInformationUnitTests {
 
 	@Test
 	void considersTypeInformationsWithDifferingParentsNotEqual() {
-
 		TypeDiscoverer<String> stringParent = new TypeDiscoverer<>(String.class, emptyMap());
 		TypeDiscoverer<Object> objectParent = new TypeDiscoverer<>(Object.class, emptyMap());
-
 		ParameterizedTypeInformation<Object> first = new ParameterizedTypeInformation<>(this.one, stringParent);
 		ParameterizedTypeInformation<Object> second = new ParameterizedTypeInformation<>(this.one, objectParent);
-
 		assertThat(first).isNotEqualTo(second);
 	}
 
 	@Test
 	void considersTypeInformationsWithSameParentsNotEqual() {
-
 		TypeDiscoverer<String> stringParent = new TypeDiscoverer<>(String.class, emptyMap());
-
 		ParameterizedTypeInformation<Object> first = new ParameterizedTypeInformation<>(this.one, stringParent);
 		ParameterizedTypeInformation<Object> second = new ParameterizedTypeInformation<>(this.one, stringParent);
-
 		assertThat(first.equals(second)).isTrue();
 	}
 
 	@Test // DATACMNS-88
 	void resolvesMapValueTypeCorrectly() {
-
 		TypeInformation<Foo> type = ClassTypeInformation.from(Foo.class);
 		TypeInformation<?> propertyType = type.getProperty("param");
 		TypeInformation<?> value = propertyType.getProperty("value");
-
 		assertThat(value.getType()).isEqualTo(String.class);
 		assertThat(propertyType.getMapValueType().getType()).isEqualTo(String.class);
-
 		propertyType = type.getProperty("param2");
 		value = propertyType.getProperty("value");
-
 		assertThat(value.getType()).isEqualTo(String.class);
 		assertThat(propertyType.getMapValueType().getType()).isEqualTo(Locale.class);
 	}
 
 	@Test // DATACMNS-446
 	void createsToStringRepresentation() {
-
 		assertThat(from(Foo.class).getProperty("param").toString()).isEqualTo(
 				"org.springframework.data.util.ParameterizedTypeInformationUnitTests$Localized<java.lang.String>");
 	}
 
 	@Test // DATACMNS-485
 	void hashCodeShouldBeConsistentWithEqualsForResolvedTypes() {
-
 		TypeInformation<?> first = from(First.class).getProperty("property");
 		TypeInformation<?> second = from(Second.class).getProperty("property");
-
 		assertThat(first).isEqualTo(second);
-
 		assertThat(first).satisfies(
 				left -> assertThat(second).satisfies(right -> assertThat(left.hashCode()).isEqualTo(right.hashCode())));
 	}
 
 	@Test // DATACMNS-485
 	void getActualTypeShouldNotUnwrapParameterizedTypes() {
-
 		TypeInformation<?> type = from(First.class).getProperty("property");
-
 		assertThat(type.getActualType()).isEqualTo(type);
 	}
 
 	@Test // DATACMNS-697
 	void usesLocalGenericInformationOfFields() {
-
 		TypeInformation<NormalizedProfile> information = ClassTypeInformation.from(NormalizedProfile.class);
-
 		assertThat(information.getProperty("education2.data").getComponentType().getProperty("value"))
 				.satisfies(it -> assertThat(it.getType()).isEqualTo(Education.class));
 	}
 
 	@Test // DATACMNS-899
 	void returnsEmptyOptionalMapValueTypeForNonMapProperties() {
-
 		TypeInformation<?> typeInformation = ClassTypeInformation.from(Bar.class).getProperty("param");
 		assertThat(typeInformation).isInstanceOf(ParameterizedTypeInformation.class);
 		assertThat(typeInformation.getMapValueType()).isNull();
@@ -139,21 +120,16 @@ class ParameterizedTypeInformationUnitTests {
 
 	@Test // DATACMNS-1135
 	void prefersLocalGenericsDeclarationOverParentBound() {
-
 		ClassTypeInformation<Candidate> candidate = ClassTypeInformation.from(Candidate.class);
-
 		TypeInformation<?> componentType = candidate.getRequiredProperty("experiences.values")
 				.getRequiredComponentType();
 		componentType = componentType.getRequiredProperty("responsibilities.values").getRequiredComponentType();
-
 		assertThat(componentType.getType()).isEqualTo(Responsibility.class);
 	}
 
 	@Test // DATACMNS-1196
 	void detectsNestedGenerics() {
-
 		TypeInformation<?> myList = ClassTypeInformation.from(EnumGeneric.class).getRequiredProperty("inner.myList");
-
 		assertThat(myList.getRequiredComponentType().getType()).isEqualTo(MyEnum.class);
 	}
 

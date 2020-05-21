@@ -41,22 +41,17 @@ public class ClassGeneratingPropertyAccessorFactoryEntityTypeTests {
 
 	@Test // DATACMNS-853
 	public void getIdentifierOfInterfaceBasedEntity() {
-
 		Algorithm quickSort = new QuickSort();
-
 		assertThat(getEntityInformation(Algorithm.class).getId(quickSort)).isEqualTo(quickSort.getName());
 	}
 
 	@Test // DATACMNS-853
 	public void getIdentifierOfClassBasedEntity() {
-
 		Person jonDoe = new Person("JonDoe");
-
 		assertThat(getEntityInformation(Person.class).getId(jonDoe)).isEqualTo(jonDoe.name);
 	}
 
 	private EntityInformation<Object, Serializable> getEntityInformation(Class<?> type) {
-
 		PersistentEntity<Object, SamplePersistentProperty> entity = this.mappingContext
 				.getRequiredPersistentEntity(type);
 		return new PersistentEntityInformation<>(entity);

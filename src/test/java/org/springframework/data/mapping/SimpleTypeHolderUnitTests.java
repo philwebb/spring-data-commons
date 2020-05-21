@@ -48,43 +48,33 @@ public class SimpleTypeHolderUnitTests {
 
 	@Test // DATACMNS-31
 	public void rejectsNullTypeForIsSimpleTypeCall() {
-
 		SimpleTypeHolder holder = SimpleTypeHolder.DEFAULT;
-
 		assertThatIllegalArgumentException().isThrownBy(() -> holder.isSimpleType(null));
 	}
 
 	@Test
 	public void addsDefaultTypes() {
-
 		SimpleTypeHolder holder = SimpleTypeHolder.DEFAULT;
-
 		assertThat(holder.isSimpleType(String.class)).isTrue();
 	}
 
 	@Test
 	public void doesNotAddDefaultConvertersIfConfigured() {
-
 		SimpleTypeHolder holder = new SimpleTypeHolder(new HashSet<>(), false);
-
 		assertThat(holder.isSimpleType(UUID.class)).isFalse();
 	}
 
 	@Test
 	public void addsCustomTypesToSimpleOnes() {
-
 		SimpleTypeHolder holder = new SimpleTypeHolder(Collections.singleton(SimpleTypeHolder.class), true);
-
 		assertThat(holder.isSimpleType(SimpleTypeHolder.class)).isTrue();
 		assertThat(holder.isSimpleType(SimpleTypeHolderUnitTests.class)).isFalse();
 	}
 
 	@Test
 	public void createsHolderFromAnotherOneCorrectly() {
-
 		SimpleTypeHolder holder = new SimpleTypeHolder(Collections.singleton(SimpleTypeHolder.class), true);
 		SimpleTypeHolder second = new SimpleTypeHolder(Collections.singleton(SimpleTypeHolderUnitTests.class), holder);
-
 		assertThat(holder.isSimpleType(SimpleTypeHolder.class)).isTrue();
 		assertThat(holder.isSimpleType(SimpleTypeHolderUnitTests.class)).isFalse();
 		assertThat(second.isSimpleType(SimpleTypeHolder.class)).isTrue();
@@ -99,56 +89,44 @@ public class SimpleTypeHolderUnitTests {
 
 	@Test
 	public void considersSimpleEnumAsSimple() {
-
 		SimpleTypeHolder holder = SimpleTypeHolder.DEFAULT;
 		assertThat(holder.isSimpleType(SimpleEnum.FOO.getClass())).isTrue();
 	}
 
 	@Test
 	public void considersComplexEnumAsSimple() {
-
 		SimpleTypeHolder holder = SimpleTypeHolder.DEFAULT;
 		assertThat(holder.isSimpleType(ComplexEnum.FOO.getClass())).isTrue();
 	}
 
 	@Test // DATACMNS-1006
 	public void considersJavaLangTypesSimple() {
-
 		SimpleTypeHolder holder = SimpleTypeHolder.DEFAULT;
-
 		assertThat(holder.isSimpleType(Type.class)).isTrue();
 	}
 
 	@Test // DATACMNS-1294
 	public void considersJavaTimeTypesSimple() {
-
 		SimpleTypeHolder holder = SimpleTypeHolder.DEFAULT;
-
 		assertThat(holder.isSimpleType(Instant.class)).isTrue();
 	}
 
 	@Test // DATACMNS-1101
 	public void considersExtendedTypeAsSimple() {
-
 		SimpleTypeHolder holder = SimpleTypeHolder.DEFAULT;
-
 		assertThat(holder.isSimpleType(ExtendedPerson.class)).isFalse();
 	}
 
 	@Test // DATACMNS-1101
 	public void considersExtendedTypeAsSimpleSeenBaseClassBefore() {
-
 		SimpleTypeHolder holder = SimpleTypeHolder.DEFAULT;
-
 		assertThat(holder.isSimpleType(Person.class)).isFalse();
 		assertThat(holder.isSimpleType(ExtendedPerson.class)).isFalse();
 	}
 
 	@Test // DATACMNS-1278
 	public void alwaysConsidersEnumsSimple() {
-
 		SimpleTypeHolder holder = SimpleTypeHolder.DEFAULT;
-
 		assertThat(holder.isSimpleType(SomeInterface.class)).isFalse();
 		assertThat(holder.isSimpleType(InterfacedEnum.class)).isTrue();
 	}

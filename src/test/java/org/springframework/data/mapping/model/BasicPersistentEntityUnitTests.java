@@ -94,14 +94,12 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Test
 	void returnsNullForTypeAliasIfNoneConfigured() {
-
 		PersistentEntity<Entity, T> entity = createEntity(Entity.class);
 		assertThat(entity.getTypeAlias()).isEqualTo(Alias.NONE);
 	}
 
 	@Test
 	void returnsTypeAliasIfAnnotated() {
-
 		PersistentEntity<AliasedEntity, T> entity = createEntity(AliasedEntity.class);
 		assertThat(entity.getTypeAlias()).isEqualTo(Alias.of("foo"));
 	}
@@ -109,29 +107,21 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	@Test // DATACMNS-50
 	@SuppressWarnings("unchecked")
 	void considersComparatorForPropertyOrder() {
-
 		BasicPersistentEntity<Person, T> entity = createEntity(Person.class,
 				Comparator.comparing(PersistentProperty::getName));
-
 		T lastName = (T) Mockito.mock(PersistentProperty.class);
 		when(lastName.getName()).thenReturn("lastName");
-
 		T firstName = (T) Mockito.mock(PersistentProperty.class);
 		when(firstName.getName()).thenReturn("firstName");
-
 		T ssn = (T) Mockito.mock(PersistentProperty.class);
 		when(ssn.getName()).thenReturn("ssn");
-
 		entity.addPersistentProperty(lastName);
 		entity.addPersistentProperty(firstName);
 		entity.addPersistentProperty(ssn);
 		entity.verify();
-
 		List<T> properties = (List<T>) ReflectionTestUtils.getField(entity, "properties");
-
 		assertThat(properties).hasSize(3);
 		Iterator<T> iterator = properties.iterator();
-
 		assertThat(entity.getPersistentProperty("firstName")).isEqualTo(iterator.next());
 		assertThat(entity.getPersistentProperty("lastName")).isEqualTo(iterator.next());
 		assertThat(entity.getPersistentProperty("ssn")).isEqualTo(iterator.next());
@@ -139,10 +129,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Test // DATACMNS-18, DATACMNS-1364
 	void addingAndIdPropertySetsIdPropertyInternally() {
-
 		MutablePersistentEntity<Person, T> entity = createEntity(Person.class);
 		assertThat(entity.getIdProperty()).isNull();
-
 		when(this.property.getName()).thenReturn("id");
 		when(this.property.isIdProperty()).thenReturn(true);
 		entity.addPersistentProperty(this.property);
@@ -151,14 +139,11 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Test // DATACMNS-186, DATACMNS-1364
 	void rejectsIdPropertyIfAlreadySet() {
-
 		MutablePersistentEntity<Person, T> entity = createEntity(Person.class);
-
 		when(this.property.getName()).thenReturn("id");
 		when(this.property.isIdProperty()).thenReturn(true);
 		when(this.anotherProperty.isIdProperty()).thenReturn(true);
 		when(this.anotherProperty.getName()).thenReturn("another");
-
 		entity.addPersistentProperty(this.property);
 		assertThatExceptionOfType(MappingException.class)
 				.isThrownBy(() -> entity.addPersistentProperty(this.anotherProperty));
@@ -166,47 +151,33 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Test // DATACMNS-365
 	void detectsPropertyWithAnnotation() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		PersistentEntity<Object, SamplePersistentProperty> entity = context.getRequiredPersistentEntity(Entity.class);
-
 		SamplePersistentProperty property = entity.getPersistentProperty(LastModifiedBy.class);
-
 		assertThat(property.getName()).isEqualTo("field");
-
 		property = entity.getPersistentProperty(CreatedBy.class);
-
 		assertThat(property.getName()).isEqualTo("property");
-
 		assertThat(entity.getPersistentProperty(CreatedDate.class)).isNull();
 	}
 
 	@Test // DATACMNS-1122
 	void reportsRequiredPropertyName() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		PersistentEntity<Object, SamplePersistentProperty> entity = context.getRequiredPersistentEntity(Entity.class);
-
 		assertThatThrownBy(() -> entity.getRequiredPersistentProperty("foo"))
 				.hasMessageContaining("Required property foo not found");
 	}
 
 	@Test // DATACMNS-809
 	void returnsGeneratedPropertyAccessorForPropertyAccessor() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		PersistentEntity<Object, SamplePersistentProperty> entity = context.getRequiredPersistentEntity(Entity.class);
-
 		Entity value = new Entity();
 		PersistentPropertyAccessor accessor = entity.getPropertyAccessor(value);
-
 		assertThat(accessor).isNotInstanceOf(BeanWrapper.class);
-
 		assertThat(accessor).isInstanceOfSatisfying(InstantiationAwarePropertyAccessor.class, it -> {
-
 			PersistentPropertyAccessor delegate = (PersistentPropertyAccessor) ReflectionTestUtils.getField(it,
 					"delegate");
-
 			assertThat(delegate.getClass().getName()).contains("_Accessor_");
 			assertThat(delegate.getBean()).isEqualTo(value);
 		});
@@ -214,34 +185,27 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Test // DATACMNS-596
 	void rejectsNullBeanForPropertyAccessor() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		PersistentEntity<Object, SamplePersistentProperty> entity = context.getRequiredPersistentEntity(Entity.class);
-
 		assertThatIllegalArgumentException().isThrownBy(() -> entity.getPropertyAccessor(null));
 	}
 
 	@Test // DATACMNS-596
 	void rejectsNonMatchingBeanForPropertyAccessor() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		PersistentEntity<Object, SamplePersistentProperty> entity = context.getRequiredPersistentEntity(Entity.class);
-
 		assertThatIllegalArgumentException().isThrownBy(() -> entity.getPropertyAccessor("foo"));
 	}
 
 	@Test // DATACMNS-597
 	void supportsSubtypeInstancesOnPropertyAccessorLookup() {
-
 		SampleMappingContext context = new SampleMappingContext();
 		PersistentEntity<Object, SamplePersistentProperty> entity = context.getRequiredPersistentEntity(Entity.class);
-
 		assertThat(entity.getPropertyAccessor(new Subtype())).isNotNull();
 	}
 
 	@Test // DATACMNS-825
 	void returnsTypeAliasIfAnnotatedUsingComposedAnnotation() {
-
 		PersistentEntity<AliasEntityUsingComposedAnnotation, T> entity = createEntity(
 				AliasEntityUsingComposedAnnotation.class);
 		assertThat(entity.getTypeAlias()).isEqualTo(Alias.of("bar"));
@@ -249,24 +213,19 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Test // DATACMNS-866
 	void invalidBeanAccessCreatesDescriptiveErrorMessage() {
-
 		PersistentEntity<Entity, T> entity = createEntity(Entity.class);
-
 		assertThatThrownBy(() -> entity.getPropertyAccessor(new Object())).hasMessageContaining(Entity.class.getName())
 				.hasMessageContaining(Object.class.getName());
 	}
 
 	@Test // DATACMNS-934, DATACMNS-867
 	void rejectsNullAssociation() {
-
 		MutablePersistentEntity<Entity, T> entity = createEntity(Entity.class);
-
 		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> entity.addAssociation(null));
 	}
 
 	@Test // DATACMNS-1141
 	void getRequiredAnnotationReturnsAnnotation() {
-
 		PersistentEntity<AliasEntityUsingComposedAnnotation, T> entity = createEntity(
 				AliasEntityUsingComposedAnnotation.class);
 		assertThat(entity.getRequiredAnnotation(TypeAlias.class).value()).isEqualTo("bar");
@@ -274,41 +233,34 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Test // DATACMNS-1141
 	void getRequiredAnnotationThrowsException() {
-
 		PersistentEntity<AliasEntityUsingComposedAnnotation, T> entity = createEntity(
 				AliasEntityUsingComposedAnnotation.class);
-
 		assertThatThrownBy(() -> entity.getRequiredAnnotation(Document.class))
 				.isInstanceOf(IllegalStateException.class);
 	}
 
 	@Test // DATACMNS-1210
 	void findAnnotationShouldBeThreadSafe() throws InterruptedException {
-
 		CountDownLatch latch = new CountDownLatch(2);
 		CountDownLatch syncLatch = new CountDownLatch(1);
 		AtomicBoolean failed = new AtomicBoolean(false);
-
 		PersistentEntity<EntityWithAnnotation, T> entity = new BasicPersistentEntity<EntityWithAnnotation, T>(
 				ClassTypeInformation.from(EntityWithAnnotation.class), null) {
 
 			@Nullable
 			@Override
 			public <A extends Annotation> A findAnnotation(Class<A> annotationType) {
-
 				try {
 					syncLatch.await();
 				}
 				catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-
 				return super.findAnnotation(annotationType);
 			}
+
 		};
-
 		Runnable findAccessType = () -> {
-
 			try {
 				entity.findAnnotation(AccessType.class);
 			}
@@ -319,9 +271,7 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 				latch.countDown();
 			}
 		};
-
 		Runnable findPersistent = () -> {
-
 			try {
 				entity.findAnnotation(Persistent.class);
 			}
@@ -332,41 +282,33 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 				latch.countDown();
 			}
 		};
-
 		new Thread(findAccessType).start();
 		new Thread(findPersistent).start();
-
 		syncLatch.countDown();
 		latch.await();
-
 		assertThat(failed.get()).isFalse();
 	}
 
 	@Test // DATACMNS-1325
 	void supportsPersistableViaIdentifierAccessor() {
-
 		PersistentEntity<PersistableEntity, T> entity = createEntity(PersistableEntity.class);
-
 		assertThat(entity.getIdentifierAccessor(new PersistableEntity()).getRequiredIdentifier()).isEqualTo(4711L);
 	}
 
 	@Test // DATACMNS-1322
 	void detectsImmutableEntity() {
-
 		assertThat(createEntity(SomeValue.class).isImmutable()).isTrue();
 		assertThat(createEntity(Entity.class).isImmutable()).isFalse();
 	}
 
 	@Test // DATACMNS-1366
 	void exposesPropertyPopulationRequired() {
-
 		assertThat(createPopulatedPersistentEntity(PropertyPopulationRequired.class).requiresPropertyPopulation())
 				.isTrue();
 	}
 
 	@Test // DATACMNS-1366
 	void exposesPropertyPopulationNotRequired() {
-
 		Stream.of(PropertyPopulationNotRequired.class, PropertyPopulationNotRequiredWithTransient.class)
 				.forEach(it -> assertThat(createPopulatedPersistentEntity(it).requiresPropertyPopulation()).isFalse());
 	}
@@ -380,7 +322,6 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	}
 
 	private static PersistentEntity<Object, ?> createPopulatedPersistentEntity(Class<?> type) {
-
 		SampleMappingContext context = new SampleMappingContext();
 		return context.getRequiredPersistentEntity(type);
 	}

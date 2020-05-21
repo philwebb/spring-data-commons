@@ -63,7 +63,6 @@ class SpelExpressionParameterProviderUnitTests {
 	void setUp() {
 		this.provider = new SpELExpressionParameterValueProvider<>(this.evaluator, this.conversionService,
 				this.delegate);
-
 		this.parameter = mock(Parameter.class);
 		when(this.parameter.hasSpelExpression()).thenReturn(true);
 		when(this.parameter.getRawType()).thenReturn(Object.class);
@@ -72,10 +71,8 @@ class SpelExpressionParameterProviderUnitTests {
 	@Test
 	@SuppressWarnings("unchecked")
 	void delegatesIfParameterDoesNotHaveASpELExpression() {
-
 		Parameter<Object, SamplePersistentProperty> parameter = mock(Parameter.class);
 		when(parameter.hasSpelExpression()).thenReturn(false);
-
 		this.provider.getParameterValue(parameter);
 		verify(this.delegate, times(1)).getParameterValue(parameter);
 		verify(this.evaluator, times(0)).evaluate("expression");
@@ -83,9 +80,7 @@ class SpelExpressionParameterProviderUnitTests {
 
 	@Test
 	void evaluatesSpELExpression() {
-
 		when(this.parameter.getSpelExpression()).thenReturn("expression");
-
 		this.provider.getParameterValue(this.parameter);
 		verify(this.delegate, times(0)).getParameterValue(this.parameter);
 		verify(this.evaluator, times(1)).evaluate("expression");
@@ -93,31 +88,24 @@ class SpelExpressionParameterProviderUnitTests {
 
 	@Test
 	void handsSpELValueToConversionService() {
-
 		doReturn("source").when(this.parameter).getSpelExpression();
 		doReturn("value").when(this.evaluator).evaluate(any());
-
 		this.provider.getParameterValue(this.parameter);
-
 		verify(this.delegate, times(0)).getParameterValue(this.parameter);
 		verify(this.conversionService, times(1)).convert("value", Object.class);
 	}
 
 	@Test
 	void doesNotConvertNullValue() {
-
 		doReturn("source").when(this.parameter).getSpelExpression();
 		doReturn(null).when(this.evaluator).evaluate(any());
-
 		this.provider.getParameterValue(this.parameter);
-
 		verify(this.delegate, times(0)).getParameterValue(this.parameter);
 		verify(this.conversionService, times(0)).convert("value", Object.class);
 	}
 
 	@Test
 	void returnsMassagedObjectOnOverride() {
-
 		this.provider = new SpELExpressionParameterValueProvider<SamplePersistentProperty>(this.evaluator,
 				this.conversionService, this.delegate) {
 
@@ -127,13 +115,11 @@ class SpelExpressionParameterProviderUnitTests {
 					Parameter<T, SamplePersistentProperty> parameter) {
 				return (T) "FOO";
 			}
-		};
 
+		};
 		doReturn("source").when(this.parameter).getSpelExpression();
 		doReturn("value").when(this.evaluator).evaluate(any());
-
 		assertThat(this.provider.getParameterValue(this.parameter)).isEqualTo("FOO");
-
 		verify(this.delegate, times(0)).getParameterValue(this.parameter);
 	}
 

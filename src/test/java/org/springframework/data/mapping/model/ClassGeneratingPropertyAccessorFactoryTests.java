@@ -52,12 +52,10 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 
 	@SuppressWarnings("unchecked")
 	public static List<Object[]> parameters() throws ReflectiveOperationException {
-
 		List<Object[]> parameters = new ArrayList<>();
 		List<String> propertyNames = Arrays.asList("privateField", "packageDefaultField", "protectedField",
 				"publicField", "privateProperty", "packageDefaultProperty", "protectedProperty", "publicProperty",
 				"syntheticProperty", "immutable", "wither");
-
 		parameters.addAll(parameters(new InnerPrivateType(), propertyNames, Object.class));
 		parameters.addAll(
 				parameters(new InnerTypeWithPrivateAncestor(), propertyNames, InnerTypeWithPrivateAncestor.class));
@@ -70,25 +68,19 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 				ClassGeneratingPropertyAccessorPublicType.class));
 		parameters.addAll(
 				parameters(new SubtypeOfTypeInOtherPackage(), propertyNames, SubtypeOfTypeInOtherPackage.class));
-
 		Class<Object> defaultPackageClass = (Class) Class.forName("TypeInDefaultPackage");
-
 		parameters.add(new Object[] { defaultPackageClass.newInstance(), "", defaultPackageClass,
 				"Class in default package" });
-
 		return parameters;
 	}
 
 	private static List<Object[]> parameters(Object bean, List<String> propertyNames,
 			Class<?> expectedConstructorType) {
-
 		List<Object[]> parameters = new ArrayList<>();
-
 		for (String propertyName : propertyNames) {
 			parameters.add(new Object[] { bean, propertyName, expectedConstructorType,
 					bean.getClass().getSimpleName() + "/" + propertyName });
 		}
-
 		return parameters;
 	}
 
@@ -103,19 +95,14 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	@MethodSource("parameters")
 	void shouldSetAndGetProperty(Object bean, String propertyName, Class<?> expectedConstructorType, String displayName)
 			throws Exception {
-
 		assumeThat(propertyName).isNotEmpty();
-
 		assertThat(getProperty(bean, propertyName)).satisfies(property -> {
-
 			PersistentPropertyAccessor persistentPropertyAccessor = getPersistentPropertyAccessor(bean);
 			if (property.isImmutable() && property.getWither() == null) {
-
 				assertThatThrownBy(() -> persistentPropertyAccessor.setProperty(property, "value"))
 						.isInstanceOf(UnsupportedOperationException.class);
 			}
 			else {
-
 				persistentPropertyAccessor.setProperty(property, "value");
 				assertThat(persistentPropertyAccessor.getProperty(property)).isEqualTo("value");
 			}
@@ -127,9 +114,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	@SuppressWarnings("rawtypes")
 	void accessorShouldDeclareConstructor(Object bean, String propertyName, Class<?> expectedConstructorType,
 			String displayName) throws Exception {
-
 		PersistentPropertyAccessor persistentPropertyAccessor = getPersistentPropertyAccessor(bean);
-
 		Constructor<?>[] declaredConstructors = persistentPropertyAccessor.getClass().getDeclaredConstructors();
 		assertThat(declaredConstructors.length).isEqualTo(1);
 		assertThat(declaredConstructors[0].getParameterCount()).isEqualTo(1);
@@ -147,7 +132,6 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	@MethodSource("parameters")
 	void getPropertyShouldFailOnUnhandledProperty(Object bean, String propertyName, Class<?> expectedConstructorType,
 			String displayName) {
-
 		assertThat(getProperty(new Dummy(), "dummy"))
 				.satisfies(property -> assertThatExceptionOfType(UnsupportedOperationException.class)
 						.isThrownBy(() -> getPersistentPropertyAccessor(bean).getProperty(property)));
@@ -157,7 +141,6 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	@MethodSource("parameters")
 	void setPropertyShouldFailOnUnhandledProperty(Object bean, String propertyName, Class<?> expectedConstructorType,
 			String displayName) {
-
 		assertThat(getProperty(new Dummy(), "dummy"))
 				.satisfies(property -> assertThatExceptionOfType(UnsupportedOperationException.class)
 						.isThrownBy(() -> getPersistentPropertyAccessor(bean).setProperty(property, Optional.empty())));
@@ -167,10 +150,8 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	@MethodSource("parameters")
 	void shouldUseClassPropertyAccessorFactory(Object bean, String propertyName, Class<?> expectedConstructorType,
 			String displayName) throws Exception {
-
 		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = mappingContext
 				.getRequiredPersistentEntity(bean.getClass());
-
 		assertThat(ReflectionTestUtils.getField(persistentEntity, "propertyAccessorFactory"))
 				.isInstanceOfSatisfying(InstantiationAwarePropertyAccessorFactory.class, it -> {
 					assertThat(ReflectionTestUtils.getField(it, "delegate"))
@@ -183,7 +164,6 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	}
 
 	private PersistentProperty<?> getProperty(Object bean, String name) {
-
 		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = mappingContext
 				.getRequiredPersistentEntity(bean.getClass());
 		return persistentEntity.getPersistentProperty(name);

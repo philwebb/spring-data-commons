@@ -54,18 +54,15 @@ public class KotlinReflectionUtilsUnitTests {
 	// executed via reflection in the context of a ClassLoader without Kotlin
 	// dependencies.
 	public void loadClassWithoutKotlin() {
-
 		assertThat(KotlinDetector.isKotlinPresent()).isFalse();
 		assertThat(KotlinReflectionUtils.isSupportedKotlinClass(TypeCreatingSyntheticClass.class)).isFalse();
 	}
 
 	void runTest(String testName)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException {
-
 		KotlinExcludingURLClassLoader classLoader = new KotlinExcludingURLClassLoader(
 				((URLClassLoader) getClass().getClassLoader()).getURLs());
 		Class<?> testClass = ClassUtils.forName(getClass().getName(), classLoader);
-
 		ReflectionUtils.invokeMethod(testClass.getMethod(testName), testClass.newInstance());
 	}
 
@@ -77,11 +74,9 @@ public class KotlinReflectionUtilsUnitTests {
 
 		@Override
 		protected Class<?> findClass(String name) throws ClassNotFoundException {
-
 			if (name.startsWith("kotlin")) {
 				throw new ClassNotFoundException("Denied: " + name);
 			}
-
 			return super.findClass(name);
 		}
 

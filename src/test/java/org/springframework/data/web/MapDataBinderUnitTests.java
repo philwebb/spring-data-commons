@@ -48,63 +48,47 @@ class MapDataBinderUnitTests {
 
 	@Test // DATACMNS-630
 	void honorsFormattingAnnotationOnAccessor() {
-
 		Date reference = new Date();
-
 		MutablePropertyValues values = new MutablePropertyValues();
 		values.add("foo.date", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(reference));
-
 		Map<String, Object> nested = new HashMap<>();
 		nested.put("date", reference);
-
 		assertThat(bind(values)).containsEntry("foo", nested);
 	}
 
 	@Test // DATACMNS-630
 	void bindsNestedCollectionElement() {
-
 		MutablePropertyValues values = new MutablePropertyValues();
 		values.add("foo.bar.fooBar[0]", "String");
-
 		Map<String, Object> result = bind(values);
-
 		List<String> list = new ArrayList<>();
 		list.add("String");
-
 		assertThat(result).isEqualTo(singletonMap("foo", singletonMap("bar", singletonMap("fooBar", list))));
 	}
 
 	@Test // DATACMNS-630
 	void bindsNestedPrimitive() {
-
 		MutablePropertyValues values = new MutablePropertyValues();
 		values.add("foo.firstname", "Dave");
 		values.add("foo.lastname", "Matthews");
-
 		Map<String, Object> result = bind(values);
-
 		Map<String, Object> dave = new HashMap<>();
 		dave.put("firstname", "Dave");
 		dave.put("lastname", "Matthews");
-
 		assertThat(result).isEqualTo(singletonMap("foo", dave));
 	}
 
 	@Test // DATACMNS-630
 	void skipsPropertyNotExposedByTheTypeHierarchy() {
-
 		MutablePropertyValues values = new MutablePropertyValues();
 		values.add("somethingWeird", "Value");
-
 		assertThat(bind(values)).isEqualTo(Collections.emptyMap());
 	}
 
 	@Test // DATACMNS-1264
 	void dropsMapExpressionsForCollectionReferences() {
-
 		ConfigurablePropertyAccessor accessor = new MapDataBinder(Bar.class, new DefaultFormattingConversionService())
 				.getPropertyAccessor();
-
 		assertThatExceptionOfType(NotWritablePropertyException.class)
 				.isThrownBy(() -> accessor.setPropertyValue("fooBar['foo']", null))
 				.withCauseInstanceOf(SpelEvaluationException.class);
@@ -112,20 +96,16 @@ class MapDataBinderUnitTests {
 
 	@Test // DATACMNS-1264
 	void rejectsExpressionContainingTypeExpression() {
-
 		ConfigurablePropertyAccessor accessor = new MapDataBinder(Bar.class, new DefaultFormattingConversionService())
 				.getPropertyAccessor();
-
 		assertThatExceptionOfType(NotWritablePropertyException.class)
 				.isThrownBy(() -> accessor.setPropertyValue("fooBar[T(java.lang.String)]", null))
 				.withCauseInstanceOf(SpelEvaluationException.class);
 	}
 
 	private static Map<String, Object> bind(PropertyValues values) {
-
 		MapDataBinder binder = new MapDataBinder(Root.class, new DefaultFormattingConversionService());
 		binder.bind(values);
-
 		return binder.getTarget();
 	}
 

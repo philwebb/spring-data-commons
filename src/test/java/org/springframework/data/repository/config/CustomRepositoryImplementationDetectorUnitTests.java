@@ -65,69 +65,50 @@ class CustomRepositoryImplementationDetectorUnitTests {
 
 	@Test // DATACMNS-764, DATACMNS-1371
 	void returnsNullWhenNoImplementationFound() {
-
 		RepositoryConfiguration mock = mock(RepositoryConfiguration.class);
-
 		ImplementationLookupConfiguration lookup = this.configuration
 				.forRepositoryConfiguration(configFor(NoImplementationRepository.class));
-
 		Optional<AbstractBeanDefinition> beanDefinition = this.detector.detectCustomImplementation(lookup);
-
 		assertThat(beanDefinition).isEmpty();
 	}
 
 	@Test // DATACMNS-764, DATACMNS-1371
 	void returnsBeanDefinitionWhenOneImplementationIsFound() {
-
 		ImplementationLookupConfiguration lookup = this.configuration
 				.forRepositoryConfiguration(configFor(SingleSampleRepository.class));
-
 		Optional<AbstractBeanDefinition> beanDefinition = this.detector.detectCustomImplementation(lookup);
-
 		assertThat(beanDefinition).hasValueSatisfying(
 				it -> assertThat(it.getBeanClassName()).isEqualTo(SingleSampleRepositoryTestImpl.class.getName()));
 	}
 
 	@Test // DATACMNS-764, DATACMNS-1371
 	void returnsBeanDefinitionMatchingByNameWhenMultipleImplementationAreFound() {
-
 		when(this.configuration.generateBeanName(any())).then(it -> {
-
 			BeanDefinition definition = it.getArgument(0);
 			String className = definition.getBeanClassName();
-
 			return className.contains("$First$") ? "canonicalSampleRepositoryTestImpl" : "otherBeanName";
 		});
-
 		ImplementationLookupConfiguration lookup = this.configuration
 				.forRepositoryConfiguration(configFor(CanonicalSampleRepository.class));
-
 		assertThat(this.detector.detectCustomImplementation(lookup)).hasValueSatisfying(
 				it -> assertThat(it.getBeanClassName()).isEqualTo(CanonicalSampleRepositoryTestImpl.class.getName()));
 	}
 
 	@Test // DATACMNS-764, DATACMNS-1371
 	void throwsExceptionWhenMultipleImplementationAreFound() {
-
 		assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> {
-
 			ImplementationLookupConfiguration lookup = mock(ImplementationLookupConfiguration.class);
-
 			when(lookup.hasMatchingBeanName(any())).thenReturn(true);
 			when(lookup.matches(any())).thenReturn(true);
-
 			this.detector.detectCustomImplementation(lookup);
 		});
 	}
 
 	private RepositoryConfiguration configFor(Class<?> type) {
-
 		RepositoryConfiguration<?> configuration = mock(RepositoryConfiguration.class);
-
 		when(configuration.getRepositoryInterface()).thenReturn(type.getSimpleName());
 		when(configuration.getImplementationBasePackages())
 				.thenReturn(Streamable.of(this.getClass().getPackage().getName()));
-
 		return configuration;
 	}
 

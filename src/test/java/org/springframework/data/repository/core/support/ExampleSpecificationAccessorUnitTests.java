@@ -48,10 +48,8 @@ class ExampleSpecificationAccessorUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		this.person = new Person();
 		this.person.firstname = "rand";
-
 		this.specification = ExampleMatcher.matching();
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 	}
@@ -63,19 +61,15 @@ class ExampleSpecificationAccessorUnitTests {
 
 	@Test // DATACMNS-810
 	void nullHandlerShouldReturnInclude() {
-
 		this.specification = ExampleMatcher.matching().withIncludeNullValues();
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.getNullHandler()).isEqualTo(NullHandler.INCLUDE);
 	}
 
 	@Test // DATACMNS-810
 	void exampleShouldIgnorePaths() {
-
 		this.specification = ExampleMatcher.matching().withIgnorePaths("firstname");
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.isIgnoredPath("firstname")).isTrue();
 		assertThat(this.exampleSpecificationAccessor.isIgnoredPath("lastname")).isFalse();
 	}
@@ -88,78 +82,57 @@ class ExampleSpecificationAccessorUnitTests {
 
 	@Test // DATACMNS-810
 	void exampleShouldUseConfiguredStringMatcherAsDefaultForPathThatDoesNotHavePropertySpecifier() {
-
 		this.specification = ExampleMatcher.matching().withStringMatcher(StringMatcher.CONTAINING);
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
 				.isEqualTo(StringMatcher.CONTAINING);
 	}
 
 	@Test // DATACMNS-810
 	void exampleShouldUseDefaultIgnoreCaseForPathThatDoesHavePropertySpecifierWithMatcher() {
-
 		this.specification = ExampleMatcher.matching().withIgnoreCase().withMatcher("firstname", contains());
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.isIgnoreCaseForPath("firstname")).isTrue();
 	}
 
 	@Test // DATACMNS-810
 	void exampleShouldUseConfiguredIgnoreCaseForPathThatDoesHavePropertySpecifierWithMatcher() {
-
 		this.specification = ExampleMatcher.matching().withIgnoreCase().withMatcher("firstname",
 				contains().caseSensitive());
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.isIgnoreCaseForPath("firstname")).isFalse();
 	}
 
 	@Test // DATACMNS-810
 	void exampleShouldUseDefinedStringMatcherForPathThatDoesHavePropertySpecifierWithStringMatcherStarting() {
-
 		this.specification = ExampleMatcher.matching().withMatcher("firstname", startsWith());
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
 				.isEqualTo(StringMatcher.STARTING);
 	}
 
 	@Test // DATACMNS-810
 	void exampleShouldUseDefinedStringMatcherForPathThatDoesHavePropertySpecifierWithStringMatcherContaining() {
-
 		this.specification = ExampleMatcher.matching().withMatcher("firstname", contains());
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
 				.isEqualTo(StringMatcher.CONTAINING);
 	}
 
 	@Test // DATACMNS-810
 	void exampleShouldUseDefinedStringMatcherForPathThatDoesHavePropertySpecifierWithStringMatcherRegex() {
-
 		this.specification = ExampleMatcher.matching().withMatcher("firstname", regex());
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
 				.isEqualTo(StringMatcher.REGEX);
 	}
 
 	@Test // DATACMNS-810
 	void exampleShouldFavorStringMatcherDefinedForPathOverConfiguredDefaultStringMatcher() {
-
 		this.specification = ExampleMatcher.matching().withStringMatcher(StringMatcher.ENDING)
 				.withMatcher("firstname", contains()).withMatcher("address.city", startsWith())
 				.withMatcher("lastname", GenericPropertyMatcher::ignoreCase);
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.getPropertySpecifiers()).hasSize(3);
 		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
 				.isEqualTo(StringMatcher.CONTAINING);
@@ -171,12 +144,9 @@ class ExampleSpecificationAccessorUnitTests {
 
 	@Test // DATACMNS-810
 	void exampleShouldUseDefaultStringMatcherForPathThatHasPropertySpecifierWithoutStringMatcher() {
-
 		this.specification = ExampleMatcher.matching().withStringMatcher(StringMatcher.STARTING)
 				.withMatcher("firstname", GenericPropertyMatcher::ignoreCase);
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.getStringMatcherForPath("firstname"))
 				.isEqualTo(StringMatcher.STARTING);
 		assertThat(this.exampleSpecificationAccessor.isIgnoreCaseForPath("firstname")).isTrue();
@@ -185,29 +155,22 @@ class ExampleSpecificationAccessorUnitTests {
 
 	@Test // DATACMNS-810
 	void ignoreCaseShouldReturnFalseByDefault() {
-
 		assertThat(this.specification.isIgnoreCaseEnabled()).isFalse();
 		assertThat(this.exampleSpecificationAccessor.isIgnoreCaseForPath("firstname")).isFalse();
 	}
 
 	@Test // DATACMNS-810
 	void ignoreCaseShouldReturnTrueWhenIgnoreCaseIsEnabled() {
-
 		this.specification = ExampleMatcher.matching().withIgnoreCase();
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.isIgnoreCaseEnabled()).isTrue();
 		assertThat(this.exampleSpecificationAccessor.isIgnoreCaseForPath("firstname")).isTrue();
 	}
 
 	@Test // DATACMNS-810
 	void ignoreCaseShouldFavorPathSpecificSettings() {
-
 		this.specification = ExampleMatcher.matching().withIgnoreCase("firstname");
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.specification.isIgnoreCaseEnabled()).isFalse();
 		assertThat(this.exampleSpecificationAccessor.isIgnoreCaseForPath("firstname")).isTrue();
 	}
@@ -220,12 +183,9 @@ class ExampleSpecificationAccessorUnitTests {
 
 	@Test // DATACMNS-810
 	void getValueTransformerForPathReturnsConfigurtedTransformerForPath() {
-
 		PropertyValueTransformer transformer = source -> source.map(Object::toString);
-
 		this.specification = ExampleMatcher.matching().withTransformer("firstname", transformer);
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.getValueTransformerForPath("firstname")).isEqualTo(transformer);
 	}
 
@@ -236,20 +196,15 @@ class ExampleSpecificationAccessorUnitTests {
 
 	@Test // DATACMNS-810
 	void hasPropertySpecifiersReturnsTrueWhenAtLeastOneIsSet() {
-
 		this.specification = ExampleMatcher.matching().withStringMatcher(StringMatcher.STARTING)
 				.withMatcher("firstname", contains());
-
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
-
 		assertThat(this.exampleSpecificationAccessor.hasPropertySpecifiers()).isTrue();
 	}
 
 	@Test // DATACMNS-953
 	void exactMatcherUsesExactMatching() {
-
 		ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("firstname", exact());
-
 		assertThat(new ExampleMatcherAccessor(matcher).getPropertySpecifier("firstname").getStringMatcher())
 				.isEqualTo(StringMatcher.EXACT);
 	}

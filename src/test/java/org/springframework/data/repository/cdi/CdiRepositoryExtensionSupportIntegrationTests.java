@@ -28,21 +28,16 @@ abstract class CdiRepositoryExtensionSupportIntegrationTests {
 
 	@Test
 	void createsSpringDataRepositoryBean() {
-
 		assertThat(getBean(SampleRepository.class)).isNotNull();
-
 		RepositoryClient client = getBean(RepositoryClient.class);
 		assertThat(client.repository).isNotNull();
 	}
 
 	@Test // DATACMNS-557
 	void createsSpringDataRepositoryWithCustimImplBean() {
-
 		assertThat(getBean(AnotherRepository.class)).isNotNull();
-
 		RepositoryClient client = getBean(RepositoryClient.class);
 		assertThat(client.anotherRepository).isNotNull();
-
 		// this will always return 0 since it's a mock
 		assertThat(client.anotherRepository.returnZero()).isEqualTo(0);
 	}

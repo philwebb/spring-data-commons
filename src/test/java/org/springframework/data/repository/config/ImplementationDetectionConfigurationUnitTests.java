@@ -35,15 +35,12 @@ class ImplementationDetectionConfigurationUnitTests {
 
 	@Test // DATACMNS-1439
 	void shouldConsiderBeanNameDecapitalization() {
-
 		assertThat(getBeanName("com.acme.UDPRepository")).isEqualTo("UDPRepository");
 		assertThat(getBeanName("com.acme.UdpRepository")).isEqualTo("udpRepository");
 	}
 
 	private static String getBeanName(String className) {
-
 		MockImplementationDetectionConfiguration configuration = new MockImplementationDetectionConfiguration();
-
 		return configuration.generateBeanName(BeanDefinitionBuilder.rootBeanDefinition(className).getBeanDefinition());
 	}
 

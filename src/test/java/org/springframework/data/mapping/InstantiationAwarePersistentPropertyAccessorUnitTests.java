@@ -32,18 +32,12 @@ public class InstantiationAwarePersistentPropertyAccessorUnitTests {
 
 	@Test
 	public void testname() {
-
 		EntityInstantiators instantiators = new EntityInstantiators();
 		SampleMappingContext context = new SampleMappingContext();
-
 		PersistentEntity<Object, SamplePersistentProperty> entity = context.getRequiredPersistentEntity(Sample.class);
-
 		PersistentPropertyAccessor<Sample> accessor = entity.getPropertyAccessor(new Sample("Dave", "Matthews", 42));
-
 		PersistentPropertyAccessor<Sample> wrapper = new InstantiationAwarePropertyAccessor<>(accessor, instantiators);
-
 		wrapper.setProperty(entity.getRequiredPersistentProperty("firstname"), "Oliver August");
-
 		assertThat(wrapper.getBean()).isEqualTo(new Sample("Oliver August", "Matthews", 42));
 	}
 

@@ -45,7 +45,6 @@ class IsNewAwareAuditingHandlerUnitTests extends AuditingHandlerUnitTests {
 
 	@BeforeEach
 	void init() {
-
 		this.mappingContext = new SampleMappingContext();
 		this.mappingContext.getPersistentEntity(AuditedUser.class);
 		this.mappingContext.afterPropertiesSet();
@@ -58,23 +57,17 @@ class IsNewAwareAuditingHandlerUnitTests extends AuditingHandlerUnitTests {
 
 	@Test
 	void delegatesToMarkCreatedForNewEntity() {
-
 		AuditedUser user = new AuditedUser();
-
 		getHandler().markAudited(user);
-
 		assertThat(user.createdDate).isNotNull();
 		assertThat(user.modifiedDate).isNotNull();
 	}
 
 	@Test
 	void delegatesToMarkModifiedForNonNewEntity() {
-
 		AuditedUser user = new AuditedUser();
 		user.id = 1L;
-
 		getHandler().markAudited(user);
-
 		assertThat(user.createdDate).isNull();
 		assertThat(user.modifiedDate).isNotNull();
 	}
@@ -91,9 +84,7 @@ class IsNewAwareAuditingHandlerUnitTests extends AuditingHandlerUnitTests {
 
 	@Test // DATACMNS-638
 	void handlingOptionalIsANoOp() {
-
 		IsNewAwareAuditingHandler handler = getHandler();
-
 		handler.markAudited(Optional.empty());
 		handler.markCreated(Optional.empty());
 		handler.markModified(Optional.empty());

@@ -66,14 +66,12 @@ class QueryExecutionConvertersUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		this.conversionService = new DefaultConversionService();
 		QueryExecutionConverters.registerConvertersIn(this.conversionService);
 	}
 
 	@Test // DATACMNS-714
 	void registersWrapperTypes() {
-
 		assertThat(QueryExecutionConverters.supports(Optional.class)).isTrue();
 		assertThat(QueryExecutionConverters.supports(java.util.Optional.class)).isTrue();
 		assertThat(QueryExecutionConverters.supports(Future.class)).isTrue();
@@ -84,7 +82,6 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-836
 	void registersReactiveWrapperTypes() {
-
 		assertThat(QueryExecutionConverters.supports(Publisher.class)).isTrue();
 		assertThat(QueryExecutionConverters.supports(Mono.class)).isTrue();
 		assertThat(QueryExecutionConverters.supports(Flux.class)).isTrue();
@@ -100,7 +97,6 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-836
 	void registersUnwrapperTypes() {
-
 		assertThat(QueryExecutionConverters.supportsUnwrapping(Optional.class)).isTrue();
 		assertThat(QueryExecutionConverters.supportsUnwrapping(java.util.Optional.class)).isTrue();
 		assertThat(QueryExecutionConverters.supportsUnwrapping(Future.class)).isTrue();
@@ -110,7 +106,6 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-836
 	void doesNotRegisterReactiveUnwrapperTypes() {
-
 		assertThat(QueryExecutionConverters.supportsUnwrapping(Publisher.class)).isFalse();
 		assertThat(QueryExecutionConverters.supportsUnwrapping(Mono.class)).isFalse();
 		assertThat(QueryExecutionConverters.supportsUnwrapping(Flux.class)).isFalse();
@@ -144,7 +139,6 @@ class QueryExecutionConvertersUnitTests {
 	@Test // DATACMNS-714
 	@SuppressWarnings("unchecked")
 	void turnsNullIntoCompletableFutureForNull() throws Exception {
-
 		CompletableFuture<Object> result = this.conversionService.convert(new NullableWrapper(null),
 				CompletableFuture.class);
 
@@ -190,7 +184,6 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-1005
 	void registersAllowedPageabletypes() {
-
 		Set<Class<?>> allowedPageableTypes = QueryExecutionConverters.getAllowedPageableTypes();
 		assertThat(allowedPageableTypes).contains(Page.class, Slice.class, List.class, Seq.class);
 	}
@@ -207,55 +200,42 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-1065
 	void conversListToVavr() {
-
 		assertThat(this.conversionService.canConvert(List.class, io.vavr.collection.Traversable.class)).isTrue();
 		assertThat(this.conversionService.canConvert(List.class, io.vavr.collection.List.class)).isTrue();
 		assertThat(this.conversionService.canConvert(List.class, io.vavr.collection.Set.class)).isTrue();
 		assertThat(this.conversionService.canConvert(List.class, io.vavr.collection.Map.class)).isFalse();
-
 		List<Integer> integers = Arrays.asList(1, 2, 3);
-
 		io.vavr.collection.Traversable<?> result = this.conversionService.convert(integers,
 				io.vavr.collection.Traversable.class);
-
 		assertThat(result).isInstanceOf(io.vavr.collection.List.class);
 	}
 
 	@Test // DATACMNS-1065
 	void convertsSetToVavr() {
-
 		assertThat(this.conversionService.canConvert(Set.class, io.vavr.collection.Traversable.class)).isTrue();
 		assertThat(this.conversionService.canConvert(Set.class, io.vavr.collection.Set.class)).isTrue();
 		assertThat(this.conversionService.canConvert(Set.class, io.vavr.collection.List.class)).isTrue();
 		assertThat(this.conversionService.canConvert(Set.class, io.vavr.collection.Map.class)).isFalse();
-
 		Set<Integer> integers = Collections.singleton(1);
-
 		io.vavr.collection.Traversable<?> result = this.conversionService.convert(integers,
 				io.vavr.collection.Traversable.class);
-
 		assertThat(result).isInstanceOf(io.vavr.collection.Set.class);
 	}
 
 	@Test // DATACMNS-1065
 	void convertsMapToVavr() {
-
 		assertThat(this.conversionService.canConvert(Map.class, io.vavr.collection.Traversable.class)).isTrue();
 		assertThat(this.conversionService.canConvert(Map.class, io.vavr.collection.Map.class)).isTrue();
 		assertThat(this.conversionService.canConvert(Map.class, io.vavr.collection.Set.class)).isFalse();
 		assertThat(this.conversionService.canConvert(Map.class, io.vavr.collection.List.class)).isFalse();
-
 		Map<String, String> map = Collections.singletonMap("key", "value");
-
 		io.vavr.collection.Traversable<?> result = this.conversionService.convert(map,
 				io.vavr.collection.Traversable.class);
-
 		assertThat(result).isInstanceOf(io.vavr.collection.Map.class);
 	}
 
 	@Test // DATACMNS-1065
 	void unwrapsVavrCollectionsToJavaOnes() {
-
 		assertThat(unwrap(io.vavr.collection.List.of(1, 2, 3))).isInstanceOf(List.class);
 		assertThat(unwrap(io.vavr.collection.LinkedHashSet.of(1, 2, 3))).isInstanceOf(Set.class);
 		assertThat(unwrap(io.vavr.collection.LinkedHashMap.of("key", "value"))).isInstanceOf(Map.class);
@@ -263,88 +243,69 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-1065
 	void vavrSeqIsASupportedPageableType() {
-
 		Set<Class<?>> allowedPageableTypes = QueryExecutionConverters.getAllowedPageableTypes();
 		assertThat(allowedPageableTypes).contains(io.vavr.collection.Seq.class);
 	}
 
 	@Test // DATAJPA-1258
 	void convertsJavaListsToVavrSet() {
-
 		List<String> source = Collections.singletonList("foo");
-
 		assertThat(this.conversionService.convert(source, io.vavr.collection.Set.class))
 				.isInstanceOf(io.vavr.collection.Set.class);
 	}
 
 	@Test // DATACMNS-1299
 	void unwrapsPages() throws Exception {
-
 		Method method = Sample.class.getMethod("pages");
 		TypeInformation<Object> returnType = ClassTypeInformation.fromReturnTypeOf(method);
-
 		assertThat(QueryExecutionConverters.unwrapWrapperTypes(returnType))
 				.isEqualTo(ClassTypeInformation.from(String.class));
 	}
 
 	@Test // DATACMNS-983
 	void exposesExecutionAdapterForJavaslangTry() throws Throwable {
-
 		Object result = getExecutionAdapter(Try.class).apply(() -> {
 			throw new IOException("Some message!");
 		});
-
 		assertThat(result).isInstanceOf(Failure.class);
 	}
 
 	@Test // DATACMNS-983
 	void unwrapsDomainTypeFromJavaslangTryWrapper() throws Exception {
-
 		for (String methodName : Arrays.asList("tryMethod", "tryForSeqMethod")) {
-
 			Method method = Sample.class.getMethod(methodName);
-
 			TypeInformation<?> type = QueryExecutionConverters
 					.unwrapWrapperTypes(ClassTypeInformation.fromReturnTypeOf(method));
-
 			assertThat(type.getType()).isEqualTo(Sample.class);
 		}
 	}
 
 	@Test // DATACMNS-983
 	void exposesExecutionAdapterForVavrTry() throws Throwable {
-
 		Object result = getExecutionAdapter(io.vavr.control.Try.class).apply(() -> {
 			throw new IOException("Some message!");
 		});
-
 		assertThat(result).isInstanceOf(io.vavr.control.Try.Failure.class);
 	}
 
 	@Test // DATACMNS-983
 	void unwrapsDomainTypeFromVavrTryWrapper() throws Exception {
-
 		for (String methodName : Arrays.asList("tryMethod", "tryForSeqMethod")) {
-
 			Method method = Sample.class.getMethod(methodName);
-
 			TypeInformation<?> type = QueryExecutionConverters
 					.unwrapWrapperTypes(ClassTypeInformation.fromReturnTypeOf(method));
-
 			assertThat(type.getType()).isEqualTo(Sample.class);
 		}
 	}
 
 	@Test // DATACMNS-1430
 	void returnsStreamableForIterable() throws Exception {
-
 		assertThat(this.conversionService.canConvert(Iterable.class, Streamable.class)).isTrue();
 		assertThat(this.conversionService.convert(Arrays.asList("foo"), Streamable.class)).containsExactly("foo");
 	}
 
 	@Test // DATACMNS-1430
 	void convertsToStreamableWrapper() throws Exception {
-
 		assertThat(this.conversionService.canConvert(Iterable.class, StreamableWrapper.class)).isTrue();
 		assertThat(this.conversionService.convert(Arrays.asList("foo"), StreamableWrapper.class).getStreamable())
 				.containsExactly("foo");
@@ -352,7 +313,6 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-1430
 	void convertsToStreamableWrapperImplementingStreamable() throws Exception {
-
 		assertThat(this.conversionService.canConvert(Iterable.class, CustomStreamableWrapper.class)).isTrue();
 		assertThat(this.conversionService.convert(Arrays.asList("foo"), CustomStreamableWrapper.class))
 				.containsExactly("foo");
@@ -360,11 +320,8 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-1484
 	void doesNotConvertCollectionToStreamableIfReturnTypeIsIterable() {
-
 		List<String> source = Arrays.asList("1", "2");
-
 		assertThat(this.conversionService.convert(source, Iterable.class)).isSameAs(source);
-
 	}
 
 	interface Sample {

@@ -37,72 +37,57 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 class SpelExtractorUnitTests {
 
 	static final BiFunction<Integer, String, String> PARAMETER_NAME_SOURCE = (index, spel) -> "EPP" + index;
+
 	static final BiFunction<String, String, String> REPLACEMENT_SOURCE = (prefix, name) -> prefix + name;
 
 	final SoftAssertions softly = new SoftAssertions();
 
 	@Test // DATACMNS-1258
 	void nullQueryThrowsException() {
-
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
-
 		assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> context.parse(null));
 	}
 
 	@Test // DATACMNS-1258
 	void emptyStringGetsParsedCorrectly() {
-
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
 		SpelExtractor extractor = context.parse("");
-
 		this.softly.assertThat(extractor.getQueryString()).isEqualTo("");
 		this.softly.assertThat(extractor.getParameterMap()).isEmpty();
-
 		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1258
 	void findsAndReplacesExpressions() {
-
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
 		SpelExtractor extractor = context.parse(":#{one} ?#{two}");
-
 		this.softly.assertThat(extractor.getQueryString()).isEqualTo(":EPP0 ?EPP1");
 		this.softly.assertThat(extractor.getParameterMap().entrySet())
 				.extracting(Map.Entry::getKey, Map.Entry::getValue)
 				.containsExactlyInAnyOrder(Tuple.tuple("EPP0", "one"), Tuple.tuple("EPP1", "two"));
-
 		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1258
 	void keepsStringWhenNoMatchIsFound() {
-
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
 		SpelExtractor extractor = context.parse("abcdef");
-
 		this.softly.assertThat(extractor.getQueryString()).isEqualTo("abcdef");
 		this.softly.assertThat(extractor.getParameterMap()).isEmpty();
-
 		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1258
 	void spelsInQuotesGetIgnored() {
-
 		List<String> queries = Arrays.asList("a'b:#{one}cd'ef", "a'b:#{o'ne}cdef", "ab':#{one}'cdef", "ab:'#{one}cd'ef",
 				"ab:#'{one}cd'ef", "a'b:#{o'ne}cdef");
-
 		queries.forEach(this::checkNoSpelIsFound);
-
 		this.softly.assertAll();
 	}
 
 	private void checkNoSpelIsFound(String query) {
-
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
 		SpelExtractor extractor = context.parse(query);
-
 		this.softly.assertThat(extractor.getQueryString()).describedAs(query).isEqualTo(query);
 		this.softly.assertThat(extractor.getParameterMap()).describedAs(query).isEmpty();
 	}

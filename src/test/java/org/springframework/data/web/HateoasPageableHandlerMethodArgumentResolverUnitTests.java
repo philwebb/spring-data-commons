@@ -38,9 +38,7 @@ class HateoasPageableHandlerMethodArgumentResolverUnitTests extends PageableHand
 
 	@Test
 	void buildsUpRequestParameters() {
-
 		String basicString = String.format("page=%d&size=%d", PAGE_NUMBER, PAGE_SIZE);
-
 		assertUriStringFor(REFERENCE_WITHOUT_SORT, basicString);
 		assertUriStringFor(REFERENCE_WITH_SORT, basicString + "&sort=firstname,lastname,desc");
 		assertUriStringFor(REFERENCE_WITH_SORT_FIELDS, basicString + "&sort=firstname,lastname,asc");
@@ -48,18 +46,14 @@ class HateoasPageableHandlerMethodArgumentResolverUnitTests extends PageableHand
 
 	@Test // DATACMNS-343
 	void replacesExistingPaginationInformation() throws Exception {
-
 		MethodParameter parameter = new MethodParameter(Sample.class.getMethod("supportedMethod", Pageable.class), 0);
 		UriComponentsContributor resolver = new HateoasPageableHandlerMethodArgumentResolver();
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080?page=0&size=10");
 		resolver.enhance(builder, parameter, PageRequest.of(1, 20));
-
 		MultiValueMap<String, String> params = builder.build().getQueryParams();
-
 		List<String> page = params.get("page");
 		assertThat(page).hasSize(1);
 		assertThat(page.get(0)).isEqualTo("1");
-
 		List<String> size = params.get("size");
 		assertThat(size).hasSize(1);
 		assertThat(size.get(0)).isEqualTo("20");
@@ -72,7 +66,6 @@ class HateoasPageableHandlerMethodArgumentResolverUnitTests extends PageableHand
 
 	@Test // DATACMNS-418
 	void appendsTemplateVariablesCorrectly() {
-
 		assertTemplateEnrichment("/foo", "{?page,size,sort}");
 		assertTemplateEnrichment("/foo?bar=1", "{&page,size,sort}");
 		assertTemplateEnrichment("/foo?page=1", "{&size,sort}");
@@ -83,64 +76,47 @@ class HateoasPageableHandlerMethodArgumentResolverUnitTests extends PageableHand
 
 	@Test // DATACMNS-418
 	void returnsCustomizedTemplateVariables() {
-
 		UriComponents uriComponents = UriComponentsBuilder.fromPath("/foo").build();
-
 		HateoasPageableHandlerMethodArgumentResolver resolver = getResolver();
 		resolver.setPageParameterName("foo");
 		String variables = resolver.getPaginationTemplateVariables(null, uriComponents).toString();
-
 		assertThat(variables).isEqualTo("{?foo,size,sort}");
 	}
 
 	@Test // DATACMNS-563
 	void enablingOneIndexedParameterReturnsOneForFirstPage() {
-
 		HateoasPageableHandlerMethodArgumentResolver resolver = getResolver();
 		resolver.setOneIndexedParameters(true);
-
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/");
-
 		resolver.enhance(builder, null, PageRequest.of(0, 10));
-
 		MultiValueMap<String, String> params = builder.build().getQueryParams();
-
 		assertThat(params.containsKey(resolver.getPageParameterName())).isTrue();
 		assertThat(params.getFirst(resolver.getPageParameterName())).isEqualTo("1");
 	}
 
 	@Test // DATACMNS-1455
 	void enhancesUnpaged() {
-
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/");
-
 		getResolver().enhance(builder, null, Pageable.unpaged());
-
 		assertThat(builder).isEqualTo(builder);
 	}
 
 	@Override
 	protected HateoasPageableHandlerMethodArgumentResolver getResolver() {
-
 		HateoasPageableHandlerMethodArgumentResolver resolver = new HateoasPageableHandlerMethodArgumentResolver();
 		resolver.setMaxPageSize(100);
 		return resolver;
 	}
 
 	protected void assertUriStringFor(Pageable pageable, String expected) {
-
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/");
 		MethodParameter parameter = getParameterOfMethod("supportedMethod");
-
 		getResolver().enhance(builder, parameter, pageable);
-
 		assertThat(builder.build().toUriString()).endsWith(expected);
 	}
 
 	private void assertTemplateEnrichment(String baseUri, String expected) {
-
 		UriComponents uriComponents = UriComponentsBuilder.fromUriString(baseUri).build();
-
 		HateoasPageableHandlerMethodArgumentResolver resolver = getResolver();
 		assertThat(resolver.getPaginationTemplateVariables(null, uriComponents).toString()).isEqualTo(expected);
 	}

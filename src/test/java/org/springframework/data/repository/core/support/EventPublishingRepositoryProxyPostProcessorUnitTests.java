@@ -84,35 +84,26 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 
 	@Test // DATACMNS-928
 	void exposesEventsExposedByEntityToPublisher() {
-
 		SomeEvent first = new SomeEvent();
 		SomeEvent second = new SomeEvent();
 		MultipleEvents entity = MultipleEvents.of(Arrays.asList(first, second));
-
 		EventPublishingMethod.of(MultipleEvents.class).publishEventsFrom(entity, this.publisher);
-
 		verify(this.publisher).publishEvent(eq(first));
 		verify(this.publisher).publishEvent(eq(second));
 	}
 
 	@Test // DATACMNS-928
 	void exposesSingleEventByEntityToPublisher() {
-
 		SomeEvent event = new SomeEvent();
 		OneEvent entity = OneEvent.of(event);
-
 		EventPublishingMethod.of(OneEvent.class).publishEventsFrom(entity, this.publisher);
-
 		verify(this.publisher, times(1)).publishEvent(event);
 	}
 
 	@Test // DATACMNS-928
 	void doesNotExposeNullEvent() {
-
 		OneEvent entity = OneEvent.of(null);
-
 		EventPublishingMethod.of(OneEvent.class).publishEventsFrom(entity, this.publisher);
-
 		verify(this.publisher, times(0)).publishEvent(any());
 	}
 
@@ -123,72 +114,53 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 
 	@Test // DATACMNS-928
 	void interceptsSaveMethod() throws Throwable {
-
 		SomeEvent event = new SomeEvent();
 		MultipleEvents sample = MultipleEvents.of(Collections.singletonList(event));
 		mockInvocation(this.invocation, SampleRepository.class.getMethod("save", Object.class), sample);
-
 		EventPublishingMethodInterceptor.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
-
 		verify(this.publisher).publishEvent(event);
 	}
 
 	@Test // DATACMNS-928
 	void doesNotInterceptNonSaveMethod() throws Throwable {
-
 		doReturn(SampleRepository.class.getMethod("findById", Object.class)).when(this.invocation).getMethod();
-
 		EventPublishingMethodInterceptor.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
-
 		verify(this.publisher, never()).publishEvent(any());
 	}
 
 	@Test // DATACMNS-928
 	void registersAdviceIfDomainTypeExposesEvents() {
-
 		RepositoryInformation information = new DummyRepositoryInformation(SampleRepository.class);
 		RepositoryProxyPostProcessor processor = new EventPublishingRepositoryProxyPostProcessor(this.publisher);
-
 		ProxyFactory factory = mock(ProxyFactory.class);
-
 		processor.postProcess(factory, information);
-
 		verify(factory).addAdvice(any(EventPublishingMethodInterceptor.class));
 	}
 
 	@Test // DATACMNS-928
 	void doesNotAddAdviceIfDomainTypeDoesNotExposeEvents() {
-
 		RepositoryInformation information = new DummyRepositoryInformation(CrudRepository.class);
 		RepositoryProxyPostProcessor processor = new EventPublishingRepositoryProxyPostProcessor(this.publisher);
-
 		ProxyFactory factory = mock(ProxyFactory.class);
-
 		processor.postProcess(factory, information);
-
 		verify(factory, never()).addAdvice(any(Advice.class));
 	}
 
 	@Test // DATACMNS-928
 	void publishesEventsForCallToSaveWithIterable() throws Throwable {
-
 		SomeEvent event = new SomeEvent();
 		MultipleEvents sample = MultipleEvents.of(Collections.singletonList(event));
 		mockInvocation(this.invocation, SampleRepository.class.getMethod("saveAll", Iterable.class), sample);
-
 		EventPublishingMethodInterceptor.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
-
 		verify(this.publisher).publishEvent(any(SomeEvent.class));
 	}
 
 	@Test // DATACMNS-975
 	void publishesEventsAfterSaveInvocation() throws Throwable {
-
 		doThrow(new IllegalStateException()).when(this.invocation).proceed();
-
 		try {
 			EventPublishingMethodInterceptor.of(EventPublishingMethod.of(OneEvent.class), this.publisher)
 					.invoke(this.invocation);
@@ -200,76 +172,57 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 
 	@Test // DATACMNS-1113
 	void invokesEventsForMethodsThatStartsWithSave() throws Throwable {
-
 		SomeEvent event = new SomeEvent();
 		MultipleEvents sample = MultipleEvents.of(Collections.singletonList(event));
 		mockInvocation(this.invocation, SampleRepository.class.getMethod("saveAndFlush", MultipleEvents.class), sample);
-
 		EventPublishingMethodInterceptor.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
-
 		verify(this.publisher).publishEvent(event);
 	}
 
 	@Test // DATACMNS-1067
 	void clearsEventsEvenIfNoneWereExposedToPublish() {
-
 		EventsWithClearing entity = spy(EventsWithClearing.of(Collections.emptyList()));
-
 		EventPublishingMethod.of(EventsWithClearing.class).publishEventsFrom(entity, this.publisher);
-
 		verify(entity, times(1)).clearDomainEvents();
 	}
 
 	@Test // DATACMNS-1067
 	void clearsEventsIfThereWereSomeToBePublished() {
-
 		EventsWithClearing entity = spy(EventsWithClearing.of(Collections.singletonList(new SomeEvent())));
-
 		EventPublishingMethod.of(EventsWithClearing.class).publishEventsFrom(entity, this.publisher);
-
 		verify(entity, times(1)).clearDomainEvents();
 	}
 
 	@Test // DATACMNS-1067
 	void clearsEventsForOperationOnMutlipleAggregates() {
-
 		EventsWithClearing firstEntity = spy(EventsWithClearing.of(Collections.emptyList()));
 		EventsWithClearing secondEntity = spy(EventsWithClearing.of(Collections.singletonList(new SomeEvent())));
-
 		Collection<EventsWithClearing> entities = Arrays.asList(firstEntity, secondEntity);
-
 		EventPublishingMethod.of(EventsWithClearing.class).publishEventsFrom(entities, this.publisher);
-
 		verify(firstEntity, times(1)).clearDomainEvents();
 		verify(secondEntity, times(1)).clearDomainEvents();
 	}
 
 	@Test // DATACMNS-1163
 	void publishesEventFromParameter() throws Throwable {
-
 		Object event = new Object();
 		MultipleEvents parameter = MultipleEvents.of(Collections.singleton(event));
 		MultipleEvents returnValue = MultipleEvents.of(Collections.emptySet());
-
 		Method method = SampleRepository.class.getMethod("save", Object.class);
 		mockInvocation(this.invocation, method, parameter, returnValue);
-
 		EventPublishingMethodInterceptor.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
-
 		verify(this.publisher, times(1)).publishEvent(event);
 	}
 
 	private static void mockInvocation(MethodInvocation invocation, Method method, Object parameterAndReturnValue)
 			throws Throwable {
-
 		mockInvocation(invocation, method, parameterAndReturnValue, parameterAndReturnValue);
 	}
 
 	private static void mockInvocation(MethodInvocation invocation, Method method, Object parameter, Object returnValue)
 			throws Throwable {
-
 		doReturn(method).when(invocation).getMethod();
 		doReturn(new Object[] { parameter }).when(invocation).getArguments();
 		doReturn(returnValue).when(invocation).proceed();

@@ -33,10 +33,8 @@ class Jackson2ResourceReaderIntegrationTests {
 
 	@Test
 	void readsFileWithMultipleObjects() throws Exception {
-
 		ResourceReader reader = new Jackson2ResourceReader();
 		Object result = reader.readFrom(new ClassPathResource("data.json", getClass()), null);
-
 		assertThat(result).isInstanceOf(Collection.class);
 		assertThat((Collection<?>) result).hasSize(1);
 	}

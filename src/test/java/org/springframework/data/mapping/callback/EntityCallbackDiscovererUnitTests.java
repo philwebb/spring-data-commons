@@ -39,43 +39,32 @@ class EntityCallbackDiscovererUnitTests {
 
 	@Test // DATACMNS-1467
 	void shouldDiscoverCallbackType() {
-
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyConfig.class);
-
 		EntityCallbackDiscoverer discoverer = new EntityCallbackDiscoverer(ctx);
-
 		Collection<EntityCallback<Person>> entityCallbacks = discoverer.getEntityCallbacks(PersonDocument.class,
 				ResolvableType.forType(BeforeSaveCallback.class));
-
 		assertThat(entityCallbacks).hasSize(1).element(0).isInstanceOf(MyBeforeSaveCallback.class);
 	}
 
 	@Test // DATACMNS-1467
 	void shouldDiscoverCallbackTypeByName() {
-
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyConfig.class);
-
 		EntityCallbackDiscoverer discoverer = new EntityCallbackDiscoverer(ctx);
 		discoverer.clear();
 		discoverer.addEntityCallbackBean("namedCallback");
-
 		Collection<EntityCallback<Person>> entityCallbacks = discoverer.getEntityCallbacks(PersonDocument.class,
 				ResolvableType.forType(BeforeSaveCallback.class));
-
 		assertThat(entityCallbacks).hasSize(1).element(0).isInstanceOf(MyOtherCallback.class);
 	}
 
 	@Test // DATACMNS-1467
 	void shouldSupportCallbackTypes() {
-
 		EntityCallbackDiscoverer discoverer = new EntityCallbackDiscoverer();
-
 		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(Person.class)))
 				.isTrue();
 		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(Child.class))).isTrue();
 		assertThat(discoverer.supportsEvent(BeforeSaveCallback.class, ResolvableType.forClass(PersonDocument.class)))
 				.isTrue();
-
 		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(Object.class)))
 				.isFalse();
 		assertThat(discoverer.supportsEvent(MyBeforeSaveCallback.class, ResolvableType.forClass(User.class))).isFalse();
@@ -83,11 +72,8 @@ class EntityCallbackDiscovererUnitTests {
 
 	@Test // DATACMNS-1467
 	void shouldSupportInstanceCallbackTypes() {
-
 		EntityCallbackDiscoverer discoverer = new EntityCallbackDiscoverer();
-
 		MyBeforeSaveCallback callback = new MyBeforeSaveCallback();
-
 		assertThat(discoverer.supportsEvent(callback, ResolvableType.forClass(Person.class),
 				ResolvableType.forClass(BeforeSaveCallback.class))).isTrue();
 		assertThat(discoverer.supportsEvent(callback, ResolvableType.forClass(Child.class),
@@ -96,21 +82,16 @@ class EntityCallbackDiscovererUnitTests {
 				ResolvableType.forClass(BeforeSaveCallback.class))).isTrue();
 		assertThat(discoverer.supportsEvent(callback, ResolvableType.forClass(PersonDocument.class),
 				ResolvableType.forClass(BeforeSaveCallback.class))).isTrue();
-
 		assertThat(discoverer.supportsEvent(callback, ResolvableType.forClass(User.class),
 				ResolvableType.forClass(BeforeSaveCallback.class))).isFalse();
 	}
 
 	@Test // DATACMNS-1467
 	void shouldDispatchInOrder() {
-
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(OrderedConfig.class);
-
 		EntityCallbackDiscoverer discoverer = new EntityCallbackDiscoverer(ctx);
-
 		Collection<EntityCallback<Person>> entityCallbacks = discoverer.getEntityCallbacks(PersonDocument.class,
 				ResolvableType.forType(EntityCallback.class));
-
 		assertThat(entityCallbacks).containsExactly(ctx.getBean("callback1", EntityCallback.class),
 				ctx.getBean("callback2", EntityCallback.class), ctx.getBean("callback3", EntityCallback.class),
 				ctx.getBean("callback4", EntityCallback.class));
@@ -199,7 +180,6 @@ class EntityCallbackDiscovererUnitTests {
 
 		@Override
 		public Person onBeforeSave(Person object) {
-
 			object.setSsn(object.getFirstName().length());
 			return object;
 		}

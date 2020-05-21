@@ -60,50 +60,38 @@ class DefaultTypeMapperUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		this.typeMapper = new DefaultTypeMapper<>(this.accessor, Collections.singletonList(this.mapper));
 		this.source = Collections.singletonMap("key", ALIAS.toString());
-
 		doReturn(ALIAS).when(this.accessor).readAliasFrom(this.source);
 		doReturn(STRING_TYPE_INFO).when(this.mapper).resolveTypeFrom(ALIAS);
 	}
 
 	@Test
 	void cachesResolvedTypeInformation() {
-
 		TypeInformation<?> information = this.typeMapper.readType(this.source);
 		assertThat(information).isEqualTo(STRING_TYPE_INFO);
 		verify(this.mapper, times(1)).resolveTypeFrom(ALIAS);
-
 		this.typeMapper.readType(this.source);
 		verify(this.mapper, times(1)).resolveTypeFrom(ALIAS);
 	}
 
 	@Test // DATACMNS-349
 	void returnsTypeAliasForInformation() {
-
 		Alias alias = Alias.of("alias");
 		doReturn(alias).when(this.mapper).createAliasFor(STRING_TYPE_INFO);
-
 		assertThat(this.typeMapper.getAliasFor(STRING_TYPE_INFO)).isEqualTo(alias);
 	}
 
 	@Test // DATACMNS-783
 	void specializesRawSourceTypeUsingGenericContext() {
-
 		ClassTypeInformation<Foo> root = ClassTypeInformation.from(Foo.class);
 		TypeInformation<?> propertyType = root.getProperty("abstractBar");
 		TypeInformation<?> barType = ClassTypeInformation.from(Bar.class);
-
 		doReturn(Alias.of(barType)).when(this.accessor).readAliasFrom(this.source);
 		doReturn(barType).when(this.mapper).resolveTypeFrom(Alias.of(barType));
-
 		TypeInformation<?> result = this.typeMapper.readType(this.source, propertyType);
-
 		assertThat(result).isInstanceOf(TypeInformation.class);
-
 		TypeInformation<?> typeInformation = TypeInformation.class.cast(result);
-
 		assertThat(typeInformation.getType()).isEqualTo(Bar.class);
 		assertThat(typeInformation.getProperty("field").getType()).isEqualTo(Character.class);
 	}

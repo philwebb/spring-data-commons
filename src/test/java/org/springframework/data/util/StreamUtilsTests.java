@@ -35,11 +35,9 @@ public class StreamUtilsTests {
 
 	@Test // DATACMNS-650
 	public void shouldConvertAnIteratorToAStream() {
-
 		List<String> input = Arrays.asList("a", "b", "c");
 		Stream<String> stream = createStreamFromIterator(input.iterator());
 		List<String> output = stream.collect(Collectors.toList());
-
 		assertThat(input).isEqualTo(output);
 	}
 

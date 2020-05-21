@@ -52,9 +52,7 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 	private final Object repository;
 
 	public DummyReactiveRepositoryFactory(Object repository) {
-
 		this.repository = repository;
-
 		when(this.strategy.resolveQuery(ArgumentMatchers.any(Method.class),
 				ArgumentMatchers.any(RepositoryMetadata.class), ArgumentMatchers.any(ProjectionFactory.class),
 				ArgumentMatchers.any(NamedQueries.class))).thenReturn(this.queryOne);
@@ -84,9 +82,7 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 
 	@Override
 	protected RepositoryComposition.RepositoryFragments getRepositoryFragments(RepositoryMetadata metadata) {
-
 		RepositoryComposition.RepositoryFragments fragments = super.getRepositoryFragments(metadata);
-
 		return QuerydslPredicateExecutor.class.isAssignableFrom(metadata.getRepositoryInterface())
 				? fragments.append(RepositoryComposition.RepositoryFragments.just(this.querydsl)) : fragments;
 	}

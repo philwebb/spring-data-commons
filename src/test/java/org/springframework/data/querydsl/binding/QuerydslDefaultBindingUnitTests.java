@@ -43,35 +43,27 @@ class QuerydslDefaultBindingUnitTests {
 
 	@Test // DATACMNS-669
 	void shouldCreatePredicateCorrectlyWhenPropertyIsInRoot() {
-
 		Optional<Predicate> predicate = this.binding.bind(QUser.user.firstname, Collections.singleton("tam"));
-
 		assertThat(predicate).hasValue(QUser.user.firstname.eq("tam"));
 	}
 
 	@Test // DATACMNS-669
 	void shouldCreatePredicateCorrectlyWhenPropertyIsInNestedElement() {
-
 		Optional<Predicate> predicate = this.binding.bind(QUser.user.address.city, Collections.singleton("two rivers"));
-
 		assertThat(predicate).hasValueSatisfying(
 				it -> assertThat(it.toString()).isEqualTo(QUser.user.address.city.eq("two rivers").toString()));
 	}
 
 	@Test // DATACMNS-669
 	void shouldCreatePredicateWithContainingWhenPropertyIsCollectionLikeAndValueIsObject() {
-
 		Optional<Predicate> predicate = this.binding.bind(QUser.user.nickNames, Collections.singleton("dragon reborn"));
-
 		assertThat(predicate).hasValue(QUser.user.nickNames.contains("dragon reborn"));
 	}
 
 	@Test // DATACMNS-669
 	void shouldCreatePredicateWithInWhenPropertyIsAnObjectAndValueIsACollection() {
-
 		Optional<Predicate> predicate = this.binding.bind(QUser.user.firstname,
 				Arrays.asList("dragon reborn", "shadowkiller"));
-
 		assertThat(predicate).hasValue(QUser.user.firstname.in(Arrays.asList("dragon reborn", "shadowkiller")));
 	}
 
@@ -82,9 +74,7 @@ class QuerydslDefaultBindingUnitTests {
 
 	@Test // DATACMNS-1578
 	void shouldCreatePredicateWithIsNullWhenPropertyIsANestedObjectAndValueIsNull() {
-
 		Optional<Predicate> predicate = this.binding.bind(QUser.user.address.city, Collections.singleton(null));
-
 		assertThat(predicate).hasValueSatisfying(it -> {
 			assertThat(it.toString()).isEqualTo(QUser.user.address.city.isNull().toString());
 		});

@@ -36,7 +36,6 @@ class SimpleParameterAccessorUnitTests {
 
 	@BeforeEach
 	void setUp() throws SecurityException, NoSuchMethodException {
-
 		this.parameters = new DefaultParameters(Sample.class.getMethod("sample", String.class));
 		this.sortParameters = new DefaultParameters(Sample.class.getMethod("sample1", String.class, Sort.class));
 		this.pageableParameters = new DefaultParameters(
@@ -72,43 +71,35 @@ class SimpleParameterAccessorUnitTests {
 
 	@Test
 	void returnsNullForPageableAndSortIfNoneAvailable() throws Exception {
-
 		ParameterAccessor accessor = new ParametersParameterAccessor(this.parameters, new Object[] { "test" });
-
 		assertThat(accessor.getPageable().isPaged()).isFalse();
 		assertThat(accessor.getSort().isSorted()).isFalse();
 	}
 
 	@Test
 	void returnsSortIfAvailable() {
-
 		Sort sort = Sort.by("foo");
 		ParameterAccessor accessor = new ParametersParameterAccessor(this.sortParameters,
 				new Object[] { "test", sort });
-
 		assertThat(accessor.getSort()).isEqualTo(sort);
 		assertThat(accessor.getPageable().isPaged()).isFalse();
 	}
 
 	@Test
 	void returnsPageableIfAvailable() {
-
 		Pageable pageable = PageRequest.of(0, 10);
 		ParameterAccessor accessor = new ParametersParameterAccessor(this.pageableParameters,
 				new Object[] { "test", pageable });
-
 		assertThat(accessor.getPageable()).isEqualTo(pageable);
 		assertThat(accessor.getSort().isSorted()).isFalse();
 	}
 
 	@Test
 	void returnsSortFromPageableIfAvailable() throws Exception {
-
 		Sort sort = Sort.by("foo");
 		Pageable pageable = PageRequest.of(0, 10, sort);
 		ParameterAccessor accessor = new ParametersParameterAccessor(this.pageableParameters,
 				new Object[] { "test", pageable });
-
 		assertThat(accessor.getPageable()).isEqualTo(pageable);
 		assertThat(accessor.getSort()).isEqualTo(sort);
 	}

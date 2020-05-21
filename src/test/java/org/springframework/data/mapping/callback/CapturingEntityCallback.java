@@ -43,7 +43,6 @@ class CapturingEntityCallback implements EntityCallback<Person> {
 	}
 
 	public Person doSomething(Person person) {
-
 		this.captured.add(person);
 		return this.returnValue;
 	}

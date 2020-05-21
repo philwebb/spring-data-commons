@@ -113,10 +113,8 @@ public class ClassGeneratingPropertyAccessorPublicType {
 	}
 
 	public Object set(Object e) {
-
 		this.aa = (Integer) e;
 		this.bb = (Integer) e;
-
 		return this.bb;
 	}
 

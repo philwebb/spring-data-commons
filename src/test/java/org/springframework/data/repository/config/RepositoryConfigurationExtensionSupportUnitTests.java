@@ -55,36 +55,30 @@ class RepositoryConfigurationExtensionSupportUnitTests {
 
 	@Test // DATACMNS-526
 	void doesNotConsiderRepositoryForPlainTypeStrictMatch() {
-
 		RepositoryMetadata metadata = AbstractRepositoryMetadata.getMetadata(PlainTypeRepository.class);
 		assertThat(this.extension.isStrictRepositoryCandidate(metadata)).isFalse();
 	}
 
 	@Test // DATACMNS-526
 	void considersRepositoryWithAnnotatedTypeStrictMatch() {
-
 		RepositoryMetadata metadata = AbstractRepositoryMetadata.getMetadata(AnnotatedTypeRepository.class);
 		assertThat(this.extension.isStrictRepositoryCandidate(metadata)).isTrue();
 	}
 
 	@Test // DATACMNS-526
 	void considersRepositoryInterfaceExtendingStoreInterfaceStrictMatch() {
-
 		RepositoryMetadata metadata = AbstractRepositoryMetadata.getMetadata(ExtendingInterface.class);
 		assertThat(this.extension.isStrictRepositoryCandidate(metadata)).isTrue();
 	}
 
 	@Test // DATACMNS-1174
 	void rejectsReactiveRepositories() {
-
 		AnnotationMetadata annotationMetadata = new StandardAnnotationMetadata(ReactiveConfiguration.class, true);
 		Environment environment = new StandardEnvironment();
 		ResourceLoader resourceLoader = new DefaultResourceLoader();
 		BeanDefinitionRegistry registry = mock(BeanDefinitionRegistry.class);
-
 		RepositoryConfigurationSource source = new AnnotationRepositoryConfigurationSource(annotationMetadata,
 				EnableRepositories.class, resourceLoader, environment, registry);
-
 		assertThatThrownBy(() -> this.extension.getRepositoryConfigurations(source, resourceLoader))
 				.isInstanceOf(InvalidDataAccessApiUsageException.class)
 				.hasMessageContaining("Reactive Repositories are not supported");
@@ -92,10 +86,8 @@ class RepositoryConfigurationExtensionSupportUnitTests {
 
 	@Test // DATACMNS-1596
 	void doesNotClaimEntityIfNoIdentifyingAnnotationsAreExposed() {
-
 		NonIdentifyingConfigurationExtension extension = new NonIdentifyingConfigurationExtension();
 		RepositoryMetadata metadata = AbstractRepositoryMetadata.getMetadata(AnnotatedTypeRepository.class);
-
 		assertThat(extension.isStrictRepositoryCandidate(metadata)).isFalse();
 	}
 

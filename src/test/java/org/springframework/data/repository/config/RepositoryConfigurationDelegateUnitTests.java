@@ -55,21 +55,15 @@ class RepositoryConfigurationDelegateUnitTests {
 
 	@Test // DATACMNS-892
 	void registersRepositoryBeanNameAsAttribute() {
-
 		StandardEnvironment environment = new StandardEnvironment();
 		GenericApplicationContext context = new GenericApplicationContext();
-
 		RepositoryConfigurationSource configSource = new AnnotationRepositoryConfigurationSource(
 				new StandardAnnotationMetadata(TestConfig.class, true), EnableRepositories.class, context, environment,
 				context.getDefaultListableBeanFactory());
-
 		RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configSource, context,
 				environment);
-
 		for (BeanComponentDefinition definition : delegate.registerRepositoriesIn(context, this.extension)) {
-
 			BeanDefinition beanDefinition = definition.getBeanDefinition();
-
 			assertThat(beanDefinition.getAttribute(RepositoryConfigurationDelegate.FACTORY_BEAN_OBJECT_TYPE).toString())
 					.endsWith("Repository");
 		}
@@ -82,29 +76,20 @@ class RepositoryConfigurationDelegateUnitTests {
 
 	@Test // DATACMNS-1368
 	void registersDeferredRepositoryInitializationListener() {
-
 		ListableBeanFactory beanFactory = assertLazyRepositoryBeanSetup(DeferredConfig.class);
-
 		assertThat(beanFactory.getBeanNamesForType(DeferredRepositoryInitializationListener.class)).isNotEmpty();
-
 	}
 
 	private static ListableBeanFactory assertLazyRepositoryBeanSetup(Class<?> configClass) {
-
 		StandardEnvironment environment = new StandardEnvironment();
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(configClass);
-
 		assertThat(context.getDefaultListableBeanFactory().getAutowireCandidateResolver())
 				.isInstanceOf(LazyRepositoryInjectionPointResolver.class);
-
 		AddressRepositoryClient client = context.getBean(AddressRepositoryClient.class);
 		AddressRepository repository = client.getRepository();
-
 		assertThat(Advised.class.isInstance(repository)).isTrue();
-
 		TargetSource targetSource = Advised.class.cast(repository).getTargetSource();
 		assertThat(targetSource).isNotNull();
-
 		return context.getDefaultListableBeanFactory();
 	}
 

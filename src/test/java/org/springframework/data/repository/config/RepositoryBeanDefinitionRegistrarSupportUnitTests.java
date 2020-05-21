@@ -59,20 +59,15 @@ class RepositoryBeanDefinitionRegistrarSupportUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		this.environment = new StandardEnvironment();
-
 		this.registrar = new DummyRegistrar();
 		this.registrar.setEnvironment(this.environment);
 	}
 
 	@Test
 	void registersBeanDefinitionForFoundBean() {
-
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(SampleConfiguration.class, true);
-
 		this.registrar.registerBeanDefinitions(metadata, this.registry);
-
 		assertBeanDefinitionRegisteredFor("myRepository");
 		assertBeanDefinitionRegisteredFor("composedRepository");
 		assertBeanDefinitionRegisteredFor("mixinImpl");
@@ -82,62 +77,48 @@ class RepositoryBeanDefinitionRegistrarSupportUnitTests {
 
 	@Test // DATACMNS-1147
 	void registersBeanDefinitionWithoutFragmentImplementations() {
-
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(FragmentExclusionConfiguration.class, true);
-
 		this.registrar.registerBeanDefinitions(metadata, this.registry);
-
 		assertBeanDefinitionRegisteredFor("repositoryWithFragmentExclusion");
 		assertNoBeanDefinitionRegisteredFor("excludedRepositoryImpl");
 	}
 
 	@Test // DATACMNS-1172
 	void shouldLimitImplementationBasePackages() {
-
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(LimitsImplementationBasePackages.class, true);
-
 		this.registrar.registerBeanDefinitions(metadata, this.registry);
-
 		assertBeanDefinitionRegisteredFor("personRepository");
 		assertNoBeanDefinitionRegisteredFor("fragmentImpl");
 	}
 
 	@Test // DATACMNS-360
 	void registeredProfileRepositoriesIfProfileActivated() {
-
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(SampleConfiguration.class, true);
 		this.environment.setActiveProfiles("profile");
-
 		DummyRegistrar registrar = new DummyRegistrar();
 		registrar.setEnvironment(this.environment);
 		registrar.registerBeanDefinitions(metadata, this.registry);
-
 		assertBeanDefinitionRegisteredFor("myRepository", "profileRepository");
 	}
 
 	@Test // DATACMNS-1497
 	void usesBeanNameGeneratorProvided() {
-
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(SampleConfiguration.class, true);
 		BeanNameGenerator delegate = new AnnotationBeanNameGenerator();
-
 		DummyRegistrar registrar = new DummyRegistrar();
 		registrar.setEnvironment(this.environment);
 		registrar.registerBeanDefinitions(metadata, this.registry,
 				(definition, registry) -> delegate.generateBeanName(definition, registry).concat("Hello"));
-
 		assertBeanDefinitionRegisteredFor("myRepositoryHello");
 	}
 
 	private void assertBeanDefinitionRegisteredFor(String... names) {
-
 		for (String name : names) {
 			verify(this.registry, times(1)).registerBeanDefinition(eq(name), any(BeanDefinition.class));
 		}
 	}
 
 	private void assertNoBeanDefinitionRegisteredFor(String... names) {
-
 		for (String name : names) {
 			verify(this.registry, times(0)).registerBeanDefinition(eq(name), any(BeanDefinition.class));
 		}

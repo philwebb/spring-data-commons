@@ -52,10 +52,8 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 	@Test // DATACMNS-1211
 	void preventsPageSizeFromExceedingMayValueIfConfigured() {
-
 		// Read side
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=0&size=200").build();
-
 		assertSupportedAndResult(this.supportedMethodParameter, PageRequest.of(0, 100), request);
 	}
 
@@ -85,109 +83,81 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 	@Test // DATACMNS-1211
 	void qualifierIsUsedInParameterLookup() throws Exception {
-
 		MethodParameter parameter = new MethodParameter(Sample.class.getMethod("validQualifier", Pageable.class), 0);
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?foo_page=2&foo_size=10").build();
-
 		assertSupportedAndResult(parameter, PageRequest.of(2, 10), request);
 	}
 
 	@Test // DATACMNS-1211
 	void usesDefaultPageSizeIfRequestPageSizeIsLessThanOne() {
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=0&size=0").build();
-
 		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
 	void rejectsInvalidCustomDefaultForPageSize() throws Exception {
-
 		MethodParameter parameter = new MethodParameter(
 				Sample.class.getMethod("invalidDefaultPageSize", Pageable.class), 0);
-
 		assertThatIllegalStateException().isThrownBy(() -> assertSupportedAndResult(parameter, DEFAULT_PAGE_REQUEST))
 				.withMessageContaining("invalidDefaultPageSize");
 	}
 
 	@Test // DATACMNS-1211
 	void fallsBackToFirstPageIfNegativePageNumberIsGiven() {
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=-1").build();
-
 		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
 	void pageParamIsNotNumeric() {
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=a").build();
-
 		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
 	void sizeParamIsNotNumeric() {
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?size=a").build();
-
 		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
 	void returnsNullIfFallbackIsUnpagedAndNoParametersGiven() {
-
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setFallbackPageable(Pageable.unpaged());
-
 		assertSupportedAndResult(this.supportedMethodParameter, Pageable.unpaged(), TestUtils.getWebfluxRequest(),
 				resolver);
 	}
 
 	@Test // DATACMNS-1211
 	void returnsFallbackIfOnlyPageIsGiven() {
-
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setFallbackPageable(Pageable.unpaged());
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=20").build();
-
 		assertThat(resolve(resolver, request)).isEqualTo(Pageable.unpaged());
 	}
 
 	@Test // DATACMNS-1211
 	void returnsFallbackIfFallbackIsUnpagedAndOnlySizeIsGiven() {
-
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setFallbackPageable(Pageable.unpaged());
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?size=10").build();
-
 		assertThat(resolve(resolver, request)).isEqualTo(Pageable.unpaged());
 	}
 
 	@Test // DATACMNS-1211
 	void considersOneIndexedParametersSetting() {
-
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setOneIndexedParameters(true);
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=1").build();
-
 		assertThat(resolve(resolver, request).getPageNumber()).isEqualTo(0);
 	}
 
 	@Test // DATACMNS-1211
 	void usesNullSortIfNoDefaultIsConfiguredAndPageAndSizeAreGiven() {
-
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setFallbackPageable(Pageable.unpaged());
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=0&size=10").build();
-
 		Pageable result = resolve(resolver, request);
-
 		assertThat(result.getPageNumber()).isEqualTo(0);
 		assertThat(result.getPageSize()).isEqualTo(10);
 		assertThat(result.getSort().isSorted()).isFalse();
@@ -195,38 +165,29 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 	@Test // DATACMNS-1211
 	void oneIndexedParametersDefaultsIndexOutOfRange() {
-
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setOneIndexedParameters(true);
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=0").build();
-
 		assertThat(resolve(resolver, request).getPageNumber()).isEqualTo(0);
 	}
 
 	@Test // DATACMNS-1211
 	void returnsCorrectPageSizeForOneIndexParameters() {
-
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setOneIndexedParameters(true);
-
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?size=10").build();
-
 		assertThat(resolve(resolver, request).getPageSize()).isEqualTo(10);
 	}
 
 	@Test // DATACMNS-1211
 	void detectsFallbackPageableIfNullOneIsConfigured() {
-
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setFallbackPageable(Pageable.unpaged());
-
 		assertThat(resolver.isFallbackPageable(null)).isFalse();
 		assertThat(resolver.isFallbackPageable(PageRequest.of(0, 10))).isFalse();
 	}
 
 	private static ReactivePageableHandlerMethodArgumentResolver getReactiveResolver() {
-
 		ReactivePageableHandlerMethodArgumentResolver resolver = new ReactivePageableHandlerMethodArgumentResolver();
 		resolver.setMaxPageSize(100);
 		return resolver;
@@ -243,9 +204,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 	private static void assertSupportedAndResult(MethodParameter parameter, Pageable pageable,
 			MockServerHttpRequest request, SyncHandlerMethodArgumentResolver resolver) {
-
 		assertThat(resolver.supportsParameter(parameter)).isTrue();
-
 		Object value = resolver.resolveArgumentValue(parameter, null, MockServerWebExchange.from(request));
 		assertThat(value).isEqualTo(pageable);
 	}

@@ -54,10 +54,8 @@ class AuditingHandlerUnitTests {
 
 	@BeforeEach
 	void setUp() {
-
 		this.handler = getHandler();
 		this.user = new AuditedUser();
-
 		this.auditorAware = mock(AuditorAware.class);
 		when(this.auditorAware.getCurrentAuditor()).thenReturn(Optional.of(this.user));
 	}
@@ -72,12 +70,9 @@ class AuditingHandlerUnitTests {
 	 */
 	@Test
 	void doesNotSetAuditorIfNotConfigured() {
-
 		this.handler.markCreated(this.user);
-
 		assertThat(this.user.getCreatedDate()).isPresent();
 		assertThat(this.user.getLastModifiedDate()).isPresent();
-
 		assertThat(this.user.getCreatedBy()).isNotPresent();
 		assertThat(this.user.getLastModifiedBy()).isNotPresent();
 	}
@@ -88,17 +83,12 @@ class AuditingHandlerUnitTests {
 	 */
 	@Test
 	void setsAuditorIfConfigured() {
-
 		this.handler.setAuditorAware(this.auditorAware);
-
 		this.handler.markCreated(this.user);
-
 		assertThat(this.user.getCreatedDate()).isPresent();
 		assertThat(this.user.getLastModifiedDate()).isPresent();
-
 		assertThat(this.user.getCreatedBy()).isPresent();
 		assertThat(this.user.getLastModifiedBy()).isPresent();
-
 		verify(this.auditorAware).getCurrentAuditor();
 	}
 
@@ -108,17 +98,13 @@ class AuditingHandlerUnitTests {
 	 */
 	@Test
 	void honoursModifiedOnCreationFlag() {
-
 		this.handler.setAuditorAware(this.auditorAware);
 		this.handler.setModifyOnCreation(false);
 		this.handler.markCreated(this.user);
-
 		assertThat(this.user.getCreatedDate()).isPresent();
 		assertThat(this.user.getCreatedBy()).isPresent();
-
 		assertThat(this.user.getLastModifiedBy()).isNotPresent();
 		assertThat(this.user.getLastModifiedDate()).isNotPresent();
-
 		verify(this.auditorAware).getCurrentAuditor();
 	}
 
@@ -127,61 +113,45 @@ class AuditingHandlerUnitTests {
 	 */
 	@Test
 	void onlySetsModificationDataOnNotNewEntities() {
-
 		AuditedUser audited = new AuditedUser();
 		audited.id = 1L;
-
 		this.handler.setAuditorAware(this.auditorAware);
 		this.handler.markModified(audited);
-
 		assertThat(audited.getCreatedBy()).isNotPresent();
 		assertThat(audited.getCreatedDate()).isNotPresent();
-
 		assertThat(audited.getLastModifiedBy()).isPresent();
 		assertThat(audited.getLastModifiedDate()).isPresent();
-
 		verify(this.auditorAware).getCurrentAuditor();
 	}
 
 	@Test
 	void doesNotSetTimeIfConfigured() {
-
 		this.handler.setDateTimeForNow(false);
 		this.handler.setAuditorAware(this.auditorAware);
 		this.handler.markCreated(this.user);
-
 		assertThat(this.user.getCreatedBy()).isPresent();
 		assertThat(this.user.getCreatedDate()).isNotPresent();
-
 		assertThat(this.user.getLastModifiedBy()).isPresent();
 		assertThat(this.user.getLastModifiedDate()).isNotPresent();
 	}
 
 	@Test // DATAJPA-9
 	void usesDateTimeProviderIfConfigured() {
-
 		DateTimeProvider provider = mock(DateTimeProvider.class);
 		doReturn(Optional.empty()).when(provider).getNow();
-
 		this.handler.setDateTimeProvider(provider);
 		this.handler.markCreated(this.user);
-
 		verify(provider, times(1)).getNow();
 	}
 
 	@Test
 	void setsAuditingInfoOnEntityUsingInheritance() {
-
 		AuditingHandler handler = new AuditingHandler(PersistentEntities.of(new SampleMappingContext()));
 		handler.setModifyOnCreation(false);
-
 		MyDocument result = handler.markCreated(new MyDocument());
-
 		assertThat(result.created).isNotNull();
 		assertThat(result.modified).isNull();
-
 		result = handler.markModified(result);
-
 		assertThat(result.created).isNotNull();
 		assertThat(result.modified).isNotNull();
 	}

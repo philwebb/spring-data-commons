@@ -50,9 +50,7 @@ class PersistentPropertyPathFactoryUnitTests {
 
 	@Test // DATACMNS-380
 	void returnsPersistentPropertyPathForDotPath() {
-
 		PersistentPropertyPath<SamplePersistentProperty> path = this.factory.from(PersonSample.class, "persons.name");
-
 		assertThat(path.getLength()).isEqualTo(2);
 		assertThat(path.getBaseProperty().getName()).isEqualTo("persons");
 		assertThat(path.getLeafProperty().getName()).isEqualTo("name");
@@ -71,7 +69,6 @@ class PersistentPropertyPathFactoryUnitTests {
 
 	@Test // DATACMNS-727
 	void exposesContextForFailingPropertyPathLookup() {
-
 		assertThatExceptionOfType(InvalidPersistentPropertyPath.class)
 				.isThrownBy(() -> this.factory.from(PersonSample.class, "persons.firstname"))
 				.matches(e -> StringUtils.hasText(e.getMessage())).matches(e -> e.getResolvedPath().equals("persons"))
@@ -81,26 +78,21 @@ class PersistentPropertyPathFactoryUnitTests {
 
 	@Test // DATACMNS-1116
 	void cachesPersistentPropertyPaths() {
-
 		assertThat(this.factory.from(PersonSample.class, "persons.name"))
 				.isSameAs(this.factory.from(PersonSample.class, "persons.name"));
 	}
 
 	@Test // DATACMNS-1275
 	void findsNestedPropertyByFilter() {
-
 		PersistentPropertyPaths<?, SamplePersistentProperty> paths = this.factory.from(Sample.class,
 				property -> property.findAnnotation(Inject.class) != null);
-
 		assertThat(paths).hasSize(1).anySatisfy(it -> it.toDotPath().equals("inner.annotatedField"));
 	}
 
 	@Test // DATACMNS-1275
 	void findsNestedPropertiesByFilter() {
-
 		PersistentPropertyPaths<?, SamplePersistentProperty> paths = this.factory.from(Wrapper.class,
 				property -> property.findAnnotation(Inject.class) != null);
-
 		assertThat(paths).hasSize(2);
 		assertThat(paths).element(0).satisfies(it -> it.toDotPath().equals("first.inner.annotatedField"));
 		assertThat(paths).element(1).satisfies(it -> it.toDotPath().equals("second.inner.annotatedField"));
@@ -113,46 +105,36 @@ class PersistentPropertyPathFactoryUnitTests {
 
 	@Test // DATACMNS-1275
 	void returnsShortestsPathsFirst() {
-
 		Streamable<String> paths = this.factory.from(First.class, it -> true, it -> true)
 				.map(PersistentPropertyPath::toDotPath);
-
 		assertThat(paths).containsExactly("third", "second", "third.lastname", "second.firstname");
 	}
 
 	@Test // DATACMNS-1275
 	void doesNotTraverseAssociationsByDefault() {
-
 		Streamable<String> paths = this.factory.from(First.class, it -> true).map(PersistentPropertyPath::toDotPath);
-
 		assertThat(paths).contains("third", "second", "second.firstname").doesNotContain("third.lastname");
 	}
 
 	@Test // DATACMNS-1275
 	void traversesAssociationsIfTraversalGuardAllowsIt() {
-
 		PersistentPropertyPaths<First, SamplePersistentProperty> paths = this.factory.from(First.class, it -> true,
 				it -> true);
-
 		assertThat(paths.contains("third.lastname")).isTrue();
 		assertThat(paths.contains(PropertyPath.from("third.lastname", First.class)));
 	}
 
 	@Test // DATACMNS-1275
 	void returnsEmptyPropertyPathsIfNoneSelected() {
-
 		PersistentPropertyPaths<Third, SamplePersistentProperty> paths = this.factory.from(Third.class, it -> false);
-
 		assertThat(paths).isEmpty();
 		assertThat(paths.getFirst()).isEmpty();
 	}
 
 	@Test // DATACMNS-1275
 	void returnsShortestPathFirst() {
-
 		PersistentPropertyPaths<First, SamplePersistentProperty> paths = this.factory.from(First.class,
 				it -> !it.isEntity(), it -> true);
-
 		assertThat(paths.contains("second.firstname")).isTrue();
 		assertThat(paths.getFirst()).hasValueSatisfying(it -> assertThat(it.toDotPath()).isEqualTo("third.lastname"));
 	}

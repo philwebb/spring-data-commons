@@ -58,20 +58,16 @@ class QuerydslRepositoryInvokerAdapterUnitTests {
 
 	@Test // DATACMNS-669
 	void forwardsFindAllToExecutorWithPredicate() {
-
 		Sort sort = Sort.by("firstname");
 		this.adapter.invokeFindAll(sort);
-
 		verify(this.executor, times(1)).findAll(this.predicate, sort);
 		verify(this.delegate, times(0)).invokeFindAll(sort);
 	}
 
 	@Test // DATACMNS-669
 	void forwardsFindAllWithPageableToExecutorWithPredicate() {
-
 		PageRequest pageable = PageRequest.of(0, 10);
 		this.adapter.invokeFindAll(pageable);
-
 		verify(this.executor, times(1)).findAll(this.predicate, pageable);
 		verify(this.delegate, times(0)).invokeFindAll(pageable);
 	}
@@ -79,29 +75,20 @@ class QuerydslRepositoryInvokerAdapterUnitTests {
 	@Test // DATACMNS-669
 	@SuppressWarnings("unchecked")
 	void forwardsMethodsToDelegate() {
-
 		this.adapter.hasDeleteMethod();
 		verify(this.delegate, times(1)).hasDeleteMethod();
-
 		this.adapter.hasFindAllMethod();
 		verify(this.delegate, times(1)).hasFindAllMethod();
-
 		this.adapter.hasFindOneMethod();
 		verify(this.delegate, times(1)).hasFindOneMethod();
-
 		this.adapter.hasSaveMethod();
 		verify(this.delegate, times(1)).hasSaveMethod();
-
 		this.adapter.invokeDeleteById(any(Serializable.class));
 		verify(this.delegate, times(1)).invokeDeleteById(any());
-
 		this.adapter.invokeFindById(any(Serializable.class));
 		verify(this.delegate, times(1)).invokeFindById(any());
-
 		this.adapter.invokeQueryMethod(any(), any(), any(), any());
-
 		verify(this.delegate, times(1)).invokeQueryMethod(any(), any(), any(), any());
-
 		this.adapter.invokeSave(any());
 		verify(this.delegate, times(1)).invokeSave(any());
 	}

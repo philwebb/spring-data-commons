@@ -49,29 +49,23 @@ class AuditingBeanDefinitionRegistrarSupportUnitTests {
 
 	@Test // DATCMNS-389
 	void testRegisterBeanDefinitions() {
-
 		AuditingBeanDefinitionRegistrarSupport registrar = new DummyAuditingBeanDefinitionRegistrarSupport();
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(SampleConfig.class);
-
 		registrar.registerBeanDefinitions(metadata, this.registry);
 		verify(this.registry, times(1)).registerBeanDefinition(anyString(), any(BeanDefinition.class));
 	}
 
 	@Test // DATACMNS-1453
 	void rejectsNullAnnotationMetadata() {
-
 		AuditingBeanDefinitionRegistrarSupport registrar = new DummyAuditingBeanDefinitionRegistrarSupport();
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> registrar.registerBeanDefinitions(null, this.registry));
 	}
 
 	@Test // DATACMNS-1453
 	void rejectsNullRegistry() {
-
 		AuditingBeanDefinitionRegistrarSupport registrar = new DummyAuditingBeanDefinitionRegistrarSupport();
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(SampleConfig.class);
-
 		assertThatExceptionOfType(IllegalArgumentException.class)
 				.isThrownBy(() -> registrar.registerBeanDefinitions(metadata, null));
 	}
@@ -96,6 +90,7 @@ class AuditingBeanDefinitionRegistrarSupportUnitTests {
 		protected AuditingConfiguration getConfiguration(AnnotationMetadata annotationMetadata) {
 
 			return new AuditingConfiguration() {
+
 				@Override
 				public String getAuditorAwareRef() {
 					return "auditor";
@@ -115,6 +110,7 @@ class AuditingBeanDefinitionRegistrarSupportUnitTests {
 				public boolean isModifyOnCreate() {
 					return true;
 				}
+
 			};
 		}
 

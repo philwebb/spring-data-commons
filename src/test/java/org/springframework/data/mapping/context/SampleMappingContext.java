@@ -18,7 +18,6 @@ public class SampleMappingContext extends
 	@Override
 	protected SamplePersistentProperty createPersistentProperty(Property property,
 			BasicPersistentEntity<Object, SamplePersistentProperty> owner, SimpleTypeHolder simpleTypeHolder) {
-
 		return new SamplePersistentProperty(property, owner, simpleTypeHolder);
 	}
 

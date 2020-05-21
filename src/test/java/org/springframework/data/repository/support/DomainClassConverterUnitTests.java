@@ -59,9 +59,13 @@ import static org.mockito.Mockito.when;
 class DomainClassConverterUnitTests {
 
 	static final User USER = new User();
+
 	static final TypeDescriptor STRING_TYPE = TypeDescriptor.valueOf(String.class);
+
 	static final TypeDescriptor USER_TYPE = TypeDescriptor.valueOf(User.class);
+
 	static final TypeDescriptor SUB_USER_TYPE = TypeDescriptor.valueOf(SubUser.class);
+
 	static final TypeDescriptor LONG_TYPE = TypeDescriptor.valueOf(Long.class);
 
 	@SuppressWarnings("rawtypes")
@@ -78,7 +82,6 @@ class DomainClassConverterUnitTests {
 
 	@Test
 	void matchFailsIfNoDaoAvailable() {
-
 		GenericApplicationContext ctx = new GenericApplicationContext();
 		ctx.refresh();
 		this.converter.setApplicationContext(ctx);
@@ -87,21 +90,15 @@ class DomainClassConverterUnitTests {
 
 	@Test
 	void matchesIfConversionInBetweenIsPossible() {
-
 		this.converter.setApplicationContext(initContextWithRepo());
-
 		when(this.service.canConvert(String.class, Long.class)).thenReturn(true);
-
 		assertMatches(true);
 	}
 
 	@Test
 	void matchFailsIfNoIntermediateConversionIsPossible() {
-
 		this.converter.setApplicationContext(initContextWithRepo());
-
 		when(this.service.canConvert(String.class, Long.class)).thenReturn(false);
-
 		assertMatches(false);
 	}
 
@@ -116,96 +113,72 @@ class DomainClassConverterUnitTests {
 	}
 
 	private void assertMatches(boolean matchExpected) {
-
 		assertThat(this.converter.matches(STRING_TYPE, USER_TYPE)).isEqualTo(matchExpected);
 	}
 
 	@Test
 	void convertsStringToUserCorrectly() throws Exception {
-
 		ApplicationContext context = initContextWithRepo();
 		this.converter.setApplicationContext(context);
-
 		doReturn(1L).when(this.service).convert(any(), eq(Long.class));
-
 		this.converter.convert("1", STRING_TYPE, USER_TYPE);
-
 		UserRepository bean = context.getBean(UserRepository.class);
 		UserRepository repo = (UserRepository) ((Advised) bean).getTargetSource().getTarget();
-
 		verify(repo, times(1)).findById(1L);
 	}
 
 	@Test // DATACMNS-133
 	void discoversFactoryAndRepoFromParentApplicationContext() {
-
 		ApplicationContext parent = initContextWithRepo();
 		GenericApplicationContext context = new GenericApplicationContext(parent);
 		context.refresh();
-
 		when(this.service.canConvert(String.class, Long.class)).thenReturn(true);
-
 		this.converter.setApplicationContext(context);
 		assertThat(this.converter.matches(STRING_TYPE, USER_TYPE)).isTrue();
 	}
 
 	@Test // DATACMNS-583
 	void converterDoesntMatchIfTargetTypeIsAssignableFromSource() {
-
 		this.converter.setApplicationContext(initContextWithRepo());
-
 		assertThat(this.converter.matches(SUB_USER_TYPE, USER_TYPE)).isFalse();
 		assertThat((User) this.converter.convert(USER, USER_TYPE, USER_TYPE)).isEqualTo(USER);
 	}
 
 	@Test // DATACMNS-627
 	void supportsConversionFromIdType() {
-
 		this.converter.setApplicationContext(initContextWithRepo());
-
 		assertThat(this.converter.matches(LONG_TYPE, USER_TYPE)).isTrue();
 	}
 
 	@Test // DATACMNS-627
 	void supportsConversionFromEntityToIdType() {
-
 		this.converter.setApplicationContext(initContextWithRepo());
-
 		assertThat(this.converter.matches(USER_TYPE, LONG_TYPE)).isTrue();
 	}
 
 	@Test // DATACMNS-627
 	void supportsConversionFromEntityToString() {
-
 		this.converter.setApplicationContext(initContextWithRepo());
-
 		when(this.service.canConvert(Long.class, String.class)).thenReturn(true);
 		assertThat(this.converter.matches(USER_TYPE, STRING_TYPE)).isTrue();
 	}
 
 	@Test // DATACMNS-683
 	void toIdConverterDoesNotMatchIfTargetTypeIsAssignableFromSource() throws NoSuchMethodException {
-
 		this.converter.setApplicationContext(initContextWithRepo());
-
 		@SuppressWarnings("rawtypes")
 		Optional<ToIdConverter> toIdConverter = (Optional<ToIdConverter>) ReflectionTestUtils.getField(this.converter,
 				"toIdConverter");
-
 		Method method = Wrapper.class.getMethod("foo", User.class);
 		TypeDescriptor target = TypeDescriptor.nested(new MethodParameter(method, 0), 0);
-
 		assertThat(toIdConverter).map(it -> it.matches(SUB_USER_TYPE, target)).hasValue(false);
 	}
 
 	private ApplicationContext initContextWithRepo() {
-
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(DummyRepositoryFactoryBean.class);
 		builder.addConstructorArgValue(UserRepository.class);
-
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
 		factory.registerBeanDefinition("provider", builder.getBeanDefinition());
-
 		GenericApplicationContext ctx = new GenericApplicationContext(factory);
 		ctx.refresh();
 		return ctx;

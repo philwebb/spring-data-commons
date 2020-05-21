@@ -59,31 +59,27 @@ class DomainClassConverterIntegrationTests {
 	@Test
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void findsRepositoryFactories() {
-
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory() {
+
 			@Override
 			protected BeanWrapper instantiateBean(String beanName, RootBeanDefinition mbd) {
 				return beanName.equals("repoFactory")
 						? new BeanWrapperImpl(DomainClassConverterIntegrationTests.this.factory)
 						: super.instantiateBean(beanName, mbd);
 			}
-		};
 
+		};
 		beanFactory.registerBeanDefinition("postProcessor", new RootBeanDefinition(PredictingProcessor.class));
 		beanFactory.registerBeanDefinition("repoFactory", new RootBeanDefinition(RepositoryFactoryBeanSupport.class));
-
 		doReturn(Person.class).when(this.information).getDomainType();
 		doReturn(Serializable.class).when(this.information).getIdType();
 		doReturn(PersonRepository.class).when(this.factory).getObjectType();
 		doReturn(this.information).when(this.factory).getRepositoryInformation();
-
 		GenericApplicationContext context = new GenericApplicationContext(beanFactory);
 		context.refresh();
 		assertThat(context.getBeansOfType(RepositoryFactoryInformation.class).values()).hasSize(1);
-
 		DomainClassConverter converter = new DomainClassConverter(new DefaultConversionService());
 		converter.setApplicationContext(context);
-
 		assertThat(converter.matches(TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(Person.class)))
 				.isTrue();
 	}

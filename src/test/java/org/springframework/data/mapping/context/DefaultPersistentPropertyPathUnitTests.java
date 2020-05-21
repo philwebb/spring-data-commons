@@ -64,47 +64,38 @@ class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
 	@Test
 	void usesPropertyNameForSimpleDotPath() {
-
 		when(this.first.getName()).thenReturn("foo");
 		when(this.second.getName()).thenReturn("bar");
-
 		assertThat(this.twoLegs.toDotPath()).isEqualTo("foo.bar");
 	}
 
 	@Test
 	void usesConverterToCreatePropertyPath() {
-
 		when(this.converter.convert(any())).thenReturn("foo");
-
 		assertThat(this.twoLegs.toDotPath(this.converter)).isEqualTo("foo.foo");
 	}
 
 	@Test
 	void returnsCorrectLeafProperty() {
-
 		assertThat(this.twoLegs.getLeafProperty()).isEqualTo(this.second);
 		assertThat(this.oneLeg.getLeafProperty()).isEqualTo(this.first);
 	}
 
 	@Test
 	void returnsCorrectBaseProperty() {
-
 		assertThat(this.twoLegs.getBaseProperty()).isEqualTo(this.first);
 		assertThat(this.oneLeg.getBaseProperty()).isEqualTo(this.first);
 	}
 
 	@Test
 	void detectsBasePathCorrectly() {
-
 		assertThat(this.oneLeg.isBasePathOf(this.twoLegs)).isTrue();
 		assertThat(this.twoLegs.isBasePathOf(this.oneLeg)).isFalse();
 	}
 
 	@Test
 	void calculatesExtensionCorrectly() {
-
 		PersistentPropertyPath<P> extension = this.twoLegs.getExtensionForBaseOf(this.oneLeg);
-
 		assertThat(extension).isEqualTo(new DefaultPersistentPropertyPath<>(Collections.singletonList(this.second)));
 	}
 
@@ -120,10 +111,8 @@ class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
 	@Test
 	void returnItselfForEmptyPath() {
-
 		PersistentPropertyPath<P> parent = this.oneLeg.getParentPath();
 		PersistentPropertyPath<P> parentsParent = parent.getParentPath();
-
 		assertThat(parentsParent).isEmpty();
 		assertThat(parentsParent).isSameAs(parent);
 	}
@@ -146,17 +135,13 @@ class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
 	@Test // DATACMNS-1466
 	void returnsNullForLeafPropertyOnEmptyPath() {
-
 		PersistentPropertyPath<P> path = new DefaultPersistentPropertyPath<P>(Collections.emptyList());
-
 		assertThat(path.getLeafProperty()).isNull();
 	}
 
 	@Test // DATACMNS-1466
 	void returnsNullForBasePropertyOnEmptyPath() {
-
 		PersistentPropertyPath<P> path = new DefaultPersistentPropertyPath<P>(Collections.emptyList());
-
 		assertThat(path.getBaseProperty()).isNull();
 	}
 

@@ -24,18 +24,15 @@ public class SampleConfiguration {
 
 	@Bean
 	RepositoryFactoryBeanSupport<Repository<User, Long>, User, Long> userRepositoryFactory() {
-
 		return new DummyRepositoryFactoryBean<>(UserRepository.class);
 	}
 
 	@Bean
 	RepositoryFactoryBeanSupport<Repository<Product, Long>, Product, Long> productRepositoryFactory(
 			ProductRepository productRepository) {
-
 		DummyRepositoryFactoryBean<Repository<Product, Long>, Product, Long> factory = new DummyRepositoryFactoryBean<>(
 				ProductRepository.class);
 		factory.setCustomImplementation(productRepository);
-
 		return factory;
 	}
 

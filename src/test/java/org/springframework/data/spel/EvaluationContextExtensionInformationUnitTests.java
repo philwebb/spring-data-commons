@@ -30,12 +30,9 @@ class EvaluationContextExtensionInformationUnitTests {
 
 	@Test // DATACMNS-1024
 	void supportsMethodOverloadsOnRoot() {
-
 		EvaluationContextExtensionInformation information = new EvaluationContextExtensionInformation(
 				SampleExtension.class);
-
 		Optional<Object> target = Optional.of(new Object());
-
 		information.getRootObjectInformation(target).getFunctions(target);
 	}
 

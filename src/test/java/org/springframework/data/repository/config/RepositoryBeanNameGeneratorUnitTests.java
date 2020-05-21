@@ -68,25 +68,19 @@ class RepositoryBeanNameGeneratorUnitTests {
 
 	@Test // DATACMNS-1115
 	void usesClassNameOfScannedBeanDefinition() throws IOException {
-
 		MetadataReaderFactory factory = new SimpleMetadataReaderFactory();
 		MetadataReader reader = factory.getMetadataReader(SomeImplementation.class.getName());
-
 		BeanDefinition definition = new ScannedGenericBeanDefinition(reader);
-
 		assertThat(this.generator.generateBeanName(definition)).isEqualTo(SAMPLE_IMPLEMENTATION_BEAN_NAME);
 	}
 
 	@Test // DATACMNS-1115
 	void usesClassNameOfAnnotatedBeanDefinition() {
-
 		BeanDefinition definition = new AnnotatedGenericBeanDefinition(SomeImplementation.class);
-
 		assertThat(this.generator.generateBeanName(definition)).isEqualTo(SAMPLE_IMPLEMENTATION_BEAN_NAME);
 	}
 
 	private BeanDefinition getBeanDefinitionFor(Class<?> repositoryInterface) {
-
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(RepositoryFactoryBeanSupport.class);
 		builder.addConstructorArgValue(repositoryInterface.getName());
 		return builder.getBeanDefinition();

@@ -60,27 +60,21 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 
 	@Test
 	void instantiatesSimpleObjectCorrectly() {
-
 		doReturn(Object.class).when(this.entity).getType();
 		INSTANCE.createInstance(this.entity, this.provider);
 	}
 
 	@Test
 	void instantiatesArrayCorrectly() {
-
 		doReturn(String[][].class).when(this.entity).getType();
 		INSTANCE.createInstance(this.entity, this.provider);
 	}
 
 	@Test // DATACMNS-1126
 	void instantiatesTypeWithPreferredConstructorUsingParameterValueProvider() {
-
 		PreferredConstructor<Foo, P> constructor = PreferredConstructorDiscoverer.discover(Foo.class);
-
 		doReturn(constructor).when(this.entity).getPersistenceConstructor();
-
 		Object instance = INSTANCE.createInstance(this.entity, this.provider);
-
 		assertThat(instance).isInstanceOf(Foo.class);
 		assertThat(constructor).satisfies(
 				it -> verify(this.provider, times(1)).getParameterValue(it.getParameters().iterator().next()));
@@ -89,28 +83,20 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 	@Test // DATACMNS-300
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void throwsExceptionOnBeanInstantiationException() {
-
 		doReturn(PersistentEntity.class).when(this.entity).getType();
-
 		assertThatExceptionOfType(MappingInstantiationException.class)
 				.isThrownBy(() -> INSTANCE.createInstance(this.entity, this.provider));
 	}
 
 	@Test // DATACMNS-134
 	void createsInnerClassInstanceCorrectly() {
-
 		BasicPersistentEntity<Inner, P> entity = new BasicPersistentEntity<>(from(Inner.class));
 		assertThat(entity.getPersistenceConstructor()).satisfies(it -> {
-
 			Parameter<Object, P> parameter = it.getParameters().iterator().next();
-
 			Object outer = new Outer();
-
 			when(this.provider.getParameterValue(parameter)).thenReturn(outer);
 			Inner instance = INSTANCE.createInstance(entity, this.provider);
-
 			assertThat(instance).isNotNull();
-
 			// Hack to check synthetic field as compiles create different field names
 			// (e.g. this$0, this$1)
 			ReflectionUtils.doWithFields(Inner.class, field -> {
@@ -125,26 +111,18 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 	@Test // DATACMNS-283
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void capturesContextOnInstantiationException() throws Exception {
-
 		PersistentEntity<Sample, P> entity = new BasicPersistentEntity<>(from(Sample.class));
-
 		doReturn("FOO").when(this.provider).getParameterValue(any(Parameter.class));
-
 		Constructor constructor = Sample.class.getConstructor(Long.class, String.class);
 		List<Object> parameters = Arrays.asList("FOO", "FOO");
-
 		try {
-
 			INSTANCE.createInstance(entity, this.provider);
 			fail("Expected MappingInstantiationException!");
-
 		}
 		catch (MappingInstantiationException o_O) {
-
 			assertThat(o_O.getConstructor()).hasValue(constructor);
 			assertThat(o_O.getConstructorArguments()).isEqualTo(parameters);
 			assertThat(o_O.getEntityType()).hasValue(Sample.class);
-
 			assertThat(o_O.getMessage()).contains(Sample.class.getName());
 			assertThat(o_O.getMessage()).contains(Long.class.getName());
 			assertThat(o_O.getMessage()).contains(String.class.getName());

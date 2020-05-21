@@ -110,66 +110,49 @@ class EnableSpringDataWebSupportIntegrationTests {
 
 	@Test // DATACMNS-330
 	void registersBasicBeanDefinitions() throws Exception {
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(SampleConfig.class);
 		List<String> names = Arrays.asList(context.getBeanDefinitionNames());
-
 		assertThat(names).contains("pageableResolver", "sortResolver");
-
 		assertResolversRegistered(context, SortHandlerMethodArgumentResolver.class,
 				PageableHandlerMethodArgumentResolver.class);
 	}
 
 	@Test // DATACMNS-330
 	void registersHateoasSpecificBeanDefinitions() throws Exception {
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(SampleConfig.class);
 		List<String> names = Arrays.asList(context.getBeanDefinitionNames());
-
 		assertThat(names).contains("pagedResourcesAssembler", "pagedResourcesAssemblerArgumentResolver");
 		assertResolversRegistered(context, PagedResourcesAssemblerArgumentResolver.class);
 	}
 
 	@Test // DATACMNS-330
 	void doesNotRegisterHateoasSpecificComponentsIfHateoasNotPresent() throws Exception {
-
 		HidingClassLoader classLoader = HidingClassLoader.hide(Link.class);
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(classLoader, SampleConfig.class);
-
 		List<String> names = Arrays.asList(context.getBeanDefinitionNames());
-
 		assertThat(names).contains("pageableResolver", "sortResolver");
 		assertThat(names).doesNotContain("pagedResourcesAssembler", "pagedResourcesAssemblerArgumentResolver");
 	}
 
 	@Test // DATACMNS-475
 	void registersJacksonSpecificBeanDefinitions() throws Exception {
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(SampleConfig.class);
 		List<String> names = Arrays.asList(context.getBeanDefinitionNames());
-
 		assertThat(names).contains("jacksonGeoModule");
 	}
 
 	@Test // DATACMNS-475
 	void doesNotRegisterJacksonSpecificComponentsIfJacksonNotPresent() throws Exception {
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(HidingClassLoader.hide(ObjectMapper.class),
 				SampleConfig.class);
-
 		List<String> names = Arrays.asList(context.getBeanDefinitionNames());
-
 		assertThat(names).doesNotContain("jacksonGeoModule");
 	}
 
 	@Test // DATACMNS-626
 	void registersFormatters() {
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(SampleConfig.class);
-
 		ConversionService conversionService = context.getBean(ConversionService.class);
-
 		assertThat(conversionService.canConvert(String.class, Distance.class)).isTrue();
 		assertThat(conversionService.canConvert(Distance.class, String.class)).isTrue();
 		assertThat(conversionService.canConvert(String.class, Point.class)).isTrue();
@@ -178,10 +161,8 @@ class EnableSpringDataWebSupportIntegrationTests {
 
 	@Test // DATACMNS-630
 	void createsProxyForInterfaceBasedControllerMethodParameter() throws Exception {
-
 		WebApplicationContext applicationContext = WebTestUtils.createApplicationContext(SampleConfig.class);
 		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
-
 		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString("/proxy");
 		builder.queryParam("name", "Foo");
 		builder.queryParam("shippingAddresses[0].zipCode", "ZIP");
@@ -189,67 +170,53 @@ class EnableSpringDataWebSupportIntegrationTests {
 		builder.queryParam("billingAddress.zipCode", "ZIP");
 		builder.queryParam("billingAddress.city", "City");
 		builder.queryParam("date", "2014-01-11");
-
 		mvc.perform(post(builder.build().toString())).andExpect(status().isOk());
 	}
 
 	@Test // DATACMNS-660
 	void picksUpWebConfigurationMixins() {
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(SampleConfig.class);
 		List<String> names = Arrays.asList(context.getBeanDefinitionNames());
-
 		assertThat(names).contains("sampleBean");
 	}
 
 	@Test // DATACMNS-822
 	void picksUpPageableResolverCustomizer() {
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(PageableResolverCustomizerConfig.class);
 		List<String> names = Arrays.asList(context.getBeanDefinitionNames());
 		PageableHandlerMethodArgumentResolver resolver = context.getBean(PageableHandlerMethodArgumentResolver.class);
-
 		assertThat(names).contains("testPageableResolverCustomizer");
 		assertThat((Integer) ReflectionTestUtils.getField(resolver, "maxPageSize")).isEqualTo(100);
 	}
 
 	@Test // DATACMNS-822
 	void picksUpSortResolverCustomizer() {
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(SortResolverCustomizerConfig.class);
 		List<String> names = Arrays.asList(context.getBeanDefinitionNames());
 		SortHandlerMethodArgumentResolver resolver = context.getBean(SortHandlerMethodArgumentResolver.class);
-
 		assertThat(names).contains("testSortResolverCustomizer");
 		assertThat((String) ReflectionTestUtils.getField(resolver, "sortParameter")).isEqualTo("foo");
 	}
 
 	@Test // DATACMNS-1237
 	void configuresProxyingHandlerMethodArgumentResolver() {
-
 		ApplicationContext context = WebTestUtils.createApplicationContext(SampleConfig.class);
-
 		RequestMappingHandlerAdapter adapter = context.getBean(RequestMappingHandlerAdapter.class);
-
 		assertThat(adapter.getArgumentResolvers().get(0)).isInstanceOf(ProxyingHandlerMethodArgumentResolver.class);
 	}
 
 	@Test // DATACMNS-1235
 	void picksUpEntityPathResolverIfRegistered() {
-
 		WebApplicationContext context = WebTestUtils.createApplicationContext(CustomEntityPathResolver.class);
-
 		assertThat(context.getBean(EntityPathResolver.class)).isEqualTo(CustomEntityPathResolver.resolver);
 		assertThat(context.getBean(QuerydslBindingsFactory.class).getEntityPathResolver())
 				.isEqualTo(CustomEntityPathResolver.resolver);
 	}
 
 	private static void assertResolversRegistered(ApplicationContext context, Class<?>... resolverTypes) {
-
 		RequestMappingHandlerAdapter adapter = context.getBean(RequestMappingHandlerAdapter.class);
 		assertThat(adapter).isNotNull();
 		List<HandlerMethodArgumentResolver> resolvers = adapter.getCustomArgumentResolvers();
-
 		Arrays.asList(resolverTypes).forEach(type -> assertThat(resolvers).hasAtLeastOneElementOfType(type));
 	}
 
