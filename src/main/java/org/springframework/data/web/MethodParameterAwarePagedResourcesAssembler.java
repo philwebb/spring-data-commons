@@ -51,6 +51,6 @@ class MethodParameterAwarePagedResourcesAssembler<T> extends PagedResourcesAssem
 	@Nonnull
 	@Override
 	protected MethodParameter getMethodParameter() {
-		return parameter;
+		return this.parameter;
 	}
 }

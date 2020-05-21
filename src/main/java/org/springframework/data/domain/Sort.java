@@ -170,7 +170,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	}
 
 	public boolean isSorted() {
-		return !orders.isEmpty();
+		return !this.orders.isEmpty();
 	}
 
 	public boolean isUnsorted() {
@@ -236,12 +236,12 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	public int hashCode() {
 
 		int result = 17;
-		result = 31 * result + orders.hashCode();
+		result = 31 * result + this.orders.hashCode();
 		return result;
 	}
 	@Override
 	public String toString() {
-		return orders.isEmpty() ? "UNSORTED" : StringUtils.collectionToCommaDelimitedString(orders);
+		return this.orders.isEmpty() ? "UNSORTED" : StringUtils.collectionToCommaDelimitedString(this.orders);
 	}
 
 	/**
@@ -252,7 +252,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 */
 	private Sort withDirection(Direction direction) {
 
-		return Sort.by(orders.stream().map(it -> new Order(direction, it.getProperty())).collect(Collectors.toList()));
+		return Sort.by(this.orders.stream().map(it -> new Order(direction, it.getProperty())).collect(Collectors.toList()));
 	}
 
 	/**
@@ -444,7 +444,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @return
 		 */
 		public Direction getDirection() {
-			return direction;
+			return this.direction;
 		}
 
 		/**
@@ -453,7 +453,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @return
 		 */
 		public String getProperty() {
-			return property;
+			return this.property;
 		}
 
 		/**
@@ -481,7 +481,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @return
 		 */
 		public boolean isIgnoreCase() {
-			return ignoreCase;
+			return this.ignoreCase;
 		}
 
 		/**
@@ -521,7 +521,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @return
 		 */
 		public Order ignoreCase() {
-			return new Order(direction, property, true, nullHandling);
+			return new Order(this.direction, this.property, true, this.nullHandling);
 		}
 
 		/**
@@ -532,7 +532,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @since 1.8
 		 */
 		public Order with(NullHandling nullHandling) {
-			return new Order(direction, this.property, ignoreCase, nullHandling);
+			return new Order(this.direction, this.property, this.ignoreCase, nullHandling);
 		}
 
 		/**
@@ -572,17 +572,17 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @since 1.7
 		 */
 		public NullHandling getNullHandling() {
-			return nullHandling;
+			return this.nullHandling;
 		}
 		@Override
 		public int hashCode() {
 
 			int result = 17;
 
-			result = 31 * result + direction.hashCode();
-			result = 31 * result + property.hashCode();
-			result = 31 * result + (ignoreCase ? 1 : 0);
-			result = 31 * result + nullHandling.hashCode();
+			result = 31 * result + this.direction.hashCode();
+			result = 31 * result + this.property.hashCode();
+			result = 31 * result + (this.ignoreCase ? 1 : 0);
+			result = 31 * result + this.nullHandling.hashCode();
 
 			return result;
 		}
@@ -605,13 +605,13 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		@Override
 		public String toString() {
 
-			String result = String.format("%s: %s", property, direction);
+			String result = String.format("%s: %s", this.property, this.direction);
 
-			if (!NullHandling.NATIVE.equals(nullHandling)) {
-				result += ", " + nullHandling;
+			if (!NullHandling.NATIVE.equals(this.nullHandling)) {
+				result += ", " + this.nullHandling;
 			}
 
-			if (ignoreCase) {
+			if (this.ignoreCase) {
 				result += ", ignoring case";
 			}
 
@@ -642,15 +642,15 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		}
 
 		public <S> TypedSort<S> by(Function<T, S> property) {
-			return new TypedSort<>(recorded.record(property));
+			return new TypedSort<>(this.recorded.record(property));
 		}
 
 		public <S> TypedSort<S> by(Recorded.ToCollectionConverter<T, S> collectionProperty) {
-			return new TypedSort<>(recorded.record(collectionProperty));
+			return new TypedSort<>(this.recorded.record(collectionProperty));
 		}
 
 		public <S> TypedSort<S> by(Recorded.ToMapConverter<T, S> mapProperty) {
-			return new TypedSort<>(recorded.record(mapProperty));
+			return new TypedSort<>(this.recorded.record(mapProperty));
 		}
 
 		@Override
@@ -665,7 +665,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		private Sort withDirection(Function<Sort, Sort> direction) {
 
-			return recorded.getPropertyPath() //
+			return this.recorded.getPropertyPath() //
 					.map(Sort::by) //
 					.map(direction) //
 					.orElseGet(Sort::unsorted);
@@ -673,7 +673,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		@Override
 		public Iterator<Order> iterator() {
 
-			return recorded.getPropertyPath() //
+			return this.recorded.getPropertyPath() //
 					.map(Order::by) //
 					.map(Collections::singleton) //
 					.orElseGet(Collections::emptySet).iterator();
@@ -682,7 +682,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		@Override
 		public String toString() {
 
-			return recorded.getPropertyPath() //
+			return this.recorded.getPropertyPath() //
 					.map(Sort::by) //
 					.orElseGet(Sort::unsorted) //
 					.toString();

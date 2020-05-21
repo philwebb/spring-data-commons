@@ -60,40 +60,40 @@ class CrudRepositoryInvokerUnitTests {
 	@Test // DATACMNS-589, DATAREST-216
 	void invokesRedeclaredSave() {
 
-		when(orderRepository.save(any())).then(AdditionalAnswers.returnsFirstArg());
+		when(this.orderRepository.save(any())).then(AdditionalAnswers.returnsFirstArg());
 
-		getInvokerFor(orderRepository, expectInvocationOnType(OrderRepository.class)).invokeSave(new Order());
+		getInvokerFor(this.orderRepository, expectInvocationOnType(OrderRepository.class)).invokeSave(new Order());
 	}
 
 	@Test // DATACMNS-589, DATAREST-216
 	void invokesRedeclaredFindOne() {
-		getInvokerFor(orderRepository, expectInvocationOnType(OrderRepository.class)).invokeFindById(1L);
+		getInvokerFor(this.orderRepository, expectInvocationOnType(OrderRepository.class)).invokeFindById(1L);
 	}
 
 	@Test // DATACMNS-589
 	void invokesRedeclaredDelete() throws Exception {
-		getInvokerFor(orderRepository, expectInvocationOnType(OrderRepository.class)).invokeDeleteById(1L);
+		getInvokerFor(this.orderRepository, expectInvocationOnType(OrderRepository.class)).invokeDeleteById(1L);
 	}
 
 	@Test // DATACMNS-589
 	void invokesSaveOnCrudRepository() throws Exception {
 
 		Method method = CrudRepository.class.getMethod("save", Object.class);
-		getInvokerFor(personRepository, expectInvocationOf(method)).invokeSave(new Person());
+		getInvokerFor(this.personRepository, expectInvocationOf(method)).invokeSave(new Person());
 	}
 
 	@Test // DATACMNS-589
 	void invokesFindOneOnCrudRepository() throws Exception {
 
 		Method method = CrudRepository.class.getMethod("findById", Object.class);
-		getInvokerFor(personRepository, expectInvocationOf(method)).invokeFindById(1L);
+		getInvokerFor(this.personRepository, expectInvocationOf(method)).invokeFindById(1L);
 	}
 
 	@Test // DATACMNS-589, DATAREST-216
 	void invokesDeleteOnCrudRepository() throws Exception {
 
 		Method method = CrudRepository.class.getMethod("deleteById", Object.class);
-		getInvokerFor(personRepository, expectInvocationOf(method)).invokeDeleteById(1L);
+		getInvokerFor(this.personRepository, expectInvocationOf(method)).invokeDeleteById(1L);
 	}
 
 	@Test // DATACMNS-589
@@ -101,8 +101,8 @@ class CrudRepositoryInvokerUnitTests {
 
 		Method method = CrudRepository.class.getMethod("findAll");
 
-		getInvokerFor(orderRepository, expectInvocationOf(method)).invokeFindAll(Pageable.unpaged());
-		getInvokerFor(orderRepository, expectInvocationOf(method)).invokeFindAll(Sort.unsorted());
+		getInvokerFor(this.orderRepository, expectInvocationOf(method)).invokeFindAll(Pageable.unpaged());
+		getInvokerFor(this.orderRepository, expectInvocationOf(method)).invokeFindAll(Sort.unsorted());
 	}
 
 	@Test // DATACMNS-589

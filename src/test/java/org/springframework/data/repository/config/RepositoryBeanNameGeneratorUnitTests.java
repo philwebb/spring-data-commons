@@ -55,12 +55,12 @@ class RepositoryBeanNameGeneratorUnitTests {
 
 	@Test
 	void usesPlainClassNameIfNoAnnotationPresent() {
-		assertThat(generator.generateBeanName(getBeanDefinitionFor(MyRepository.class))).isEqualTo("myRepository");
+		assertThat(this.generator.generateBeanName(getBeanDefinitionFor(MyRepository.class))).isEqualTo("myRepository");
 	}
 
 	@Test
 	void usesAnnotationValueIfAnnotationPresent() {
-		assertThat(generator.generateBeanName(getBeanDefinitionFor(AnnotatedInterface.class))).isEqualTo("specialName");
+		assertThat(this.generator.generateBeanName(getBeanDefinitionFor(AnnotatedInterface.class))).isEqualTo("specialName");
 	}
 
 	@Test // DATACMNS-1115
@@ -71,7 +71,7 @@ class RepositoryBeanNameGeneratorUnitTests {
 
 		BeanDefinition definition = new ScannedGenericBeanDefinition(reader);
 
-		assertThat(generator.generateBeanName(definition)).isEqualTo(SAMPLE_IMPLEMENTATION_BEAN_NAME);
+		assertThat(this.generator.generateBeanName(definition)).isEqualTo(SAMPLE_IMPLEMENTATION_BEAN_NAME);
 	}
 
 	@Test // DATACMNS-1115
@@ -79,7 +79,7 @@ class RepositoryBeanNameGeneratorUnitTests {
 
 		BeanDefinition definition = new AnnotatedGenericBeanDefinition(SomeImplementation.class);
 
-		assertThat(generator.generateBeanName(definition)).isEqualTo(SAMPLE_IMPLEMENTATION_BEAN_NAME);
+		assertThat(this.generator.generateBeanName(definition)).isEqualTo(SAMPLE_IMPLEMENTATION_BEAN_NAME);
 	}
 
 	private BeanDefinition getBeanDefinitionFor(Class<?> repositoryInterface) {

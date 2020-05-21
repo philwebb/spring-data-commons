@@ -82,7 +82,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 		this.hashCode = Lazy.of(property::hashCode);
 		this.usePropertyAccess = Lazy.of(() -> owner.getType().isInterface() || CAUSE_FIELD.equals(getField()));
 
-		this.entityTypeInformation = Lazy.of(() -> Optional.ofNullable(information.getActualType())//
+		this.entityTypeInformation = Lazy.of(() -> Optional.ofNullable(this.information.getActualType())//
 				.filter(it -> !simpleTypeHolder.isSimpleType(it.getType()))//
 				.filter(it -> !it.isCollectionLike())//
 				.filter(it -> !it.isMap()));
@@ -92,7 +92,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 		this.field = property.getField().orElse(null);
 		this.wither = property.getWither().orElse(null);
 
-		if (setter == null && (field == null || Modifier.isFinal(field.getModifiers()))) {
+		if (this.setter == null && (this.field == null || Modifier.isFinal(this.field.getModifiers()))) {
 			this.immutable = true;
 		} else {
 			this.immutable = false;
@@ -106,11 +106,11 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	}
 	@Override
 	public String getName() {
-		return name;
+		return this.name;
 	}
 	@Override
 	public Class<?> getType() {
-		return information.getType();
+		return this.information.getType();
 	}
 	@Override
 	public Class<?> getRawType() {
@@ -118,7 +118,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	}
 	@Override
 	public TypeInformation<?> getTypeInformation() {
-		return information;
+		return this.information;
 	}
 	@Override
 	public Iterable<? extends TypeInformation<?>> getPersistentEntityTypes() {
@@ -127,7 +127,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 			return Collections.emptySet();
 		}
 
-		return entityTypeInformation.get()//
+		return this.entityTypeInformation.get()//
 				.map(Collections::singleton)//
 				.orElseGet(Collections::emptySet);
 	}
@@ -162,7 +162,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	}
 	@Override
 	public boolean isImmutable() {
-		return immutable;
+		return this.immutable;
 	}
 	@Override
 	public boolean isAssociation() {
@@ -171,11 +171,11 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	@Nullable
 	@Override
 	public Association<P> getAssociation() {
-		return association.orElse(null);
+		return this.association.orElse(null);
 	}
 	@Override
 	public boolean isCollectionLike() {
-		return information.isCollectionLike();
+		return this.information.isCollectionLike();
 	}
 	@Override
 	public boolean isMap() {
@@ -187,12 +187,12 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	}
 	@Override
 	public boolean isEntity() {
-		return !isTransient() && entityTypeInformation.get().isPresent();
+		return !isTransient() && this.entityTypeInformation.get().isPresent();
 	}
 	@Nullable
 	@Override
 	public Class<?> getComponentType() {
-		return isMap() || isCollectionLike() ? information.getRequiredComponentType().getType() : null;
+		return isMap() || isCollectionLike() ? this.information.getRequiredComponentType().getType() : null;
 	}
 	@Nullable
 	@Override
@@ -200,7 +200,7 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 		if (isMap()) {
 
-			TypeInformation<?> mapValueType = information.getMapValueType();
+			TypeInformation<?> mapValueType = this.information.getMapValueType();
 			if (mapValueType != null) {
 				return mapValueType.getType();
 			}
@@ -210,10 +210,10 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	}
 	@Override
 	public Class<?> getActualType() {
-		return information.getRequiredActualType().getType();
+		return this.information.getRequiredActualType().getType();
 	}
 	public boolean usePropertyAccess() {
-		return usePropertyAccess.get();
+		return this.usePropertyAccess.get();
 	}
 
 	@SuppressWarnings("null")
@@ -241,6 +241,6 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	}
 	@Override
 	public String toString() {
-		return property.toString();
+		return this.property.toString();
 	}
 }

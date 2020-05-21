@@ -64,7 +64,7 @@ class RepositoryConfigurationDelegateUnitTests {
 
 		RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configSource, context, environment);
 
-		for (BeanComponentDefinition definition : delegate.registerRepositoriesIn(context, extension)) {
+		for (BeanComponentDefinition definition : delegate.registerRepositoriesIn(context, this.extension)) {
 
 			BeanDefinition beanDefinition = definition.getBeanDefinition();
 

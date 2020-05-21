@@ -35,14 +35,14 @@ class SimpleParameterAccessorUnitTests {
 	@BeforeEach
 	void setUp() throws SecurityException, NoSuchMethodException {
 
-		parameters = new DefaultParameters(Sample.class.getMethod("sample", String.class));
-		sortParameters = new DefaultParameters(Sample.class.getMethod("sample1", String.class, Sort.class));
-		pageableParameters = new DefaultParameters(Sample.class.getMethod("sample2", String.class, Pageable.class));
+		this.parameters = new DefaultParameters(Sample.class.getMethod("sample", String.class));
+		this.sortParameters = new DefaultParameters(Sample.class.getMethod("sample1", String.class, Sort.class));
+		this.pageableParameters = new DefaultParameters(Sample.class.getMethod("sample2", String.class, Pageable.class));
 	}
 
 	@Test
 	void testname() throws Exception {
-		new ParametersParameterAccessor(parameters, new Object[] { "test" });
+		new ParametersParameterAccessor(this.parameters, new Object[] { "test" });
 	}
 
 	@Test
@@ -52,24 +52,24 @@ class SimpleParameterAccessorUnitTests {
 
 	@Test
 	void rejectsNullValues() {
-		assertThatIllegalArgumentException().isThrownBy(() -> new ParametersParameterAccessor(parameters, null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ParametersParameterAccessor(this.parameters, null));
 	}
 
 	@Test
 	void rejectsTooLittleNumberOfArguments() {
-		assertThatIllegalArgumentException().isThrownBy(() -> new ParametersParameterAccessor(parameters, new Object[0]));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ParametersParameterAccessor(this.parameters, new Object[0]));
 	}
 
 	@Test
 	void rejectsTooManyArguments() {
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> new ParametersParameterAccessor(parameters, new Object[] { "test", "test" }));
+				.isThrownBy(() -> new ParametersParameterAccessor(this.parameters, new Object[] { "test", "test" }));
 	}
 
 	@Test
 	void returnsNullForPageableAndSortIfNoneAvailable() throws Exception {
 
-		ParameterAccessor accessor = new ParametersParameterAccessor(parameters, new Object[] { "test" });
+		ParameterAccessor accessor = new ParametersParameterAccessor(this.parameters, new Object[] { "test" });
 
 		assertThat(accessor.getPageable().isPaged()).isFalse();
 		assertThat(accessor.getSort().isSorted()).isFalse();
@@ -79,7 +79,7 @@ class SimpleParameterAccessorUnitTests {
 	void returnsSortIfAvailable() {
 
 		Sort sort = Sort.by("foo");
-		ParameterAccessor accessor = new ParametersParameterAccessor(sortParameters, new Object[] { "test", sort });
+		ParameterAccessor accessor = new ParametersParameterAccessor(this.sortParameters, new Object[] { "test", sort });
 
 		assertThat(accessor.getSort()).isEqualTo(sort);
 		assertThat(accessor.getPageable().isPaged()).isFalse();
@@ -89,7 +89,7 @@ class SimpleParameterAccessorUnitTests {
 	void returnsPageableIfAvailable() {
 
 		Pageable pageable = PageRequest.of(0, 10);
-		ParameterAccessor accessor = new ParametersParameterAccessor(pageableParameters, new Object[] { "test", pageable });
+		ParameterAccessor accessor = new ParametersParameterAccessor(this.pageableParameters, new Object[] { "test", pageable });
 
 		assertThat(accessor.getPageable()).isEqualTo(pageable);
 		assertThat(accessor.getSort().isSorted()).isFalse();
@@ -100,7 +100,7 @@ class SimpleParameterAccessorUnitTests {
 
 		Sort sort = Sort.by("foo");
 		Pageable pageable = PageRequest.of(0, 10, sort);
-		ParameterAccessor accessor = new ParametersParameterAccessor(pageableParameters, new Object[] { "test", pageable });
+		ParameterAccessor accessor = new ParametersParameterAccessor(this.pageableParameters, new Object[] { "test", pageable });
 
 		assertThat(accessor.getPageable()).isEqualTo(pageable);
 		assertThat(accessor.getSort()).isEqualTo(sort);

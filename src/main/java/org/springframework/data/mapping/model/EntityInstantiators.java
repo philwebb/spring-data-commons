@@ -89,11 +89,11 @@ public class EntityInstantiators {
 		Assert.notNull(entity, "Entity must not be null!");
 		Class<?> type = entity.getType();
 
-		if (!customInstantiators.containsKey(type)) {
-			return fallback;
+		if (!this.customInstantiators.containsKey(type)) {
+			return this.fallback;
 		}
 
-		EntityInstantiator instantiator = customInstantiators.get(entity.getType());
-		return instantiator == null ? fallback : instantiator;
+		EntityInstantiator instantiator = this.customInstantiators.get(entity.getType());
+		return instantiator == null ? this.fallback : instantiator;
 	}
 }

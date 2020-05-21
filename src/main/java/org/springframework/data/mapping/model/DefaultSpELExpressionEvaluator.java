@@ -46,7 +46,7 @@ public class DefaultSpELExpressionEvaluator implements SpELExpressionEvaluator {
 	@SuppressWarnings("unchecked")
 	public <T> T evaluate(String expression) {
 
-		Expression parseExpression = factory.getParser().parseExpression(expression);
-		return (T) parseExpression.getValue(factory.getEvaluationContext(source));
+		Expression parseExpression = this.factory.getParser().parseExpression(expression);
+		return (T) parseExpression.getValue(this.factory.getEvaluationContext(this.source));
 	}
 }

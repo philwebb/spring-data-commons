@@ -113,7 +113,7 @@ public class SimpleEntityPathResolver implements EntityPathResolver {
 		String simpleClassName = ClassUtils.getShortName(domainClass);
 		String packageName = domainClass.getPackage().getName();
 
-		return String.format("%s%s.Q%s%s", packageName, querySuffix, getClassBase(simpleClassName),
+		return String.format("%s%s.Q%s%s", packageName, this.querySuffix, getClassBase(simpleClassName),
 				domainClass.getSimpleName());
 	}
 

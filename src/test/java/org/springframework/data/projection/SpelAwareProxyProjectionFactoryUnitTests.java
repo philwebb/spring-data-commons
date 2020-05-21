@@ -39,7 +39,7 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 
 	@BeforeEach
 	void setup() {
-		factory = new SpelAwareProxyProjectionFactory();
+		this.factory = new SpelAwareProxyProjectionFactory();
 	}
 
 	@Test // DATAREST-221, DATACMNS-630
@@ -49,14 +49,14 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 		customer.firstname = "Dave";
 		customer.lastname = "Matthews";
 
-		CustomerExcerpt excerpt = factory.createProjection(CustomerExcerpt.class, customer);
+		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class, customer);
 		assertThat(excerpt.getFullName()).isEqualTo("Dave Matthews");
 	}
 
 	@Test // DATACMNS-630
 	void excludesAtValueAnnotatedMethodsForInputProperties() {
 
-		List<PropertyDescriptor> properties = factory //
+		List<PropertyDescriptor> properties = this.factory //
 				.getProjectionInformation(CustomerExcerpt.class) //
 				.getInputProperties();
 
@@ -68,7 +68,7 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 	@Test // DATACMNS-89
 	void considersProjectionUsingAtValueNotClosed() {
 
-		ProjectionInformation information = factory.getProjectionInformation(CustomerExcerpt.class);
+		ProjectionInformation information = this.factory.getProjectionInformation(CustomerExcerpt.class);
 
 		assertThat(information.isClosed()).isFalse();
 	}
@@ -79,7 +79,7 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 		Customer customer = new Customer();
 		customer.firstname = "Dave";
 
-		CustomerExcerpt excerpt = factory.createProjection(CustomerExcerpt.class, customer);
+		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class, customer);
 		excerpt.setFirstname("Carl");
 
 		assertThat(customer.firstname).isEqualTo("Carl");
@@ -91,7 +91,7 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 		Customer customer = new Customer();
 		customer.firstname = "Dave";
 
-		ProjectionWithNotWriteableProperty projection = factory.createProjection(ProjectionWithNotWriteableProperty.class,
+		ProjectionWithNotWriteableProperty projection = this.factory.createProjection(ProjectionWithNotWriteableProperty.class,
 				customer);
 
 		assertThatExceptionOfType(NotWritablePropertyException.class).isThrownBy(() -> projection.setFirstName("Carl"));

@@ -62,11 +62,11 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 	}
 	@Override
 	public int getTotalPages() {
-		return getSize() == 0 ? 1 : (int) Math.ceil((double) total / (double) getSize());
+		return getSize() == 0 ? 1 : (int) Math.ceil((double) this.total / (double) getSize());
 	}
 	@Override
 	public long getTotalElements() {
-		return total;
+		return this.total;
 	}
 	@Override
 	public boolean hasNext() {
@@ -78,7 +78,7 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 	}
 	@Override
 	public <U> Page<U> map(Function<? super T, ? extends U> converter) {
-		return new PageImpl<>(getConvertedContent(converter), getPageable(), total);
+		return new PageImpl<>(getConvertedContent(converter), getPageable(), this.total);
 	}
 	@Override
 	public String toString() {
@@ -112,7 +112,7 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 
 		int result = 17;
 
-		result += 31 * (int) (total ^ total >>> 32);
+		result += 31 * (int) (this.total ^ this.total >>> 32);
 		result += 31 * super.hashCode();
 
 		return result;

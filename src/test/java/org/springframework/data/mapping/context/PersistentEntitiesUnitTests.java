@@ -49,16 +49,16 @@ class PersistentEntitiesUnitTests {
 	@Test // DATACMNS-458
 	void returnsPersistentEntitiesFromMappingContexts() {
 
-		when(first.hasPersistentEntityFor(Sample.class)).thenReturn(false);
-		when(second.hasPersistentEntityFor(Sample.class)).thenReturn(true);
+		when(this.first.hasPersistentEntityFor(Sample.class)).thenReturn(false);
+		when(this.second.hasPersistentEntityFor(Sample.class)).thenReturn(true);
 
-		PersistentEntities.of(first, second).getPersistentEntity(Sample.class);
+		PersistentEntities.of(this.first, this.second).getPersistentEntity(Sample.class);
 
-		verify(first, times(1)).hasPersistentEntityFor(Sample.class);
-		verify(first, times(0)).getRequiredPersistentEntity(Sample.class);
+		verify(this.first, times(1)).hasPersistentEntityFor(Sample.class);
+		verify(this.first, times(0)).getRequiredPersistentEntity(Sample.class);
 
-		verify(second, times(1)).hasPersistentEntityFor(Sample.class);
-		verify(second, times(1)).getRequiredPersistentEntity(Sample.class);
+		verify(this.second, times(1)).hasPersistentEntityFor(Sample.class);
+		verify(this.second, times(1)).getRequiredPersistentEntity(Sample.class);
 	}
 
 	@Test // DATACMNS-458

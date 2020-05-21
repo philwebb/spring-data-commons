@@ -36,21 +36,21 @@ public class PersistentEntityInformation<T, ID> implements EntityInformation<T, 
 	}
 	@Override
 	public boolean isNew(T entity) {
-		return persistentEntity.isNew(entity);
+		return this.persistentEntity.isNew(entity);
 	}
 	@Nullable
 	@Override
 	@SuppressWarnings("unchecked")
 	public ID getId(T entity) {
-		return (ID) persistentEntity.getIdentifierAccessor(entity).getIdentifier();
+		return (ID) this.persistentEntity.getIdentifierAccessor(entity).getIdentifier();
 	}
 	@Override
 	public Class<T> getJavaType() {
-		return persistentEntity.getType();
+		return this.persistentEntity.getType();
 	}
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<ID> getIdType() {
-		return (Class<ID>) persistentEntity.getRequiredIdProperty().getType();
+		return (Class<ID>) this.persistentEntity.getRequiredIdProperty().getType();
 	}
 }

@@ -151,14 +151,14 @@ interface MethodLookups {
 
 			if (declaration instanceof Class) {
 
-				if (ID_TYPE_NAME.equals(variable.getName()) && parameterType.isAssignableFrom(idType)) {
+				if (ID_TYPE_NAME.equals(variable.getName()) && parameterType.isAssignableFrom(this.idType)) {
 					return true;
 				}
 
 				Type boundType = variable.getBounds()[0];
 				String referenceName = boundType instanceof TypeVariable ? boundType.toString() : variable.toString();
 
-				return DOMAIN_TYPE_NAME.equals(referenceName) && parameterType.isAssignableFrom(entityType);
+				return DOMAIN_TYPE_NAME.equals(referenceName) && parameterType.isAssignableFrom(this.entityType);
 			}
 
 			for (Type type : variable.getBounds()) {
@@ -189,7 +189,7 @@ interface MethodLookups {
 				Type genericType = genericTypes[i];
 				Class<?> type = types[i];
 				MethodParameter parameter = new MethodParameter(invokedMethod, i);
-				Class<?> parameterType = resolveParameterType(parameter, repositoryInterface);
+				Class<?> parameterType = resolveParameterType(parameter, this.repositoryInterface);
 
 				if (genericType instanceof TypeVariable<?>) {
 
@@ -244,7 +244,7 @@ interface MethodLookups {
 			};
 
 			MethodPredicate detailedComparison = (invokedMethod, candidate) -> getMethodCandidate(invokedMethod, candidate,
-					matchParameterOrComponentType(repositoryMetadata.getRepositoryInterface())).isPresent();
+					matchParameterOrComponentType(this.repositoryMetadata.getRepositoryInterface())).isPresent();
 
 			return Arrays.asList(convertibleComparison, detailedComparison);
 		}
@@ -402,21 +402,21 @@ interface MethodLookups {
 			 * @return base method parameter type.
 			 */
 			public Class<?> getBaseType() {
-				return base.getParameterType();
+				return this.base.getParameterType();
 			}
 
 			/**
 			 * @return generic base method parameter type.
 			 */
 			public Type getGenericBaseType() {
-				return base.getGenericParameterType();
+				return this.base.getGenericParameterType();
 			}
 
 			/**
 			 * @return declared method parameter type.
 			 */
 			public Class<?> getDeclaredType() {
-				return declared.getParameterType();
+				return this.declared.getParameterType();
 			}
 
 			public boolean isAssignableFromDeclared() {
@@ -443,16 +443,16 @@ interface MethodLookups {
 
 				ParameterOverrideCriteria that = (ParameterOverrideCriteria) o;
 
-				if (!ObjectUtils.nullSafeEquals(declared, that.declared)) {
+				if (!ObjectUtils.nullSafeEquals(this.declared, that.declared)) {
 					return false;
 				}
 
-				return ObjectUtils.nullSafeEquals(base, that.base);
+				return ObjectUtils.nullSafeEquals(this.base, that.base);
 			}
 			@Override
 			public int hashCode() {
-				int result = ObjectUtils.nullSafeHashCode(declared);
-				result = 31 * result + ObjectUtils.nullSafeHashCode(base);
+				int result = ObjectUtils.nullSafeHashCode(this.declared);
+				result = 31 * result + ObjectUtils.nullSafeHashCode(this.base);
 				return result;
 			}
 			@Override

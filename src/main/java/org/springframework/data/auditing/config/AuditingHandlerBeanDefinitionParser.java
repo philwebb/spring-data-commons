@@ -66,7 +66,7 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	 * @return the resolvedBeanName
 	 */
 	public String getResolvedBeanName() {
-		return resolvedBeanName;
+		return this.resolvedBeanName;
 	}
 	@Nonnull
 	@Override
@@ -85,7 +85,7 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	@Override
 	protected void doParse(Element element, BeanDefinitionBuilder builder) {
 
-		builder.addConstructorArgReference(mappingContextBeanName);
+		builder.addConstructorArgReference(this.mappingContextBeanName);
 
 		String auditorAwareRef = element.getAttribute(AUDITOR_AWARE_REF);
 
@@ -106,7 +106,7 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {
 
 		this.resolvedBeanName = super.resolveId(element, definition, parserContext);
-		return resolvedBeanName;
+		return this.resolvedBeanName;
 	}
 
 	private BeanDefinition createLazyInitTargetSourceBeanDefinition(String auditorAwareRef) {

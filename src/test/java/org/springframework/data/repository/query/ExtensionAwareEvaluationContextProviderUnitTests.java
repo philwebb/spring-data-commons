@@ -229,7 +229,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-1026
 	void overloadedMethodsGetResolved() throws Exception {
 
-		provider = createContextProviderWithOverloads();
+		this.provider = createContextProviderWithOverloads();
 
 		// from the root object
 		assertThat(evaluateExpression("method()")).isEqualTo("zero");
@@ -245,7 +245,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-1026
 	void methodFromRootObjectOverwritesMethodFromExtension() throws Exception {
 
-		provider = createContextProviderWithOverloads();
+		this.provider = createContextProviderWithOverloads();
 
 		assertThat(evaluateExpression("ambiguous()")).isEqualTo("from-root");
 	}
@@ -253,7 +253,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-1026
 	void aliasedMethodOverwritesMethodFromRootObject() throws Exception {
 
-		provider = createContextProviderWithOverloads();
+		this.provider = createContextProviderWithOverloads();
 
 		assertThat(evaluateExpression("aliasedMethod()")).isEqualTo("methodResult");
 	}
@@ -261,7 +261,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-1026
 	void exactMatchIsPreferred() throws Exception {
 
-		provider = createContextProviderWithOverloads();
+		this.provider = createContextProviderWithOverloads();
 
 		assertThat(evaluateExpression("ambiguousOverloaded('aString')")).isEqualTo("string");
 	}
@@ -269,7 +269,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-1026
 	void throwsExceptionWhenStillAmbiguous() throws Exception {
 
-		provider = createContextProviderWithOverloads();
+		this.provider = createContextProviderWithOverloads();
 
 		assertThatExceptionOfType(IllegalStateException.class) //
 				.isThrownBy(() -> evaluateExpression("ambiguousOverloaded(23)")) //
@@ -280,7 +280,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-1518
 	void invokesMethodWithVarArgs() {
 
-		provider = createContextProviderWithOverloads();
+		this.provider = createContextProviderWithOverloads();
 
 		assertThat(evaluateExpression("methodWithVarArgs('one', 'two')")).isEqualTo("varargs");
 	}
@@ -331,14 +331,14 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 		private final String key, value;
 		@Override
 		public String getExtensionId() {
-			return key;
+			return this.key;
 		}
 		@Override
 		public Map<String, Object> getProperties() {
 
 			Map<String, Object> properties = new HashMap<>();
 
-			properties.put("key", value);
+			properties.put("key", this.value);
 
 			return properties;
 		}
@@ -382,8 +382,8 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 	private Object evaluateExpression(String expression, Object[] args) {
 
-		DefaultParameters parameters = new DefaultParameters(method);
-		EvaluationContext evaluationContext = provider.getEvaluationContext(parameters, args);
+		DefaultParameters parameters = new DefaultParameters(this.method);
+		EvaluationContext evaluationContext = this.provider.getEvaluationContext(parameters, args);
 		return new SpelExpressionParser().parseExpression(expression).getValue(evaluationContext);
 	}
 

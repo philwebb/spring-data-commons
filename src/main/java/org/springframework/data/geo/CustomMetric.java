@@ -55,10 +55,10 @@ public class CustomMetric implements Metric {
 		this.abbreviation = abbreviation;
 	}
 	public double getMultiplier() {
-		return multiplier;
+		return this.multiplier;
 	}
 	@Override
 	public String getAbbreviation() {
-		return abbreviation;
+		return this.abbreviation;
 	}
 }

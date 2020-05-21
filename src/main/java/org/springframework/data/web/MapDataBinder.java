@@ -86,7 +86,7 @@ class MapDataBinder extends WebDataBinder {
 	}
 	@Override
 	protected ConfigurablePropertyAccessor getPropertyAccessor() {
-		return new MapPropertyAccessor(type, getTarget(), conversionService);
+		return new MapPropertyAccessor(this.type, getTarget(), this.conversionService);
 	}
 
 	/**
@@ -143,7 +143,7 @@ class MapDataBinder extends WebDataBinder {
 		public void setPropertyValue(String propertyName, @Nullable Object value) throws BeansException {
 
 			if (!isWritableProperty(propertyName)) {
-				throw new NotWritablePropertyException(type, propertyName);
+				throw new NotWritablePropertyException(this.type, propertyName);
 			}
 
 			PropertyPath leafProperty = getPropertyPath(propertyName).getLeafProperty();
@@ -170,13 +170,13 @@ class MapDataBinder extends WebDataBinder {
 							String.format("Couldn't obtain type descriptor for method parameter %s!", methodParameter));
 				}
 
-				value = conversionService.convert(value, TypeDescriptor.forObject(value), typeDescriptor);
+				value = this.conversionService.convert(value, TypeDescriptor.forObject(value), typeDescriptor);
 			}
 
 			EvaluationContext context = SimpleEvaluationContext //
-					.forPropertyAccessors(new PropertyTraversingMapAccessor(type, conversionService)) //
-					.withConversionService(conversionService) //
-					.withRootObject(map) //
+					.forPropertyAccessors(new PropertyTraversingMapAccessor(this.type, this.conversionService)) //
+					.withConversionService(this.conversionService) //
+					.withRootObject(this.map) //
 					.build();
 
 			Expression expression = PARSER.parseExpression(propertyName);
@@ -184,7 +184,7 @@ class MapDataBinder extends WebDataBinder {
 			try {
 				expression.setValue(context, value);
 			} catch (SpelEvaluationException o_O) {
-				throw new NotWritablePropertyException(type, propertyName, "Could not write property!", o_O);
+				throw new NotWritablePropertyException(this.type, propertyName, "Could not write property!", o_O);
 			}
 		}
 
@@ -194,13 +194,13 @@ class MapDataBinder extends WebDataBinder {
 				return false;
 			}
 
-			return conversionService.canConvert(source.getClass(), targetType);
+			return this.conversionService.canConvert(source.getClass(), targetType);
 		}
 
 		private PropertyPath getPropertyPath(String propertyName) {
 
 			String plainPropertyPath = propertyName.replaceAll("\\[.*?\\]", "");
-			return PropertyPath.from(plainPropertyPath, type);
+			return PropertyPath.from(plainPropertyPath, this.type);
 		}
 
 		/**
@@ -251,7 +251,7 @@ class MapDataBinder extends WebDataBinder {
 					return TypedValue.NULL;
 				}
 
-				PropertyPath path = PropertyPath.from(name, type);
+				PropertyPath path = PropertyPath.from(name, this.type);
 
 				try {
 					return super.read(context, target, name);
@@ -279,7 +279,7 @@ class MapDataBinder extends WebDataBinder {
 
 				Class<?> actualPropertyType = path.getType();
 
-				TypeDescriptor valueDescriptor = conversionService.canConvert(String.class, actualPropertyType)
+				TypeDescriptor valueDescriptor = this.conversionService.canConvert(String.class, actualPropertyType)
 						? TypeDescriptor.valueOf(String.class)
 						: TypeDescriptor.valueOf(HashMap.class);
 

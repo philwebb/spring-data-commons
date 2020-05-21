@@ -78,7 +78,7 @@ public abstract class RepositoryBeanDefinitionRegistrarSupport
 
 		Assert.notNull(metadata, "AnnotationMetadata must not be null!");
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
-		Assert.notNull(resourceLoader, "ResourceLoader must not be null!");
+		Assert.notNull(this.resourceLoader, "ResourceLoader must not be null!");
 
 		// Guard against calls for sub-classes
 		if (metadata.getAnnotationAttributes(getAnnotation().getName()) == null) {
@@ -86,13 +86,13 @@ public abstract class RepositoryBeanDefinitionRegistrarSupport
 		}
 
 		AnnotationRepositoryConfigurationSource configurationSource = new AnnotationRepositoryConfigurationSource(metadata,
-				getAnnotation(), resourceLoader, environment, registry, generator);
+				getAnnotation(), this.resourceLoader, this.environment, registry, generator);
 
 		RepositoryConfigurationExtension extension = getExtension();
 		RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
 
-		RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configurationSource, resourceLoader,
-				environment);
+		RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configurationSource, this.resourceLoader,
+				this.environment);
 
 		delegate.registerRepositoriesIn(registry, extension);
 	}

@@ -71,7 +71,7 @@ public class InvalidPersistentPropertyPath extends MappingException {
 	 * @return the source will never be {@literal null}.
 	 */
 	public String getSource() {
-		return source;
+		return this.source;
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class InvalidPersistentPropertyPath extends MappingException {
 	 * @return the type will never be {@literal null}.
 	 */
 	public TypeInformation<?> getType() {
-		return type;
+		return this.type;
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class InvalidPersistentPropertyPath extends MappingException {
 	 * @return the unresolvableSegment
 	 */
 	public String getUnresolvableSegment() {
-		return unresolvableSegment;
+		return this.unresolvableSegment;
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class InvalidPersistentPropertyPath extends MappingException {
 	 * @return the resolvedPath
 	 */
 	public String getResolvedPath() {
-		return resolvedPath;
+		return this.resolvedPath;
 	}
 
 	private static String toDotPathOrEmpty(@Nullable PersistentPropertyPath<? extends PersistentProperty<?>> path) {

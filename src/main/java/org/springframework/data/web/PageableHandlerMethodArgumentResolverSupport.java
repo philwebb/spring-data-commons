@@ -85,7 +85,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 * @return
 	 */
 	public boolean isFallbackPageable(Pageable pageable) {
-		return fallbackPageable.equals(pageable);
+		return this.fallbackPageable.equals(pageable);
 	}
 
 	/**
@@ -197,7 +197,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 		Optional<Pageable> defaultOrFallback = getDefaultFromAnnotationOrFallback(methodParameter).toOptional();
 
 		Optional<Integer> page = parseAndApplyBoundaries(pageString, Integer.MAX_VALUE, true);
-		Optional<Integer> pageSize = parseAndApplyBoundaries(pageSizeString, maxPageSize, false);
+		Optional<Integer> pageSize = parseAndApplyBoundaries(pageSizeString, this.maxPageSize, false);
 
 		if (!(page.isPresent() && pageSize.isPresent()) && !defaultOrFallback.isPresent()) {
 			return Pageable.unpaged();
@@ -211,7 +211,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 		// Limit lower bound
 		ps = ps < 1 ? defaultOrFallback.map(Pageable::getPageSize).orElseThrow(IllegalStateException::new) : ps;
 		// Limit upper bound
-		ps = ps > maxPageSize ? maxPageSize : ps;
+		ps = ps > this.maxPageSize ? this.maxPageSize : ps;
 
 		return PageRequest.of(p, ps, defaultOrFallback.map(Pageable::getSort).orElseGet(Sort::unsorted));
 	}
@@ -226,13 +226,13 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 */
 	protected String getParameterNameToUse(String source, @Nullable MethodParameter parameter) {
 
-		StringBuilder builder = new StringBuilder(prefix);
+		StringBuilder builder = new StringBuilder(this.prefix);
 
 		Qualifier qualifier = parameter == null ? null : parameter.getParameterAnnotation(Qualifier.class);
 
 		if (qualifier != null) {
 			builder.append(qualifier.value());
-			builder.append(qualifierDelimiter);
+			builder.append(this.qualifierDelimiter);
 		}
 
 		return builder.append(source).toString();
@@ -246,7 +246,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 			return getDefaultPageRequestFrom(methodParameter, defaults);
 		}
 
-		return fallbackPageable;
+		return this.fallbackPageable;
 	}
 
 	private static Pageable getDefaultPageRequestFrom(MethodParameter parameter, PageableDefault defaults) {
@@ -282,7 +282,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 		}
 
 		try {
-			int parsed = Integer.parseInt(parameter) - (oneIndexedParameters && shiftIndex ? 1 : 0);
+			int parsed = Integer.parseInt(parameter) - (this.oneIndexedParameters && shiftIndex ? 1 : 0);
 			return Optional.of(parsed < 0 ? 0 : parsed > upper ? upper : parsed);
 		} catch (NumberFormatException e) {
 			return Optional.of(0);

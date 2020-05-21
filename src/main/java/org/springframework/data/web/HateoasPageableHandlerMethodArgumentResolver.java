@@ -95,7 +95,7 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 		}
 
 		TemplateVariables pagingVariables = new TemplateVariables(names);
-		return pagingVariables.concat(sortResolver.getSortTemplateVariables(parameter, template));
+		return pagingVariables.concat(this.sortResolver.getSortTemplateVariables(parameter, template));
 	}
 
 	/*

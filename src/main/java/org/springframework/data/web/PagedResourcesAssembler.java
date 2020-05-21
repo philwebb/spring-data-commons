@@ -170,7 +170,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 
 		PageMetadata metadata = asPageMetadata(page);
 
-		EmbeddedWrapper wrapper = wrappers.emptyCollectionOf(type);
+		EmbeddedWrapper wrapper = this.wrappers.emptyCollectionOf(type);
 		List<EmbeddedWrapper> embedded = Collections.singletonList(wrapper);
 
 		return addPaginationLinks(PagedModel.of(embedded, metadata), page, link);
@@ -217,7 +217,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 
 		boolean isNavigable = page.hasPrevious() || page.hasNext();
 
-		if (isNavigable || forceFirstAndLastRels) {
+		if (isNavigable || this.forceFirstAndLastRels) {
 			resources.add(createLink(base, PageRequest.of(0, page.getSize(), page.getSort()), IanaLinkRelations.FIRST));
 		}
 
@@ -234,7 +234,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 			resources.add(createLink(base, page.nextPageable(), IanaLinkRelations.NEXT));
 		}
 
-		if (isNavigable || forceFirstAndLastRels) {
+		if (isNavigable || this.forceFirstAndLastRels) {
 
 			int lastIndex = page.getTotalPages() == 0 ? 0 : page.getTotalPages() - 1;
 
@@ -267,7 +267,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	private Link createLink(UriTemplate base, Pageable pageable, LinkRelation relation) {
 
 		UriComponentsBuilder builder = fromUri(base.expand());
-		pageableResolver.enhance(builder, getMethodParameter(), pageable);
+		this.pageableResolver.enhance(builder, getMethodParameter(), pageable);
 
 		return Link.of(UriTemplate.of(builder.build().toString()), relation);
 	}
@@ -294,13 +294,13 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 
 		Assert.notNull(page, "Page must not be null!");
 
-		int number = pageableResolver.isOneIndexedParameters() ? page.getNumber() + 1 : page.getNumber();
+		int number = this.pageableResolver.isOneIndexedParameters() ? page.getNumber() + 1 : page.getNumber();
 
 		return new PageMetadata(page.getSize(), number, page.getTotalElements(), page.getTotalPages());
 	}
 
 	private String baseUriOrCurrentRequest() {
-		return baseUri.map(Object::toString).orElseGet(PagedResourcesAssembler::currentRequest);
+		return this.baseUri.map(Object::toString).orElseGet(PagedResourcesAssembler::currentRequest);
 	}
 
 	private static String currentRequest() {

@@ -52,15 +52,15 @@ class DefaultRepositoryConfigurationUnitTests {
 
 	@BeforeEach
 	void before() {
-		when(source.getBootstrapMode()).thenReturn(BootstrapMode.DEFAULT);
+		when(this.source.getBootstrapMode()).thenReturn(BootstrapMode.DEFAULT);
 	}
 
 	@Test
 	void supportsBasicConfiguration() {
 
-		RepositoryConfiguration<RepositoryConfigurationSource> configuration = getConfiguration(source);
+		RepositoryConfiguration<RepositoryConfigurationSource> configuration = getConfiguration(this.source);
 
-		assertThat(configuration.getConfigurationSource()).isEqualTo(source);
+		assertThat(configuration.getConfigurationSource()).isEqualTo(this.source);
 		assertThat(configuration.getRepositoryInterface()).isEqualTo("com.acme.MyRepository");
 		assertThat(configuration.getQueryLookupStrategyKey()).isEqualTo(Key.CREATE_IF_NOT_FOUND);
 		assertThat(configuration.isLazyInit()).isFalse();
@@ -68,15 +68,15 @@ class DefaultRepositoryConfigurationUnitTests {
 
 	@Test // DATACMNS-1018
 	void usesExtensionFactoryBeanClassNameIfNoneDefinedInSource() {
-		assertThat(getConfiguration(source).getRepositoryFactoryBeanClassName()).isEqualTo("factory");
+		assertThat(getConfiguration(this.source).getRepositoryFactoryBeanClassName()).isEqualTo("factory");
 	}
 
 	@Test // DATACMNS-1018
 	void prefersSourcesRepositoryFactoryBeanClass() {
 
-		when(source.getRepositoryFactoryBeanClassName()).thenReturn(Optional.of("custom"));
+		when(this.source.getRepositoryFactoryBeanClassName()).thenReturn(Optional.of("custom"));
 
-		assertThat(getConfiguration(source).getRepositoryFactoryBeanClassName()).isEqualTo("custom");
+		assertThat(getConfiguration(this.source).getRepositoryFactoryBeanClassName()).isEqualTo("custom");
 	}
 
 	private DefaultRepositoryConfiguration<RepositoryConfigurationSource> getConfiguration(
@@ -87,7 +87,7 @@ class DefaultRepositoryConfigurationUnitTests {
 	private DefaultRepositoryConfiguration<RepositoryConfigurationSource> getConfiguration(
 			RepositoryConfigurationSource source, String repositoryInterfaceName) {
 		RootBeanDefinition beanDefinition = createBeanDefinition(repositoryInterfaceName);
-		return new DefaultRepositoryConfiguration<>(source, beanDefinition, extension);
+		return new DefaultRepositoryConfiguration<>(source, beanDefinition, this.extension);
 	}
 
 	@Value

@@ -99,10 +99,10 @@ public final class ReflectionUtils {
 			this.annotationType = annotationType;
 		}
 		public boolean matches(Field field) {
-			return AnnotationUtils.getAnnotation(field, annotationType) != null;
+			return AnnotationUtils.getAnnotation(field, this.annotationType) != null;
 		}
 		public String getDescription() {
-			return String.format("Annotation filter for %s", annotationType.getName());
+			return String.format("Annotation filter for %s", this.annotationType.getName());
 		}
 	}
 

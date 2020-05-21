@@ -140,7 +140,7 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 
 		@Nullable
 		PreferredConstructor<?, ?> getDefaultConstructor() {
-			return defaultConstructor;
+			return this.defaultConstructor;
 		}
 	}
 
@@ -196,7 +196,7 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 			Object[] params = extractInvocationArguments(entity.getPersistenceConstructor(), provider);
 
 			try {
-				return (T) instantiator.newInstance(params);
+				return (T) this.instantiator.newInstance(params);
 			} catch (Exception e) {
 				throw new MappingInstantiationException(entity, Arrays.asList(params), e);
 			}
@@ -209,9 +209,9 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 				throw new IllegalArgumentException("PreferredConstructor must not be null!");
 			}
 
-			Object[] params = allocateArguments(synthetic.getParameterCount()
-					+ KotlinDefaultMask.getMaskCount(synthetic.getParameterCount()) + /* DefaultConstructorMarker */1);
-			int userParameterCount = kParameters.size();
+			Object[] params = allocateArguments(this.synthetic.getParameterCount()
+					+ KotlinDefaultMask.getMaskCount(this.synthetic.getParameterCount()) + /* DefaultConstructorMarker */1);
+			int userParameterCount = this.kParameters.size();
 
 			List<Parameter<Object, P>> parameters = preferredConstructor.getParameters();
 
@@ -222,9 +222,9 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 				params[i] = provider.getParameterValue(parameter);
 			}
 
-			KotlinDefaultMask defaultMask = KotlinDefaultMask.from(constructor, it -> {
+			KotlinDefaultMask defaultMask = KotlinDefaultMask.from(this.constructor, it -> {
 
-				int index = kParameters.indexOf(it);
+				int index = this.kParameters.indexOf(it);
 
 				Parameter<Object, P> parameter = parameters.get(index);
 				Class<Object> type = parameter.getType().getType();

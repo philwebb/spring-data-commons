@@ -511,7 +511,7 @@ public class ClassTypeInformationUnitTests {
 		private String _name;
 
 		public byte[] getName() {
-			return _name.getBytes();
+			return this._name.getBytes();
 		}
 	}
 

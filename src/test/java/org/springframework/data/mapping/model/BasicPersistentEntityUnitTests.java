@@ -139,10 +139,10 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 		MutablePersistentEntity<Person, T> entity = createEntity(Person.class);
 		assertThat(entity.getIdProperty()).isNull();
 
-		when(property.getName()).thenReturn("id");
-		when(property.isIdProperty()).thenReturn(true);
-		entity.addPersistentProperty(property);
-		assertThat(entity.getIdProperty()).isEqualTo(property);
+		when(this.property.getName()).thenReturn("id");
+		when(this.property.isIdProperty()).thenReturn(true);
+		entity.addPersistentProperty(this.property);
+		assertThat(entity.getIdProperty()).isEqualTo(this.property);
 	}
 
 	@Test // DATACMNS-186, DATACMNS-1364
@@ -150,13 +150,13 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 		MutablePersistentEntity<Person, T> entity = createEntity(Person.class);
 
-		when(property.getName()).thenReturn("id");
-		when(property.isIdProperty()).thenReturn(true);
-		when(anotherProperty.isIdProperty()).thenReturn(true);
-		when(anotherProperty.getName()).thenReturn("another");
+		when(this.property.getName()).thenReturn("id");
+		when(this.property.isIdProperty()).thenReturn(true);
+		when(this.anotherProperty.isIdProperty()).thenReturn(true);
+		when(this.anotherProperty.getName()).thenReturn("another");
 
-		entity.addPersistentProperty(property);
-		assertThatExceptionOfType(MappingException.class).isThrownBy(() -> entity.addPersistentProperty(anotherProperty));
+		entity.addPersistentProperty(this.property);
+		assertThatExceptionOfType(MappingException.class).isThrownBy(() -> entity.addPersistentProperty(this.anotherProperty));
 	}
 
 	@Test // DATACMNS-365
@@ -387,7 +387,7 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 		 */
 		@CreatedBy
 		public String getProperty() {
-			return property;
+			return this.property;
 		}
 	}
 

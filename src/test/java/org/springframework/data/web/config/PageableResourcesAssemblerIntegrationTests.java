@@ -103,7 +103,7 @@ class PageableResourcesAssemblerIntegrationTests {
 			Page<Person> page = new PageImpl<>(Collections.singletonList(new Person()), pageable,
 					pageable.getOffset() + pageable.getPageSize() + 1);
 
-			return assembler.toModel(page);
+			return this.assembler.toModel(page);
 		}
 	}
 

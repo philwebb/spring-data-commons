@@ -87,9 +87,9 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 		MethodParameter pageableParameter = findMatchingPageableParameter(parameter);
 
 		if (pageableParameter != null) {
-			return new MethodParameterAwarePagedResourcesAssembler<>(pageableParameter, resolver, fromUriString);
+			return new MethodParameterAwarePagedResourcesAssembler<>(pageableParameter, this.resolver, fromUriString);
 		} else {
-			return new PagedResourcesAssembler<>(resolver, fromUriString);
+			return new PagedResourcesAssembler<>(this.resolver, fromUriString);
 		}
 	}
 
@@ -109,7 +109,7 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 		}
 
 		try {
-			Link linkToMethod = linkBuilderFactory.linkTo(parameter.getDeclaringClass(), method).withSelfRel();
+			Link linkToMethod = this.linkBuilderFactory.linkTo(parameter.getDeclaringClass(), method).withSelfRel();
 			return UriComponentsBuilder.fromUriString(linkToMethod.getHref()).build();
 		} catch (IllegalArgumentException o_O) {
 			return null;

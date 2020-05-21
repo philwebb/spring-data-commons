@@ -69,7 +69,7 @@ public class Box implements Shape {
 	 * @return
 	 */
 	public Point getFirst() {
-		return first;
+		return this.first;
 	}
 
 	/**
@@ -78,19 +78,19 @@ public class Box implements Shape {
 	 * @return
 	 */
 	public Point getSecond() {
-		return second;
+		return this.second;
 	}
 	@Override
 	public String toString() {
-		return String.format("Box [%s, %s]", first, second);
+		return String.format("Box [%s, %s]", this.first, this.second);
 	}
 	@Override
 	public int hashCode() {
 
 		int result = 31;
 
-		result += 17 * first.hashCode();
-		result += 17 * second.hashCode();
+		result += 17 * this.first.hashCode();
+		result += 17 * this.second.hashCode();
 
 		return result;
 	}

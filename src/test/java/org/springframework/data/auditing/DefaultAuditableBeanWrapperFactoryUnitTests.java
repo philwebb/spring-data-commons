@@ -46,26 +46,26 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 
 	@Test
 	void rejectsNullSource() {
-		assertThatIllegalArgumentException().isThrownBy(() -> factory.getBeanWrapperFor(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.factory.getBeanWrapperFor(null));
 	}
 
 	@Test
 	void returnsAuditableInterfaceBeanWrapperForAuditable() {
 
-		assertThat(factory.getBeanWrapperFor(new AuditedUser()))
+		assertThat(this.factory.getBeanWrapperFor(new AuditedUser()))
 				.hasValueSatisfying(it -> assertThat(it).isInstanceOf(AuditableInterfaceBeanWrapper.class));
 	}
 
 	@Test
 	void returnsReflectionAuditingBeanWrapperForNonAuditableButAnnotated() {
 
-		assertThat(factory.getBeanWrapperFor(new AnnotatedUser()))
+		assertThat(this.factory.getBeanWrapperFor(new AnnotatedUser()))
 				.hasValueSatisfying(it -> assertThat(it).isInstanceOf(ReflectionAuditingBeanWrapper.class));
 	}
 
 	@Test
 	void returnsEmptyForNonAuditableType() {
-		assertThat(factory.getBeanWrapperFor(new Object())).isNotPresent();
+		assertThat(this.factory.getBeanWrapperFor(new Object())).isNotPresent();
 	}
 
 	@Test // DATACMNS-643
@@ -74,7 +74,7 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 		Jsr310ThreeTenBpAuditedUser user = new Jsr310ThreeTenBpAuditedUser();
 		Instant instant = Instant.now();
 
-		Optional<AuditableBeanWrapper<Jsr310ThreeTenBpAuditedUser>> wrapper = factory.getBeanWrapperFor(user);
+		Optional<AuditableBeanWrapper<Jsr310ThreeTenBpAuditedUser>> wrapper = this.factory.getBeanWrapperFor(user);
 
 		assertThat(wrapper).hasValueSatisfying(it -> {
 
@@ -92,7 +92,7 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 		Jsr310ThreeTenBpAuditedUser user = new Jsr310ThreeTenBpAuditedUser();
 		ZonedDateTime zonedDateTime = ZonedDateTime.now();
 
-		Optional<AuditableBeanWrapper<Jsr310ThreeTenBpAuditedUser>> wrapper = factory.getBeanWrapperFor(user);
+		Optional<AuditableBeanWrapper<Jsr310ThreeTenBpAuditedUser>> wrapper = this.factory.getBeanWrapperFor(user);
 
 		assertThat(wrapper).isNotEmpty();
 
@@ -106,7 +106,7 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 		LongBasedAuditable source = new LongBasedAuditable();
 		source.dateModified = 42000L;
 
-		Optional<Long> result = factory.getBeanWrapperFor(source) //
+		Optional<Long> result = this.factory.getBeanWrapperFor(source) //
 				.flatMap(AuditableBeanWrapper::getLastModifiedDate) //
 				.map(ta -> ta.getLong(ChronoField.INSTANT_SECONDS));
 
@@ -118,7 +118,7 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 
 		LongBasedAuditable source = new LongBasedAuditable();
 
-		Optional<AuditableBeanWrapper<LongBasedAuditable>> beanWrapper = factory.getBeanWrapperFor(source);
+		Optional<AuditableBeanWrapper<LongBasedAuditable>> beanWrapper = this.factory.getBeanWrapperFor(source);
 		assertThat(beanWrapper).isPresent();
 
 		beanWrapper.get().setLastModifiedDate(Instant.ofEpochMilli(42L));
@@ -131,7 +131,7 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 
 		LongBasedAuditable source = new LongBasedAuditable();
 
-		Optional<Long> result = factory.getBeanWrapperFor(source).map(it -> {
+		Optional<Long> result = this.factory.getBeanWrapperFor(source).map(it -> {
 			it.setLastModifiedDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(42L), ZoneOffset.systemDefault()));
 			return it.getBean().dateModified;
 		});
@@ -147,7 +147,7 @@ class DefaultAuditableBeanWrapperFactoryUnitTests {
 		AuditedUser source = new AuditedUser();
 		source.setLastModifiedDate(now);
 
-		Optional<TemporalAccessor> result = factory.getBeanWrapperFor(source) //
+		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(source) //
 				.flatMap(AuditableBeanWrapper::getLastModifiedDate);
 
 		assertThat(result).hasValue(now);

@@ -72,8 +72,8 @@ class RepositoriesUnitTests {
 		beanFactory.registerBeanDefinition("addressRepository", getRepositoryBeanDefinition(AddressRepository.class));
 		beanFactory.registerBeanDefinition("personRepository", getRepositoryBeanDefinition(PersonRepository.class));
 
-		context = new GenericApplicationContext(beanFactory);
-		context.refresh();
+		this.context = new GenericApplicationContext(beanFactory);
+		this.context.refresh();
 	}
 
 	private AbstractBeanDefinition getRepositoryBeanDefinition(Class<?> repositoryInterface) {
@@ -87,7 +87,7 @@ class RepositoriesUnitTests {
 	@Test
 	void doesNotConsiderCrudRepositoriesOnly() {
 
-		Repositories repositories = new Repositories(context);
+		Repositories repositories = new Repositories(this.context);
 
 		assertThat(repositories.hasRepositoryFor(Person.class)).isTrue();
 		assertThat(repositories.hasRepositoryFor(Address.class)).isTrue();
@@ -95,7 +95,7 @@ class RepositoriesUnitTests {
 
 	@Test
 	void doesNotFindInformationForNonManagedDomainClass() {
-		Repositories repositories = new Repositories(context);
+		Repositories repositories = new Repositories(this.context);
 		assertThat(repositories.hasRepositoryFor(String.class)).isFalse();
 		assertThat(repositories.getRepositoryFor(String.class)).isNotPresent();
 	}
@@ -108,14 +108,14 @@ class RepositoriesUnitTests {
 	@Test // DATACMNS-256
 	void exposesPersistentEntityForDomainTypes() {
 
-		Repositories repositories = new Repositories(context);
+		Repositories repositories = new Repositories(this.context);
 		assertThat(repositories.getPersistentEntity(Person.class)).isNotNull();
 		assertThat(repositories.getPersistentEntity(Address.class)).isNotNull();
 	}
 
 	@Test // DATACMNS-634
 	void findsRepositoryForSubTypes() {
-		assertThat(new Repositories(context).getPersistentEntity(AdvancedAddress.class)).isNotNull();
+		assertThat(new Repositories(this.context).getPersistentEntity(AdvancedAddress.class)).isNotNull();
 	}
 
 	@Test // DATACMNS-673
@@ -139,7 +139,7 @@ class RepositoriesUnitTests {
 	@Test // DATACMNS-794
 	void exposesRepositoryFactoryInformationForRepository() {
 
-		Optional<RepositoryInformation> information = new Repositories(context)
+		Optional<RepositoryInformation> information = new Repositories(this.context)
 				.getRepositoryInformation(PersonRepository.class);
 
 		assertThat(information)
@@ -157,7 +157,7 @@ class RepositoriesUnitTests {
 
 		assertThat(ClassUtils.isCglibProxy(proxy)).isTrue();
 
-		Repositories repositories = new Repositories(context);
+		Repositories repositories = new Repositories(this.context);
 
 		assertThat(repositories.hasRepositoryFor(proxy.getClass())).isTrue();
 		assertThat(repositories.getRepositoryFor(proxy.getClass())).isNotEmpty();
@@ -175,8 +175,8 @@ class RepositoriesUnitTests {
 		beanFactory.registerBeanDefinition("primary", definition);
 		beanFactory.registerBeanDefinition("third", getRepositoryBeanDefinition(ThirdRepository.class));
 
-		context = new GenericApplicationContext(beanFactory);
-		context.refresh();
+		this.context = new GenericApplicationContext(beanFactory);
+		this.context.refresh();
 
 		Repositories repositories = new Repositories(beanFactory);
 
@@ -211,15 +211,15 @@ class RepositoriesUnitTests {
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public EntityInformation<T, S> getEntityInformation() {
-			return new DummyEntityInformation(repositoryMetadata.getDomainType());
+			return new DummyEntityInformation(this.repositoryMetadata.getDomainType());
 		}
 
 		public RepositoryInformation getRepositoryInformation() {
-			return new DummyRepositoryInformation(repositoryMetadata);
+			return new DummyRepositoryInformation(this.repositoryMetadata);
 		}
 
 		public PersistentEntity<?, ?> getPersistentEntity() {
-			return mappingContext.getRequiredPersistentEntity(repositoryMetadata.getDomainType());
+			return this.mappingContext.getRequiredPersistentEntity(this.repositoryMetadata.getDomainType());
 		}
 
 		public List<QueryMethod> getQueryMethods() {

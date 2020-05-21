@@ -96,7 +96,7 @@ public class Repositories implements Iterable<Class<?>> {
 	@SuppressWarnings("rawtypes")
 	private synchronized void cacheRepositoryFactory(String name) {
 
-		RepositoryFactoryInformation repositoryFactoryInformation = beanFactory.get().getBean(name,
+		RepositoryFactoryInformation repositoryFactoryInformation = this.beanFactory.get().getBean(name,
 				RepositoryFactoryInformation.class);
 		Class<?> domainType = ClassUtils
 				.getUserClass(repositoryFactoryInformation.getRepositoryInformation().getDomainType());
@@ -125,7 +125,7 @@ public class Repositories implements Iterable<Class<?>> {
 
 		Class<?> userClass = ProxyUtils.getUserClass(domainClass);
 
-		return repositoryFactoryInfos.containsKey(userClass);
+		return this.repositoryFactoryInfos.containsKey(userClass);
 	}
 
 	/**
@@ -139,9 +139,9 @@ public class Repositories implements Iterable<Class<?>> {
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
 
 		Class<?> userClass = ProxyUtils.getUserClass(domainClass);
-		Optional<String> repositoryBeanName = Optional.ofNullable(repositoryBeanNames.get(userClass));
+		Optional<String> repositoryBeanName = Optional.ofNullable(this.repositoryBeanNames.get(userClass));
 
-		return beanFactory.flatMap(it -> repositoryBeanName.map(it::getBean));
+		return this.beanFactory.flatMap(it -> repositoryBeanName.map(it::getBean));
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class Repositories implements Iterable<Class<?>> {
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
 
 		Class<?> userType = ProxyUtils.getUserClass(domainClass);
-		RepositoryFactoryInformation<Object, Object> repositoryInfo = repositoryFactoryInfos.get(userType);
+		RepositoryFactoryInformation<Object, Object> repositoryInfo = this.repositoryFactoryInfos.get(userType);
 
 		if (repositoryInfo != null) {
 			return repositoryInfo;
@@ -223,7 +223,7 @@ public class Repositories implements Iterable<Class<?>> {
 	 */
 	public Optional<RepositoryInformation> getRepositoryInformation(Class<?> repositoryInterface) {
 
-		return repositoryFactoryInfos.values().stream()//
+		return this.repositoryFactoryInfos.values().stream()//
 				.map(RepositoryFactoryInformation::getRepositoryInformation)//
 				.filter(information -> information.getRepositoryInterface().equals(repositoryInterface))//
 				.findFirst();
@@ -255,7 +255,7 @@ public class Repositories implements Iterable<Class<?>> {
 		return getRepositoryFactoryInfoFor(domainClass).getQueryMethods();
 	}
 	public Iterator<Class<?>> iterator() {
-		return repositoryFactoryInfos.keySet().iterator();
+		return this.repositoryFactoryInfos.keySet().iterator();
 	}
 
 	/**
@@ -269,9 +269,9 @@ public class Repositories implements Iterable<Class<?>> {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void cacheFirstOrPrimary(Class<?> type, RepositoryFactoryInformation information, String name) {
 
-		if (repositoryBeanNames.containsKey(type)) {
+		if (this.repositoryBeanNames.containsKey(type)) {
 
-			Boolean presentAndPrimary = beanFactory //
+			Boolean presentAndPrimary = this.beanFactory //
 					.filter(ConfigurableListableBeanFactory.class::isInstance) //
 					.map(ConfigurableListableBeanFactory.class::cast) //
 					.map(it -> it.getBeanDefinition(name)) //

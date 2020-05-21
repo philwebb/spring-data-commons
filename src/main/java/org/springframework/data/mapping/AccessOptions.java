@@ -115,10 +115,10 @@ public class AccessOptions {
 			Assert.notNull(property, "Property must not be null!");
 			Assert.notNull(handler, "Handler must not be null!");
 
-			Map<PersistentProperty<?>, Function<Object, Object>> newHandlers = new HashMap<>(handlers);
+			Map<PersistentProperty<?>, Function<Object, Object>> newHandlers = new HashMap<>(this.handlers);
 			newHandlers.put(property, handler);
 
-			return new GetOptions(newHandlers, nullValues);
+			return new GetOptions(newHandlers, this.nullValues);
 		}
 
 		/**
@@ -201,7 +201,7 @@ public class AccessOptions {
 		@Nullable
 		Object postProcess(PersistentProperty<?> property, @Nullable Object value) {
 
-			Function<Object, Object> handler = handlers.get(property);
+			Function<Object, Object> handler = this.handlers.get(property);
 
 			return handler == null ? value : handler.apply(value);
 		}
@@ -351,11 +351,11 @@ public class AccessOptions {
 				return true;
 			}
 
-			if (property.isCollectionLike() && collectionPropagation.equals(Propagation.SKIP)) {
+			if (property.isCollectionLike() && this.collectionPropagation.equals(Propagation.SKIP)) {
 				return false;
 			}
 
-			if (property.isMap() && mapPropagation.equals(Propagation.SKIP)) {
+			if (property.isMap() && this.mapPropagation.equals(Propagation.SKIP)) {
 				return false;
 			}
 

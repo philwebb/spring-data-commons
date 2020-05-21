@@ -104,7 +104,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	 * @return
 	 */
 	protected Map<TypeVariable<?>, Type> getTypeVariableMap() {
-		return typeVariableMap;
+		return this.typeVariableMap;
 	}
 
 	/**
@@ -194,7 +194,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		int separatorIndex = fieldname.indexOf('.');
 
 		if (separatorIndex == -1) {
-			return fieldTypes.computeIfAbsent(fieldname, this::getPropertyInformation).orElse(null);
+			return this.fieldTypes.computeIfAbsent(fieldname, this::getPropertyInformation).orElse(null);
 		}
 
 		String head = fieldname.substring(0, separatorIndex);
@@ -278,7 +278,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return parameterTypes.length == 0 ? null : parameterTypes[0];
 	}
 	public Class<S> getType() {
-		return resolvedType.get();
+		return this.resolvedType.get();
 	}
 	@Override
 	public ClassTypeInformation<?> getRawTypeInformation() {
@@ -311,7 +311,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	}
 	@Nullable
 	public TypeInformation<?> getMapValueType() {
-		return valueType.orElse(null);
+		return this.valueType.orElse(null);
 	}
 
 	@Nullable
@@ -330,7 +330,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	}
 	@Nullable
 	public final TypeInformation<?> getComponentType() {
-		return componentType.orElse(null);
+		return this.componentType.orElse(null);
 	}
 
 	@Nullable
@@ -490,7 +490,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 	}
 	@Override
 	public int hashCode() {
-		return hashCode;
+		return this.hashCode;
 	}
 
 	/**
@@ -510,7 +510,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		}
 		@Override
 		public Type getRawType() {
-			return typeInformation.getType();
+			return this.typeInformation.getType();
 		}
 		@Override
 		@Nullable
@@ -520,10 +520,10 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		@Override
 		public Type[] getActualTypeArguments() {
 
-			Type[] result = new Type[typeParameters.size()];
+			Type[] result = new Type[this.typeParameters.size()];
 
-			for (int i = 0; i < typeParameters.size(); i++) {
-				result[i] = typeParameters.get(i).getType();
+			for (int i = 0; i < this.typeParameters.size(); i++) {
+				result[i] = this.typeParameters.get(i).getType();
 			}
 
 			return result;
@@ -541,16 +541,16 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 
 			SyntheticParamterizedType that = (SyntheticParamterizedType) o;
 
-			if (!ObjectUtils.nullSafeEquals(typeInformation, that.typeInformation)) {
+			if (!ObjectUtils.nullSafeEquals(this.typeInformation, that.typeInformation)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(typeParameters, that.typeParameters);
+			return ObjectUtils.nullSafeEquals(this.typeParameters, that.typeParameters);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(typeInformation);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(typeParameters);
+			int result = ObjectUtils.nullSafeHashCode(this.typeInformation);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.typeParameters);
 			return result;
 		}
 	}

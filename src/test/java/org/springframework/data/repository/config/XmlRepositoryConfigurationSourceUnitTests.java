@@ -42,10 +42,10 @@ class XmlRepositoryConfigurationSourceUnitTests {
 	void translatesCamelCaseAttributeNameIntoXmlEquivalent() {
 
 		RepositoryConfigurationSource source = mock(XmlRepositoryConfigurationSource.class);
-		ReflectionTestUtils.setField(source, "element", element);
+		ReflectionTestUtils.setField(source, "element", this.element);
 
 		when(source.getAttribute(anyString())).thenCallRealMethod();
-		when(element.getAttribute("some-xml-attribute")).thenReturn("value");
+		when(this.element.getAttribute("some-xml-attribute")).thenReturn("value");
 
 		assertThat(source.getAttribute("someXmlAttribute")).hasValue("value");
 	}

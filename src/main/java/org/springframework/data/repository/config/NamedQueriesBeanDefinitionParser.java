@@ -97,6 +97,6 @@ public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 	private String getDefaultedLocation(Element element) {
 
 		String locations = element.getAttribute(ATTRIBUTE);
-		return StringUtils.hasText(locations) ? locations : defaultLocation;
+		return StringUtils.hasText(locations) ? locations : this.defaultLocation;
 	}
 }

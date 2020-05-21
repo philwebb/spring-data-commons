@@ -65,8 +65,8 @@ class MethodParameters {
 		for (int i = 0; i < method.getParameterCount(); i++) {
 
 			MethodParameter parameter = new AnnotationNamingMethodParameter(method, i, namingAnnotation);
-			parameter.initParameterNameDiscovery(discoverer);
-			parameters.add(parameter);
+			parameter.initParameterNameDiscovery(this.discoverer);
+			this.parameters.add(parameter);
 		}
 	}
 
@@ -76,7 +76,7 @@ class MethodParameters {
 	 * @return
 	 */
 	public List<MethodParameter> getParameters() {
-		return parameters;
+		return this.parameters;
 	}
 
 	/**
@@ -155,7 +155,7 @@ class MethodParameters {
 		@Nullable
 		@Override
 		public String getParameterName() {
-			return name.orElse(null);
+			return this.name.orElse(null);
 		}
 	}
 }

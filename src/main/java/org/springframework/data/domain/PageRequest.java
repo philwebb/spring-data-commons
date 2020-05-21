@@ -83,7 +83,7 @@ public class PageRequest extends AbstractPageRequest {
 		return of(page, size, Sort.by(direction, properties));
 	}
 	public Sort getSort() {
-		return sort;
+		return this.sort;
 	}
 	@Override
 	public Pageable next() {
@@ -114,10 +114,10 @@ public class PageRequest extends AbstractPageRequest {
 	}
 	@Override
 	public int hashCode() {
-		return 31 * super.hashCode() + sort.hashCode();
+		return 31 * super.hashCode() + this.sort.hashCode();
 	}
 	@Override
 	public String toString() {
-		return String.format("Page request [number: %d, size %d, sort: %s]", getPageNumber(), getPageSize(), sort);
+		return String.format("Page request [number: %d, size %d, sort: %s]", getPageNumber(), getPageSize(), this.sort);
 	}
 }

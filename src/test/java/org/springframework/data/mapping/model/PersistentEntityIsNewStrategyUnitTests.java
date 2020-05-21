@@ -39,7 +39,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 	@Test // DATACMNS-133
 	void detectsNewEntityForPrimitiveId() {
 
-		PersistentEntity<?, ?> entity = context.getRequiredPersistentEntity(PrimitiveIdEntity.class);
+		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(PrimitiveIdEntity.class);
 
 		PrimitiveIdEntity bean = new PrimitiveIdEntity();
 		assertThat(entity.isNew(bean)).isTrue();
@@ -48,7 +48,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 	@Test // DATACMNS-133
 	void detectsNotNewEntityForPrimitiveId() {
 
-		PersistentEntity<?, ?> entity = context.getRequiredPersistentEntity(PrimitiveIdEntity.class);
+		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(PrimitiveIdEntity.class);
 
 		PrimitiveIdEntity bean = new PrimitiveIdEntity();
 
@@ -59,7 +59,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 	@Test // DATACMNS-133
 	void detectsNewEntityForWrapperId() {
 
-		PersistentEntity<?, ?> entity = context.getRequiredPersistentEntity(PrimitiveWrapperIdEntity.class);
+		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(PrimitiveWrapperIdEntity.class);
 
 		PrimitiveWrapperIdEntity bean = new PrimitiveWrapperIdEntity();
 		assertThat(entity.isNew(bean)).isTrue();
@@ -68,7 +68,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 	@Test // DATACMNS-133
 	void detectsNotNewEntityForWrapperId() {
 
-		PersistentEntity<?, ?> entity = context.getRequiredPersistentEntity(PrimitiveWrapperIdEntity.class);
+		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(PrimitiveWrapperIdEntity.class);
 
 		PrimitiveWrapperIdEntity bean = new PrimitiveWrapperIdEntity();
 
@@ -79,7 +79,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 	@Test // DATACMNS-133
 	void rejectsUnsupportedIdentifierType() {
 
-		PersistentEntity<?, ?> entity = context.getRequiredPersistentEntity(UnsupportedPrimitiveIdEntity.class);
+		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(UnsupportedPrimitiveIdEntity.class);
 
 		assertThatIllegalArgumentException() //
 				.isThrownBy(() -> PersistentEntityIsNewStrategy.of(entity)) //
@@ -89,7 +89,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 	@Test // DATACMNS-1333
 	void discoversNewPersistableEntity() {
 
-		PersistentEntity<?, ?> entity = context.getRequiredPersistentEntity(PersistableEntity.class);
+		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(PersistableEntity.class);
 
 		assertThat(entity.isNew(new PersistableEntity(false))).isFalse();
 	}
@@ -97,7 +97,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 	@Test // DATACMNS-1333
 	void discoversNonNewPersistableEntity() {
 
-		PersistentEntity<?, ?> entity = context.getRequiredPersistentEntity(PersistableEntity.class);
+		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(PersistableEntity.class);
 
 		assertThat(entity.isNew(new PersistableEntity(true))).isTrue();
 	}
@@ -105,7 +105,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 	@Test // DATACMNS-1333
 	void prefersVersionOverIdentifier() {
 
-		PersistentEntity<?, ?> entity = context.getRequiredPersistentEntity(VersionedEntity.class);
+		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(VersionedEntity.class);
 
 		VersionedEntity bean = new VersionedEntity();
 
@@ -119,7 +119,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 	@Test // DATACMNS-1333
 	void considersEntityWithoutIdNew() {
 
-		PersistentEntity<?, ?> entity = context.getRequiredPersistentEntity(NoIdEntity.class);
+		PersistentEntity<?, ?> entity = this.context.getRequiredPersistentEntity(NoIdEntity.class);
 
 		assertThat(entity.isNew(new NoIdEntity())).isTrue();
 	}
@@ -151,7 +151,7 @@ class PersistentEntityIsNewStrategyUnitTests {
 		boolean isNew;
 		@Override
 		public boolean isNew() {
-			return isNew;
+			return this.isNew;
 		}
 		@Override
 		public Long getId() {

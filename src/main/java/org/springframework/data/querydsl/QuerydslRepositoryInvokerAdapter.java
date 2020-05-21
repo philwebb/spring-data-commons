@@ -58,35 +58,35 @@ public class QuerydslRepositoryInvokerAdapter implements RepositoryInvoker {
 	}
 	@Override
 	public Iterable<Object> invokeFindAll(Pageable pageable) {
-		return executor.findAll(predicate, pageable);
+		return this.executor.findAll(this.predicate, pageable);
 	}
 	@Override
 	public Iterable<Object> invokeFindAll(Sort sort) {
-		return executor.findAll(predicate, sort);
+		return this.executor.findAll(this.predicate, sort);
 	}
 	@Override
 	public boolean hasDeleteMethod() {
-		return delegate.hasDeleteMethod();
+		return this.delegate.hasDeleteMethod();
 	}
 	@Override
 	public boolean hasFindAllMethod() {
-		return delegate.hasFindAllMethod();
+		return this.delegate.hasFindAllMethod();
 	}
 	@Override
 	public boolean hasFindOneMethod() {
-		return delegate.hasFindOneMethod();
+		return this.delegate.hasFindOneMethod();
 	}
 	@Override
 	public boolean hasSaveMethod() {
-		return delegate.hasSaveMethod();
+		return this.delegate.hasSaveMethod();
 	}
 	@Override
 	public void invokeDeleteById(Object id) {
-		delegate.invokeDeleteById(id);
+		this.delegate.invokeDeleteById(id);
 	}
 	@Override
 	public <T> Optional<T> invokeFindById(Object id) {
-		return delegate.invokeFindById(id);
+		return this.delegate.invokeFindById(id);
 	}
 
 	/*
@@ -96,10 +96,10 @@ public class QuerydslRepositoryInvokerAdapter implements RepositoryInvoker {
 	@Override
 	public Optional<Object> invokeQueryMethod(Method method, MultiValueMap<String, ? extends Object> parameters,
 			Pageable pageable, Sort sort) {
-		return delegate.invokeQueryMethod(method, parameters, pageable, sort);
+		return this.delegate.invokeQueryMethod(method, parameters, pageable, sort);
 	}
 	@Override
 	public <T> T invokeSave(T object) {
-		return delegate.invokeSave(object);
+		return this.delegate.invokeSave(object);
 	}
 }

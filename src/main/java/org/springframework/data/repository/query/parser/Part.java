@@ -73,12 +73,12 @@ public class Part {
 
 		String partToUse = detectAndSetIgnoreCase(source);
 
-		if (alwaysIgnoreCase && ignoreCase != IgnoreCaseType.ALWAYS) {
+		if (alwaysIgnoreCase && this.ignoreCase != IgnoreCaseType.ALWAYS) {
 			this.ignoreCase = IgnoreCaseType.WHEN_POSSIBLE;
 		}
 
 		this.type = Type.fromProperty(partToUse);
-		this.propertyPath = PropertyPath.from(type.extractProperty(partToUse), clazz);
+		this.propertyPath = PropertyPath.from(this.type.extractProperty(partToUse), clazz);
 	}
 
 	private String detectAndSetIgnoreCase(String part) {
@@ -87,7 +87,7 @@ public class Part {
 		String result = part;
 
 		if (matcher.find()) {
-			ignoreCase = IgnoreCaseType.ALWAYS;
+			this.ignoreCase = IgnoreCaseType.ALWAYS;
 			result = part.substring(0, matcher.start()) + part.substring(matcher.end(), part.length());
 		}
 
@@ -104,21 +104,21 @@ public class Part {
 	 * @return
 	 */
 	public int getNumberOfArguments() {
-		return type.getNumberOfArguments();
+		return this.type.getNumberOfArguments();
 	}
 
 	/**
 	 * @return the propertyPath
 	 */
 	public PropertyPath getProperty() {
-		return propertyPath;
+		return this.propertyPath;
 	}
 
 	/**
 	 * @return the type
 	 */
 	public Part.Type getType() {
-		return type;
+		return this.type;
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class Part {
 	 * @return
 	 */
 	public IgnoreCaseType shouldIgnoreCase() {
-		return ignoreCase;
+		return this.ignoreCase;
 	}
 	@Override
 	public boolean equals(Object o) {
@@ -142,26 +142,26 @@ public class Part {
 
 		Part part = (Part) o;
 
-		if (!ObjectUtils.nullSafeEquals(propertyPath, part.propertyPath)) {
+		if (!ObjectUtils.nullSafeEquals(this.propertyPath, part.propertyPath)) {
 			return false;
 		}
 
-		if (type != part.type) {
+		if (this.type != part.type) {
 			return false;
 		}
 
-		return ignoreCase == part.ignoreCase;
+		return this.ignoreCase == part.ignoreCase;
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(propertyPath);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(type);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(ignoreCase);
+		int result = ObjectUtils.nullSafeHashCode(this.propertyPath);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.type);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.ignoreCase);
 		return result;
 	}
 	@Override
 	public String toString() {
-		return String.format("%s %s %s", propertyPath.getSegment(), type, ignoreCase);
+		return String.format("%s %s %s", this.propertyPath.getSegment(), this.type, this.ignoreCase);
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class Part {
 		 * @return
 		 */
 		public Collection<String> getKeywords() {
-			return Collections.unmodifiableList(keywords);
+			return Collections.unmodifiableList(this.keywords);
 		}
 
 		/**
@@ -260,7 +260,7 @@ public class Part {
 		 */
 		protected boolean supports(String property) {
 
-			for (String keyword : keywords) {
+			for (String keyword : this.keywords) {
 				if (property.endsWith(keyword)) {
 					return true;
 				}
@@ -275,7 +275,7 @@ public class Part {
 		 * @return
 		 */
 		public int getNumberOfArguments() {
-			return numberOfArguments;
+			return this.numberOfArguments;
 		}
 
 		/**
@@ -289,7 +289,7 @@ public class Part {
 
 			String candidate = Introspector.decapitalize(part);
 
-			for (String keyword : keywords) {
+			for (String keyword : this.keywords) {
 				if (candidate.endsWith(keyword)) {
 					return candidate.substring(0, candidate.length() - keyword.length());
 				}

@@ -99,7 +99,7 @@ public final class Alias {
 	 * @return {@literal true} if this alias has a value and it equals to {@code that}.
 	 */
 	public boolean hasValue(Object that) {
-		return value != null && value.equals(that);
+		return this.value != null && this.value.equals(that);
 	}
 
 	/**
@@ -109,14 +109,14 @@ public final class Alias {
 	 * @return {@literal true} if there's an alias value present and its equal to the one in the given {@link Alias}.
 	 */
 	public boolean hasSamePresentValueAs(Alias other) {
-		return isPresent() && value.equals(other.value);
+		return isPresent() && this.value.equals(other.value);
 	}
 
 	/**
 	 * @return {@literal true} if this {@link Alias} contains a value.
 	 */
 	public boolean isPresent() {
-		return value != null;
+		return this.value != null;
 	}
 
 	/**
@@ -131,11 +131,11 @@ public final class Alias {
 
 		Assert.notNull(type, "Type must not be null");
 
-		return isPresent() && type.isInstance(value) ? (T) value : null;
+		return isPresent() && type.isInstance(this.value) ? (T) this.value : null;
 	}
 	@Override
 	public String toString() {
-		return isPresent() ? value.toString() : "NONE";
+		return isPresent() ? this.value.toString() : "NONE";
 	}
 
 	public Object getValue() {
@@ -153,10 +153,10 @@ public final class Alias {
 		}
 
 		Alias alias = (Alias) o;
-		return ObjectUtils.nullSafeEquals(value, alias.value);
+		return ObjectUtils.nullSafeEquals(this.value, alias.value);
 	}
 	@Override
 	public int hashCode() {
-		return ObjectUtils.nullSafeHashCode(value);
+		return ObjectUtils.nullSafeHashCode(this.value);
 	}
 }

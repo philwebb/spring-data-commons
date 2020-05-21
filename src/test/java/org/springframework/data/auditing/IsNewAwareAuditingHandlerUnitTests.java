@@ -52,7 +52,7 @@ class IsNewAwareAuditingHandlerUnitTests extends AuditingHandlerUnitTests {
 
 	@Override
 	protected IsNewAwareAuditingHandler getHandler() {
-		return new IsNewAwareAuditingHandler(PersistentEntities.of(mappingContext));
+		return new IsNewAwareAuditingHandler(PersistentEntities.of(this.mappingContext));
 	}
 
 	@Test

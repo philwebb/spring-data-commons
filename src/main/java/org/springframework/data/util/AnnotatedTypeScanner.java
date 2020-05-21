@@ -82,23 +82,23 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 
 	public Set<Class<?>> findTypes(Iterable<String> basePackages) {
 
-		ClassPathScanningCandidateComponentProvider provider = new InterfaceAwareScanner(considerInterfaces);
+		ClassPathScanningCandidateComponentProvider provider = new InterfaceAwareScanner(this.considerInterfaces);
 
-		if (resourceLoader != null) {
-			provider.setResourceLoader(resourceLoader);
+		if (this.resourceLoader != null) {
+			provider.setResourceLoader(this.resourceLoader);
 		}
 
-		if (environment != null) {
-			provider.setEnvironment(environment);
+		if (this.environment != null) {
+			provider.setEnvironment(this.environment);
 		}
 
-		for (Class<? extends Annotation> annotationType : annotationTypess) {
-			provider.addIncludeFilter(new AnnotationTypeFilter(annotationType, true, considerInterfaces));
+		for (Class<? extends Annotation> annotationType : this.annotationTypess) {
+			provider.addIncludeFilter(new AnnotationTypeFilter(annotationType, true, this.considerInterfaces));
 		}
 
 		Set<Class<?>> types = new HashSet<>();
 
-		ResourceLoader loader = resourceLoader;
+		ResourceLoader loader = this.resourceLoader;
 		ClassLoader classLoader = loader == null ? null : loader.getClassLoader();
 
 		for (String basePackage : basePackages) {
@@ -140,7 +140,7 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 		@Override
 		protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
 			return super.isCandidateComponent(beanDefinition)
-					|| considerInterfaces && beanDefinition.getMetadata().isInterface();
+					|| this.considerInterfaces && beanDefinition.getMetadata().isInterface();
 		}
 	}
 }

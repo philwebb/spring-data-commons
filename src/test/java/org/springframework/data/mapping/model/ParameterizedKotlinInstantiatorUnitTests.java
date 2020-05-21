@@ -92,16 +92,16 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 	@Test // DATACMNS-1402
 	public void shouldCreateInstanceWithSinglePropertySet() {
 
-		Object instance = entityInstantiator.createInstance(entity, new SingleParameterValueProvider());
+		Object instance = this.entityInstantiator.createInstance(this.entity, new SingleParameterValueProvider());
 
-		for (int i = 0; i < propertyCount; i++) {
+		for (int i = 0; i < this.propertyCount; i++) {
 
 			Object value = ReflectionTestUtils.getField(instance, Integer.toString(i));
 
-			if (propertyUnderTestIndex == i) {
-				assertThat(value).describedAs("Property " + i + " of " + entity).isEqualTo(valueToSet);
+			if (this.propertyUnderTestIndex == i) {
+				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo(this.valueToSet);
 			} else {
-				assertThat(value).describedAs("Property " + i + " of " + entity).isEqualTo("");
+				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo("");
 			}
 		}
 	}
@@ -109,16 +109,16 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 	@Test // DATACMNS-1402
 	public void shouldCreateInstanceWithAllExceptSinglePropertySet() {
 
-		Object instance = entityInstantiator.createInstance(entity, new AllButParameterValueProvider());
+		Object instance = this.entityInstantiator.createInstance(this.entity, new AllButParameterValueProvider());
 
-		for (int i = 0; i < propertyCount; i++) {
+		for (int i = 0; i < this.propertyCount; i++) {
 
 			Object value = ReflectionTestUtils.getField(instance, Integer.toString(i));
 
-			if (propertyUnderTestIndex == i) {
-				assertThat(value).describedAs("Property " + i + " of " + entity).isEqualTo("");
+			if (this.propertyUnderTestIndex == i) {
+				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo("");
 			} else {
-				assertThat(value).describedAs("Property " + i + " of " + entity).isEqualTo(Integer.toString(i));
+				assertThat(value).describedAs("Property " + i + " of " + this.entity).isEqualTo(Integer.toString(i));
 			}
 		}
 	}
@@ -131,8 +131,8 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 		@Override
 		public <T> T getParameterValue(Parameter<T, SamplePersistentProperty> parameter) {
 
-			if (parameter.getName().equals(propertyUnderTestName)) {
-				return (T) valueToSet;
+			if (parameter.getName().equals(ParameterizedKotlinInstantiatorUnitTests.this.propertyUnderTestName)) {
+				return (T) ParameterizedKotlinInstantiatorUnitTests.this.valueToSet;
 			}
 			return null;
 		}
@@ -146,7 +146,7 @@ public class ParameterizedKotlinInstantiatorUnitTests {
 		@Override
 		public <T> T getParameterValue(Parameter<T, SamplePersistentProperty> parameter) {
 
-			if (!parameter.getName().equals(propertyUnderTestName)) {
+			if (!parameter.getName().equals(ParameterizedKotlinInstantiatorUnitTests.this.propertyUnderTestName)) {
 				return (T) parameter.getName();
 			}
 			return null;

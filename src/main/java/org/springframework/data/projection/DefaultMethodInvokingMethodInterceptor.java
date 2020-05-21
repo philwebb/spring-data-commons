@@ -83,12 +83,12 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 	private MethodHandle getMethodHandle(Method method) throws Exception {
 
-		MethodHandle handle = methodHandleCache.get(method);
+		MethodHandle handle = this.methodHandleCache.get(method);
 
 		if (handle == null) {
 
-			handle = methodHandleLookup.lookup(method);
-			methodHandleCache.put(method, handle);
+			handle = this.methodHandleLookup.lookup(method);
+			this.methodHandleCache.put(method, handle);
 		}
 
 		return handle;
@@ -111,15 +111,15 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {
 
-				if (privateLookupIn == null) {
+				if (this.privateLookupIn == null) {
 					throw new IllegalStateException("Could not obtain MethodHandles.privateLookupIn!");
 				}
 
-				return doLookup(method, getLookup(method.getDeclaringClass(), privateLookupIn));
+				return doLookup(method, getLookup(method.getDeclaringClass(), this.privateLookupIn));
 			}
 			@Override
 			boolean isAvailable() {
-				return privateLookupIn != null;
+				return this.privateLookupIn != null;
 			}
 
 			private Lookup getLookup(Class<?> declaringClass, Method privateLookupIn) {
@@ -154,7 +154,7 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 			}
 			@Override
 			boolean isAvailable() {
-				return constructor.orElse(null) != null;
+				return this.constructor.orElse(null) != null;
 			}
 		},
 

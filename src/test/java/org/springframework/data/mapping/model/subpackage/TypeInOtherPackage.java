@@ -50,7 +50,7 @@ public class TypeInOtherPackage {
 
 	@SuppressWarnings("unused")
 	private String getPrivateProperty() {
-		return privateProperty;
+		return this.privateProperty;
 	}
 
 	@SuppressWarnings("unused")
@@ -59,7 +59,7 @@ public class TypeInOtherPackage {
 	}
 
 	String getPackageDefaultProperty() {
-		return packageDefaultProperty;
+		return this.packageDefaultProperty;
 	}
 
 	void setPackageDefaultProperty(String packageDefaultProperty) {
@@ -67,7 +67,7 @@ public class TypeInOtherPackage {
 	}
 
 	protected String getProtectedProperty() {
-		return protectedProperty;
+		return this.protectedProperty;
 	}
 
 	protected void setProtectedProperty(String protectedProperty) {
@@ -75,7 +75,7 @@ public class TypeInOtherPackage {
 	}
 
 	public String getPublicProperty() {
-		return publicProperty;
+		return this.publicProperty;
 	}
 
 	public void setPublicProperty(String publicProperty) {
@@ -84,15 +84,15 @@ public class TypeInOtherPackage {
 
 	@AccessType(Type.PROPERTY)
 	public String getSyntheticProperty() {
-		return backing;
+		return this.backing;
 	}
 
 	public void setSyntheticProperty(String syntheticProperty) {
-		backing = syntheticProperty;
+		this.backing = syntheticProperty;
 	}
 
 	public String getWither() {
-		return wither;
+		return this.wither;
 	}
 
 	public TypeInOtherPackage withWither(String wither) {

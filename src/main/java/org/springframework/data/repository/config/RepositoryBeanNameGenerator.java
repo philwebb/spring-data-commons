@@ -65,7 +65,7 @@ class RepositoryBeanNameGenerator {
 				? (AnnotatedBeanDefinition) definition //
 				: new AnnotatedGenericBeanDefinition(getRepositoryInterfaceFrom(definition));
 
-		return delegate.generateBeanName(beanDefinition);
+		return this.delegate.generateBeanName(beanDefinition);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class RepositoryBeanNameGenerator {
 		} else {
 
 			try {
-				return ClassUtils.forName(value.toString(), beanClassLoader);
+				return ClassUtils.forName(value.toString(), this.beanClassLoader);
 			} catch (Exception o_O) {
 				throw new RuntimeException(o_O);
 			}

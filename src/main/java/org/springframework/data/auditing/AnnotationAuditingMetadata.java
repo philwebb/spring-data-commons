@@ -90,8 +90,8 @@ final class AnnotationAuditingMetadata {
 		this.lastModifiedByField = Optional.ofNullable(ReflectionUtils.findField(type, LAST_MODIFIED_BY_FILTER));
 		this.lastModifiedDateField = Optional.ofNullable(ReflectionUtils.findField(type, LAST_MODIFIED_DATE_FILTER));
 
-		assertValidDateFieldType(createdDateField);
-		assertValidDateFieldType(lastModifiedDateField);
+		assertValidDateFieldType(this.createdDateField);
+		assertValidDateFieldType(this.lastModifiedDateField);
 	}
 
 	/**
@@ -132,34 +132,34 @@ final class AnnotationAuditingMetadata {
 	 * Returns whether the {@link Class} represented in this instance is auditable or not.
 	 */
 	public boolean isAuditable() {
-		return Optionals.isAnyPresent(createdByField, createdDateField, lastModifiedByField, lastModifiedDateField);
+		return Optionals.isAnyPresent(this.createdByField, this.createdDateField, this.lastModifiedByField, this.lastModifiedDateField);
 	}
 
 	/**
 	 * Return the field annotated by {@link CreatedBy}.
 	 */
 	public Optional<Field> getCreatedByField() {
-		return createdByField;
+		return this.createdByField;
 	}
 
 	/**
 	 * Return the field annotated by {@link CreatedDate}.
 	 */
 	public Optional<Field> getCreatedDateField() {
-		return createdDateField;
+		return this.createdDateField;
 	}
 
 	/**
 	 * Return the field annotated by {@link LastModifiedBy}.
 	 */
 	public Optional<Field> getLastModifiedByField() {
-		return lastModifiedByField;
+		return this.lastModifiedByField;
 	}
 
 	/**
 	 * Return the field annotated by {@link LastModifiedDate}.
 	 */
 	public Optional<Field> getLastModifiedDateField() {
-		return lastModifiedDateField;
+		return this.lastModifiedDateField;
 	}
 }

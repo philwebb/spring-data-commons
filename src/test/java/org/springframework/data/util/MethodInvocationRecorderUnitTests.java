@@ -43,7 +43,7 @@ class MethodInvocationRecorderUnitTests {
 	@Test // DATACMNS-1449
 	void createsPropertyPathForSimpleMethodReference() {
 
-		Recorded<Bar> wrapper = recorder.record(Foo::getBar);
+		Recorded<Bar> wrapper = this.recorder.record(Foo::getBar);
 
 		assertThat(wrapper.getPropertyPath()).hasValue("bar");
 	}
@@ -51,7 +51,7 @@ class MethodInvocationRecorderUnitTests {
 	@Test // DATACMNS-1449
 	void createsPropertyPathForNestedMethodReference() {
 
-		Recorded<FooBar> wrapper = recorder.record(Foo::getBar).record(Bar::getFooBar);
+		Recorded<FooBar> wrapper = this.recorder.record(Foo::getBar).record(Bar::getFooBar);
 
 		assertThat(wrapper.getPropertyPath()).hasValue("bar.fooBar");
 	}
@@ -59,7 +59,7 @@ class MethodInvocationRecorderUnitTests {
 	@Test // DATACMNS-1449
 	void createsPropertyPathForNestedCall() {
 
-		Recorded<FooBar> wrapper = recorder.record((Foo source) -> source.getBar().getFooBar());
+		Recorded<FooBar> wrapper = this.recorder.record((Foo source) -> source.getBar().getFooBar());
 
 		assertThat(wrapper.getPropertyPath()).hasValue("bar.fooBar");
 	}
@@ -74,7 +74,7 @@ class MethodInvocationRecorderUnitTests {
 
 	@Test // DATACMNS-1449
 	void registersLookupToFinalType() {
-		assertThat(recorder.record(Foo::getName).getPropertyPath()).hasValue("name");
+		assertThat(this.recorder.record(Foo::getName).getPropertyPath()).hasValue("name");
 	}
 
 	@Test // DATACMNS-1449

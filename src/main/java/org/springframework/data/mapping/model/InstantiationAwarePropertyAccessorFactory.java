@@ -42,12 +42,12 @@ public class InstantiationAwarePropertyAccessorFactory implements PersistentProp
 	@Override
 	public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
 
-		PersistentPropertyAccessor<T> accessor = delegate.getPropertyAccessor(entity, bean);
+		PersistentPropertyAccessor<T> accessor = this.delegate.getPropertyAccessor(entity, bean);
 
-		return new InstantiationAwarePropertyAccessor<>(accessor, instantiators);
+		return new InstantiationAwarePropertyAccessor<>(accessor, this.instantiators);
 	}
 	@Override
 	public boolean isSupported(PersistentEntity<?, ?> entity) {
-		return delegate.isSupported(entity);
+		return this.delegate.isSupported(entity);
 	}
 }

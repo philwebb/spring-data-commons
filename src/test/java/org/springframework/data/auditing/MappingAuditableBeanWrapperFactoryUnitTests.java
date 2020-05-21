@@ -67,7 +67,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		context.getPersistentEntity(WithEmbedded.class);
 
 		PersistentEntities entities = PersistentEntities.of(context);
-		factory = new MappingAuditableBeanWrapperFactory(entities);
+		this.factory = new MappingAuditableBeanWrapperFactory(entities);
 	}
 
 	@Test // DATACMNS-365
@@ -75,7 +75,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 
 		Sample sample = new Sample();
 
-		Optional<AuditableBeanWrapper<Sample>> wrapper = factory.getBeanWrapperFor(sample);
+		Optional<AuditableBeanWrapper<Sample>> wrapper = this.factory.getBeanWrapperFor(sample);
 
 		assertThat(wrapper).hasValueSatisfying(it -> {
 
@@ -89,7 +89,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 
 		Sample sample = new Sample();
 
-		Optional<AuditableBeanWrapper<Sample>> wrapper = factory.getBeanWrapperFor(sample);
+		Optional<AuditableBeanWrapper<Sample>> wrapper = this.factory.getBeanWrapperFor(sample);
 
 		assertThat(wrapper).hasValueSatisfying(it -> {
 
@@ -103,20 +103,20 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 
 		Sample sample = new Sample();
 
-		Optional<AuditableBeanWrapper<Sample>> wrapper = factory.getBeanWrapperFor(sample);
+		Optional<AuditableBeanWrapper<Sample>> wrapper = this.factory.getBeanWrapperFor(sample);
 
 		assertThat(wrapper).hasValueSatisfying(it -> it.setLastModifiedDate(Instant.now()));
 	}
 
 	@Test // DATACMNS-365
 	void doesNotReturnWrapperForEntityNotUsingAuditing() {
-		assertThat(factory.getBeanWrapperFor(new NoAuditing())).isNotPresent();
+		assertThat(this.factory.getBeanWrapperFor(new NoAuditing())).isNotPresent();
 	}
 
 	@Test // DATACMNS-365
 	void returnsAuditableWrapperForAuditable() {
 
-		assertThat(factory.getBeanWrapperFor(mock(ExtendingAuditable.class)))
+		assertThat(this.factory.getBeanWrapperFor(mock(ExtendingAuditable.class)))
 				.hasValueSatisfying(it -> assertThat(it).isInstanceOf(AuditableInterfaceBeanWrapper.class));
 	}
 
@@ -173,7 +173,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		SampleWithInstant sample = new SampleWithInstant();
 		sample.modified = Instant.now();
 
-		Optional<TemporalAccessor> result = factory.getBeanWrapperFor(sample) //
+		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(sample) //
 				.flatMap(it -> it.getLastModifiedDate());
 
 		assertThat(result).hasValue(sample.modified);
@@ -193,7 +193,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		WithEmbedded target = new WithEmbedded();
 		target.embedded = new Embedded();
 
-		Optional<AuditableBeanWrapper<WithEmbedded>> wrapper = factory.getBeanWrapperFor(target);
+		Optional<AuditableBeanWrapper<WithEmbedded>> wrapper = this.factory.getBeanWrapperFor(target);
 
 		assertThat(wrapper).hasValueSatisfying(it -> {
 
@@ -221,7 +221,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 
 		WithEmbedded withEmbedded = new WithEmbedded();
 
-		assertThat(factory.getBeanWrapperFor(withEmbedded)).hasValueSatisfying(it -> {
+		assertThat(this.factory.getBeanWrapperFor(withEmbedded)).hasValueSatisfying(it -> {
 			assertThatCode(() -> it.setCreatedBy("user")).doesNotThrowAnyException();
 			assertThatCode(() -> it.setLastModifiedDate(Instant.now())).doesNotThrowAnyException();
 		});
@@ -236,7 +236,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		withEmbedded.embeddedMap = new HashMap<>();
 		withEmbedded.embeddedMap.put("key", new Embedded());
 
-		assertThat(factory.getBeanWrapperFor(withEmbedded)).hasValueSatisfying(it -> {
+		assertThat(this.factory.getBeanWrapperFor(withEmbedded)).hasValueSatisfying(it -> {
 
 			String user = "user";
 			Instant now = Instant.now();
@@ -267,7 +267,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		Sample sample = new Sample();
 		sample.lastModifiedDate = source;
 
-		Optional<TemporalAccessor> result = factory.getBeanWrapperFor(sample) //
+		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(sample) //
 				.flatMap(it -> it.getLastModifiedDate());
 
 		assertThat(result).hasValueSatisfying(ta -> compareTemporalAccessors(expected, ta));
@@ -298,7 +298,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 
 		@LastModifiedBy
 		public Object getLastModifiedBy() {
-			return lastModifiedBy;
+			return this.lastModifiedBy;
 		}
 	}
 

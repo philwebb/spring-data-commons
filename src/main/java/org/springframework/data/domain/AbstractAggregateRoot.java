@@ -66,7 +66,7 @@ public class AbstractAggregateRoot<A extends AbstractAggregateRoot<A>> {
 	 */
 	@DomainEvents
 	protected Collection<Object> domainEvents() {
-		return Collections.unmodifiableList(domainEvents);
+		return Collections.unmodifiableList(this.domainEvents);
 	}
 
 	/**

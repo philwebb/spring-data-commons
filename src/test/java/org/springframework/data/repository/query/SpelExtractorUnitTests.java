@@ -54,10 +54,10 @@ class SpelExtractorUnitTests {
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
 		SpelExtractor extractor = context.parse("");
 
-		softly.assertThat(extractor.getQueryString()).isEqualTo("");
-		softly.assertThat(extractor.getParameterMap()).isEmpty();
+		this.softly.assertThat(extractor.getQueryString()).isEqualTo("");
+		this.softly.assertThat(extractor.getParameterMap()).isEmpty();
 
-		softly.assertAll();
+		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1258
@@ -66,15 +66,15 @@ class SpelExtractorUnitTests {
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
 		SpelExtractor extractor = context.parse(":#{one} ?#{two}");
 
-		softly.assertThat(extractor.getQueryString()).isEqualTo(":EPP0 ?EPP1");
-		softly.assertThat(extractor.getParameterMap().entrySet()) //
+		this.softly.assertThat(extractor.getQueryString()).isEqualTo(":EPP0 ?EPP1");
+		this.softly.assertThat(extractor.getParameterMap().entrySet()) //
 				.extracting(Map.Entry::getKey, Map.Entry::getValue) //
 				.containsExactlyInAnyOrder( //
 						Tuple.tuple("EPP0", "one"), //
 						Tuple.tuple("EPP1", "two") //
 				);
 
-		softly.assertAll();
+		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1258
@@ -83,10 +83,10 @@ class SpelExtractorUnitTests {
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
 		SpelExtractor extractor = context.parse("abcdef");
 
-		softly.assertThat(extractor.getQueryString()).isEqualTo("abcdef");
-		softly.assertThat(extractor.getParameterMap()).isEmpty();
+		this.softly.assertThat(extractor.getQueryString()).isEqualTo("abcdef");
+		this.softly.assertThat(extractor.getParameterMap()).isEmpty();
 
-		softly.assertAll();
+		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1258
@@ -102,7 +102,7 @@ class SpelExtractorUnitTests {
 
 		queries.forEach(this::checkNoSpelIsFound);
 
-		softly.assertAll();
+		this.softly.assertAll();
 	}
 
 	private void checkNoSpelIsFound(String query) {
@@ -110,7 +110,7 @@ class SpelExtractorUnitTests {
 		SpelQueryContext context = SpelQueryContext.of(PARAMETER_NAME_SOURCE, REPLACEMENT_SOURCE);
 		SpelExtractor extractor = context.parse(query);
 
-		softly.assertThat(extractor.getQueryString()).describedAs(query).isEqualTo(query);
-		softly.assertThat(extractor.getParameterMap()).describedAs(query).isEmpty();
+		this.softly.assertThat(extractor.getQueryString()).describedAs(query).isEqualTo(query);
+		this.softly.assertThat(extractor.getParameterMap()).describedAs(query).isEmpty();
 	}
 }

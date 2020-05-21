@@ -93,10 +93,10 @@ class DefaultRepositoryInformationUnitTests {
 
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
-				RepositoryComposition.just(customImplementation));
+				RepositoryComposition.just(this.customImplementation));
 
 		Method source = FooRepositoryCustom.class.getMethod("save", User.class);
-		Method expected = customImplementation.getClass().getMethod("save", User.class);
+		Method expected = this.customImplementation.getClass().getMethod("save", User.class);
 
 		assertThat(information.getTargetClassMethod(source)).isEqualTo(expected);
 	}
@@ -221,10 +221,10 @@ class DefaultRepositoryInformationUnitTests {
 
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
-				RepositoryComposition.just(customImplementation));
+				RepositoryComposition.just(this.customImplementation));
 
 		Method source = FooRepositoryCustom.class.getMethod("exists", Object.class);
-		Method expected = customImplementation.getClass().getMethod("exists", Object.class);
+		Method expected = this.customImplementation.getClass().getMethod("exists", Object.class);
 
 		assertThat(information.getTargetClassMethod(source)).isEqualTo(expected);
 	}
@@ -246,7 +246,7 @@ class DefaultRepositoryInformationUnitTests {
 
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
-				RepositoryComposition.just(customImplementation));
+				RepositoryComposition.just(this.customImplementation));
 
 		Method method = FooRepository.class.getMethod("staticMethod");
 
@@ -258,7 +258,7 @@ class DefaultRepositoryInformationUnitTests {
 
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(FooRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
-				RepositoryComposition.just(customImplementation));
+				RepositoryComposition.just(this.customImplementation));
 
 		Method method = FooRepository.class.getMethod("defaultMethod");
 

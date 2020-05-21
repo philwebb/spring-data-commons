@@ -70,9 +70,9 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 		Assert.notNull(entity, "Entity must not be null!");
 
 		Class<T> entityType = (Class<T>) (entity != null ? ClassUtils.getUserClass(entity.getClass())
-				: callbackDiscoverer.resolveDeclaredEntityType(callbackType).getRawClass());
+				: this.callbackDiscoverer.resolveDeclaredEntityType(callbackType).getRawClass());
 
-		Method callbackMethod = callbackMethodCache.computeIfAbsent(callbackType, it -> {
+		Method callbackMethod = this.callbackMethodCache.computeIfAbsent(callbackType, it -> {
 
 			Method method = EntityCallbackDiscoverer.lookupCallbackMethod(it, entityType, args);
 			ReflectionUtils.makeAccessible(method);
@@ -81,14 +81,14 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 
 		Mono<T> deferredCallbackChain = Mono.just(entity);
 
-		for (EntityCallback<T> callback : callbackDiscoverer.getEntityCallbacks(entityType,
+		for (EntityCallback<T> callback : this.callbackDiscoverer.getEntityCallbacks(entityType,
 				ResolvableType.forClass(callbackType))) {
 
 			BiFunction<EntityCallback<T>, T, Object> callbackFunction = EntityCallbackDiscoverer
 					.computeCallbackInvokerFunction(callback, callbackMethod, args);
 
 			deferredCallbackChain = deferredCallbackChain
-					.flatMap(it -> callbackInvoker.invokeCallback(callback, it, callbackFunction));
+					.flatMap(it -> this.callbackInvoker.invokeCallback(callback, it, callbackFunction));
 		}
 
 		return deferredCallbackChain;

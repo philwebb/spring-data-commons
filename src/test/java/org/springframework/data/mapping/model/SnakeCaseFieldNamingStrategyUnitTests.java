@@ -50,7 +50,7 @@ class SnakeCaseFieldNamingStrategyUnitTests {
 
 	private void assertFieldNameForPropertyName(String propertyName, String fieldName) {
 
-		when(property.getName()).thenReturn(propertyName);
-		assertThat(strategy.getFieldName(property)).isEqualTo(fieldName);
+		when(this.property.getName()).thenReturn(propertyName);
+		assertThat(this.strategy.getFieldName(this.property)).isEqualTo(fieldName);
 	}
 }

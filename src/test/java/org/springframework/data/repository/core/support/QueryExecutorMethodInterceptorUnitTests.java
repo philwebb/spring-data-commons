@@ -46,19 +46,19 @@ class QueryExecutorMethodInterceptorUnitTests {
 	@Test // DATACMNS-1508
 	void rejectsRepositoryInterfaceWithQueryMethodsIfNoQueryLookupStrategyIsDefined() {
 
-		when(information.hasQueryMethods()).thenReturn(true);
+		when(this.information.hasQueryMethods()).thenReturn(true);
 
 		assertThatIllegalStateException()
-				.isThrownBy(() -> new QueryExecutorMethodInterceptor(information, new SpelAwareProxyProjectionFactory(),
+				.isThrownBy(() -> new QueryExecutorMethodInterceptor(this.information, new SpelAwareProxyProjectionFactory(),
 						Optional.empty(), PropertiesBasedNamedQueries.EMPTY, Collections.emptyList()));
 	}
 
 	@Test // DATACMNS-1508
 	void skipsQueryLookupsIfQueryLookupStrategyIsNotPresent() {
 
-		new QueryExecutorMethodInterceptor(information, new SpelAwareProxyProjectionFactory(), Optional.empty(),
+		new QueryExecutorMethodInterceptor(this.information, new SpelAwareProxyProjectionFactory(), Optional.empty(),
 				PropertiesBasedNamedQueries.EMPTY, Collections.emptyList());
 
-		verify(strategy, times(0)).resolveQuery(any(), any(), any(), any());
+		verify(this.strategy, times(0)).resolveQuery(any(), any(), any(), any());
 	}
 }

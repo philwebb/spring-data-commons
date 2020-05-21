@@ -58,6 +58,6 @@ public class NullableWrapper {
 	 */
 	@Nullable
 	public Object getValue() {
-		return value;
+		return this.value;
 	}
 }

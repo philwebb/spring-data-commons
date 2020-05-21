@@ -79,7 +79,7 @@ public class Circle implements Shape {
 	 * @return will never be {@literal null}.
 	 */
 	public Point getCenter() {
-		return center;
+		return this.center;
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class Circle implements Shape {
 	 * @return
 	 */
 	public Distance getRadius() {
-		return radius;
+		return this.radius;
 	}
 	@Override
 	public boolean equals(Object o) {
@@ -103,20 +103,20 @@ public class Circle implements Shape {
 
 		Circle circle = (Circle) o;
 
-		if (!ObjectUtils.nullSafeEquals(center, circle.center)) {
+		if (!ObjectUtils.nullSafeEquals(this.center, circle.center)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(radius, circle.radius);
+		return ObjectUtils.nullSafeEquals(this.radius, circle.radius);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(center);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(radius);
+		int result = ObjectUtils.nullSafeHashCode(this.center);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.radius);
 		return result;
 	}
 	@Override
 	public String toString() {
-		return String.format("Circle: [center=%s, radius=%s]", center, radius);
+		return String.format("Circle: [center=%s, radius=%s]", this.center, this.radius);
 	}
 }

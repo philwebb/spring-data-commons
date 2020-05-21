@@ -43,19 +43,19 @@ class ProxyProjectionFactoryUnitTests {
 	@SuppressWarnings("null")
 	// DATACMNS-630
 	void rejectsNullProjectionType() {
-		assertThatIllegalArgumentException().isThrownBy(() -> factory.createProjection(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.factory.createProjection(null));
 	}
 
 	@Test
 	@SuppressWarnings("null")
 	// DATACMNS-630
 	void rejectsNullProjectionTypeWithSource() {
-		assertThatIllegalArgumentException().isThrownBy(() -> factory.createProjection(null, new Object()));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.factory.createProjection(null, new Object()));
 	}
 
 	@Test // DATACMNS-630
 	void returnsNullForNullSource() {
-		assertThat(factory.createNullableProjection(CustomerExcerpt.class, null)).isNull();
+		assertThat(this.factory.createNullableProjection(CustomerExcerpt.class, null)).isNull();
 	}
 
 	@Test // DATAREST-221, DATACMNS-630
@@ -69,7 +69,7 @@ class ProxyProjectionFactoryUnitTests {
 		customer.address.city = "New York";
 		customer.address.zipCode = "ZIP";
 
-		CustomerExcerpt excerpt = factory.createProjection(CustomerExcerpt.class, customer);
+		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class, customer);
 
 		assertThat(excerpt.getFirstname()).isEqualTo("Dave");
 		assertThat(excerpt.getAddress().getZipCode()).isEqualTo("ZIP");
@@ -78,7 +78,7 @@ class ProxyProjectionFactoryUnitTests {
 	@Test // DATAREST-221, DATACMNS-630
 	void proxyExposesTargetClassAware() {
 
-		CustomerExcerpt proxy = factory.createProjection(CustomerExcerpt.class);
+		CustomerExcerpt proxy = this.factory.createProjection(CustomerExcerpt.class);
 
 		assertThat(proxy).isInstanceOf(TargetClassAware.class);
 		assertThat(((TargetClassAware) proxy).getTargetClass()).isEqualTo(HashMap.class);
@@ -86,7 +86,7 @@ class ProxyProjectionFactoryUnitTests {
 
 	@Test // DATAREST-221, DATACMNS-630
 	void rejectsNonInterfacesAsProjectionTarget() {
-		assertThatIllegalArgumentException().isThrownBy(() -> factory.createProjection(Object.class, new Object()));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.factory.createProjection(Object.class, new Object()));
 	}
 
 	@Test // DATACMNS-630
@@ -101,7 +101,7 @@ class ProxyProjectionFactoryUnitTests {
 		source.put("lastname", "Matthews");
 		source.put("address", addressSource);
 
-		CustomerExcerpt projection = factory.createProjection(CustomerExcerpt.class, source);
+		CustomerExcerpt projection = this.factory.createProjection(CustomerExcerpt.class, source);
 
 		assertThat(projection.getFirstname()).isEqualTo("Dave");
 
@@ -113,7 +113,7 @@ class ProxyProjectionFactoryUnitTests {
 	@Test // DATACMNS-630
 	void createsEmptyMapBasedProxy() {
 
-		CustomerProxy proxy = factory.createProjection(CustomerProxy.class);
+		CustomerProxy proxy = this.factory.createProjection(CustomerProxy.class);
 
 		assertThat(proxy).isNotNull();
 
@@ -124,7 +124,7 @@ class ProxyProjectionFactoryUnitTests {
 	@Test // DATACMNS-630
 	void returnsAllPropertiesAsInputProperties() {
 
-		ProjectionInformation projectionInformation = factory.getProjectionInformation(CustomerExcerpt.class);
+		ProjectionInformation projectionInformation = this.factory.getProjectionInformation(CustomerExcerpt.class);
 		List<PropertyDescriptor> result = projectionInformation.getInputProperties();
 
 		assertThat(result).hasSize(6);
@@ -133,7 +133,7 @@ class ProxyProjectionFactoryUnitTests {
 	@Test // DATACMNS-655
 	void invokesDefaultMethodOnProxy() {
 
-		CustomerExcerpt excerpt = factory.createProjection(CustomerExcerpt.class);
+		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class);
 
 		Advised advised = (Advised) ReflectionTestUtils.getField(Proxy.getInvocationHandler(excerpt), "advised");
 		Advisor[] advisors = advised.getAdvisors();
@@ -145,7 +145,7 @@ class ProxyProjectionFactoryUnitTests {
 	@Test // DATACMNS-648
 	void exposesProxyTarget() {
 
-		CustomerExcerpt excerpt = factory.createProjection(CustomerExcerpt.class);
+		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class);
 
 		assertThat(excerpt).isInstanceOf(TargetAware.class);
 		assertThat(((TargetAware) excerpt).getTarget()).isInstanceOf(Map.class);
@@ -157,7 +157,7 @@ class ProxyProjectionFactoryUnitTests {
 		Customer customer = new Customer();
 		customer.picture = "binarydata".getBytes();
 
-		CustomerExcerpt excerpt = factory.createProjection(CustomerExcerpt.class, customer);
+		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class, customer);
 
 		assertThat(excerpt.getPicture()).isEqualTo(customer.picture);
 	}
@@ -172,7 +172,7 @@ class ProxyProjectionFactoryUnitTests {
 		Customer customer = new Customer();
 		customer.shippingAddresses = new Address[] { address };
 
-		CustomerExcerpt excerpt = factory.createProjection(CustomerExcerpt.class, customer);
+		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class, customer);
 
 		assertThat(excerpt.getShippingAddresses()).hasSize(1);
 	}
@@ -183,7 +183,7 @@ class ProxyProjectionFactoryUnitTests {
 		Customer customer = new Customer();
 		customer.id = 1L;
 
-		CustomerExcerpt excerpt = factory.createProjection(CustomerExcerpt.class, customer);
+		CustomerExcerpt excerpt = this.factory.createProjection(CustomerExcerpt.class, customer);
 
 		assertThat(excerpt.getId()).isEqualTo(customer.id.toString());
 	}
@@ -191,7 +191,7 @@ class ProxyProjectionFactoryUnitTests {
 	@Test // DATACMNS-89
 	void exposesProjectionInformationCorrectly() {
 
-		ProjectionInformation information = factory.getProjectionInformation(CustomerExcerpt.class);
+		ProjectionInformation information = this.factory.getProjectionInformation(CustomerExcerpt.class);
 
 		assertThat(information.getType()).isEqualTo(CustomerExcerpt.class);
 		assertThat(information.isClosed()).isTrue();
@@ -203,7 +203,7 @@ class ProxyProjectionFactoryUnitTests {
 		Customer customer = new Customer();
 		customer.data = Collections.singletonMap("key", null);
 
-		Map<String, Object> data = factory.createProjection(CustomerExcerpt.class, customer).getData();
+		Map<String, Object> data = this.factory.createProjection(CustomerExcerpt.class, customer).getData();
 
 		assertThat(data).isNotNull();
 		assertThat(data.containsKey("key")).isTrue();
@@ -215,7 +215,7 @@ class ProxyProjectionFactoryUnitTests {
 
 		Customer customer = new Customer();
 
-		assertThat(factory.createProjection(Contact.class, customer)).isSameAs(customer);
+		assertThat(this.factory.createProjection(Contact.class, customer)).isSameAs(customer);
 	}
 
 	interface Contact {}

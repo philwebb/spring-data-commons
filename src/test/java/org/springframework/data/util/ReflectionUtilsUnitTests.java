@@ -50,7 +50,7 @@ public class ReflectionUtilsUnitTests {
 	public void findsFieldByFilter() {
 
 		Field field = ReflectionUtils.findField(Sample.class, (FieldFilter) new FieldNameFieldFilter("field"));
-		assertThat(field).isEqualTo(reference);
+		assertThat(field).isEqualTo(this.reference);
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class ReflectionUtilsUnitTests {
 	public void findsUniqueField() {
 
 		Field field = ReflectionUtils.findField(Sample.class, new FieldNameFieldFilter("field"), false);
-		assertThat(field).isEqualTo(reference);
+		assertThat(field).isEqualTo(this.reference);
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class ReflectionUtilsUnitTests {
 		}
 
 		Field field = ReflectionUtils.findField(Subclass.class, new FieldNameFieldFilter("field"));
-		assertThat(field).isEqualTo(reference);
+		assertThat(field).isEqualTo(this.reference);
 	}
 
 	@Test
@@ -95,12 +95,12 @@ public class ReflectionUtilsUnitTests {
 
 	@Test // DATACMNS-542
 	public void detectsConstructorForCompleteMatch() throws Exception {
-		assertThat(ReflectionUtils.findConstructor(ConstructorDetection.class, 2, "test")).hasValue(constructor);
+		assertThat(ReflectionUtils.findConstructor(ConstructorDetection.class, 2, "test")).hasValue(this.constructor);
 	}
 
 	@Test // DATACMNS-542
 	public void detectsConstructorForMatchWithNulls() throws Exception {
-		assertThat(ReflectionUtils.findConstructor(ConstructorDetection.class, 2, null)).hasValue(constructor);
+		assertThat(ReflectionUtils.findConstructor(ConstructorDetection.class, 2, null)).hasValue(this.constructor);
 	}
 
 	@Test // DATACMNS-542
@@ -179,11 +179,11 @@ public class ReflectionUtilsUnitTests {
 		}
 
 		public boolean matches(Field field) {
-			return field.getName().equals(name);
+			return field.getName().equals(this.name);
 		}
 
 		public String getDescription() {
-			return String.format("Filter for fields named %s", name);
+			return String.format("Filter for fields named %s", this.name);
 		}
 	}
 

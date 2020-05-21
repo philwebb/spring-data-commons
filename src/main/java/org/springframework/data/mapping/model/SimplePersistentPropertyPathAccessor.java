@@ -57,12 +57,12 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	}
 	@Override
 	public T getBean() {
-		return delegate.getBean();
+		return this.delegate.getBean();
 	}
 	@Nullable
 	@Override
 	public Object getProperty(PersistentProperty<?> property) {
-		return delegate.getProperty(property);
+		return this.delegate.getProperty(property);
 	}
 	@Nullable
 	@Override
@@ -106,7 +106,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	 */
 	@Override
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
-		delegate.setProperty(property, value);
+		this.delegate.setProperty(property, value);
 	}
 
 	/*

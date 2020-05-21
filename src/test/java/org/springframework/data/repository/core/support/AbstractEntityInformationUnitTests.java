@@ -119,7 +119,7 @@ class AbstractEntityInformationUnitTests {
 		@Override
 		@SuppressWarnings("unchecked")
 		public Class<ID> getIdType() {
-			return (Class<ID>) ReflectionUtils.findField(type, "id").getType();
+			return (Class<ID>) ReflectionUtils.findField(this.type, "id").getType();
 		}
 	}
 }

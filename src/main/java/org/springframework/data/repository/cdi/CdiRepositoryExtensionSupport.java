@@ -58,7 +58,7 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	private final CdiRepositoryContext context;
 
 	protected CdiRepositoryExtensionSupport() {
-		context = new CdiRepositoryContext(getClass().getClassLoader());
+		this.context = new CdiRepositoryContext(getClass().getClassLoader());
 	}
 
 	/**
@@ -83,7 +83,7 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 						String.format("Discovered repository type '%s' with qualifiers %s.", repositoryType.getName(), qualifiers));
 			}
 			// Store the repository type using its qualifiers.
-			repositoryTypes.put(repositoryType, qualifiers);
+			this.repositoryTypes.put(repositoryType, qualifiers);
 		}
 	}
 
@@ -136,7 +136,7 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 */
 	void afterDeploymentValidation(@Observes AfterDeploymentValidation event, BeanManager manager) {
 
-		for (CdiRepositoryBean<?> bean : eagerRepositories) {
+		for (CdiRepositoryBean<?> bean : this.eagerRepositories) {
 
 			logger.debug("Eagerly instantiating CDI repository bean for {}.", bean.getBeanClass());
 			bean.initialize();
@@ -149,7 +149,7 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 * @return
 	 */
 	protected Iterable<Entry<Class<?>, Set<Annotation>>> getRepositoryTypes() {
-		return repositoryTypes.entrySet();
+		return this.repositoryTypes.entrySet();
 	}
 
 	/**
@@ -172,7 +172,7 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 * @return the {@link CustomRepositoryImplementationDetector} to scan for the custom implementation
 	 */
 	protected CustomRepositoryImplementationDetector getCustomImplementationDetector() {
-		return context.getCustomRepositoryImplementationDetector();
+		return this.context.getCustomRepositoryImplementationDetector();
 	}
 
 	/**
@@ -180,7 +180,7 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 * @since 2.1
 	 */
 	protected CdiRepositoryContext getRepositoryContext() {
-		return context;
+		return this.context;
 	}
 
 	@SuppressWarnings("all")

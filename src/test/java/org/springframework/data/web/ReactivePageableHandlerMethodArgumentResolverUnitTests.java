@@ -52,7 +52,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 		// Read side
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=0&size=200").build();
 
-		assertSupportedAndResult(supportedMethodParameter, PageRequest.of(0, 100), request);
+		assertSupportedAndResult(this.supportedMethodParameter, PageRequest.of(0, 100), request);
 	}
 
 	@Test // DATACMNS-1211
@@ -94,7 +94,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=0&size=0").build();
 
-		assertSupportedAndResult(supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
@@ -112,7 +112,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=-1").build();
 
-		assertSupportedAndResult(supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
@@ -120,7 +120,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?page=a").build();
 
-		assertSupportedAndResult(supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
@@ -128,7 +128,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 
 		MockServerHttpRequest request = MockServerHttpRequest.get("foo?size=a").build();
 
-		assertSupportedAndResult(supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-1211
@@ -137,7 +137,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 		ReactivePageableHandlerMethodArgumentResolver resolver = getReactiveResolver();
 		resolver.setFallbackPageable(Pageable.unpaged());
 
-		assertSupportedAndResult(supportedMethodParameter, Pageable.unpaged(), TestUtils.getWebfluxRequest(), resolver);
+		assertSupportedAndResult(this.supportedMethodParameter, Pageable.unpaged(), TestUtils.getWebfluxRequest(), resolver);
 	}
 
 	@Test // DATACMNS-1211
@@ -247,7 +247,7 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 	}
 
 	private Pageable resolve(ReactivePageableHandlerMethodArgumentResolver resolver, MockServerHttpRequest request) {
-		return resolver.resolveArgumentValue(supportedMethodParameter, null, MockServerWebExchange.from(request));
+		return resolver.resolveArgumentValue(this.supportedMethodParameter, null, MockServerWebExchange.from(request));
 	}
 
 	interface Sample {

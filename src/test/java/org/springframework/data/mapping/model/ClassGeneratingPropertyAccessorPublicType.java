@@ -52,7 +52,7 @@ public class ClassGeneratingPropertyAccessorPublicType {
 	}
 
 	private String getPrivateProperty() {
-		return privateProperty;
+		return this.privateProperty;
 	}
 
 	private void setPrivateProperty(String privateProperty) {
@@ -60,7 +60,7 @@ public class ClassGeneratingPropertyAccessorPublicType {
 	}
 
 	String getPackageDefaultProperty() {
-		return packageDefaultProperty;
+		return this.packageDefaultProperty;
 	}
 
 	void setPackageDefaultProperty(String packageDefaultProperty) {
@@ -68,7 +68,7 @@ public class ClassGeneratingPropertyAccessorPublicType {
 	}
 
 	protected String getProtectedProperty() {
-		return protectedProperty;
+		return this.protectedProperty;
 	}
 
 	protected void setProtectedProperty(String protectedProperty) {
@@ -76,7 +76,7 @@ public class ClassGeneratingPropertyAccessorPublicType {
 	}
 
 	public String getPublicProperty() {
-		return publicProperty;
+		return this.publicProperty;
 	}
 
 	public void setPublicProperty(String publicProperty) {
@@ -85,15 +85,15 @@ public class ClassGeneratingPropertyAccessorPublicType {
 
 	@AccessType(Type.PROPERTY)
 	public String getSyntheticProperty() {
-		return backing;
+		return this.backing;
 	}
 
 	public void setSyntheticProperty(String syntheticProperty) {
-		backing = syntheticProperty;
+		this.backing = syntheticProperty;
 	}
 
 	public String getWither() {
-		return wither;
+		return this.wither;
 	}
 
 	public ClassGeneratingPropertyAccessorPublicType withWither(String wither) {
@@ -102,10 +102,10 @@ public class ClassGeneratingPropertyAccessorPublicType {
 
 	public Object set(Object e) {
 
-		aa = (Integer) e;
-		bb = (Integer) e;
+		this.aa = (Integer) e;
+		this.bb = (Integer) e;
 
-		return bb;
+		return this.bb;
 	}
 
 	public static void main(String[] args) {}

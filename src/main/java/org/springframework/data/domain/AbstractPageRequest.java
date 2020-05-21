@@ -52,16 +52,16 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 		this.size = size;
 	}
 	public int getPageSize() {
-		return size;
+		return this.size;
 	}
 	public int getPageNumber() {
-		return page;
+		return this.page;
 	}
 	public long getOffset() {
-		return (long) page * (long) size;
+		return (long) this.page * (long) this.size;
 	}
 	public boolean hasPrevious() {
-		return page > 0;
+		return this.page > 0;
 	}
 	public Pageable previousOrFirst() {
 		return hasPrevious() ? previous() : first();
@@ -81,8 +81,8 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 		final int prime = 31;
 		int result = 1;
 
-		result = prime * result + page;
-		result = prime * result + size;
+		result = prime * result + this.page;
+		result = prime * result + this.size;
 
 		return result;
 	}

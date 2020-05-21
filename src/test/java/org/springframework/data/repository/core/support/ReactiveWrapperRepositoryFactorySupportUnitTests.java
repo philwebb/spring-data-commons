@@ -54,68 +54,68 @@ class ReactiveWrapperRepositoryFactorySupportUnitTests {
 
 	@BeforeEach
 	void setUp() {
-		factory = new DummyRepositoryFactory(backingRepo);
+		this.factory = new DummyRepositoryFactory(this.backingRepo);
 	}
 
 	@Test // DATACMNS-836
 	void invokesCustomMethodIfItRedeclaresACRUDOne() {
 
-		ObjectRepository repository = factory.getRepository(ObjectRepository.class, customImplementation);
+		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class, this.customImplementation);
 		repository.findById(1);
 
-		verify(customImplementation, times(1)).findById(1);
-		verify(backingRepo, times(0)).findById(1);
+		verify(this.customImplementation, times(1)).findById(1);
+		verify(this.backingRepo, times(0)).findById(1);
 	}
 
 	@Test // DATACMNS-836, DATACMNS-1154
 	void callsRxJava1MethodOnBaseImplementationWithExactArguments() {
 
 		Serializable id = 1L;
-		when(backingRepo.existsById(id)).thenReturn(Mono.just(true));
+		when(this.backingRepo.existsById(id)).thenReturn(Mono.just(true));
 
-		RxJava1ConvertingRepository repository = factory.getRepository(RxJava1ConvertingRepository.class);
+		RxJava1ConvertingRepository repository = this.factory.getRepository(RxJava1ConvertingRepository.class);
 		repository.existsById(id);
 		repository.existsById((Long) id);
 
-		verify(backingRepo, times(2)).existsById(id);
+		verify(this.backingRepo, times(2)).existsById(id);
 	}
 
 	@Test // DATACMNS-836, DATACMNS-1063, DATACMNS-1154
 	@SuppressWarnings("unchecked")
 	void callsRxJava1MethodOnBaseImplementationWithTypeConversion() {
 
-		when(backingRepo.existsById(any(Publisher.class))).thenReturn(Mono.just(true));
+		when(this.backingRepo.existsById(any(Publisher.class))).thenReturn(Mono.just(true));
 
 		Single<Long> ids = Single.just(1L);
 
-		RxJava1ConvertingRepository repository = factory.getRepository(RxJava1ConvertingRepository.class);
+		RxJava1ConvertingRepository repository = this.factory.getRepository(RxJava1ConvertingRepository.class);
 		repository.existsById(ids);
 
-		verify(backingRepo, times(1)).existsById(any(Publisher.class));
+		verify(this.backingRepo, times(1)).existsById(any(Publisher.class));
 	}
 
 	@Test // DATACMNS-988, DATACMNS-1154
 	void callsRxJava2MethodOnBaseImplementationWithExactArguments() {
 
 		Long id = 1L;
-		when(backingRepo.findById(id)).thenReturn(Mono.just(true));
+		when(this.backingRepo.findById(id)).thenReturn(Mono.just(true));
 
-		RxJava2ConvertingRepository repository = factory.getRepository(RxJava2ConvertingRepository.class);
+		RxJava2ConvertingRepository repository = this.factory.getRepository(RxJava2ConvertingRepository.class);
 		repository.findById(id);
 
-		verify(backingRepo, times(1)).findById(id);
+		verify(this.backingRepo, times(1)).findById(id);
 	}
 
 	@Test // DATACMNS-988, DATACMNS-1154
 	void callsRxJava2MethodOnBaseImplementationWithTypeConversion() {
 
 		Serializable id = 1L;
-		when(backingRepo.deleteById(id)).thenReturn(Mono.empty());
+		when(this.backingRepo.deleteById(id)).thenReturn(Mono.empty());
 
-		RxJava2ConvertingRepository repository = factory.getRepository(RxJava2ConvertingRepository.class);
+		RxJava2ConvertingRepository repository = this.factory.getRepository(RxJava2ConvertingRepository.class);
 		repository.deleteById(id);
 
-		verify(backingRepo, times(1)).deleteById(id);
+		verify(this.backingRepo, times(1)).deleteById(id);
 	}
 
 	interface RxJava1ConvertingRepository extends Repository<Object, Long> {

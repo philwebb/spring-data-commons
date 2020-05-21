@@ -60,9 +60,9 @@ public class SpelEvaluator {
 
 		Assert.notNull(values, "Values must not be null.");
 
-		EvaluationContext evaluationContext = evaluationContextProvider.getEvaluationContext(parameters, values);
+		EvaluationContext evaluationContext = this.evaluationContextProvider.getEvaluationContext(this.parameters, values);
 
-		return extractor.getParameters().collect(Collectors.toMap(//
+		return this.extractor.getParameters().collect(Collectors.toMap(//
 				Entry::getKey, //
 				it -> getSpElValue(evaluationContext, it.getValue()) //
 		));
@@ -74,7 +74,7 @@ public class SpelEvaluator {
 	 * @return
 	 */
 	public String getQueryString() {
-		return extractor.getQueryString();
+		return this.extractor.getQueryString();
 	}
 
 	@Nullable

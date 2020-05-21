@@ -49,7 +49,7 @@ class ParameterizedTypeInformationUnitTests {
 
 	@BeforeEach
 	void setUp() {
-		when(one.getActualTypeArguments()).thenReturn(new Type[0]);
+		when(this.one.getActualTypeArguments()).thenReturn(new Type[0]);
 	}
 
 	@Test
@@ -58,8 +58,8 @@ class ParameterizedTypeInformationUnitTests {
 		TypeDiscoverer<String> stringParent = new TypeDiscoverer<>(String.class, emptyMap());
 		TypeDiscoverer<Object> objectParent = new TypeDiscoverer<>(Object.class, emptyMap());
 
-		ParameterizedTypeInformation<Object> first = new ParameterizedTypeInformation<>(one, stringParent);
-		ParameterizedTypeInformation<Object> second = new ParameterizedTypeInformation<>(one, objectParent);
+		ParameterizedTypeInformation<Object> first = new ParameterizedTypeInformation<>(this.one, stringParent);
+		ParameterizedTypeInformation<Object> second = new ParameterizedTypeInformation<>(this.one, objectParent);
 
 		assertThat(first).isNotEqualTo(second);
 	}
@@ -69,8 +69,8 @@ class ParameterizedTypeInformationUnitTests {
 
 		TypeDiscoverer<String> stringParent = new TypeDiscoverer<>(String.class, emptyMap());
 
-		ParameterizedTypeInformation<Object> first = new ParameterizedTypeInformation<>(one, stringParent);
-		ParameterizedTypeInformation<Object> second = new ParameterizedTypeInformation<>(one, stringParent);
+		ParameterizedTypeInformation<Object> first = new ParameterizedTypeInformation<>(this.one, stringParent);
+		ParameterizedTypeInformation<Object> second = new ParameterizedTypeInformation<>(this.one, stringParent);
 
 		assertThat(first.equals(second)).isTrue();
 	}

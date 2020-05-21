@@ -33,20 +33,20 @@ public class ChangeSetBackedTransactionSynchronization implements TransactionSyn
 	}
 
 	public void afterCommit() {
-		log.debug("After Commit called for " + entity);
-		changeSetPersister.persistState(entity, entity.getChangeSet());
-		changeSetTxStatus = 0;
+		this.log.debug("After Commit called for " + this.entity);
+		this.changeSetPersister.persistState(this.entity, this.entity.getChangeSet());
+		this.changeSetTxStatus = 0;
 	}
 
 	public void afterCompletion(int status) {
-		log.debug("After Completion called with status = " + status);
-		if (changeSetTxStatus == 0) {
+		this.log.debug("After Completion called with status = " + status);
+		if (this.changeSetTxStatus == 0) {
 			if (status == STATUS_COMMITTED) {
 				// this is good
-				log.debug("ChangedSetBackedTransactionSynchronization completed successfully for " + this.entity);
+				this.log.debug("ChangedSetBackedTransactionSynchronization completed successfully for " + this.entity);
 			} else {
 				// this could be bad - TODO: compensate
-				log.error("ChangedSetBackedTransactionSynchronization failed for " + this.entity);
+				this.log.error("ChangedSetBackedTransactionSynchronization failed for " + this.entity);
 			}
 		}
 	}

@@ -42,7 +42,7 @@ class MappingContextTypeInformationMapperUnitTests {
 
 	@BeforeEach
 	void setUp() {
-		mappingContext = new SampleMappingContext();
+		this.mappingContext = new SampleMappingContext();
 	}
 
 	@Test
@@ -53,12 +53,12 @@ class MappingContextTypeInformationMapperUnitTests {
 	@Test
 	void extractsAliasInfoFromMappingContext() {
 
-		mappingContext.setInitialEntitySet(Collections.singleton(Entity.class));
-		mappingContext.initialize();
+		this.mappingContext.setInitialEntitySet(Collections.singleton(Entity.class));
+		this.mappingContext.initialize();
 
-		mapper = new MappingContextTypeInformationMapper(mappingContext);
+		this.mapper = new MappingContextTypeInformationMapper(this.mappingContext);
 
-		assertThat(mapper.createAliasFor(ClassTypeInformation.from(Entity.class)).hasValue("foo")).isTrue();
+		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(Entity.class)).hasValue("foo")).isTrue();
 	}
 
 	@Test
@@ -67,9 +67,9 @@ class MappingContextTypeInformationMapperUnitTests {
 		SampleMappingContext mappingContext = new SampleMappingContext();
 		mappingContext.initialize();
 
-		mapper = new MappingContextTypeInformationMapper(mappingContext);
+		this.mapper = new MappingContextTypeInformationMapper(mappingContext);
 
-		assertThat(mapper.createAliasFor(from(Entity.class)).hasValue("foo")).isTrue();
+		assertThat(this.mapper.createAliasFor(from(Entity.class)).hasValue("foo")).isTrue();
 	}
 
 	@Test
@@ -78,8 +78,8 @@ class MappingContextTypeInformationMapperUnitTests {
 		SampleMappingContext mappingContext = new SampleMappingContext();
 		mappingContext.initialize();
 
-		mapper = new MappingContextTypeInformationMapper(mappingContext);
-		assertThat(mapper.createAliasFor(from(String.class)).isPresent()).isFalse();
+		this.mapper = new MappingContextTypeInformationMapper(mappingContext);
+		assertThat(this.mapper.createAliasFor(from(String.class)).isPresent()).isFalse();
 	}
 
 	@Test
@@ -88,13 +88,13 @@ class MappingContextTypeInformationMapperUnitTests {
 		SampleMappingContext mappingContext = new SampleMappingContext();
 		mappingContext.initialize();
 
-		mapper = new MappingContextTypeInformationMapper(mappingContext);
-		assertThat(mapper.resolveTypeFrom(Alias.of("foo"))).isNull();
+		this.mapper = new MappingContextTypeInformationMapper(mappingContext);
+		assertThat(this.mapper.resolveTypeFrom(Alias.of("foo"))).isNull();
 
 		PersistentEntity<?, SamplePersistentProperty> entity = mappingContext.getRequiredPersistentEntity(Entity.class);
 
 		assertThat(entity).isNotNull();
-		assertThat(mapper.resolveTypeFrom(Alias.of("foo"))).isEqualTo(from(Entity.class));
+		assertThat(this.mapper.resolveTypeFrom(Alias.of("foo"))).isEqualTo(from(Entity.class));
 	}
 
 	@Test // DATACMNS-485

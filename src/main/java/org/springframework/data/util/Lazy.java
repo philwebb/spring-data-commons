@@ -213,7 +213,7 @@ public class Lazy<T> implements Supplier<T> {
 			return value;
 		}
 
-		value = supplier.get();
+		value = this.supplier.get();
 
 		this.value = value;
 		this.resolved = true;
@@ -233,21 +233,21 @@ public class Lazy<T> implements Supplier<T> {
 
 		Lazy<?> lazy = (Lazy<?>) o;
 
-		if (resolved != lazy.resolved) {
+		if (this.resolved != lazy.resolved) {
 			return false;
 		}
 
-		if (!ObjectUtils.nullSafeEquals(supplier, lazy.supplier)) {
+		if (!ObjectUtils.nullSafeEquals(this.supplier, lazy.supplier)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(value, lazy.value);
+		return ObjectUtils.nullSafeEquals(this.value, lazy.value);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(supplier);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(value);
-		result = 31 * result + (resolved ? 1 : 0);
+		int result = ObjectUtils.nullSafeHashCode(this.supplier);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.value);
+		result = 31 * result + (this.resolved ? 1 : 0);
 		return result;
 	}
 }

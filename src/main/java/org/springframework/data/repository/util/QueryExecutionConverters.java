@@ -360,7 +360,7 @@ public abstract class QueryExecutionConverters {
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
 
-			return Streamable.of(wrapperTypes)//
+			return Streamable.of(this.wrapperTypes)//
 					.map(it -> new ConvertiblePair(NullableWrapper.class, it))//
 					.stream().collect(StreamUtils.toUnmodifiableSet());
 		}
@@ -381,7 +381,7 @@ public abstract class QueryExecutionConverters {
 			Object value = wrapper.getValue();
 
 			// TODO: Add Recursive conversion once we move to Spring 4
-			return value == null ? nullValue : wrap(value);
+			return value == null ? this.nullValue : wrap(value);
 		}
 
 		/**
@@ -589,7 +589,7 @@ public abstract class QueryExecutionConverters {
 		@Nullable
 		@Override
 		public Object convert(Object source) {
-			return source instanceof Option ? ((Option<?>) source).getOrElse(alternative) : source;
+			return source instanceof Option ? ((Option<?>) source).getOrElse(this.alternative) : source;
 		}
 	}
 
@@ -652,8 +652,8 @@ public abstract class QueryExecutionConverters {
 				return true;
 			}
 
-			return TARGET_TYPE_CACHE.computeIfAbsent(targetType, it -> {
-				return conversionService.canConvert(STREAMABLE, targetType);
+			return this.TARGET_TYPE_CACHE.computeIfAbsent(targetType, it -> {
+				return this.conversionService.canConvert(STREAMABLE, targetType);
 			});
 		}
 
@@ -672,7 +672,7 @@ public abstract class QueryExecutionConverters {
 
 			return Streamable.class.equals(targetType.getType()) //
 					? streamable //
-					: conversionService.convert(streamable, STREAMABLE, targetType);
+					: this.conversionService.convert(streamable, STREAMABLE, targetType);
 		}
 	}
 
@@ -688,7 +688,7 @@ public abstract class QueryExecutionConverters {
 		}
 
 		public Cardinality getCardinality() {
-			return cardinality;
+			return this.cardinality;
 		}
 		@Override
 		public boolean equals(Object o) {
@@ -703,16 +703,16 @@ public abstract class QueryExecutionConverters {
 
 			WrapperType that = (WrapperType) o;
 
-			if (!ObjectUtils.nullSafeEquals(type, that.type)) {
+			if (!ObjectUtils.nullSafeEquals(this.type, that.type)) {
 				return false;
 			}
 
-			return cardinality == that.cardinality;
+			return this.cardinality == that.cardinality;
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(type);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(cardinality);
+			int result = ObjectUtils.nullSafeHashCode(this.type);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.cardinality);
 			return result;
 		}
 		@Override
@@ -741,7 +741,7 @@ public abstract class QueryExecutionConverters {
 		}
 
 		boolean isSingleValue() {
-			return cardinality.equals(Cardinality.SINGLE);
+			return this.cardinality.equals(Cardinality.SINGLE);
 		}
 	}
 }

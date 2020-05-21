@@ -61,7 +61,7 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 	 * @return the repositories will never be {@literal null}.
 	 */
 	public Repositories getRepositories() {
-		return repositories;
+		return this.repositories;
 	}
 	@Override
 	public boolean equals(@Nullable Object obj) {
@@ -81,8 +81,8 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 	public int hashCode() {
 
 		int result = 17;
-		result += 31 * source.hashCode();
-		result += 31 * repositories.hashCode();
+		result += 31 * this.source.hashCode();
+		result += 31 * this.repositories.hashCode();
 
 		return result;
 	}

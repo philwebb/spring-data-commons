@@ -91,7 +91,7 @@ public class Parameter {
 	 * @see #TYPES
 	 */
 	public boolean isSpecialParameter() {
-		return isDynamicProjectionParameter || TYPES.contains(parameter.getParameterType());
+		return this.isDynamicProjectionParameter || TYPES.contains(this.parameter.getParameterType());
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class Parameter {
 	 * @return
 	 */
 	public boolean isDynamicProjectionParameter() {
-		return isDynamicProjectionParameter;
+		return this.isDynamicProjectionParameter;
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class Parameter {
 	 * @return
 	 */
 	public int getIndex() {
-		return parameter.getParameterIndex();
+		return this.parameter.getParameterIndex();
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class Parameter {
 	 * @return the type
 	 */
 	public Class<?> getType() {
-		return parameterType;
+		return this.parameterType;
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class Parameter {
 	 * @since 1.11
 	 */
 	public boolean isExplicitlyNamed() {
-		return parameter.hasParameterAnnotation(Param.class);
+		return this.parameter.hasParameterAnnotation(Param.class);
 	}
 	@Override
 	public String toString() {

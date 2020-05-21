@@ -75,6 +75,6 @@ class TypeVariableTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 	}
 	@Override
 	public String toString() {
-		return variable.getName();
+		return this.variable.getName();
 	}
 }

@@ -64,7 +64,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
 		if (Map.class.isAssignableFrom(getType())) {
 
-			Type[] arguments = type.getActualTypeArguments();
+			Type[] arguments = this.type.getActualTypeArguments();
 
 			if (arguments.length > 1) {
 				return createInfo(arguments[1]);
@@ -94,7 +94,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
 		List<TypeInformation<?>> result = new ArrayList<>();
 
-		for (Type argument : type.getActualTypeArguments()) {
+		for (Type argument : this.type.getActualTypeArguments()) {
 			result.add(createInfo(argument));
 		}
 
@@ -136,7 +136,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	@Override
 	@Nullable
 	protected TypeInformation<?> doGetComponentType() {
-		return createInfo(type.getActualTypeArguments()[0]);
+		return createInfo(this.type.getActualTypeArguments()[0]);
 	}
 	@Override
 	@SuppressWarnings("unchecked")
@@ -187,12 +187,12 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	}
 
 	private boolean isResolved() {
-		return resolved.get();
+		return this.resolved.get();
 	}
 
 	private boolean isResolvedCompletely() {
 
-		Type[] typeArguments = type.getActualTypeArguments();
+		Type[] typeArguments = this.type.getActualTypeArguments();
 
 		if (typeArguments.length == 0) {
 			return false;

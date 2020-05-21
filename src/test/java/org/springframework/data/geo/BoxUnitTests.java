@@ -35,28 +35,28 @@ class BoxUnitTests {
 	@Test // DATACMNS-437
 	void equalsWorksCorrectly() {
 
-		assertThat(first.equals(second)).isTrue();
-		assertThat(second.equals(first)).isTrue();
-		assertThat(first.equals(third)).isFalse();
+		assertThat(this.first.equals(this.second)).isTrue();
+		assertThat(this.second.equals(this.first)).isTrue();
+		assertThat(this.first.equals(this.third)).isFalse();
 	}
 
 	@Test // DATACMNS-437
 	void hashCodeWorksCorrectly() {
 
-		assertThat(first.hashCode()).isEqualTo(second.hashCode());
-		assertThat(first.hashCode()).isNotEqualTo(third.hashCode());
+		assertThat(this.first.hashCode()).isEqualTo(this.second.hashCode());
+		assertThat(this.first.hashCode()).isNotEqualTo(this.third.hashCode());
 	}
 
 	@Test // DATACMNS-437
 	void testToString() {
 
-		assertThat(first.toString()).isEqualTo("Box [Point [x=1.000000, y=1.000000], Point [x=2.000000, y=2.000000]]");
+		assertThat(this.first.toString()).isEqualTo("Box [Point [x=1.000000, y=1.000000], Point [x=2.000000, y=2.000000]]");
 	}
 
 	@Test // DATACMNS-482
 	void testSerialization() {
 
-		Box serialized = (Box) SerializationUtils.deserialize(SerializationUtils.serialize(first));
-		assertThat(serialized).isEqualTo(first);
+		Box serialized = (Box) SerializationUtils.deserialize(SerializationUtils.serialize(this.first));
+		assertThat(serialized).isEqualTo(this.first);
 	}
 }

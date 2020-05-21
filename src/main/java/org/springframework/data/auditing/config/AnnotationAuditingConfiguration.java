@@ -58,21 +58,21 @@ public class AnnotationAuditingConfiguration implements AuditingConfiguration {
 
 	@Override
 	public String getAuditorAwareRef() {
-		return attributes.getString("auditorAwareRef");
+		return this.attributes.getString("auditorAwareRef");
 	}
 
 	@Override
 	public boolean isSetDates() {
-		return attributes.getBoolean("setDates");
+		return this.attributes.getBoolean("setDates");
 	}
 
 	@Override
 	public String getDateTimeProviderRef() {
-		return attributes.getString("dateTimeProviderRef");
+		return this.attributes.getString("dateTimeProviderRef");
 	}
 
 	@Override
 	public boolean isModifyOnCreate() {
-		return attributes.getBoolean("modifyOnCreate");
+		return this.attributes.getBoolean("modifyOnCreate");
 	}
 }

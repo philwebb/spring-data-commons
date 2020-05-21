@@ -43,7 +43,7 @@ class ConfigurableTypeInformationMapperUnitTests<T extends PersistentProperty<T>
 
 	@BeforeEach
 	void setUp() {
-		mapper = new ConfigurableTypeInformationMapper(Collections.singletonMap(String.class, "1"));
+		this.mapper = new ConfigurableTypeInformationMapper(Collections.singletonMap(String.class, "1"));
 	}
 
 	@Test
@@ -64,14 +64,14 @@ class ConfigurableTypeInformationMapperUnitTests<T extends PersistentProperty<T>
 	@Test
 	void writesMapKeyForType() {
 
-		assertThat(mapper.createAliasFor(ClassTypeInformation.from(String.class))).isEqualTo(Alias.of("1"));
-		assertThat(mapper.createAliasFor(ClassTypeInformation.from(Object.class))).isEqualTo(Alias.NONE);
+		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(String.class))).isEqualTo(Alias.of("1"));
+		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(Object.class))).isEqualTo(Alias.NONE);
 	}
 
 	@Test
 	void readsTypeForMapKey() {
 
-		assertThat(mapper.resolveTypeFrom(Alias.of("1"))).isEqualTo(ClassTypeInformation.from(String.class));
-		assertThat(mapper.resolveTypeFrom(Alias.of("unmapped"))).isNull();
+		assertThat(this.mapper.resolveTypeFrom(Alias.of("1"))).isEqualTo(ClassTypeInformation.from(String.class));
+		assertThat(this.mapper.resolveTypeFrom(Alias.of("unmapped"))).isNull();
 	}
 }

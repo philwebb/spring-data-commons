@@ -109,7 +109,7 @@ public class ResultProcessor {
 	 * @return
 	 */
 	public ReturnedType getReturnedType() {
-		return type;
+		return this.type;
 	}
 
 	/**
@@ -135,32 +135,32 @@ public class ResultProcessor {
 	@SuppressWarnings("unchecked")
 	public <T> T processResult(@Nullable Object source, Converter<Object, Object> preparingConverter) {
 
-		if (source == null || type.isInstance(source) || !type.isProjecting()) {
+		if (source == null || this.type.isInstance(source) || !this.type.isProjecting()) {
 			return (T) source;
 		}
 
 		Assert.notNull(preparingConverter, "Preparing converter must not be null!");
 
-		ChainingConverter converter = ChainingConverter.of(type.getReturnedType(), preparingConverter).and(this.converter);
+		ChainingConverter converter = ChainingConverter.of(this.type.getReturnedType(), preparingConverter).and(this.converter);
 
-		if (source instanceof Slice && method.isPageQuery() || method.isSliceQuery()) {
+		if (source instanceof Slice && this.method.isPageQuery() || this.method.isSliceQuery()) {
 			return (T) ((Slice<?>) source).map(converter::convert);
 		}
 
-		if (source instanceof Collection && method.isCollectionQuery()) {
+		if (source instanceof Collection && this.method.isCollectionQuery()) {
 
 			Collection<?> collection = (Collection<?>) source;
 			Collection<Object> target = createCollectionFor(collection);
 
 			for (Object columns : collection) {
-				target.add(type.isInstance(columns) ? columns : converter.convert(columns));
+				target.add(this.type.isInstance(columns) ? columns : converter.convert(columns));
 			}
 
 			return (T) target;
 		}
 
-		if (source instanceof Stream && method.isStreamQuery()) {
-			return (T) ((Stream<Object>) source).map(t -> type.isInstance(t) ? t : converter.convert(t));
+		if (source instanceof Stream && this.method.isStreamQuery()) {
+			return (T) ((Stream<Object>) source).map(t -> this.type.isInstance(t) ? t : converter.convert(t));
 		}
 
 		if (ReactiveWrapperConverters.supports(source.getClass())) {
@@ -172,8 +172,8 @@ public class ResultProcessor {
 
 	private ResultProcessor withType(Class<?> type) {
 
-		ReturnedType returnedType = ReturnedType.of(type, method.getDomainClass(), factory);
-		return new ResultProcessor(method, converter.withType(returnedType), factory, returnedType);
+		ReturnedType returnedType = ReturnedType.of(type, this.method.getDomainClass(), this.factory);
+		return new ResultProcessor(this.method, this.converter.withType(returnedType), this.factory, returnedType);
 	}
 
 	/**
@@ -217,18 +217,18 @@ public class ResultProcessor {
 
 			Assert.notNull(converter, "Converter must not be null!");
 
-			return new ChainingConverter(targetType, source -> {
+			return new ChainingConverter(this.targetType, source -> {
 
 				Object intermediate = ChainingConverter.this.convert(source);
 
-				return intermediate == null || targetType.isInstance(intermediate) ? intermediate
+				return intermediate == null || this.targetType.isInstance(intermediate) ? intermediate
 						: converter.convert(intermediate);
 			});
 		}
 		@Nullable
 		@Override
 		public Object convert(Object source) {
-			return delegate.convert(source);
+			return this.delegate.convert(source);
 		}
 	}
 
@@ -279,19 +279,19 @@ public class ResultProcessor {
 
 			Assert.notNull(type, "ReturnedType must not be null!");
 
-			return new ProjectingConverter(type, factory, conversionService);
+			return new ProjectingConverter(type, this.factory, this.conversionService);
 		}
 		@Nullable
 		@Override
 		public Object convert(Object source) {
 
-			Class<?> targetType = type.getReturnedType();
+			Class<?> targetType = this.type.getReturnedType();
 
 			if (targetType.isInterface()) {
-				return factory.createProjection(targetType, getProjectionTarget(source));
+				return this.factory.createProjection(targetType, getProjectionTarget(source));
 			}
 
-			return conversionService.convert(source, targetType);
+			return this.conversionService.convert(source, targetType);
 		}
 
 		private Object getProjectionTarget(Object source) {
@@ -301,7 +301,7 @@ public class ResultProcessor {
 			}
 
 			if (source instanceof Collection) {
-				return toMap((Collection<?>) source, type.getInputProperties());
+				return toMap((Collection<?>) source, this.type.getInputProperties());
 			}
 
 			return source;

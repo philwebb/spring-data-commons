@@ -88,12 +88,12 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 
 		CustomAnnotationTransactionAttributeSource transactionAttributeSource = new CustomAnnotationTransactionAttributeSource();
 		transactionAttributeSource.setRepositoryInformation(repositoryInformation);
-		transactionAttributeSource.setEnableDefaultTransactions(enableDefaultTransactions);
+		transactionAttributeSource.setEnableDefaultTransactions(this.enableDefaultTransactions);
 
 		@SuppressWarnings("null") // TODO: Remove
 		TransactionInterceptor transactionInterceptor = new TransactionInterceptor(null, transactionAttributeSource);
-		transactionInterceptor.setTransactionManagerBeanName(transactionManagerName);
-		transactionInterceptor.setBeanFactory(beanFactory);
+		transactionInterceptor.setTransactionManagerBeanName(this.transactionManagerName);
+		transactionInterceptor.setBeanFactory(this.beanFactory);
 		transactionInterceptor.afterPropertiesSet();
 
 		factory.addAdvice(transactionInterceptor);
@@ -349,8 +349,8 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 				if (txAtt == null) {
 					this.attributeCache.put(cacheKey, NULL_TRANSACTION_ATTRIBUTE);
 				} else {
-					if (logger.isDebugEnabled()) {
-						logger.debug("Adding transactional method '" + method.getName() + "' with attribute: " + txAtt);
+					if (this.logger.isDebugEnabled()) {
+						this.logger.debug("Adding transactional method '" + method.getName() + "' with attribute: " + txAtt);
 					}
 					this.attributeCache.put(cacheKey, txAtt);
 				}
@@ -403,7 +403,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 				// Last fallback is the class of the original method.
 				txAtt = findTransactionAttribute(method.getDeclaringClass());
 
-				if (txAtt != null || !enableDefaultTransactions) {
+				if (txAtt != null || !this.enableDefaultTransactions) {
 					return txAtt;
 				}
 			}
@@ -422,13 +422,13 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 				return txAtt;
 			}
 
-			if (!enableDefaultTransactions) {
+			if (!this.enableDefaultTransactions) {
 				return null;
 			}
 
 			// Fallback to implementation class transaction settings of nothing found
 			// return findTransactionAttribute(method);
-			Method targetClassMethod = repositoryInformation.getTargetClassMethod(method);
+			Method targetClassMethod = this.repositoryInformation.getTargetClassMethod(method);
 
 			if (targetClassMethod.equals(method)) {
 				return null;

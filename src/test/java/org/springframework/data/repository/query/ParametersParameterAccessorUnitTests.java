@@ -36,13 +36,13 @@ class ParametersParameterAccessorUnitTests {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		parameters = new DefaultParameters(Sample.class.getMethod("method", String.class, int.class));
+		this.parameters = new DefaultParameters(Sample.class.getMethod("method", String.class, int.class));
 	}
 
 	@Test
 	void accessorIteratorHasNext() throws SecurityException, NoSuchMethodException {
 
-		ParameterAccessor accessor = new ParametersParameterAccessor(parameters, new Object[] { "Foo", 2 });
+		ParameterAccessor accessor = new ParametersParameterAccessor(this.parameters, new Object[] { "Foo", 2 });
 
 		Iterator<Object> iterator = accessor.iterator();
 		assertThat(iterator.hasNext()).isTrue();
@@ -55,7 +55,7 @@ class ParametersParameterAccessorUnitTests {
 	@Test
 	void detectsNullValue() throws Exception {
 
-		ParameterAccessor accessor = new ParametersParameterAccessor(parameters, new Object[] { null, 5 });
+		ParameterAccessor accessor = new ParametersParameterAccessor(this.parameters, new Object[] { null, 5 });
 		assertThat(accessor.hasBindableNullValue()).isTrue();
 
 		Method method = Sample.class.getMethod("method", Pageable.class, String.class);

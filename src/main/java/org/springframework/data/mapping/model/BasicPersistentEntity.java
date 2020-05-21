@@ -122,54 +122,54 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 				: getFallbackIsNewStrategy());
 
 		this.isImmutable = Lazy.of(() -> isAnnotationPresent(Immutable.class));
-		this.requiresPropertyPopulation = Lazy.of(() -> !isImmutable() && properties.stream() //
+		this.requiresPropertyPopulation = Lazy.of(() -> !isImmutable() && this.properties.stream() //
 				.anyMatch(it -> !(isConstructorArgument(it) || it.isTransient())));
 	}
 	@Nullable
 	public PreferredConstructor<T, P> getPersistenceConstructor() {
-		return constructor;
+		return this.constructor;
 	}
 	public boolean isConstructorArgument(PersistentProperty<?> property) {
-		return constructor != null && constructor.isConstructorParameter(property);
+		return this.constructor != null && this.constructor.isConstructorParameter(property);
 	}
 	public boolean isIdProperty(PersistentProperty<?> property) {
-		return idProperty != null && idProperty.equals(property);
+		return this.idProperty != null && this.idProperty.equals(property);
 	}
 	public boolean isVersionProperty(PersistentProperty<?> property) {
-		return versionProperty != null && versionProperty.equals(property);
+		return this.versionProperty != null && this.versionProperty.equals(property);
 	}
 	public String getName() {
 		return getType().getName();
 	}
 	@Nullable
 	public P getIdProperty() {
-		return idProperty;
+		return this.idProperty;
 	}
 	@Nullable
 	public P getVersionProperty() {
-		return versionProperty;
+		return this.versionProperty;
 	}
 	public boolean hasIdProperty() {
-		return idProperty != null;
+		return this.idProperty != null;
 	}
 	public boolean hasVersionProperty() {
-		return versionProperty != null;
+		return this.versionProperty != null;
 	}
 	public void addPersistentProperty(P property) {
 
 		Assert.notNull(property, "Property must not be null!");
 
-		if (properties.contains(property)) {
+		if (this.properties.contains(property)) {
 			return;
 		}
 
-		properties.add(property);
+		this.properties.add(property);
 
 		if (!property.isTransient() && !property.isAssociation()) {
-			persistentPropertiesCache.add(property);
+			this.persistentPropertiesCache.add(property);
 		}
 
-		propertyCache.computeIfAbsent(property.getName(), key -> property);
+		this.propertyCache.computeIfAbsent(property.getName(), key -> property);
 
 		P candidate = returnPropertyIfBetterIdPropertyCandidateOrNull(property);
 
@@ -224,23 +224,23 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		Assert.notNull(association, "Association must not be null!");
 
-		associations.add(association);
+		this.associations.add(association);
 	}
 	@Override
 	@Nullable
 	public P getPersistentProperty(String name) {
-		return propertyCache.get(name);
+		return this.propertyCache.get(name);
 	}
 	@Override
 	public Iterable<P> getPersistentProperties(Class<? extends Annotation> annotationType) {
 
 		Assert.notNull(annotationType, "Annotation type must not be null!");
-		return propertyAnnotationCache.computeIfAbsent(annotationType, this::doFindPersistentProperty);
+		return this.propertyAnnotationCache.computeIfAbsent(annotationType, this::doFindPersistentProperty);
 	}
 
 	private List<P> doFindPersistentProperty(Class<? extends Annotation> annotationType) {
 
-		List<P> annotatedProperties = properties.stream() //
+		List<P> annotatedProperties = this.properties.stream() //
 				.filter(it -> it.isAnnotationPresent(annotationType)) //
 				.collect(Collectors.toList());
 
@@ -248,24 +248,24 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 			return annotatedProperties;
 		}
 
-		return associations.stream() //
+		return this.associations.stream() //
 				.map(Association::getInverse) //
 				.filter(it -> it.isAnnotationPresent(annotationType)).collect(Collectors.toList());
 	}
 	public Class<T> getType() {
-		return information.getType();
+		return this.information.getType();
 	}
 	public Alias getTypeAlias() {
-		return typeAlias.get();
+		return this.typeAlias.get();
 	}
 	public TypeInformation<T> getTypeInformation() {
-		return information;
+		return this.information;
 	}
 	public void doWithProperties(PropertyHandler<P> handler) {
 
 		Assert.notNull(handler, "PropertyHandler must not be null!");
 
-		for (P property : persistentPropertiesCache) {
+		for (P property : this.persistentPropertiesCache) {
 			handler.doWithPersistentProperty(property);
 		}
 	}
@@ -274,7 +274,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		Assert.notNull(handler, "Handler must not be null!");
 
-		for (PersistentProperty<?> property : persistentPropertiesCache) {
+		for (PersistentProperty<?> property : this.persistentPropertiesCache) {
 			handler.doWithPersistentProperty(property);
 		}
 	}
@@ -282,7 +282,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		Assert.notNull(handler, "Handler must not be null!");
 
-		for (Association<P> association : associations) {
+		for (Association<P> association : this.associations) {
 			handler.doWithAssociation(association);
 		}
 	}
@@ -290,7 +290,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		Assert.notNull(handler, "Handler must not be null!");
 
-		for (Association<? extends PersistentProperty<?>> association : associations) {
+		for (Association<? extends PersistentProperty<?>> association : this.associations) {
 			handler.doWithAssociation(association);
 		}
 	}
@@ -307,14 +307,14 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	@SuppressWarnings("unchecked")
 	private <A extends Annotation> Optional<A> doFindAnnotation(Class<A> annotationType) {
 
-		return (Optional<A>) annotationCache.computeIfAbsent(annotationType,
+		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType,
 				it -> Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(getType(), it)));
 	}
 	public void verify() {
 
-		if (comparator != null) {
-			properties.sort(comparator);
-			persistentPropertiesCache.sort(comparator);
+		if (this.comparator != null) {
+			this.properties.sort(this.comparator);
+			this.persistentPropertiesCache.sort(this.comparator);
 		}
 	}
 	@Override
@@ -326,7 +326,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		verifyBeanType(bean);
 
-		return propertyAccessorFactory.getPropertyAccessor(this, bean);
+		return this.propertyAccessorFactory.getPropertyAccessor(this, bean);
 	}
 	@Override
 	public <B> PersistentPropertyPathAccessor<B> getPropertyPathAccessor(B bean) {
@@ -348,20 +348,20 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		verifyBeanType(bean);
 
-		return isNewStrategy.get().isNew(bean);
+		return this.isNewStrategy.get().isNew(bean);
 	}
 	@Override
 	public boolean isImmutable() {
-		return isImmutable.get();
+		return this.isImmutable.get();
 	}
 	@Override
 	public boolean requiresPropertyPopulation() {
-		return requiresPropertyPopulation.get();
+		return this.requiresPropertyPopulation.get();
 	}
 	@Override
 	public Iterator<P> iterator() {
 
-		Iterator<P> iterator = properties.iterator();
+		Iterator<P> iterator = this.properties.iterator();
 
 		return new Iterator<P>() {
 
@@ -378,7 +378,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	}
 
 	protected EvaluationContext getEvaluationContext(Object rootObject) {
-		return evaluationContextProvider.getEvaluationContext(rootObject);
+		return this.evaluationContextProvider.getEvaluationContext(rootObject);
 	}
 
 	/**
@@ -468,7 +468,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 				throw new IllegalArgumentException("Right argument must not be null!");
 			}
 
-			return delegate.compare(left.getInverse(), right.getInverse());
+			return this.delegate.compare(left.getInverse(), right.getInverse());
 		}
 	}
 }

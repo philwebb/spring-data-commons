@@ -78,7 +78,7 @@ public abstract class AbstractQueryCreator<T, S> {
 	 * @return
 	 */
 	public T createQuery() {
-		return createQuery(parameters.map(ParameterAccessor::getSort) //
+		return createQuery(this.parameters.map(ParameterAccessor::getSort) //
 				.orElse(Sort.unsorted()));
 	}
 
@@ -92,7 +92,7 @@ public abstract class AbstractQueryCreator<T, S> {
 	public T createQuery(Sort dynamicSort) {
 
 		Assert.notNull(dynamicSort, "DynamicSort must not be null!");
-		return complete(createCriteria(tree), tree.getSort().and(dynamicSort));
+		return complete(createCriteria(this.tree), this.tree.getSort().and(dynamicSort));
 	}
 
 	/**
@@ -106,7 +106,7 @@ public abstract class AbstractQueryCreator<T, S> {
 	private S createCriteria(PartTree tree) {
 
 		S base = null;
-		Iterator<Object> iterator = parameters.map(ParameterAccessor::iterator).orElse(Collections.emptyIterator());
+		Iterator<Object> iterator = this.parameters.map(ParameterAccessor::iterator).orElse(Collections.emptyIterator());
 
 		for (OrPart node : tree) {
 

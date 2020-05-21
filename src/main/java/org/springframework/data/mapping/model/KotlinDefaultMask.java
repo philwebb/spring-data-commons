@@ -45,7 +45,7 @@ public class KotlinDefaultMask {
 	 */
 	public void forEach(IntConsumer maskCallback) {
 
-		for (int i : defaulting) {
+		for (int i : this.defaulting) {
 			maskCallback.accept(i);
 		}
 	}

@@ -201,7 +201,7 @@ public class QuerydslBindings {
 
 		Assert.notNull(path, "PropertyPath must not be null!");
 
-		PathAndBinding<S, T> pathAndBinding = (PathAndBinding<S, T>) pathSpecs.get(path.toDotPath());
+		PathAndBinding<S, T> pathAndBinding = (PathAndBinding<S, T>) this.pathSpecs.get(path.toDotPath());
 
 		if (pathAndBinding != null) {
 
@@ -212,7 +212,7 @@ public class QuerydslBindings {
 			}
 		}
 
-		pathAndBinding = (PathAndBinding<S, T>) typeSpecs.get(path.getLeafType());
+		pathAndBinding = (PathAndBinding<S, T>) this.typeSpecs.get(path.getLeafType());
 
 		return pathAndBinding == null ? Optional.empty() : pathAndBinding.getBinding();
 	}
@@ -227,7 +227,7 @@ public class QuerydslBindings {
 
 		Assert.notNull(path, "PropertyPath must not be null!");
 
-		return Optional.ofNullable(pathSpecs.get(path.toDotPath())).flatMap(PathAndBinding::getPath);
+		return Optional.ofNullable(this.pathSpecs.get(path.toDotPath())).flatMap(PathAndBinding::getPath);
 	}
 
 	/**
@@ -247,8 +247,8 @@ public class QuerydslBindings {
 			return null;
 		}
 
-		if (pathSpecs.containsKey(path)) {
-			return pathSpecs.get(path).getPath()//
+		if (this.pathSpecs.containsKey(path)) {
+			return this.pathSpecs.get(path).getPath()//
 					.map(QuerydslPathInformation::of)//
 					.orElse(null);
 		}
@@ -276,8 +276,8 @@ public class QuerydslBindings {
 			if (!isPathVisible(StringUtils.collectionToDelimitedString(segments.subList(0, i), "."))) {
 
 				// check if full path is on whitelist although the partial one is not
-				if (!whiteList.isEmpty()) {
-					return whiteList.contains(path.toDotPath());
+				if (!this.whiteList.isEmpty()) {
+					return this.whiteList.contains(path.toDotPath());
 				}
 
 				return false;
@@ -297,15 +297,15 @@ public class QuerydslBindings {
 	private boolean isPathVisible(String path) {
 
 		// Aliases are visible if not explicitly blacklisted
-		if (aliases.contains(path) && !blackList.contains(path)) {
+		if (this.aliases.contains(path) && !this.blackList.contains(path)) {
 			return true;
 		}
 
-		if (whiteList.isEmpty()) {
-			return excludeUnlistedProperties ? false : !blackList.contains(path);
+		if (this.whiteList.isEmpty()) {
+			return this.excludeUnlistedProperties ? false : !this.blackList.contains(path);
 		}
 
-		return whiteList.contains(path);
+		return this.whiteList.contains(path);
 	}
 
 	/**
@@ -379,7 +379,7 @@ public class QuerydslBindings {
 
 			Assert.notNull(binding, "Binding must not be null!");
 
-			paths.forEach(path -> registerBinding(PathAndBinding.withPath(path).with(binding)));
+			this.paths.forEach(path -> registerBinding(PathAndBinding.withPath(path).with(binding)));
 		}
 
 		protected void registerBinding(PathAndBinding<P, T> binding) {
@@ -434,23 +434,23 @@ public class QuerydslBindings {
 		public AliasingPathBinder<P, T> as(String alias) {
 
 			Assert.hasText(alias, "Alias must not be null or empty!");
-			return new AliasingPathBinder<>(alias, path);
+			return new AliasingPathBinder<>(alias, this.path);
 		}
 
 		/**
 		 * Registers the current aliased binding to use the default binding.
 		 */
 		public void withDefaultBinding() {
-			registerBinding(PathAndBinding.withPath(path));
+			registerBinding(PathAndBinding.withPath(this.path));
 		}
 		@Override
 		protected void registerBinding(PathAndBinding<P, T> binding) {
 
 			super.registerBinding(binding);
 
-			if (alias != null) {
-				QuerydslBindings.this.pathSpecs.put(alias, binding);
-				QuerydslBindings.this.aliases.add(alias);
+			if (this.alias != null) {
+				QuerydslBindings.this.pathSpecs.put(this.alias, binding);
+				QuerydslBindings.this.aliases.add(this.alias);
 				QuerydslBindings.this.blackList.add(toDotPath(binding.getPath()));
 			}
 		}
@@ -495,7 +495,7 @@ public class QuerydslBindings {
 
 			Assert.notNull(binding, "Binding must not be null!");
 
-			QuerydslBindings.this.typeSpecs.put(type, PathAndBinding.<T, P> withoutPath().with(binding));
+			QuerydslBindings.this.typeSpecs.put(this.type, PathAndBinding.<T, P> withoutPath().with(binding));
 		}
 	}
 
@@ -525,7 +525,7 @@ public class QuerydslBindings {
 		}
 
 		public PathAndBinding<P, T> with(MultiValueBinding<P, T> binding) {
-			return new PathAndBinding<>(path, Optional.of(binding));
+			return new PathAndBinding<>(this.path, Optional.of(binding));
 		}
 
 		public Optional<Path<?>> getPath() {
@@ -544,15 +544,15 @@ public class QuerydslBindings {
 				return false;
 			}
 			PathAndBinding<?, ?> that = (PathAndBinding<?, ?>) o;
-			if (!ObjectUtils.nullSafeEquals(path, that.path)) {
+			if (!ObjectUtils.nullSafeEquals(this.path, that.path)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(binding, that.binding);
+			return ObjectUtils.nullSafeEquals(this.binding, that.binding);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(path);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(binding);
+			int result = ObjectUtils.nullSafeHashCode(this.path);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.binding);
 			return result;
 		}
 		@Override

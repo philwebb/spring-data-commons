@@ -57,17 +57,17 @@ class DomainClassConverterIntegrationTests {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory() {
 			@Override
 			protected BeanWrapper instantiateBean(String beanName, RootBeanDefinition mbd) {
-				return beanName.equals("repoFactory") ? new BeanWrapperImpl(factory) : super.instantiateBean(beanName, mbd);
+				return beanName.equals("repoFactory") ? new BeanWrapperImpl(DomainClassConverterIntegrationTests.this.factory) : super.instantiateBean(beanName, mbd);
 			}
 		};
 
 		beanFactory.registerBeanDefinition("postProcessor", new RootBeanDefinition(PredictingProcessor.class));
 		beanFactory.registerBeanDefinition("repoFactory", new RootBeanDefinition(RepositoryFactoryBeanSupport.class));
 
-		doReturn(Person.class).when(information).getDomainType();
-		doReturn(Serializable.class).when(information).getIdType();
-		doReturn(PersonRepository.class).when(factory).getObjectType();
-		doReturn(information).when(factory).getRepositoryInformation();
+		doReturn(Person.class).when(this.information).getDomainType();
+		doReturn(Serializable.class).when(this.information).getIdType();
+		doReturn(PersonRepository.class).when(this.factory).getObjectType();
+		doReturn(this.information).when(this.factory).getRepositoryInformation();
 
 		GenericApplicationContext context = new GenericApplicationContext(beanFactory);
 		context.refresh();

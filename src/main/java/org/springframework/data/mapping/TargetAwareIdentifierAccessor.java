@@ -39,6 +39,6 @@ public abstract class TargetAwareIdentifierAccessor implements IdentifierAccesso
 			return identifier;
 		}
 
-		throw new IllegalStateException(String.format("Could not obtain identifier from %s!", target));
+		throw new IllegalStateException(String.format("Could not obtain identifier from %s!", this.target));
 	}
 }

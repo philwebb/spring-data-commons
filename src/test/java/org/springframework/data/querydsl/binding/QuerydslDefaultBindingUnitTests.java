@@ -38,13 +38,13 @@ class QuerydslDefaultBindingUnitTests {
 
 	@BeforeEach
 	void setUp() {
-		binding = new QuerydslDefaultBinding();
+		this.binding = new QuerydslDefaultBinding();
 	}
 
 	@Test // DATACMNS-669
 	void shouldCreatePredicateCorrectlyWhenPropertyIsInRoot() {
 
-		Optional<Predicate> predicate = binding.bind(QUser.user.firstname, Collections.singleton("tam"));
+		Optional<Predicate> predicate = this.binding.bind(QUser.user.firstname, Collections.singleton("tam"));
 
 		assertThat(predicate).hasValue(QUser.user.firstname.eq("tam"));
 	}
@@ -52,7 +52,7 @@ class QuerydslDefaultBindingUnitTests {
 	@Test // DATACMNS-669
 	void shouldCreatePredicateCorrectlyWhenPropertyIsInNestedElement() {
 
-		Optional<Predicate> predicate = binding.bind(QUser.user.address.city, Collections.singleton("two rivers"));
+		Optional<Predicate> predicate = this.binding.bind(QUser.user.address.city, Collections.singleton("two rivers"));
 
 		assertThat(predicate).hasValueSatisfying(
 				it -> assertThat(it.toString()).isEqualTo(QUser.user.address.city.eq("two rivers").toString()));
@@ -61,7 +61,7 @@ class QuerydslDefaultBindingUnitTests {
 	@Test // DATACMNS-669
 	void shouldCreatePredicateWithContainingWhenPropertyIsCollectionLikeAndValueIsObject() {
 
-		Optional<Predicate> predicate = binding.bind(QUser.user.nickNames, Collections.singleton("dragon reborn"));
+		Optional<Predicate> predicate = this.binding.bind(QUser.user.nickNames, Collections.singleton("dragon reborn"));
 
 		assertThat(predicate).hasValue(QUser.user.nickNames.contains("dragon reborn"));
 	}
@@ -69,20 +69,20 @@ class QuerydslDefaultBindingUnitTests {
 	@Test // DATACMNS-669
 	void shouldCreatePredicateWithInWhenPropertyIsAnObjectAndValueIsACollection() {
 
-		Optional<Predicate> predicate = binding.bind(QUser.user.firstname, Arrays.asList("dragon reborn", "shadowkiller"));
+		Optional<Predicate> predicate = this.binding.bind(QUser.user.firstname, Arrays.asList("dragon reborn", "shadowkiller"));
 
 		assertThat(predicate).hasValue(QUser.user.firstname.in(Arrays.asList("dragon reborn", "shadowkiller")));
 	}
 
 	@Test
 	void testname() {
-		assertThat(binding.bind(QUser.user.lastname, Collections.emptySet())).isNotPresent();
+		assertThat(this.binding.bind(QUser.user.lastname, Collections.emptySet())).isNotPresent();
 	}
 
 	@Test // DATACMNS-1578
 	void shouldCreatePredicateWithIsNullWhenPropertyIsANestedObjectAndValueIsNull() {
 
-		Optional<Predicate> predicate = binding.bind(QUser.user.address.city, Collections.singleton(null));
+		Optional<Predicate> predicate = this.binding.bind(QUser.user.address.city, Collections.singleton(null));
 
 		assertThat(predicate).hasValueSatisfying(it -> {
 			assertThat(it.toString()).isEqualTo(QUser.user.address.city.isNull().toString());

@@ -113,7 +113,7 @@ class PartTreeUnitTests {
 
 	@Test
 	void detectsDistinctCorrectly() throws Exception {
-		for (String prefix : PREFIXES) {
+		for (String prefix : this.PREFIXES) {
 			detectsDistinctCorrectly(prefix + "DistinctByLastname", true);
 			detectsDistinctCorrectly(prefix + "UsersDistinctByLastname", true);
 			detectsDistinctCorrectly(prefix + "DistinctUsersByLastname", true);
@@ -798,11 +798,11 @@ class PartTreeUnitTests {
 		int URL;
 
 		int getZIndex() {
-			return zIndex;
+			return this.zIndex;
 		}
 
 		int getURL() {
-			return URL;
+			return this.URL;
 		}
 	}
 }

@@ -83,15 +83,15 @@ class DefaultConverterBuilder<S, T>
 	}
 
 	private Optional<GenericConverter> getOptionalReadingConverter() {
-		return reading.map(it -> new ConfigurableGenericConverter.Reading<>(convertiblePair, it));
+		return this.reading.map(it -> new ConfigurableGenericConverter.Reading<>(this.convertiblePair, it));
 	}
 
 	private Optional<GenericConverter> getOptionalWritingConverter() {
-		return writing.map(it -> new ConfigurableGenericConverter.Writing<>(invertedPair(), it));
+		return this.writing.map(it -> new ConfigurableGenericConverter.Writing<>(invertedPair(), it));
 	}
 
 	private ConvertiblePair invertedPair() {
-		return new ConvertiblePair(convertiblePair.getTargetType(), convertiblePair.getSourceType());
+		return new ConvertiblePair(this.convertiblePair.getTargetType(), this.convertiblePair.getSourceType());
 	}
 
 	DefaultConverterBuilder<S, T> withWriting(Optional<Function<? super S, ? extends T>> writing) {
@@ -122,12 +122,12 @@ class DefaultConverterBuilder<S, T>
 		@Override
 		@SuppressWarnings("unchecked")
 		public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-			return function.apply((S) source);
+			return this.function.apply((S) source);
 		}
 
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
-			return Collections.singleton(convertiblePair);
+			return Collections.singleton(this.convertiblePair);
 		}
 		@Override
 		public boolean equals(Object o) {
@@ -142,16 +142,16 @@ class DefaultConverterBuilder<S, T>
 
 			ConfigurableGenericConverter<?, ?> that = (ConfigurableGenericConverter<?, ?>) o;
 
-			if (!ObjectUtils.nullSafeEquals(convertiblePair, that.convertiblePair)) {
+			if (!ObjectUtils.nullSafeEquals(this.convertiblePair, that.convertiblePair)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(function, that.function);
+			return ObjectUtils.nullSafeEquals(this.function, that.function);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(convertiblePair);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(function);
+			int result = ObjectUtils.nullSafeHashCode(this.convertiblePair);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.function);
 			return result;
 		}
 

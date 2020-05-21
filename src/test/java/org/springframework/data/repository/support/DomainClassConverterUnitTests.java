@@ -67,7 +67,7 @@ class DomainClassConverterUnitTests {
 	@BeforeEach
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	void setUp() {
-		converter = new DomainClassConverter(service);
+		this.converter = new DomainClassConverter(this.service);
 	}
 
 	@Test
@@ -75,16 +75,16 @@ class DomainClassConverterUnitTests {
 
 		GenericApplicationContext ctx = new GenericApplicationContext();
 		ctx.refresh();
-		converter.setApplicationContext(ctx);
+		this.converter.setApplicationContext(ctx);
 		assertMatches(false);
 	}
 
 	@Test
 	void matchesIfConversionInBetweenIsPossible() {
 
-		converter.setApplicationContext(initContextWithRepo());
+		this.converter.setApplicationContext(initContextWithRepo());
 
-		when(service.canConvert(String.class, Long.class)).thenReturn(true);
+		when(this.service.canConvert(String.class, Long.class)).thenReturn(true);
 
 		assertMatches(true);
 	}
@@ -92,37 +92,37 @@ class DomainClassConverterUnitTests {
 	@Test
 	void matchFailsIfNoIntermediateConversionIsPossible() {
 
-		converter.setApplicationContext(initContextWithRepo());
+		this.converter.setApplicationContext(initContextWithRepo());
 
-		when(service.canConvert(String.class, Long.class)).thenReturn(false);
+		when(this.service.canConvert(String.class, Long.class)).thenReturn(false);
 
 		assertMatches(false);
 	}
 
 	// DATACMNS-233
 	void returnsNullForNullSource() {
-		assertThat(converter.convert(null, STRING_TYPE, USER_TYPE)).isNull();
+		assertThat(this.converter.convert(null, STRING_TYPE, USER_TYPE)).isNull();
 	}
 
 	// DATACMNS-233
 	void returnsNullForEmptyStringSource() {
-		assertThat(converter.convert("", STRING_TYPE, USER_TYPE)).isNull();
+		assertThat(this.converter.convert("", STRING_TYPE, USER_TYPE)).isNull();
 	}
 
 	private void assertMatches(boolean matchExpected) {
 
-		assertThat(converter.matches(STRING_TYPE, USER_TYPE)).isEqualTo(matchExpected);
+		assertThat(this.converter.matches(STRING_TYPE, USER_TYPE)).isEqualTo(matchExpected);
 	}
 
 	@Test
 	void convertsStringToUserCorrectly() throws Exception {
 
 		ApplicationContext context = initContextWithRepo();
-		converter.setApplicationContext(context);
+		this.converter.setApplicationContext(context);
 
-		doReturn(1L).when(service).convert(any(), eq(Long.class));
+		doReturn(1L).when(this.service).convert(any(), eq(Long.class));
 
-		converter.convert("1", STRING_TYPE, USER_TYPE);
+		this.converter.convert("1", STRING_TYPE, USER_TYPE);
 
 		UserRepository bean = context.getBean(UserRepository.class);
 		UserRepository repo = (UserRepository) ((Advised) bean).getTargetSource().getTarget();
@@ -137,53 +137,53 @@ class DomainClassConverterUnitTests {
 		GenericApplicationContext context = new GenericApplicationContext(parent);
 		context.refresh();
 
-		when(service.canConvert(String.class, Long.class)).thenReturn(true);
+		when(this.service.canConvert(String.class, Long.class)).thenReturn(true);
 
-		converter.setApplicationContext(context);
-		assertThat(converter.matches(STRING_TYPE, USER_TYPE)).isTrue();
+		this.converter.setApplicationContext(context);
+		assertThat(this.converter.matches(STRING_TYPE, USER_TYPE)).isTrue();
 	}
 
 	@Test // DATACMNS-583
 	void converterDoesntMatchIfTargetTypeIsAssignableFromSource() {
 
-		converter.setApplicationContext(initContextWithRepo());
+		this.converter.setApplicationContext(initContextWithRepo());
 
-		assertThat(converter.matches(SUB_USER_TYPE, USER_TYPE)).isFalse();
-		assertThat((User) converter.convert(USER, USER_TYPE, USER_TYPE)).isEqualTo(USER);
+		assertThat(this.converter.matches(SUB_USER_TYPE, USER_TYPE)).isFalse();
+		assertThat((User) this.converter.convert(USER, USER_TYPE, USER_TYPE)).isEqualTo(USER);
 	}
 
 	@Test // DATACMNS-627
 	void supportsConversionFromIdType() {
 
-		converter.setApplicationContext(initContextWithRepo());
+		this.converter.setApplicationContext(initContextWithRepo());
 
-		assertThat(converter.matches(LONG_TYPE, USER_TYPE)).isTrue();
+		assertThat(this.converter.matches(LONG_TYPE, USER_TYPE)).isTrue();
 	}
 
 	@Test // DATACMNS-627
 	void supportsConversionFromEntityToIdType() {
 
-		converter.setApplicationContext(initContextWithRepo());
+		this.converter.setApplicationContext(initContextWithRepo());
 
-		assertThat(converter.matches(USER_TYPE, LONG_TYPE)).isTrue();
+		assertThat(this.converter.matches(USER_TYPE, LONG_TYPE)).isTrue();
 	}
 
 	@Test // DATACMNS-627
 	void supportsConversionFromEntityToString() {
 
-		converter.setApplicationContext(initContextWithRepo());
+		this.converter.setApplicationContext(initContextWithRepo());
 
-		when(service.canConvert(Long.class, String.class)).thenReturn(true);
-		assertThat(converter.matches(USER_TYPE, STRING_TYPE)).isTrue();
+		when(this.service.canConvert(Long.class, String.class)).thenReturn(true);
+		assertThat(this.converter.matches(USER_TYPE, STRING_TYPE)).isTrue();
 	}
 
 	@Test // DATACMNS-683
 	void toIdConverterDoesNotMatchIfTargetTypeIsAssignableFromSource() throws NoSuchMethodException {
 
-		converter.setApplicationContext(initContextWithRepo());
+		this.converter.setApplicationContext(initContextWithRepo());
 
 		@SuppressWarnings("rawtypes")
-		Optional<ToIdConverter> toIdConverter = (Optional<ToIdConverter>) ReflectionTestUtils.getField(converter,
+		Optional<ToIdConverter> toIdConverter = (Optional<ToIdConverter>) ReflectionTestUtils.getField(this.converter,
 				"toIdConverter");
 
 		Method method = Wrapper.class.getMethod("foo", User.class);

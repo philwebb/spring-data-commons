@@ -84,7 +84,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	@Override
 	public <T extends Parameters<?, ?>> EvaluationContext getEvaluationContext(T parameters, Object[] parameterValues) {
 
-		StandardEvaluationContext evaluationContext = delegate.getEvaluationContext(parameterValues);
+		StandardEvaluationContext evaluationContext = this.delegate.getEvaluationContext(parameterValues);
 
 		evaluationContext.setVariables(collectVariables(parameters, parameterValues));
 
@@ -174,13 +174,13 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 					it -> Optional.ofNullable(findTargetMethod(it)).orElse(it));
 
 			Object result = method.equals(targetMethod) ? invocation.proceed()
-					: ReflectionUtils.invokeMethod(targetMethod, target, invocation.getArguments());
+					: ReflectionUtils.invokeMethod(targetMethod, this.target, invocation.getArguments());
 
 			if (result == null) {
 				return result;
 			}
 
-			java.util.function.Function<Object, Object> mapper = directMappings.get(targetMethod.getName());
+			java.util.function.Function<Object, Object> mapper = this.directMappings.get(targetMethod.getName());
 
 			return mapper != null ? mapper.apply(result) : result;
 		}
@@ -189,7 +189,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 		private Method findTargetMethod(Method method) {
 
 			try {
-				return target.getClass().getMethod(method.getName(), method.getParameterTypes());
+				return this.target.getClass().getMethod(method.getName(), method.getParameterTypes());
 			} catch (Exception e) {
 				return null;
 			}

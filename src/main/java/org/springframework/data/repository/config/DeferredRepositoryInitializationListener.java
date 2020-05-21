@@ -43,7 +43,7 @@ class DeferredRepositoryInitializationListener implements ApplicationListener<Co
 
 		LOG.info("Triggering deferred initialization of Spring Data repositories…");
 
-		beanFactory.getBeansOfType(Repository.class);
+		this.beanFactory.getBeansOfType(Repository.class);
 
 		LOG.info("Spring Data repositories initialized!");
 	}

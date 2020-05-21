@@ -46,9 +46,9 @@ class ImplementationInvocationMetadata {
 	ImplementationInvocationMetadata(Method declaredMethod, Method baseClassMethod) {
 
 		if (!KotlinDetector.isKotlinReflectPresent()) {
-			suspendedDeclaredMethod = false;
-			suspendedBaseClassMethod = false;
-			reactiveBaseClassMethod = false;
+			this.suspendedDeclaredMethod = false;
+			this.suspendedBaseClassMethod = false;
+			this.reactiveBaseClassMethod = false;
 			return;
 		}
 
@@ -59,9 +59,9 @@ class ImplementationInvocationMetadata {
 				? KotlinReflectionUtils.findKotlinFunction(baseClassMethod)
 				: null;
 
-		suspendedDeclaredMethod = declaredFunction != null && declaredFunction.isSuspend();
-		suspendedBaseClassMethod = baseClassFunction != null && baseClassFunction.isSuspend();
-		this.reactiveBaseClassMethod = !suspendedBaseClassMethod
+		this.suspendedDeclaredMethod = declaredFunction != null && declaredFunction.isSuspend();
+		this.suspendedBaseClassMethod = baseClassFunction != null && baseClassFunction.isSuspend();
+		this.reactiveBaseClassMethod = !this.suspendedBaseClassMethod
 				&& ReactiveWrapperConverters.supports(baseClassMethod.getReturnType());
 	}
 
@@ -74,7 +74,7 @@ class ImplementationInvocationMetadata {
 	}
 
 	private boolean shouldAdaptReactiveToSuspended() {
-		return suspendedDeclaredMethod && !suspendedBaseClassMethod && reactiveBaseClassMethod;
+		return this.suspendedDeclaredMethod && !this.suspendedBaseClassMethod && this.reactiveBaseClassMethod;
 	}
 
 	@Nullable
@@ -99,11 +99,11 @@ class ImplementationInvocationMetadata {
 
 	boolean canInvoke(Method invokedMethod, Method backendMethod) {
 
-		if (suspendedDeclaredMethod == suspendedBaseClassMethod) {
+		if (this.suspendedDeclaredMethod == this.suspendedBaseClassMethod) {
 			return invokedMethod.getParameterCount() == backendMethod.getParameterCount();
 		}
 
-		if (suspendedDeclaredMethod && reactiveBaseClassMethod) {
+		if (this.suspendedDeclaredMethod && this.reactiveBaseClassMethod) {
 			return invokedMethod.getParameterCount() - 1 == backendMethod.getParameterCount();
 		}
 

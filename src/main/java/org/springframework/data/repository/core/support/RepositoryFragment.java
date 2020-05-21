@@ -128,15 +128,15 @@ public interface RepositoryFragment<T> {
 		}
 		@Override
 		public Class<?> getSignatureContributor() {
-			return interfaceOrImplementation;
+			return this.interfaceOrImplementation;
 		}
 		@Override
 		public RepositoryFragment<T> withImplementation(T implementation) {
-			return new ImplementedRepositoryFragment<>(Optional.of(interfaceOrImplementation), implementation);
+			return new ImplementedRepositoryFragment<>(Optional.of(this.interfaceOrImplementation), implementation);
 		}
 		@Override
 		public String toString() {
-			return String.format("StructuralRepositoryFragment %s", ClassUtils.getShortName(interfaceOrImplementation));
+			return String.format("StructuralRepositoryFragment %s", ClassUtils.getShortName(this.interfaceOrImplementation));
 		}
 		@Override
 		public boolean equals(Object o) {
@@ -150,11 +150,11 @@ public interface RepositoryFragment<T> {
 			}
 
 			StructuralRepositoryFragment<?> that = (StructuralRepositoryFragment<?>) o;
-			return ObjectUtils.nullSafeEquals(interfaceOrImplementation, that.interfaceOrImplementation);
+			return ObjectUtils.nullSafeEquals(this.interfaceOrImplementation, that.interfaceOrImplementation);
 		}
 		@Override
 		public int hashCode() {
-			return ObjectUtils.nullSafeHashCode(interfaceOrImplementation);
+			return ObjectUtils.nullSafeHashCode(this.interfaceOrImplementation);
 		}
 	}
 
@@ -188,22 +188,22 @@ public interface RepositoryFragment<T> {
 		}
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public Class<?> getSignatureContributor() {
-			return interfaceClass.orElse((Class) implementation.getClass());
+			return this.interfaceClass.orElse((Class) this.implementation.getClass());
 		}
 		@Override
 		public Optional<T> getImplementation() {
-			return optionalImplementation;
+			return this.optionalImplementation;
 		}
 		@Override
 		public RepositoryFragment<T> withImplementation(T implementation) {
-			return new ImplementedRepositoryFragment<>(interfaceClass, implementation);
+			return new ImplementedRepositoryFragment<>(this.interfaceClass, implementation);
 		}
 		@Override
 		public String toString() {
 
 			return String.format("ImplementedRepositoryFragment %s%s",
-					interfaceClass.map(ClassUtils::getShortName).map(it -> it + ":").orElse(""),
-					ClassUtils.getShortName(implementation.getClass()));
+					this.interfaceClass.map(ClassUtils::getShortName).map(it -> it + ":").orElse(""),
+					ClassUtils.getShortName(this.implementation.getClass()));
 		}
 		@Override
 		public boolean equals(Object o) {
@@ -218,21 +218,21 @@ public interface RepositoryFragment<T> {
 
 			ImplementedRepositoryFragment<?> that = (ImplementedRepositoryFragment<?>) o;
 
-			if (!ObjectUtils.nullSafeEquals(interfaceClass, that.interfaceClass)) {
+			if (!ObjectUtils.nullSafeEquals(this.interfaceClass, that.interfaceClass)) {
 				return false;
 			}
 
-			if (!ObjectUtils.nullSafeEquals(implementation, that.implementation)) {
+			if (!ObjectUtils.nullSafeEquals(this.implementation, that.implementation)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(optionalImplementation, that.optionalImplementation);
+			return ObjectUtils.nullSafeEquals(this.optionalImplementation, that.optionalImplementation);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(interfaceClass);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(implementation);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(optionalImplementation);
+			int result = ObjectUtils.nullSafeHashCode(this.interfaceClass);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.implementation);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.optionalImplementation);
 			return result;
 		}
 	}

@@ -74,13 +74,13 @@ class CdiRepositoryBeanUnitTests {
 	@Test
 	void voidRejectsNullQualifiers() {
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> new DummyCdiRepositoryBean<>(null, SampleRepository.class, beanManager));
+				.isThrownBy(() -> new DummyCdiRepositoryBean<>(null, SampleRepository.class, this.beanManager));
 	}
 
 	@Test
 	void voidRejectsNullRepositoryType() {
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, null, beanManager));
+				.isThrownBy(() -> new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, null, this.beanManager));
 	}
 
 	@Test
@@ -93,7 +93,7 @@ class CdiRepositoryBeanUnitTests {
 	void returnsBasicMetadata() {
 
 		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, SampleRepository.class,
-				beanManager);
+				this.beanManager);
 
 		assertThat(bean.getBeanClass()).isEqualTo(SampleRepository.class);
 		assertThat(bean.getName()).isEqualTo(SampleRepository.class.getName());
@@ -104,7 +104,7 @@ class CdiRepositoryBeanUnitTests {
 	void returnsAllImplementedTypes() {
 
 		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, SampleRepository.class,
-				beanManager);
+				this.beanManager);
 
 		Set<Type> types = bean.getTypes();
 		assertThat(types).containsExactlyInAnyOrder(SampleRepository.class, Repository.class);
@@ -115,7 +115,7 @@ class CdiRepositoryBeanUnitTests {
 	void detectsStereotypes() {
 
 		DummyCdiRepositoryBean<StereotypedSampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS,
-				StereotypedSampleRepository.class, beanManager);
+				StereotypedSampleRepository.class, this.beanManager);
 
 		assertThat(bean.getStereotypes()).containsExactly(StereotypeAnnotation.class);
 	}
@@ -124,7 +124,7 @@ class CdiRepositoryBeanUnitTests {
 	@SuppressWarnings("rawtypes")
 	void scopeDefaultsToApplicationScoped() {
 
-		Bean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, SampleRepository.class, beanManager);
+		Bean<SampleRepository> bean = new DummyCdiRepositoryBean<>(NO_ANNOTATIONS, SampleRepository.class, this.beanManager);
 		assertThat(bean.getScope()).isEqualTo(ApplicationScoped.class);
 	}
 
@@ -134,7 +134,7 @@ class CdiRepositoryBeanUnitTests {
 		CdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>( //
 				SINGLE_ANNOTATION, //
 				SampleRepository.class, //
-				beanManager //
+				this.beanManager //
 		);
 
 		assertThat(bean.getId()).isEqualTo(PASSIVATION_ID);
@@ -148,7 +148,7 @@ class CdiRepositoryBeanUnitTests {
 		CdiRepositoryBean<SampleRepository> bean = new CdiRepositoryBean<SampleRepository>( //
 				SINGLE_ANNOTATION, //
 				SampleRepository.class, //
-				beanManager, //
+				this.beanManager, //
 				Optional.of(detector) //
 		) {
 
@@ -179,21 +179,21 @@ class CdiRepositoryBeanUnitTests {
 	void appliesRepositoryConfiguration() {
 
 		DummyCdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<SampleRepository>(NO_ANNOTATIONS,
-				SampleRepository.class, beanManager) {
+				SampleRepository.class, this.beanManager) {
 			@Override
 			protected CdiRepositoryConfiguration lookupConfiguration(BeanManager beanManager, Set qualifiers) {
 				return RepositoryConfiguration.INSTANCE;
 			}
 		};
 
-		bean.applyConfiguration(repositoryFactory);
+		bean.applyConfiguration(this.repositoryFactory);
 
-		verify(repositoryFactory).setEvaluationContextProvider(QueryMethodEvaluationContextProvider.DEFAULT);
-		verify(repositoryFactory).setNamedQueries(PropertiesBasedNamedQueries.EMPTY);
-		verify(repositoryFactory).setRepositoryBaseClass(String.class);
-		verify(repositoryFactory).setQueryLookupStrategyKey(Key.CREATE);
-		verify(repositoryFactory).addRepositoryProxyPostProcessor(DummyRepositoryProxyPostProcessor.INSTANCE);
-		verify(repositoryFactory).addQueryCreationListener(DummyQueryCreationListener.INSTANCE);
+		verify(this.repositoryFactory).setEvaluationContextProvider(QueryMethodEvaluationContextProvider.DEFAULT);
+		verify(this.repositoryFactory).setNamedQueries(PropertiesBasedNamedQueries.EMPTY);
+		verify(this.repositoryFactory).setRepositoryBaseClass(String.class);
+		verify(this.repositoryFactory).setQueryLookupStrategyKey(Key.CREATE);
+		verify(this.repositoryFactory).addRepositoryProxyPostProcessor(DummyRepositoryProxyPostProcessor.INSTANCE);
+		verify(this.repositoryFactory).addQueryCreationListener(DummyQueryCreationListener.INSTANCE);
 	}
 
 	static class DummyCdiRepositoryBean<T> extends CdiRepositoryBean<T> {

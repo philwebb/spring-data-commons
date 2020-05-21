@@ -42,15 +42,15 @@ public class HashMapChangeSet implements ChangeSet {
 	}
 
 	public void set(String key, Object o) {
-		values.put(key, o);
+		this.values.put(key, o);
 	}
 
 	public String toString() {
-		return "HashMapChangeSet: values=[" + values + "]";
+		return "HashMapChangeSet: values=[" + this.values + "]";
 	}
 
 	public Map<String, Object> getValues() {
-		return Collections.unmodifiableMap(values);
+		return Collections.unmodifiableMap(this.values);
 	}
 
 	@Nullable
@@ -61,7 +61,7 @@ public class HashMapChangeSet implements ChangeSet {
 	@Nullable
 	public <T> T get(String key, Class<T> requiredClass, ConversionService conversionService) {
 
-		Object value = values.get(key);
+		Object value = this.values.get(key);
 
 		if (value == null) {
 			return null;

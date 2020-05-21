@@ -98,8 +98,8 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	private SimpleTypeHolder simpleTypeHolder = SimpleTypeHolder.DEFAULT;
 
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-	private final Lock read = lock.readLock();
-	private final Lock write = lock.writeLock();
+	private final Lock read = this.lock.readLock();
+	private final Lock write = this.lock.writeLock();
 
 	protected AbstractMappingContext() {
 
@@ -120,7 +120,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		this.evaluationContextProvider = new ExtensionAwareEvaluationContextProvider(applicationContext);
 
-		if (applicationEventPublisher == null) {
+		if (this.applicationEventPublisher == null) {
 			this.applicationEventPublisher = applicationContext;
 		}
 	}
@@ -163,14 +163,14 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		try {
 
-			read.lock();
+			this.read.lock();
 
-			return persistentEntities.values().stream()//
+			return this.persistentEntities.values().stream()//
 					.flatMap(Optionals::toStream)//
 					.collect(Collectors.toSet());
 
 		} finally {
-			read.unlock();
+			this.read.unlock();
 		}
 	}
 	@Nullable
@@ -182,7 +182,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		Assert.notNull(type, "Type must not be null!");
 
-		Optional<E> entity = persistentEntities.get(ClassTypeInformation.from(type));
+		Optional<E> entity = this.persistentEntities.get(ClassTypeInformation.from(type));
 
 		return entity == null ? false : entity.isPresent();
 	}
@@ -194,31 +194,31 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		try {
 
-			read.lock();
+			this.read.lock();
 
-			Optional<E> entity = persistentEntities.get(type);
+			Optional<E> entity = this.persistentEntities.get(type);
 
 			if (entity != null) {
 				return entity.orElse(null);
 			}
 
 		} finally {
-			read.unlock();
+			this.read.unlock();
 		}
 
 		if (!shouldCreatePersistentEntityFor(type)) {
 
 			try {
-				write.lock();
-				persistentEntities.put(type, NONE);
+				this.write.lock();
+				this.persistentEntities.put(type, this.NONE);
 			} finally {
-				write.unlock();
+				this.write.unlock();
 			}
 
 			return null;
 		}
 
-		if (strict) {
+		if (this.strict) {
 			throw new MappingException("Unknown persistent entity " + type);
 		}
 
@@ -244,7 +244,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 */
 	@Override
 	public PersistentPropertyPath<P> getPersistentPropertyPath(PropertyPath propertyPath) {
-		return persistentPropertyPathFactory.from(propertyPath);
+		return this.persistentPropertyPathFactory.from(propertyPath);
 	}
 
 	/*
@@ -253,7 +253,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 */
 	@Override
 	public PersistentPropertyPath<P> getPersistentPropertyPath(String propertyPath, Class<?> type) {
-		return persistentPropertyPathFactory.from(type, propertyPath);
+		return this.persistentPropertyPathFactory.from(type, propertyPath);
 	}
 
 	/*
@@ -282,7 +282,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 */
 	protected final <T> PersistentPropertyPaths<T, P> doFindPersistentPropertyPaths(Class<T> type,
 			Predicate<? super P> predicate, Predicate<P> traversalGuard) {
-		return persistentPropertyPathFactory.from(ClassTypeInformation.from(type), predicate, traversalGuard);
+		return this.persistentPropertyPathFactory.from(ClassTypeInformation.from(type), predicate, traversalGuard);
 	}
 
 	/**
@@ -307,16 +307,16 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		try {
 
-			read.lock();
+			this.read.lock();
 
-			Optional<E> persistentEntity = persistentEntities.get(typeInformation);
+			Optional<E> persistentEntity = this.persistentEntities.get(typeInformation);
 
 			if (persistentEntity != null) {
 				return persistentEntity;
 			}
 
 		} finally {
-			read.unlock();
+			this.read.unlock();
 		}
 
 		Class<?> type = typeInformation.getType();
@@ -324,14 +324,14 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		try {
 
-			write.lock();
+			this.write.lock();
 
 			entity = createPersistentEntity(typeInformation);
 
-			entity.setEvaluationContextProvider(evaluationContextProvider);
+			entity.setEvaluationContextProvider(this.evaluationContextProvider);
 
 			// Eagerly cache the entity as we might have to find it during recursive lookups.
-			persistentEntities.put(typeInformation, Optional.of(entity));
+			this.persistentEntities.put(typeInformation, Optional.of(entity));
 
 			PropertyDescriptor[] pds = BeanUtils.getPropertyDescriptors(type);
 
@@ -348,24 +348,24 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 				entity.verify();
 
-				if (persistentPropertyAccessorFactory.isSupported(entity)) {
-					entity.setPersistentPropertyAccessorFactory(persistentPropertyAccessorFactory);
+				if (this.persistentPropertyAccessorFactory.isSupported(entity)) {
+					entity.setPersistentPropertyAccessorFactory(this.persistentPropertyAccessorFactory);
 				}
 
 			} catch (RuntimeException e) {
-				persistentEntities.remove(typeInformation);
+				this.persistentEntities.remove(typeInformation);
 				throw e;
 			}
 
 		} catch (BeansException e) {
 			throw new MappingException(e.getMessage(), e);
 		} finally {
-			write.unlock();
+			this.write.unlock();
 		}
 
 		// Inform listeners
-		if (applicationEventPublisher != null && entity != null) {
-			applicationEventPublisher.publishEvent(new MappingContextEvent<>(this, entity));
+		if (this.applicationEventPublisher != null && entity != null) {
+			this.applicationEventPublisher.publishEvent(new MappingContextEvent<>(this, entity));
 		}
 
 		return Optional.of(entity);
@@ -375,11 +375,11 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		try {
 
-			read.lock();
-			return Collections.unmodifiableSet(new HashSet<>(persistentEntities.keySet()));
+			this.read.lock();
+			return Collections.unmodifiableSet(new HashSet<>(this.persistentEntities.keySet()));
 
 		} finally {
-			read.unlock();
+			this.read.unlock();
 		}
 	}
 
@@ -411,7 +411,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 * context.
 	 */
 	public void initialize() {
-		initialEntitySet.forEach(this::addPersistentEntity);
+		this.initialEntitySet.forEach(this::addPersistentEntity);
 	}
 
 	/**
@@ -426,7 +426,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 */
 	protected boolean shouldCreatePersistentEntityFor(TypeInformation<?> type) {
 
-		if (simpleTypeHolder.isSimpleType(type.getType())) {
+		if (this.simpleTypeHolder.isSimpleType(type.getType())) {
 			return false;
 		}
 
@@ -457,11 +457,11 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		public void doWith(Field field) {
 
 			String fieldName = field.getName();
-			TypeInformation<?> type = entity.getTypeInformation();
+			TypeInformation<?> type = this.entity.getTypeInformation();
 
 			ReflectionUtils.makeAccessible(field);
 
-			Property property = Optional.ofNullable(descriptors.get(fieldName))//
+			Property property = Optional.ofNullable(this.descriptors.get(fieldName))//
 					.map(it -> Property.of(type, field, it))//
 					.orElseGet(() -> Property.of(type, field));
 
@@ -478,16 +478,16 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		 */
 		public void addPropertiesForRemainingDescriptors() {
 
-			remainingDescriptors.values().stream() //
+			this.remainingDescriptors.values().stream() //
 					.filter(Property::supportsStandalone) //
-					.map(it -> Property.of(entity.getTypeInformation(), it)) //
+					.map(it -> Property.of(this.entity.getTypeInformation(), it)) //
 					.filter(PersistentPropertyFilter.INSTANCE::matches) //
 					.forEach(this::createAndRegisterProperty);
 		}
 
 		private void createAndRegisterProperty(Property input) {
 
-			P property = createPersistentProperty(input, entity, simpleTypeHolder);
+			P property = createPersistentProperty(input, this.entity, AbstractMappingContext.this.simpleTypeHolder);
 
 			if (property.isTransient()) {
 				return;
@@ -497,13 +497,13 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 				return;
 			}
 
-			entity.addPersistentProperty(property);
+			this.entity.addPersistentProperty(property);
 
 			if (property.isAssociation()) {
-				entity.addAssociation(property.getRequiredAssociation());
+				this.entity.addAssociation(property.getRequiredAssociation());
 			}
 
-			if (entity.getType().equals(property.getRawType())) {
+			if (this.entity.getType().equals(property.getRawType())) {
 				return;
 			}
 
@@ -597,11 +597,11 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 				Assert.notNull(name, "Name must not be null!");
 				Assert.notNull(type, "Type must not be null!");
 
-				if (namePattern != null && !name.matches(namePattern)) {
+				if (this.namePattern != null && !name.matches(this.namePattern)) {
 					return false;
 				}
 
-				if (typeName != null && !type.getName().equals(typeName)) {
+				if (this.typeName != null && !type.getName().equals(this.typeName)) {
 					return false;
 				}
 

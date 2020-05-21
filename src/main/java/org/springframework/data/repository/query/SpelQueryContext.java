@@ -106,7 +106,7 @@ public class SpelQueryContext {
 
 		Assert.notNull(provider, "QueryMethodEvaluationContextProvider must not be null!");
 
-		return new EvaluatingSpelQueryContext(provider, parameterNameSource, replacementSource);
+		return new EvaluatingSpelQueryContext(provider, this.parameterNameSource, this.replacementSource);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class SpelQueryContext {
 		 * @return A {@link SpelEvaluator} which allows to evaluate the SpEL expressions. Will never be {@literal null}.
 		 */
 		public SpelEvaluator parse(String query, Parameters<?, ?> parameters) {
-			return new SpelEvaluator(evaluationContextProvider, parameters, parse(query));
+			return new SpelEvaluator(this.evaluationContextProvider, parameters, parse(query));
 		}
 	}
 
@@ -203,8 +203,8 @@ public class SpelQueryContext {
 					String spelExpression = matcher.group(EXPRESSION_GROUP_INDEX);
 					String prefix = matcher.group(PREFIX_GROUP_INDEX);
 
-					String parameterName = parameterNameSource.apply(expressionCounter, spelExpression);
-					String replacement = replacementSource.apply(prefix, parameterName);
+					String parameterName = SpelQueryContext.this.parameterNameSource.apply(expressionCounter, spelExpression);
+					String replacement = SpelQueryContext.this.replacementSource.apply(prefix, parameterName);
 
 					resultQuery.append(query, matchedUntil, matcher.start());
 					resultQuery.append(replacement);
@@ -231,7 +231,7 @@ public class SpelQueryContext {
 		 * @return Guaranteed to be not {@literal null}.
 		 */
 		public String getQueryString() {
-			return query;
+			return this.query;
 		}
 
 		/**
@@ -241,11 +241,11 @@ public class SpelQueryContext {
 		 * @return {@literal true} if quoted; {@literal false} otherwise.
 		 */
 		public boolean isQuoted(int index) {
-			return quotations.isQuoted(index);
+			return this.quotations.isQuoted(index);
 		}
 
 		public String getParameter(String name) {
-			return expressions.get(name);
+			return this.expressions.get(name);
 		}
 
 		/**
@@ -254,11 +254,11 @@ public class SpelQueryContext {
 		 * @return Guaranteed to be not {@literal null}.
 		 */
 		Map<String, String> getParameterMap() {
-			return expressions;
+			return this.expressions;
 		}
 
 		Stream<Entry<String, String>> getParameters() {
-			return expressions.entrySet().stream();
+			return this.expressions.entrySet().stream();
 		}
 	}
 
@@ -305,7 +305,7 @@ public class SpelQueryContext {
 
 						inQuotation = null;
 
-						quotedRanges.add(Range.from(Bound.inclusive(start)).to(Bound.inclusive(i)));
+						this.quotedRanges.add(Range.from(Bound.inclusive(start)).to(Bound.inclusive(i)));
 					}
 				}
 			}
@@ -323,7 +323,7 @@ public class SpelQueryContext {
 		 * @return whether the query contains a quoted range at {@literal index}.
 		 */
 		public boolean isQuoted(int index) {
-			return quotedRanges.stream().anyMatch(r -> r.contains(index));
+			return this.quotedRanges.stream().anyMatch(r -> r.contains(index));
 		}
 	}
 }

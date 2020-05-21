@@ -128,6 +128,6 @@ class OrderBySource {
 	}
 	@Override
 	public String toString() {
-		return "Order By " + StringUtils.collectionToDelimitedString(orders, ", ");
+		return "Order By " + StringUtils.collectionToDelimitedString(this.orders, ", ");
 	}
 }

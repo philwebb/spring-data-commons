@@ -82,7 +82,7 @@ public abstract class ReturnedType {
 	 * @return
 	 */
 	public final Class<?> getDomainType() {
-		return domainType;
+		return this.domainType;
 	}
 
 	/**
@@ -160,26 +160,26 @@ public abstract class ReturnedType {
 		}
 		@Override
 		public Class<?> getReturnedType() {
-			return information.getType();
+			return this.information.getType();
 		}
 		public boolean needsCustomConstruction() {
-			return isProjecting() && information.isClosed();
+			return isProjecting() && this.information.isClosed();
 		}
 		@Override
 		public boolean isProjecting() {
-			return !information.getType().isAssignableFrom(domainType);
+			return !this.information.getType().isAssignableFrom(this.domainType);
 		}
 		@Nullable
 		@Override
 		public Class<?> getTypeToRead() {
-			return isProjecting() && information.isClosed() ? null : domainType;
+			return isProjecting() && this.information.isClosed() ? null : this.domainType;
 		}
 		@Override
 		public List<String> getInputProperties() {
 
 			List<String> properties = new ArrayList<>();
 
-			for (PropertyDescriptor descriptor : information.getInputProperties()) {
+			for (PropertyDescriptor descriptor : this.information.getInputProperties()) {
 				if (!properties.contains(descriptor.getName())) {
 					properties.add(descriptor.getName());
 				}
@@ -221,22 +221,22 @@ public abstract class ReturnedType {
 		}
 		@Override
 		public Class<?> getReturnedType() {
-			return type;
+			return this.type;
 		}
 		@Nonnull
 		public Class<?> getTypeToRead() {
-			return type;
+			return this.type;
 		}
 		@Override
 		public boolean isProjecting() {
 			return isDto();
 		}
 		public boolean needsCustomConstruction() {
-			return isDto() && !inputProperties.isEmpty();
+			return isDto() && !this.inputProperties.isEmpty();
 		}
 		@Override
 		public List<String> getInputProperties() {
-			return inputProperties;
+			return this.inputProperties;
 		}
 
 		private List<String> detectConstructorParameterNames(Class<?> type) {
@@ -261,21 +261,21 @@ public abstract class ReturnedType {
 		}
 
 		private boolean isDto() {
-			return !Object.class.equals(type) && //
-					!type.isEnum() && //
+			return !Object.class.equals(this.type) && //
+					!this.type.isEnum() && //
 					!isDomainSubtype() && //
 					!isPrimitiveOrWrapper() && //
-					!Number.class.isAssignableFrom(type) && //
-					!VOID_TYPES.contains(type) && //
-					!type.getPackage().getName().startsWith("java.");
+					!Number.class.isAssignableFrom(this.type) && //
+					!VOID_TYPES.contains(this.type) && //
+					!this.type.getPackage().getName().startsWith("java.");
 		}
 
 		private boolean isDomainSubtype() {
-			return getDomainType().equals(type) && getDomainType().isAssignableFrom(type);
+			return getDomainType().equals(this.type) && getDomainType().isAssignableFrom(this.type);
 		}
 
 		private boolean isPrimitiveOrWrapper() {
-			return ClassUtils.isPrimitiveOrWrapper(type);
+			return ClassUtils.isPrimitiveOrWrapper(this.type);
 		}
 	}
 
@@ -319,21 +319,21 @@ public abstract class ReturnedType {
 
 			CacheKey cacheKey = (CacheKey) o;
 
-			if (projectionFactoryHashCode != cacheKey.projectionFactoryHashCode) {
+			if (this.projectionFactoryHashCode != cacheKey.projectionFactoryHashCode) {
 				return false;
 			}
 
-			if (!ObjectUtils.nullSafeEquals(returnedType, cacheKey.returnedType)) {
+			if (!ObjectUtils.nullSafeEquals(this.returnedType, cacheKey.returnedType)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(domainType, cacheKey.domainType);
+			return ObjectUtils.nullSafeEquals(this.domainType, cacheKey.domainType);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(returnedType);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(domainType);
-			result = 31 * result + projectionFactoryHashCode;
+			int result = ObjectUtils.nullSafeHashCode(this.returnedType);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.domainType);
+			result = 31 * result + this.projectionFactoryHashCode;
 			return result;
 		}
 		@Override

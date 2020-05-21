@@ -41,10 +41,10 @@ public enum Metrics implements Metric {
 		this.abbreviation = abbreviation;
 	}
 	public double getMultiplier() {
-		return multiplier;
+		return this.multiplier;
 	}
 	@Override
 	public String getAbbreviation() {
-		return abbreviation;
+		return this.abbreviation;
 	}
 }

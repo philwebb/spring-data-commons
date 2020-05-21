@@ -52,10 +52,10 @@ public class Version implements Comparable<Version> {
 		this.bugfix = parts.length > 2 ? parts[2] : 0;
 		this.build = parts.length > 3 ? parts[3] : 0;
 
-		Assert.isTrue(major >= 0, "Major version must be greater or equal zero!");
-		Assert.isTrue(minor >= 0, "Minor version must be greater or equal zero!");
-		Assert.isTrue(bugfix >= 0, "Bugfix version must be greater or equal zero!");
-		Assert.isTrue(build >= 0, "Build version must be greater or equal zero!");
+		Assert.isTrue(this.major >= 0, "Major version must be greater or equal zero!");
+		Assert.isTrue(this.minor >= 0, "Minor version must be greater or equal zero!");
+		Assert.isTrue(this.bugfix >= 0, "Bugfix version must be greater or equal zero!");
+		Assert.isTrue(this.build >= 0, "Build version must be greater or equal zero!");
 	}
 
 	/**
@@ -147,20 +147,20 @@ public class Version implements Comparable<Version> {
 	}
 	public int compareTo(@SuppressWarnings("null") Version that) {
 
-		if (major != that.major) {
-			return major - that.major;
+		if (this.major != that.major) {
+			return this.major - that.major;
 		}
 
-		if (minor != that.minor) {
-			return minor - that.minor;
+		if (this.minor != that.minor) {
+			return this.minor - that.minor;
 		}
 
-		if (bugfix != that.bugfix) {
-			return bugfix - that.bugfix;
+		if (this.bugfix != that.bugfix) {
+			return this.bugfix - that.bugfix;
 		}
 
-		if (build != that.build) {
-			return build - that.build;
+		if (this.build != that.build) {
+			return this.build - that.build;
 		}
 
 		return 0;
@@ -185,25 +185,25 @@ public class Version implements Comparable<Version> {
 	public int hashCode() {
 
 		int result = 17;
-		result += 31 * major;
-		result += 31 * minor;
-		result += 31 * bugfix;
-		result += 31 * build;
+		result += 31 * this.major;
+		result += 31 * this.minor;
+		result += 31 * this.bugfix;
+		result += 31 * this.build;
 		return result;
 	}
 	@Override
 	public String toString() {
 
 		List<Integer> digits = new ArrayList<>();
-		digits.add(major);
-		digits.add(minor);
+		digits.add(this.major);
+		digits.add(this.minor);
 
-		if (build != 0 || bugfix != 0) {
-			digits.add(bugfix);
+		if (this.build != 0 || this.bugfix != 0) {
+			digits.add(this.bugfix);
 		}
 
-		if (build != 0) {
-			digits.add(build);
+		if (this.build != 0) {
+			digits.add(this.build);
 		}
 
 		return StringUtils.collectionToDelimitedString(digits, ".");

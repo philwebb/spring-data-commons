@@ -97,7 +97,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 				sortIndex = i;
 			}
 
-			parameters.add(parameter);
+			this.parameters.add(parameter);
 		}
 
 		this.pageableIndex = pageableIndex;
@@ -164,7 +164,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @return
 	 */
 	public boolean hasPageableParameter() {
-		return pageableIndex != -1;
+		return this.pageableIndex != -1;
 	}
 
 	/**
@@ -174,7 +174,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @return the pageableIndex
 	 */
 	public int getPageableIndex() {
-		return pageableIndex;
+		return this.pageableIndex;
 	}
 
 	/**
@@ -184,7 +184,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @return
 	 */
 	public int getSortIndex() {
-		return sortIndex;
+		return this.sortIndex;
 	}
 
 	/**
@@ -193,7 +193,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @return
 	 */
 	public boolean hasSortParameter() {
-		return sortIndex != -1;
+		return this.sortIndex != -1;
 	}
 
 	/**
@@ -203,7 +203,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @return
 	 */
 	public int getDynamicProjectionIndex() {
-		return dynamicProjectionIndex;
+		return this.dynamicProjectionIndex;
 	}
 
 	/**
@@ -212,7 +212,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @return
 	 */
 	public boolean hasDynamicProjection() {
-		return dynamicProjectionIndex != -1;
+		return this.dynamicProjectionIndex != -1;
 	}
 
 	/**
@@ -233,7 +233,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	public T getParameter(int index) {
 
 		try {
-			return parameters.get(index);
+			return this.parameters.get(index);
 		} catch (IndexOutOfBoundsException e) {
 			throw new ParameterOutOfBoundsException(
 					"Invalid parameter index! You seem to have declared too little query method parameters!", e);
@@ -270,7 +270,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @return
 	 */
 	public int getNumberOfParameters() {
-		return parameters.size();
+		return this.parameters.size();
 	}
 
 	/**
@@ -332,6 +332,6 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 		return !TYPES.contains(type);
 	}
 	public Iterator<T> iterator() {
-		return parameters.iterator();
+		return this.parameters.iterator();
 	}
 }

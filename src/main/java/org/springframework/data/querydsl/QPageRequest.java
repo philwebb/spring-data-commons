@@ -115,18 +115,18 @@ public class QPageRequest extends AbstractPageRequest {
 	}
 	@Override
 	public Sort getSort() {
-		return sort;
+		return this.sort;
 	}
 	@Override
 	public Pageable next() {
-		return QPageRequest.of(getPageNumber() + 1, getPageSize(), sort);
+		return QPageRequest.of(getPageNumber() + 1, getPageSize(), this.sort);
 	}
 	@Override
 	public Pageable previous() {
-		return QPageRequest.of(getPageNumber() - 1, getPageSize(), sort);
+		return QPageRequest.of(getPageNumber() - 1, getPageSize(), this.sort);
 	}
 	@Override
 	public Pageable first() {
-		return QPageRequest.of(0, getPageSize(), sort);
+		return QPageRequest.of(0, getPageSize(), this.sort);
 	}
 }

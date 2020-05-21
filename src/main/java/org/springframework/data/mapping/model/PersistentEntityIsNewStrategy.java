@@ -51,14 +51,14 @@ class PersistentEntityIsNewStrategy implements IsNewStrategy {
 				? entity.getRequiredVersionProperty().getType() //
 				: entity.hasIdProperty() ? entity.getRequiredIdProperty().getType() : null;
 
-		Class<?> type = valueType;
+		Class<?> type = this.valueType;
 
 		if (type != null && type.isPrimitive()) {
 
 			if (!ClassUtils.isAssignable(Number.class, type)) {
 
 				throw new IllegalArgumentException(String
-						.format("Only numeric primitives are supported as identifier / version field types! Got: %s.", valueType));
+						.format("Only numeric primitives are supported as identifier / version field types! Got: %s.", this.valueType));
 			}
 		}
 	}
@@ -86,13 +86,13 @@ class PersistentEntityIsNewStrategy implements IsNewStrategy {
 	@Override
 	public boolean isNew(Object entity) {
 
-		Object value = valueLookup.apply(entity);
+		Object value = this.valueLookup.apply(entity);
 
 		if (value == null) {
 			return true;
 		}
 
-		if (valueType != null && !valueType.isPrimitive()) {
+		if (this.valueType != null && !this.valueType.isPrimitive()) {
 			return value == null;
 		}
 

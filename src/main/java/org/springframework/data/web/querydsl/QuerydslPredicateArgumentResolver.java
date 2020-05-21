@@ -114,10 +114,10 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 				.map(CastUtils::cast);
 
 		QuerydslBindings bindings = bindingsAnnotation //
-				.map(it -> bindingsFactory.createBindingsFor(domainType, it)) //
-				.orElseGet(() -> bindingsFactory.createBindingsFor(domainType));
+				.map(it -> this.bindingsFactory.createBindingsFor(domainType, it)) //
+				.orElseGet(() -> this.bindingsFactory.createBindingsFor(domainType));
 
-		Predicate result = predicateBuilder.getPredicate(domainType, parameters, bindings);
+		Predicate result = this.predicateBuilder.getPredicate(domainType, parameters, bindings);
 
 		if (!parameter.isOptional() && result == null) {
 			return new BooleanBuilder();

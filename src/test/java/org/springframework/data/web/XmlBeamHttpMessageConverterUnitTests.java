@@ -51,7 +51,7 @@ class XmlBeamHttpMessageConverterUnitTests {
 
 		preparePayload("<user><firstname>Dave</firstname><lastname>Matthews</lastname></user>");
 
-		Customer customer = (Customer) converter.read(Customer.class, message);
+		Customer customer = (Customer) this.converter.read(Customer.class, this.message);
 
 		assertThat(customer.getFirstname()).isEqualTo("Dave");
 		assertThat(customer.getLastname()).isEqualTo("Matthews");
@@ -62,7 +62,7 @@ class XmlBeamHttpMessageConverterUnitTests {
 
 		preparePayload("<user><username><firstname>Dave</firstname><lastname>Matthews</lastname></username></user>");
 
-		Customer customer = (Customer) converter.read(Customer.class, message);
+		Customer customer = (Customer) this.converter.read(Customer.class, this.message);
 
 		assertThat(customer.getFirstname()).isEqualTo("Dave");
 		assertThat(customer.getLastname()).isEqualTo("Matthews");
@@ -70,24 +70,24 @@ class XmlBeamHttpMessageConverterUnitTests {
 
 	@Test // DATACMNS-885
 	void supportsAnnotatedInterface() {
-		assertThat(converter.canRead(Customer.class, MediaType.APPLICATION_XML)).isTrue();
+		assertThat(this.converter.canRead(Customer.class, MediaType.APPLICATION_XML)).isTrue();
 	}
 
 	@Test // DATACMNS-885
 	void supportsXmlBasedMediaType() {
-		assertThat(converter.canRead(Customer.class, MediaType.APPLICATION_ATOM_XML)).isTrue();
+		assertThat(this.converter.canRead(Customer.class, MediaType.APPLICATION_ATOM_XML)).isTrue();
 	}
 
 	@Test // DATACMNS-885
 	void doesNotSupportUnannotatedInterface() {
-		assertThat(converter.canRead(UnannotatedInterface.class, MediaType.APPLICATION_XML)).isFalse();
+		assertThat(this.converter.canRead(UnannotatedInterface.class, MediaType.APPLICATION_XML)).isFalse();
 	}
 
 	@Test // DATACMNS-885
 	void supportsInterfaceAfterLookupForDifferrentMediaType() {
 
-		assertThat(converter.canRead(Customer.class, MediaType.APPLICATION_JSON)).isFalse();
-		assertThat(converter.canRead(Customer.class, MediaType.APPLICATION_XML)).isTrue();
+		assertThat(this.converter.canRead(Customer.class, MediaType.APPLICATION_JSON)).isFalse();
+		assertThat(this.converter.canRead(Customer.class, MediaType.APPLICATION_XML)).isTrue();
 	}
 
 	@Test // DATACMNS-1292
@@ -99,12 +99,12 @@ class XmlBeamHttpMessageConverterUnitTests {
 				+ "<!ENTITY xxe \"Bar\" >]><user><firstname>&xxe;</firstname><lastname>Matthews</lastname></user>");
 
 		assertThatExceptionOfType(HttpMessageNotReadableException.class) //
-				.isThrownBy(() -> converter.read(Customer.class, message)) //
+				.isThrownBy(() -> this.converter.read(Customer.class, this.message)) //
 				.withCauseInstanceOf(SAXParseException.class);
 	}
 
 	private void preparePayload(String payload) throws IOException {
-		when(message.getBody()).thenReturn(new ByteArrayInputStream(payload.getBytes()));
+		when(this.message.getBody()).thenReturn(new ByteArrayInputStream(payload.getBytes()));
 	}
 
 	@ProjectedPayload

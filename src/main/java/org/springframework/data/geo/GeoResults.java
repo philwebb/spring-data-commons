@@ -83,7 +83,7 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 	 * @return the averageDistance
 	 */
 	public Distance getAverageDistance() {
-		return averageDistance;
+		return this.averageDistance;
 	}
 
 	/**
@@ -92,11 +92,11 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 	 * @return
 	 */
 	public List<GeoResult<T>> getContent() {
-		return Collections.unmodifiableList(results);
+		return Collections.unmodifiableList(this.results);
 	}
 	@SuppressWarnings("unchecked")
 	public Iterator<GeoResult<T>> iterator() {
-		return (Iterator<GeoResult<T>>) results.iterator();
+		return (Iterator<GeoResult<T>>) this.results.iterator();
 	}
 	@Override
 	public boolean equals(Object o) {
@@ -111,22 +111,22 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 
 		GeoResults<?> that = (GeoResults<?>) o;
 
-		if (!ObjectUtils.nullSafeEquals(results, that.results)) {
+		if (!ObjectUtils.nullSafeEquals(this.results, that.results)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(averageDistance, that.averageDistance);
+		return ObjectUtils.nullSafeEquals(this.averageDistance, that.averageDistance);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(results);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(averageDistance);
+		int result = ObjectUtils.nullSafeHashCode(this.results);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.averageDistance);
 		return result;
 	}
 	@Override
 	public String toString() {
-		return String.format("GeoResults: [averageDistance: %s, results: %s]", averageDistance.toString(),
-				StringUtils.collectionToCommaDelimitedString(results));
+		return String.format("GeoResults: [averageDistance: %s, results: %s]", this.averageDistance.toString(),
+				StringUtils.collectionToCommaDelimitedString(this.results));
 	}
 
 	private static Distance calculateAverageDistance(List<? extends GeoResult<?>> results, Metric metric) {

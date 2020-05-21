@@ -59,7 +59,7 @@ public final class Accessor {
 	 * @return
 	 */
 	public boolean isGetter() {
-		return method.equals(descriptor.getReadMethod());
+		return this.method.equals(this.descriptor.getReadMethod());
 	}
 
 	/**
@@ -68,7 +68,7 @@ public final class Accessor {
 	 * @return
 	 */
 	public boolean isSetter() {
-		return method.equals(descriptor.getWriteMethod());
+		return this.method.equals(this.descriptor.getWriteMethod());
 	}
 
 	/**
@@ -77,6 +77,6 @@ public final class Accessor {
 	 * @return will never be {@literal null}.
 	 */
 	public String getPropertyName() {
-		return descriptor.getName();
+		return this.descriptor.getName();
 	}
 }

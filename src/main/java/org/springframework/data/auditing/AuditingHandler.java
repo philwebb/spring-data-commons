@@ -153,17 +153,17 @@ public class AuditingHandler implements InitializingBean {
 
 		Assert.notNull(source, "Source must not be null!");
 
-		return factory.getBeanWrapperFor(source).isPresent();
+		return this.factory.getBeanWrapperFor(source).isPresent();
 	}
 
 	private <T> T touch(T target, boolean isNew) {
 
-		Optional<AuditableBeanWrapper<T>> wrapper = factory.getBeanWrapperFor(target);
+		Optional<AuditableBeanWrapper<T>> wrapper = this.factory.getBeanWrapperFor(target);
 
 		return wrapper.map(it -> {
 
 			Optional<Object> auditor = touchAuditor(it, isNew);
-			Optional<TemporalAccessor> now = dateTimeForNow ? touchDate(it, isNew) : Optional.empty();
+			Optional<TemporalAccessor> now = this.dateTimeForNow ? touchDate(it, isNew) : Optional.empty();
 
 			if (logger.isDebugEnabled()) {
 
@@ -188,7 +188,7 @@ public class AuditingHandler implements InitializingBean {
 
 		Assert.notNull(wrapper, "AuditableBeanWrapper must not be null!");
 
-		return auditorAware.map(it -> {
+		return this.auditorAware.map(it -> {
 
 			Optional<?> auditor = it.getCurrentAuditor();
 
@@ -196,7 +196,7 @@ public class AuditingHandler implements InitializingBean {
 					() -> String.format("Auditor must not be null! Returned by: %s!", AopUtils.getTargetClass(it)));
 
 			auditor.filter(temporalAccessor -> isNew).ifPresent(wrapper::setCreatedBy);
-			auditor.filter(temporalAccessor -> !isNew || modifyOnCreation).ifPresent(wrapper::setLastModifiedBy);
+			auditor.filter(temporalAccessor -> !isNew || this.modifyOnCreation).ifPresent(wrapper::setLastModifiedBy);
 
 			return auditor;
 		});
@@ -212,18 +212,18 @@ public class AuditingHandler implements InitializingBean {
 
 		Assert.notNull(wrapper, "AuditableBeanWrapper must not be null!");
 
-		Optional<TemporalAccessor> now = dateTimeProvider.getNow();
+		Optional<TemporalAccessor> now = this.dateTimeProvider.getNow();
 
-		Assert.notNull(now, () -> String.format("Now must not be null! Returned by: %s!", dateTimeProvider.getClass()));
+		Assert.notNull(now, () -> String.format("Now must not be null! Returned by: %s!", this.dateTimeProvider.getClass()));
 
 		now.filter(temporalAccessor -> isNew).ifPresent(wrapper::setCreatedDate);
-		now.filter(temporalAccessor -> !isNew || modifyOnCreation).ifPresent(wrapper::setLastModifiedDate);
+		now.filter(temporalAccessor -> !isNew || this.modifyOnCreation).ifPresent(wrapper::setLastModifiedDate);
 
 		return now;
 	}
 	public void afterPropertiesSet() {
 
-		if (!auditorAware.isPresent()) {
+		if (!this.auditorAware.isPresent()) {
 			logger.debug("No AuditorAware set! Auditing will not be applied!");
 		}
 	}

@@ -59,7 +59,7 @@ class KotlinCopyMethod {
 		this.publicCopyMethod = publicCopyMethod;
 		this.syntheticCopyMethod = syntheticCopyMethod;
 		this.copyFunction = ReflectJvmMapping.getKotlinFunction(publicCopyMethod);
-		this.parameterCount = copyFunction.getParameters().size();
+		this.parameterCount = this.copyFunction.getParameters().size();
 	}
 
 	/**
@@ -118,13 +118,13 @@ class KotlinCopyMethod {
 	 */
 	Optional<KotlinCopyByProperty> forProperty(PersistentProperty<?> property) {
 
-		int index = KotlinCopyByProperty.findIndex(copyFunction, property.getName());
+		int index = KotlinCopyByProperty.findIndex(this.copyFunction, property.getName());
 
 		if (index == -1) {
 			return Optional.empty();
 		}
 
-		return Optional.of(new KotlinCopyByProperty(copyFunction, property));
+		return Optional.of(new KotlinCopyByProperty(this.copyFunction, property));
 	}
 
 	boolean shouldUsePublicCopyMethod(PersistentEntity<?, ?> entity) {
@@ -136,15 +136,15 @@ class KotlinCopyMethod {
 			return false;
 		}
 
-		if (publicCopyMethod.getParameterCount() != 1) {
+		if (this.publicCopyMethod.getParameterCount() != 1) {
 			return false;
 		}
 
-		if (Modifier.isStatic(publicCopyMethod.getModifiers())) {
+		if (Modifier.isStatic(this.publicCopyMethod.getModifiers())) {
 			return false;
 		}
 
-		Class<?>[] parameterTypes = publicCopyMethod.getParameterTypes();
+		Class<?>[] parameterTypes = this.publicCopyMethod.getParameterTypes();
 
 		for (int i = 0; i < parameterTypes.length; i++) {
 			if (!parameterTypes[i].equals(persistentProperties.get(i).getType())) {

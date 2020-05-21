@@ -83,7 +83,7 @@ public class RepositoryConfigurationDelegate {
 		this.isXml = configurationSource instanceof XmlRepositoryConfigurationSource;
 		boolean isAnnotation = configurationSource instanceof AnnotationRepositoryConfigurationSource;
 
-		Assert.isTrue(isXml || isAnnotation,
+		Assert.isTrue(this.isXml || isAnnotation,
 				"Configuration source must either be an Xml- or an AnnotationBasedConfigurationSource!");
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null!");
 
@@ -124,13 +124,13 @@ public class RepositoryConfigurationDelegate {
 
 		if (LOG.isInfoEnabled()) {
 			LOG.info("Bootstrapping Spring Data {} repositories in {} mode.", //
-					extension.getModuleName(), configurationSource.getBootstrapMode().name());
+					extension.getModuleName(), this.configurationSource.getBootstrapMode().name());
 		}
 
-		extension.registerBeansForRoot(registry, configurationSource);
+		extension.registerBeansForRoot(registry, this.configurationSource);
 
 		RepositoryBeanDefinitionBuilder builder = new RepositoryBeanDefinitionBuilder(registry, extension,
-				configurationSource, resourceLoader, environment);
+				this.configurationSource, this.resourceLoader, this.environment);
 		List<BeanComponentDefinition> definitions = new ArrayList<>();
 
 		StopWatch watch = new StopWatch();
@@ -138,13 +138,13 @@ public class RepositoryConfigurationDelegate {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Scanning for {} repositories in packages {}.", //
 					extension.getModuleName(), //
-					configurationSource.getBasePackages().stream().collect(Collectors.joining(", ")));
+					this.configurationSource.getBasePackages().stream().collect(Collectors.joining(", ")));
 		}
 
 		watch.start();
 
 		Collection<RepositoryConfiguration<RepositoryConfigurationSource>> configurations = extension
-				.getRepositoryConfigurations(configurationSource, resourceLoader, inMultiStoreMode);
+				.getRepositoryConfigurations(this.configurationSource, this.resourceLoader, this.inMultiStoreMode);
 
 		Map<String, RepositoryConfiguration<?>> configurationsByRepositoryName = new HashMap<>(configurations.size());
 
@@ -154,18 +154,18 @@ public class RepositoryConfigurationDelegate {
 
 			BeanDefinitionBuilder definitionBuilder = builder.build(configuration);
 
-			extension.postProcess(definitionBuilder, configurationSource);
+			extension.postProcess(definitionBuilder, this.configurationSource);
 
-			if (isXml) {
-				extension.postProcess(definitionBuilder, (XmlRepositoryConfigurationSource) configurationSource);
+			if (this.isXml) {
+				extension.postProcess(definitionBuilder, (XmlRepositoryConfigurationSource) this.configurationSource);
 			} else {
-				extension.postProcess(definitionBuilder, (AnnotationRepositoryConfigurationSource) configurationSource);
+				extension.postProcess(definitionBuilder, (AnnotationRepositoryConfigurationSource) this.configurationSource);
 			}
 
 			AbstractBeanDefinition beanDefinition = definitionBuilder.getBeanDefinition();
 			beanDefinition.setResourceDescription(configuration.getResourceDescription());
 
-			String beanName = configurationSource.generateBeanName(beanDefinition);
+			String beanName = this.configurationSource.generateBeanName(beanDefinition);
 
 			if (LOG.isTraceEnabled()) {
 				LOG.trace(REPOSITORY_REGISTRATION, extension.getModuleName(), beanName, configuration.getRepositoryInterface(),
@@ -178,7 +178,7 @@ public class RepositoryConfigurationDelegate {
 			definitions.add(new BeanComponentDefinition(beanDefinition, beanName));
 		}
 
-		potentiallyLazifyRepositories(configurationsByRepositoryName, registry, configurationSource.getBootstrapMode());
+		potentiallyLazifyRepositories(configurationsByRepositoryName, registry, this.configurationSource.getBootstrapMode());
 
 		watch.stop();
 
@@ -242,7 +242,7 @@ public class RepositoryConfigurationDelegate {
 	private boolean multipleStoresDetected() {
 
 		boolean multipleModulesFound = SpringFactoriesLoader
-				.loadFactoryNames(RepositoryFactorySupport.class, resourceLoader.getClassLoader()).size() > 1;
+				.loadFactoryNames(RepositoryFactorySupport.class, this.resourceLoader.getClassLoader()).size() > 1;
 
 		if (multipleModulesFound) {
 			LOG.info(MULTIPLE_MODULES);
@@ -287,7 +287,7 @@ public class RepositoryConfigurationDelegate {
 
 			Class<?> type = descriptor.getDependencyType();
 
-			RepositoryConfiguration<?> configuration = configurations.get(type.getName());
+			RepositoryConfiguration<?> configuration = this.configurations.get(type.getName());
 
 			if (configuration == null) {
 				return super.isLazy(descriptor);

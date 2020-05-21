@@ -36,7 +36,7 @@ public class PersonWithChildren extends Person {
 	}
 
 	public List<Child> getChildren() {
-		return children;
+		return this.children;
 	}
 
 	public void setChildren(List<Child> children) {

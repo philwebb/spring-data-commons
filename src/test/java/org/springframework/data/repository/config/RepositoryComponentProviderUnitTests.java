@@ -45,7 +45,7 @@ class RepositoryComponentProviderUnitTests {
 	@Test
 	void findsAnnotatedRepositoryInterface() {
 
-		RepositoryComponentProvider provider = new RepositoryComponentProvider(Collections.emptyList(), registry);
+		RepositoryComponentProvider provider = new RepositoryComponentProvider(Collections.emptyList(), this.registry);
 		Set<BeanDefinition> components = provider.findCandidateComponents("org.springframework.data.repository.sample");
 
 		assertThat(components).hasSize(4);
@@ -58,7 +58,7 @@ class RepositoryComponentProviderUnitTests {
 
 		List<? extends TypeFilter> filters = Collections.singletonList(new AssignableTypeFilter(MyOtherRepository.class));
 
-		RepositoryComponentProvider provider = new RepositoryComponentProvider(filters, registry);
+		RepositoryComponentProvider provider = new RepositoryComponentProvider(filters, this.registry);
 		Set<BeanDefinition> components = provider.findCandidateComponents("org.springframework.data.repository");
 
 		assertThat(components).hasSize(1);
@@ -68,7 +68,7 @@ class RepositoryComponentProviderUnitTests {
 	@Test // DATACMNS-90
 	void shouldConsiderNestedRepositoryInterfacesIfEnabled() {
 
-		RepositoryComponentProvider provider = new RepositoryComponentProvider(Collections.emptyList(), registry);
+		RepositoryComponentProvider provider = new RepositoryComponentProvider(Collections.emptyList(), this.registry);
 		provider.setConsiderNestedRepositoryInterfaces(true);
 
 		Set<BeanDefinition> components = provider.findCandidateComponents("org.springframework.data.repository.config");
@@ -87,9 +87,9 @@ class RepositoryComponentProviderUnitTests {
 	@Test // DATACMNS-1098
 	void exposesBeanDefinitionRegistry() {
 
-		RepositoryComponentProvider provider = new RepositoryComponentProvider(Collections.emptyList(), registry);
+		RepositoryComponentProvider provider = new RepositoryComponentProvider(Collections.emptyList(), this.registry);
 
-		assertThat(provider.getRegistry()).isEqualTo(registry);
+		assertThat(provider.getRegistry()).isEqualTo(this.registry);
 	}
 
 	interface MyNestedRepository extends Repository<Person, Long> {}

@@ -68,7 +68,7 @@ public class Point implements Serializable {
 	 * @return
 	 */
 	public double getX() {
-		return x;
+		return this.x;
 	}
 
 	/**
@@ -77,17 +77,17 @@ public class Point implements Serializable {
 	 * @return
 	 */
 	public double getY() {
-		return y;
+		return this.y;
 	}
 	@Override
 	public int hashCode() {
 
 		int result = 1;
 
-		long temp = Double.doubleToLongBits(x);
+		long temp = Double.doubleToLongBits(this.x);
 		result = 31 * result + (int) (temp ^ temp >>> 32);
 
-		temp = Double.doubleToLongBits(y);
+		temp = Double.doubleToLongBits(this.y);
 		result = 31 * result + (int) (temp ^ temp >>> 32);
 
 		return result;
@@ -105,11 +105,11 @@ public class Point implements Serializable {
 
 		Point other = (Point) obj;
 
-		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x)) {
+		if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
 			return false;
 		}
 
-		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y)) {
+		if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y)) {
 			return false;
 		}
 
@@ -117,6 +117,6 @@ public class Point implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return String.format(Locale.ENGLISH, "Point [x=%f, y=%f]", x, y);
+		return String.format(Locale.ENGLISH, "Point [x=%f, y=%f]", this.x, this.y);
 	}
 }

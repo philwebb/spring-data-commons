@@ -82,12 +82,12 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 		if (KotlinDetector.isKotlinType(method.getDeclaringClass()) && KotlinReflectionUtils.isSuspend(method)) {
 
 			// the last parameter is Continuation<? super T> or Continuation<? super Flow<? super T>>
-			List<TypeInformation<?>> types = typeInformation.getParameterTypes(method);
+			List<TypeInformation<?>> types = this.typeInformation.getParameterTypes(method);
 			returnType = types.get(types.size() - 1).getComponentType();
 		}
 
 		if (returnType == null) {
-			returnType = typeInformation.getReturnType(method);
+			returnType = this.typeInformation.getReturnType(method);
 		}
 
 		return QueryExecutionConverters.unwrapWrapperTypes(returnType).getType();
@@ -112,6 +112,6 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 	}
 	@Override
 	public boolean isReactiveRepository() {
-		return ReactiveWrappers.usesReactiveType(repositoryInterface);
+		return ReactiveWrappers.usesReactiveType(this.repositoryInterface);
 	}
 }

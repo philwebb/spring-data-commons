@@ -66,11 +66,11 @@ class DefaultProjectionInformation implements ProjectionInformation {
 	}
 	@Override
 	public Class<?> getType() {
-		return projectionType;
+		return this.projectionType;
 	}
 	public List<PropertyDescriptor> getInputProperties() {
 
-		return properties.stream()//
+		return this.properties.stream()//
 				.filter(this::isInputProperty)//
 				.distinct()//
 				.collect(Collectors.toList());
@@ -149,13 +149,13 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 */
 		private Stream<PropertyDescriptor> collectDescriptors() {
 
-			Stream<PropertyDescriptor> allButDefaultGetters = Arrays.stream(BeanUtils.getPropertyDescriptors(type)) //
+			Stream<PropertyDescriptor> allButDefaultGetters = Arrays.stream(BeanUtils.getPropertyDescriptors(this.type)) //
 					.filter(it -> !hasDefaultGetter(it));
 
-			Stream<PropertyDescriptor> ownDescriptors = metadata.map(it -> filterAndOrder(allButDefaultGetters, it))
+			Stream<PropertyDescriptor> ownDescriptors = this.metadata.map(it -> filterAndOrder(allButDefaultGetters, it))
 					.orElse(allButDefaultGetters);
 
-			Stream<PropertyDescriptor> superTypeDescriptors = metadata.map(this::fromMetadata) //
+			Stream<PropertyDescriptor> superTypeDescriptors = this.metadata.map(this::fromMetadata) //
 					.orElseGet(this::fromType) //
 					.flatMap(it -> new PropertyDescriptorSource(it).collectDescriptors());
 
@@ -191,7 +191,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private Stream<Class<?>> fromMetadata(MethodsMetadata metadata) {
-			return Arrays.stream(metadata.getInterfaceNames()).map(it -> findType(it, type.getInterfaces()));
+			return Arrays.stream(metadata.getInterfaceNames()).map(it -> findType(it, this.type.getInterfaces()));
 		}
 
 		/**
@@ -200,7 +200,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private Stream<Class<?>> fromType() {
-			return Arrays.stream(type.getInterfaces());
+			return Arrays.stream(this.type.getInterfaces());
 		}
 
 		/**

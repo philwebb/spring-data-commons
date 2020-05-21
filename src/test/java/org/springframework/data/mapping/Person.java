@@ -31,7 +31,7 @@ public abstract class Person {
 	}
 
 	public Integer getSsn() {
-		return ssn;
+		return this.ssn;
 	}
 
 	public void setSsn(Integer ssn) {
@@ -39,7 +39,7 @@ public abstract class Person {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return this.firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -47,7 +47,7 @@ public abstract class Person {
 	}
 
 	public String getLastName() {
-		return lastName;
+		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {

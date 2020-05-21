@@ -287,7 +287,7 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 */
 	protected boolean isStrictRepositoryCandidate(RepositoryMetadata metadata) {
 
-		if (noMultiStoreSupport) {
+		if (this.noMultiStoreSupport) {
 			return false;
 		}
 
@@ -296,9 +296,9 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 		String moduleName = getModuleName();
 
 		if (types.isEmpty() && annotations.isEmpty()) {
-			if (!noMultiStoreSupport) {
+			if (!this.noMultiStoreSupport) {
 				logger.warn("Spring Data {} does not support multi-store setups!", moduleName);
-				noMultiStoreSupport = true;
+				this.noMultiStoreSupport = true;
 				return false;
 			}
 		}

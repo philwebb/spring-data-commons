@@ -36,15 +36,15 @@ public final class DummyRepositoryInformation implements RepositoryInformation {
 	}
 
 	public Class<?> getIdType() {
-		return metadata.getIdType();
+		return this.metadata.getIdType();
 	}
 
 	public Class<?> getDomainType() {
-		return metadata.getDomainType();
+		return this.metadata.getDomainType();
 	}
 
 	public Class<?> getRepositoryInterface() {
-		return metadata.getRepositoryInterface();
+		return this.metadata.getRepositoryInterface();
 	}
 
 	public Class<?> getReturnedDomainClass(Method method) {
@@ -90,11 +90,11 @@ public final class DummyRepositoryInformation implements RepositoryInformation {
 
 	@Override
 	public Set<Class<?>> getAlternativeDomainTypes() {
-		return metadata.getAlternativeDomainTypes();
+		return this.metadata.getAlternativeDomainTypes();
 	}
 
 	@Override
 	public boolean isReactiveRepository() {
-		return metadata.isReactiveRepository();
+		return this.metadata.isReactiveRepository();
 	}
 }

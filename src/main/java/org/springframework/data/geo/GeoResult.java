@@ -63,20 +63,20 @@ public final class GeoResult<T> implements Serializable {
 
 		GeoResult<?> geoResult = (GeoResult<?>) o;
 
-		if (!ObjectUtils.nullSafeEquals(content, geoResult.content)) {
+		if (!ObjectUtils.nullSafeEquals(this.content, geoResult.content)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(distance, geoResult.distance);
+		return ObjectUtils.nullSafeEquals(this.distance, geoResult.distance);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(content);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(distance);
+		int result = ObjectUtils.nullSafeHashCode(this.content);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.distance);
 		return result;
 	}
 	@Override
 	public String toString() {
-		return String.format("GeoResult [content: %s, distance: %s, ]", content.toString(), distance.toString());
+		return String.format("GeoResult [content: %s, distance: %s, ]", this.content.toString(), this.distance.toString());
 	}
 }

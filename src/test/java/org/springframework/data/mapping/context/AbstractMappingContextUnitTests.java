@@ -60,17 +60,17 @@ class AbstractMappingContextUnitTests {
 	@BeforeEach
 	void setUp() {
 
-		context = new SampleMappingContext();
-		context.setSimpleTypeHolder(new SimpleTypeHolder(Collections.singleton(LocalDateTime.class), true));
+		this.context = new SampleMappingContext();
+		this.context.setSimpleTypeHolder(new SimpleTypeHolder(Collections.singleton(LocalDateTime.class), true));
 	}
 
 	@Test // DATACMNS-92
 	void doesNotAddInvalidEntity() {
 
-		context = TypeRejectingMappingContext.rejecting(() -> new MappingException("Not supported!"), Unsupported.class);
+		this.context = TypeRejectingMappingContext.rejecting(() -> new MappingException("Not supported!"), Unsupported.class);
 
 		assertThatExceptionOfType(MappingException.class) //
-				.isThrownBy(() -> context.getPersistentEntity(Unsupported.class));
+				.isThrownBy(() -> this.context.getPersistentEntity(Unsupported.class));
 	}
 
 	@Test
@@ -78,12 +78,12 @@ class AbstractMappingContextUnitTests {
 
 		ApplicationContext applicationContext = mock(ApplicationContext.class);
 
-		context.setInitialEntitySet(Collections.singleton(Person.class));
-		context.setApplicationEventPublisher(applicationContext);
+		this.context.setInitialEntitySet(Collections.singleton(Person.class));
+		this.context.setApplicationEventPublisher(applicationContext);
 
 		verify(applicationContext, times(0)).publishEvent(any(ApplicationEvent.class));
 
-		context.afterPropertiesSet();
+		this.context.afterPropertiesSet();
 		verify(applicationContext, times(1)).publishEvent(any(ApplicationEvent.class));
 	}
 
@@ -96,12 +96,12 @@ class AbstractMappingContextUnitTests {
 
 	@Test // DATACMNS-214
 	void rejectsNullValueForGetPersistentEntityOfClass() {
-		assertThatIllegalArgumentException().isThrownBy(() -> context.getPersistentEntity((Class<?>) null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.context.getPersistentEntity((Class<?>) null));
 	}
 
 	@Test // DATACMNS-214
 	void rejectsNullValueForGetPersistentEntityOfTypeInformation() {
-		assertThatIllegalArgumentException().isThrownBy(() -> context.getPersistentEntity((TypeInformation<?>) null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.context.getPersistentEntity((TypeInformation<?>) null));
 	}
 
 	@Test // DATACMNS-228
@@ -156,49 +156,49 @@ class AbstractMappingContextUnitTests {
 	@Test // DATACMNS-447
 	void shouldReturnNullForSimpleTypesIfInStrictIsEnabled() {
 
-		context.setStrict(true);
-		assertThat(context.getPersistentEntity(Integer.class)).isNull();
+		this.context.setStrict(true);
+		assertThat(this.context.getPersistentEntity(Integer.class)).isNull();
 	}
 
 	@Test // DATACMNS-462
 	void hasPersistentEntityForCollectionPropertiesAfterInitialization() {
 
-		context.getPersistentEntity(Sample.class);
-		assertHasEntityFor(Person.class, context, true);
+		this.context.getPersistentEntity(Sample.class);
+		assertHasEntityFor(Person.class, this.context, true);
 	}
 
 	@Test // DATACMNS-479
 	void doesNotAddMapImplementationClassesAsPersistentEntity() {
 
-		context.getPersistentEntity(Sample.class);
-		assertHasEntityFor(TreeMap.class, context, false);
+		this.context.getPersistentEntity(Sample.class);
+		assertHasEntityFor(TreeMap.class, this.context, false);
 	}
 
 	@Test // DATACMNS-1171
 	void shouldCreateEntityForKotlinDataClass() {
-		assertThat(context.getPersistentEntity(SimpleDataClass.class)).isNotNull();
+		assertThat(this.context.getPersistentEntity(SimpleDataClass.class)).isNotNull();
 	}
 
 	@Test // DATACMNS-1171
 	void shouldNotCreateEntityForSyntheticKotlinClass() {
-		assertThat(context.getPersistentEntity(TypeCreatingSyntheticClass.class)).isNotNull();
+		assertThat(this.context.getPersistentEntity(TypeCreatingSyntheticClass.class)).isNotNull();
 	}
 
 	@Test // DATACMNS-1208
 	void ensureHasPersistentEntityReportsFalseForTypesThatShouldntBeCreated() {
 
-		assertThat(context.hasPersistentEntityFor(String.class)).isFalse();
-		assertThat(context.getPersistentEntity(String.class)).isNull();
-		assertThat(context.hasPersistentEntityFor(String.class)).isFalse();
+		assertThat(this.context.hasPersistentEntityFor(String.class)).isFalse();
+		assertThat(this.context.getPersistentEntity(String.class)).isNull();
+		assertThat(this.context.hasPersistentEntityFor(String.class)).isFalse();
 	}
 
 	@Test // DATACMNS-1214
 	void doesNotReturnPersistentEntityForCustomSimpleTypeProperty() {
 
-		PersistentEntity<Object, SamplePersistentProperty> entity = context.getRequiredPersistentEntity(Person.class);
+		PersistentEntity<Object, SamplePersistentProperty> entity = this.context.getRequiredPersistentEntity(Person.class);
 		SamplePersistentProperty property = entity.getRequiredPersistentProperty("date");
 
-		assertThat(context.getPersistentEntity(property)).isNull();
+		assertThat(this.context.getPersistentEntity(property)).isNull();
 	}
 
 	@Test // DATACMNS-1574
@@ -289,8 +289,8 @@ class AbstractMappingContextUnitTests {
 			return new BasicPersistentEntity<Object, SamplePersistentProperty>((TypeInformation<Object>) typeInformation) {
 				@Override
 				public void verify() {
-					if (rejectedTypes.stream().anyMatch(it -> it.isAssignableFrom(getType()))) {
-						throw exception.get();
+					if (TypeRejectingMappingContext.this.rejectedTypes.stream().anyMatch(it -> it.isAssignableFrom(getType()))) {
+						throw TypeRejectingMappingContext.this.exception.get();
 					}
 				}
 			};

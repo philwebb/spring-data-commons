@@ -42,7 +42,7 @@ final class LazyStreamable<T> implements Streamable<T> {
 	}
 	@Override
 	public Stream<T> stream() {
-		return stream.get();
+		return this.stream.get();
 	}
 
 	public Supplier<? extends Stream<T>> getStream() {

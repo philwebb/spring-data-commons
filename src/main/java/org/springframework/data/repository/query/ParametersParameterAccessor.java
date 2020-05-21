@@ -78,7 +78,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	 * @return the parameters will never be {@literal null}.
 	 */
 	public Parameters<?, ?> getParameters() {
-		return parameters;
+		return this.parameters;
 	}
 
 	/**
@@ -91,23 +91,23 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	}
 	public Pageable getPageable() {
 
-		if (!parameters.hasPageableParameter()) {
+		if (!this.parameters.hasPageableParameter()) {
 			return Pageable.unpaged();
 		}
 
-		Pageable pageable = (Pageable) values[parameters.getPageableIndex()];
+		Pageable pageable = (Pageable) this.values[this.parameters.getPageableIndex()];
 
 		return pageable == null ? Pageable.unpaged() : pageable;
 	}
 	public Sort getSort() {
 
-		if (parameters.hasSortParameter()) {
+		if (this.parameters.hasSortParameter()) {
 
-			Sort sort = (Sort) values[parameters.getSortIndex()];
+			Sort sort = (Sort) this.values[this.parameters.getSortIndex()];
 			return sort == null ? Sort.unsorted() : sort;
 		}
 
-		if (parameters.hasPageableParameter()) {
+		if (this.parameters.hasPageableParameter()) {
 			return getPageable().getSort();
 		}
 
@@ -121,8 +121,8 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	 */
 	public Optional<Class<?>> getDynamicProjection() {
 
-		return Optional.ofNullable(parameters.hasDynamicProjection() //
-				? (Class<?>) values[parameters.getDynamicProjectionIndex()] //
+		return Optional.ofNullable(this.parameters.hasDynamicProjection() //
+				? (Class<?>) this.values[this.parameters.getDynamicProjectionIndex()] //
 				: null);
 	}
 
@@ -134,8 +134,8 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	@Nullable
 	public Class<?> findDynamicProjection() {
 
-		return parameters.hasDynamicProjection() //
-				? (Class<?>) values[parameters.getDynamicProjectionIndex()]
+		return this.parameters.hasDynamicProjection() //
+				? (Class<?>) this.values[this.parameters.getDynamicProjectionIndex()]
 				: null;
 	}
 
@@ -147,15 +147,15 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	 */
 	@SuppressWarnings("unchecked")
 	protected <T> T getValue(int index) {
-		return (T) values[index];
+		return (T) this.values[index];
 	}
 	public Object getBindableValue(int index) {
-		return values[parameters.getBindableParameter(index).getIndex()];
+		return this.values[this.parameters.getBindableParameter(index).getIndex()];
 	}
 	public boolean hasBindableNullValue() {
 
-		for (Parameter parameter : parameters.getBindableParameters()) {
-			if (values[parameter.getIndex()] == null) {
+		for (Parameter parameter : this.parameters.getBindableParameters()) {
+			if (this.values[parameter.getIndex()] == null) {
 				return true;
 			}
 		}
@@ -197,10 +197,10 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 		 * @return
 		 */
 		public Object next() {
-			return accessor.getBindableValue(currentIndex++);
+			return this.accessor.getBindableValue(this.currentIndex++);
 		}
 		public boolean hasNext() {
-			return bindableParameterCount > currentIndex;
+			return this.bindableParameterCount > this.currentIndex;
 		}
 		public void remove() {
 			throw new UnsupportedOperationException();

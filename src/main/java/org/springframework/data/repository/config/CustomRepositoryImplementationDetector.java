@@ -103,7 +103,7 @@ public class CustomRepositoryImplementationDetector {
 
 		Assert.notNull(lookup, "ImplementationLookupConfiguration must not be null!");
 
-		Set<BeanDefinition> definitions = implementationCandidates.getOptional()
+		Set<BeanDefinition> definitions = this.implementationCandidates.getOptional()
 				.orElseGet(() -> findCandidateBeanDefinitions(lookup)).stream() //
 				.filter(lookup::matches) //
 				.collect(StreamUtils.toUnmodifiableSet());
@@ -120,8 +120,8 @@ public class CustomRepositoryImplementationDetector {
 		String postfix = config.getImplementationPostfix();
 
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false,
-				environment);
-		provider.setResourceLoader(resourceLoader);
+				this.environment);
+		provider.setResourceLoader(this.resourceLoader);
 		provider.setResourcePattern(String.format(CUSTOM_IMPLEMENTATION_RESOURCE_PATTERN, postfix));
 		provider.setMetadataReaderFactory(config.getMetadataReaderFactory());
 		provider.addIncludeFilter((reader, factory) -> true);

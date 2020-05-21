@@ -55,9 +55,9 @@ class MapAccessingMethodInterceptor implements MethodInterceptor {
 		Accessor accessor = new Accessor(method);
 
 		if (accessor.isGetter()) {
-			return map.get(accessor.getPropertyName());
+			return this.map.get(accessor.getPropertyName());
 		} else if (accessor.isSetter()) {
-			map.put(accessor.getPropertyName(), invocation.getArguments()[0]);
+			this.map.put(accessor.getPropertyName(), invocation.getArguments()[0]);
 			return null;
 		}
 

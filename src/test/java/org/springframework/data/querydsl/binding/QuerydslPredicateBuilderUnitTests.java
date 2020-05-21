@@ -73,12 +73,12 @@ class QuerydslPredicateBuilderUnitTests {
 
 	@Test // DATACMNS-669
 	void getPredicateShouldThrowErrorWhenBindingContextIsNull() {
-		assertThatIllegalArgumentException().isThrownBy(() -> builder.getPredicate(null, values, null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.builder.getPredicate(null, this.values, null));
 	}
 
 	@Test // DATACMNS-669, DATACMNS-1168
 	void getPredicateShouldReturnNullWhenPropertiesAreEmpty() {
-		assertThat(builder.getPredicate(ClassTypeInformation.OBJECT, values, DEFAULT_BINDINGS)).isNull();
+		assertThat(this.builder.getPredicate(ClassTypeInformation.OBJECT, this.values, DEFAULT_BINDINGS)).isNull();
 	}
 
 	@Test // DATACMNS-669
@@ -87,9 +87,9 @@ class QuerydslPredicateBuilderUnitTests {
 		assumeThat(Version.javaVersion().toString())
 				.as("QueryDSL isn't Java 11 ready https://github.com/querydsl/querydsl/issues/2151").startsWith("1.8");
 
-		values.add("firstname", "Oliver");
+		this.values.add("firstname", "Oliver");
 
-		Predicate predicate = builder.getPredicate(USER_TYPE, values, DEFAULT_BINDINGS);
+		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
 
 		assertThat(predicate).isEqualTo(QUser.user.firstname.eq("Oliver"));
 
@@ -104,9 +104,9 @@ class QuerydslPredicateBuilderUnitTests {
 		assumeThat(Version.javaVersion().toString())
 				.as("QueryDSL isn't Java 11 ready https://github.com/querydsl/querydsl/issues/2151").startsWith("1.8");
 
-		values.add("address.city", "Linz");
+		this.values.add("address.city", "Linz");
 
-		Predicate predicate = builder.getPredicate(USER_TYPE, values, DEFAULT_BINDINGS);
+		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
 
 		assertThat(predicate).isEqualTo(QUser.user.address.city.eq("Linz"));
 
@@ -118,10 +118,10 @@ class QuerydslPredicateBuilderUnitTests {
 	@Test // DATACMNS-669
 	void ignoresNonDomainTypeProperties() {
 
-		values.add("firstname", "rand");
-		values.add("lastname".toUpperCase(), "al'thor");
+		this.values.add("firstname", "rand");
+		this.values.add("lastname".toUpperCase(), "al'thor");
 
-		Predicate predicate = builder.getPredicate(USER_TYPE, values, DEFAULT_BINDINGS);
+		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
 
 		assertThat(predicate).isEqualTo(QUser.user.firstname.eq("rand"));
 	}
@@ -129,21 +129,21 @@ class QuerydslPredicateBuilderUnitTests {
 	@Test // DATACMNS-669
 	void forwardsNullForEmptyParameterToSingleValueBinder() {
 
-		values.add("lastname", null);
+		this.values.add("lastname", null);
 
 		QuerydslBindings bindings = new QuerydslBindings();
 		bindings.bind(QUser.user.lastname).firstOptional((path, value) -> value.map(path::contains));
 
-		builder.getPredicate(USER_TYPE, values, bindings);
+		this.builder.getPredicate(USER_TYPE, this.values, bindings);
 	}
 
 	@Test // DATACMNS-734
 	@SuppressWarnings("unchecked")
 	void resolvesCommaSeparatedArgumentToArrayCorrectly() {
 
-		values.add("address.lonLat", "40.740337,-73.995146");
+		this.values.add("address.lonLat", "40.740337,-73.995146");
 
-		Predicate predicate = builder.getPredicate(USER_TYPE, values, DEFAULT_BINDINGS);
+		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
 
 		Constant<Object> constant = (Constant<Object>) ((List<?>) getField(getField(predicate, "mixin"), "args")).get(1);
 
@@ -154,9 +154,9 @@ class QuerydslPredicateBuilderUnitTests {
 	@SuppressWarnings("unchecked")
 	void leavesCommaSeparatedArgumentUntouchedWhenTargetIsNotAnArray() {
 
-		values.add("address.city", "rivers,two");
+		this.values.add("address.city", "rivers,two");
 
-		Predicate predicate = builder.getPredicate(USER_TYPE, values, DEFAULT_BINDINGS);
+		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
 
 		Constant<Object> constant = (Constant<Object>) ((List<?>) getField(getField(predicate, "mixin"), "args")).get(1);
 
@@ -169,9 +169,9 @@ class QuerydslPredicateBuilderUnitTests {
 		DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
 		String date = format.print(new DateTime());
 
-		values.add("dateOfBirth", format.print(new DateTime()));
+		this.values.add("dateOfBirth", format.print(new DateTime()));
 
-		Predicate predicate = builder.getPredicate(USER_TYPE, values, DEFAULT_BINDINGS);
+		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
 
 		assertThat(predicate).isEqualTo(QUser.user.dateOfBirth.eq(format.parseDateTime(date).toDate()));
 	}
@@ -179,9 +179,9 @@ class QuerydslPredicateBuilderUnitTests {
 	@Test // DATACMNS-883
 	void automaticallyInsertsAnyStepInCollectionReference() {
 
-		values.add("addresses.street", "VALUE");
+		this.values.add("addresses.street", "VALUE");
 
-		Predicate predicate = builder.getPredicate(USER_TYPE, values, DEFAULT_BINDINGS);
+		Predicate predicate = this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS);
 
 		assertThat(predicate).isEqualTo(QUser.user.addresses.any().street.eq("VALUE"));
 	}
@@ -189,20 +189,20 @@ class QuerydslPredicateBuilderUnitTests {
 	@Test // DATACMNS-941
 	void buildsPredicateForBindingUsingDowncast() {
 
-		values.add("specialProperty", "VALUE");
+		this.values.add("specialProperty", "VALUE");
 
 		QuerydslBindings bindings = new QuerydslBindings();
 		bindings.bind(QUser.user.as(QSpecialUser.class).specialProperty)//
 				.first(QuerydslBindingsUnitTests.ContainsBinding.INSTANCE);
 
-		assertThat(builder.getPredicate(USER_TYPE, values, bindings))//
+		assertThat(this.builder.getPredicate(USER_TYPE, this.values, bindings))//
 				.isEqualTo(QUser.user.as(QSpecialUser.class).specialProperty.contains("VALUE"));
 	}
 
 	@Test // DATACMNS-941
 	void buildsPredicateForBindingUsingNestedDowncast() {
 
-		values.add("user.specialProperty", "VALUE");
+		this.values.add("user.specialProperty", "VALUE");
 
 		QUserWrapper $ = QUserWrapper.userWrapper;
 
@@ -210,24 +210,24 @@ class QuerydslPredicateBuilderUnitTests {
 		bindings.bind($.user.as(QSpecialUser.class).specialProperty)//
 				.first(QuerydslBindingsUnitTests.ContainsBinding.INSTANCE);
 
-		assertThat(builder.getPredicate(USER_TYPE, values, bindings))//
+		assertThat(this.builder.getPredicate(USER_TYPE, this.values, bindings))//
 				.isEqualTo($.user.as(QSpecialUser.class).specialProperty.contains("VALUE"));
 	}
 
 	@Test // DATACMNS-1443
 	void doesNotDropValuesContainingABlank() {
 
-		values.add("firstname", " ");
+		this.values.add("firstname", " ");
 
-		assertThat(builder.getPredicate(USER_TYPE, values, DEFAULT_BINDINGS)) //
+		assertThat(this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS)) //
 				.isEqualTo(QUser.user.firstname.eq(" "));
 	}
 
 	@Test // DATACMNS-1443
 	void dropsValuesContainingAnEmptyString() {
 
-		values.add("firstname", "");
+		this.values.add("firstname", "");
 
-		assertThat(builder.getPredicate(USER_TYPE, values, DEFAULT_BINDINGS)).isNull();
+		assertThat(this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS)).isNull();
 	}
 }

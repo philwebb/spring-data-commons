@@ -57,20 +57,20 @@ class TypedExample<T> implements Example<T> {
 		}
 
 		TypedExample<?> that = (TypedExample<?>) o;
-		if (!ObjectUtils.nullSafeEquals(probe, that.probe)) {
+		if (!ObjectUtils.nullSafeEquals(this.probe, that.probe)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(matcher, that.matcher);
+		return ObjectUtils.nullSafeEquals(this.matcher, that.matcher);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(probe);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(matcher);
+		int result = ObjectUtils.nullSafeHashCode(this.probe);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.matcher);
 		return result;
 	}
 	@Override
 	public String toString() {
-		return "TypedExample{" + "probe=" + probe + ", matcher=" + matcher + '}';
+		return "TypedExample{" + "probe=" + this.probe + ", matcher=" + this.matcher + '}';
 	}
 }

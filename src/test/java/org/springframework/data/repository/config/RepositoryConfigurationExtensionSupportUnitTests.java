@@ -55,21 +55,21 @@ class RepositoryConfigurationExtensionSupportUnitTests {
 	void doesNotConsiderRepositoryForPlainTypeStrictMatch() {
 
 		RepositoryMetadata metadata = AbstractRepositoryMetadata.getMetadata(PlainTypeRepository.class);
-		assertThat(extension.isStrictRepositoryCandidate(metadata)).isFalse();
+		assertThat(this.extension.isStrictRepositoryCandidate(metadata)).isFalse();
 	}
 
 	@Test // DATACMNS-526
 	void considersRepositoryWithAnnotatedTypeStrictMatch() {
 
 		RepositoryMetadata metadata = AbstractRepositoryMetadata.getMetadata(AnnotatedTypeRepository.class);
-		assertThat(extension.isStrictRepositoryCandidate(metadata)).isTrue();
+		assertThat(this.extension.isStrictRepositoryCandidate(metadata)).isTrue();
 	}
 
 	@Test // DATACMNS-526
 	void considersRepositoryInterfaceExtendingStoreInterfaceStrictMatch() {
 
 		RepositoryMetadata metadata = AbstractRepositoryMetadata.getMetadata(ExtendingInterface.class);
-		assertThat(extension.isStrictRepositoryCandidate(metadata)).isTrue();
+		assertThat(this.extension.isStrictRepositoryCandidate(metadata)).isTrue();
 	}
 
 	@Test // DATACMNS-1174
@@ -83,7 +83,7 @@ class RepositoryConfigurationExtensionSupportUnitTests {
 		RepositoryConfigurationSource source = new AnnotationRepositoryConfigurationSource(annotationMetadata,
 				EnableRepositories.class, resourceLoader, environment, registry);
 
-		assertThatThrownBy(() -> extension.getRepositoryConfigurations(source, resourceLoader))
+		assertThatThrownBy(() -> this.extension.getRepositoryConfigurations(source, resourceLoader))
 				.isInstanceOf(InvalidDataAccessApiUsageException.class)
 				.hasMessageContaining("Reactive Repositories are not supported");
 	}

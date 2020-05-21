@@ -182,27 +182,27 @@ public class DefaultCrudMethods implements CrudMethods {
 	}
 	@Override
 	public Optional<Method> getSaveMethod() {
-		return saveMethod;
+		return this.saveMethod;
 	}
 	@Override
 	public boolean hasSaveMethod() {
-		return saveMethod.isPresent();
+		return this.saveMethod.isPresent();
 	}
 	@Override
 	public Optional<Method> getFindAllMethod() {
-		return findAllMethod;
+		return this.findAllMethod;
 	}
 	@Override
 	public boolean hasFindAllMethod() {
-		return findAllMethod.isPresent();
+		return this.findAllMethod.isPresent();
 	}
 	@Override
 	public Optional<Method> getFindOneMethod() {
-		return findOneMethod;
+		return this.findOneMethod;
 	}
 	@Override
 	public boolean hasFindOneMethod() {
-		return findOneMethod.isPresent();
+		return this.findOneMethod.isPresent();
 	}
 	@Override
 	public boolean hasDelete() {

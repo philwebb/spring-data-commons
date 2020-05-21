@@ -114,21 +114,21 @@ public final class RepositoryFragmentConfiguration {
 		}
 
 		RepositoryFragmentConfiguration that = (RepositoryFragmentConfiguration) o;
-		if (!ObjectUtils.nullSafeEquals(interfaceName, that.interfaceName)) {
+		if (!ObjectUtils.nullSafeEquals(this.interfaceName, that.interfaceName)) {
 			return false;
 		}
 
-		if (!ObjectUtils.nullSafeEquals(className, that.className)) {
+		if (!ObjectUtils.nullSafeEquals(this.className, that.className)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(beanDefinition, that.beanDefinition);
+		return ObjectUtils.nullSafeEquals(this.beanDefinition, that.beanDefinition);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(interfaceName);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(className);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(beanDefinition);
+		int result = ObjectUtils.nullSafeHashCode(this.interfaceName);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.className);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.beanDefinition);
 		return result;
 	}
 	@Override

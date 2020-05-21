@@ -41,11 +41,11 @@ public class Association<P extends PersistentProperty<P>> {
 	}
 
 	public P getInverse() {
-		return inverse;
+		return this.inverse;
 	}
 
 	@Nullable
 	public P getObverse() {
-		return obverse;
+		return this.obverse;
 	}
 }

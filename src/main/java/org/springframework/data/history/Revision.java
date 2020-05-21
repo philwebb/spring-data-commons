@@ -66,7 +66,7 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	 * @return the revision number.
 	 */
 	public Optional<N> getRevisionNumber() {
-		return metadata.getRevisionNumber();
+		return this.metadata.getRevisionNumber();
 	}
 
 	/**
@@ -75,7 +75,7 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	 * @return the revision number.
 	 */
 	public N getRequiredRevisionNumber() {
-		return metadata.getRequiredRevisionNumber();
+		return this.metadata.getRequiredRevisionNumber();
 	}
 
 	/**
@@ -84,7 +84,7 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	 * @return Guaranteed to be not {@literal null}.
 	 */
 	public Optional<Instant> getRevisionInstant() {
-		return metadata.getRevisionInstant();
+		return this.metadata.getRevisionInstant();
 	}
 
 	/**
@@ -93,7 +93,7 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	 * @return the revision {@link Instant}. May be {@literal null}.
 	 */
 	public Instant getRequiredRevisionInstant() {
-		return metadata.getRequiredRevisionInstant();
+		return this.metadata.getRequiredRevisionInstant();
 	}
 	public int compareTo(@Nullable Revision<N, ?> that) {
 
@@ -107,7 +107,7 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	@Override
 	public String toString() {
 		return String.format("Revision %s of entity %s - Revision metadata %s",
-				getRevisionNumber().map(Object::toString).orElse("<unknown>"), entity, metadata);
+				getRevisionNumber().map(Object::toString).orElse("<unknown>"), this.entity, this.metadata);
 	}
 
 	public RevisionMetadata<N> getMetadata() {
@@ -130,16 +130,16 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 
 		Revision<?, ?> revision = (Revision<?, ?>) o;
 
-		if (!ObjectUtils.nullSafeEquals(metadata, revision.metadata)) {
+		if (!ObjectUtils.nullSafeEquals(this.metadata, revision.metadata)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(entity, revision.entity);
+		return ObjectUtils.nullSafeEquals(this.entity, revision.entity);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(metadata);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(entity);
+		int result = ObjectUtils.nullSafeHashCode(this.metadata);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.entity);
 		return result;
 	}
 }

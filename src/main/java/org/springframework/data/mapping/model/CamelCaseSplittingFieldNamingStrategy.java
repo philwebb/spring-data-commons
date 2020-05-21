@@ -59,7 +59,7 @@ public class CamelCaseSplittingFieldNamingStrategy implements FieldNamingStrateg
 			}
 		}
 
-		return StringUtils.collectionToDelimitedString(result, delimiter);
+		return StringUtils.collectionToDelimitedString(result, this.delimiter);
 	}
 
 	/**

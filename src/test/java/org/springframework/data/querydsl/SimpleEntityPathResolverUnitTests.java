@@ -33,18 +33,18 @@ class SimpleEntityPathResolverUnitTests {
 
 	@Test
 	void createsRepositoryFromDomainClassCorrectly() throws Exception {
-		assertThat(resolver.createPath(User.class)).isInstanceOf(QUser.class);
+		assertThat(this.resolver.createPath(User.class)).isInstanceOf(QUser.class);
 	}
 
 	@Test
 	void resolvesEntityPathForInnerClassCorrectly() throws Exception {
-		assertThat(resolver.createPath(NamedUser.class)).isInstanceOf(QSimpleEntityPathResolverUnitTests_NamedUser.class);
+		assertThat(this.resolver.createPath(NamedUser.class)).isInstanceOf(QSimpleEntityPathResolverUnitTests_NamedUser.class);
 	}
 
 	@Test
 	void rejectsClassWithoutQueryClassConfrmingToTheNamingScheme() {
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> resolver.createPath(QSimpleEntityPathResolverUnitTests_Sample.class));
+				.isThrownBy(() -> this.resolver.createPath(QSimpleEntityPathResolverUnitTests_Sample.class));
 	}
 
 	@Test // DATACMNS-1235

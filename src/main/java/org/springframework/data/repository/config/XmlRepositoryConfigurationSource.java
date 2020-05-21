@@ -86,19 +86,19 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	}
 	@Nullable
 	public Object getSource() {
-		return context.extractSource(element);
+		return this.context.extractSource(this.element);
 	}
 	public Streamable<String> getBasePackages() {
 
-		String attribute = element.getAttribute(BASE_PACKAGE);
+		String attribute = this.element.getAttribute(BASE_PACKAGE);
 
 		return Streamable.of(StringUtils.delimitedListToStringArray(attribute, ",", " "));
 	}
 	public Optional<Object> getQueryLookupStrategyKey() {
-		return getNullDefaultedAttribute(element, QUERY_LOOKUP_STRATEGY).map(Key::create);
+		return getNullDefaultedAttribute(this.element, QUERY_LOOKUP_STRATEGY).map(Key::create);
 	}
 	public Optional<String> getNamedQueryLocation() {
-		return getNullDefaultedAttribute(element, NAMED_QUERIES_LOCATION);
+		return getNullDefaultedAttribute(this.element, NAMED_QUERIES_LOCATION);
 	}
 
 	/**
@@ -107,33 +107,33 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	 * @return the element
 	 */
 	public Element getElement() {
-		return element;
+		return this.element;
 	}
 	@Override
 	public Streamable<TypeFilter> getExcludeFilters() {
-		return Streamable.of(excludeFilters);
+		return Streamable.of(this.excludeFilters);
 	}
 	@Override
 	protected Iterable<TypeFilter> getIncludeFilters() {
-		return includeFilters;
+		return this.includeFilters;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#getRepositoryImplementationPostfix()
 	 */
 	public Optional<String> getRepositoryImplementationPostfix() {
-		return getNullDefaultedAttribute(element, REPOSITORY_IMPL_POSTFIX);
+		return getNullDefaultedAttribute(this.element, REPOSITORY_IMPL_POSTFIX);
 	}
 	public Optional<String> getRepositoryFactoryBeanName() {
-		return getNullDefaultedAttribute(element, REPOSITORY_FACTORY_BEAN_CLASS_NAME);
+		return getNullDefaultedAttribute(this.element, REPOSITORY_FACTORY_BEAN_CLASS_NAME);
 	}
 	@Override
 	public Optional<String> getRepositoryBaseClassName() {
-		return getNullDefaultedAttribute(element, REPOSITORY_BASE_CLASS_NAME);
+		return getNullDefaultedAttribute(this.element, REPOSITORY_BASE_CLASS_NAME);
 	}
 	@Override
 	public Optional<String> getRepositoryFactoryBeanClassName() {
-		return getNullDefaultedAttribute(element, REPOSITORY_FACTORY_BEAN_CLASS_NAME);
+		return getNullDefaultedAttribute(this.element, REPOSITORY_FACTORY_BEAN_CLASS_NAME);
 	}
 
 	private Optional<String> getNullDefaultedAttribute(Element element, String attributeName) {
@@ -143,13 +143,13 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	}
 	@Override
 	public boolean shouldConsiderNestedRepositories() {
-		return getNullDefaultedAttribute(element, CONSIDER_NESTED_REPOSITORIES).map(Boolean::parseBoolean).orElse(false);
+		return getNullDefaultedAttribute(this.element, CONSIDER_NESTED_REPOSITORIES).map(Boolean::parseBoolean).orElse(false);
 	}
 	@Override
 	public Optional<String> getAttribute(String name) {
 
 		String xmlAttributeName = ParsingUtils.reconcatenateCamelCase(name, "-");
-		String attribute = element.getAttribute(xmlAttributeName);
+		String attribute = this.element.getAttribute(xmlAttributeName);
 
 		return StringUtils.hasText(attribute) ? Optional.of(attribute) : Optional.empty();
 	}
@@ -173,7 +173,7 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	@Override
 	public BootstrapMode getBootstrapMode() {
 
-		String attribute = element.getAttribute(BOOTSTRAP_MODE);
+		String attribute = this.element.getAttribute(BOOTSTRAP_MODE);
 
 		return StringUtils.hasText(attribute) //
 				? BootstrapMode.valueOf(attribute.toUpperCase(Locale.US)) //

@@ -44,7 +44,7 @@ class ParametersUnitTests {
 	@BeforeEach
 	void setUp() throws SecurityException, NoSuchMethodException {
 
-		valid = SampleDao.class.getMethod("valid", String.class);
+		this.valid = SampleDao.class.getMethod("valid", String.class);
 	}
 
 	@Test
@@ -53,7 +53,7 @@ class ParametersUnitTests {
 		Method validWithPageable = SampleDao.class.getMethod("validWithPageable", String.class, Pageable.class);
 		Method validWithSort = SampleDao.class.getMethod("validWithSort", String.class, Sort.class);
 
-		new DefaultParameters(valid);
+		new DefaultParameters(this.valid);
 		new DefaultParameters(validWithPageable);
 		new DefaultParameters(validWithSort);
 	}

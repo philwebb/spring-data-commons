@@ -37,15 +37,15 @@ class AuditedUser implements Auditable<AuditedUser, Long, LocalDateTime> {
 	LocalDateTime modifiedDate;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public boolean isNew() {
-		return id == null;
+		return this.id == null;
 	}
 
 	public Optional<AuditedUser> getCreatedBy() {
-		return Optional.ofNullable(createdBy);
+		return Optional.ofNullable(this.createdBy);
 	}
 
 	public void setCreatedBy(AuditedUser createdBy) {
@@ -53,7 +53,7 @@ class AuditedUser implements Auditable<AuditedUser, Long, LocalDateTime> {
 	}
 
 	public Optional<LocalDateTime> getCreatedDate() {
-		return Optional.ofNullable(createdDate);
+		return Optional.ofNullable(this.createdDate);
 	}
 
 	public void setCreatedDate(LocalDateTime creationDate) {
@@ -61,7 +61,7 @@ class AuditedUser implements Auditable<AuditedUser, Long, LocalDateTime> {
 	}
 
 	public Optional<AuditedUser> getLastModifiedBy() {
-		return Optional.ofNullable(modifiedBy);
+		return Optional.ofNullable(this.modifiedBy);
 	}
 
 	public void setLastModifiedBy(AuditedUser lastModifiedBy) {
@@ -69,7 +69,7 @@ class AuditedUser implements Auditable<AuditedUser, Long, LocalDateTime> {
 	}
 
 	public Optional<LocalDateTime> getLastModifiedDate() {
-		return Optional.ofNullable(modifiedDate);
+		return Optional.ofNullable(this.modifiedDate);
 	}
 
 	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {

@@ -50,8 +50,8 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	private final Map<PersistentProperty<?>, Boolean> isPropertyParameterCache = new HashMap<>();
 
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-	private final Lock read = lock.readLock();
-	private final Lock write = lock.writeLock();
+	private final Lock read = this.lock.readLock();
+	private final Lock write = this.lock.writeLock();
 
 	/**
 	 * Creates a new {@link PreferredConstructor} from the given {@link Constructor} and {@link Parameter}s.
@@ -76,7 +76,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 * @return
 	 */
 	public Constructor<T> getConstructor() {
-		return constructor;
+		return this.constructor;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 * @return
 	 */
 	public List<Parameter<Object, P>> getParameters() {
-		return parameters;
+		return this.parameters;
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 * @return
 	 */
 	public boolean hasParameters() {
-		return !parameters.isEmpty();
+		return !this.parameters.isEmpty();
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 * @return
 	 */
 	public boolean isNoArgConstructor() {
-		return parameters.isEmpty();
+		return this.parameters.isEmpty();
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 * @return
 	 */
 	public boolean isExplicitlyAnnotated() {
-		return constructor.isAnnotationPresent(PersistenceConstructor.class);
+		return this.constructor.isAnnotationPresent(PersistenceConstructor.class);
 	}
 
 	/**
@@ -130,33 +130,33 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 		try {
 
-			read.lock();
-			Boolean cached = isPropertyParameterCache.get(property);
+			this.read.lock();
+			Boolean cached = this.isPropertyParameterCache.get(property);
 
 			if (cached != null) {
 				return cached;
 			}
 
 		} finally {
-			read.unlock();
+			this.read.unlock();
 		}
 
 		try {
 
-			write.lock();
+			this.write.lock();
 
-			for (Parameter<?, P> parameter : parameters) {
+			for (Parameter<?, P> parameter : this.parameters) {
 				if (parameter.maps(property)) {
-					isPropertyParameterCache.put(property, true);
+					this.isPropertyParameterCache.put(property, true);
 					return true;
 				}
 			}
 
-			isPropertyParameterCache.put(property, false);
+			this.isPropertyParameterCache.put(property, false);
 			return false;
 
 		} finally {
-			write.unlock();
+			this.write.unlock();
 		}
 	}
 
@@ -172,11 +172,11 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 		Assert.notNull(parameter, "Parameter must not be null!");
 
-		if (parameters.isEmpty() || !parameter.isEnclosingClassParameter()) {
+		if (this.parameters.isEmpty() || !parameter.isEnclosingClassParameter()) {
 			return false;
 		}
 
-		return parameters.get(0).equals(parameter);
+		return this.parameters.get(0).equals(parameter);
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		 */
 		@Nullable
 		public String getName() {
-			return name;
+			return this.name;
 		}
 
 		/**
@@ -253,7 +253,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		 * @return
 		 */
 		public TypeInformation<T> getType() {
-			return type;
+			return this.type;
 		}
 
 		/**
@@ -262,7 +262,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		 * @return
 		 */
 		public Class<T> getRawType() {
-			return type.getType();
+			return this.type.getType();
 		}
 
 		/**
@@ -271,7 +271,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		 * @return
 		 */
 		public String getSpelExpression() {
-			return key;
+			return this.key;
 		}
 
 		/**
@@ -295,26 +295,26 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 			Parameter<?, ?> parameter = (Parameter<?, ?>) o;
 
-			if (!ObjectUtils.nullSafeEquals(name, parameter.name)) {
+			if (!ObjectUtils.nullSafeEquals(this.name, parameter.name)) {
 				return false;
 			}
 
-			if (!ObjectUtils.nullSafeEquals(type, parameter.type)) {
+			if (!ObjectUtils.nullSafeEquals(this.type, parameter.type)) {
 				return false;
 			}
 
-			if (!ObjectUtils.nullSafeEquals(key, parameter.key)) {
+			if (!ObjectUtils.nullSafeEquals(this.key, parameter.key)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(entity, parameter.entity);
+			return ObjectUtils.nullSafeEquals(this.entity, parameter.entity);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(name);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(type);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(key);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(entity);
+			int result = ObjectUtils.nullSafeHashCode(this.name);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.type);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.key);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.entity);
 			return result;
 		}
 
@@ -335,7 +335,7 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		}
 
 		private boolean isEnclosingClassParameter() {
-			return enclosingClassCache.get();
+			return this.enclosingClassCache.get();
 		}
 	}
 }

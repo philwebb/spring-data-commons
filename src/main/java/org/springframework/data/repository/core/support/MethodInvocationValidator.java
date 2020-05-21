@@ -66,12 +66,12 @@ public class MethodInvocationValidator implements MethodInterceptor {
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
 
 		Method method = invocation.getMethod();
-		Nullability nullability = nullabilityCache.get(method);
+		Nullability nullability = this.nullabilityCache.get(method);
 
 		if (nullability == null) {
 
-			nullability = Nullability.of(method, discoverer);
-			nullabilityCache.put(method, nullability);
+			nullability = Nullability.of(method, this.discoverer);
+			this.nullabilityCache.put(method, nullability);
 		}
 
 		Object[] arguments = invocation.getArguments();
@@ -129,22 +129,22 @@ public class MethodInvocationValidator implements MethodInterceptor {
 
 		String getMethodParameterName(int index) {
 
-			String parameterName = methodParameters[index].getParameterName();
+			String parameterName = this.methodParameters[index].getParameterName();
 
 			if (parameterName == null) {
 				parameterName = String.format("of type %s at index %d",
-						ClassUtils.getShortName(methodParameters[index].getParameterType()), index);
+						ClassUtils.getShortName(this.methodParameters[index].getParameterType()), index);
 			}
 
 			return parameterName;
 		}
 
 		boolean isNullableReturn() {
-			return nullableReturn;
+			return this.nullableReturn;
 		}
 
 		boolean isNullableParameter(int index) {
-			return nullableParameters[index];
+			return this.nullableParameters[index];
 		}
 
 		private static boolean isNullableParameter(MethodParameter parameter) {
@@ -178,21 +178,21 @@ public class MethodInvocationValidator implements MethodInterceptor {
 
 			Nullability that = (Nullability) o;
 
-			if (nullableReturn != that.nullableReturn) {
+			if (this.nullableReturn != that.nullableReturn) {
 				return false;
 			}
 
-			if (!ObjectUtils.nullSafeEquals(nullableParameters, that.nullableParameters)) {
+			if (!ObjectUtils.nullSafeEquals(this.nullableParameters, that.nullableParameters)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(methodParameters, that.methodParameters);
+			return ObjectUtils.nullSafeEquals(this.methodParameters, that.methodParameters);
 		}
 		@Override
 		public int hashCode() {
-			int result = (nullableReturn ? 1 : 0);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(nullableParameters);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(methodParameters);
+			int result = (this.nullableReturn ? 1 : 0);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.nullableParameters);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.methodParameters);
 			return result;
 		}
 		@Override

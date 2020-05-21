@@ -140,7 +140,7 @@ public class RepositoryComposition {
 	 * @return the new {@link RepositoryComposition}.
 	 */
 	public RepositoryComposition append(RepositoryFragment<?> fragment) {
-		return new RepositoryComposition(fragments.append(fragment), methodLookup, argumentConverter);
+		return new RepositoryComposition(this.fragments.append(fragment), this.methodLookup, this.argumentConverter);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class RepositoryComposition {
 	 * @return the new {@link RepositoryComposition}.
 	 */
 	public RepositoryComposition append(RepositoryFragments fragments) {
-		return new RepositoryComposition(this.fragments.append(fragments), methodLookup, argumentConverter);
+		return new RepositoryComposition(this.fragments.append(fragments), this.methodLookup, this.argumentConverter);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class RepositoryComposition {
 	 * @return the new {@link RepositoryComposition}.
 	 */
 	public RepositoryComposition withArgumentConverter(BiFunction<Method, Object[], Object[]> argumentConverter) {
-		return new RepositoryComposition(fragments, methodLookup, argumentConverter);
+		return new RepositoryComposition(this.fragments, this.methodLookup, argumentConverter);
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class RepositoryComposition {
 	 * @return the new {@link RepositoryComposition}.
 	 */
 	public RepositoryComposition withMethodLookup(MethodLookup methodLookup) {
-		return new RepositoryComposition(fragments, methodLookup, argumentConverter);
+		return new RepositoryComposition(this.fragments, methodLookup, this.argumentConverter);
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class RepositoryComposition {
 	 * @return {@literal true} if this {@link RepositoryComposition} contains no {@link RepositoryFragment fragments}.
 	 */
 	public boolean isEmpty() {
-		return fragments.isEmpty();
+		return this.fragments.isEmpty();
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class RepositoryComposition {
 
 		ReflectionUtils.makeAccessible(methodToCall);
 
-		return fragments.invoke(method, methodToCall, argumentConverter.apply(methodToCall, args));
+		return this.fragments.invoke(method, methodToCall, this.argumentConverter.apply(methodToCall, args));
 	}
 
 	/**
@@ -225,8 +225,8 @@ public class RepositoryComposition {
 	@Nullable
 	Method getMethod(Method method) {
 
-		return methodCache.computeIfAbsent(method,
-				key -> RepositoryFragments.findMethod(InvokedMethod.of(key), methodLookup, fragments::methods));
+		return this.methodCache.computeIfAbsent(method,
+				key -> RepositoryFragments.findMethod(InvokedMethod.of(key), this.methodLookup, this.fragments::methods));
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class RepositoryComposition {
 	 */
 	public void validateImplementation() {
 
-		fragments.stream().forEach(it -> it.getImplementation() //
+		this.fragments.stream().forEach(it -> it.getImplementation() //
 				.orElseThrow(() -> new IllegalStateException(String.format("Fragment %s has no implementation.",
 						ClassUtils.getQualifiedName(it.getSignatureContributor())))));
 	}
@@ -250,11 +250,11 @@ public class RepositoryComposition {
 		}
 
 		RepositoryComposition that = (RepositoryComposition) o;
-		return ObjectUtils.nullSafeEquals(fragments, that.fragments);
+		return ObjectUtils.nullSafeEquals(this.fragments, that.fragments);
 	}
 	@Override
 	public int hashCode() {
-		return ObjectUtils.nullSafeHashCode(fragments);
+		return ObjectUtils.nullSafeHashCode(this.fragments);
 	}
 
 	public RepositoryFragments getFragments() {
@@ -370,7 +370,7 @@ public class RepositoryComposition {
 		}
 		@Override
 		public Iterator<RepositoryFragment<?>> iterator() {
-			return fragments.iterator();
+			return this.fragments.iterator();
 		}
 
 		/**
@@ -392,18 +392,18 @@ public class RepositoryComposition {
 		@Nullable
 		public Object invoke(Method invokedMethod, Method methodToCall, Object[] args) throws Throwable {
 
-			RepositoryFragment<?> fragment = fragmentCache.computeIfAbsent(methodToCall, this::findImplementationFragment);
+			RepositoryFragment<?> fragment = this.fragmentCache.computeIfAbsent(methodToCall, this::findImplementationFragment);
 			Optional<?> optional = fragment.getImplementation();
 
 			if (!optional.isPresent()) {
 				throw new IllegalArgumentException(String.format("No implementation found for method %s", methodToCall));
 			}
 
-			ImplementationInvocationMetadata invocationMetadata = invocationMetadataCache.get(invokedMethod);
+			ImplementationInvocationMetadata invocationMetadata = this.invocationMetadataCache.get(invokedMethod);
 
 			if (invocationMetadata == null) {
 				invocationMetadata = new ImplementationInvocationMetadata(invokedMethod, methodToCall);
-				invocationMetadataCache.put(invokedMethod, invocationMetadata);
+				this.invocationMetadataCache.put(invokedMethod, invocationMetadata);
 			}
 
 			return invocationMetadata.invoke(methodToCall, optional.get(), args);
@@ -436,7 +436,7 @@ public class RepositoryComposition {
 		}
 		@Override
 		public String toString() {
-			return fragments.toString();
+			return this.fragments.toString();
 		}
 		@Override
 		public boolean equals(Object o) {
@@ -451,21 +451,21 @@ public class RepositoryComposition {
 
 			RepositoryFragments that = (RepositoryFragments) o;
 
-			if (!ObjectUtils.nullSafeEquals(fragmentCache, that.fragmentCache)) {
+			if (!ObjectUtils.nullSafeEquals(this.fragmentCache, that.fragmentCache)) {
 				return false;
 			}
 
-			if (!ObjectUtils.nullSafeEquals(invocationMetadataCache, that.invocationMetadataCache)) {
+			if (!ObjectUtils.nullSafeEquals(this.invocationMetadataCache, that.invocationMetadataCache)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(fragments, that.fragments);
+			return ObjectUtils.nullSafeEquals(this.fragments, that.fragments);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(fragmentCache);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(invocationMetadataCache);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(fragments);
+			int result = ObjectUtils.nullSafeHashCode(this.fragmentCache);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.invocationMetadataCache);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.fragments);
 			return result;
 		}
 	}

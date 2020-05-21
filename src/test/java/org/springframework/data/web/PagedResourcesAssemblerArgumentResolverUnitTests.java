@@ -53,7 +53,7 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 	void createsPlainAssemblerWithoutContext() throws Exception {
 
 		Method method = Controller.class.getMethod("noContext", PagedResourcesAssembler.class);
-		Object result = resolver.resolveArgument(new MethodParameter(method, 0), null, null, null);
+		Object result = this.resolver.resolveArgument(new MethodParameter(method, 0), null, null, null);
 
 		assertThat(result).isInstanceOf(PagedResourcesAssembler.class);
 		assertThat(result).isNotInstanceOf(MethodParameterAwarePagedResourcesAssembler.class);
@@ -107,7 +107,7 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 	void doesNotFailForTemplatedMethodMapping() throws Exception {
 
 		Method method = Controller.class.getMethod("methodWithPathVariable", PagedResourcesAssembler.class);
-		Object result = resolver.resolveArgument(new MethodParameter(method, 0), null, null, null);
+		Object result = this.resolver.resolveArgument(new MethodParameter(method, 0), null, null, null);
 
 		assertThat(result).isNotNull();
 	}
@@ -125,7 +125,7 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 			}
 		};
 
-		Object result = resolver.resolveArgument(methodParameter, null, null, null);
+		Object result = this.resolver.resolveArgument(methodParameter, null, null, null);
 
 		assertThat(result).isInstanceOf(PagedResourcesAssembler.class);
 
@@ -140,7 +140,7 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 
 		MethodParameter parameter = new MethodParameter(method, 0);
 
-		Object result = resolver.resolveArgument(parameter, null, null, null);
+		Object result = this.resolver.resolveArgument(parameter, null, null, null);
 		assertMethodParameterAwarePagedResourcesAssemblerFor(result, new MethodParameter(method, expectedIndex));
 	}
 
@@ -158,7 +158,7 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 				Pageable.class);
 
 		assertThatIllegalStateException()
-				.isThrownBy(() -> resolver.resolveArgument(new MethodParameter(method, 0), null, null, null));
+				.isThrownBy(() -> this.resolver.resolveArgument(new MethodParameter(method, 0), null, null, null));
 	}
 
 	@RequestMapping("/")

@@ -131,7 +131,7 @@ public class QueryMethod {
 	 * @return
 	 */
 	public String getName() {
-		return method.getName();
+		return this.method.getName();
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -145,7 +145,7 @@ public class QueryMethod {
 	 * @return
 	 */
 	public String getNamedQueryName() {
-		return String.format("%s.%s", getDomainClass().getSimpleName(), method.getName());
+		return String.format("%s.%s", getDomainClass().getSimpleName(), this.method.getName());
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class QueryMethod {
 	 * @return will never be {@literal null}.
 	 */
 	protected Class<?> getDomainClass() {
-		return domainClass.get();
+		return this.domainClass.get();
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class QueryMethod {
 	 * @return
 	 */
 	public Class<?> getReturnedObjectType() {
-		return metadata.getReturnedDomainClass(method);
+		return this.metadata.getReturnedDomainClass(this.method);
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class QueryMethod {
 	 * @return
 	 */
 	public boolean isCollectionQuery() {
-		return isCollectionQuery.get();
+		return this.isCollectionQuery.get();
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class QueryMethod {
 	 * @since 1.8
 	 */
 	public boolean isSliceQuery() {
-		return !isPageQuery() && org.springframework.util.ClassUtils.isAssignable(Slice.class, unwrappedReturnType);
+		return !isPageQuery() && org.springframework.util.ClassUtils.isAssignable(Slice.class, this.unwrappedReturnType);
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class QueryMethod {
 	 * @return
 	 */
 	public final boolean isPageQuery() {
-		return org.springframework.util.ClassUtils.isAssignable(Page.class, unwrappedReturnType);
+		return org.springframework.util.ClassUtils.isAssignable(Page.class, this.unwrappedReturnType);
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class QueryMethod {
 	 * @since 1.10
 	 */
 	public boolean isStreamQuery() {
-		return Stream.class.isAssignableFrom(unwrappedReturnType);
+		return Stream.class.isAssignableFrom(this.unwrappedReturnType);
 	}
 
 	/**
@@ -228,7 +228,7 @@ public class QueryMethod {
 	 * @return
 	 */
 	public Parameters<?, ?> getParameters() {
-		return parameters;
+		return this.parameters;
 	}
 
 	/**
@@ -237,11 +237,11 @@ public class QueryMethod {
 	 * @return the resultFactory
 	 */
 	public ResultProcessor getResultProcessor() {
-		return resultProcessor;
+		return this.resultProcessor;
 	}
 	@Override
 	public String toString() {
-		return method.toString();
+		return this.method.toString();
 	}
 
 	private boolean calculateIsCollectionQuery() {
@@ -250,17 +250,17 @@ public class QueryMethod {
 			return false;
 		}
 
-		Class<?> returnType = method.getReturnType();
+		Class<?> returnType = this.method.getReturnType();
 
 		if (QueryExecutionConverters.supports(returnType) && !QueryExecutionConverters.isSingleValue(returnType)) {
 			return true;
 		}
 
-		if (QueryExecutionConverters.supports(unwrappedReturnType)) {
-			return !QueryExecutionConverters.isSingleValue(unwrappedReturnType);
+		if (QueryExecutionConverters.supports(this.unwrappedReturnType)) {
+			return !QueryExecutionConverters.isSingleValue(this.unwrappedReturnType);
 		}
 
-		return ClassTypeInformation.from(unwrappedReturnType).isCollectionLike();
+		return ClassTypeInformation.from(this.unwrappedReturnType).isCollectionLike();
 	}
 
 	private static Class<? extends Object> potentiallyUnwrapReturnTypeFor(Method method) {

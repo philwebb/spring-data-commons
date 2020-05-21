@@ -186,19 +186,19 @@ public final class Range<T extends Comparable<T>> {
 
 		Assert.notNull(value, "Reference value must not be null!");
 
-		boolean greaterThanLowerBound = lowerBound.getValue() //
-				.map(it -> lowerBound.isInclusive() ? it.compareTo(value) <= 0 : it.compareTo(value) < 0) //
+		boolean greaterThanLowerBound = this.lowerBound.getValue() //
+				.map(it -> this.lowerBound.isInclusive() ? it.compareTo(value) <= 0 : it.compareTo(value) < 0) //
 				.orElse(true);
 
-		boolean lessThanUpperBound = upperBound.getValue() //
-				.map(it -> upperBound.isInclusive() ? it.compareTo(value) >= 0 : it.compareTo(value) > 0) //
+		boolean lessThanUpperBound = this.upperBound.getValue() //
+				.map(it -> this.upperBound.isInclusive() ? it.compareTo(value) >= 0 : it.compareTo(value) > 0) //
 				.orElse(true);
 
 		return greaterThanLowerBound && lessThanUpperBound;
 	}
 	@Override
 	public String toString() {
-		return String.format("%s-%s", lowerBound.toPrefixString(), upperBound.toSuffixString());
+		return String.format("%s-%s", this.lowerBound.toPrefixString(), this.upperBound.toSuffixString());
 	}
 
 	public Range.Bound<T> getLowerBound() {
@@ -221,16 +221,16 @@ public final class Range<T extends Comparable<T>> {
 
 		Range<?> range = (Range<?>) o;
 
-		if (!ObjectUtils.nullSafeEquals(lowerBound, range.lowerBound)) {
+		if (!ObjectUtils.nullSafeEquals(this.lowerBound, range.lowerBound)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(upperBound, range.upperBound);
+		return ObjectUtils.nullSafeEquals(this.upperBound, range.upperBound);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(lowerBound);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(upperBound);
+		int result = ObjectUtils.nullSafeHashCode(this.lowerBound);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.upperBound);
 		return result;
 	}
 
@@ -268,7 +268,7 @@ public final class Range<T extends Comparable<T>> {
 		 * @return
 		 */
 		public boolean isBounded() {
-			return value.isPresent();
+			return this.value.isPresent();
 		}
 
 		/**
@@ -392,7 +392,7 @@ public final class Range<T extends Comparable<T>> {
 		}
 		@Override
 		public String toString() {
-			return value.map(Object::toString).orElse("unbounded");
+			return this.value.map(Object::toString).orElse("unbounded");
 		}
 
 		public Optional<T> getValue() {
@@ -415,15 +415,15 @@ public final class Range<T extends Comparable<T>> {
 
 			Bound<?> bound = (Bound<?>) o;
 
-			if (inclusive != bound.inclusive)
+			if (this.inclusive != bound.inclusive)
 				return false;
 
-			return ObjectUtils.nullSafeEquals(value, bound.value);
+			return ObjectUtils.nullSafeEquals(this.value, bound.value);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(value);
-			result = 31 * result + (inclusive ? 1 : 0);
+			int result = ObjectUtils.nullSafeHashCode(this.value);
+			result = 31 * result + (this.inclusive ? 1 : 0);
 			return result;
 		}
 	}
@@ -451,7 +451,7 @@ public final class Range<T extends Comparable<T>> {
 		public Range<T> to(Bound<T> upper) {
 
 			Assert.notNull(upper, "Upper bound must not be null!");
-			return new Range<>(lower, upper);
+			return new Range<>(this.lower, upper);
 		}
 	}
 }

@@ -71,14 +71,14 @@ class RepositoryInvocationTestUtils {
 		@Override
 		public Object invoke(MethodInvocation invocation) throws Throwable {
 
-			if (!methods.isEmpty()) {
-				assertThat(methods).contains(invocation.getMethod());
+			if (!this.methods.isEmpty()) {
+				assertThat(this.methods).contains(invocation.getMethod());
 			} else {
 
 				Class<?> type = invocation.getMethod().getDeclaringClass();
 
-				assertThat(type).as("Expected methods invocation on %s but was invoked on %s!", expectedInvocationTarget, type)
-						.isEqualTo(expectedInvocationTarget);
+				assertThat(type).as("Expected methods invocation on %s but was invoked on %s!", this.expectedInvocationTarget, type)
+						.isEqualTo(this.expectedInvocationTarget);
 			}
 
 			return invocation.proceed();

@@ -45,35 +45,35 @@ class PropertyAccessingMethodInterceptorUnitTests {
 		Source source = new Source();
 		source.firstname = "Dave";
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("getFirstname"));
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("getFirstname"));
 		MethodInterceptor interceptor = new PropertyAccessingMethodInterceptor(source);
 
-		assertThat(interceptor.invoke(invocation)).isEqualTo("Dave");
+		assertThat(interceptor.invoke(this.invocation)).isEqualTo("Dave");
 	}
 
 	@Test // DATAREST-221
 	void throwsAppropriateExceptionIfThePropertyCannotBeFound() throws Throwable {
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("getLastname"));
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("getLastname"));
 		assertThatExceptionOfType(NotReadablePropertyException.class)
-				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(new Source()).invoke(invocation));
+				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(new Source()).invoke(this.invocation));
 	}
 
 	@Test // DATAREST-221
 	void forwardsObjectMethodInvocation() throws Throwable {
 
-		when(invocation.getMethod()).thenReturn(Object.class.getMethod("toString"));
+		when(this.invocation.getMethod()).thenReturn(Object.class.getMethod("toString"));
 
-		new PropertyAccessingMethodInterceptor(new Source()).invoke(invocation);
+		new PropertyAccessingMethodInterceptor(new Source()).invoke(this.invocation);
 	}
 
 	@Test // DATACMNS-630
 	void rejectsNonAccessorMethod() throws Throwable {
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("someGarbage"));
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("someGarbage"));
 
 		assertThatIllegalStateException()
-				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(new Source()).invoke(invocation));
+				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(new Source()).invoke(this.invocation));
 	}
 
 	@Test // DATACMNS-820
@@ -82,10 +82,10 @@ class PropertyAccessingMethodInterceptorUnitTests {
 		Source source = new Source();
 		source.firstname = "Dave";
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("setFirstname", String.class));
-		when(invocation.getArguments()).thenReturn(new Object[] { "Carl" });
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("setFirstname", String.class));
+		when(this.invocation.getArguments()).thenReturn(new Object[] { "Carl" });
 
-		new PropertyAccessingMethodInterceptor(source).invoke(invocation);
+		new PropertyAccessingMethodInterceptor(source).invoke(this.invocation);
 
 		assertThat(source.firstname).isEqualTo("Carl");
 	}
@@ -95,21 +95,21 @@ class PropertyAccessingMethodInterceptorUnitTests {
 
 		Source source = new Source();
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("setFirstname", String.class));
-		when(invocation.getArguments()).thenReturn(new Object[0]);
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("setFirstname", String.class));
+		when(this.invocation.getArguments()).thenReturn(new Object[0]);
 
 		assertThatIllegalStateException()
-				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(source).invoke(invocation));
+				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(source).invoke(this.invocation));
 	}
 
 	@Test // DATACMNS-820
 	void throwsAppropriateExceptionIfThePropertyCannotWritten() throws Throwable {
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("setGarbage", String.class));
-		when(invocation.getArguments()).thenReturn(new Object[] { "Carl" });
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("setGarbage", String.class));
+		when(this.invocation.getArguments()).thenReturn(new Object[] { "Carl" });
 
 		assertThatExceptionOfType(NotWritablePropertyException.class)
-				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(new Source()).invoke(invocation));
+				.isThrownBy(() -> new PropertyAccessingMethodInterceptor(new Source()).invoke(this.invocation));
 	}
 
 	static class Source {

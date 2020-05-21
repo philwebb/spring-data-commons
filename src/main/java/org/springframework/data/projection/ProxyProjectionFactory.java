@@ -107,7 +107,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 		factory.addAdvice(new TargetAwareMethodInterceptor(source.getClass()));
 		factory.addAdvice(getMethodInterceptor(source, projectionType));
 
-		return (T) factory.getProxy(classLoader == null ? ClassUtils.getDefaultClassLoader() : classLoader);
+		return (T) factory.getProxy(this.classLoader == null ? ClassUtils.getDefaultClassLoader() : this.classLoader);
 	}
 	@Override
 	public <T> T createProjection(Class<T> projectionType) {
@@ -119,7 +119,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	@Override
 	public final ProjectionInformation getProjectionInformation(Class<?> projectionType) {
 
-		return projectionInformationCache.computeIfAbsent(projectionType, this::createProjectionInformation);
+		return this.projectionInformationCache.computeIfAbsent(projectionType, this::createProjectionInformation);
 	}
 
 	/**
@@ -159,7 +159,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 				.createMethodInterceptor(source, projectionType);
 
 		return new ProjectingMethodInterceptor(this,
-				postProcessAccessorInterceptor(propertyInvocationInterceptor, source, projectionType), conversionService);
+				postProcessAccessorInterceptor(propertyInvocationInterceptor, source, projectionType), this.conversionService);
 	}
 
 	/**
@@ -171,7 +171,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	 */
 	private MethodInterceptorFactory getFactoryFor(Object source, Class<?> projectionType) {
 
-		for (MethodInterceptorFactory factory : factories) {
+		for (MethodInterceptorFactory factory : this.factories) {
 			if (factory.supports(source, projectionType)) {
 				return factory;
 			}
@@ -217,7 +217,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
 
 			if (invocation.getMethod().equals(GET_TARGET_CLASS_METHOD)) {
-				return targetType;
+				return this.targetType;
 			} else if (invocation.getMethod().equals(GET_TARGET_METHOD)) {
 				return invocation.getThis();
 			}

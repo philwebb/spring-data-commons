@@ -50,8 +50,8 @@ class AuditingBeanDefinitionRegistrarSupportUnitTests {
 		AuditingBeanDefinitionRegistrarSupport registrar = new DummyAuditingBeanDefinitionRegistrarSupport();
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(SampleConfig.class);
 
-		registrar.registerBeanDefinitions(metadata, registry);
-		verify(registry, times(1)).registerBeanDefinition(anyString(), any(BeanDefinition.class));
+		registrar.registerBeanDefinitions(metadata, this.registry);
+		verify(this.registry, times(1)).registerBeanDefinition(anyString(), any(BeanDefinition.class));
 	}
 
 	@Test // DATACMNS-1453
@@ -60,7 +60,7 @@ class AuditingBeanDefinitionRegistrarSupportUnitTests {
 		AuditingBeanDefinitionRegistrarSupport registrar = new DummyAuditingBeanDefinitionRegistrarSupport();
 
 		assertThatExceptionOfType(IllegalArgumentException.class) //
-				.isThrownBy(() -> registrar.registerBeanDefinitions(null, registry));
+				.isThrownBy(() -> registrar.registerBeanDefinitions(null, this.registry));
 	}
 
 	@Test // DATACMNS-1453

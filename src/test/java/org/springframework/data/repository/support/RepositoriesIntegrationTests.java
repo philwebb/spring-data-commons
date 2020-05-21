@@ -42,15 +42,15 @@ class RepositoriesIntegrationTests {
 	@Test
 	void detectsRepositories() {
 
-		assertThat(repositories).isNotNull();
-		assertThat(repositories.hasRepositoryFor(User.class)).isTrue();
-		assertThat(repositories.hasRepositoryFor(Product.class)).isTrue();
+		assertThat(this.repositories).isNotNull();
+		assertThat(this.repositories.hasRepositoryFor(User.class)).isTrue();
+		assertThat(this.repositories.hasRepositoryFor(Product.class)).isTrue();
 	}
 
 	@Test // DATACMNS-376
 	void returnsPersistentEntityForProxiedClass() {
 
 		User user = mock(User.class);
-		assertThat(repositories.getPersistentEntity(user.getClass())).isNotNull();
+		assertThat(this.repositories.getPersistentEntity(user.getClass())).isNotNull();
 	}
 }

@@ -40,7 +40,7 @@ class PolygonUnitTests {
 	@Test // DATACMNS-437
 	void createsSimplePolygon() {
 
-		Polygon polygon = new Polygon(third, second, first);
+		Polygon polygon = new Polygon(this.third, this.second, this.first);
 
 		assertThat(polygon).isNotNull();
 	}
@@ -48,8 +48,8 @@ class PolygonUnitTests {
 	@Test // DATACMNS-437
 	void isEqualForSamePoints() {
 
-		Polygon left = new Polygon(third, second, first);
-		Polygon right = new Polygon(third, second, first);
+		Polygon left = new Polygon(this.third, this.second, this.first);
+		Polygon right = new Polygon(this.third, this.second, this.first);
 
 		assertThat(left).isEqualTo(right);
 		assertThat(right).isEqualTo(left);
@@ -58,14 +58,14 @@ class PolygonUnitTests {
 	@Test // DATACMNS-437
 	void testToString() {
 
-		assertThat(new Polygon(third, second, first).toString()).isEqualTo(
+		assertThat(new Polygon(this.third, this.second, this.first).toString()).isEqualTo(
 				"Polygon: [Point [x=3.000000, y=3.000000],Point [x=2.000000, y=2.000000],Point [x=1.000000, y=1.000000]]");
 	}
 
 	@Test // DATACMNS-482
 	void testSerialization() {
 
-		Polygon polygon = new Polygon(third, second, first);
+		Polygon polygon = new Polygon(this.third, this.second, this.first);
 
 		Polygon serialized = (Polygon) SerializationUtils.deserialize(SerializationUtils.serialize(polygon));
 		assertThat(serialized).isEqualTo(polygon);

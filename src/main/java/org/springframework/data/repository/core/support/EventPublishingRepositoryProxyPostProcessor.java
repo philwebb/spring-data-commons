@@ -70,7 +70,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 			return;
 		}
 
-		factory.addAdvice(new EventPublishingMethodInterceptor(method, publisher));
+		factory.addAdvice(new EventPublishingMethodInterceptor(method, this.publisher));
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 			Object eventSource = arguments.length == 1 ? arguments[0] : result;
 
-			eventMethod.publishEventsFrom(eventSource, publisher);
+			this.eventMethod.publishEventsFrom(eventSource, this.publisher);
 
 			return result;
 		}
@@ -172,12 +172,12 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 			for (Object aggregateRoot : asCollection(object)) {
 
-				for (Object event : asCollection(ReflectionUtils.invokeMethod(publishingMethod, aggregateRoot))) {
+				for (Object event : asCollection(ReflectionUtils.invokeMethod(this.publishingMethod, aggregateRoot))) {
 					publisher.publishEvent(event);
 				}
 
-				if (clearingMethod != null) {
-					ReflectionUtils.invokeMethod(clearingMethod, aggregateRoot);
+				if (this.clearingMethod != null) {
+					ReflectionUtils.invokeMethod(this.clearingMethod, aggregateRoot);
 				}
 			}
 		}

@@ -212,7 +212,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		private String getPrivateProperty() {
-			return privateProperty;
+			return this.privateProperty;
 		}
 
 		private void setPrivateProperty(String privateProperty) {
@@ -220,7 +220,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		String getPackageDefaultProperty() {
-			return packageDefaultProperty;
+			return this.packageDefaultProperty;
 		}
 
 		void setPackageDefaultProperty(String packageDefaultProperty) {
@@ -228,7 +228,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		protected String getProtectedProperty() {
-			return protectedProperty;
+			return this.protectedProperty;
 		}
 
 		protected void setProtectedProperty(String protectedProperty) {
@@ -236,7 +236,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		public String getPublicProperty() {
-			return publicProperty;
+			return this.publicProperty;
 		}
 
 		public void setPublicProperty(String publicProperty) {
@@ -245,15 +245,15 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 
 		@AccessType(Type.PROPERTY)
 		public String getSyntheticProperty() {
-			return backing;
+			return this.backing;
 		}
 
 		public void setSyntheticProperty(String syntheticProperty) {
-			backing = syntheticProperty;
+			this.backing = syntheticProperty;
 		}
 
 		public String getWither() {
-			return wither;
+			return this.wither;
 		}
 
 		public InnerPrivateType withWither(String wither) {
@@ -295,7 +295,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		private String getPrivateProperty() {
-			return privateProperty;
+			return this.privateProperty;
 		}
 
 		private void setPrivateProperty(String privateProperty) {
@@ -303,7 +303,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		String getPackageDefaultProperty() {
-			return packageDefaultProperty;
+			return this.packageDefaultProperty;
 		}
 
 		void setPackageDefaultProperty(String packageDefaultProperty) {
@@ -311,7 +311,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		protected String getProtectedProperty() {
-			return protectedProperty;
+			return this.protectedProperty;
 		}
 
 		protected void setProtectedProperty(String protectedProperty) {
@@ -319,7 +319,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		public String getPublicProperty() {
-			return publicProperty;
+			return this.publicProperty;
 		}
 
 		public void setPublicProperty(String publicProperty) {
@@ -328,15 +328,15 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 
 		@AccessType(Type.PROPERTY)
 		public String getSyntheticProperty() {
-			return backing;
+			return this.backing;
 		}
 
 		public void setSyntheticProperty(String syntheticProperty) {
-			backing = syntheticProperty;
+			this.backing = syntheticProperty;
 		}
 
 		public String getWither() {
-			return wither;
+			return this.wither;
 		}
 
 		public InnerPrivateType withWither(String wither) {
@@ -373,7 +373,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		private String getPrivateProperty() {
-			return privateProperty;
+			return this.privateProperty;
 		}
 
 		private void setPrivateProperty(String privateProperty) {
@@ -381,7 +381,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		String getPackageDefaultProperty() {
-			return packageDefaultProperty;
+			return this.packageDefaultProperty;
 		}
 
 		void setPackageDefaultProperty(String packageDefaultProperty) {
@@ -389,7 +389,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		protected String getProtectedProperty() {
-			return protectedProperty;
+			return this.protectedProperty;
 		}
 
 		protected void setProtectedProperty(String protectedProperty) {
@@ -397,7 +397,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		public String getPublicProperty() {
-			return publicProperty;
+			return this.publicProperty;
 		}
 
 		public void setPublicProperty(String publicProperty) {
@@ -406,15 +406,15 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 
 		@AccessType(Type.PROPERTY)
 		public String getSyntheticProperty() {
-			return backing;
+			return this.backing;
 		}
 
 		public void setSyntheticProperty(String syntheticProperty) {
-			backing = syntheticProperty;
+			this.backing = syntheticProperty;
 		}
 
 		public String getWither() {
-			return wither;
+			return this.wither;
 		}
 
 		public InnerPrivateType withWither(String wither) {
@@ -451,7 +451,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		private String getPrivateProperty() {
-			return privateProperty;
+			return this.privateProperty;
 		}
 
 		private void setPrivateProperty(String privateProperty) {
@@ -459,7 +459,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		String getPackageDefaultProperty() {
-			return packageDefaultProperty;
+			return this.packageDefaultProperty;
 		}
 
 		void setPackageDefaultProperty(String packageDefaultProperty) {
@@ -467,7 +467,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		protected String getProtectedProperty() {
-			return protectedProperty;
+			return this.protectedProperty;
 		}
 
 		protected void setProtectedProperty(String protectedProperty) {
@@ -475,7 +475,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		}
 
 		public String getPublicProperty() {
-			return publicProperty;
+			return this.publicProperty;
 		}
 
 		public void setPublicProperty(String publicProperty) {
@@ -484,15 +484,15 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 
 		@AccessType(Type.PROPERTY)
 		public String getSyntheticProperty() {
-			return backing;
+			return this.backing;
 		}
 
 		public void setSyntheticProperty(String syntheticProperty) {
-			backing = syntheticProperty;
+			this.backing = syntheticProperty;
 		}
 
 		public String getWither() {
-			return wither;
+			return this.wither;
 		}
 
 		public InnerPrivateType withWither(String wither) {

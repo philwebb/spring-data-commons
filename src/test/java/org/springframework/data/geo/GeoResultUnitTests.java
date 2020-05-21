@@ -36,18 +36,18 @@ class GeoResultUnitTests {
 	@Test // DATACMNS-437
 	void considersSameInstanceEqual() {
 
-		assertThat(first.equals(first)).isTrue();
+		assertThat(this.first.equals(this.first)).isTrue();
 	}
 
 	@Test // DATACMNS-437
 	void considersSameValuesAsEqual() {
 
-		assertThat(first.equals(second)).isTrue();
-		assertThat(second.equals(first)).isTrue();
-		assertThat(first.equals(third)).isFalse();
-		assertThat(third.equals(first)).isFalse();
-		assertThat(first.equals(fourth)).isFalse();
-		assertThat(fourth.equals(first)).isFalse();
+		assertThat(this.first.equals(this.second)).isTrue();
+		assertThat(this.second.equals(this.first)).isTrue();
+		assertThat(this.first.equals(this.third)).isFalse();
+		assertThat(this.third.equals(this.first)).isFalse();
+		assertThat(this.first.equals(this.fourth)).isFalse();
+		assertThat(this.fourth.equals(this.first)).isFalse();
 	}
 
 	@Test

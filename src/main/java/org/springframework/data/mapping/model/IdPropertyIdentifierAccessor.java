@@ -55,6 +55,6 @@ public class IdPropertyIdentifierAccessor extends TargetAwareIdentifierAccessor 
 	}
 	@Nullable
 	public Object getIdentifier() {
-		return accessor.getProperty(idProperty);
+		return this.accessor.getProperty(this.idProperty);
 	}
 }

@@ -62,7 +62,7 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	@Override
 	public Object invoke(@SuppressWarnings("null") @Nonnull MethodInvocation invocation) throws Throwable {
 
-		Object result = delegate.invoke(invocation);
+		Object result = this.delegate.invoke(invocation);
 
 		if (result == null) {
 			return null;
@@ -76,7 +76,7 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 		} else if (type.isMap()) {
 			return projectMapValues((Map<?, ?>) result, type);
 		} else if (conversionRequiredAndPossible(result, rawType)) {
-			return conversionService.convert(result, rawType);
+			return this.conversionService.convert(result, rawType);
 		} else {
 			return getProjection(result, rawType);
 		}
@@ -130,7 +130,7 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	@Nullable
 	private Object getProjection(Object result, Class<?> returnType) {
 		return result == null || ClassUtils.isAssignable(returnType, result.getClass()) ? result
-				: factory.createProjection(returnType, result);
+				: this.factory.createProjection(returnType, result);
 	}
 
 	/**
@@ -147,7 +147,7 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 			return false;
 		}
 
-		return conversionService.canConvert(source.getClass(), targetType);
+		return this.conversionService.canConvert(source.getClass(), targetType);
 	}
 
 	/**

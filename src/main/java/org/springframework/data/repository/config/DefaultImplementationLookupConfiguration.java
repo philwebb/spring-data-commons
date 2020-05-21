@@ -60,34 +60,34 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 	}
 	@Override
 	public String getImplementationBeanName() {
-		return beanName;
+		return this.beanName;
 	}
 	@Override
 	public String getImplementationPostfix() {
-		return config.getImplementationPostfix();
+		return this.config.getImplementationPostfix();
 	}
 	@Override
 	public Streamable<TypeFilter> getExcludeFilters() {
-		return config.getExcludeFilters().and(new AnnotationTypeFilter(NoRepositoryBean.class));
+		return this.config.getExcludeFilters().and(new AnnotationTypeFilter(NoRepositoryBean.class));
 	}
 	@Override
 	public MetadataReaderFactory getMetadataReaderFactory() {
-		return config.getMetadataReaderFactory();
+		return this.config.getMetadataReaderFactory();
 	}
 	@Override
 	public Streamable<String> getBasePackages() {
-		return Streamable.of(ClassUtils.getPackageName(interfaceName));
+		return Streamable.of(ClassUtils.getPackageName(this.interfaceName));
 	}
 	@Override
 	public String getImplementationClassName() {
-		return ClassUtils.getShortName(interfaceName).concat(getImplementationPostfix());
+		return ClassUtils.getShortName(this.interfaceName).concat(getImplementationPostfix());
 	}
 	@Override
 	public boolean hasMatchingBeanName(BeanDefinition definition) {
 
 		Assert.notNull(definition, "BeanDefinition must not be null!");
 
-		return beanName != null && beanName.equals(config.generateBeanName(definition));
+		return this.beanName != null && this.beanName.equals(this.config.generateBeanName(definition));
 	}
 
 	/*

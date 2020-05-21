@@ -52,7 +52,7 @@ class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMap<K, V
 	}
 	@Override
 	public BiConsumer<MultiValueMap<K, V>, T> accumulator() {
-		return (map, t) -> map.add(keyFunction.apply(t), valueFunction.apply(t));
+		return (map, t) -> map.add(this.keyFunction.apply(t), this.valueFunction.apply(t));
 	}
 	@Override
 	public BinaryOperator<MultiValueMap<K, V>> combiner() {

@@ -59,7 +59,7 @@ class AnnotationAttribute {
 	 * @return the annotationType
 	 */
 	public Class<? extends Annotation> getAnnotationType() {
-		return annotationType;
+		return this.annotationType;
 	}
 
 	/**
@@ -71,7 +71,7 @@ class AnnotationAttribute {
 	public Optional<Object> getValueFrom(MethodParameter parameter) {
 
 		Assert.notNull(parameter, "MethodParameter must not be null!");
-		Annotation annotation = parameter.getParameterAnnotation(annotationType);
+		Annotation annotation = parameter.getParameterAnnotation(this.annotationType);
 
 		return Optional.ofNullable(annotation).map(this::getValueFrom);
 	}
@@ -85,7 +85,7 @@ class AnnotationAttribute {
 	public Optional<Object> getValueFrom(AnnotatedElement annotatedElement) {
 
 		Assert.notNull(annotatedElement, "Annotated element must not be null!");
-		Annotation annotation = annotatedElement.getAnnotation(annotationType);
+		Annotation annotation = annotatedElement.getAnnotation(this.annotationType);
 
 		return Optional.ofNullable(annotation).map(it -> getValueFrom(annotation));
 	}
@@ -99,7 +99,7 @@ class AnnotationAttribute {
 	public Object getValueFrom(Annotation annotation) {
 
 		Assert.notNull(annotation, "Annotation must not be null!");
-		return attributeName.map(it -> AnnotationUtils.getValue(annotation, it))
+		return this.attributeName.map(it -> AnnotationUtils.getValue(annotation, it))
 				.orElseGet(() -> AnnotationUtils.getValue(annotation));
 	}
 }

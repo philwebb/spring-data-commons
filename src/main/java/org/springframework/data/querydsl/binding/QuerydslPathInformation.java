@@ -44,22 +44,22 @@ class QuerydslPathInformation implements PathInformation {
 	}
 	@Override
 	public Class<?> getLeafType() {
-		return path.getType();
+		return this.path.getType();
 	}
 	@Override
 	public Class<?> getLeafParentType() {
 
-		Path<?> parent = path.getMetadata().getParent();
+		Path<?> parent = this.path.getMetadata().getParent();
 
 		if (parent == null) {
-			throw new IllegalStateException(String.format("Could not obtain metadata for parent node of %s!", path));
+			throw new IllegalStateException(String.format("Could not obtain metadata for parent node of %s!", this.path));
 		}
 
 		return parent.getType();
 	}
 	@Override
 	public String getLeafProperty() {
-		return path.getMetadata().getElement().toString();
+		return this.path.getMetadata().getElement().toString();
 	}
 	@Nullable
 	@Override
@@ -68,10 +68,10 @@ class QuerydslPathInformation implements PathInformation {
 	}
 	@Override
 	public String toDotPath() {
-		return QuerydslUtils.toDotPath(path);
+		return QuerydslUtils.toDotPath(this.path);
 	}
 	public Path<?> reifyPath(EntityPathResolver resolver) {
-		return path;
+		return this.path;
 	}
 	@Override
 	public boolean equals(Object o) {
@@ -85,11 +85,11 @@ class QuerydslPathInformation implements PathInformation {
 		}
 
 		QuerydslPathInformation that = (QuerydslPathInformation) o;
-		return ObjectUtils.nullSafeEquals(path, that.path);
+		return ObjectUtils.nullSafeEquals(this.path, that.path);
 	}
 	@Override
 	public int hashCode() {
-		return ObjectUtils.nullSafeHashCode(path);
+		return ObjectUtils.nullSafeHashCode(this.path);
 	}
 	@Override
 	public String toString() {

@@ -91,10 +91,10 @@ public class SpELContext {
 	public EvaluationContext getEvaluationContext(Object source) {
 
 		StandardEvaluationContext evaluationContext = new StandardEvaluationContext(source);
-		evaluationContext.addPropertyAccessor(accessor);
+		evaluationContext.addPropertyAccessor(this.accessor);
 
-		if (factory != null) {
-			evaluationContext.setBeanResolver(new BeanFactoryResolver(factory));
+		if (this.factory != null) {
+			evaluationContext.setBeanResolver(new BeanFactoryResolver(this.factory));
 		}
 
 		return evaluationContext;

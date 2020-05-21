@@ -120,7 +120,7 @@ public class MappingInstantiationException extends RuntimeException {
 	 * @return the entityType
 	 */
 	public Optional<Class<?>> getEntityType() {
-		return Optional.ofNullable(entityType);
+		return Optional.ofNullable(this.entityType);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class MappingInstantiationException extends RuntimeException {
 	 * @return the constructor
 	 */
 	public Optional<Constructor<?>> getConstructor() {
-		return Optional.ofNullable(constructor);
+		return Optional.ofNullable(this.constructor);
 	}
 
 	/**
@@ -138,6 +138,6 @@ public class MappingInstantiationException extends RuntimeException {
 	 * @return the constructorArguments
 	 */
 	public List<Object> getConstructorArguments() {
-		return constructorArguments;
+		return this.constructorArguments;
 	}
 }

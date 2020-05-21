@@ -98,7 +98,7 @@ class QuerydslBindingsFactoryUnitTests {
 	void rejectsPredicateResolutionIfDomainTypeCantBeAutoDetected() {
 
 		assertThatExceptionOfType(IllegalStateException.class)//
-				.isThrownBy(() -> factory.createBindingsFor(ClassTypeInformation.from(ModelAndView.class)))//
+				.isThrownBy(() -> this.factory.createBindingsFor(ClassTypeInformation.from(ModelAndView.class)))//
 				.withMessageContaining(QuerydslPredicate.class.getSimpleName())//
 				.withMessageContaining("root");
 

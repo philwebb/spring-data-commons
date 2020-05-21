@@ -34,7 +34,7 @@ class SimpleTypeInformationMapperUnitTests {
 	@Test
 	void resolvesTypeByLoadingClass() {
 
-		TypeInformation<?> type = mapper.resolveTypeFrom(Alias.of("java.lang.String"));
+		TypeInformation<?> type = this.mapper.resolveTypeFrom(Alias.of("java.lang.String"));
 
 		TypeInformation<?> expected = ClassTypeInformation.from(String.class);
 
@@ -43,24 +43,24 @@ class SimpleTypeInformationMapperUnitTests {
 
 	@Test
 	void returnsNullForNonStringKey() {
-		assertThat(mapper.resolveTypeFrom(Alias.of(new Object()))).isNull();
+		assertThat(this.mapper.resolveTypeFrom(Alias.of(new Object()))).isNull();
 	}
 
 	@Test
 	void returnsNullForEmptyTypeKey() {
-		assertThat(mapper.resolveTypeFrom(Alias.of(""))).isNull();
+		assertThat(this.mapper.resolveTypeFrom(Alias.of(""))).isNull();
 	}
 
 	@Test
 	void returnsNullForUnloadableClass() {
 
-		assertThat(mapper.resolveTypeFrom(Alias.of("Foo"))).isNull();
+		assertThat(this.mapper.resolveTypeFrom(Alias.of("Foo"))).isNull();
 	}
 
 	@Test
 	void usesFullyQualifiedClassNameAsTypeKey() {
 
-		assertThat(mapper.createAliasFor(ClassTypeInformation.from(String.class)))
+		assertThat(this.mapper.createAliasFor(ClassTypeInformation.from(String.class)))
 				.isEqualTo(Alias.of(String.class.getName()));
 	}
 }

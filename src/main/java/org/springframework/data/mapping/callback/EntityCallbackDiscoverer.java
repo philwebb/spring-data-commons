@@ -166,11 +166,11 @@ class EntityCallbackDiscoverer {
 	@Nullable
 	ResolvableType resolveDeclaredEntityType(Class<?> callbackType) {
 
-		ResolvableType eventType = entityTypeCache.get(callbackType);
+		ResolvableType eventType = this.entityTypeCache.get(callbackType);
 
 		if (eventType == null) {
 			eventType = ResolvableType.forClass(callbackType).as(EntityCallback.class).getGeneric();
-			entityTypeCache.put(callbackType, eventType);
+			this.entityTypeCache.put(callbackType, eventType);
 		}
 
 		return (eventType != ResolvableType.NONE ? eventType : null);
@@ -310,7 +310,7 @@ class EntityCallbackDiscoverer {
 			this.retrievalMutex = cbf.getSingletonMutex();
 		}
 
-		defaultRetriever.discoverEntityCallbacks(this.beanFactory);
+		this.defaultRetriever.discoverEntityCallbacks(this.beanFactory);
 		this.retrieverCache.clear();
 	}
 
@@ -355,9 +355,9 @@ class EntityCallbackDiscoverer {
 
 	private BeanFactory getRequiredBeanFactory() {
 
-		Assert.state(beanFactory != null,
+		Assert.state(this.beanFactory != null,
 				"EntityCallbacks cannot retrieve callback beans because it is not associated with a BeanFactory");
-		return beanFactory;
+		return this.beanFactory;
 	}
 
 	/**
@@ -382,13 +382,13 @@ class EntityCallbackDiscoverer {
 
 			if (this.entityCallbackBeans.isEmpty()) {
 
-				if (cachedEntityCallbacks.size() != entityCallbacks.size()) {
-					cachedEntityCallbacks.clear();
-					cachedEntityCallbacks.addAll(entityCallbacks);
-					AnnotationAwareOrderComparator.sort(cachedEntityCallbacks);
+				if (this.cachedEntityCallbacks.size() != this.entityCallbacks.size()) {
+					this.cachedEntityCallbacks.clear();
+					this.cachedEntityCallbacks.addAll(this.entityCallbacks);
+					AnnotationAwareOrderComparator.sort(this.cachedEntityCallbacks);
 				}
 
-				return cachedEntityCallbacks;
+				return this.cachedEntityCallbacks;
 			}
 
 			List<EntityCallback<?>> allCallbacks = new ArrayList<>(
@@ -418,7 +418,7 @@ class EntityCallbackDiscoverer {
 		}
 
 		void discoverEntityCallbacks(BeanFactory beanFactory) {
-			beanFactory.getBeanProvider(EntityCallback.class).stream().forEach(entityCallbacks::add);
+			beanFactory.getBeanProvider(EntityCallback.class).stream().forEach(this.entityCallbacks::add);
 		}
 	}
 
@@ -459,8 +459,8 @@ class EntityCallbackDiscoverer {
 		@Override
 		public int compareTo(CallbackCacheKey other) {
 
-			return Comparators.<CallbackCacheKey> nullsHigh().thenComparing(it -> callbackType.toString())
-					.thenComparing(it -> entityType.getName()).compare(this, other);
+			return Comparators.<CallbackCacheKey> nullsHigh().thenComparing(it -> this.callbackType.toString())
+					.thenComparing(it -> this.entityType.getName()).compare(this, other);
 
 		}
 	}

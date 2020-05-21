@@ -81,17 +81,17 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 		this.revisionType = revisionType;
 	}
 	public Optional<N> getRevisionNumber() {
-		return revisionNumber.get();
+		return this.revisionNumber.get();
 	}
 	public Optional<Instant> getRevisionInstant() {
-		return revisionDate.get().map(AnnotationRevisionMetadata::convertToInstant);
+		return this.revisionDate.get().map(AnnotationRevisionMetadata::convertToInstant);
 	}
 	public RevisionType getRevisionType() {
-		return revisionType;
+		return this.revisionType;
 	}
 	@SuppressWarnings("unchecked")
 	public <T> T getDelegate() {
-		return (T) entity;
+		return (T) this.entity;
 	}
 
 	private static <T> Lazy<Optional<T>> detectAnnotation(Object entity, Class<? extends Annotation> annotationType) {

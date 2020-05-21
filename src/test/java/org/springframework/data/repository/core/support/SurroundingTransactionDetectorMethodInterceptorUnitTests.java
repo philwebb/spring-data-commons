@@ -55,7 +55,7 @@ class SurroundingTransactionDetectorMethodInterceptorUnitTests {
 		}
 		public Object proceed() throws Throwable {
 
-			assertThat(INSTANCE.isSurroundingTransactionActive()).isEqualTo(transactionActive);
+			assertThat(INSTANCE.isSurroundingTransactionActive()).isEqualTo(this.transactionActive);
 
 			return null;
 		}

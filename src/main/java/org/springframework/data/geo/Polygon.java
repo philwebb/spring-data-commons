@@ -106,14 +106,14 @@ public class Polygon implements Iterable<Point>, Shape {
 		}
 
 		Polygon that = (Polygon) o;
-		return ObjectUtils.nullSafeEquals(points, that.points);
+		return ObjectUtils.nullSafeEquals(this.points, that.points);
 	}
 	@Override
 	public int hashCode() {
-		return ObjectUtils.nullSafeHashCode(points);
+		return ObjectUtils.nullSafeHashCode(this.points);
 	}
 	@Override
 	public String toString() {
-		return String.format("Polygon: [%s]", StringUtils.collectionToCommaDelimitedString(points));
+		return String.format("Polygon: [%s]", StringUtils.collectionToCommaDelimitedString(this.points));
 	}
 }

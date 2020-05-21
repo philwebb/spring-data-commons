@@ -89,75 +89,75 @@ class RepositoryFactorySupportUnitTests {
 
 	@BeforeEach
 	void setUp() {
-		factory = new DummyRepositoryFactory(backingRepo);
+		this.factory = new DummyRepositoryFactory(this.backingRepo);
 	}
 
 	@Test
 	void invokesCustomQueryCreationListenerForSpecialRepositoryQueryOnly() {
 
-		Mockito.reset(factory.strategy);
+		Mockito.reset(this.factory.strategy);
 
-		when(factory.strategy.resolveQuery(any(Method.class), any(RepositoryMetadata.class), any(ProjectionFactory.class),
-				any(NamedQueries.class))).thenReturn(factory.queryOne, factory.queryTwo);
+		when(this.factory.strategy.resolveQuery(any(Method.class), any(RepositoryMetadata.class), any(ProjectionFactory.class),
+				any(NamedQueries.class))).thenReturn(this.factory.queryOne, this.factory.queryTwo);
 
-		factory.addQueryCreationListener(listener);
-		factory.addQueryCreationListener(otherListener);
+		this.factory.addQueryCreationListener(this.listener);
+		this.factory.addQueryCreationListener(this.otherListener);
 
-		factory.getRepository(ObjectRepository.class);
+		this.factory.getRepository(ObjectRepository.class);
 
-		verify(listener, times(1)).onCreation(any(MyRepositoryQuery.class));
-		verify(otherListener, times(2)).onCreation(any(RepositoryQuery.class));
+		verify(this.listener, times(1)).onCreation(any(MyRepositoryQuery.class));
+		verify(this.otherListener, times(2)).onCreation(any(RepositoryQuery.class));
 	}
 
 	@Test // DATACMNS-1538
 	void invokesCustomRepositoryProxyPostProcessor() {
 
-		factory.addRepositoryProxyPostProcessor(repositoryPostProcessor);
-		factory.getRepository(ObjectRepository.class);
+		this.factory.addRepositoryProxyPostProcessor(this.repositoryPostProcessor);
+		this.factory.getRepository(ObjectRepository.class);
 
-		verify(repositoryPostProcessor, times(1)).postProcess(any(ProxyFactory.class), any(RepositoryInformation.class));
+		verify(this.repositoryPostProcessor, times(1)).postProcess(any(ProxyFactory.class), any(RepositoryInformation.class));
 	}
 
 	@Test
 	void routesCallToRedeclaredMethodIntoTarget() {
 
-		ObjectRepository repository = factory.getRepository(ObjectRepository.class);
+		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class);
 		repository.save(repository);
 
-		verify(backingRepo, times(1)).save(any(Object.class));
+		verify(this.backingRepo, times(1)).save(any(Object.class));
 	}
 
 	@Test
 	void invokesCustomMethodIfItRedeclaresACRUDOne() {
 
-		ObjectRepository repository = factory.getRepository(ObjectRepository.class, customImplementation);
+		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class, this.customImplementation);
 		repository.findById(1);
 
-		verify(customImplementation, times(1)).findById(1);
-		verify(backingRepo, times(0)).findById(1);
+		verify(this.customImplementation, times(1)).findById(1);
+		verify(this.backingRepo, times(0)).findById(1);
 	}
 
 	@Test // DATACMNS-102
 	void invokesCustomMethodCompositionMethodIfItRedeclaresACRUDOne() {
 
-		ObjectRepository repository = factory.getRepository(ObjectRepository.class,
-				RepositoryFragments.just(customImplementation));
+		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class,
+				RepositoryFragments.just(this.customImplementation));
 		repository.findById(1);
 
-		verify(customImplementation, times(1)).findById(1);
-		verify(backingRepo, times(0)).findById(1);
+		verify(this.customImplementation, times(1)).findById(1);
+		verify(this.backingRepo, times(0)).findById(1);
 	}
 
 	@Test
 	void createsRepositoryInstanceWithCustomIntermediateRepository() {
 
-		CustomRepository repository = factory.getRepository(CustomRepository.class);
+		CustomRepository repository = this.factory.getRepository(CustomRepository.class);
 		Pageable pageable = PageRequest.of(0, 10);
 
-		when(backingRepo.findAll(pageable)).thenReturn(new PageImpl<>(Collections.emptyList()));
+		when(this.backingRepo.findAll(pageable)).thenReturn(new PageImpl<>(Collections.emptyList()));
 		repository.findAll(pageable);
 
-		verify(backingRepo, times(1)).findAll(pageable);
+		verify(this.backingRepo, times(1)).findAll(pageable);
 	}
 
 	@Test
@@ -167,14 +167,14 @@ class RepositoryFactorySupportUnitTests {
 		Class<?> repositoryInterface = AnnotatedRepository.class;
 		Class<? extends Repository<?, ?>> foo = (Class<? extends Repository<?, ?>>) repositoryInterface;
 
-		assertThat(factory.getRepository(foo)).isNotNull();
+		assertThat(this.factory.getRepository(foo)).isNotNull();
 	}
 
 	@Test // DATACMNS-341
 	void usesDefaultClassLoaderIfNullConfigured() {
 
-		factory.setBeanClassLoader(null);
-		assertThat(ReflectionTestUtils.getField(factory, "classLoader")).isEqualTo(ClassUtils.getDefaultClassLoader());
+		this.factory.setBeanClassLoader(null);
+		assertThat(ReflectionTestUtils.getField(this.factory, "classLoader")).isEqualTo(ClassUtils.getDefaultClassLoader());
 	}
 
 	@Test // DATACMNS-489
@@ -182,12 +182,12 @@ class RepositoryFactorySupportUnitTests {
 
 		final Object reference = new Object();
 
-		when(factory.queryOne.execute(any(Object[].class))).then(invocation -> {
+		when(this.factory.queryOne.execute(any(Object[].class))).then(invocation -> {
 			Thread.sleep(500);
 			return reference;
 		});
 
-		ConvertingRepository repository = factory.getRepository(ConvertingRepository.class);
+		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
 
 		AsyncAnnotationBeanPostProcessor processor = new AsyncAnnotationBeanPostProcessor();
 		processor.setBeanFactory(new DefaultListableBeanFactory());
@@ -203,7 +203,7 @@ class RepositoryFactorySupportUnitTests {
 
 		assertThat(future.get()).isEqualTo(reference);
 
-		verify(factory.queryOne, times(1)).execute(any(Object[].class));
+		verify(this.factory.queryOne, times(1)).execute(any(Object[].class));
 	}
 
 	@Test // DATACMNS-509
@@ -211,9 +211,9 @@ class RepositoryFactorySupportUnitTests {
 
 		List<String> names = singletonList("Dave");
 
-		when(factory.queryOne.execute(any(Object[].class))).thenReturn(names);
+		when(this.factory.queryOne.execute(any(Object[].class))).thenReturn(names);
 
-		ConvertingRepository repository = factory.getRepository(ConvertingRepository.class);
+		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
 		Set<String> result = repository.convertListToStringSet();
 
 		assertThat(result).hasSize(1);
@@ -225,9 +225,9 @@ class RepositoryFactorySupportUnitTests {
 
 		List<String> names = singletonList("Dave");
 
-		when(factory.queryOne.execute(any(Object[].class))).thenReturn(names);
+		when(this.factory.queryOne.execute(any(Object[].class))).thenReturn(names);
 
-		ConvertingRepository repository = factory.getRepository(ConvertingRepository.class);
+		ConvertingRepository repository = this.factory.getRepository(ConvertingRepository.class);
 		Set<Object> result = repository.convertListToObjectSet();
 
 		assertThat(result).containsExactly("Dave");
@@ -237,14 +237,14 @@ class RepositoryFactorySupportUnitTests {
 	void rejectsNullRepositoryProxyPostProcessor() {
 
 		assertThatThrownBy( //
-				() -> factory.addRepositoryProxyPostProcessor(null)) //
+				() -> this.factory.addRepositoryProxyPostProcessor(null)) //
 						.isInstanceOf(IllegalArgumentException.class) //
 						.hasMessageContaining(RepositoryProxyPostProcessor.class.getSimpleName());
 	}
 
 	@Test // DATACMNS-715, SPR-13109
 	void addsTransactionProxyInterfaceIfAvailable() {
-		assertThat(factory.getRepository(SimpleRepository.class)).isInstanceOf(TransactionalProxy.class);
+		assertThat(this.factory.getRepository(SimpleRepository.class)).isInstanceOf(TransactionalProxy.class);
 	}
 
 	@Test // DATACMNS-714
@@ -288,7 +288,7 @@ class RepositoryFactorySupportUnitTests {
 		EntityInformation entityInformation = mock(EntityInformation.class);
 
 		assertThatThrownBy( //
-				() -> factory.getTargetRepositoryViaReflection(information, entityInformation, "Foo")) //
+				() -> this.factory.getTargetRepositoryViaReflection(information, entityInformation, "Foo")) //
 						.isInstanceOf(IllegalStateException.class) //
 						.hasMessageContaining(entityInformation.getClass().getName()) //
 						.hasMessageContaining(String.class.getName());
@@ -297,18 +297,18 @@ class RepositoryFactorySupportUnitTests {
 	@Test
 	void callsStaticMethodOnInterface() {
 
-		ObjectRepository repository = factory.getRepository(ObjectRepository.class, customImplementation);
+		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class, this.customImplementation);
 
 		assertThat(repository.staticMethodDelegate()).isEqualTo("OK");
 
-		verifyNoInteractions(customImplementation);
-		verifyNoInteractions(backingRepo);
+		verifyNoInteractions(this.customImplementation);
+		verifyNoInteractions(this.backingRepo);
 	}
 
 	@Test // DATACMNS-1154
 	void considersRequiredReturnValue() {
 
-		KotlinUserRepository repository = factory.getRepository(KotlinUserRepository.class);
+		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
 
 		assertThatThrownBy( //
 				() -> repository.findById("")) //
@@ -321,7 +321,7 @@ class RepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-1154
 	void considersRequiredParameter() {
 
-		ObjectRepository repository = factory.getRepository(ObjectRepository.class);
+		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class);
 
 		assertThatThrownBy( //
 				() -> repository.findByClass(null)) //
@@ -332,17 +332,17 @@ class RepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-1154
 	void shouldAllowVoidMethods() {
 
-		ObjectRepository repository = factory.getRepository(ObjectRepository.class, backingRepo);
+		ObjectRepository repository = this.factory.getRepository(ObjectRepository.class, this.backingRepo);
 
 		repository.deleteAll();
 
-		verify(backingRepo).deleteAll();
+		verify(this.backingRepo).deleteAll();
 	}
 
 	@Test // DATACMNS-1154
 	void considersRequiredKotlinParameter() {
 
-		KotlinUserRepository repository = factory.getRepository(KotlinUserRepository.class);
+		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
 
 		assertThatThrownBy( //
 				() -> repository.findById(null)) //
@@ -353,7 +353,7 @@ class RepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-1154
 	void considersRequiredKotlinNullableParameter() {
 
-		KotlinUserRepository repository = factory.getRepository(KotlinUserRepository.class);
+		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
 
 		assertThat(repository.findByOptionalId(null)).isNull();
 	}
@@ -361,14 +361,14 @@ class RepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-1197
 	void considersNullabilityForKotlinInterfaceProperties() {
 
-		KotlinUserRepository repository = factory.getRepository(KotlinUserRepository.class);
+		KotlinUserRepository repository = this.factory.getRepository(KotlinUserRepository.class);
 
 		assertThatThrownBy(repository::getFindRouteQuery).isInstanceOf(EmptyResultDataAccessException.class);
 	}
 
 	private ConvertingRepository prepareConvertingRepository(final Object expectedValue) {
 
-		when(factory.queryOne.execute(any(Object[].class))).then(invocation -> {
+		when(this.factory.queryOne.execute(any(Object[].class))).then(invocation -> {
 			Thread.sleep(200);
 			return expectedValue;
 		});
@@ -377,7 +377,7 @@ class RepositoryFactorySupportUnitTests {
 		processor.setBeanFactory(new DefaultListableBeanFactory());
 
 		return (ConvertingRepository) processor
-				.postProcessAfterInitialization(factory.getRepository(ConvertingRepository.class), null);
+				.postProcessAfterInitialization(this.factory.getRepository(ConvertingRepository.class), null);
 	}
 
 	private void expect(Future<?> future, Object value) throws Exception {
@@ -390,7 +390,7 @@ class RepositoryFactorySupportUnitTests {
 
 		assertThat(future.get()).isEqualTo(value);
 
-		verify(factory.queryOne, times(1)).execute(any(Object[].class));
+		verify(this.factory.queryOne, times(1)).execute(any(Object[].class));
 	}
 
 	interface SimpleRepository extends Repository<Object, Serializable> {}

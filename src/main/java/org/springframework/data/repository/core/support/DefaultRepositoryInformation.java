@@ -75,11 +75,11 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	}
 	@Override
 	public Class<?> getDomainType() {
-		return metadata.getDomainType();
+		return this.metadata.getDomainType();
 	}
 	@Override
 	public Class<?> getIdType() {
-		return metadata.getIdType();
+		return this.metadata.getIdType();
 	}
 	@Override
 	public Class<?> getRepositoryBaseClass() {
@@ -88,17 +88,17 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	@Override
 	public Method getTargetClassMethod(Method method) {
 
-		if (methodCache.containsKey(method)) {
-			return methodCache.get(method);
+		if (this.methodCache.containsKey(method)) {
+			return this.methodCache.get(method);
 		}
 
-		Method result = composition.findMethod(method).orElse(method);
+		Method result = this.composition.findMethod(method).orElse(method);
 
 		if (!result.equals(method)) {
 			return cacheAndReturn(method, result);
 		}
 
-		return cacheAndReturn(method, baseComposition.findMethod(method).orElse(method));
+		return cacheAndReturn(method, this.baseComposition.findMethod(method).orElse(method));
 	}
 
 	private Method cacheAndReturn(Method key, Method value) {
@@ -107,7 +107,7 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 			makeAccessible(value);
 		}
 
-		methodCache.put(key, value);
+		this.methodCache.put(key, value);
 		return value;
 	}
 	@Override
@@ -150,7 +150,7 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	}
 	@Override
 	public boolean isCustomMethod(Method method) {
-		return composition.getMethod(method) != null;
+		return this.composition.getMethod(method) != null;
 	}
 	@Override
 	public boolean isQueryMethod(Method method) {
@@ -160,7 +160,7 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	public boolean isBaseClassMethod(Method method) {
 
 		Assert.notNull(method, "Method must not be null!");
-		return baseComposition.getMethod(method) != null;
+		return this.baseComposition.getMethod(method) != null;
 	}
 	@Override
 	public boolean hasCustomMethod() {
@@ -182,26 +182,26 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	}
 	@Override
 	public Class<?> getRepositoryInterface() {
-		return metadata.getRepositoryInterface();
+		return this.metadata.getRepositoryInterface();
 	}
 	@Override
 	public Class<?> getReturnedDomainClass(Method method) {
-		return metadata.getReturnedDomainClass(method);
+		return this.metadata.getReturnedDomainClass(method);
 	}
 	@Override
 	public CrudMethods getCrudMethods() {
-		return metadata.getCrudMethods();
+		return this.metadata.getCrudMethods();
 	}
 	@Override
 	public boolean isPagingRepository() {
-		return metadata.isPagingRepository();
+		return this.metadata.isPagingRepository();
 	}
 	@Override
 	public Set<Class<?>> getAlternativeDomainTypes() {
-		return metadata.getAlternativeDomainTypes();
+		return this.metadata.getAlternativeDomainTypes();
 	}
 	@Override
 	public boolean isReactiveRepository() {
-		return metadata.isReactiveRepository();
+		return this.metadata.isReactiveRepository();
 	}
 }

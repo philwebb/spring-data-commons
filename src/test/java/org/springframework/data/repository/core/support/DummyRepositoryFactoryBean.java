@@ -39,6 +39,6 @@ public class DummyRepositoryFactoryBean<T extends Repository<S, ID>, S, ID exten
 	}
 	@Override
 	protected RepositoryFactorySupport createRepositoryFactory() {
-		return new DummyRepositoryFactory(repository);
+		return new DummyRepositoryFactory(this.repository);
 	}
 }

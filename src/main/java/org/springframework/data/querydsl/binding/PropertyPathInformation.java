@@ -72,15 +72,15 @@ class PropertyPathInformation implements PathInformation {
 	}
 	@Override
 	public Class<?> getLeafType() {
-		return path.getLeafProperty().getType();
+		return this.path.getLeafProperty().getType();
 	}
 	@Override
 	public Class<?> getLeafParentType() {
-		return path.getLeafProperty().getOwningType().getType();
+		return this.path.getLeafProperty().getOwningType().getType();
 	}
 	@Override
 	public String getLeafProperty() {
-		return path.getLeafProperty().getSegment();
+		return this.path.getLeafProperty().getSegment();
 	}
 	@Nullable
 	@Override
@@ -89,11 +89,11 @@ class PropertyPathInformation implements PathInformation {
 	}
 	@Override
 	public String toDotPath() {
-		return path.toDotPath();
+		return this.path.toDotPath();
 	}
 	@Override
 	public Path<?> reifyPath(EntityPathResolver resolver) {
-		return reifyPath(resolver, path, Optional.empty());
+		return reifyPath(resolver, this.path, Optional.empty());
 	}
 
 	private static Path<?> reifyPath(EntityPathResolver resolver, PropertyPath path, Optional<Path<?>> base) {
@@ -132,11 +132,11 @@ class PropertyPathInformation implements PathInformation {
 		}
 
 		PropertyPathInformation that = (PropertyPathInformation) o;
-		return ObjectUtils.nullSafeEquals(path, that.path);
+		return ObjectUtils.nullSafeEquals(this.path, that.path);
 	}
 	@Override
 	public int hashCode() {
-		return ObjectUtils.nullSafeHashCode(path);
+		return ObjectUtils.nullSafeHashCode(this.path);
 	}
 	@Override
 	public String toString() {

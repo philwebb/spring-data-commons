@@ -104,11 +104,11 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		StandardEvaluationContext context = new StandardEvaluationContext();
 
-		if (beanFactory != null) {
-			context.setBeanResolver(new BeanFactoryResolver(beanFactory));
+		if (this.beanFactory != null) {
+			context.setBeanResolver(new BeanFactoryResolver(this.beanFactory));
 		}
 
-		ExtensionAwarePropertyAccessor accessor = new ExtensionAwarePropertyAccessor(extensions.get());
+		ExtensionAwarePropertyAccessor accessor = new ExtensionAwarePropertyAccessor(this.extensions.get());
 
 		context.addPropertyAccessor(accessor);
 		context.addPropertyAccessor(new ReflectivePropertyAccessor());
@@ -142,7 +142,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 
 		Class<? extends EvaluationContextExtension> extensionType = extension.getClass();
 
-		return extensionInformationCache.computeIfAbsent(extensionType,
+		return this.extensionInformationCache.computeIfAbsent(extensionType,
 				type -> new EvaluationContextExtensionInformation(extensionType));
 	}
 
@@ -181,7 +181,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			Assert.notNull(extensions, "Extensions must not be null!");
 
 			this.adapters = toAdapters(extensions);
-			this.adapterMap = adapters.stream()//
+			this.adapterMap = this.adapters.stream()//
 					.collect(Collectors.toMap(EvaluationContextExtensionAdapter::getExtensionId, it -> it));
 
 			Collections.reverse(this.adapters);
@@ -198,11 +198,11 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 				return true;
 			}
 
-			if (adapterMap.containsKey(name)) {
+			if (this.adapterMap.containsKey(name)) {
 				return true;
 			}
 
-			return adapters.stream().anyMatch(it -> it.getProperties().containsKey(name));
+			return this.adapters.stream().anyMatch(it -> it.getProperties().containsKey(name));
 		}
 
 		/*
@@ -216,11 +216,11 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 				return lookupPropertyFrom((EvaluationContextExtensionAdapter) target, name);
 			}
 
-			if (adapterMap.containsKey(name)) {
-				return new TypedValue(adapterMap.get(name));
+			if (this.adapterMap.containsKey(name)) {
+				return new TypedValue(this.adapterMap.get(name));
 			}
 
-			return adapters.stream()//
+			return this.adapters.stream()//
 					.filter(it -> it.getProperties().containsKey(name))//
 					.map(it -> lookupPropertyFrom(it, name))//
 					.findFirst().orElse(TypedValue.NULL);
@@ -239,7 +239,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 				return getMethodExecutor((EvaluationContextExtensionAdapter) target, name, argumentTypes).orElse(null);
 			}
 
-			return adapters.stream()//
+			return this.adapters.stream()//
 					.flatMap(it -> Optionals.toStream(getMethodExecutor(it, name, argumentTypes)))//
 					.findFirst().orElse(null);
 		}
@@ -329,10 +329,10 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		public TypedValue execute(EvaluationContext context, Object target, Object... arguments) throws AccessException {
 
 			try {
-				return new TypedValue(function.invoke(arguments));
+				return new TypedValue(this.function.invoke(arguments));
 			} catch (Exception e) {
-				throw new SpelEvaluationException(e, SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED, function.getName(),
-						function.getDeclaringClass());
+				throw new SpelEvaluationException(e, SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED, this.function.getName(),
+						this.function.getDeclaringClass());
 			}
 		}
 	}
@@ -369,9 +369,9 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			ExtensionTypeInformation extensionTypeInformation = information.getExtensionTypeInformation();
 			RootObjectInformation rootObjectInformation = information.getRootObjectInformation(target);
 
-			functions.addAll(extension.getFunctions());
-			functions.addAll(rootObjectInformation.getFunctions(target));
-			functions.addAll(extensionTypeInformation.getFunctions());
+			this.functions.addAll(extension.getFunctions());
+			this.functions.addAll(rootObjectInformation.getFunctions(target));
+			this.functions.addAll(extensionTypeInformation.getFunctions());
 
 			this.properties = new HashMap<>();
 			this.properties.putAll(extensionTypeInformation.getProperties());
@@ -387,7 +387,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		 * @return the id of the extension
 		 */
 		String getExtensionId() {
-			return extension.getExtensionId();
+			return this.extension.getExtensionId();
 		}
 
 		/**

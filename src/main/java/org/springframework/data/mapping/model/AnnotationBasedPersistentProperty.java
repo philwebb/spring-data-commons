@@ -112,7 +112,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 								+ "multiple times on accessor methods of property %s in class %s!",
 						annotationType.getSimpleName(), getName(), getOwner().getType().getSimpleName());
 
-				annotationCache.put(annotationType,
+				this.annotationCache.put(annotationType,
 						Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(it, annotationType)));
 			}
 		});
@@ -127,7 +127,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 						"Ambiguous mapping! Annotation %s configured " + "on field %s and one of its accessor methods in class %s!",
 						annotationType.getSimpleName(), it.getName(), getOwner().getType().getSimpleName());
 
-				annotationCache.put(annotationType,
+				this.annotationCache.put(annotationType,
 						Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(it, annotationType)));
 			}
 		});
@@ -149,8 +149,8 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 			return;
 		}
 
-		if (annotationCache.containsKey(annotationType)
-				&& !annotationCache.get(annotationType).equals(Optional.of(candidate))) {
+		if (this.annotationCache.containsKey(annotationType)
+				&& !this.annotationCache.get(annotationType).equals(Optional.of(candidate))) {
 			throw new MappingException(String.format(message, arguments));
 		}
 	}
@@ -164,7 +164,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	@Nullable
 	@Override
 	public String getSpelExpression() {
-		return value;
+		return this.value;
 	}
 
 	/**
@@ -175,13 +175,13 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	 */
 	@Override
 	public boolean isTransient() {
-		return isTransient.get();
+		return this.isTransient.get();
 	}
 	public boolean isIdProperty() {
-		return isId.get();
+		return this.isId.get();
 	}
 	public boolean isVersionProperty() {
-		return isVersion.get();
+		return this.isVersion.get();
 	}
 
 	/**
@@ -189,11 +189,11 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	 */
 	@Override
 	public boolean isAssociation() {
-		return isReference.get();
+		return this.isReference.get();
 	}
 	@Override
 	public boolean isWritable() {
-		return isWritable.get();
+		return this.isWritable.get();
 	}
 
 	/**
@@ -215,13 +215,13 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	@SuppressWarnings("unchecked")
 	private <A extends Annotation> Optional<A> doFindAnnotation(Class<A> annotationType) {
 
-		Optional<? extends Annotation> annotation = annotationCache.get(annotationType);
+		Optional<? extends Annotation> annotation = this.annotationCache.get(annotationType);
 
 		if (annotation != null) {
 			return (Optional<A>) annotation;
 		}
 
-		return (Optional<A>) annotationCache.computeIfAbsent(annotationType, type -> {
+		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType, type -> {
 
 			return getAccessors() //
 					.map(it -> AnnotatedElementUtils.findMergedAnnotation(it, type)) //
@@ -249,7 +249,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	}
 	@Override
 	public boolean usePropertyAccess() {
-		return usePropertyAccess.get();
+		return this.usePropertyAccess.get();
 	}
 	@Nullable
 	@Override
@@ -270,11 +270,11 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	@Override
 	public String toString() {
 
-		if (annotationCache.isEmpty()) {
+		if (this.annotationCache.isEmpty()) {
 			populateAnnotationCache(getProperty());
 		}
 
-		String builder = annotationCache.values().stream() //
+		String builder = this.annotationCache.values().stream() //
 				.flatMap(Optionals::toStream) //
 				.map(Object::toString) //
 				.collect(Collectors.joining(" "));

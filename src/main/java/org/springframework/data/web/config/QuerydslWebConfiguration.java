@@ -57,13 +57,13 @@ public class QuerydslWebConfiguration implements WebMvcConfigurer {
 	@Lazy
 	@Bean
 	public QuerydslPredicateArgumentResolver querydslPredicateArgumentResolver() {
-		return new QuerydslPredicateArgumentResolver(querydslBindingsFactory(), Optional.of(conversionService.getObject()));
+		return new QuerydslPredicateArgumentResolver(querydslBindingsFactory(), Optional.of(this.conversionService.getObject()));
 	}
 
 	@Lazy
 	@Bean
 	public QuerydslBindingsFactory querydslBindingsFactory() {
-		return new QuerydslBindingsFactory(resolver.getIfUnique(() -> SimpleEntityPathResolver.INSTANCE));
+		return new QuerydslBindingsFactory(this.resolver.getIfUnique(() -> SimpleEntityPathResolver.INSTANCE));
 	}
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

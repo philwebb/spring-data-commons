@@ -96,7 +96,7 @@ public class PartTree implements Streamable<OrPart> {
 		}
 	}
 	public Iterator<OrPart> iterator() {
-		return predicate.iterator();
+		return this.predicate.iterator();
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class PartTree implements Streamable<OrPart> {
 	 * @return never {@literal null}.
 	 */
 	public Sort getSort() {
-		return predicate.getOrderBySource().toSort();
+		return this.predicate.getOrderBySource().toSort();
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class PartTree implements Streamable<OrPart> {
 	 * @return {@literal true} if distinct
 	 */
 	public boolean isDistinct() {
-		return subject.isDistinct();
+		return this.subject.isDistinct();
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class PartTree implements Streamable<OrPart> {
 	 * @return
 	 */
 	public boolean isCountProjection() {
-		return subject.isCountProjection();
+		return this.subject.isCountProjection();
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class PartTree implements Streamable<OrPart> {
 	 * @since 1.13
 	 */
 	public boolean isExistsProjection() {
-		return subject.isExistsProjection();
+		return this.subject.isExistsProjection();
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class PartTree implements Streamable<OrPart> {
 	 * @since 1.8
 	 */
 	public boolean isDelete() {
-		return subject.isDelete();
+		return this.subject.isDelete();
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class PartTree implements Streamable<OrPart> {
 	 */
 	@Nullable
 	public Integer getMaxResults() {
-		return subject.getMaxResults().orElse(null);
+		return this.subject.getMaxResults().orElse(null);
 	}
 
 	/**
@@ -192,13 +192,13 @@ public class PartTree implements Streamable<OrPart> {
 	 * @return
 	 */
 	public boolean hasPredicate() {
-		return predicate.iterator().hasNext();
+		return this.predicate.iterator().hasNext();
 	}
 	@Override
 	public String toString() {
 
-		return String.format("%s %s", StringUtils.collectionToDelimitedString(predicate.nodes, " or "),
-				predicate.getOrderBySource().toString()).trim();
+		return String.format("%s %s", StringUtils.collectionToDelimitedString(this.predicate.nodes, " or "),
+				this.predicate.getOrderBySource().toString()).trim();
 	}
 
 	/**
@@ -241,11 +241,11 @@ public class PartTree implements Streamable<OrPart> {
 		}
 
 		public Iterator<Part> iterator() {
-			return children.iterator();
+			return this.children.iterator();
 		}
 		@Override
 		public String toString() {
-			return StringUtils.collectionToDelimitedString(children, " and ");
+			return StringUtils.collectionToDelimitedString(this.children, " and ");
 		}
 	}
 
@@ -310,11 +310,11 @@ public class PartTree implements Streamable<OrPart> {
 		 * @since 1.8
 		 */
 		public boolean isDelete() {
-			return delete;
+			return this.delete;
 		}
 
 		public boolean isCountProjection() {
-			return count;
+			return this.count;
 		}
 
 		/**
@@ -324,15 +324,15 @@ public class PartTree implements Streamable<OrPart> {
 		 * @since 1.13
 		 */
 		public boolean isExistsProjection() {
-			return exists;
+			return this.exists;
 		}
 
 		public boolean isDistinct() {
-			return distinct;
+			return this.distinct;
 		}
 
 		public Optional<Integer> getMaxResults() {
-			return maxResults;
+			return this.maxResults;
 		}
 
 		private boolean matches(Optional<String> subject, Pattern pattern) {
@@ -365,7 +365,7 @@ public class PartTree implements Streamable<OrPart> {
 
 			this.nodes = Arrays.stream(split(parts[0], "Or")) //
 					.filter(StringUtils::hasText) //
-					.map(part -> new OrPart(part, domainClass, alwaysIgnoreCase)) //
+					.map(part -> new OrPart(part, domainClass, this.alwaysIgnoreCase)) //
 					.collect(Collectors.toList());
 
 			this.orderBySource = parts.length == 2 ? new OrderBySource(parts[1], Optional.of(domainClass))
@@ -377,7 +377,7 @@ public class PartTree implements Streamable<OrPart> {
 			Matcher matcher = ALL_IGNORE_CASE.matcher(predicate);
 
 			if (matcher.find()) {
-				alwaysIgnoreCase = true;
+				this.alwaysIgnoreCase = true;
 				predicate = predicate.substring(0, matcher.start()) + predicate.substring(matcher.end(), predicate.length());
 			}
 
@@ -385,11 +385,11 @@ public class PartTree implements Streamable<OrPart> {
 		}
 
 		public OrderBySource getOrderBySource() {
-			return orderBySource;
+			return this.orderBySource;
 		}
 		@Override
 		public Iterator<OrPart> iterator() {
-			return nodes.iterator();
+			return this.nodes.iterator();
 		}
 	}
 }

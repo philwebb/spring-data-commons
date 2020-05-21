@@ -43,18 +43,18 @@ public enum SurroundingTransactionDetectorMethodInterceptor implements MethodInt
 	 * @return
 	 */
 	public boolean isSurroundingTransactionActive() {
-		return Boolean.TRUE == SURROUNDING_TX_ACTIVE.get();
+		return Boolean.TRUE == this.SURROUNDING_TX_ACTIVE.get();
 	}
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
 
-		SURROUNDING_TX_ACTIVE.set(TransactionSynchronizationManager.isActualTransactionActive());
+		this.SURROUNDING_TX_ACTIVE.set(TransactionSynchronizationManager.isActualTransactionActive());
 
 		try {
 			return invocation.proceed();
 		} finally {
-			SURROUNDING_TX_ACTIVE.remove();
+			this.SURROUNDING_TX_ACTIVE.remove();
 		}
 	}
 }

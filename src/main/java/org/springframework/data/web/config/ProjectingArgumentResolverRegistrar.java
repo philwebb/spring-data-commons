@@ -120,7 +120,7 @@ public class ProjectingArgumentResolverRegistrar {
 
 			List<HandlerMethodArgumentResolver> newResolvers = new ArrayList<HandlerMethodArgumentResolver>(
 					currentResolvers.size() + 1);
-			newResolvers.add(resolver);
+			newResolvers.add(this.resolver);
 			newResolvers.addAll(currentResolvers);
 
 			adapter.setArgumentResolvers(newResolvers);

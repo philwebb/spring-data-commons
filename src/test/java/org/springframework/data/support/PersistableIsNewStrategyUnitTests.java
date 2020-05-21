@@ -33,15 +33,15 @@ class PersistableIsNewStrategyUnitTests {
 	void invokesPersistableIsNewForTest() {
 
 		PersistableEntity entity = new PersistableEntity();
-		assertThat(strategy.isNew(entity)).isTrue();
+		assertThat(this.strategy.isNew(entity)).isTrue();
 
 		entity.isNew = false;
-		assertThat(strategy.isNew(entity)).isFalse();
+		assertThat(this.strategy.isNew(entity)).isFalse();
 	}
 
 	@Test
 	void rejectsNonPersistableEntity() {
-		assertThatIllegalArgumentException().isThrownBy(() -> strategy.isNew(new Object()));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.strategy.isNew(new Object()));
 	}
 
 	@SuppressWarnings("serial")
@@ -54,7 +54,7 @@ class PersistableIsNewStrategyUnitTests {
 		}
 
 		public boolean isNew() {
-			return isNew;
+			return this.isNew;
 		}
 	}
 }

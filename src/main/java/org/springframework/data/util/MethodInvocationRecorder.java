@@ -100,7 +100,7 @@ public class MethodInvocationRecorder {
 	}
 
 	private Optional<String> getPropertyPath(List<PropertyNameDetectionStrategy> strategies) {
-		return interceptor.flatMap(it -> it.getPropertyPath(strategies));
+		return this.interceptor.flatMap(it -> it.getPropertyPath(strategies));
 	}
 
 	private class RecordingMethodInterceptor implements org.aopalliance.intercept.MethodInterceptor {
@@ -173,7 +173,7 @@ public class MethodInvocationRecorder {
 
 		@Nullable
 		Object getCurrentInstance() {
-			return recorded.currentInstance;
+			return this.recorded.currentInstance;
 		}
 
 		Optional<String> getPropertyPath(List<PropertyNameDetectionStrategy> strategies) {
@@ -185,7 +185,7 @@ public class MethodInvocationRecorder {
 			}
 
 			String propertyName = getPropertyName(invokedMethod, strategies);
-			Optional<String> next = recorded.getPropertyPath(strategies);
+			Optional<String> next = this.recorded.getPropertyPath(strategies);
 
 			return Optionals.firstNonEmpty(() -> next.map(it -> propertyName.concat(".").concat(it)), //
 					() -> Optional.of(propertyName));
@@ -221,16 +221,16 @@ public class MethodInvocationRecorder {
 
 			InvocationInformation that = (InvocationInformation) o;
 
-			if (!ObjectUtils.nullSafeEquals(recorded, that.recorded)) {
+			if (!ObjectUtils.nullSafeEquals(this.recorded, that.recorded)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(invokedMethod, that.invokedMethod);
+			return ObjectUtils.nullSafeEquals(this.invokedMethod, that.invokedMethod);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(recorded);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(invokedMethod);
+			int result = ObjectUtils.nullSafeHashCode(this.recorded);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.invokedMethod);
 			return result;
 		}
 		@Override
@@ -306,7 +306,7 @@ public class MethodInvocationRecorder {
 
 			Assert.notNull(converter, "Function must not be null!");
 
-			return new Recorded<S>(converter.apply(currentInstance), recorder);
+			return new Recorded<S>(converter.apply(this.currentInstance), this.recorder);
 		}
 
 		/**
@@ -319,7 +319,7 @@ public class MethodInvocationRecorder {
 
 			Assert.notNull(converter, "Converter must not be null!");
 
-			return new Recorded<S>(converter.apply(currentInstance).iterator().next(), recorder);
+			return new Recorded<S>(converter.apply(this.currentInstance).iterator().next(), this.recorder);
 		}
 
 		/**
@@ -332,7 +332,7 @@ public class MethodInvocationRecorder {
 
 			Assert.notNull(converter, "Converter must not be null!");
 
-			return new Recorded<S>(converter.apply(currentInstance).values().iterator().next(), recorder);
+			return new Recorded<S>(converter.apply(this.currentInstance).values().iterator().next(), this.recorder);
 		}
 		@Override
 		public String toString() {

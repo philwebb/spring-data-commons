@@ -73,9 +73,9 @@ public class RepositoryBeanDefinitionParser implements BeanDefinitionParser {
 			RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configSource, resourceLoader,
 					environment);
 
-			RepositoryConfigurationUtils.exposeRegistration(extension, registry, configSource);
+			RepositoryConfigurationUtils.exposeRegistration(this.extension, registry, configSource);
 
-			for (BeanComponentDefinition definition : delegate.registerRepositoriesIn(registry, extension)) {
+			for (BeanComponentDefinition definition : delegate.registerRepositoriesIn(registry, this.extension)) {
 				readerContext.fireComponentRegistered(definition);
 			}
 

@@ -18,7 +18,7 @@ public class SampleConfiguration {
 
 	@Bean
 	Repositories repositories() {
-		return new Repositories(context);
+		return new Repositories(this.context);
 	}
 
 	@Bean

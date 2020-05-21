@@ -84,7 +84,7 @@ class TransactionRepositoryFactoryBeanSupportUnitTests {
 
 		@Override
 		protected RepositoryFactorySupport doCreateRepositoryFactory() {
-			return new DummyRepositoryFactory(repository);
+			return new DummyRepositoryFactory(this.repository);
 		}
 	}
 }

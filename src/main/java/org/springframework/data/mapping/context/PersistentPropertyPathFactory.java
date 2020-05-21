@@ -167,7 +167,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 	private PersistentPropertyPath<P> getPersistentPropertyPath(TypeInformation<?> type, String propertyPath) {
 
-		return propertyPaths.computeIfAbsent(TypeAndPath.of(type, propertyPath),
+		return this.propertyPaths.computeIfAbsent(TypeAndPath.of(type, propertyPath),
 				it -> createPersistentPropertyPath(it.getPath(), it.getType()));
 	}
 
@@ -188,7 +188,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 		DefaultPersistentPropertyPath<P> path = DefaultPersistentPropertyPath.empty();
 		Iterator<String> iterator = parts.iterator();
-		E current = context.getRequiredPersistentEntity(type);
+		E current = this.context.getRequiredPersistentEntity(type);
 
 		while (iterator.hasNext()) {
 
@@ -222,7 +222,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		}
 
 		TypeInformation<?> type = property.getTypeInformation().getRequiredActualType();
-		return Pair.of(path.append(property), iterator.hasNext() ? context.getRequiredPersistentEntity(type) : entity);
+		return Pair.of(path.append(property), iterator.hasNext() ? this.context.getRequiredPersistentEntity(type) : entity);
 	}
 
 	private <T> Collection<PersistentPropertyPath<P>> from(TypeInformation<T> type, Predicate<? super P> filter,
@@ -234,7 +234,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 			return Collections.emptyList();
 		}
 
-		E entity = context.getRequiredPersistentEntity(actualType);
+		E entity = this.context.getRequiredPersistentEntity(actualType);
 		Set<PersistentPropertyPath<P>> properties = new HashSet<>();
 
 		PropertyHandler<P> propertyTester = persistentProperty -> {
@@ -299,16 +299,16 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 			TypeAndPath that = (TypeAndPath) o;
 
-			if (!ObjectUtils.nullSafeEquals(type, that.type)) {
+			if (!ObjectUtils.nullSafeEquals(this.type, that.type)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(path, that.path);
+			return ObjectUtils.nullSafeEquals(this.path, that.path);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(type);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(path);
+			int result = ObjectUtils.nullSafeHashCode(this.type);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.path);
 			return result;
 		}
 		@Override
@@ -353,14 +353,14 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		}
 		@Override
 		public boolean contains(String path) {
-			return contains(PropertyPath.from(path, type));
+			return contains(PropertyPath.from(path, this.type));
 		}
 		@Override
 		public boolean contains(PropertyPath path) {
 
 			Assert.notNull(path, "PropertyPath must not be null!");
 
-			if (!path.getOwningType().equals(type)) {
+			if (!path.getOwningType().equals(this.type)) {
 				return false;
 			}
 
@@ -370,7 +370,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		}
 		@Override
 		public Iterator<PersistentPropertyPath<P>> iterator() {
-			return paths.iterator();
+			return this.paths.iterator();
 		}
 		@Override
 		public PersistentPropertyPaths<T, P> dropPathIfSegmentMatches(Predicate<? super P> predicate) {
@@ -381,7 +381,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 					.filter(it -> !it.stream().anyMatch(predicate)) //
 					.collect(Collectors.toList());
 
-			return paths.equals(this.paths) ? this : new DefaultPersistentPropertyPaths<>(type, paths);
+			return paths.equals(this.paths) ? this : new DefaultPersistentPropertyPaths<>(this.type, paths);
 		}
 		@Override
 		public String toString() {

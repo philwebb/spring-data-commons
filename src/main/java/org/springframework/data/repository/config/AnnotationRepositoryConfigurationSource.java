@@ -126,18 +126,18 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		this.enableAnnotationMetadata = AnnotationMetadata.introspect(annotation);
 		this.configMetadata = metadata;
 		this.resourceLoader = resourceLoader;
-		this.hasExplicitFilters = hasExplicitFilters(attributes);
+		this.hasExplicitFilters = hasExplicitFilters(this.attributes);
 	}
 	public Streamable<String> getBasePackages() {
 
-		String[] value = attributes.getStringArray("value");
-		String[] basePackages = attributes.getStringArray(BASE_PACKAGES);
-		Class<?>[] basePackageClasses = attributes.getClassArray(BASE_PACKAGE_CLASSES);
+		String[] value = this.attributes.getStringArray("value");
+		String[] basePackages = this.attributes.getStringArray(BASE_PACKAGES);
+		Class<?>[] basePackageClasses = this.attributes.getClassArray(BASE_PACKAGE_CLASSES);
 
 		// Default configuration - return package of annotated class
 		if (value.length == 0 && basePackages.length == 0 && basePackageClasses.length == 0) {
 
-			String className = configMetadata.getClassName();
+			String className = this.configMetadata.getClassName();
 			return Streamable.of(ClassUtils.getPackageName(className));
 		}
 
@@ -152,7 +152,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		return Streamable.of(packages);
 	}
 	public Optional<Object> getQueryLookupStrategyKey() {
-		return Optional.ofNullable(attributes.get(QUERY_LOOKUP_STRATEGY));
+		return Optional.ofNullable(this.attributes.get(QUERY_LOOKUP_STRATEGY));
 	}
 	public Optional<String> getNamedQueryLocation() {
 		return getNullDefaultedAttribute(NAMED_QUERIES_LOCATION);
@@ -162,7 +162,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	}
 	@Nonnull
 	public Object getSource() {
-		return configMetadata;
+		return this.configMetadata;
 	}
 	@Override
 	protected Iterable<TypeFilter> getIncludeFilters() {
@@ -174,16 +174,16 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	}
 	@Override
 	public Optional<String> getRepositoryFactoryBeanClassName() {
-		return Optional.of(attributes.getClass(REPOSITORY_FACTORY_BEAN_CLASS).getName());
+		return Optional.of(this.attributes.getClass(REPOSITORY_FACTORY_BEAN_CLASS).getName());
 	}
 	@Override
 	public Optional<String> getRepositoryBaseClassName() {
 
-		if (!attributes.containsKey(REPOSITORY_BASE_CLASS)) {
+		if (!this.attributes.containsKey(REPOSITORY_BASE_CLASS)) {
 			return Optional.empty();
 		}
 
-		Class<? extends Object> repositoryBaseClass = attributes.getClass(REPOSITORY_BASE_CLASS);
+		Class<? extends Object> repositoryBaseClass = this.attributes.getClass(REPOSITORY_BASE_CLASS);
 		return DefaultRepositoryBaseClass.class.equals(repositoryBaseClass) ? Optional.empty()
 				: Optional.of(repositoryBaseClass.getName());
 	}
@@ -194,7 +194,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @return the attributes will never be {@literal null}.
 	 */
 	public AnnotationAttributes getAttributes() {
-		return attributes;
+		return this.attributes;
 	}
 
 	/**
@@ -203,11 +203,11 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @return the enableAnnotationMetadata
 	 */
 	public AnnotationMetadata getEnableAnnotationMetadata() {
-		return enableAnnotationMetadata;
+		return this.enableAnnotationMetadata;
 	}
 	@Override
 	public boolean shouldConsiderNestedRepositories() {
-		return attributes.containsKey(CONSIDER_NESTED_REPOSITORIES) && attributes.getBoolean(CONSIDER_NESTED_REPOSITORIES);
+		return this.attributes.containsKey(CONSIDER_NESTED_REPOSITORIES) && this.attributes.getBoolean(CONSIDER_NESTED_REPOSITORIES);
 	}
 	@Override
 	public Optional<String> getAttribute(String name) {
@@ -221,11 +221,11 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	@Override
 	public <T> Optional<T> getAttribute(String name, Class<T> type) {
 
-		if (!attributes.containsKey(name)) {
+		if (!this.attributes.containsKey(name)) {
 			throw new IllegalArgumentException(String.format("No attribute named %s found!", name));
 		}
 
-		Object value = attributes.get(name);
+		Object value = this.attributes.get(name);
 
 		if (value == null) {
 			return Optional.empty();
@@ -243,13 +243,13 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	}
 	@Override
 	public boolean usesExplicitFilters() {
-		return hasExplicitFilters;
+		return this.hasExplicitFilters;
 	}
 	@Override
 	public BootstrapMode getBootstrapMode() {
 
 		try {
-			return attributes.getEnum(BOOTSTRAP_MODE);
+			return this.attributes.getEnum(BOOTSTRAP_MODE);
 		} catch (IllegalArgumentException o_O) {
 			return BootstrapMode.DEFAULT;
 		}
@@ -257,15 +257,15 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	@Override
 	public String getResourceDescription() {
 
-		String simpleClassName = ClassUtils.getShortName(configMetadata.getClassName());
-		String annoationClassName = ClassUtils.getShortName(enableAnnotationMetadata.getClassName());
+		String simpleClassName = ClassUtils.getShortName(this.configMetadata.getClassName());
+		String annoationClassName = ClassUtils.getShortName(this.enableAnnotationMetadata.getClassName());
 
 		return String.format("@%s declared on %s", annoationClassName, simpleClassName);
 	}
 
 	private Streamable<TypeFilter> parseFilters(String attributeName) {
 
-		AnnotationAttributes[] filters = attributes.getAnnotationArray(attributeName);
+		AnnotationAttributes[] filters = this.attributes.getAnnotationArray(attributeName);
 
 		return Streamable.of(() -> Arrays.stream(filters).flatMap(it -> typeFiltersFor(it).stream()));
 	}
@@ -279,7 +279,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 */
 	private Optional<String> getNullDefaultedAttribute(String attributeName) {
 
-		String attribute = attributes.getString(attributeName);
+		String attribute = this.attributes.getString(attributeName);
 
 		return StringUtils.hasText(attribute) ? Optional.of(attribute) : Optional.empty();
 	}

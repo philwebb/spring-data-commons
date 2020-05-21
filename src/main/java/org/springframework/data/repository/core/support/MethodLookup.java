@@ -89,19 +89,19 @@ public interface MethodLookup {
 		}
 
 		public Class<?> getDeclaringClass() {
-			return method.getDeclaringClass();
+			return this.method.getDeclaringClass();
 		}
 
 		public String getName() {
-			return method.getName();
+			return this.method.getName();
 		}
 
 		public Class<?>[] getParameterTypes() {
-			return method.getParameterTypes();
+			return this.method.getParameterTypes();
 		}
 
 		public int getParameterCount() {
-			return method.getParameterCount();
+			return this.method.getParameterCount();
 		}
 
 		public Method getMethod() {
@@ -119,11 +119,11 @@ public interface MethodLookup {
 			}
 
 			InvokedMethod that = (InvokedMethod) o;
-			return ObjectUtils.nullSafeEquals(method, that.method);
+			return ObjectUtils.nullSafeEquals(this.method, that.method);
 		}
 		@Override
 		public int hashCode() {
-			return ObjectUtils.nullSafeHashCode(method);
+			return ObjectUtils.nullSafeHashCode(this.method);
 		}
 		@Override
 		public String toString() {

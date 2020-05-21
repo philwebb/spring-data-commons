@@ -36,10 +36,10 @@ class ExampleUnitTests {
 	@BeforeEach
 	void setUp() {
 
-		person = new Person();
-		person.firstname = "rand";
+		this.person = new Person();
+		this.person.firstname = "rand";
 
-		example = Example.of(person);
+		this.example = Example.of(this.person);
 	}
 
 	@Test // DATACMNS-810
@@ -49,16 +49,16 @@ class ExampleUnitTests {
 
 	@Test // DATACMNS-810
 	void retunsSampleObjectsClassAsProbeType() {
-		assertThat(example.getProbeType()).isEqualTo(Person.class);
+		assertThat(this.example.getProbeType()).isEqualTo(Person.class);
 	}
 
 	@Test // DATACMNS-900
 	void shouldCompareUsingHashCodeAndEquals() throws Exception {
 
-		Example<Person> example = Example.of(person, matching().withIgnoreCase("firstname"));
-		Example<Person> sameAsExample = Example.of(person, matching().withIgnoreCase("firstname"));
+		Example<Person> example = Example.of(this.person, matching().withIgnoreCase("firstname"));
+		Example<Person> sameAsExample = Example.of(this.person, matching().withIgnoreCase("firstname"));
 
-		Example<Person> different = Example.of(person,
+		Example<Person> different = Example.of(this.person,
 				matching().withMatcher("firstname", GenericPropertyMatchers.contains()));
 
 		assertThat(example.hashCode()).isEqualTo(sameAsExample.hashCode());

@@ -110,7 +110,7 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 
 		Assert.notNull(source, "Source object must not be null!");
 
-		return getFromCacheOrCreate(accessor.readAliasFrom(source));
+		return getFromCacheOrCreate(this.accessor.readAliasFrom(source));
 	}
 
 	/**
@@ -123,10 +123,10 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	@Nullable
 	private TypeInformation<?> getFromCacheOrCreate(Alias alias) {
 
-		Optional<TypeInformation<?>> typeInformation = typeCache.get(alias);
+		Optional<TypeInformation<?>> typeInformation = this.typeCache.get(alias);
 
 		if (typeInformation == null) {
-			typeInformation = typeCache.computeIfAbsent(alias, getAlias);
+			typeInformation = this.typeCache.computeIfAbsent(alias, this.getAlias);
 		}
 
 		return typeInformation.orElse(null);
@@ -206,7 +206,7 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 
 		Alias alias = getAliasFor(info);
 		if (alias.isPresent()) {
-			accessor.writeTypeTo(sink, alias.getValue());
+			this.accessor.writeTypeTo(sink, alias.getValue());
 		}
 	}
 
@@ -221,7 +221,7 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 
 		Assert.notNull(info, "TypeInformation must not be null!");
 
-		for (TypeInformationMapper mapper : mappers) {
+		for (TypeInformationMapper mapper : this.mappers) {
 
 			Alias alias = mapper.createAliasFor(info);
 			if (alias.isPresent()) {

@@ -64,10 +64,10 @@ public class TypeDiscovererUnitTests {
 	@Test
 	void isNotEqualIfTypeVariableMapsDiffer() {
 
-		assertThat(firstMap.equals(secondMap)).isFalse();
+		assertThat(this.firstMap.equals(this.secondMap)).isFalse();
 
-		TypeDiscoverer<Object> first = new TypeDiscoverer<>(Object.class, firstMap);
-		TypeDiscoverer<Object> second = new TypeDiscoverer<>(Object.class, secondMap);
+		TypeDiscoverer<Object> first = new TypeDiscoverer<>(Object.class, this.firstMap);
+		TypeDiscoverer<Object> second = new TypeDiscoverer<>(Object.class, this.secondMap);
 
 		assertThat(first.equals(second)).isFalse();
 	}
@@ -103,7 +103,7 @@ public class TypeDiscovererUnitTests {
 	@Test
 	void returnsComponentTypeForCollectionExtension() {
 
-		TypeDiscoverer<CustomCollection> discoverer = new TypeDiscoverer<>(CustomCollection.class, firstMap);
+		TypeDiscoverer<CustomCollection> discoverer = new TypeDiscoverer<>(CustomCollection.class, this.firstMap);
 
 		assertThat(discoverer.getComponentType().getType()).isEqualTo(String.class);
 	}
@@ -119,7 +119,7 @@ public class TypeDiscovererUnitTests {
 	@Test // DATACMNS-57
 	void discoveresConstructorParameterTypesCorrectly() throws NoSuchMethodException, SecurityException {
 
-		TypeDiscoverer<GenericConstructors> discoverer = new TypeDiscoverer<>(GenericConstructors.class, firstMap);
+		TypeDiscoverer<GenericConstructors> discoverer = new TypeDiscoverer<>(GenericConstructors.class, this.firstMap);
 		Constructor<GenericConstructors> constructor = GenericConstructors.class.getConstructor(List.class, Locale.class);
 		List<TypeInformation<?>> types = discoverer.getParameterTypes(constructor);
 

@@ -97,7 +97,7 @@ class QueryExecutionResultHandler {
 
 			}
 
-			synchronized (mutex) {
+			synchronized (this.mutex) {
 				this.descriptorCache = updatedDescriptorCache;
 			}
 		}
@@ -132,7 +132,7 @@ class QueryExecutionResultHandler {
 			result = postProcessInvocationResult(result, nestingLevel + 1, descriptor);
 
 			if (conversionRequired(WRAPPER_TYPE, returnTypeDescriptor)) {
-				return conversionService.convert(new NullableWrapper(result), returnTypeDescriptor);
+				return this.conversionService.convert(new NullableWrapper(result), returnTypeDescriptor);
 			}
 
 			if (result != null) {
@@ -140,7 +140,7 @@ class QueryExecutionResultHandler {
 				TypeDescriptor source = TypeDescriptor.valueOf(result.getClass());
 
 				if (conversionRequired(source, returnTypeDescriptor)) {
-					return conversionService.convert(result, returnTypeDescriptor);
+					return this.conversionService.convert(result, returnTypeDescriptor);
 				}
 			}
 		}
@@ -162,8 +162,8 @@ class QueryExecutionResultHandler {
 			}
 
 			TypeDescriptor resultDescriptor = TypeDescriptor.forObject(result);
-			return conversionService.canConvert(resultDescriptor, returnTypeDescriptor)
-					? conversionService.convert(result, returnTypeDescriptor)
+			return this.conversionService.canConvert(resultDescriptor, returnTypeDescriptor)
+					? this.conversionService.convert(result, returnTypeDescriptor)
 					: result;
 		}
 
@@ -205,8 +205,8 @@ class QueryExecutionResultHandler {
 	 */
 	private boolean conversionRequired(TypeDescriptor source, TypeDescriptor target) {
 
-		return conversionService.canConvert(source, target) //
-				&& !conversionService.canBypassConvert(source, target);
+		return this.conversionService.canConvert(source, target) //
+				&& !this.conversionService.canBypassConvert(source, target);
 	}
 
 	/**
@@ -283,9 +283,9 @@ class QueryExecutionResultHandler {
 
 			switch (nestingLevel) {
 				case 0:
-					return typeDescriptor;
+					return this.typeDescriptor;
 				case 1:
-					return nestedTypeDescriptor;
+					return this.nestedTypeDescriptor;
 				default:
 					return TypeDescriptor.nested(this.methodParameter, nestingLevel);
 			}

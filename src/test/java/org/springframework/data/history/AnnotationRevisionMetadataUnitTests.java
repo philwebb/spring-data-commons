@@ -62,10 +62,10 @@ class AnnotationRevisionMetadataUnitTests {
 
 		RevisionMetadata<Long> metadata = getMetadata(sample);
 
-		softly.assertThat(metadata.getRevisionNumber()).hasValue(1L);
-		softly.assertThat(metadata.getRequiredRevisionNumber()).isEqualTo(1L);
+		this.softly.assertThat(metadata.getRevisionNumber()).hasValue(1L);
+		this.softly.assertThat(metadata.getRequiredRevisionNumber()).isEqualTo(1L);
 
-		softly.assertAll();
+		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1173
@@ -77,10 +77,10 @@ class AnnotationRevisionMetadataUnitTests {
 
 		RevisionMetadata<Long> metadata = getMetadata(sample);
 
-		softly.assertThat(metadata.getRevisionInstant()).hasValue(expectedInstant);
-		softly.assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(expectedInstant);
+		this.softly.assertThat(metadata.getRevisionInstant()).hasValue(expectedInstant);
+		this.softly.assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(expectedInstant);
 
-		softly.assertAll();
+		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1251
@@ -92,10 +92,10 @@ class AnnotationRevisionMetadataUnitTests {
 
 		RevisionMetadata<Long> metadata = getMetadata(sample);
 
-		softly.assertThat(metadata.getRevisionInstant()).hasValue(sample.revisionInstant);
-		softly.assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(sample.revisionInstant);
+		this.softly.assertThat(metadata.getRevisionInstant()).hasValue(sample.revisionInstant);
+		this.softly.assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(sample.revisionInstant);
 
-		softly.assertAll();
+		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1290
@@ -109,10 +109,10 @@ class AnnotationRevisionMetadataUnitTests {
 
 		RevisionMetadata<Long> metadata = getMetadata(sample);
 
-		softly.assertThat(metadata.getRevisionInstant()).hasValue(expectedInstant);
-		softly.assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(expectedInstant);
+		this.softly.assertThat(metadata.getRevisionInstant()).hasValue(expectedInstant);
+		this.softly.assertThat(metadata.getRequiredRevisionInstant()).isEqualTo(expectedInstant);
 
-		softly.assertAll();
+		this.softly.assertAll();
 	}
 
 	@Test // DATACMNS-1384

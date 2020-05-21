@@ -134,7 +134,7 @@ public class QuerydslPredicateBuilder {
 
 		Path<?> path = getPath(dotPath, bindings);
 
-		return bindings.getBindingForPath(dotPath).orElse(defaultBinding).bind(path, values);
+		return bindings.getBindingForPath(dotPath).orElse(this.defaultBinding).bind(path, values);
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class QuerydslPredicateBuilder {
 
 		Optional<Path<?>> resolvedPath = bindings.getExistingPath(path);
 
-		return resolvedPath.orElseGet(() -> paths.computeIfAbsent(path, it -> it.reifyPath(resolver)));
+		return resolvedPath.orElseGet(() -> this.paths.computeIfAbsent(path, it -> it.reifyPath(this.resolver)));
 	}
 
 	/**
@@ -174,8 +174,8 @@ public class QuerydslPredicateBuilder {
 
 		for (String value : source) {
 
-			target.add(conversionService.canConvert(String.class, targetType)
-					? conversionService.convert(value, TypeDescriptor.forObject(value), getTargetTypeDescriptor(path))
+			target.add(this.conversionService.canConvert(String.class, targetType)
+					? this.conversionService.convert(value, TypeDescriptor.forObject(value), getTargetTypeDescriptor(path))
 					: value);
 		}
 

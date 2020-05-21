@@ -59,21 +59,21 @@ class SpringDataJaxbUnitTests {
 	Unmarshaller unmarshaller;
 
 	Sort sort = Sort.by(Direction.ASC, "firstname", "lastname");
-	Pageable pageable = PageRequest.of(2, 15, sort);
+	Pageable pageable = PageRequest.of(2, 15, this.sort);
 	Resource resource = new ClassPathResource("pageable.xml", this.getClass());
 	Resource schemaFile = new ClassPathResource("spring-data-jaxb.xsd", this.getClass());
 
-	String reference = readFile(resource);
+	String reference = readFile(this.resource);
 
 	@BeforeEach
 	void setUp() throws Exception {
 
 		JAXBContext context = JAXBContext.newInstance("org.springframework.data.domain.jaxb");
 
-		marshaller = context.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		this.marshaller = context.createMarshaller();
+		this.marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-		unmarshaller = context.createUnmarshaller();
+		this.unmarshaller = context.createUnmarshaller();
 	}
 
 	@Test
@@ -81,22 +81,22 @@ class SpringDataJaxbUnitTests {
 
 		StringWriter writer = new StringWriter();
 		Wrapper wrapper = new Wrapper();
-		wrapper.pageable = pageable;
-		wrapper.sort = sort;
+		wrapper.pageable = this.pageable;
+		wrapper.sort = this.sort;
 		wrapper.pageableWithoutSort = PageRequest.of(10, 20);
-		marshaller.marshal(wrapper, writer);
+		this.marshaller.marshal(wrapper, writer);
 
-		assertThat(new Diff(reference, writer.toString()).similar()).isTrue();
+		assertThat(new Diff(this.reference, writer.toString()).similar()).isTrue();
 	}
 
 	@Test
 	void readsPageRequest() throws Exception {
 
-		Object result = unmarshaller.unmarshal(resource.getFile());
+		Object result = this.unmarshaller.unmarshal(this.resource.getFile());
 
 		assertThat(result).isInstanceOf(Wrapper.class);
-		assertThat(((Wrapper) result).pageable).isEqualTo(pageable);
-		assertThat(((Wrapper) result).sort).isEqualTo(sort);
+		assertThat(((Wrapper) result).pageable).isEqualTo(this.pageable);
+		assertThat(((Wrapper) result).sort).isEqualTo(this.sort);
 	}
 
 	@Test
@@ -108,7 +108,7 @@ class SpringDataJaxbUnitTests {
 		wrapper.page = new PageImpl<>(Collections.singletonList(content));
 		wrapper.pageWithLinks = new PageImpl<>(Collections.singletonList(content));
 
-		marshaller.marshal(wrapper, new StringWriter());
+		this.marshaller.marshal(wrapper, new StringWriter());
 	}
 
 	private static String readFile(Resource resource) {

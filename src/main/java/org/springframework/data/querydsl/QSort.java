@@ -108,7 +108,7 @@ public class QSort extends Sort implements Serializable {
 	 * @return the orderSpecifier
 	 */
 	public List<OrderSpecifier<?>> getOrderSpecifiers() {
-		return orderSpecifiers;
+		return this.orderSpecifiers;
 	}
 
 	/**

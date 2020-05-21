@@ -64,9 +64,9 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 	@Override
 	public Streamable<BeanDefinition> getCandidates(ResourceLoader loader) {
 
-		RepositoryComponentProvider scanner = new RepositoryComponentProvider(getIncludeFilters(), registry);
+		RepositoryComponentProvider scanner = new RepositoryComponentProvider(getIncludeFilters(), this.registry);
 		scanner.setConsiderNestedRepositoryInterfaces(shouldConsiderNestedRepositories());
-		scanner.setEnvironment(environment);
+		scanner.setEnvironment(this.environment);
 		scanner.setResourceLoader(loader);
 
 		getExcludeFilters().forEach(it -> scanner.addExcludeFilter(it));
@@ -87,7 +87,7 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 	}
 	@Override
 	public String generateBeanName(BeanDefinition beanDefinition) {
-		return beanNameGenerator.generateBeanName(beanDefinition);
+		return this.beanNameGenerator.generateBeanName(beanDefinition);
 	}
 
 	/**
@@ -126,20 +126,20 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 		}
 		@Override
 		public String getImplementationPostfix() {
-			return source.getRepositoryImplementationPostfix()
+			return this.source.getRepositoryImplementationPostfix()
 					.orElse(DefaultRepositoryConfiguration.DEFAULT_REPOSITORY_IMPLEMENTATION_POSTFIX);
 		}
 		@Override
 		public Streamable<String> getBasePackages() {
-			return source.getBasePackages();
+			return this.source.getBasePackages();
 		}
 		@Override
 		public Streamable<TypeFilter> getExcludeFilters() {
-			return source.getExcludeFilters();
+			return this.source.getExcludeFilters();
 		}
 		@Override
 		public String generateBeanName(BeanDefinition definition) {
-			return source.generateBeanName(definition);
+			return this.source.generateBeanName(definition);
 		}
 
 		public MetadataReaderFactory getMetadataReaderFactory() {

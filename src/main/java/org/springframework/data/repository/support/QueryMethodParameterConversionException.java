@@ -57,7 +57,7 @@ public class QueryMethodParameterConversionException extends RuntimeException {
 	 * @return the source can be {@literal null}.
 	 */
 	public Object getSource() {
-		return source;
+		return this.source;
 	}
 
 	/**
@@ -67,6 +67,6 @@ public class QueryMethodParameterConversionException extends RuntimeException {
 	 * @see #getSource()
 	 */
 	public MethodParameter getParameter() {
-		return parameter;
+		return this.parameter;
 	}
 }

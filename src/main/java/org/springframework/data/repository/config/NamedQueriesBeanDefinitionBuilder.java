@@ -69,10 +69,10 @@ public class NamedQueriesBeanDefinitionBuilder {
 
 		BeanDefinitionBuilder properties = BeanDefinitionBuilder.rootBeanDefinition(PropertiesFactoryBean.class);
 
-		String locationsToUse = StringUtils.hasText(locations) ? locations : defaultLocation;
+		String locationsToUse = StringUtils.hasText(this.locations) ? this.locations : this.defaultLocation;
 		properties.addPropertyValue("locations", locationsToUse);
 
-		if (!StringUtils.hasText(locations)) {
+		if (!StringUtils.hasText(this.locations)) {
 			properties.addPropertyValue("ignoreResourceNotFound", true);
 		}
 

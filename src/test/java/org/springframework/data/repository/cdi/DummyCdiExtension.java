@@ -97,7 +97,7 @@ public class DummyCdiExtension extends CdiRepositoryExtensionSupport {
 
 		@Override
 		protected void setComponentInstanceMap() {
-			componentInstanceMap = new HashMap<>();
+			this.componentInstanceMap = new HashMap<>();
 		}
 
 		@Override

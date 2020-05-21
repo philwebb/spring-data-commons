@@ -146,7 +146,7 @@ public class Property {
 	 * @return
 	 */
 	public boolean isFieldBacked() {
-		return field.isPresent();
+		return this.field.isPresent();
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class Property {
 	 * @return will never be {@literal null}.
 	 */
 	public Optional<Method> getGetter() {
-		return getter;
+		return this.getter;
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class Property {
 	 * @return will never be {@literal null}.
 	 */
 	public Optional<Method> getSetter() {
-		return setter;
+		return this.setter;
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class Property {
 	 * @return will never be {@literal null}.
 	 */
 	public Optional<Method> getWither() {
-		return wither.get();
+		return this.wither.get();
 	}
 
 	/**
@@ -209,7 +209,7 @@ public class Property {
 	 * @return will never be {@literal null}.
 	 */
 	public Class<?> getType() {
-		return rawType;
+		return this.rawType;
 	}
 	@Override
 	public boolean equals(@Nullable Object obj) {
@@ -228,11 +228,11 @@ public class Property {
 	}
 	@Override
 	public int hashCode() {
-		return hashCode.get();
+		return this.hashCode.get();
 	}
 	@Override
 	public String toString() {
-		return toString.get();
+		return this.toString.get();
 	}
 
 	/**

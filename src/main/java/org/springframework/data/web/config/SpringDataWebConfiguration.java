@@ -107,7 +107,7 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		FormattingConversionService conversionService = (FormattingConversionService) registry;
 
 		DomainClassConverter<FormattingConversionService> converter = new DomainClassConverter<>(conversionService);
-		converter.setApplicationContext(context);
+		converter.setApplicationContext(this.context);
 	}
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -115,8 +115,8 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		argumentResolvers.add(sortResolver());
 		argumentResolvers.add(pageableResolver());
 
-		ProxyingHandlerMethodArgumentResolver resolver = new ProxyingHandlerMethodArgumentResolver(conversionService, true);
-		resolver.setBeanFactory(context);
+		ProxyingHandlerMethodArgumentResolver resolver = new ProxyingHandlerMethodArgumentResolver(this.conversionService, true);
+		resolver.setBeanFactory(this.context);
 		forwardBeanClassLoader(resolver);
 
 		argumentResolvers.add(resolver);
@@ -124,37 +124,37 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 
-		if (ClassUtils.isPresent("com.jayway.jsonpath.DocumentContext", context.getClassLoader())
-				&& ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper", context.getClassLoader())) {
+		if (ClassUtils.isPresent("com.jayway.jsonpath.DocumentContext", this.context.getClassLoader())
+				&& ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper", this.context.getClassLoader())) {
 
-			ObjectMapper mapper = getUniqueBean(ObjectMapper.class, context, ObjectMapper::new);
+			ObjectMapper mapper = getUniqueBean(ObjectMapper.class, this.context, ObjectMapper::new);
 
 			ProjectingJackson2HttpMessageConverter converter = new ProjectingJackson2HttpMessageConverter(mapper);
-			converter.setBeanFactory(context);
+			converter.setBeanFactory(this.context);
 			forwardBeanClassLoader(converter);
 
 			converters.add(0, converter);
 		}
 
-		if (ClassUtils.isPresent("org.xmlbeam.XBProjector", context.getClassLoader())) {
+		if (ClassUtils.isPresent("org.xmlbeam.XBProjector", this.context.getClassLoader())) {
 
-			converters.add(0, context.getBeanProvider(XmlBeamHttpMessageConverter.class) //
+			converters.add(0, this.context.getBeanProvider(XmlBeamHttpMessageConverter.class) //
 					.getIfAvailable(XmlBeamHttpMessageConverter::new));
 		}
 	}
 
 	protected void customizePageableResolver(PageableHandlerMethodArgumentResolver pageableResolver) {
-		pageableResolverCustomizer.ifPresent(c -> c.customize(pageableResolver));
+		this.pageableResolverCustomizer.ifPresent(c -> c.customize(pageableResolver));
 	}
 
 	protected void customizeSortResolver(SortHandlerMethodArgumentResolver sortResolver) {
-		sortResolverCustomizer.ifPresent(c -> c.customize(sortResolver));
+		this.sortResolverCustomizer.ifPresent(c -> c.customize(sortResolver));
 	}
 
 	private void forwardBeanClassLoader(BeanClassLoaderAware target) {
 
-		if (beanClassLoader != null) {
-			target.setBeanClassLoader(beanClassLoader);
+		if (this.beanClassLoader != null) {
+			target.setBeanClassLoader(this.beanClassLoader);
 		}
 	}
 

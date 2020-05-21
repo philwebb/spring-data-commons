@@ -78,9 +78,9 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 				return super.getBeanWrapperFor(source);
 			}
 
-			return entities.mapOnContext(it.getClass(), (context, entity) -> {
+			return this.entities.mapOnContext(it.getClass(), (context, entity) -> {
 
-				MappingAuditingMetadata metadata = metadataCache.computeIfAbsent(it.getClass(),
+				MappingAuditingMetadata metadata = this.metadataCache.computeIfAbsent(it.getClass(),
 						key -> new MappingAuditingMetadata(context, it.getClass()));
 
 				return Optional.<AuditableBeanWrapper<T>> ofNullable(metadata.isAuditable() //
@@ -124,7 +124,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 
 			this.isAuditable = Lazy.of( //
 					() -> //
-					Stream.of(createdByPaths, createdDatePaths, lastModifiedByPaths, lastModifiedDatePaths) //
+					Stream.of(this.createdByPaths, this.createdDatePaths, this.lastModifiedByPaths, this.lastModifiedDatePaths) //
 							.anyMatch(it -> !it.isEmpty())//
 			);
 		}
@@ -136,7 +136,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		 * @return
 		 */
 		public boolean isAuditable() {
-			return isAuditable.get();
+			return this.isAuditable.get();
 		}
 
 		private PersistentPropertyPaths<?, ? extends PersistentProperty<?>> findPropertyPaths(Class<?> type,
@@ -189,31 +189,31 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		}
 		@Override
 		public Object setCreatedBy(Object value) {
-			return setProperty(metadata.createdByPaths, value);
+			return setProperty(this.metadata.createdByPaths, value);
 		}
 		@Override
 		public TemporalAccessor setCreatedDate(TemporalAccessor value) {
-			return setDateProperty(metadata.createdDatePaths, value);
+			return setDateProperty(this.metadata.createdDatePaths, value);
 		}
 		@Override
 		public Object setLastModifiedBy(Object value) {
-			return setProperty(metadata.lastModifiedByPaths, value);
+			return setProperty(this.metadata.lastModifiedByPaths, value);
 		}
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
 
-			Optional<Object> firstValue = metadata.lastModifiedDatePaths.getFirst() //
-					.map(accessor::getProperty);
+			Optional<Object> firstValue = this.metadata.lastModifiedDatePaths.getFirst() //
+					.map(this.accessor::getProperty);
 
 			return getAsTemporalAccessor(firstValue, TemporalAccessor.class);
 		}
 		@Override
 		public TemporalAccessor setLastModifiedDate(TemporalAccessor value) {
-			return setDateProperty(metadata.lastModifiedDatePaths, value);
+			return setDateProperty(this.metadata.lastModifiedDatePaths, value);
 		}
 		@Override
 		public T getBean() {
-			return accessor.getBean();
+			return this.accessor.getBean();
 		}
 
 		private <S> S setProperty(
@@ -231,7 +231,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 
 				Class<?> type = it.getRequiredLeafProperty().getType();
 
-				this.accessor.setProperty(it, getDateValueToSet(value, type, accessor.getBean()), OPTIONS);
+				this.accessor.setProperty(it, getDateValueToSet(value, type, this.accessor.getBean()), OPTIONS);
 			});
 
 			return value;

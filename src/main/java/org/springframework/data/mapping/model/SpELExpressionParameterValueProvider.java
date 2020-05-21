@@ -45,10 +45,10 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 	public <T> T getParameterValue(Parameter<T, P> parameter) {
 
 		if (!parameter.hasSpelExpression()) {
-			return delegate == null ? null : delegate.getParameterValue(parameter);
+			return this.delegate == null ? null : this.delegate.getParameterValue(parameter);
 		}
 
-		Object object = evaluator.evaluate(parameter.getSpelExpression());
+		Object object = this.evaluator.evaluate(parameter.getSpelExpression());
 		return object == null ? null : potentiallyConvertSpelValue(object, parameter);
 	}
 
@@ -62,6 +62,6 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 	 */
 	@Nullable
 	protected <T> T potentiallyConvertSpelValue(Object object, Parameter<T, P> parameter) {
-		return conversionService.convert(object, parameter.getRawType());
+		return this.conversionService.convert(object, parameter.getRawType());
 	}
 }

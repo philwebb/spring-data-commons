@@ -65,10 +65,10 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 	protected ResourceReaderRepositoryPopulator createInstance() {
 
 		ResourceReaderRepositoryPopulator initializer = new ResourceReaderRepositoryPopulator(getResourceReader());
-		initializer.setResources(resources);
+		initializer.setResources(this.resources);
 
-		if (context != null) {
-			initializer.setApplicationEventPublisher(context);
+		if (this.context != null) {
+			initializer.setApplicationEventPublisher(this.context);
 		}
 
 		this.populator = initializer;
@@ -83,7 +83,7 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 			throw new IllegalStateException("RepositoryPopulator was not properly initialized!");
 		}
 
-		if (event.getApplicationContext().equals(context)) {
+		if (event.getApplicationContext().equals(this.context)) {
 
 			Repositories repositories = new Repositories(event.getApplicationContext());
 			populator.populate(repositories);
@@ -94,7 +94,7 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
-		Assert.state(resources != null, "Resources must not be null!");
+		Assert.state(this.resources != null, "Resources must not be null!");
 		super.afterPropertiesSet();
 	}
 }

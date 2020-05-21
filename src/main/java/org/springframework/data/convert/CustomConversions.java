@@ -93,13 +93,13 @@ public class CustomConversions {
 	private final ConverterConfiguration converterConfiguration;
 
 	private final Function<ConvertiblePair, Class<?>> getReadTarget = convertiblePair -> getCustomTarget(
-			convertiblePair.getSourceType(), convertiblePair.getTargetType(), readingPairs);
+			convertiblePair.getSourceType(), convertiblePair.getTargetType(), this.readingPairs);
 
 	private final Function<ConvertiblePair, Class<?>> getWriteTarget = convertiblePair -> getCustomTarget(
-			convertiblePair.getSourceType(), convertiblePair.getTargetType(), writingPairs);
+			convertiblePair.getSourceType(), convertiblePair.getTargetType(), this.writingPairs);
 
 	private final Function<ConvertiblePair, Class<?>> getRawWriteTarget = convertiblePair -> getCustomTarget(
-			convertiblePair.getSourceType(), null, writingPairs);
+			convertiblePair.getSourceType(), null, this.writingPairs);
 
 	/**
 	 * @param converterConfiguration the {@link ConverterConfiguration} to apply.
@@ -121,7 +121,7 @@ public class CustomConversions {
 		Collections.reverse(registeredConverters);
 
 		this.converters = Collections.unmodifiableList(registeredConverters);
-		this.simpleTypeHolder = new SimpleTypeHolder(customSimpleTypes,
+		this.simpleTypeHolder = new SimpleTypeHolder(this.customSimpleTypes,
 				converterConfiguration.getStoreConversions().getStoreTypeHolder());
 	}
 
@@ -144,7 +144,7 @@ public class CustomConversions {
 	 * @return
 	 */
 	public SimpleTypeHolder getSimpleTypeHolder() {
-		return simpleTypeHolder;
+		return this.simpleTypeHolder;
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class CustomConversions {
 
 		Assert.notNull(type, "Type must not be null!");
 
-		return simpleTypeHolder.isSimpleType(type);
+		return this.simpleTypeHolder.isSimpleType(type);
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class CustomConversions {
 
 		Assert.notNull(conversionService, "ConversionService must not be null!");
 
-		converters.forEach(it -> registerConverterIn(it, conversionService));
+		this.converters.forEach(it -> registerConverterIn(it, conversionService));
 	}
 
 	/**
@@ -253,7 +253,7 @@ public class CustomConversions {
 
 		if (converterRegistration.isReading()) {
 
-			readingPairs.add(pair);
+			this.readingPairs.add(pair);
 
 			if (LOG.isWarnEnabled() && !converterRegistration.isSimpleSourceType()) {
 				LOG.warn(String.format(READ_CONVERTER_NOT_SIMPLE, pair.getSourceType(), pair.getTargetType()));
@@ -262,8 +262,8 @@ public class CustomConversions {
 
 		if (converterRegistration.isWriting()) {
 
-			writingPairs.add(pair);
-			customSimpleTypes.add(pair.getSourceType());
+			this.writingPairs.add(pair);
+			this.customSimpleTypes.add(pair.getSourceType());
 
 			if (LOG.isWarnEnabled() && !converterRegistration.isSimpleTargetType()) {
 				LOG.warn(String.format(WRITE_CONVERTER_NOT_SIMPLE, pair.getSourceType(), pair.getTargetType()));
@@ -311,7 +311,7 @@ public class CustomConversions {
 	 */
 	private boolean shouldRegister(ConverterRegistrationIntent intent) {
 		return !intent.isDefaultConverter()
-				|| converterConfiguration.shouldRegister(intent.getConverterRegistration().getConvertiblePair());
+				|| this.converterConfiguration.shouldRegister(intent.getConverterRegistration().getConvertiblePair());
 	}
 
 	/**
@@ -325,7 +325,7 @@ public class CustomConversions {
 
 		Assert.notNull(sourceType, "Source type must not be null!");
 
-		Class<?> target = customWriteTargetTypes.computeIfAbsent(sourceType, getRawWriteTarget);
+		Class<?> target = this.customWriteTargetTypes.computeIfAbsent(sourceType, this.getRawWriteTarget);
 
 		return Void.class.equals(target) || target == null ? Optional.empty() : Optional.of(target);
 	}
@@ -344,7 +344,7 @@ public class CustomConversions {
 		Assert.notNull(sourceType, "Source type must not be null!");
 		Assert.notNull(requestedTargetType, "Target type must not be null!");
 
-		Class<?> target = customWriteTargetTypes.computeIfAbsent(sourceType, requestedTargetType, getWriteTarget);
+		Class<?> target = this.customWriteTargetTypes.computeIfAbsent(sourceType, requestedTargetType, this.getWriteTarget);
 
 		return Void.class.equals(target) || target == null ? Optional.empty() : Optional.of(target);
 	}
@@ -404,7 +404,7 @@ public class CustomConversions {
 	 */
 	@Nullable
 	private Class<?> getCustomReadTarget(Class<?> sourceType, Class<?> targetType) {
-		return customReadTargetTypes.computeIfAbsent(sourceType, targetType, getReadTarget);
+		return this.customReadTargetTypes.computeIfAbsent(sourceType, targetType, this.getReadTarget);
 	}
 
 	/**
@@ -487,10 +487,10 @@ public class CustomConversions {
 		public Class<?> computeIfAbsent(Class<?> sourceType, Class<?> targetType,
 				Function<ConvertiblePair, Class<?>> mappingFunction) {
 
-			TargetTypes targetTypes = customReadTargetTypes.get(sourceType);
+			TargetTypes targetTypes = this.customReadTargetTypes.get(sourceType);
 
 			if (targetTypes == null) {
-				targetTypes = customReadTargetTypes.computeIfAbsent(sourceType, TargetTypes::new);
+				targetTypes = this.customReadTargetTypes.computeIfAbsent(sourceType, TargetTypes::new);
 			}
 
 			return targetTypes.computeIfAbsent(targetType, mappingFunction);
@@ -528,11 +528,11 @@ public class CustomConversions {
 		@Nullable
 		public Class<?> computeIfAbsent(Class<?> targetType, Function<ConvertiblePair, Class<?>> mappingFunction) {
 
-			Class<?> optionalTarget = conversionTargets.get(targetType);
+			Class<?> optionalTarget = this.conversionTargets.get(targetType);
 
 			if (optionalTarget == null) {
-				optionalTarget = mappingFunction.apply(new ConvertiblePair(sourceType, targetType));
-				conversionTargets.put(targetType, optionalTarget == null ? Void.class : optionalTarget);
+				optionalTarget = mappingFunction.apply(new ConvertiblePair(this.sourceType, targetType));
+				this.conversionTargets.put(targetType, optionalTarget == null ? Void.class : optionalTarget);
 			}
 
 			return Void.class.equals(optionalTarget) ? null : optionalTarget;
@@ -569,27 +569,27 @@ public class CustomConversions {
 		}
 
 		Class<?> getSourceType() {
-			return delegate.getConvertiblePair().getSourceType();
+			return this.delegate.getConvertiblePair().getSourceType();
 		}
 
 		Class<?> getTargetType() {
-			return delegate.getConvertiblePair().getTargetType();
+			return this.delegate.getConvertiblePair().getTargetType();
 		}
 
 		public boolean isWriting() {
-			return delegate.isWriting();
+			return this.delegate.isWriting();
 		}
 
 		public boolean isReading() {
-			return delegate.isReading();
+			return this.delegate.isReading();
 		}
 
 		public boolean isSimpleSourceType() {
-			return delegate.isSimpleSourceType();
+			return this.delegate.isSimpleSourceType();
 		}
 
 		public boolean isSimpleTargetType() {
-			return delegate.isSimpleTargetType();
+			return this.delegate.isSimpleTargetType();
 		}
 
 		public boolean isUserConverter() {
@@ -605,11 +605,11 @@ public class CustomConversions {
 		}
 
 		public ConverterRegistration getConverterRegistration() {
-			return delegate;
+			return this.delegate;
 		}
 
 		private boolean isConverterOfSource(ConverterOrigin source) {
-			return origin.equals(source);
+			return this.origin.equals(source);
 		}
 
 		protected enum ConverterOrigin {
@@ -646,7 +646,7 @@ public class CustomConversions {
 		 * @return
 		 */
 		public boolean isWriting() {
-			return writing || (!reading && isSimpleTargetType());
+			return this.writing || (!this.reading && isSimpleTargetType());
 		}
 
 		/**
@@ -655,7 +655,7 @@ public class CustomConversions {
 		 * @return
 		 */
 		public boolean isReading() {
-			return reading || (!writing && isSimpleSourceType());
+			return this.reading || (!this.writing && isSimpleSourceType());
 		}
 
 		/**
@@ -664,7 +664,7 @@ public class CustomConversions {
 		 * @return
 		 */
 		public ConvertiblePair getConvertiblePair() {
-			return convertiblePair;
+			return this.convertiblePair;
 		}
 
 		/**
@@ -673,7 +673,7 @@ public class CustomConversions {
 		 * @return
 		 */
 		public boolean isSimpleSourceType() {
-			return storeConversions.isStoreSimpleType(convertiblePair.getSourceType());
+			return this.storeConversions.isStoreSimpleType(this.convertiblePair.getSourceType());
 		}
 
 		/**
@@ -682,14 +682,14 @@ public class CustomConversions {
 		 * @return
 		 */
 		public boolean isSimpleTargetType() {
-			return storeConversions.isStoreSimpleType(convertiblePair.getTargetType());
+			return this.storeConversions.isStoreSimpleType(this.convertiblePair.getTargetType());
 		}
 
 		/**
 		 * @return
 		 */
 		Object getConverter() {
-			return converter;
+			return this.converter;
 		}
 	}
 
@@ -808,7 +808,7 @@ public class CustomConversions {
 		}
 
 		private boolean isStoreSimpleType(Class<?> type) {
-			return storeTypeHolder.isSimpleType(type);
+			return this.storeTypeHolder.isSimpleType(type);
 		}
 
 		SimpleTypeHolder getStoreTypeHolder() {
@@ -830,21 +830,21 @@ public class CustomConversions {
 			}
 
 			StoreConversions that = (StoreConversions) o;
-			if (!ObjectUtils.nullSafeEquals(storeTypeHolder, that.storeTypeHolder)) {
+			if (!ObjectUtils.nullSafeEquals(this.storeTypeHolder, that.storeTypeHolder)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(storeConverters, that.storeConverters);
+			return ObjectUtils.nullSafeEquals(this.storeConverters, that.storeConverters);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(storeTypeHolder);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(storeConverters);
+			int result = ObjectUtils.nullSafeHashCode(this.storeTypeHolder);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.storeConverters);
 			return result;
 		}
 		@Override
 		public String toString() {
-			return "StoreConversions{" + "storeTypeHolder=" + storeTypeHolder + ", storeConverters=" + storeConverters + '}';
+			return "StoreConversions{" + "storeTypeHolder=" + this.storeTypeHolder + ", storeConverters=" + this.storeConverters + '}';
 		}
 	}
 
@@ -894,14 +894,14 @@ public class CustomConversions {
 		 * @return never {@literal null}
 		 */
 		StoreConversions getStoreConversions() {
-			return storeConversions;
+			return this.storeConversions;
 		}
 
 		/**
 		 * @return never {@literal null}.
 		 */
 		List<?> getUserConverters() {
-			return userConverters;
+			return this.userConverters;
 		}
 
 		/**

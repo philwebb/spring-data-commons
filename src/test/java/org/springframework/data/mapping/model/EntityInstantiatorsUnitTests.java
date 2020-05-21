@@ -48,34 +48,34 @@ class EntityInstantiatorsUnitTests {
 	void usesReflectionEntityInstantiatorAsDefaultFallback() {
 
 		EntityInstantiators instantiators = new EntityInstantiators();
-		assertThat(instantiators.getInstantiatorFor(entity)).isInstanceOf(ClassGeneratingEntityInstantiator.class);
+		assertThat(instantiators.getInstantiatorFor(this.entity)).isInstanceOf(ClassGeneratingEntityInstantiator.class);
 	}
 
 	@Test
 	void returnsCustomInstantiatorForTypeIfRegistered() {
 
-		doReturn(String.class).when(entity).getType();
+		doReturn(String.class).when(this.entity).getType();
 
-		Map<Class<?>, EntityInstantiator> customInstantiators = Collections.singletonMap(String.class, customInstantiator);
+		Map<Class<?>, EntityInstantiator> customInstantiators = Collections.singletonMap(String.class, this.customInstantiator);
 
 		EntityInstantiators instantiators = new EntityInstantiators(customInstantiators);
-		assertThat(instantiators.getInstantiatorFor(entity)).isEqualTo(customInstantiator);
+		assertThat(instantiators.getInstantiatorFor(this.entity)).isEqualTo(this.customInstantiator);
 	}
 
 	@Test
 	void usesCustomFallbackInstantiatorsIfConfigured() {
 
-		doReturn(Object.class).when(entity).getType();
+		doReturn(Object.class).when(this.entity).getType();
 
 		Map<Class<?>, EntityInstantiator> customInstantiators = Collections.singletonMap(String.class,
 				ReflectionEntityInstantiator.INSTANCE);
 
-		EntityInstantiators instantiators = new EntityInstantiators(customInstantiator, customInstantiators);
-		instantiators.getInstantiatorFor(entity);
+		EntityInstantiators instantiators = new EntityInstantiators(this.customInstantiator, customInstantiators);
+		instantiators.getInstantiatorFor(this.entity);
 
-		assertThat(instantiators.getInstantiatorFor(entity)).isEqualTo(customInstantiator);
+		assertThat(instantiators.getInstantiatorFor(this.entity)).isEqualTo(this.customInstantiator);
 
-		doReturn(String.class).when(entity).getType();
-		assertThat(instantiators.getInstantiatorFor(entity)).isEqualTo(ReflectionEntityInstantiator.INSTANCE);
+		doReturn(String.class).when(this.entity).getType();
+		assertThat(instantiators.getInstantiatorFor(this.entity)).isEqualTo(ReflectionEntityInstantiator.INSTANCE);
 	}
 }

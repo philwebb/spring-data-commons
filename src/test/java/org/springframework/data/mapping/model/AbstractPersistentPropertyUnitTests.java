@@ -59,9 +59,9 @@ public class AbstractPersistentPropertyUnitTests {
 	@BeforeEach
 	void setUp() {
 
-		typeInfo = ClassTypeInformation.from(TestClassComplex.class);
-		entity = new BasicPersistentEntity<>(typeInfo);
-		typeHolder = new SimpleTypeHolder();
+		this.typeInfo = ClassTypeInformation.from(TestClassComplex.class);
+		this.entity = new BasicPersistentEntity<>(this.typeInfo);
+		this.typeHolder = new SimpleTypeHolder();
 	}
 
 	@Test // DATACMNS-68
@@ -142,7 +142,7 @@ public class AbstractPersistentPropertyUnitTests {
 		Property property = Property.of(ClassTypeInformation.from(AccessorTestClass.class), field);
 
 		PersistentProperty<SamplePersistentProperty> persistentProperty = new SamplePersistentProperty(property,
-				getEntity(AccessorTestClass.class), typeHolder);
+				getEntity(AccessorTestClass.class), this.typeHolder);
 
 		assertThat(persistentProperty.getGetter()).isNull();
 		assertThat(persistentProperty.getSetter()).isNull();
@@ -240,7 +240,7 @@ public class AbstractPersistentPropertyUnitTests {
 				() -> descriptor.map(it -> Property.of(typeInformation, it))) //
 				.orElseThrow(() -> new IllegalArgumentException(String.format("Couldn't find property %s on %s!", name, type)));
 
-		return new SamplePersistentProperty(property, getEntity(type), typeHolder);
+		return new SamplePersistentProperty(property, getEntity(type), this.typeHolder);
 	}
 
 	private static Optional<PropertyDescriptor> getPropertyDescriptor(Class<?> type, String propertyName) {
@@ -305,7 +305,7 @@ public class AbstractPersistentPropertyUnitTests {
 		Number yetYetAnotherId;
 
 		public Long getId() {
-			return id;
+			return this.id;
 		}
 
 		public void setId(Long id) {
@@ -313,7 +313,7 @@ public class AbstractPersistentPropertyUnitTests {
 		}
 
 		public String getAnotherId() {
-			return anotherId.toString();
+			return this.anotherId.toString();
 		}
 
 		public void setAnotherId(String anotherId) {

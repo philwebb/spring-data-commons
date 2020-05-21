@@ -58,17 +58,17 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 	@Test
 	void rejectsNullTxManagerName() {
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> new TransactionalRepositoryProxyPostProcessor(beanFactory, null, true));
+				.isThrownBy(() -> new TransactionalRepositoryProxyPostProcessor(this.beanFactory, null, true));
 	}
 
 	@Test
 	void setsUpBasicInstance() throws Exception {
 
-		RepositoryProxyPostProcessor postProcessor = new TransactionalRepositoryProxyPostProcessor(beanFactory, "txManager",
+		RepositoryProxyPostProcessor postProcessor = new TransactionalRepositoryProxyPostProcessor(this.beanFactory, "txManager",
 				true);
-		postProcessor.postProcess(proxyFactory, repositoryInformation);
+		postProcessor.postProcess(this.proxyFactory, this.repositoryInformation);
 
-		verify(proxyFactory).addAdvice(any(TransactionInterceptor.class));
+		verify(this.proxyFactory).addAdvice(any(TransactionInterceptor.class));
 	}
 
 	@Test // DATACMNS-464
@@ -97,10 +97,10 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 		Method repositorySaveMethod = SampleRepository.class.getMethod("save", Sample.class);
 		Method implementationClassMethod = implementationClass.getMethod("save", Object.class);
 
-		when(repositoryInformation.getTargetClassMethod(repositorySaveMethod)).thenReturn(implementationClassMethod);
+		when(this.repositoryInformation.getTargetClassMethod(repositorySaveMethod)).thenReturn(implementationClassMethod);
 
 		CustomAnnotationTransactionAttributeSource attributeSource = new CustomAnnotationTransactionAttributeSource();
-		attributeSource.setRepositoryInformation(repositoryInformation);
+		attributeSource.setRepositoryInformation(this.repositoryInformation);
 
 		TransactionAttribute attribute = attributeSource.getTransactionAttribute(repositorySaveMethod,
 				SampleImplementation.class);

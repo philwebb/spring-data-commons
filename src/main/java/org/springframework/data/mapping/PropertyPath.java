@@ -104,7 +104,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @return the owningType will never be {@literal null}.
 	 */
 	public TypeInformation<?> getOwningType() {
-		return owningType;
+		return this.owningType;
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @return the name will never be {@literal null}.
 	 */
 	public String getSegment() {
-		return name;
+		return this.name;
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 */
 	@Nullable
 	public PropertyPath next() {
-		return next;
+		return this.next;
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @return
 	 */
 	public boolean hasNext() {
-		return next != null;
+		return this.next != null;
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @return
 	 */
 	public boolean isCollection() {
-		return isCollection;
+		return this.isCollection;
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 		String lookup = toDotPath().concat(".").concat(path);
 
-		return PropertyPath.from(lookup, owningType);
+		return PropertyPath.from(lookup, this.owningType);
 	}
 	public Iterator<PropertyPath> iterator() {
 
@@ -220,13 +220,13 @@ public class PropertyPath implements Streamable<PropertyPath> {
 			private @Nullable PropertyPath current = PropertyPath.this;
 
 			public boolean hasNext() {
-				return current != null;
+				return this.current != null;
 			}
 
 			@Nullable
 			public PropertyPath next() {
 
-				PropertyPath result = current;
+				PropertyPath result = this.current;
 
 				if (result == null) {
 					return null;
@@ -254,36 +254,36 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 		PropertyPath that = (PropertyPath) o;
 
-		if (isCollection != that.isCollection) {
+		if (this.isCollection != that.isCollection) {
 			return false;
 		}
 
-		if (!ObjectUtils.nullSafeEquals(owningType, that.owningType)) {
+		if (!ObjectUtils.nullSafeEquals(this.owningType, that.owningType)) {
 			return false;
 		}
 
-		if (!ObjectUtils.nullSafeEquals(name, that.name)) {
+		if (!ObjectUtils.nullSafeEquals(this.name, that.name)) {
 			return false;
 		}
 
-		if (!ObjectUtils.nullSafeEquals(typeInformation, that.typeInformation)) {
+		if (!ObjectUtils.nullSafeEquals(this.typeInformation, that.typeInformation)) {
 			return false;
 		}
 
-		if (!ObjectUtils.nullSafeEquals(actualTypeInformation, that.actualTypeInformation)) {
+		if (!ObjectUtils.nullSafeEquals(this.actualTypeInformation, that.actualTypeInformation)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(next, that.next);
+		return ObjectUtils.nullSafeEquals(this.next, that.next);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(owningType);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(name);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(typeInformation);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(actualTypeInformation);
-		result = 31 * result + (isCollection ? 1 : 0);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(next);
+		int result = ObjectUtils.nullSafeHashCode(this.owningType);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.name);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.typeInformation);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.actualTypeInformation);
+		result = 31 * result + (this.isCollection ? 1 : 0);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.next);
 		return result;
 	}
 
@@ -295,7 +295,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 */
 	private PropertyPath requiredNext() {
 
-		PropertyPath result = next;
+		PropertyPath result = this.next;
 
 		if (result == null) {
 			throw new IllegalStateException(
@@ -463,7 +463,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 	@Override
 	public String toString() {
-		return String.format("%s.%s", owningType.getType().getSimpleName(), toDotPath());
+		return String.format("%s.%s", this.owningType.getType().getSimpleName(), toDotPath());
 	}
 
 	private static final class Key {
@@ -500,16 +500,16 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 			Key key = (Key) o;
 
-			if (!ObjectUtils.nullSafeEquals(type, key.type)) {
+			if (!ObjectUtils.nullSafeEquals(this.type, key.type)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(path, key.path);
+			return ObjectUtils.nullSafeEquals(this.path, key.path);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(type);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(path);
+			int result = ObjectUtils.nullSafeHashCode(this.type);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.path);
 			return result;
 		}
 		@Override

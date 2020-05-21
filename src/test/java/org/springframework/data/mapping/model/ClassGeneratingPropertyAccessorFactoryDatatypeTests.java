@@ -123,7 +123,7 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	void shouldUseClassPropertyAccessorFactory(Object bean, String propertyName, Object value, String displayName)
 			throws Exception {
 
-		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = mappingContext
+		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = this.mappingContext
 				.getRequiredPersistentEntity(bean.getClass());
 
 		assertThat(ReflectionTestUtils.getField(persistentEntity, "propertyAccessorFactory"))
@@ -134,12 +134,12 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	}
 
 	private PersistentPropertyAccessor getPersistentPropertyAccessor(Object bean) {
-		return factory.getPropertyAccessor(mappingContext.getRequiredPersistentEntity(bean.getClass()), bean);
+		return this.factory.getPropertyAccessor(this.mappingContext.getRequiredPersistentEntity(bean.getClass()), bean);
 	}
 
 	private PersistentProperty<?> getProperty(Object bean, String name) {
 
-		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = mappingContext
+		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = this.mappingContext
 				.getRequiredPersistentEntity(bean.getClass());
 		return persistentEntity.getPersistentProperty(name);
 	}

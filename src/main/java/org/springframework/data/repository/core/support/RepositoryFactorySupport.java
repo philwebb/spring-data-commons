@@ -139,7 +139,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		this.classLoader = org.springframework.util.ClassUtils.getDefaultClassLoader();
 		this.evaluationContextProvider = QueryMethodEvaluationContextProvider.DEFAULT;
 		this.queryPostProcessors = new ArrayList<>();
-		this.queryPostProcessors.add(collectingListener);
+		this.queryPostProcessors.add(this.collectingListener);
 	}
 
 	/**
@@ -304,22 +304,22 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 		result.addAdvisor(ExposeInvocationInterceptor.ADVISOR);
 
-		postProcessors.forEach(processor -> processor.postProcess(result, information));
+		this.postProcessors.forEach(processor -> processor.postProcess(result, information));
 
 		if (DefaultMethodInvokingMethodInterceptor.hasDefaultMethods(repositoryInterface)) {
 			result.addAdvice(new DefaultMethodInvokingMethodInterceptor());
 		}
 
-		ProjectionFactory projectionFactory = getProjectionFactory(classLoader, beanFactory);
-		Optional<QueryLookupStrategy> queryLookupStrategy = getQueryLookupStrategy(queryLookupStrategyKey,
-				evaluationContextProvider);
+		ProjectionFactory projectionFactory = getProjectionFactory(this.classLoader, this.beanFactory);
+		Optional<QueryLookupStrategy> queryLookupStrategy = getQueryLookupStrategy(this.queryLookupStrategyKey,
+				this.evaluationContextProvider);
 		result.addAdvice(new QueryExecutorMethodInterceptor(information, projectionFactory, queryLookupStrategy,
-				namedQueries, queryPostProcessors));
+				this.namedQueries, this.queryPostProcessors));
 
 		composition = composition.append(RepositoryFragment.implemented(target));
 		result.addAdvice(new ImplementationMethodExecutionInterceptor(composition));
 
-		T repository = (T) result.getProxy(classLoader);
+		T repository = (T) result.getProxy(this.classLoader);
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Finished creation of repository instance for {}.", repositoryInterface.getName());
@@ -397,16 +397,16 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 		RepositoryInformationCacheKey cacheKey = new RepositoryInformationCacheKey(metadata, composition);
 
-		return repositoryInformationCache.computeIfAbsent(cacheKey, key -> {
+		return this.repositoryInformationCache.computeIfAbsent(cacheKey, key -> {
 
-			Class<?> baseClass = repositoryBaseClass.orElse(getRepositoryBaseClass(metadata));
+			Class<?> baseClass = this.repositoryBaseClass.orElse(getRepositoryBaseClass(metadata));
 
 			return new DefaultRepositoryInformation(metadata, baseClass, composition);
 		});
 	}
 
 	protected List<QueryMethod> getQueryMethods() {
-		return collectingListener.getQueryMethods();
+		return this.collectingListener.getQueryMethods();
 	}
 
 	/**
@@ -529,7 +529,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 			Object[] arguments = invocation.getArguments();
 
 			try {
-				return composition.invoke(method, arguments);
+				return this.composition.invoke(method, arguments);
 			} catch (Exception e) {
 				ClassUtils.unwrapReflectionException(e);
 			}
@@ -608,15 +608,15 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 				return false;
 			}
 			RepositoryInformationCacheKey that = (RepositoryInformationCacheKey) o;
-			if (compositionHash != that.compositionHash) {
+			if (this.compositionHash != that.compositionHash) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(repositoryInterfaceName, that.repositoryInterfaceName);
+			return ObjectUtils.nullSafeEquals(this.repositoryInterfaceName, that.repositoryInterfaceName);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(repositoryInterfaceName);
-			result = 31 * result + (int) (compositionHash ^ (compositionHash >>> 32));
+			int result = ObjectUtils.nullSafeHashCode(this.repositoryInterfaceName);
+			result = 31 * result + (int) (this.compositionHash ^ (this.compositionHash >>> 32));
 			return result;
 		}
 		@Override

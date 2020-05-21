@@ -51,7 +51,7 @@ public class TraversalContext {
 		Assert.notNull(property, "Property must not be null!");
 		Assert.notNull(handler, "Handler must not be null!");
 
-		handlers.put(property, handler);
+		this.handlers.put(property, handler);
 
 		return this;
 	}
@@ -138,7 +138,7 @@ public class TraversalContext {
 	@Nullable
 	Object postProcess(PersistentProperty<?> property, @Nullable Object value) {
 
-		Function<Object, Object> handler = handlers.get(property);
+		Function<Object, Object> handler = this.handlers.get(property);
 
 		return handler == null ? value : handler.apply(value);
 	}

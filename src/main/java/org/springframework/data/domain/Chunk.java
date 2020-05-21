@@ -54,13 +54,13 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 		this.pageable = pageable;
 	}
 	public int getNumber() {
-		return pageable.isPaged() ? pageable.getPageNumber() : 0;
+		return this.pageable.isPaged() ? this.pageable.getPageNumber() : 0;
 	}
 	public int getSize() {
-		return pageable.isPaged() ? pageable.getPageSize() : content.size();
+		return this.pageable.isPaged() ? this.pageable.getPageSize() : this.content.size();
 	}
 	public int getNumberOfElements() {
-		return content.size();
+		return this.content.size();
 	}
 	public boolean hasPrevious() {
 		return getNumber() > 0;
@@ -72,27 +72,27 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 		return !hasNext();
 	}
 	public Pageable nextPageable() {
-		return hasNext() ? pageable.next() : Pageable.unpaged();
+		return hasNext() ? this.pageable.next() : Pageable.unpaged();
 	}
 	public Pageable previousPageable() {
-		return hasPrevious() ? pageable.previousOrFirst() : Pageable.unpaged();
+		return hasPrevious() ? this.pageable.previousOrFirst() : Pageable.unpaged();
 	}
 	public boolean hasContent() {
-		return !content.isEmpty();
+		return !this.content.isEmpty();
 	}
 	public List<T> getContent() {
-		return Collections.unmodifiableList(content);
+		return Collections.unmodifiableList(this.content);
 	}
 	@Override
 	public Pageable getPageable() {
-		return pageable;
+		return this.pageable;
 	}
 	@Override
 	public Sort getSort() {
-		return pageable.getSort();
+		return this.pageable.getSort();
 	}
 	public Iterator<T> iterator() {
-		return content.iterator();
+		return this.content.iterator();
 	}
 
 	/**
@@ -130,8 +130,8 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 
 		int result = 17;
 
-		result += 31 * pageable.hashCode();
-		result += 31 * content.hashCode();
+		result += 31 * this.pageable.hashCode();
+		result += 31 * this.content.hashCode();
 
 		return result;
 	}

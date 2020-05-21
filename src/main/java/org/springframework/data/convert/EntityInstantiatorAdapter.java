@@ -39,6 +39,6 @@ class EntityInstantiatorAdapter implements EntityInstantiator {
 	@Override
 	public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
 			ParameterValueProvider<P> provider) {
-		return delegate.createInstance(entity, provider);
+		return this.delegate.createInstance(entity, provider);
 	}
 }

@@ -53,7 +53,7 @@ public class SimpleTypeInformationMapper implements TypeInformationMapper {
 		String stringAlias = alias.mapTyped(String.class);
 
 		if (stringAlias != null) {
-			return CACHE.computeIfAbsent(stringAlias, SimpleTypeInformationMapper::loadClass).orElse(null);
+			return this.CACHE.computeIfAbsent(stringAlias, SimpleTypeInformationMapper::loadClass).orElse(null);
 		}
 
 		return null;

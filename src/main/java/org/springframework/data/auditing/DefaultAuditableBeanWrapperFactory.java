@@ -58,7 +58,7 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 	}
 
 	ConversionService getConversionService() {
-		return conversionService;
+		return this.conversionService;
 	}
 
 	/**
@@ -76,13 +76,13 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		return Optional.of(source).map(it -> {
 
 			if (it instanceof Auditable) {
-				return (AuditableBeanWrapper<T>) new AuditableInterfaceBeanWrapper(conversionService, (Auditable<Object, ?, TemporalAccessor>) it);
+				return (AuditableBeanWrapper<T>) new AuditableInterfaceBeanWrapper(this.conversionService, (Auditable<Object, ?, TemporalAccessor>) it);
 			}
 
 			AnnotationAuditingMetadata metadata = AnnotationAuditingMetadata.getMetadata(it.getClass());
 
 			if (metadata.isAuditable()) {
-				return new ReflectionAuditingBeanWrapper<T>(conversionService, it);
+				return new ReflectionAuditingBeanWrapper<T>(this.conversionService, it);
 			}
 
 			return null;
@@ -112,38 +112,38 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		@Override
 		public Object setCreatedBy(Object value) {
 
-			auditable.setCreatedBy(value);
+			this.auditable.setCreatedBy(value);
 			return value;
 		}
 		@Override
 		public TemporalAccessor setCreatedDate(TemporalAccessor value) {
 
-			auditable.setCreatedDate(getAsTemporalAccessor(Optional.of(value), type).orElseThrow(IllegalStateException::new));
+			this.auditable.setCreatedDate(getAsTemporalAccessor(Optional.of(value), this.type).orElseThrow(IllegalStateException::new));
 
 			return value;
 		}
 		@Override
 		public Object setLastModifiedBy(Object value) {
 
-			auditable.setLastModifiedBy(value);
+			this.auditable.setLastModifiedBy(value);
 
 			return value;
 		}
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
-			return getAsTemporalAccessor(auditable.getLastModifiedDate(), TemporalAccessor.class);
+			return getAsTemporalAccessor(this.auditable.getLastModifiedDate(), TemporalAccessor.class);
 		}
 		@Override
 		public TemporalAccessor setLastModifiedDate(TemporalAccessor value) {
 
-			auditable
-					.setLastModifiedDate(getAsTemporalAccessor(Optional.of(value), type).orElseThrow(IllegalStateException::new));
+			this.auditable
+					.setLastModifiedDate(getAsTemporalAccessor(Optional.of(value), this.type).orElseThrow(IllegalStateException::new));
 
 			return value;
 		}
 		@Override
 		public Auditable<Object, ?, TemporalAccessor> getBean() {
-			return auditable;
+			return this.auditable;
 		}
 	}
 
@@ -177,20 +177,20 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 				return value;
 			}
 
-			if (conversionService.canConvert(value.getClass(), targetType)) {
-				return conversionService.convert(value, targetType);
+			if (this.conversionService.canConvert(value.getClass(), targetType)) {
+				return this.conversionService.convert(value, targetType);
 			}
 
-			if (conversionService.canConvert(Date.class, targetType)) {
+			if (this.conversionService.canConvert(Date.class, targetType)) {
 
-				if (!conversionService.canConvert(value.getClass(), Date.class)) {
+				if (!this.conversionService.canConvert(value.getClass(), Date.class)) {
 					throw new IllegalArgumentException(
 							String.format("Cannot convert date type for member %s! From %s to java.util.Date to %s.", source,
 									value.getClass(), targetType));
 				}
 
-				Date date = conversionService.convert(value, Date.class);
-				return conversionService.convert(date, targetType);
+				Date date = this.conversionService.convert(value, Date.class);
+				return this.conversionService.convert(date, targetType);
 			}
 
 			throw rejectUnsupportedType(source);
@@ -215,11 +215,11 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 				Class<?> typeToConvertTo = Stream.of(target, Instant.class)//
 						.filter(type -> target.isAssignableFrom(type))//
-						.filter(type -> conversionService.canConvert(it.getClass(), type))//
+						.filter(type -> this.conversionService.canConvert(it.getClass(), type))//
 						.findFirst() //
 						.orElseThrow(() -> rejectUnsupportedType(source.map(Object.class::cast).orElseGet(() -> source)));
 
-				return (S) conversionService.convert(it, typeToConvertTo);
+				return (S) this.conversionService.convert(it, typeToConvertTo);
 			});
 		}
 	}
@@ -255,34 +255,34 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		}
 		@Override
 		public Object setCreatedBy(Object value) {
-			return setField(metadata.getCreatedByField(), value);
+			return setField(this.metadata.getCreatedByField(), value);
 		}
 		@Override
 		public TemporalAccessor setCreatedDate(TemporalAccessor value) {
 
-			return setDateField(metadata.getCreatedDateField(), value);
+			return setDateField(this.metadata.getCreatedDateField(), value);
 		}
 		@Override
 		public Object setLastModifiedBy(Object value) {
-			return setField(metadata.getLastModifiedByField(), value);
+			return setField(this.metadata.getLastModifiedByField(), value);
 		}
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
 
-			return getAsTemporalAccessor(metadata.getLastModifiedDateField().map(field -> {
+			return getAsTemporalAccessor(this.metadata.getLastModifiedDateField().map(field -> {
 
-				Object value = org.springframework.util.ReflectionUtils.getField(field, target);
+				Object value = org.springframework.util.ReflectionUtils.getField(field, this.target);
 				return value instanceof Optional ? ((Optional<?>) value).orElse(null) : value;
 
 			}), TemporalAccessor.class);
 		}
 		@Override
 		public TemporalAccessor setLastModifiedDate(TemporalAccessor value) {
-			return setDateField(metadata.getLastModifiedDateField(), value);
+			return setDateField(this.metadata.getLastModifiedDateField(), value);
 		}
 		@Override
 		public T getBean() {
-			return target;
+			return this.target;
 		}
 
 		/**
@@ -293,7 +293,7 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		 */
 		private <S> S setField(Optional<Field> field, S value) {
 
-			field.ifPresent(it -> ReflectionUtils.setField(it, target, value));
+			field.ifPresent(it -> ReflectionUtils.setField(it, this.target, value));
 
 			return value;
 		}
@@ -306,7 +306,7 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		 */
 		private TemporalAccessor setDateField(Optional<Field> field, TemporalAccessor value) {
 
-			field.ifPresent(it -> ReflectionUtils.setField(it, target, getDateValueToSet(value, it.getType(), it)));
+			field.ifPresent(it -> ReflectionUtils.setField(it, this.target, getDateValueToSet(value, it.getType(), it)));
 
 			return value;
 		}

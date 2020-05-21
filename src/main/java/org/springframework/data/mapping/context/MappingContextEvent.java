@@ -59,7 +59,7 @@ public class MappingContextEvent<E extends PersistentEntity<?, P>, P extends Per
 	 * @return
 	 */
 	public E getPersistentEntity() {
-		return entity;
+		return this.entity;
 	}
 
 	/**

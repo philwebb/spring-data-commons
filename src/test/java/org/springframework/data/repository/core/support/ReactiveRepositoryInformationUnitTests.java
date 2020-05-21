@@ -162,7 +162,7 @@ class ReactiveRepositoryInformationUnitTests {
 		String id;
 
 		String getId() {
-			return id;
+			return this.id;
 		}
 
 		void setId(String id) {

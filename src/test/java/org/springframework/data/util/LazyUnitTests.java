@@ -41,9 +41,9 @@ class LazyUnitTests {
 	@Test
 	void createsLazyOptional() {
 
-		doReturn(Optional.empty()).when(optionalSupplier).get();
+		doReturn(Optional.empty()).when(this.optionalSupplier).get();
 
-		assertThat(Lazy.of(optionalSupplier).get()).isEmpty();
+		assertThat(Lazy.of(this.optionalSupplier).get()).isEmpty();
 	}
 
 	@Test

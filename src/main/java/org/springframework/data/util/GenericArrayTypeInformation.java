@@ -45,17 +45,17 @@ class GenericArrayTypeInformation<S> extends ParentTypeAwareTypeInformation<S> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<S> getType() {
-		return (Class<S>) Array.newInstance(resolveType(type.getGenericComponentType()), 0).getClass();
+		return (Class<S>) Array.newInstance(resolveType(this.type.getGenericComponentType()), 0).getClass();
 	}
 	@Override
 	@Nonnull
 	protected TypeInformation<?> doGetComponentType() {
 
-		Type componentType = type.getGenericComponentType();
+		Type componentType = this.type.getGenericComponentType();
 		return createInfo(componentType);
 	}
 	@Override
 	public String toString() {
-		return type.toString();
+		return this.type.toString();
 	}
 }

@@ -59,45 +59,45 @@ class RepositoryBeanDefinitionRegistrarSupportIntegrationTests {
 	@AfterEach
 	void tearDown() {
 
-		if (context != null) {
+		if (this.context != null) {
 			this.context.close();
 		}
 	}
 
 	@Test // DATACMNS-989
 	void duplicateImplementationsMayBeExcludedViaFilters() {
-		assertThat(context.getBean(MyOtherRepository.class).getImplementationId())
+		assertThat(this.context.getBean(MyOtherRepository.class).getImplementationId())
 				.isEqualTo(MyOtherRepositoryImpl.class.getName());
 	}
 
 	@Test // DATACMNS-47
 	void testBootstrappingWithInheritedConfigClasses() {
 
-		assertThat(context.getBean(MyRepository.class)).isNotNull();
-		assertThat(context.getBean(MyOtherRepository.class)).isNotNull();
+		assertThat(this.context.getBean(MyRepository.class)).isNotNull();
+		assertThat(this.context.getBean(MyOtherRepository.class)).isNotNull();
 	}
 
 	@Test // DATACMNS-47
 	void beanDefinitionSourceIsSetForJavaConfigScannedBeans() {
 
-		BeanDefinition definition = context.getBeanDefinition("myRepository");
+		BeanDefinition definition = this.context.getBeanDefinition("myRepository");
 		assertThat(definition.getSource()).isNotNull();
 	}
 
 	@Test // DATACMNS-544
 	void registersExtensionAsBeanDefinition() {
-		assertThat(context.getBean(DummyConfigurationExtension.class)).isNotNull();
+		assertThat(this.context.getBean(DummyConfigurationExtension.class)).isNotNull();
 	}
 
 	@Test // DATACMNS-102
 	void composedRepositoriesShouldBeAssembledCorrectly() {
-		assertThat(context.getBean(ComposedRepository.class).getOne()).isEqualTo("one");
+		assertThat(this.context.getBean(ComposedRepository.class).getOne()).isEqualTo("one");
 	}
 
 	@Test // DATACMNS-1620
 	void registeredBeanDefinitionsContainHumanReadableResourceDescription() {
 
-		BeanDefinition definition = context.getBeanDefinition("myRepository");
+		BeanDefinition definition = this.context.getBeanDefinition("myRepository");
 
 		assertThat(definition.getResourceDescription()) //
 				.contains(MyRepository.class.getName()) //

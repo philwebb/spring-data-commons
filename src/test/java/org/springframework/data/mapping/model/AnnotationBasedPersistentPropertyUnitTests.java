@@ -58,36 +58,36 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@BeforeEach
 	public void setUp() {
 
-		context = new SampleMappingContext();
-		entity = context.getRequiredPersistentEntity(Sample.class);
+		this.context = new SampleMappingContext();
+		this.entity = this.context.getRequiredPersistentEntity(Sample.class);
 	}
 
 	@Test // DATACMNS-269
 	public void discoversAnnotationOnField() {
-		assertAnnotationPresent(MyAnnotation.class, entity.getPersistentProperty("field"));
+		assertAnnotationPresent(MyAnnotation.class, this.entity.getPersistentProperty("field"));
 	}
 
 	@Test // DATACMNS-269
 	public void discoversAnnotationOnGetters() {
-		assertAnnotationPresent(MyAnnotation.class, entity.getPersistentProperty("getter"));
+		assertAnnotationPresent(MyAnnotation.class, this.entity.getPersistentProperty("getter"));
 	}
 
 	@Test // DATACMNS-269
 	public void discoversAnnotationOnSetters() {
-		assertAnnotationPresent(MyAnnotation.class, entity.getPersistentProperty("setter"));
+		assertAnnotationPresent(MyAnnotation.class, this.entity.getPersistentProperty("setter"));
 	}
 
 	@Test // DATACMNS-269
 	public void findsMetaAnnotation() {
 
-		assertAnnotationPresent(MyId.class, entity.getPersistentProperty("id"));
-		assertAnnotationPresent(Id.class, entity.getPersistentProperty("id"));
+		assertAnnotationPresent(MyId.class, this.entity.getPersistentProperty("id"));
+		assertAnnotationPresent(Id.class, this.entity.getPersistentProperty("id"));
 	}
 
 	@Test // DATACMNS-282
 	public void populatesAnnotationCacheWithDirectAnnotationsOnCreation() {
 
-		assertThat(entity.getPersistentProperty("meta")).satisfies(property -> {
+		assertThat(this.entity.getPersistentProperty("meta")).satisfies(property -> {
 
 			// Assert direct annotations are cached on construction
 			Map<Class<? extends Annotation>, Annotation> cache = getAnnotationCache(property);
@@ -104,10 +104,10 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	public void discoversAmbiguousMappingUsingDirectAnnotationsOnAccessors() {
 
 		try {
-			context.getPersistentEntity(InvalidSample.class);
+			this.context.getPersistentEntity(InvalidSample.class);
 			fail("Expected MappingException!");
 		} catch (MappingException o_O) {
-			assertThat(context.hasPersistentEntityFor(InvalidSample.class)).isFalse();
+			assertThat(this.context.hasPersistentEntityFor(InvalidSample.class)).isFalse();
 		}
 	}
 
@@ -140,7 +140,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 	@Test // DATACMNS-243
 	public void doesNotRejectSameAnnotationIfItsEqualOnBothFieldAndAccessor() {
-		context.getPersistentEntity(AnotherInvalidSample.class);
+		this.context.getPersistentEntity(AnotherInvalidSample.class);
 	}
 
 	@Test // DATACMNS-534
@@ -194,7 +194,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@Test // DATACMNS-825
 	public void composedAnnotationWithAliasForGetCachedCorrectly() {
 
-		assertThat(entity.getPersistentProperty("metaAliased")).satisfies(property -> {
+		assertThat(this.entity.getPersistentProperty("metaAliased")).satisfies(property -> {
 
 			// Assert direct annotations are cached on construction
 			Map<Class<? extends Annotation>, Annotation> cache = getAnnotationCache(property);
@@ -210,7 +210,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@Test // DATACMNS-825
 	public void composedAnnotationWithAliasShouldHaveSynthesizedAttributeValues() {
 
-		assertThat(entity.getPersistentProperty("metaAliased"))
+		assertThat(this.entity.getPersistentProperty("metaAliased"))
 				.satisfies(property -> assertThat(property.findAnnotation(MyAnnotation.class))
 						.satisfies(annotation -> assertThat(AnnotationUtils.getValue(annotation)).isEqualTo("spring")));
 	}
@@ -218,7 +218,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@Test // DATACMNS-867
 	public void revisedAnnotationWithAliasShouldHaveSynthesizedAttributeValues() {
 
-		assertThat(entity.getPersistentProperty("setter")).satisfies(
+		assertThat(this.entity.getPersistentProperty("setter")).satisfies(
 				property -> assertThat(property.findAnnotation(RevisedAnnnotationWithAliasFor.class)).satisfies(annotation -> {
 					assertThat(annotation.name()).isEqualTo("my-value");
 					assertThat(annotation.value()).isEqualTo("my-value");
@@ -309,7 +309,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	}
 
 	private SamplePersistentProperty getProperty(Class<?> type, String name) {
-		return context.getRequiredPersistentEntity(type).getPersistentProperty(name);
+		return this.context.getRequiredPersistentEntity(type).getPersistentProperty(name);
 	}
 
 	static class Sample {
@@ -327,7 +327,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		@MyAnnotation
 		public String getGetter() {
-			return getter;
+			return this.getter;
 		}
 
 		@MyAnnotation
@@ -337,7 +337,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		@MyAnnotation
 		public String getDoubleMapping() {
-			return doubleMapping;
+			return this.doubleMapping;
 		}
 
 		@MyAnnotation
@@ -359,7 +359,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		@MyAnnotation
 		public String getMeta() {
-			return meta;
+			return this.meta;
 		}
 
 		@MyAnnotation("foo")
@@ -374,7 +374,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		@MyAnnotation
 		public String getProperty() {
-			return property;
+			return this.property;
 		}
 	}
 
@@ -428,12 +428,12 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 		@AccessType(Type.FIELD) String emailAddress;
 
 		public String getFirstname() {
-			return firstname;
+			return this.firstname;
 		}
 
 		@AccessType(Type.FIELD)
 		public String getLastname() {
-			return lastname;
+			return this.lastname;
 		}
 	}
 
@@ -454,7 +454,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 		@Nullable
 		public String getField() {
-			return field;
+			return this.field;
 		}
 	}
 

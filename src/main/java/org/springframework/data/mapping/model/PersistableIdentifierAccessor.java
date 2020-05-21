@@ -43,6 +43,6 @@ class PersistableIdentifierAccessor extends TargetAwareIdentifierAccessor {
 	@Override
 	@Nullable
 	public Object getIdentifier() {
-		return target.getId();
+		return this.target.getId();
 	}
 }

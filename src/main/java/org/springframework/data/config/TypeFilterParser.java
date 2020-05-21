@@ -98,9 +98,9 @@ public class TypeFilterParser {
 			}
 
 			try {
-				filters.add(createTypeFilter(childElement, classLoader));
+				filters.add(createTypeFilter(childElement, this.classLoader));
 			} catch (RuntimeException e) {
-				readerContext.error(e.getMessage(), readerContext.extractSource(element), e.getCause());
+				this.readerContext.error(e.getMessage(), this.readerContext.extractSource(element), e.getCause());
 			}
 		}
 
@@ -231,7 +231,7 @@ public class TypeFilterParser {
 
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				String localName = node.getLocalName();
-				if (elementName.equals(localName)) {
+				if (this.elementName.equals(localName)) {
 					return (Element) node;
 				}
 			}

@@ -71,7 +71,7 @@ public class PropertyReferenceException extends RuntimeException {
 	 * @return will not be {@literal null} or empty.
 	 */
 	public String getPropertyName() {
-		return propertyName;
+		return this.propertyName;
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class PropertyReferenceException extends RuntimeException {
 	 * @return will never be {@literal null}.
 	 */
 	public TypeInformation<?> getType() {
-		return type;
+		return this.type;
 	}
 
 	/**
@@ -89,13 +89,13 @@ public class PropertyReferenceException extends RuntimeException {
 	 * @return will never be {@literal null}.
 	 */
 	Collection<String> getPropertyMatches() {
-		return propertyMatches.get();
+		return this.propertyMatches.get();
 	}
 	@Override
 	public String getMessage() {
 
 		StringBuilder builder = new StringBuilder(
-				String.format(ERROR_TEMPLATE, propertyName, type.getType().getSimpleName()));
+				String.format(ERROR_TEMPLATE, this.propertyName, this.type.getType().getSimpleName()));
 
 		Collection<String> potentialMatches = getPropertyMatches();
 		if (!potentialMatches.isEmpty()) {
@@ -103,9 +103,9 @@ public class PropertyReferenceException extends RuntimeException {
 			builder.append(String.format(HINTS_TEMPLATE, matches));
 		}
 
-		if (!alreadyResolvedPath.isEmpty()) {
+		if (!this.alreadyResolvedPath.isEmpty()) {
 			builder.append(" Traversed path: ");
-			builder.append(alreadyResolvedPath.get(0).toString());
+			builder.append(this.alreadyResolvedPath.get(0).toString());
 			builder.append(".");
 		}
 
@@ -119,7 +119,7 @@ public class PropertyReferenceException extends RuntimeException {
 	 */
 	@Nullable
 	public PropertyPath getBaseProperty() {
-		return alreadyResolvedPath.isEmpty() ? null : alreadyResolvedPath.get(alreadyResolvedPath.size() - 1);
+		return this.alreadyResolvedPath.isEmpty() ? null : this.alreadyResolvedPath.get(this.alreadyResolvedPath.size() - 1);
 	}
 
 	/**

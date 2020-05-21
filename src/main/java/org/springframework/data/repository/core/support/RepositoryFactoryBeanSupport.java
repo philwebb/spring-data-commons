@@ -182,22 +182,22 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 	}
 	@SuppressWarnings("unchecked")
 	public EntityInformation<S, ID> getEntityInformation() {
-		return (EntityInformation<S, ID>) factory.getEntityInformation(repositoryMetadata.getDomainType());
+		return (EntityInformation<S, ID>) this.factory.getEntityInformation(this.repositoryMetadata.getDomainType());
 	}
 	public RepositoryInformation getRepositoryInformation() {
 
-		RepositoryFragments fragments = customImplementation.map(RepositoryFragments::just)//
+		RepositoryFragments fragments = this.customImplementation.map(RepositoryFragments::just)//
 				.orElse(RepositoryFragments.empty());
 
-		return factory.getRepositoryInformation(repositoryMetadata, fragments);
+		return this.factory.getRepositoryInformation(this.repositoryMetadata, fragments);
 	}
 	public PersistentEntity<?, ?> getPersistentEntity() {
 
-		return mappingContext.orElseThrow(() -> new IllegalStateException("No MappingContext available!"))
-				.getRequiredPersistentEntity(repositoryMetadata.getDomainType());
+		return this.mappingContext.orElseThrow(() -> new IllegalStateException("No MappingContext available!"))
+				.getRequiredPersistentEntity(this.repositoryMetadata.getDomainType());
 	}
 	public List<QueryMethod> getQueryMethods() {
-		return factory.getQueryMethods();
+		return this.factory.getQueryMethods();
 	}
 	@Nonnull
 	public T getObject() {
@@ -205,7 +205,7 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 	}
 	@Nonnull
 	public Class<? extends T> getObjectType() {
-		return repositoryInterface;
+		return this.repositoryInterface;
 	}
 	public boolean isSingleton() {
 		return true;
@@ -213,20 +213,20 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 	public void afterPropertiesSet() {
 
 		this.factory = createRepositoryFactory();
-		this.factory.setQueryLookupStrategyKey(queryLookupStrategyKey);
-		this.factory.setNamedQueries(namedQueries);
+		this.factory.setQueryLookupStrategyKey(this.queryLookupStrategyKey);
+		this.factory.setNamedQueries(this.namedQueries);
 		this.factory.setEvaluationContextProvider(
-				evaluationContextProvider.orElseGet(() -> QueryMethodEvaluationContextProvider.DEFAULT));
-		this.factory.setBeanClassLoader(classLoader);
-		this.factory.setBeanFactory(beanFactory);
+				this.evaluationContextProvider.orElseGet(() -> QueryMethodEvaluationContextProvider.DEFAULT));
+		this.factory.setBeanClassLoader(this.classLoader);
+		this.factory.setBeanFactory(this.beanFactory);
 
-		if (publisher != null) {
-			this.factory.addRepositoryProxyPostProcessor(new EventPublishingRepositoryProxyPostProcessor(publisher));
+		if (this.publisher != null) {
+			this.factory.addRepositoryProxyPostProcessor(new EventPublishingRepositoryProxyPostProcessor(this.publisher));
 		}
 
-		repositoryBaseClass.ifPresent(this.factory::setRepositoryBaseClass);
+		this.repositoryBaseClass.ifPresent(this.factory::setRepositoryBaseClass);
 
-		RepositoryFragments customImplementationFragment = customImplementation //
+		RepositoryFragments customImplementationFragment = this.customImplementation //
 				.map(RepositoryFragments::just) //
 				.orElseGet(RepositoryFragments::empty);
 
@@ -234,14 +234,14 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 				.orElseGet(RepositoryFragments::empty) //
 				.append(customImplementationFragment);
 
-		this.repositoryMetadata = this.factory.getRepositoryMetadata(repositoryInterface);
+		this.repositoryMetadata = this.factory.getRepositoryMetadata(this.repositoryInterface);
 
 		// Make sure the aggregate root type is present in the MappingContext (e.g. for auditing)
-		this.mappingContext.ifPresent(it -> it.getPersistentEntity(repositoryMetadata.getDomainType()));
+		this.mappingContext.ifPresent(it -> it.getPersistentEntity(this.repositoryMetadata.getDomainType()));
 
-		this.repository = Lazy.of(() -> this.factory.getRepository(repositoryInterface, repositoryFragmentsToUse));
+		this.repository = Lazy.of(() -> this.factory.getRepository(this.repositoryInterface, repositoryFragmentsToUse));
 
-		if (!lazyInit) {
+		if (!this.lazyInit) {
 			this.repository.get();
 		}
 	}

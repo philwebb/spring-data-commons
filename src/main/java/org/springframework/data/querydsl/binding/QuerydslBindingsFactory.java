@@ -76,7 +76,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	 * @return the entityPathResolver
 	 */
 	public EntityPathResolver getEntityPathResolver() {
-		return entityPathResolver;
+		return this.entityPathResolver;
 	}
 
 	/**
@@ -135,10 +135,10 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	 */
 	private EntityPath<?> verifyEntityPathPresent(TypeInformation<?> candidate) {
 
-		return entityPaths.computeIfAbsent(candidate, key -> {
+		return this.entityPaths.computeIfAbsent(candidate, key -> {
 
 			try {
-				return entityPathResolver.createPath(key.getType());
+				return this.entityPathResolver.createPath(key.getType());
 			} catch (IllegalArgumentException o_O) {
 				throw new IllegalStateException(
 						String.format(INVALID_DOMAIN_TYPE, key.getType(), QuerydslPredicate.class.getSimpleName()), o_O);
@@ -161,7 +161,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 		return customizer//
 				.filter(it -> !QuerydslBinderCustomizer.class.equals(it))//
 				.map(this::createQuerydslBinderCustomizer)
-				.orElseGet(() -> repositories.flatMap(it -> it.getRepositoryFor(domainType))//
+				.orElseGet(() -> this.repositories.flatMap(it -> it.getRepositoryFor(domainType))//
 						.map(it -> it instanceof QuerydslBinderCustomizer ? (QuerydslBinderCustomizer<EntityPath<?>>) it : null)//
 						.orElse(NoOpCustomizer.INSTANCE));
 	}
@@ -179,7 +179,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	private QuerydslBinderCustomizer<EntityPath<?>> createQuerydslBinderCustomizer(
 			Class<? extends QuerydslBinderCustomizer> type) {
 
-		return beanFactory.map(it -> {
+		return this.beanFactory.map(it -> {
 
 			try {
 				return it.getBean(type);

@@ -84,20 +84,20 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 	}
 	public MultiTransactionStatus getTransaction(@Nullable TransactionDefinition definition) throws TransactionException {
 
-		MultiTransactionStatus mts = new MultiTransactionStatus(transactionManagers.get(0));
+		MultiTransactionStatus mts = new MultiTransactionStatus(this.transactionManagers.get(0));
 
 		if (definition == null) {
 			return mts;
 		}
 
-		if (!synchronizationManager.isSynchronizationActive()) {
-			synchronizationManager.initSynchronization();
+		if (!this.synchronizationManager.isSynchronizationActive()) {
+			this.synchronizationManager.initSynchronization();
 			mts.setNewSynchonization();
 		}
 
 		try {
 
-			for (PlatformTransactionManager transactionManager : transactionManagers) {
+			for (PlatformTransactionManager transactionManager : this.transactionManagers) {
 				mts.registerTransactionManager(definition, transactionManager);
 			}
 
@@ -105,7 +105,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 
 			Map<PlatformTransactionManager, TransactionStatus> transactionStatuses = mts.getTransactionStatuses();
 
-			for (PlatformTransactionManager transactionManager : transactionManagers) {
+			for (PlatformTransactionManager transactionManager : this.transactionManagers) {
 				try {
 					if (transactionStatuses.get(transactionManager) != null) {
 						transactionManager.rollback(transactionStatuses.get(transactionManager));
@@ -116,7 +116,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 			}
 
 			if (mts.isNewSynchonization()) {
-				synchronizationManager.clearSynchronization();
+				this.synchronizationManager.clearSynchronization();
 			}
 
 			throw new CannotCreateTransactionException(ex.getMessage(), ex);
@@ -132,7 +132,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 		Exception commitException = null;
 		PlatformTransactionManager commitExceptionTransactionManager = null;
 
-		for (PlatformTransactionManager transactionManager : reverse(transactionManagers)) {
+		for (PlatformTransactionManager transactionManager : reverse(this.transactionManagers)) {
 
 			if (commit) {
 
@@ -157,7 +157,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 		}
 
 		if (multiTransactionStatus.isNewSynchonization()) {
-			synchronizationManager.clearSynchronization();
+			this.synchronizationManager.clearSynchronization();
 		}
 
 		if (commitException != null) {
@@ -174,7 +174,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 
 		MultiTransactionStatus multiTransactionStatus = (MultiTransactionStatus) status;
 
-		for (PlatformTransactionManager transactionManager : reverse(transactionManagers)) {
+		for (PlatformTransactionManager transactionManager : reverse(this.transactionManagers)) {
 			try {
 				multiTransactionStatus.rollback(transactionManager);
 			} catch (Exception ex) {
@@ -188,7 +188,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 		}
 
 		if (multiTransactionStatus.isNewSynchonization()) {
-			synchronizationManager.clearSynchronization();
+			this.synchronizationManager.clearSynchronization();
 		}
 
 		if (rollbackException != null) {
@@ -205,10 +205,10 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 	}
 
 	private PlatformTransactionManager getLastTransactionManager() {
-		return transactionManagers.get(lastTransactionManagerIndex());
+		return this.transactionManagers.get(lastTransactionManagerIndex());
 	}
 
 	private int lastTransactionManagerIndex() {
-		return transactionManagers.size() - 1;
+		return this.transactionManagers.size() - 1;
 	}
 }

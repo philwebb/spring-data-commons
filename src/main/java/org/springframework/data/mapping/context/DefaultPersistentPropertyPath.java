@@ -113,7 +113,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 		Assert.hasText(delimiter, "Delimiter must not be null or empty!");
 		Assert.notNull(converter, "Converter must not be null!");
 
-		String result = properties.stream() //
+		String result = this.properties.stream() //
 				.map(converter::convert) //
 				.filter(StringUtils::hasText) //
 				.collect(Collectors.joining(delimiter));
@@ -122,11 +122,11 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	}
 	@Nullable
 	public P getLeafProperty() {
-		return properties.isEmpty() ? null : properties.get(properties.size() - 1);
+		return this.properties.isEmpty() ? null : this.properties.get(this.properties.size() - 1);
 	}
 	@Nullable
 	public P getBaseProperty() {
-		return properties.isEmpty() ? null : properties.get(0);
+		return this.properties.isEmpty() ? null : this.properties.get(0);
 	}
 	public boolean isBasePathOf(PersistentPropertyPath<P> path) {
 
@@ -170,15 +170,15 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	}
 	public PersistentPropertyPath<P> getParentPath() {
 
-		int size = properties.size();
+		int size = this.properties.size();
 
-		return size == 0 ? this : new DefaultPersistentPropertyPath<>(properties.subList(0, size - 1));
+		return size == 0 ? this : new DefaultPersistentPropertyPath<>(this.properties.subList(0, size - 1));
 	}
 	public int getLength() {
-		return properties.size();
+		return this.properties.size();
 	}
 	public Iterator<P> iterator() {
-		return properties.iterator();
+		return this.properties.iterator();
 	}
 
 	/**
@@ -191,7 +191,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 
 		return type == null //
 				? false //
-				: properties.stream() //
+				: this.properties.stream() //
 						.anyMatch(property -> type.equals(property.getTypeInformation().getActualType()));
 	}
 	@Override
@@ -206,11 +206,11 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 		}
 
 		DefaultPersistentPropertyPath<?> that = (DefaultPersistentPropertyPath<?>) o;
-		return ObjectUtils.nullSafeEquals(properties, that.properties);
+		return ObjectUtils.nullSafeEquals(this.properties, that.properties);
 	}
 	@Override
 	public int hashCode() {
-		return ObjectUtils.nullSafeHashCode(properties);
+		return ObjectUtils.nullSafeHashCode(this.properties);
 	}
 	@Override
 	@Nullable

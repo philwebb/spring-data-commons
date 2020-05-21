@@ -62,7 +62,7 @@ class SelectionSet<T> {
 
 		Optional<T> uniqueResult = findUniqueResult();
 
-		return uniqueResult.isPresent() ? uniqueResult : fallback.apply(collection);
+		return uniqueResult.isPresent() ? uniqueResult : this.fallback.apply(this.collection);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class SelectionSet<T> {
 	SelectionSet<T> filterIfNecessary(Predicate<T> predicate) {
 
 		return findUniqueResult().map(it -> this).orElseGet(
-				() -> new SelectionSet<T>(collection.stream().filter(predicate).collect(Collectors.toList()), fallback));
+				() -> new SelectionSet<T>(this.collection.stream().filter(predicate).collect(Collectors.toList()), this.fallback));
 	}
 
 	private static <S> Function<Collection<S>, Optional<S>> defaultFallback() {
@@ -88,6 +88,6 @@ class SelectionSet<T> {
 	}
 
 	private Optional<T> findUniqueResult() {
-		return Optional.ofNullable(collection.size() == 1 ? collection.iterator().next() : null);
+		return Optional.ofNullable(this.collection.size() == 1 ? this.collection.iterator().next() : null);
 	}
 }

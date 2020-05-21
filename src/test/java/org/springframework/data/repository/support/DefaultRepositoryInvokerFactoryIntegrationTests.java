@@ -45,7 +45,7 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 
 	@BeforeEach
 	void setUp() {
-		this.factory = new DefaultRepositoryInvokerFactory(repositories);
+		this.factory = new DefaultRepositoryInvokerFactory(this.repositories);
 	}
 
 	@Test // DATACMNS-410, DATACMNS-589
@@ -53,9 +53,9 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 
 		// Mockito.reset(productRepository);
 		Product product = new Product();
-		when(productRepository.findById(4711L)).thenReturn(product);
+		when(this.productRepository.findById(4711L)).thenReturn(product);
 
-		Optional<Object> invokeFindOne = factory.getInvokerFor(Product.class).invokeFindById(4711L);
+		Optional<Object> invokeFindOne = this.factory.getInvokerFor(Product.class).invokeFindById(4711L);
 
 		assertThat(invokeFindOne).isEqualTo(Optional.of(product));
 	}
@@ -64,7 +64,7 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 	void shouldThrowMeaningfulExceptionWhenTheRepositoryForAGivenDomainClassCannotBeFound() {
 
 		assertThatIllegalArgumentException() //
-				.isThrownBy(() -> factory.getInvokerFor(Object.class)) //
+				.isThrownBy(() -> this.factory.getInvokerFor(Object.class)) //
 				.withMessageContaining("No repository found for domain type: ") //
 				.withMessageContaining(Object.class.getName());
 	}
@@ -72,15 +72,15 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 	@Test // DATACMNS-589
 	void returnsSameInvokerInstanceForSubsequentCalls() {
 
-		RepositoryInvoker invoker = factory.getInvokerFor(Product.class);
+		RepositoryInvoker invoker = this.factory.getInvokerFor(Product.class);
 
-		assertThat(factory.getInvokerFor(Product.class)).isEqualTo(invoker);
+		assertThat(this.factory.getInvokerFor(Product.class)).isEqualTo(invoker);
 	}
 
 	@Test // DATACMNS-589
 	void createsReflectionRepositoryInvokerForRepositoryNotExtendingADedicatedBaseRepository() {
 
-		RepositoryInvoker invoker = factory.getInvokerFor(Product.class);
+		RepositoryInvoker invoker = this.factory.getInvokerFor(Product.class);
 
 		assertThat(invoker)//
 				.isInstanceOf(ReflectionRepositoryInvoker.class)//
@@ -90,7 +90,7 @@ class DefaultRepositoryInvokerFactoryIntegrationTests {
 	@Test // DATACMNS-589
 	void createsCrudRepositoryInvokerForRepositoryExtendingCrudRepository() {
 
-		RepositoryInvoker invoker = factory.getInvokerFor(User.class);
+		RepositoryInvoker invoker = this.factory.getInvokerFor(User.class);
 
 		assertThat(invoker)//
 				.isInstanceOf(CrudRepositoryInvoker.class)//

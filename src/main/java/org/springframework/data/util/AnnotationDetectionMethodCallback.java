@@ -67,7 +67,7 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 	 */
 	@Nullable
 	public Method getMethod() {
-		return foundMethod;
+		return this.foundMethod;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 		Method method = this.foundMethod;
 
 		if (method == null) {
-			throw new IllegalStateException(String.format("No method with annotation %s found!", annotationType));
+			throw new IllegalStateException(String.format("No method with annotation %s found!", this.annotationType));
 		}
 
 		return method;
@@ -92,7 +92,7 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 	 */
 	@Nullable
 	public A getAnnotation() {
-		return annotation;
+		return this.annotation;
 	}
 
 	/**
@@ -101,22 +101,22 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 	 * @return
 	 */
 	public boolean hasFoundAnnotation() {
-		return annotation != null;
+		return this.annotation != null;
 	}
 	@Override
 	public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
 
-		if (foundMethod != null && !enforceUniqueness) {
+		if (this.foundMethod != null && !this.enforceUniqueness) {
 			return;
 		}
 
-		A foundAnnotation = AnnotatedElementUtils.findMergedAnnotation(method, annotationType);
+		A foundAnnotation = AnnotatedElementUtils.findMergedAnnotation(method, this.annotationType);
 
 		if (foundAnnotation != null) {
 
-			if (foundMethod != null && enforceUniqueness) {
+			if (this.foundMethod != null && this.enforceUniqueness) {
 				throw new IllegalStateException(
-						String.format(MULTIPLE_FOUND, foundAnnotation.getClass().getName(), foundMethod, method));
+						String.format(MULTIPLE_FOUND, foundAnnotation.getClass().getName(), this.foundMethod, method));
 			}
 
 			this.annotation = foundAnnotation;

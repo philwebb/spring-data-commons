@@ -49,45 +49,45 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 	@Test // DATAREST-221, DATACMNS-630
 	void invokesMethodOnTarget() throws Throwable {
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("propertyFromTarget"));
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("propertyFromTarget"));
 
-		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(delegate, new Target(), null, parser,
+		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), null, this.parser,
 				Projection.class);
 
-		assertThat(interceptor.invoke(invocation)).isEqualTo("property");
+		assertThat(interceptor.invoke(this.invocation)).isEqualTo("property");
 	}
 
 	@Test // DATAREST-221, DATACMNS-630
 	void invokesMethodOnBean() throws Throwable {
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("invokeBean"));
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("invokeBean"));
 
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
 		factory.registerSingleton("someBean", new SomeBean());
 
-		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(delegate, new Target(), factory,
-				parser, Projection.class);
+		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), factory,
+				this.parser, Projection.class);
 
-		assertThat(interceptor.invoke(invocation)).isEqualTo("value");
+		assertThat(interceptor.invoke(this.invocation)).isEqualTo("value");
 	}
 
 	@Test // DATACMNS-630
 	void forwardNonAtValueAnnotatedMethodToDelegate() throws Throwable {
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("getName"));
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("getName"));
 
-		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(delegate, new Target(),
-				new DefaultListableBeanFactory(), parser, Projection.class);
+		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(),
+				new DefaultListableBeanFactory(), this.parser, Projection.class);
 
-		interceptor.invoke(invocation);
+		interceptor.invoke(this.invocation);
 
-		verify(delegate).invoke(invocation);
+		verify(this.delegate).invoke(this.invocation);
 	}
 
 	@Test // DATACMNS-630
 	void rejectsEmptySpelExpression() {
-		assertThatIllegalStateException().isThrownBy(() -> new SpelEvaluatingMethodInterceptor(delegate, new Target(),
-				new DefaultListableBeanFactory(), parser, InvalidProjection.class));
+		assertThatIllegalStateException().isThrownBy(() -> new SpelEvaluatingMethodInterceptor(this.delegate, new Target(),
+				new DefaultListableBeanFactory(), this.parser, InvalidProjection.class));
 	}
 
 	@Test // DATACMNS-630
@@ -96,12 +96,12 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 		Map<String, Object> map = new HashMap<>();
 		map.put("name", "Dave");
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("propertyFromTarget"));
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("propertyFromTarget"));
 
-		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(delegate, map,
-				new DefaultListableBeanFactory(), parser, Projection.class);
+		SpelEvaluatingMethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, map,
+				new DefaultListableBeanFactory(), this.parser, Projection.class);
 
-		assertThat(interceptor.invoke(invocation)).isEqualTo("Dave");
+		assertThat(interceptor.invoke(this.invocation)).isEqualTo("Dave");
 	}
 
 	@Test // DATACMNS-1150
@@ -110,13 +110,13 @@ class SpelEvaluatingMethodInterceptorUnitTests {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
 		factory.registerSingleton("someBean", new SomeBean());
 
-		when(invocation.getMethod()).thenReturn(Projection.class.getMethod("invokeBeanWithParameter", Integer.class));
-		when(invocation.getArguments()).thenReturn(new Object[] { 1 });
+		when(this.invocation.getMethod()).thenReturn(Projection.class.getMethod("invokeBeanWithParameter", Integer.class));
+		when(this.invocation.getArguments()).thenReturn(new Object[] { 1 });
 
-		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(delegate, new Target(), factory, parser,
+		MethodInterceptor interceptor = new SpelEvaluatingMethodInterceptor(this.delegate, new Target(), factory, this.parser,
 				Projection.class);
 
-		assertThat(interceptor.invoke(invocation)).isEqualTo("property1");
+		assertThat(interceptor.invoke(this.invocation)).isEqualTo("property1");
 	}
 
 	interface Projection {

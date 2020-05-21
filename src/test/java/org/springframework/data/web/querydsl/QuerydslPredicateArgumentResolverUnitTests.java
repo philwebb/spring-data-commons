@@ -61,41 +61,41 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	@BeforeEach
 	void setUp() {
 
-		resolver = new QuerydslPredicateArgumentResolver(new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE),
+		this.resolver = new QuerydslPredicateArgumentResolver(new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE),
 				Optional.empty());
-		request = new MockHttpServletRequest();
+		this.request = new MockHttpServletRequest();
 	}
 
 	@Test // DATACMNS-669
 	void supportsParameterReturnsTrueWhenMethodParameterIsPredicateAndAnnotatedCorrectly() {
-		assertThat(resolver.supportsParameter(getMethodParameterFor("simpleFind", Predicate.class))).isTrue();
+		assertThat(this.resolver.supportsParameter(getMethodParameterFor("simpleFind", Predicate.class))).isTrue();
 	}
 
 	@Test // DATACMNS-669
 	void supportsParameterReturnsTrueWhenMethodParameterIsPredicateButNotAnnotatedAsSuch() {
-		assertThat(resolver.supportsParameter(getMethodParameterFor("predicateWithoutAnnotation", Predicate.class)))
+		assertThat(this.resolver.supportsParameter(getMethodParameterFor("predicateWithoutAnnotation", Predicate.class)))
 				.isTrue();
 	}
 
 	@Test // DATACMNS-669
 	void supportsParameterShouldThrowExceptionWhenMethodParameterIsNoPredicateButAnnotatedAsSuch() {
 		assertThatIllegalArgumentException().isThrownBy(
-				() -> resolver.supportsParameter(getMethodParameterFor("nonPredicateWithAnnotation", String.class)));
+				() -> this.resolver.supportsParameter(getMethodParameterFor("nonPredicateWithAnnotation", String.class)));
 	}
 
 	@Test // DATACMNS-669
 	void supportsParameterReturnsFalseWhenMethodParameterIsNoPredicate() {
-		assertThat(resolver.supportsParameter(getMethodParameterFor("nonPredicateWithoutAnnotation", String.class)))
+		assertThat(this.resolver.supportsParameter(getMethodParameterFor("nonPredicateWithoutAnnotation", String.class)))
 				.isFalse();
 	}
 
 	@Test // DATACMNS-669
 	void resolveArgumentShouldCreateSingleStringParameterPredicateCorrectly() throws Exception {
 
-		request.addParameter("firstname", "rand");
+		this.request.addParameter("firstname", "rand");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("simpleFind", Predicate.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = this.resolver.resolveArgument(getMethodParameterFor("simpleFind", Predicate.class), null,
+				new ServletWebRequest(this.request), null);
 
 		assertThat(predicate).isEqualTo(QUser.user.firstname.eq("rand"));
 	}
@@ -103,11 +103,11 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	@Test // DATACMNS-669
 	void resolveArgumentShouldCreateMultipleParametersPredicateCorrectly() throws Exception {
 
-		request.addParameter("firstname", "rand");
-		request.addParameter("lastname", "al'thor");
+		this.request.addParameter("firstname", "rand");
+		this.request.addParameter("lastname", "al'thor");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("simpleFind", Predicate.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = this.resolver.resolveArgument(getMethodParameterFor("simpleFind", Predicate.class), null,
+				new ServletWebRequest(this.request), null);
 
 		assertThat(predicate).isEqualTo(QUser.user.firstname.eq("rand").and(QUser.user.lastname.eq("al'thor")));
 	}
@@ -115,10 +115,10 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	@Test // DATACMNS-669
 	void resolveArgumentShouldCreateNestedObjectPredicateCorrectly() throws Exception {
 
-		request.addParameter("address.city", "two rivers");
+		this.request.addParameter("address.city", "two rivers");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("simpleFind", Predicate.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = this.resolver.resolveArgument(getMethodParameterFor("simpleFind", Predicate.class), null,
+				new ServletWebRequest(this.request), null);
 
 		BooleanExpression eq = QUser.user.address.city.eq("two rivers");
 
@@ -128,10 +128,10 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	@Test // DATACMNS-669
 	void resolveArgumentShouldResolveTypePropertyFromPageCorrectly() throws Exception {
 
-		request.addParameter("address.city", "tar valon");
+		this.request.addParameter("address.city", "tar valon");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("pagedFind", Predicate.class, Pageable.class),
-				null, new ServletWebRequest(request), null);
+		Object predicate = this.resolver.resolveArgument(getMethodParameterFor("pagedFind", Predicate.class, Pageable.class),
+				null, new ServletWebRequest(this.request), null);
 
 		assertThat(predicate).isEqualTo(QUser.user.address.city.eq("tar valon"));
 	}
@@ -139,11 +139,11 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	@Test // DATACMNS-669
 	void resolveArgumentShouldHonorCustomSpecification() throws Exception {
 
-		request.addParameter("firstname", "egwene");
-		request.addParameter("lastname", "al'vere");
+		this.request.addParameter("firstname", "egwene");
+		this.request.addParameter("lastname", "al'vere");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("specificFind", Predicate.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = this.resolver.resolveArgument(getMethodParameterFor("specificFind", Predicate.class), null,
+				new ServletWebRequest(this.request), null);
 
 		assertThat(predicate).isEqualTo(
 				QUser.user.firstname.eq("egwene".toUpperCase()).and(QUser.user.lastname.toLowerCase().eq("al'vere")));
@@ -152,10 +152,10 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	@Test // DATACMNS-669
 	void shouldCreatePredicateForNonStringPropertyCorrectly() throws Exception {
 
-		request.addParameter("inceptionYear", "978");
+		this.request.addParameter("inceptionYear", "978");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("specificFind", Predicate.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = this.resolver.resolveArgument(getMethodParameterFor("specificFind", Predicate.class), null,
+				new ServletWebRequest(this.request), null);
 
 		assertThat(predicate).isEqualTo(QUser.user.inceptionYear.eq(978L));
 	}
@@ -163,10 +163,10 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	@Test // DATACMNS-669
 	void shouldCreatePredicateForNonStringListPropertyCorrectly() throws Exception {
 
-		request.addParameter("inceptionYear", new String[] { "978", "998" });
+		this.request.addParameter("inceptionYear", new String[] { "978", "998" });
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("specificFind", Predicate.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = this.resolver.resolveArgument(getMethodParameterFor("specificFind", Predicate.class), null,
+				new ServletWebRequest(this.request), null);
 
 		assertThat(predicate).isEqualTo(QUser.user.inceptionYear.in(978L, 998L));
 	}
@@ -174,11 +174,11 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	@Test // DATACMNS-669
 	void shouldExcludePropertiesCorrectly() throws Exception {
 
-		request.addParameter("address.street", "downhill");
-		request.addParameter("inceptionYear", "973");
+		this.request.addParameter("address.street", "downhill");
+		this.request.addParameter("inceptionYear", "973");
 
-		Object predicate = resolver.resolveArgument(getMethodParameterFor("specificFind", Predicate.class), null,
-				new ServletWebRequest(request), null);
+		Object predicate = this.resolver.resolveArgument(getMethodParameterFor("specificFind", Predicate.class), null,
+				new ServletWebRequest(this.request), null);
 
 		assertThat(predicate.toString()).isEqualTo(QUser.user.inceptionYear.eq(973L).toString());
 	}
@@ -187,7 +187,7 @@ class QuerydslPredicateArgumentResolverUnitTests {
 	@SuppressWarnings("rawtypes")
 	void extractTypeInformationShouldUseTypeExtractedFromMethodReturnTypeIfPredicateNotAnnotated() {
 
-		TypeInformation<?> type = ReflectionTestUtils.invokeMethod(resolver, "extractTypeInfo",
+		TypeInformation<?> type = ReflectionTestUtils.invokeMethod(this.resolver, "extractTypeInfo",
 				getMethodParameterFor("predicateWithoutAnnotation", Predicate.class));
 
 		assertThat(type).isEqualTo(ClassTypeInformation.from(User.class));
@@ -210,9 +210,9 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 		MethodParameter parameter = getMethodParameterFor("predicateWithoutAnnotation", Predicate.class);
 
-		request.addParameter("firstname", "");
+		this.request.addParameter("firstname", "");
 
-		assertThat(resolver.resolveArgument(parameter, null, new ServletWebRequest(request), null)) //
+		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)) //
 				.isNotNull();
 	}
 
@@ -221,9 +221,9 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 		MethodParameter parameter = getMethodParameterFor("nullablePredicateWithoutAnnotation", Predicate.class);
 
-		request.addParameter("firstname", "");
+		this.request.addParameter("firstname", "");
 
-		assertThat(resolver.resolveArgument(parameter, null, new ServletWebRequest(request), null)).isNull();
+		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)).isNull();
 	}
 
 	@Test // DATACMNS-1635
@@ -231,14 +231,14 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 		MethodParameter parameter = getMethodParameterFor("optionalPredicateWithoutAnnotation", Optional.class);
 
-		request.addParameter("firstname", "");
+		this.request.addParameter("firstname", "");
 
-		assertThat(resolver.resolveArgument(parameter, null, new ServletWebRequest(request), null)) //
+		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)) //
 				.isInstanceOfSatisfying(Optional.class, it -> assertThat(it).isEmpty());
 
-		request.addParameter("lastname", "Matthews");
+		this.request.addParameter("lastname", "Matthews");
 
-		assertThat(resolver.resolveArgument(parameter, null, new ServletWebRequest(request), null)) //
+		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)) //
 				.isInstanceOfSatisfying(Optional.class, it -> assertThat(it).isPresent());
 	}
 

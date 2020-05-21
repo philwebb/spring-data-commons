@@ -73,13 +73,13 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 				if (wither != null) {
 
 					ReflectionUtils.makeAccessible(wither);
-					this.bean = (T) ReflectionUtils.invokeMethod(wither, bean, value);
+					this.bean = (T) ReflectionUtils.invokeMethod(wither, this.bean, value);
 					return;
 				}
 
 				if (KotlinDetector.isKotlinType(property.getOwner().getType())) {
 
-					this.bean = (T) KotlinCopyUtil.setProperty(property, bean, value);
+					this.bean = (T) KotlinCopyUtil.setProperty(property, this.bean, value);
 					return;
 				}
 
@@ -92,14 +92,14 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 				Field field = property.getRequiredField();
 
 				ReflectionUtils.makeAccessible(field);
-				ReflectionUtils.setField(field, bean, value);
+				ReflectionUtils.setField(field, this.bean, value);
 				return;
 			}
 
 			Method setter = property.getRequiredSetter();
 
 			ReflectionUtils.makeAccessible(setter);
-			ReflectionUtils.invokeMethod(setter, bean, value);
+			ReflectionUtils.invokeMethod(setter, this.bean, value);
 
 		} catch (IllegalStateException e) {
 			throw new MappingException("Could not set object property!", e);
@@ -131,21 +131,21 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 				Field field = property.getRequiredField();
 
 				ReflectionUtils.makeAccessible(field);
-				return ReflectionUtils.getField(field, bean);
+				return ReflectionUtils.getField(field, this.bean);
 			}
 
 			Method getter = property.getRequiredGetter();
 
 			ReflectionUtils.makeAccessible(getter);
-			return ReflectionUtils.invokeMethod(getter, bean);
+			return ReflectionUtils.invokeMethod(getter, this.bean);
 
 		} catch (IllegalStateException e) {
 			throw new MappingException(
-					String.format("Could not read property %s of %s!", property.toString(), bean.toString()), e);
+					String.format("Could not read property %s of %s!", property.toString(), this.bean.toString()), e);
 		}
 	}
 	public T getBean() {
-		return bean;
+		return this.bean;
 	}
 
 	/**

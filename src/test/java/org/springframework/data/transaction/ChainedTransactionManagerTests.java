@@ -121,17 +121,17 @@ class ChainedTransactionManagerTests {
 	}
 
 	private void setupTransactionManagers(PlatformTransactionManager... transactionManagers) {
-		tm = new ChainedTransactionManager(new TestSynchronizationManager(), transactionManagers);
+		this.tm = new ChainedTransactionManager(new TestSynchronizationManager(), transactionManagers);
 	}
 
 	private void createAndRollbackTransaction() {
-		MultiTransactionStatus transaction = tm.getTransaction(new DefaultTransactionDefinition());
-		tm.rollback(transaction);
+		MultiTransactionStatus transaction = this.tm.getTransaction(new DefaultTransactionDefinition());
+		this.tm.rollback(transaction);
 	}
 
 	private void createAndCommitTransaction() {
-		MultiTransactionStatus transaction = tm.getTransaction(new DefaultTransactionDefinition());
-		tm.commit(transaction);
+		MultiTransactionStatus transaction = this.tm.getTransaction(new DefaultTransactionDefinition());
+		this.tm.commit(transaction);
 	}
 
 	static class TestSynchronizationManager implements SynchronizationManager {
@@ -139,15 +139,15 @@ class ChainedTransactionManagerTests {
 		private boolean synchronizationActive;
 
 		public void initSynchronization() {
-			synchronizationActive = true;
+			this.synchronizationActive = true;
 		}
 
 		public boolean isSynchronizationActive() {
-			return synchronizationActive;
+			return this.synchronizationActive;
 		}
 
 		public void clearSynchronization() {
-			synchronizationActive = false;
+			this.synchronizationActive = false;
 		}
 	}
 
@@ -181,7 +181,7 @@ class ChainedTransactionManagerTests {
 
 		@Override
 		public String toString() {
-			return name + (isCommitted() ? " (committed) " : " (not committed)");
+			return this.name + (isCommitted() ? " (committed) " : " (not committed)");
 		}
 
 		public TransactionStatus getTransaction(TransactionDefinition definition) throws TransactionException {
@@ -189,23 +189,23 @@ class ChainedTransactionManagerTests {
 		}
 
 		public void commit(TransactionStatus status) throws TransactionException {
-			commitTime = System.currentTimeMillis();
+			this.commitTime = System.currentTimeMillis();
 		}
 
 		public void rollback(TransactionStatus status) throws TransactionException {
-			rollbackTime = System.currentTimeMillis();
+			this.rollbackTime = System.currentTimeMillis();
 		}
 
 		boolean isCommitted() {
-			return commitTime != null;
+			return this.commitTime != null;
 		}
 
 		boolean wasRolledBack() {
-			return rollbackTime != null;
+			return this.rollbackTime != null;
 		}
 
 		Long getCommitTime() {
-			return commitTime;
+			return this.commitTime;
 		}
 
 	}

@@ -452,20 +452,20 @@ public interface ExampleMatcher {
 
 			GenericPropertyMatcher that = (GenericPropertyMatcher) o;
 
-			if (stringMatcher != that.stringMatcher)
+			if (this.stringMatcher != that.stringMatcher)
 				return false;
 
-			if (!ObjectUtils.nullSafeEquals(ignoreCase, that.ignoreCase)) {
+			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, that.ignoreCase)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(valueTransformer, that.valueTransformer);
+			return ObjectUtils.nullSafeEquals(this.valueTransformer, that.valueTransformer);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(stringMatcher);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(ignoreCase);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(valueTransformer);
+			int result = ObjectUtils.nullSafeHashCode(this.stringMatcher);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.ignoreCase);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.valueTransformer);
 			return result;
 		}
 	}
@@ -685,7 +685,7 @@ public interface ExampleMatcher {
 		 * @return never {@literal null}.
 		 */
 		public String getPath() {
-			return path;
+			return this.path;
 		}
 
 		/**
@@ -695,7 +695,7 @@ public interface ExampleMatcher {
 		 */
 		@Nullable
 		public StringMatcher getStringMatcher() {
-			return stringMatcher;
+			return this.stringMatcher;
 		}
 
 		/**
@@ -703,7 +703,7 @@ public interface ExampleMatcher {
 		 */
 		@Nullable
 		public Boolean getIgnoreCase() {
-			return ignoreCase;
+			return this.ignoreCase;
 		}
 
 		/**
@@ -712,7 +712,7 @@ public interface ExampleMatcher {
 		 * @return never {@literal null}.
 		 */
 		public PropertyValueTransformer getPropertyValueTransformer() {
-			return valueTransformer == null ? NoOpPropertyValueTransformer.INSTANCE : valueTransformer;
+			return this.valueTransformer == null ? NoOpPropertyValueTransformer.INSTANCE : this.valueTransformer;
 		}
 
 		/**
@@ -737,25 +737,25 @@ public interface ExampleMatcher {
 
 			PropertySpecifier that = (PropertySpecifier) o;
 
-			if (!ObjectUtils.nullSafeEquals(path, that.path)) {
+			if (!ObjectUtils.nullSafeEquals(this.path, that.path)) {
 				return false;
 			}
 
-			if (stringMatcher != that.stringMatcher)
+			if (this.stringMatcher != that.stringMatcher)
 				return false;
 
-			if (!ObjectUtils.nullSafeEquals(ignoreCase, that.ignoreCase)) {
+			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, that.ignoreCase)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(valueTransformer, that.valueTransformer);
+			return ObjectUtils.nullSafeEquals(this.valueTransformer, that.valueTransformer);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(path);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(stringMatcher);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(ignoreCase);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(valueTransformer);
+			int result = ObjectUtils.nullSafeHashCode(this.path);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.stringMatcher);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.ignoreCase);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.valueTransformer);
 			return result;
 		}
 
@@ -785,23 +785,23 @@ public interface ExampleMatcher {
 		public void add(PropertySpecifier specifier) {
 
 			Assert.notNull(specifier, "PropertySpecifier must not be null!");
-			propertySpecifiers.put(specifier.getPath(), specifier);
+			this.propertySpecifiers.put(specifier.getPath(), specifier);
 		}
 
 		public boolean hasSpecifierForPath(String path) {
-			return propertySpecifiers.containsKey(path);
+			return this.propertySpecifiers.containsKey(path);
 		}
 
 		public PropertySpecifier getForPath(String path) {
-			return propertySpecifiers.get(path);
+			return this.propertySpecifiers.get(path);
 		}
 
 		public boolean hasValues() {
-			return !propertySpecifiers.isEmpty();
+			return !this.propertySpecifiers.isEmpty();
 		}
 
 		public Collection<PropertySpecifier> getSpecifiers() {
-			return propertySpecifiers.values();
+			return this.propertySpecifiers.values();
 		}
 		@Override
 		public boolean equals(Object o) {
@@ -815,11 +815,11 @@ public interface ExampleMatcher {
 			}
 
 			PropertySpecifiers that = (PropertySpecifiers) o;
-			return ObjectUtils.nullSafeEquals(propertySpecifiers, that.propertySpecifiers);
+			return ObjectUtils.nullSafeEquals(this.propertySpecifiers, that.propertySpecifiers);
 		}
 		@Override
 		public int hashCode() {
-			return ObjectUtils.nullSafeHashCode(propertySpecifiers);
+			return ObjectUtils.nullSafeHashCode(this.propertySpecifiers);
 		}
 	}
 

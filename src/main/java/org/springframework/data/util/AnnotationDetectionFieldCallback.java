@@ -53,7 +53,7 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 			return;
 		}
 
-		if (AnnotatedElementUtils.findMergedAnnotation(field, annotationType) != null) {
+		if (AnnotatedElementUtils.findMergedAnnotation(field, this.annotationType) != null) {
 
 			ReflectionUtils.makeAccessible(field);
 			this.field = field;
@@ -67,7 +67,7 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 	 */
 	@Nullable
 	public Field getField() {
-		return field;
+		return this.field;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 		Field field = this.field;
 
 		if (field == null) {
-			throw new IllegalStateException(String.format("No field found for annotation %s!", annotationType));
+			throw new IllegalStateException(String.format("No field found for annotation %s!", this.annotationType));
 		}
 
 		return field;

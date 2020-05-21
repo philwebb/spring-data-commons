@@ -62,13 +62,13 @@ class QueryExecutionResultHandlerUnitTests {
 		Method method = getMethod("set");
 		List<Entity> source = Collections.singletonList(new Entity());
 
-		assertThat(handler.postProcessInvocationResult(source, method)).isInstanceOf(Set.class);
+		assertThat(this.handler.postProcessInvocationResult(source, method)).isInstanceOf(Set.class);
 	}
 
 	@Test // DATACMNS-483
 	void turnsNullIntoJdk8Optional() throws Exception {
 
-		Object result = handler.postProcessInvocationResult(null, getMethod("jdk8Optional"));
+		Object result = this.handler.postProcessInvocationResult(null, getMethod("jdk8Optional"));
 		assertThat(result).isEqualTo(Optional.empty());
 	}
 
@@ -78,7 +78,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Entity entity = new Entity();
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("jdk8Optional"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("jdk8Optional"));
 		assertThat(result).isInstanceOf(Optional.class);
 
 		Optional<Entity> optional = (Optional<Entity>) result;
@@ -88,7 +88,7 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-483
 	void turnsNullIntoGuavaOptional() throws Exception {
 
-		Object result = handler.postProcessInvocationResult(null, getMethod("guavaOptional"));
+		Object result = this.handler.postProcessInvocationResult(null, getMethod("guavaOptional"));
 		assertThat(result).isEqualTo(com.google.common.base.Optional.absent());
 	}
 
@@ -98,7 +98,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Entity entity = new Entity();
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("guavaOptional"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("guavaOptional"));
 		assertThat(result).isInstanceOf(com.google.common.base.Optional.class);
 
 		com.google.common.base.Optional<Entity> optional = (com.google.common.base.Optional<Entity>) result;
@@ -107,7 +107,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 	@Test // DATACMNS-917
 	void defaultsNullToEmptyMap() throws Exception {
-		assertThat(handler.postProcessInvocationResult(null, getMethod("map"))).isInstanceOf(Map.class);
+		assertThat(this.handler.postProcessInvocationResult(null, getMethod("map"))).isInstanceOf(Map.class);
 	}
 
 	@Test // DATACMNS-836
@@ -116,7 +116,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Single<Entity> entity = Single.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("publisher"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("publisher"));
 		assertThat(result).isInstanceOf(Publisher.class);
 
 		Mono<Entity> mono = Mono.from((Publisher<Entity>) result);
@@ -129,7 +129,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Single<Entity> entity = Single.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("mono"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
 
 		Mono<Entity> mono = (Mono<Entity>) result;
@@ -142,7 +142,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Single<Entity> entity = Single.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("flux"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("flux"));
 		assertThat(result).isInstanceOf(Flux.class);
 
 		Flux<Entity> flux = (Flux<Entity>) result;
@@ -155,7 +155,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Observable<Entity> entity = Observable.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("publisher"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("publisher"));
 		assertThat(result).isInstanceOf(Publisher.class);
 
 		Mono<Entity> mono = Mono.from((Publisher<Entity>) result);
@@ -168,7 +168,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Observable<Entity> entity = Observable.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("mono"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
 
 		Mono<Entity> mono = (Mono<Entity>) result;
@@ -181,7 +181,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Observable<Entity> entity = Observable.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("flux"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("flux"));
 		assertThat(result).isInstanceOf(Flux.class);
 
 		Flux<Entity> flux = (Flux<Entity>) result;
@@ -194,7 +194,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Observable<Entity> entity = Observable.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("single"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("single"));
 		assertThat(result).isInstanceOf(Single.class);
 
 		Single<Entity> single = (Single<Entity>) result;
@@ -207,7 +207,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Single<Entity> entity = Single.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("observable"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("observable"));
 		assertThat(result).isInstanceOf(Observable.class);
 
 		Observable<Entity> observable = (Observable<Entity>) result;
@@ -220,7 +220,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Mono<Entity> entity = Mono.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("single"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("single"));
 		assertThat(result).isInstanceOf(Single.class);
 
 		Single<Entity> single = (Single<Entity>) result;
@@ -233,7 +233,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Mono<Entity> entity = Mono.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("completable"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("completable"));
 		assertThat(result).isInstanceOf(Completable.class);
 
 		Completable completable = (Completable) result;
@@ -246,7 +246,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Mono<Entity> entity = Mono.error(new InvalidDataAccessApiUsageException("err"));
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("completable"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("completable"));
 		assertThat(result).isInstanceOf(Completable.class);
 
 		Completable completable = (Completable) result;
@@ -259,7 +259,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Completable entity = Completable.complete();
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("mono"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
 
 		Mono mono = (Mono) result;
@@ -272,7 +272,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Completable entity = Completable.error(new InvalidDataAccessApiUsageException("err"));
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("mono"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
 
 		Mono mono = (Mono) result;
@@ -286,7 +286,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Mono<Entity> entity = Mono.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("observable"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("observable"));
 		assertThat(result).isInstanceOf(Observable.class);
 
 		Observable<Entity> observable = (Observable<Entity>) result;
@@ -299,7 +299,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Flux<Entity> entity = Flux.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("single"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("single"));
 		assertThat(result).isInstanceOf(Single.class);
 
 		Single<Entity> single = (Single<Entity>) result;
@@ -312,7 +312,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Flux<Entity> entity = Flux.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("observable"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("observable"));
 		assertThat(result).isInstanceOf(Observable.class);
 
 		Observable<Entity> observable = (Observable<Entity>) result;
@@ -325,7 +325,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Flux<Entity> entity = Flux.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("mono"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("mono"));
 		assertThat(result).isInstanceOf(Mono.class);
 
 		Mono<Entity> mono = (Mono<Entity>) result;
@@ -338,7 +338,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Mono<Entity> entity = Mono.just(new Entity());
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("flux"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("flux"));
 		assertThat(result).isInstanceOf(Flux.class);
 
 		Flux<Entity> flux = (Flux<Entity>) result;
@@ -351,7 +351,7 @@ class QueryExecutionResultHandlerUnitTests {
 		Entity value = new Entity();
 		Optional<Entity> entity = Optional.of(value);
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("option"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("option"));
 
 		assertThat(result).isInstanceOfSatisfying(Option.class, it -> assertThat(it.get()).isEqualTo(value));
 	}
@@ -362,7 +362,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Iterable<?> source = asList(new Object());
 
-		Object result = handler.postProcessInvocationResult(source, getMethod("streamable"));
+		Object result = this.handler.postProcessInvocationResult(source, getMethod("streamable"));
 
 		assertThat(result).isInstanceOfSatisfying(Streamable.class,
 				it -> assertThat(it.stream().collect(Collectors.toList())).isEqualTo(source));
@@ -373,7 +373,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Entity entity = new Entity();
 
-		Object result = handler.postProcessInvocationResult(entity, getMethod("tryOfOption"));
+		Object result = this.handler.postProcessInvocationResult(entity, getMethod("tryOfOption"));
 
 		assertThat(result).isInstanceOfSatisfying(Option.class, it -> assertThat(it.get()).isEqualTo(entity));
 	}
@@ -381,7 +381,7 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-1430
 	void convertsElementsAndValueIntoCustomStreamable() throws Exception {
 
-		Object result = handler.postProcessInvocationResult(Arrays.asList("foo"), getMethod("customStreamable"));
+		Object result = this.handler.postProcessInvocationResult(Arrays.asList("foo"), getMethod("customStreamable"));
 
 		assertThat(result).isInstanceOfSatisfying(CustomStreamableWrapper.class, it -> {
 			assertThat(it).containsExactly("foo");
@@ -391,7 +391,7 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-1482
 	void nestedConversion() throws Exception {
 
-		Object result = handler.postProcessInvocationResult(asList(BigDecimal.ZERO, BigDecimal.ONE),
+		Object result = this.handler.postProcessInvocationResult(asList(BigDecimal.ZERO, BigDecimal.ONE),
 				getMethod("listOfInteger"));
 
 		assertThat(result).isInstanceOfSatisfying(List.class, list -> {
@@ -410,7 +410,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		Option<Entity> source = Option.of(new Entity());
 
-		assertThat(handler.postProcessInvocationResult(source, getMethod("option"))).isSameAs(source);
+		assertThat(this.handler.postProcessInvocationResult(source, getMethod("option"))).isSameAs(source);
 	}
 
 	private static Method getMethod(String methodName) throws Exception {
@@ -466,7 +466,7 @@ class QueryExecutionResultHandlerUnitTests {
 
 		@Override
 		public Iterator<T> iterator() {
-			return source.iterator();
+			return this.source.iterator();
 		}
 	}
 }

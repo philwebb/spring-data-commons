@@ -107,10 +107,10 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 	protected Object createAttribute(String attributeName, MethodParameter parameter, WebDataBinderFactory binderFactory,
 			NativeWebRequest request) throws Exception {
 
-		MapDataBinder binder = new MapDataBinder(parameter.getParameterType(), conversionService.getObject());
+		MapDataBinder binder = new MapDataBinder(parameter.getParameterType(), this.conversionService.getObject());
 		binder.bind(new MutablePropertyValues(request.getParameterMap()));
 
-		return proxyFactory.createProjection(parameter.getParameterType(), binder.getTarget());
+		return this.proxyFactory.createProjection(parameter.getParameterType(), binder.getTarget());
 	}
 
 	/*

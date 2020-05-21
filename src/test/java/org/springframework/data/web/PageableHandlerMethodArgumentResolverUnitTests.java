@@ -53,7 +53,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		request.addParameter("page", "0");
 		request.addParameter("size", "200");
 
-		assertSupportedAndResult(supportedMethodParameter, PageRequest.of(0, 100), request);
+		assertSupportedAndResult(this.supportedMethodParameter, PageRequest.of(0, 100), request);
 	}
 
 	@Test
@@ -99,7 +99,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		request.addParameter("page", "0");
 		request.addParameter("size", "0");
 
-		assertSupportedAndResult(supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-377
@@ -118,7 +118,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("page", "-1");
 
-		assertSupportedAndResult(supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-408
@@ -127,7 +127,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("page", "a");
 
-		assertSupportedAndResult(supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-408
@@ -136,7 +136,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("size", "a");
 
-		assertSupportedAndResult(supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
+		assertSupportedAndResult(this.supportedMethodParameter, DEFAULT_PAGE_REQUEST, request);
 	}
 
 	@Test // DATACMNS-477
@@ -145,7 +145,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		PageableHandlerMethodArgumentResolver resolver = getResolver();
 		resolver.setFallbackPageable(Pageable.unpaged());
 
-		assertSupportedAndResult(supportedMethodParameter, Pageable.unpaged(),
+		assertSupportedAndResult(this.supportedMethodParameter, Pageable.unpaged(),
 				new ServletWebRequest(new MockHttpServletRequest()), resolver);
 	}
 
@@ -158,7 +158,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("page", "20");
 
-		assertThat(resolver.resolveArgument(supportedMethodParameter, null, new ServletWebRequest(request), null))
+		assertThat(resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null))
 				.isEqualTo(Pageable.unpaged());
 	}
 
@@ -171,7 +171,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("size", "10");
 
-		assertThat(resolver.resolveArgument(supportedMethodParameter, null, new ServletWebRequest(request), null))
+		assertThat(resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null))
 				.isEqualTo(Pageable.unpaged());
 	}
 
@@ -185,7 +185,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		request.addParameter("page", "1");
 
 		assertThat(
-				resolver.resolveArgument(supportedMethodParameter, null, new ServletWebRequest(request), null).getPageNumber())
+				resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null).getPageNumber())
 						.isEqualTo(0);
 	}
 
@@ -199,7 +199,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		request.addParameter("page", "0");
 		request.addParameter("size", "10");
 
-		Pageable result = resolver.resolveArgument(supportedMethodParameter, null, new ServletWebRequest(request), null);
+		Pageable result = resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null);
 
 		assertThat(result.getPageNumber()).isEqualTo(0);
 		assertThat(result.getPageSize()).isEqualTo(10);
@@ -215,7 +215,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("page", "0");
 
-		Pageable result = resolver.resolveArgument(supportedMethodParameter, null, new ServletWebRequest(request), null);
+		Pageable result = resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null);
 
 		assertThat(result.getPageNumber()).isEqualTo(0);
 	}
@@ -229,7 +229,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addParameter("size", "10");
 
-		Pageable result = resolver.resolveArgument(supportedMethodParameter, null, new ServletWebRequest(request), null);
+		Pageable result = resolver.resolveArgument(this.supportedMethodParameter, null, new ServletWebRequest(request), null);
 
 		assertThat(result.getPageSize()).isEqualTo(10);
 	}

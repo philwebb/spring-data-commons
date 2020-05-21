@@ -78,11 +78,11 @@ public class Function {
 	 */
 	public Object invoke(Object[] arguments) throws Exception {
 
-		if (method.getParameterCount() == arguments.length) {
-			return method.invoke(target, arguments);
+		if (this.method.getParameterCount() == arguments.length) {
+			return this.method.invoke(this.target, arguments);
 		}
 
-		Class<?>[] types = method.getParameterTypes();
+		Class<?>[] types = this.method.getParameterTypes();
 		Class<?> tailType = types[types.length - 1];
 
 		if (tailType.isArray()) {
@@ -104,10 +104,10 @@ public class Function {
 
 			argumentsToUse.add(varargs);
 
-			return method.invoke(target, argumentsToUse.size() == 1 ? argumentsToUse.get(0) : argumentsToUse.toArray());
+			return this.method.invoke(this.target, argumentsToUse.size() == 1 ? argumentsToUse.get(0) : argumentsToUse.toArray());
 		}
 
-		throw new IllegalStateException(String.format("Could not invoke method %s for arguments %s!", method, arguments));
+		throw new IllegalStateException(String.format("Could not invoke method %s for arguments %s!", this.method, arguments));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class Function {
 	 * @return
 	 */
 	public String getName() {
-		return method.getName();
+		return this.method.getName();
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class Function {
 	 * @return
 	 */
 	public Class<?> getDeclaringClass() {
-		return method.getDeclaringClass();
+		return this.method.getDeclaringClass();
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class Function {
 	 * @return
 	 */
 	public boolean supports(List<TypeDescriptor> argumentTypes) {
-		return ParameterTypes.of(argumentTypes).areValidFor(method);
+		return ParameterTypes.of(argumentTypes).areValidFor(this.method);
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class Function {
 	 * @return
 	 */
 	public int getParameterCount() {
-		return method.getParameterCount();
+		return this.method.getParameterCount();
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class Function {
 	 * @return {@code true} if the types are equal, {@code false} otherwise.
 	 */
 	public boolean supportsExact(List<TypeDescriptor> argumentTypes) {
-		return ParameterTypes.of(argumentTypes).exactlyMatchParametersOf(method);
+		return ParameterTypes.of(argumentTypes).exactlyMatchParametersOf(this.method);
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class Function {
 	public boolean isSignatureEqual(Function other) {
 
 		return getName().equals(other.getName()) //
-				&& method.getParameterCount() == other.method.getParameterCount()
-				&& Arrays.equals(method.getParameterTypes(), other.method.getParameterTypes());
+				&& this.method.getParameterCount() == other.method.getParameterCount()
+				&& Arrays.equals(this.method.getParameterTypes(), other.method.getParameterTypes());
 	}
 }

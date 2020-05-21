@@ -57,7 +57,7 @@ public class ConfigurableTypeInformationMapper implements TypeInformationMapper 
 			ClassTypeInformation<?> type = ClassTypeInformation.from(entry.getKey());
 			Alias alias = Alias.of(entry.getValue());
 
-			if (typeToAlias.containsValue(alias)) {
+			if (this.typeToAlias.containsValue(alias)) {
 				throw new IllegalArgumentException(
 						String.format("Detected mapping ambiguity! String %s cannot be mapped to more than one type!", alias));
 			}
@@ -67,11 +67,11 @@ public class ConfigurableTypeInformationMapper implements TypeInformationMapper 
 		}
 	}
 	public Alias createAliasFor(TypeInformation<?> type) {
-		return typeToAlias.getOrDefault(type, Alias.NONE);
+		return this.typeToAlias.getOrDefault(type, Alias.NONE);
 	}
 	@Nullable
 	@Override
 	public TypeInformation<?> resolveTypeFrom(Alias alias) {
-		return aliasToType.get(alias);
+		return this.aliasToType.get(alias);
 	}
 }

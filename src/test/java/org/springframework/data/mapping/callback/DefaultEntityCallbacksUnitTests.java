@@ -276,14 +276,14 @@ class DefaultEntityCallbacksUnitTests {
 		@Override
 		public Person onBeforeConvert(Person object) {
 
-			invocations.add("convert");
+			this.invocations.add("convert");
 			return object;
 		}
 
 		@Override
 		public Person onBeforeSave(Person object) {
 
-			invocations.add("save");
+			this.invocations.add("save");
 			return object;
 		}
 	}

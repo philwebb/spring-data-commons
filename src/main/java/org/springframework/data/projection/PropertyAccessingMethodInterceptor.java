@@ -65,14 +65,14 @@ class PropertyAccessingMethodInterceptor implements MethodInterceptor {
 		}
 
 		if (!isSetterMethod(method, descriptor)) {
-			return target.getPropertyValue(descriptor.getName());
+			return this.target.getPropertyValue(descriptor.getName());
 		}
 
 		if (invocation.getArguments().length != 1) {
 			throw new IllegalStateException("Invoked setter method requires exactly one argument!");
 		}
 
-		target.setPropertyValue(descriptor.getName(), invocation.getArguments()[0]);
+		this.target.setPropertyValue(descriptor.getName(), invocation.getArguments()[0]);
 		return null;
 	}
 

@@ -86,7 +86,7 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 	 */
 	public void setResourceLocation(String location) throws IOException {
 		Assert.hasText(location, "Location must not be null!");
-		setResources(resolver.getResources(location));
+		setResources(this.resolver.getResources(location));
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 
 		RepositoryInvokerFactory invokerFactory = new DefaultRepositoryInvokerFactory(repositories);
 
-		for (Resource resource : resources) {
+		for (Resource resource : this.resources) {
 
 			logger.info(String.format("Reading resource: %s", resource));
 
@@ -125,8 +125,8 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 			}
 		}
 
-		if (publisher != null) {
-			publisher.publishEvent(new RepositoriesPopulatedEvent(this, repositories));
+		if (this.publisher != null) {
+			this.publisher.publishEvent(new RepositoriesPopulatedEvent(this, repositories));
 		}
 	}
 
@@ -138,7 +138,7 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 	 */
 	private Object readObjectFrom(Resource resource) {
 		try {
-			return reader.readFrom(resource, classLoader);
+			return this.reader.readFrom(resource, this.classLoader);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

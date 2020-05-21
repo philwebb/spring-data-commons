@@ -64,7 +64,7 @@ public final class Pair<S, T> {
 	 * @return
 	 */
 	public S getFirst() {
-		return first;
+		return this.first;
 	}
 
 	/**
@@ -73,7 +73,7 @@ public final class Pair<S, T> {
 	 * @return
 	 */
 	public T getSecond() {
-		return second;
+		return this.second;
 	}
 
 	/**
@@ -97,16 +97,16 @@ public final class Pair<S, T> {
 
 		Pair<?, ?> pair = (Pair<?, ?>) o;
 
-		if (!ObjectUtils.nullSafeEquals(first, pair.first)) {
+		if (!ObjectUtils.nullSafeEquals(this.first, pair.first)) {
 			return false;
 		}
 
-		return ObjectUtils.nullSafeEquals(second, pair.second);
+		return ObjectUtils.nullSafeEquals(this.second, pair.second);
 	}
 	@Override
 	public int hashCode() {
-		int result = ObjectUtils.nullSafeHashCode(first);
-		result = 31 * result + ObjectUtils.nullSafeHashCode(second);
+		int result = ObjectUtils.nullSafeHashCode(this.first);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.second);
 		return result;
 	}
 	@Override

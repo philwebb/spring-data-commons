@@ -129,14 +129,14 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 	@Nonnull
 	@Override
 	protected BeanDefinitionRegistry getRegistry() {
-		return registry;
+		return this.registry;
 	}
 
 	/**
 	 * @return the considerNestedRepositoryInterfaces
 	 */
 	public boolean isConsiderNestedRepositoryInterfaces() {
-		return considerNestedRepositoryInterfaces;
+		return this.considerNestedRepositoryInterfaces;
 	}
 
 	/**
@@ -205,7 +205,7 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 		public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory)
 				throws IOException {
 
-			for (TypeFilter filter : delegates) {
+			for (TypeFilter filter : this.delegates) {
 				if (!filter.match(metadataReader, metadataReaderFactory)) {
 					return false;
 				}

@@ -97,7 +97,7 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	 * @return
 	 */
 	public double getNormalizedValue() {
-		return value / metric.getMultiplier();
+		return this.value / this.metric.getMultiplier();
 	}
 
 	/**
@@ -107,7 +107,7 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	 * @see Metric#getAbbreviation()
 	 */
 	public String getUnit() {
-		return metric.getAbbreviation();
+		return this.metric.getAbbreviation();
 	}
 
 	/**
@@ -123,7 +123,7 @@ public final class Distance implements Serializable, Comparable<Distance> {
 
 		double newNormalizedValue = getNormalizedValue() + other.getNormalizedValue();
 
-		return new Distance(newNormalizedValue * metric.getMultiplier(), metric);
+		return new Distance(newNormalizedValue * this.metric.getMultiplier(), this.metric);
 	}
 
 	/**
@@ -172,10 +172,10 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	public String toString() {
 
 		StringBuilder builder = new StringBuilder();
-		builder.append(value);
+		builder.append(this.value);
 
-		if (metric != Metrics.NEUTRAL) {
-			builder.append(" ").append(metric.toString());
+		if (this.metric != Metrics.NEUTRAL) {
+			builder.append(" ").append(this.metric.toString());
 		}
 
 		return builder.toString();
@@ -201,18 +201,18 @@ public final class Distance implements Serializable, Comparable<Distance> {
 
 		Distance distance = (Distance) o;
 
-		if (value != distance.value) {
+		if (this.value != distance.value) {
 			return false;
 		}
-		return ObjectUtils.nullSafeEquals(metric, distance.metric);
+		return ObjectUtils.nullSafeEquals(this.metric, distance.metric);
 	}
 	@Override
 	public int hashCode() {
 		int result;
 		long temp;
-		temp = Double.doubleToLongBits(value);
+		temp = Double.doubleToLongBits(this.value);
 		result = (int) (temp ^ (temp >>> 32));
-		result = 31 * result + ObjectUtils.nullSafeHashCode(metric);
+		result = 31 * result + ObjectUtils.nullSafeHashCode(this.metric);
 		return result;
 	}
 }

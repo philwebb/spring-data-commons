@@ -75,7 +75,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	}
 	@Override
 	public boolean hasFindAllMethod() {
-		return methods.hasFindAllMethod();
+		return this.methods.hasFindAllMethod();
 	}
 	@Override
 	public Iterable<Object> invokeFindAll(Sort sort) {
@@ -87,38 +87,38 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	}
 	@Override
 	public boolean hasSaveMethod() {
-		return methods.hasSaveMethod();
+		return this.methods.hasSaveMethod();
 	}
 	@Override
 	public <T> T invokeSave(T object) {
 
-		Method method = methods.getSaveMethod()//
+		Method method = this.methods.getSaveMethod()//
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a save-method declared!"));
 
 		return invokeForNonNullResult(method, object);
 	}
 	@Override
 	public boolean hasFindOneMethod() {
-		return methods.hasFindOneMethod();
+		return this.methods.hasFindOneMethod();
 	}
 	@Override
 	public <T> Optional<T> invokeFindById(Object id) {
 
-		Method method = methods.getFindOneMethod()//
+		Method method = this.methods.getFindOneMethod()//
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a find-one-method declared!"));
 
 		return returnAsOptional(invoke(method, convertId(id)));
 	}
 	@Override
 	public boolean hasDeleteMethod() {
-		return methods.hasDelete();
+		return this.methods.hasDelete();
 	}
 	@Override
 	public void invokeDeleteById(Object id) {
 
 		Assert.notNull(id, "Identifier must not be null!");
 
-		Method method = methods.getDeleteMethod()
+		Method method = this.methods.getDeleteMethod()
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a delete-method declared!"));
 
 		if (method.getName().endsWith("ById")) {
@@ -192,7 +192,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 		}
 
 		try {
-			return conversionService.convert(value, TypeDescriptor.forObject(value), new TypeDescriptor(parameter));
+			return this.conversionService.convert(value, TypeDescriptor.forObject(value), new TypeDescriptor(parameter));
 		} catch (ConversionException o_O) {
 			throw new QueryMethodParameterConversionException(value, parameter, o_O);
 		}
@@ -208,7 +208,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	@Nullable
 	@SuppressWarnings("unchecked")
 	private <T> T invoke(Method method, Object... arguments) {
-		return (T) ReflectionUtils.invokeMethod(method, repository, arguments);
+		return (T) ReflectionUtils.invokeMethod(method, this.repository, arguments);
 	}
 
 	private <T> T invokeForNonNullResult(Method method, Object... arguments) {
@@ -217,7 +217,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 		if (result == null) {
 			throw new IllegalStateException(String.format("Invocation of method %s(%s) on %s unexpectedly returned null!",
-					method, Arrays.toString(arguments), repository));
+					method, Arrays.toString(arguments), this.repository));
 		}
 
 		return result;
@@ -241,11 +241,11 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 		Assert.notNull(id, "Id must not be null!");
 
-		Object result = conversionService.convert(id, idType);
+		Object result = this.conversionService.convert(id, this.idType);
 
 		if (result == null) {
 			throw new IllegalStateException(
-					String.format("Identifier conversion of %s to %s unexpectedly returned null!", id, idType));
+					String.format("Identifier conversion of %s to %s unexpectedly returned null!", id, this.idType));
 		}
 
 		return result;
@@ -253,7 +253,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	protected Iterable<Object> invokeFindAllReflectively(Pageable pageable) {
 
-		Method method = methods.getFindAllMethod()
+		Method method = this.methods.getFindAllMethod()
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a find-all-method declared!"));
 
 		if (method.getParameterCount() == 0) {
@@ -271,7 +271,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	protected Iterable<Object> invokeFindAllReflectively(Sort sort) {
 
-		Method method = methods.getFindAllMethod()
+		Method method = this.methods.getFindAllMethod()
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a find-all-method declared!"));
 
 		if (method.getParameterCount() == 0) {

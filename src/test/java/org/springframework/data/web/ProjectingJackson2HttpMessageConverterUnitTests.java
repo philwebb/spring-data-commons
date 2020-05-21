@@ -37,17 +37,17 @@ class ProjectingJackson2HttpMessageConverterUnitTests {
 
 	@Test // DATCMNS-885
 	void canReadJsonIntoAnnotatedInterface() {
-		assertThat(converter.canRead(SampleInterface.class, ANYTHING_JSON)).isTrue();
+		assertThat(this.converter.canRead(SampleInterface.class, this.ANYTHING_JSON)).isTrue();
 	}
 
 	@Test // DATCMNS-885
 	void cannotReadUnannotatedInterface() {
-		assertThat(converter.canRead(UnannotatedInterface.class, ANYTHING_JSON)).isFalse();
+		assertThat(this.converter.canRead(UnannotatedInterface.class, this.ANYTHING_JSON)).isFalse();
 	}
 
 	@Test // DATCMNS-885
 	void cannotReadClass() {
-		assertThat(converter.canRead(SampleClass.class, ANYTHING_JSON)).isFalse();
+		assertThat(this.converter.canRead(SampleClass.class, this.ANYTHING_JSON)).isFalse();
 	}
 
 	@Test // DATACMNS-972
@@ -56,7 +56,7 @@ class ProjectingJackson2HttpMessageConverterUnitTests {
 		Method method = BaseController.class.getDeclaredMethod("createEntity", AbstractDto.class);
 		Type type = method.getGenericParameterTypes()[0];
 
-		assertThat(converter.canRead(type, BaseController.class, ANYTHING_JSON)).isFalse();
+		assertThat(this.converter.canRead(type, BaseController.class, this.ANYTHING_JSON)).isFalse();
 	}
 
 	@Test // DATACMNS-972
@@ -65,7 +65,7 @@ class ProjectingJackson2HttpMessageConverterUnitTests {
 		Method method = ConcreteController.class.getMethod("createEntity", AbstractDto.class);
 		Type type = method.getGenericParameterTypes()[0];
 
-		assertThat(converter.canRead(type, ConcreteController.class, ANYTHING_JSON)).isFalse();
+		assertThat(this.converter.canRead(type, ConcreteController.class, this.ANYTHING_JSON)).isFalse();
 	}
 
 	@ProjectedPayload

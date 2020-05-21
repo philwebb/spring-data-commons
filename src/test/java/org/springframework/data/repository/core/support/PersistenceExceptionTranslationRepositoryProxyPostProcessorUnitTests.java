@@ -49,10 +49,10 @@ class PersistenceExceptionTranslationRepositoryProxyPostProcessorUnitTests {
 	void setsUpBasicInstance() throws Exception {
 
 		RepositoryProxyPostProcessor postProcessor = new PersistenceExceptionTranslationRepositoryProxyPostProcessor(
-				beanFactory);
+				this.beanFactory);
 
-		postProcessor.postProcess(proxyFactory, null);
+		postProcessor.postProcess(this.proxyFactory, null);
 
-		verify(proxyFactory).addAdvice(isA(PersistenceExceptionTranslationInterceptor.class));
+		verify(this.proxyFactory).addAdvice(isA(PersistenceExceptionTranslationInterceptor.class));
 	}
 }

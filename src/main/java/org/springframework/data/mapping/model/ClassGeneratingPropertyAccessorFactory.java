@@ -83,7 +83,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 	@Override
 	public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
 
-		Constructor<?> constructor = constructorMap.get(entity);
+		Constructor<?> constructor = this.constructorMap.get(entity);
 
 		if (constructor == null) {
 
@@ -96,7 +96,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			this.constructorMap = constructorMap;
 		}
 
-		Object[] args = argumentCache.get();
+		Object[] args = this.argumentCache.get();
 		args[0] = bean;
 
 		try {
@@ -1405,7 +1405,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		}
 		@Override
 		public int compareTo(PropertyStackAddress o) {
-			return Integer.compare(hash, o.hash);
+			return Integer.compare(this.hash, o.hash);
 		}
 	}
 

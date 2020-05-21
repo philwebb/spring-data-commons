@@ -50,8 +50,8 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 
 		this.repository = repository;
 
-		when(strategy.resolveQuery(Mockito.any(Method.class), Mockito.any(RepositoryMetadata.class),
-				Mockito.any(ProjectionFactory.class), Mockito.any(NamedQueries.class))).thenReturn(queryOne);
+		when(this.strategy.resolveQuery(Mockito.any(Method.class), Mockito.any(RepositoryMetadata.class),
+				Mockito.any(ProjectionFactory.class), Mockito.any(NamedQueries.class))).thenReturn(this.queryOne);
 	}
 	@Override
 	@SuppressWarnings("unchecked")
@@ -60,11 +60,11 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 	}
 	@Override
 	protected Object getTargetRepository(RepositoryInformation information) {
-		return repository;
+		return this.repository;
 	}
 	@Override
 	protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
-		return repository.getClass();
+		return this.repository.getClass();
 	}
 
 	/*
@@ -74,7 +74,7 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 	@Override
 	protected Optional<QueryLookupStrategy> getQueryLookupStrategy(Key key,
 			QueryMethodEvaluationContextProvider evaluationContextProvider) {
-		return Optional.of(strategy);
+		return Optional.of(this.strategy);
 	}
 	@Override
 	protected RepositoryComposition.RepositoryFragments getRepositoryFragments(RepositoryMetadata metadata) {
@@ -82,7 +82,7 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 		RepositoryComposition.RepositoryFragments fragments = super.getRepositoryFragments(metadata);
 
 		return QuerydslPredicateExecutor.class.isAssignableFrom(metadata.getRepositoryInterface()) //
-				? fragments.append(RepositoryComposition.RepositoryFragments.just(querydsl)) //
+				? fragments.append(RepositoryComposition.RepositoryFragments.just(this.querydsl)) //
 				: fragments;
 	}
 }

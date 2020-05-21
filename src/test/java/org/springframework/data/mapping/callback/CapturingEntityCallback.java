@@ -42,16 +42,16 @@ class CapturingEntityCallback implements EntityCallback<Person> {
 
 	public Person doSomething(Person person) {
 
-		captured.add(person);
-		return returnValue;
+		this.captured.add(person);
+		return this.returnValue;
 	}
 
 	Person capturedValue() {
-		return CollectionUtils.lastElement(captured);
+		return CollectionUtils.lastElement(this.captured);
 	}
 
 	List<Person> capturedValues() {
-		return captured;
+		return this.captured;
 	}
 
 	static class FirstCallback extends CapturingEntityCallback implements Ordered {

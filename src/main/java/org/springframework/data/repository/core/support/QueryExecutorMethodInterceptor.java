@@ -96,13 +96,13 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 
 	private Pair<Method, RepositoryQuery> lookupQuery(Method method, RepositoryInformation information,
 			QueryLookupStrategy strategy, ProjectionFactory projectionFactory) {
-		return Pair.of(method, strategy.resolveQuery(method, information, projectionFactory, namedQueries));
+		return Pair.of(method, strategy.resolveQuery(method, information, projectionFactory, this.namedQueries));
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void invokeListeners(RepositoryQuery query) {
 
-		for (QueryCreationListener listener : queryPostProcessors) {
+		for (QueryCreationListener listener : this.queryPostProcessors) {
 
 			ResolvableType typeArgument = ResolvableType.forClass(QueryCreationListener.class, listener.getClass())
 					.getGeneric(0);
@@ -122,11 +122,11 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 				.getExecutionAdapter(method.getReturnType());
 
 		if (executionAdapter == null) {
-			return resultHandler.postProcessInvocationResult(doInvoke(invocation), method);
+			return this.resultHandler.postProcessInvocationResult(doInvoke(invocation), method);
 		}
 
 		return executionAdapter //
-				.apply(() -> resultHandler.postProcessInvocationResult(doInvoke(invocation), method));
+				.apply(() -> this.resultHandler.postProcessInvocationResult(doInvoke(invocation), method));
 	}
 
 	@Nullable
@@ -136,14 +136,14 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 
 		if (hasQueryFor(method)) {
 
-			QueryMethodInvoker invocationMetadata = invocationMetadataCache.get(method);
+			QueryMethodInvoker invocationMetadata = this.invocationMetadataCache.get(method);
 
 			if (invocationMetadata == null) {
 				invocationMetadata = new QueryMethodInvoker(method);
-				invocationMetadataCache.put(method, invocationMetadata);
+				this.invocationMetadataCache.put(method, invocationMetadata);
 			}
 
-			RepositoryQuery repositoryQuery = queries.get(method);
+			RepositoryQuery repositoryQuery = this.queries.get(method);
 			return invocationMetadata.invoke(repositoryQuery, invocation.getArguments());
 		}
 
@@ -157,7 +157,7 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 	 * @return
 	 */
 	private boolean hasQueryFor(Method method) {
-		return queries.containsKey(method);
+		return this.queries.containsKey(method);
 	}
 
 	/**
@@ -182,12 +182,12 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 				this.returnedType = invokedMethod.getReturnType();
 			}
 
-			this.returnsReactiveType = ReactiveWrappers.supports(returnedType);
+			this.returnsReactiveType = ReactiveWrappers.supports(this.returnedType);
 		}
 
 		@Nullable
 		public Object invoke(RepositoryQuery query, Object[] args) {
-			return suspendedDeclaredMethod ? invokeReactiveToSuspend(query, args) : query.execute(args);
+			return this.suspendedDeclaredMethod ? invokeReactiveToSuspend(query, args) : query.execute(args);
 		}
 
 		@Nullable
@@ -203,8 +203,8 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 			args[args.length - 1] = null;
 			Object result = query.execute(args);
 
-			if (returnsReactiveType) {
-				return ReactiveWrapperConverters.toWrapper(result, returnedType);
+			if (this.returnsReactiveType) {
+				return ReactiveWrapperConverters.toWrapper(result, this.returnedType);
 			}
 
 			Publisher<?> publisher = result instanceof Publisher ? (Publisher<?>) result

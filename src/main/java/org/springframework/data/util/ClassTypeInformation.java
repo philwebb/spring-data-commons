@@ -134,7 +134,7 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 	}
 	@Override
 	public Class<S> getType() {
-		return type;
+		return this.type;
 	}
 	@Override
 	public ClassTypeInformation<?> getRawTypeInformation() {
@@ -150,6 +150,6 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 	}
 	@Override
 	public String toString() {
-		return type.getName();
+		return this.type.getName();
 	}
 }

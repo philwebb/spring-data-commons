@@ -63,48 +63,48 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 
 	@Test // DATCMNS-885
 	void accessSimpleProperty() {
-		assertThat(customer.getFirstname()).isEqualTo("Dave");
+		assertThat(this.customer.getFirstname()).isEqualTo("Dave");
 	}
 
 	@Test // DATCMNS-885
 	void accessPropertyWithExplicitAnnotation() {
-		assertThat(customer.getBar()).isEqualTo("Dave");
+		assertThat(this.customer.getBar()).isEqualTo("Dave");
 	}
 
 	@Test // DATCMNS-885
 	void accessPropertyWithComplexReturnType() {
-		assertThat(customer.getAddress()).isEqualTo(new Address("01097", "Dresden"));
+		assertThat(this.customer.getAddress()).isEqualTo(new Address("01097", "Dresden"));
 	}
 
 	@Test // DATCMNS-885
 	void accessComplexPropertyWithProjection() {
-		assertThat(customer.getAddressProjection().getCity()).isEqualTo("Dresden");
+		assertThat(this.customer.getAddressProjection().getCity()).isEqualTo("Dresden");
 	}
 
 	@Test // DATCMNS-885
 	void accessPropertyWithNestedJsonPath() {
-		assertThat(customer.getNestedZipCode()).isEqualTo("01097");
+		assertThat(this.customer.getNestedZipCode()).isEqualTo("01097");
 	}
 
 	@Test // DATCMNS-885
 	void accessCollectionProperty() {
-		assertThat(customer.getAddresses().get(0)).isEqualTo(new Address("01097", "Dresden"));
+		assertThat(this.customer.getAddresses().get(0)).isEqualTo(new Address("01097", "Dresden"));
 	}
 
 	@Test // DATCMNS-885
 	void accessPropertyOnNestedProjection() {
-		assertThat(customer.getAddressProjections().get(0).getZipCode()).isEqualTo("01097");
+		assertThat(this.customer.getAddressProjections().get(0).getZipCode()).isEqualTo("01097");
 	}
 
 	@Test // DATCMNS-885
 	void accessPropertyThatUsesJsonPathProjectionInTurn() {
-		assertThat(customer.getAnotherAddressProjection().getZipCodeButNotCity()).isEqualTo("01097");
+		assertThat(this.customer.getAnotherAddressProjection().getZipCodeButNotCity()).isEqualTo("01097");
 	}
 
 	@Test // DATCMNS-885
 	void accessCollectionPropertyThatUsesJsonPathProjectionInTurn() {
 
-		List<AnotherAddressProjection> projections = customer.getAnotherAddressProjections();
+		List<AnotherAddressProjection> projections = this.customer.getAnotherAddressProjections();
 
 		assertThat(projections).hasSize(1);
 		assertThat(projections.get(0).getZipCodeButNotCity()).isEqualTo("01097");
@@ -113,7 +113,7 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 	@Test // DATCMNS-885
 	void accessAsCollectionPropertyThatUsesJsonPathProjectionInTurn() {
 
-		Set<AnotherAddressProjection> projections = customer.getAnotherAddressProjectionAsCollection();
+		Set<AnotherAddressProjection> projections = this.customer.getAnotherAddressProjectionAsCollection();
 
 		assertThat(projections).hasSize(1);
 		assertThat(projections.iterator().next().getZipCodeButNotCity()).isEqualTo("01097");
@@ -122,7 +122,7 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 	@Test // DATCMNS-885
 	void accessNestedPropertyButStayOnRootLevel() {
 
-		Name name = customer.getName();
+		Name name = this.customer.getName();
 
 		assertThat(name).isNotNull();
 		assertThat(name.getFirstname()).isEqualTo("Dave");
@@ -131,18 +131,18 @@ class JsonProjectingMethodInterceptorFactoryUnitTests {
 	@Test // DATACMNS-885
 	void accessNestedFields() {
 
-		assertThat(customer.getNestedCity()).isEqualTo("Dresden");
-		assertThat(customer.getNestedCities()).hasSize(2);
+		assertThat(this.customer.getNestedCity()).isEqualTo("Dresden");
+		assertThat(this.customer.getNestedCities()).hasSize(2);
 	}
 
 	@Test // DATACMNS-1144
 	void returnsNullForNonExistantValue() {
-		assertThat(customer.getName().getLastname()).isNull();
+		assertThat(this.customer.getName().getLastname()).isNull();
 	}
 
 	@Test // DATACMNS-1144
 	void triesMultipleDeclaredPathsIfNotAvailable() {
-		assertThat(customer.getName().getSomeName()).isEqualTo(customer.getName().getFirstname());
+		assertThat(this.customer.getName().getSomeName()).isEqualTo(this.customer.getName().getFirstname());
 	}
 
 	interface Customer {

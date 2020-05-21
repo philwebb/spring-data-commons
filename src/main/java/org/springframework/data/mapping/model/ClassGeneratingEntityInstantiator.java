@@ -221,7 +221,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 			Object[] params = extractInvocationArguments(entity.getPersistenceConstructor(), provider);
 
 			try {
-				return (T) instantiator.newInstance(params);
+				return (T) this.instantiator.newInstance(params);
 			} catch (Exception e) {
 				throw new MappingInstantiationException(entity, Arrays.asList(params), e);
 			}

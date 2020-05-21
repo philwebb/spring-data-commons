@@ -33,19 +33,19 @@ public class DelegatingEntityInformation<T, ID> implements EntityInformation<T, 
 	}
 	@Override
 	public Class<T> getJavaType() {
-		return delegate.getJavaType();
+		return this.delegate.getJavaType();
 	}
 	@Override
 	public boolean isNew(T entity) {
-		return delegate.isNew(entity);
+		return this.delegate.isNew(entity);
 	}
 	@Nullable
 	@Override
 	public ID getId(T entity) {
-		return delegate.getId(entity);
+		return this.delegate.getId(entity);
 	}
 	@Override
 	public Class<ID> getIdType() {
-		return delegate.getIdType();
+		return this.delegate.getIdType();
 	}
 }

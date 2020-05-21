@@ -77,7 +77,7 @@ public class IsNewAwareAuditingHandler extends AuditingHandler {
 			return object;
 		}
 
-		PersistentEntity<?, ? extends PersistentProperty<?>> entity = entities
+		PersistentEntity<?, ? extends PersistentProperty<?>> entity = this.entities
 				.getRequiredPersistentEntity(object.getClass());
 
 		return entity.isNew(object) ? markCreated(object) : markModified(object);

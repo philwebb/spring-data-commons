@@ -59,11 +59,11 @@ public class SliceImpl<T> extends Chunk<T> {
 		this(content, Pageable.unpaged(), false);
 	}
 	public boolean hasNext() {
-		return hasNext;
+		return this.hasNext;
 	}
 	@Override
 	public <U> Slice<U> map(Function<? super T, ? extends U> converter) {
-		return new SliceImpl<>(getConvertedContent(converter), pageable, hasNext);
+		return new SliceImpl<>(getConvertedContent(converter), this.pageable, this.hasNext);
 	}
 	@Override
 	public String toString() {
@@ -97,7 +97,7 @@ public class SliceImpl<T> extends Chunk<T> {
 
 		int result = 17;
 
-		result += 31 * (hasNext ? 1 : 0);
+		result += 31 * (this.hasNext ? 1 : 0);
 		result += 31 * super.hashCode();
 
 		return result;

@@ -90,11 +90,11 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 	}
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
-		projectionFactory.setBeanClassLoader(classLoader);
+		this.projectionFactory.setBeanClassLoader(classLoader);
 	}
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		projectionFactory.setBeanFactory(beanFactory);
+		this.projectionFactory.setBeanFactory(beanFactory);
 	}
 
 	/*
@@ -110,14 +110,14 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 
 		ResolvableType owner = contextClass == null ? null : ResolvableType.forClass(contextClass);
 		Class<?> rawType = ResolvableType.forType(type, owner).resolve(Object.class);
-		Boolean result = supportedTypesCache.get(rawType);
+		Boolean result = this.supportedTypesCache.get(rawType);
 
 		if (result != null) {
 			return result;
 		}
 
 		result = rawType.isInterface() && AnnotationUtils.findAnnotation(rawType, ProjectedPayload.class) != null;
-		supportedTypesCache.put(rawType, result);
+		this.supportedTypesCache.put(rawType, result);
 
 		return result;
 	}
@@ -138,7 +138,7 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 	@Override
 	public Object read(Type type, @Nullable Class<?> contextClass, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
-		return projectionFactory.createProjection(ResolvableType.forType(type).resolve(Object.class),
+		return this.projectionFactory.createProjection(ResolvableType.forType(type).resolve(Object.class),
 				inputMessage.getBody());
 	}
 }

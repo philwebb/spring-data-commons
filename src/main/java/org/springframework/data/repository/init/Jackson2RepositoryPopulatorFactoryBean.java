@@ -41,6 +41,6 @@ public class Jackson2RepositoryPopulatorFactoryBean extends AbstractRepositoryPo
 	}
 	@Override
 	protected ResourceReader getResourceReader() {
-		return new Jackson2ResourceReader(mapper);
+		return new Jackson2ResourceReader(this.mapper);
 	}
 }

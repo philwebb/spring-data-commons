@@ -49,8 +49,8 @@ class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
 	@BeforeEach
 	void setUp() {
-		oneLeg = new DefaultPersistentPropertyPath<>(Collections.singletonList(first));
-		twoLegs = new DefaultPersistentPropertyPath<>(Arrays.asList(first, second));
+		this.oneLeg = new DefaultPersistentPropertyPath<>(Collections.singletonList(this.first));
+		this.twoLegs = new DefaultPersistentPropertyPath<>(Arrays.asList(this.first, this.second));
 	}
 
 	@Test
@@ -61,63 +61,63 @@ class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 	@Test
 	void usesPropertyNameForSimpleDotPath() {
 
-		when(first.getName()).thenReturn("foo");
-		when(second.getName()).thenReturn("bar");
+		when(this.first.getName()).thenReturn("foo");
+		when(this.second.getName()).thenReturn("bar");
 
-		assertThat(twoLegs.toDotPath()).isEqualTo("foo.bar");
+		assertThat(this.twoLegs.toDotPath()).isEqualTo("foo.bar");
 	}
 
 	@Test
 	void usesConverterToCreatePropertyPath() {
 
-		when(converter.convert(any())).thenReturn("foo");
+		when(this.converter.convert(any())).thenReturn("foo");
 
-		assertThat(twoLegs.toDotPath(converter)).isEqualTo("foo.foo");
+		assertThat(this.twoLegs.toDotPath(this.converter)).isEqualTo("foo.foo");
 	}
 
 	@Test
 	void returnsCorrectLeafProperty() {
 
-		assertThat(twoLegs.getLeafProperty()).isEqualTo(second);
-		assertThat(oneLeg.getLeafProperty()).isEqualTo(first);
+		assertThat(this.twoLegs.getLeafProperty()).isEqualTo(this.second);
+		assertThat(this.oneLeg.getLeafProperty()).isEqualTo(this.first);
 	}
 
 	@Test
 	void returnsCorrectBaseProperty() {
 
-		assertThat(twoLegs.getBaseProperty()).isEqualTo(first);
-		assertThat(oneLeg.getBaseProperty()).isEqualTo(first);
+		assertThat(this.twoLegs.getBaseProperty()).isEqualTo(this.first);
+		assertThat(this.oneLeg.getBaseProperty()).isEqualTo(this.first);
 	}
 
 	@Test
 	void detectsBasePathCorrectly() {
 
-		assertThat(oneLeg.isBasePathOf(twoLegs)).isTrue();
-		assertThat(twoLegs.isBasePathOf(oneLeg)).isFalse();
+		assertThat(this.oneLeg.isBasePathOf(this.twoLegs)).isTrue();
+		assertThat(this.twoLegs.isBasePathOf(this.oneLeg)).isFalse();
 	}
 
 	@Test
 	void calculatesExtensionCorrectly() {
 
-		PersistentPropertyPath<P> extension = twoLegs.getExtensionForBaseOf(oneLeg);
+		PersistentPropertyPath<P> extension = this.twoLegs.getExtensionForBaseOf(this.oneLeg);
 
-		assertThat(extension).isEqualTo(new DefaultPersistentPropertyPath<>(Collections.singletonList(second)));
+		assertThat(extension).isEqualTo(new DefaultPersistentPropertyPath<>(Collections.singletonList(this.second)));
 	}
 
 	@Test
 	void returnsTheCorrectParentPath() {
-		assertThat(twoLegs.getParentPath()).isEqualTo(oneLeg);
+		assertThat(this.twoLegs.getParentPath()).isEqualTo(this.oneLeg);
 	}
 
 	@Test
 	void returnsEmptyPathForRootLevelProperty() {
-		assertThat(oneLeg.getParentPath()).isEmpty();
+		assertThat(this.oneLeg.getParentPath()).isEmpty();
 	}
 
 	@Test
 	void returnItselfForEmptyPath() {
 
-		PersistentPropertyPath<P> parent = oneLeg.getParentPath();
+		PersistentPropertyPath<P> parent = this.oneLeg.getParentPath();
 		PersistentPropertyPath<P> parentsParent = parent.getParentPath();
 
 		assertThat(parentsParent).isEmpty();
@@ -126,18 +126,18 @@ class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
 	@Test
 	void pathReturnsCorrectSize() {
-		assertThat(oneLeg.getLength()).isEqualTo(1);
-		assertThat(twoLegs.getLength()).isEqualTo(2);
+		assertThat(this.oneLeg.getLength()).isEqualTo(1);
+		assertThat(this.twoLegs.getLength()).isEqualTo(2);
 	}
 
 	@Test // DATACMNS-444
 	void skipsMappedPropertyNameIfConverterReturnsNull() {
-		assertThat(twoLegs.toDotPath(source -> null)).isNull();
+		assertThat(this.twoLegs.toDotPath(source -> null)).isNull();
 	}
 
 	@Test // DATACMNS-444
 	void skipsMappedPropertyNameIfConverterReturnsEmptyStrings() {
-		assertThat(twoLegs.toDotPath(source -> "")).isNull();
+		assertThat(this.twoLegs.toDotPath(source -> "")).isNull();
 	}
 
 	@Test // DATACMNS-1466

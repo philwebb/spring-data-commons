@@ -71,8 +71,8 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 
 		if (!property.isImmutable() || property.getWither() != null || ReflectionUtils.isKotlinClass(owner.getType())) {
 
-			delegate.setProperty(property, value);
-			this.bean = delegate.getBean();
+			this.delegate.setProperty(property, value);
+			this.bean = this.delegate.getBean();
 
 			return;
 		}
@@ -96,7 +96,7 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 			}
 		});
 
-		EntityInstantiator instantiator = instantiators.getInstantiatorFor(owner);
+		EntityInstantiator instantiator = this.instantiators.getInstantiatorFor(owner);
 
 		this.bean = (T) instantiator.createInstance(owner, new ParameterValueProvider() {
 			@Override
@@ -106,14 +106,14 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 
 				return property.getName().equals(parameter.getName()) //
 						? value
-						: delegate.getProperty(owner.getRequiredPersistentProperty(parameter.getName()));
+						: InstantiationAwarePropertyAccessor.this.delegate.getProperty(owner.getRequiredPersistentProperty(parameter.getName()));
 			}
 		});
 	}
 	@Nullable
 	@Override
 	public Object getProperty(PersistentProperty<?> property) {
-		return delegate.getProperty(property);
+		return this.delegate.getProperty(property);
 	}
 	@Override
 	public T getBean() {

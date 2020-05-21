@@ -42,61 +42,61 @@ class RevisionsUnitTests {
 	@BeforeEach
 	void setUp() {
 
-		when(first.getRevisionNumber()).thenReturn(Optional.of(0));
-		when(second.getRevisionNumber()).thenReturn(Optional.of(10));
+		when(this.first.getRevisionNumber()).thenReturn(Optional.of(0));
+		when(this.second.getRevisionNumber()).thenReturn(Optional.of(10));
 
-		firstRevision = Revision.of(first, new Object());
-		secondRevision = Revision.of(second, new Object());
+		this.firstRevision = Revision.of(this.first, new Object());
+		this.secondRevision = Revision.of(this.second, new Object());
 	}
 
 	@Test
 	void returnsCorrectLatestRevision() {
-		assertThat(Revisions.of(Arrays.asList(firstRevision, secondRevision)).getLatestRevision())
-				.isEqualTo(secondRevision);
+		assertThat(Revisions.of(Arrays.asList(this.firstRevision, this.secondRevision)).getLatestRevision())
+				.isEqualTo(this.secondRevision);
 	}
 
 	@Test
 	void iteratesInCorrectOrder() {
 
-		Revisions<Integer, Object> revisions = Revisions.of(Arrays.asList(firstRevision, secondRevision));
+		Revisions<Integer, Object> revisions = Revisions.of(Arrays.asList(this.firstRevision, this.secondRevision));
 		Iterator<Revision<Integer, Object>> iterator = revisions.iterator();
 
 		assertThat(iterator.hasNext()).isTrue();
-		assertThat(iterator.next()).isEqualTo(firstRevision);
+		assertThat(iterator.next()).isEqualTo(this.firstRevision);
 		assertThat(iterator.hasNext()).isTrue();
-		assertThat(iterator.next()).isEqualTo(secondRevision);
+		assertThat(iterator.next()).isEqualTo(this.secondRevision);
 		assertThat(iterator.hasNext()).isFalse();
 	}
 
 	@Test
 	void reversedRevisionsStillReturnsCorrectLatestRevision() {
-		assertThat(Revisions.of(Arrays.asList(firstRevision, secondRevision)).reverse().getLatestRevision())
-				.isEqualTo(secondRevision);
+		assertThat(Revisions.of(Arrays.asList(this.firstRevision, this.secondRevision)).reverse().getLatestRevision())
+				.isEqualTo(this.secondRevision);
 	}
 
 	@Test
 	void iteratesReversedRevisionsInCorrectOrder() {
 
-		Revisions<Integer, Object> revisions = Revisions.of(Arrays.asList(firstRevision, secondRevision));
+		Revisions<Integer, Object> revisions = Revisions.of(Arrays.asList(this.firstRevision, this.secondRevision));
 		Iterator<Revision<Integer, Object>> iterator = revisions.reverse().iterator();
 
 		assertThat(iterator.hasNext()).isTrue();
-		assertThat(iterator.next()).isEqualTo(secondRevision);
+		assertThat(iterator.next()).isEqualTo(this.secondRevision);
 		assertThat(iterator.hasNext()).isTrue();
-		assertThat(iterator.next()).isEqualTo(firstRevision);
+		assertThat(iterator.next()).isEqualTo(this.firstRevision);
 		assertThat(iterator.hasNext()).isFalse();
 	}
 
 	@Test
 	void forcesInvalidlyOrderedRevisionsToBeOrdered() {
 
-		Revisions<Integer, Object> revisions = Revisions.of(Arrays.asList(secondRevision, firstRevision));
+		Revisions<Integer, Object> revisions = Revisions.of(Arrays.asList(this.secondRevision, this.firstRevision));
 		Iterator<Revision<Integer, Object>> iterator = revisions.iterator();
 
 		assertThat(iterator.hasNext()).isTrue();
-		assertThat(iterator.next()).isEqualTo(firstRevision);
+		assertThat(iterator.next()).isEqualTo(this.firstRevision);
 		assertThat(iterator.hasNext()).isTrue();
-		assertThat(iterator.next()).isEqualTo(secondRevision);
+		assertThat(iterator.next()).isEqualTo(this.secondRevision);
 		assertThat(iterator.hasNext()).isFalse();
 	}
 }

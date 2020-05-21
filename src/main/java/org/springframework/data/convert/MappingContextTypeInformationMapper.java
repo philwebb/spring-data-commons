@@ -59,9 +59,9 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 	}
 	public Alias createAliasFor(TypeInformation<?> type) {
 
-		return typeMap.computeIfAbsent(type.getRawTypeInformation(), key -> {
+		return this.typeMap.computeIfAbsent(type.getRawTypeInformation(), key -> {
 
-			PersistentEntity<?, ?> entity = mappingContext.getPersistentEntity(key);
+			PersistentEntity<?, ?> entity = this.mappingContext.getPersistentEntity(key);
 
 			if (entity == null || entity.getTypeAlias() == null) {
 				return Alias.NONE;
@@ -81,7 +81,7 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 
 		// Reject second alias for same type
 
-		Alias existingAlias = typeMap.getOrDefault(key, Alias.NONE);
+		Alias existingAlias = this.typeMap.getOrDefault(key, Alias.NONE);
 
 		if (existingAlias.isPresentButDifferent(alias)) {
 
@@ -92,9 +92,9 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 
 		// Reject second type for same alias
 
-		if (typeMap.containsValue(alias)) {
+		if (this.typeMap.containsValue(alias)) {
 
-			typeMap.entrySet().stream()//
+			this.typeMap.entrySet().stream()//
 					.filter(it -> it.getValue().hasSamePresentValueAs(alias) && !it.getKey().equals(key))//
 					.findFirst().ifPresent(it -> {
 
@@ -110,13 +110,13 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 	@Override
 	public TypeInformation<?> resolveTypeFrom(Alias alias) {
 
-		for (Entry<ClassTypeInformation<?>, Alias> entry : typeMap.entrySet()) {
+		for (Entry<ClassTypeInformation<?>, Alias> entry : this.typeMap.entrySet()) {
 			if (entry.getValue().hasSamePresentValueAs(alias)) {
 				return entry.getKey();
 			}
 		}
 
-		for (PersistentEntity<?, ?> entity : mappingContext.getPersistentEntities()) {
+		for (PersistentEntity<?, ?> entity : this.mappingContext.getPersistentEntities()) {
 
 			if (entity.getTypeAlias().hasSamePresentValueAs(alias)) {
 				return entity.getTypeInformation().getRawTypeInformation();

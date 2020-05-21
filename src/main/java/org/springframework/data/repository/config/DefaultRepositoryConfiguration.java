@@ -57,69 +57,69 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 				() -> new IllegalStateException("Can't create bean identifier without a repository base class defined!"))));
 	}
 	public Object getQueryLookupStrategyKey() {
-		return configurationSource.getQueryLookupStrategyKey().orElse(DEFAULT_QUERY_LOOKUP_STRATEGY);
+		return this.configurationSource.getQueryLookupStrategyKey().orElse(DEFAULT_QUERY_LOOKUP_STRATEGY);
 	}
 	public Streamable<String> getBasePackages() {
-		return configurationSource.getBasePackages();
+		return this.configurationSource.getBasePackages();
 	}
 	@Override
 	public Streamable<String> getImplementationBasePackages() {
 		return Streamable.of(ClassUtils.getPackageName(getRepositoryInterface()));
 	}
 	public String getRepositoryInterface() {
-		return ConfigurationUtils.getRequiredBeanClassName(definition);
+		return ConfigurationUtils.getRequiredBeanClassName(this.definition);
 	}
 	public RepositoryConfigurationSource getConfigSource() {
-		return configurationSource;
+		return this.configurationSource;
 	}
 	public Optional<String> getNamedQueriesLocation() {
-		return configurationSource.getNamedQueryLocation();
+		return this.configurationSource.getNamedQueryLocation();
 	}
 	public String getImplementationClassName() {
 		return ClassUtils.getShortName(getRepositoryInterface()).concat(
-				configurationSource.getRepositoryImplementationPostfix().orElse(DEFAULT_REPOSITORY_IMPLEMENTATION_POSTFIX));
+				this.configurationSource.getRepositoryImplementationPostfix().orElse(DEFAULT_REPOSITORY_IMPLEMENTATION_POSTFIX));
 	}
 	public String getImplementationBeanName() {
-		return configurationSource.generateBeanName(definition)
-				+ configurationSource.getRepositoryImplementationPostfix().orElse("Impl");
+		return this.configurationSource.generateBeanName(this.definition)
+				+ this.configurationSource.getRepositoryImplementationPostfix().orElse("Impl");
 	}
 	@Nullable
 	@Override
 	public Object getSource() {
-		return configurationSource.getSource();
+		return this.configurationSource.getSource();
 	}
 	@Override
 	public T getConfigurationSource() {
-		return configurationSource;
+		return this.configurationSource;
 	}
 	@Override
 	public Optional<String> getRepositoryBaseClassName() {
-		return configurationSource.getRepositoryBaseClassName();
+		return this.configurationSource.getRepositoryBaseClassName();
 	}
 	@Override
 	public String getRepositoryFactoryBeanClassName() {
 
-		return configurationSource.getRepositoryFactoryBeanClassName()
-				.orElseGet(extension::getRepositoryFactoryBeanClassName);
+		return this.configurationSource.getRepositoryFactoryBeanClassName()
+				.orElseGet(this.extension::getRepositoryFactoryBeanClassName);
 	}
 	@Override
 	public boolean isLazyInit() {
-		return definition.isLazyInit() || !configurationSource.getBootstrapMode().equals(BootstrapMode.DEFAULT);
+		return this.definition.isLazyInit() || !this.configurationSource.getBootstrapMode().equals(BootstrapMode.DEFAULT);
 	}
 	@Override
 	public boolean isPrimary() {
-		return definition.isPrimary();
+		return this.definition.isPrimary();
 	}
 	@Override
 	public Streamable<TypeFilter> getExcludeFilters() {
-		return configurationSource.getExcludeFilters();
+		return this.configurationSource.getExcludeFilters();
 	}
 	@Override
 	public ImplementationDetectionConfiguration toImplementationDetectionConfiguration(MetadataReaderFactory factory) {
 
 		Assert.notNull(factory, "MetadataReaderFactory must not be null!");
 
-		return configurationSource.toImplementationDetectionConfiguration(factory);
+		return this.configurationSource.toImplementationDetectionConfiguration(factory);
 	}
 	@Override
 	public ImplementationLookupConfiguration toLookupConfiguration(MetadataReaderFactory factory) {
@@ -131,6 +131,6 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 	@Override
 	@org.springframework.lang.NonNull
 	public String getResourceDescription() {
-		return String.format("%s defined in %s", getRepositoryInterface(), configurationSource.getResourceDescription());
+		return String.format("%s defined in %s", getRepositoryInterface(), this.configurationSource.getResourceDescription());
 	}
 }

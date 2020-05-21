@@ -65,28 +65,28 @@ class CrudRepositoryInvoker extends ReflectionRepositoryInvoker {
 	}
 	@Override
 	public Iterable<Object> invokeFindAll(Sort sort) {
-		return customFindAllMethod ? super.invokeFindAll(sort) : repository.findAll();
+		return this.customFindAllMethod ? super.invokeFindAll(sort) : this.repository.findAll();
 	}
 	@Override
 	public Iterable<Object> invokeFindAll(Pageable pageable) {
-		return customFindAllMethod ? super.invokeFindAll(pageable) : repository.findAll();
+		return this.customFindAllMethod ? super.invokeFindAll(pageable) : this.repository.findAll();
 	}
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Optional<T> invokeFindById(Object id) {
-		return customFindOneMethod ? super.invokeFindById(id) : (Optional<T>) repository.findById(convertId(id));
+		return this.customFindOneMethod ? super.invokeFindById(id) : (Optional<T>) this.repository.findById(convertId(id));
 	}
 	@Override
 	public <T> T invokeSave(T entity) {
-		return customSaveMethod ? super.invokeSave(entity) : repository.save(entity);
+		return this.customSaveMethod ? super.invokeSave(entity) : this.repository.save(entity);
 	}
 	@Override
 	public void invokeDeleteById(Object id) {
 
-		if (customDeleteMethod) {
+		if (this.customDeleteMethod) {
 			super.invokeDeleteById(id);
 		} else {
-			repository.deleteById(convertId(id));
+			this.repository.deleteById(convertId(id));
 		}
 	}
 

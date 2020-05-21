@@ -96,7 +96,7 @@ class EvaluationContextExtensionInformation {
 	 */
 	public RootObjectInformation getRootObjectInformation(Optional<Object> target) {
 
-		return target.map(it -> rootObjectInformation.orElseGet(() -> new RootObjectInformation(it.getClass())))
+		return target.map(it -> this.rootObjectInformation.orElseGet(() -> new RootObjectInformation(it.getClass())))
 				.orElse(RootObjectInformation.NONE);
 	}
 
@@ -172,7 +172,7 @@ class EvaluationContextExtensionInformation {
 				}
 
 				boolean methodStatic = Modifier.isStatic(method.getModifiers());
-				boolean staticMatch = staticOnly ? methodStatic : !methodStatic;
+				boolean staticMatch = this.staticOnly ? methodStatic : !methodStatic;
 
 				return Modifier.isPublic(method.getModifiers()) && staticMatch;
 			}
@@ -180,7 +180,7 @@ class EvaluationContextExtensionInformation {
 			public boolean matches(Field field) {
 
 				boolean fieldStatic = Modifier.isStatic(field.getModifiers());
-				boolean staticMatch = staticOnly ? fieldStatic : !fieldStatic;
+				boolean staticMatch = this.staticOnly ? fieldStatic : !fieldStatic;
 
 				return Modifier.isPublic(field.getModifiers()) && staticMatch;
 			}
@@ -244,7 +244,7 @@ class EvaluationContextExtensionInformation {
 		}
 
 		private MultiValueMap<String, Function> getFunctions(Object target) {
-			return methods.stream().collect(toMultiMap(Method::getName, m -> new Function(m, target)));
+			return this.methods.stream().collect(toMultiMap(Method::getName, m -> new Function(m, target)));
 		}
 
 		/**
@@ -259,9 +259,9 @@ class EvaluationContextExtensionInformation {
 
 				Map<String, Object> properties = new HashMap<>();
 
-				accessors.entrySet().stream()
+				this.accessors.entrySet().stream()
 						.forEach(method -> properties.put(method.getKey(), new Function(method.getValue(), it)));
-				fields.stream().forEach(field -> properties.put(field.getName(), ReflectionUtils.getField(field, it)));
+				this.fields.stream().forEach(field -> properties.put(field.getName(), ReflectionUtils.getField(field, it)));
 
 				return Collections.unmodifiableMap(properties);
 

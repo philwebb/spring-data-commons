@@ -65,7 +65,7 @@ class ResourceReaderRepositoryInitializerUnitTests {
 		Product reference = new Product();
 		setUpReferenceAndInititalize(reference);
 
-		verify(productRepository).save(reference);
+		verify(this.productRepository).save(reference);
 	}
 
 	@Test
@@ -76,28 +76,28 @@ class ResourceReaderRepositoryInitializerUnitTests {
 
 		setUpReferenceAndInititalize(reference);
 
-		verify(productRepository, times(1)).save(product);
+		verify(this.productRepository, times(1)).save(product);
 	}
 
 	@Test // DATACMNS-224
 	void emitsRepositoriesPopulatedEventIfPublisherConfigured() throws Exception {
 
-		RepositoryPopulator populator = setUpReferenceAndInititalize(new User(), publisher);
+		RepositoryPopulator populator = setUpReferenceAndInititalize(new User(), this.publisher);
 
-		ApplicationEvent event = new RepositoriesPopulatedEvent(populator, repositories);
-		verify(publisher, times(1)).publishEvent(event);
+		ApplicationEvent event = new RepositoriesPopulatedEvent(populator, this.repositories);
+		verify(this.publisher, times(1)).publishEvent(event);
 	}
 
 	private RepositoryPopulator setUpReferenceAndInititalize(Object reference, ApplicationEventPublisher publish)
 			throws Exception {
 
-		when(reader.readFrom(any(), any())).thenReturn(reference);
-		when(productRepository.save(any())).then(AdditionalAnswers.returnsFirstArg());
+		when(this.reader.readFrom(any(), any())).thenReturn(reference);
+		when(this.productRepository.save(any())).then(AdditionalAnswers.returnsFirstArg());
 
-		ResourceReaderRepositoryPopulator populator = new ResourceReaderRepositoryPopulator(reader);
-		populator.setResources(resource);
-		populator.setApplicationEventPublisher(publisher);
-		populator.populate(repositories);
+		ResourceReaderRepositoryPopulator populator = new ResourceReaderRepositoryPopulator(this.reader);
+		populator.setResources(this.resource);
+		populator.setApplicationEventPublisher(this.publisher);
+		populator.populate(this.repositories);
 
 		return populator;
 	}

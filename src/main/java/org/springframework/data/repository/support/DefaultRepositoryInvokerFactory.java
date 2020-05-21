@@ -71,7 +71,7 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 	}
 	@Override
 	public RepositoryInvoker getInvokerFor(Class<?> domainType) {
-		return invokers.computeIfAbsent(domainType, this::prepareInvokers);
+		return this.invokers.computeIfAbsent(domainType, this::prepareInvokers);
 	}
 
 	/**
@@ -82,8 +82,8 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 	 */
 	private RepositoryInvoker prepareInvokers(Class<?> domainType) {
 
-		Optional<RepositoryInformation> information = repositories.getRepositoryInformationFor(domainType);
-		Optional<Object> repository = repositories.getRepositoryFor(domainType);
+		Optional<RepositoryInformation> information = this.repositories.getRepositoryInformationFor(domainType);
+		Optional<Object> repository = this.repositories.getRepositoryFor(domainType);
 
 		return mapIfAllPresent(information, repository, this::createInvoker)//
 				.orElseThrow(
@@ -95,11 +95,11 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 
 		if (repository instanceof PagingAndSortingRepository) {
 			return new PagingAndSortingRepositoryInvoker((PagingAndSortingRepository<Object, Object>) repository, information,
-					conversionService);
+					this.conversionService);
 		} else if (repository instanceof CrudRepository) {
-			return new CrudRepositoryInvoker((CrudRepository<Object, Object>) repository, information, conversionService);
+			return new CrudRepositoryInvoker((CrudRepository<Object, Object>) repository, information, this.conversionService);
 		} else {
-			return new ReflectionRepositoryInvoker(repository, information, conversionService);
+			return new ReflectionRepositoryInvoker(repository, information, this.conversionService);
 		}
 	}
 }

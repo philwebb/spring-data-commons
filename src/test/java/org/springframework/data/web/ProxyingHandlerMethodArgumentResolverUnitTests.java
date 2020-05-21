@@ -42,7 +42,7 @@ public class ProxyingHandlerMethodArgumentResolverUnitTests {
 		Method method = Controller.class.getMethod("with", AnnotatedInterface.class);
 		MethodParameter parameter = new MethodParameter(method, 0);
 
-		assertThat(resolver.supportsParameter(parameter)).isTrue();
+		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
 	}
 
 	@Test // DATACMNS-776
@@ -51,7 +51,7 @@ public class ProxyingHandlerMethodArgumentResolverUnitTests {
 		Method method = Controller.class.getMethod("with", SampleInterface.class);
 		MethodParameter parameter = new MethodParameter(method, 0);
 
-		assertThat(resolver.supportsParameter(parameter)).isTrue();
+		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
 	}
 
 	@Test // DATACMNS-776
@@ -60,7 +60,7 @@ public class ProxyingHandlerMethodArgumentResolverUnitTests {
 		Method method = Controller.class.getMethod("with", UnannotatedInterface.class);
 		MethodParameter parameter = new MethodParameter(method, 0);
 
-		assertThat(resolver.supportsParameter(parameter)).isFalse();
+		assertThat(this.resolver.supportsParameter(parameter)).isFalse();
 	}
 
 	@Test // DATACMNS-776
@@ -69,7 +69,7 @@ public class ProxyingHandlerMethodArgumentResolverUnitTests {
 		Method method = Controller.class.getMethod("with", List.class);
 		MethodParameter parameter = new MethodParameter(method, 0);
 
-		assertThat(resolver.supportsParameter(parameter)).isFalse();
+		assertThat(this.resolver.supportsParameter(parameter)).isFalse();
 	}
 
 	@ProjectedPayload

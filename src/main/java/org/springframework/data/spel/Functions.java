@@ -50,7 +50,7 @@ class Functions {
 			List<Function> currentElements = get(n);
 
 			if (!contains(currentElements, f)) {
-				functions.add(n, f);
+				this.functions.add(n, f);
 			}
 		});
 	}
@@ -63,12 +63,12 @@ class Functions {
 
 			list.stream() //
 					.filter(f -> !contains(currentElements, f)) //
-					.forEach(f -> functions.add(k, f));
+					.forEach(f -> this.functions.add(k, f));
 		});
 	}
 
 	List<Function> get(String name) {
-		return functions.getOrDefault(name, Collections.emptyList());
+		return this.functions.getOrDefault(name, Collections.emptyList());
 	}
 
 	/**

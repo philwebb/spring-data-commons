@@ -60,7 +60,7 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 	 */
 	@Override
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
-		accessor.setProperty(property, convertIfNecessary(value, property.getType()));
+		this.accessor.setProperty(property, convertIfNecessary(value, property.getType()));
 	}
 
 	/* 
@@ -117,6 +117,6 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 				? null //
 				: type.isAssignableFrom(source.getClass()) //
 						? source //
-						: conversionService.convert(source, type));
+						: this.conversionService.convert(source, type));
 	}
 }

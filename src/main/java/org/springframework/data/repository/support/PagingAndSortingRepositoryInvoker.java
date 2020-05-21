@@ -57,11 +57,11 @@ class PagingAndSortingRepositoryInvoker extends CrudRepositoryInvoker {
 	}
 	@Override
 	public Iterable<Object> invokeFindAll(Sort sort) {
-		return customFindAll ? invokeFindAllReflectively(sort) : repository.findAll(sort);
+		return this.customFindAll ? invokeFindAllReflectively(sort) : this.repository.findAll(sort);
 	}
 	@Override
 	public Iterable<Object> invokeFindAll(Pageable pageable) {
-		return customFindAll ? invokeFindAllReflectively(pageable) : repository.findAll(pageable);
+		return this.customFindAll ? invokeFindAllReflectively(pageable) : this.repository.findAll(pageable);
 	}
 
 	private static boolean isRedeclaredMethod(Optional<Method> method) {

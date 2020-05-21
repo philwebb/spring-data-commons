@@ -48,31 +48,31 @@ public class BeanLookupUnitTests {
 
 		this.beans = new HashMap<>();
 
-		doReturn(beans).when(beanFactory).getBeansOfType(EntityPathResolver.class, false, false);
+		doReturn(this.beans).when(this.beanFactory).getBeansOfType(EntityPathResolver.class, false, false);
 	}
 
 	@Test // DATACMNS-1235
 	public void returnsUniqueBeanByType() {
 
-		beans.put("foo", SimpleEntityPathResolver.INSTANCE);
+		this.beans.put("foo", SimpleEntityPathResolver.INSTANCE);
 
-		assertThat(BeanLookup.lazyIfAvailable(EntityPathResolver.class, beanFactory).get()) //
+		assertThat(BeanLookup.lazyIfAvailable(EntityPathResolver.class, this.beanFactory).get()) //
 				.isEqualTo(SimpleEntityPathResolver.INSTANCE);
 	}
 
 	@Test // DATACMNS-1235
 	public void returnsEmptyLazyIfNoBeanAvailable() {
-		assertThat(BeanLookup.lazyIfAvailable(EntityPathResolver.class, beanFactory).getOptional()).isEmpty();
+		assertThat(BeanLookup.lazyIfAvailable(EntityPathResolver.class, this.beanFactory).getOptional()).isEmpty();
 	}
 
 	@Test // DATACMNS-1235
 	public void throwsExceptionIfMultipleBeansAreAvailable() {
 
-		beans.put("foo", SimpleEntityPathResolver.INSTANCE);
-		beans.put("bar", SimpleEntityPathResolver.INSTANCE);
+		this.beans.put("foo", SimpleEntityPathResolver.INSTANCE);
+		this.beans.put("bar", SimpleEntityPathResolver.INSTANCE);
 
 		assertThatExceptionOfType(NoUniqueBeanDefinitionException.class) //
-				.isThrownBy(() -> BeanLookup.lazyIfAvailable(EntityPathResolver.class, beanFactory).get()) //
+				.isThrownBy(() -> BeanLookup.lazyIfAvailable(EntityPathResolver.class, this.beanFactory).get()) //
 				.withMessageContaining("foo") //
 				.withMessageContaining("bar") //
 				.withMessageContaining(EntityPathResolver.class.getName());

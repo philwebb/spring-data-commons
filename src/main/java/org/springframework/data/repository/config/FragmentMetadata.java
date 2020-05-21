@@ -74,7 +74,7 @@ public class FragmentMetadata {
 	private AnnotationMetadata getAnnotationMetadata(String className) {
 
 		try {
-			return factory.getMetadataReader(className).getAnnotationMetadata();
+			return this.factory.getMetadataReader(className).getAnnotationMetadata();
 		} catch (IOException e) {
 			throw new BeanDefinitionStoreException(String.format("Cannot parse %s metadata.", className), e);
 		}
@@ -83,7 +83,7 @@ public class FragmentMetadata {
 	private ClassMetadata getClassMetadata(String className) {
 
 		try {
-			return factory.getMetadataReader(className).getClassMetadata();
+			return this.factory.getMetadataReader(className).getClassMetadata();
 		} catch (IOException e) {
 			throw new BeanDefinitionStoreException(String.format("Cannot parse %s metadata.", className), e);
 		}

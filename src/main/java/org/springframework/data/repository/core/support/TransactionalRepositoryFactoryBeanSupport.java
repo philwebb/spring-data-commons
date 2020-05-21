@@ -107,8 +107,8 @@ public abstract class TransactionalRepositoryFactoryBeanSupport<T extends Reposi
 		super.setBeanFactory(beanFactory);
 
 		ListableBeanFactory listableBeanFactory = (ListableBeanFactory) beanFactory;
-		this.txPostProcessor = new TransactionalRepositoryProxyPostProcessor(listableBeanFactory, transactionManagerName,
-				enableDefaultTransactions);
+		this.txPostProcessor = new TransactionalRepositoryProxyPostProcessor(listableBeanFactory, this.transactionManagerName,
+				this.enableDefaultTransactions);
 		this.exceptionPostProcessor = new PersistenceExceptionTranslationRepositoryProxyPostProcessor(listableBeanFactory);
 	}
 }

@@ -127,13 +127,13 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
 
-		Expression expression = expressions.get(invocation.getMethod().hashCode());
+		Expression expression = this.expressions.get(invocation.getMethod().hashCode());
 
 		if (expression == null) {
-			return delegate.invoke(invocation);
+			return this.delegate.invoke(invocation);
 		}
 
-		return expression.getValue(evaluationContext, TargetWrapper.of(target, invocation.getArguments()));
+		return expression.getValue(this.evaluationContext, TargetWrapper.of(this.target, invocation.getArguments()));
 	}
 
 	/**
@@ -175,16 +175,16 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 
 			TargetWrapper that = (TargetWrapper) o;
 
-			if (!ObjectUtils.nullSafeEquals(target, that.target)) {
+			if (!ObjectUtils.nullSafeEquals(this.target, that.target)) {
 				return false;
 			}
 
-			return ObjectUtils.nullSafeEquals(args, that.args);
+			return ObjectUtils.nullSafeEquals(this.args, that.args);
 		}
 		@Override
 		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(target);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(args);
+			int result = ObjectUtils.nullSafeHashCode(this.target);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.args);
 			return result;
 		}
 		@Override

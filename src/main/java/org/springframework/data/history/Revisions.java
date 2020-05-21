@@ -59,7 +59,7 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 		Assert.notNull(revisions, "Revisions must not be null!");
 
 		this.revisions = revisions.stream()//
-				.sorted(latestLast ? NATURAL_ORDER : NATURAL_ORDER.reversed())//
+				.sorted(latestLast ? this.NATURAL_ORDER : this.NATURAL_ORDER.reversed())//
 				.collect(StreamUtils.toUnmodifiableList());
 
 		this.latestLast = latestLast;
@@ -89,8 +89,8 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 	 * @return
 	 */
 	public Revision<N, T> getLatestRevision() {
-		int index = latestLast ? revisions.size() - 1 : 0;
-		return revisions.get(index);
+		int index = this.latestLast ? this.revisions.size() - 1 : 0;
+		return this.revisions.get(index);
 	}
 
 	/**
@@ -99,10 +99,10 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 	 * @return
 	 */
 	public Revisions<N, T> reverse() {
-		return new Revisions<>(revisions, !latestLast);
+		return new Revisions<>(this.revisions, !this.latestLast);
 	}
 	public Iterator<Revision<N, T>> iterator() {
-		return revisions.iterator();
+		return this.revisions.iterator();
 	}
 
 	/**
@@ -111,6 +111,6 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 	 * @return
 	 */
 	public List<Revision<N, T>> getContent() {
-		return Collections.unmodifiableList(revisions);
+		return Collections.unmodifiableList(this.revisions);
 	}
 }

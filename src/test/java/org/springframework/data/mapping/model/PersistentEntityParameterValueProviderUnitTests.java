@@ -53,14 +53,14 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 
 			@Override
 			public P getPersistentProperty(String name) {
-				return property;
+				return PersistentEntityParameterValueProviderUnitTests.this.property;
 			}
 		};
 
 		assertThat(entity.getPersistenceConstructor()).satisfies(constructor -> {
 
 			Iterator<Parameter<Object, P>> iterator = constructor.getParameters().iterator();
-			ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity, propertyValueProvider,
+			ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity, this.propertyValueProvider,
 					outer);
 
 			assertThat(provider.getParameterValue(iterator.next())).isEqualTo(outer);
@@ -73,8 +73,8 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 	void rejectsPropertyIfNameDoesNotMatch() {
 
 		PersistentEntity<Entity, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Entity.class));
-		ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity, propertyValueProvider,
-				Optional.of(property));
+		ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity, this.propertyValueProvider,
+				Optional.of(this.property));
 
 		assertThat(entity.getPersistenceConstructor())
 				.satisfies(constructor -> assertThatExceptionOfType(MappingException.class)//

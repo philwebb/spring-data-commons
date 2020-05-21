@@ -70,8 +70,8 @@ public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory impl
 	protected MethodInterceptor postProcessAccessorInterceptor(MethodInterceptor interceptor, Object source,
 			Class<?> projectionType) {
 
-		return typeCache.computeIfAbsent(projectionType, SpelAwareProxyProjectionFactory::hasMethodWithValueAnnotation)
-				? new SpelEvaluatingMethodInterceptor(interceptor, source, beanFactory, parser, projectionType)
+		return this.typeCache.computeIfAbsent(projectionType, SpelAwareProxyProjectionFactory::hasMethodWithValueAnnotation)
+				? new SpelEvaluatingMethodInterceptor(interceptor, source, this.beanFactory, this.parser, projectionType)
 				: interceptor;
 	}
 

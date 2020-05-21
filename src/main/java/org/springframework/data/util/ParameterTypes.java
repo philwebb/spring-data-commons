@@ -121,7 +121,7 @@ public class ParameterTypes {
 	 */
 	private boolean hasValidAlternativeFor(Method method) {
 
-		return alternatives.get().stream().anyMatch(it -> it.areValidTypes(method)) //
+		return this.alternatives.get().stream().anyMatch(it -> it.areValidTypes(method)) //
 				|| getParent().map(parent -> parent.hasValidAlternativeFor(method)).orElse(false);
 	}
 
@@ -133,7 +133,7 @@ public class ParameterTypes {
 	List<ParameterTypes> getAllAlternatives() {
 
 		List<ParameterTypes> result = new ArrayList<>();
-		result.addAll(alternatives.get());
+		result.addAll(this.alternatives.get());
 
 		getParent().ifPresent(it -> result.addAll(it.getAllAlternatives()));
 
@@ -165,14 +165,14 @@ public class ParameterTypes {
 	 */
 	public boolean exactlyMatchParametersOf(Method method) {
 
-		if (method.getParameterCount() != types.size()) {
+		if (method.getParameterCount() != this.types.size()) {
 			return false;
 		}
 
 		Class<?>[] parameterTypes = method.getParameterTypes();
 
 		for (int i = 0; i < parameterTypes.length; i++) {
-			if (parameterTypes[i] != types.get(i).getType()) {
+			if (parameterTypes[i] != this.types.get(i).getType()) {
 				return false;
 			}
 		}
@@ -182,26 +182,26 @@ public class ParameterTypes {
 	@Override
 	public String toString() {
 
-		return types.stream() //
+		return this.types.stream() //
 				.map(TypeDescriptor::getType) //
 				.map(Class::getSimpleName) //
 				.collect(Collectors.joining(", ", "(", ")"));
 	}
 
 	protected Optional<ParameterTypes> getParent() {
-		return types.isEmpty() ? Optional.empty() : getParent(getTail());
+		return this.types.isEmpty() ? Optional.empty() : getParent(getTail());
 	}
 
 	protected final Optional<ParameterTypes> getParent(TypeDescriptor tail) {
 
-		return types.size() <= 1 //
+		return this.types.size() <= 1 //
 				? Optional.empty() //
-				: Optional.of(ParentParameterTypes.of(types.subList(0, types.size() - 1), tail));
+				: Optional.of(ParentParameterTypes.of(this.types.subList(0, this.types.size() - 1), tail));
 	}
 
 	protected Optional<ParameterTypes> withLastVarArgs() {
 
-		TypeDescriptor lastDescriptor = types.get(types.size() - 1);
+		TypeDescriptor lastDescriptor = this.types.get(this.types.size() - 1);
 
 		return lastDescriptor.isArray() //
 				? Optional.empty() //
@@ -211,13 +211,13 @@ public class ParameterTypes {
 	@SuppressWarnings("null")
 	private ParameterTypes withVarArgs(TypeDescriptor descriptor) {
 
-		TypeDescriptor lastDescriptor = types.get(types.size() - 1);
+		TypeDescriptor lastDescriptor = this.types.get(this.types.size() - 1);
 
 		if (lastDescriptor.isArray() && lastDescriptor.getElementTypeDescriptor().equals(descriptor)) {
 			return this;
 		}
 
-		List<TypeDescriptor> result = new ArrayList<>(types.subList(0, types.size() - 1));
+		List<TypeDescriptor> result = new ArrayList<>(this.types.subList(0, this.types.size() - 1));
 		result.add(TypeDescriptor.array(descriptor));
 
 		return ParameterTypes.of(result);
@@ -225,7 +225,7 @@ public class ParameterTypes {
 
 	private Collection<ParameterTypes> getAlternatives() {
 
-		if (types.isEmpty()) {
+		if (this.types.isEmpty()) {
 			return Collections.emptyList();
 		}
 
@@ -252,14 +252,14 @@ public class ParameterTypes {
 
 		Assert.notNull(method, "Method must not be null!");
 
-		if (method.getParameterCount() != types.size()) {
+		if (method.getParameterCount() != this.types.size()) {
 			return false;
 		}
 
 		Class<?>[] parameterTypes = method.getParameterTypes();
 
 		for (int i = 0; i < parameterTypes.length; i++) {
-			if (!TypeUtils.isAssignable(parameterTypes[i], types.get(i).getType())) {
+			if (!TypeUtils.isAssignable(parameterTypes[i], this.types.get(i).getType())) {
 				return false;
 			}
 		}
@@ -268,7 +268,7 @@ public class ParameterTypes {
 	}
 
 	private TypeDescriptor getTail() {
-		return types.get(types.size() - 1);
+		return this.types.get(this.types.size() - 1);
 	}
 	@Override
 	public boolean equals(Object o) {
@@ -279,11 +279,11 @@ public class ParameterTypes {
 			return false;
 		}
 		ParameterTypes that = (ParameterTypes) o;
-		return ObjectUtils.nullSafeEquals(types, that.types);
+		return ObjectUtils.nullSafeEquals(this.types, that.types);
 	}
 	@Override
 	public int hashCode() {
-		return ObjectUtils.nullSafeHashCode(types);
+		return ObjectUtils.nullSafeHashCode(this.types);
 	}
 
 	/**
@@ -307,12 +307,12 @@ public class ParameterTypes {
 		}
 		@Override
 		protected Optional<ParameterTypes> getParent() {
-			return super.getParent(tail);
+			return super.getParent(this.tail);
 		}
 		@Override
 		protected Optional<ParameterTypes> withLastVarArgs() {
 
-			return !tail.isAssignableTo(super.getTail()) //
+			return !this.tail.isAssignableTo(super.getTail()) //
 					? Optional.empty() //
 					: super.withLastVarArgs();
 		}
@@ -332,12 +332,12 @@ public class ParameterTypes {
 			}
 
 			ParentParameterTypes that = (ParentParameterTypes) o;
-			return ObjectUtils.nullSafeEquals(tail, that.tail);
+			return ObjectUtils.nullSafeEquals(this.tail, that.tail);
 		}
 		@Override
 		public int hashCode() {
 			int result = super.hashCode();
-			result = 31 * result + ObjectUtils.nullSafeHashCode(tail);
+			result = 31 * result + ObjectUtils.nullSafeHashCode(this.tail);
 			return result;
 		}
 	}

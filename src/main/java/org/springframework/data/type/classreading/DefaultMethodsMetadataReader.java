@@ -139,14 +139,14 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 		}
 		@Override
 		public Set<MethodMetadata> getMethods() {
-			return Collections.unmodifiableSet(methodMetadataSet);
+			return Collections.unmodifiableSet(this.methodMetadataSet);
 		}
 		@Override
 		public Set<MethodMetadata> getMethods(String name) {
 
 			Assert.hasText(name, "Method name must not be null or empty");
 
-			return methodMetadataSet.stream() //
+			return this.methodMetadataSet.stream() //
 					.filter(it -> it.getMethodName().equals(name)) //
 					.collect(StreamUtils.toUnmodifiableSet());
 		}

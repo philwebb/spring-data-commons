@@ -48,21 +48,21 @@ class ReflectionAuditingBeanWrapperUnitTests {
 	void setUp() {
 		this.conversionService = new DefaultAuditableBeanWrapperFactory().getConversionService();
 		this.user = new AnnotatedUser();
-		this.wrapper = new ReflectionAuditingBeanWrapper<>(conversionService, user);
+		this.wrapper = new ReflectionAuditingBeanWrapper<>(this.conversionService, this.user);
 	}
 
 	@Test
 	void setsDateTimeFieldCorrectly() {
 
-		wrapper.setCreatedDate(time);
-		assertThat(user.createdDate).isEqualTo(new DateTime(LocalDateTimeToDateConverter.INSTANCE.convert(time)));
+		this.wrapper.setCreatedDate(this.time);
+		assertThat(this.user.createdDate).isEqualTo(new DateTime(LocalDateTimeToDateConverter.INSTANCE.convert(this.time)));
 	}
 
 	@Test
 	void setsDateFieldCorrectly() {
 
-		wrapper.setLastModifiedDate(time);
-		assertThat(user.lastModifiedDate).isEqualTo(LocalDateTimeToDateConverter.INSTANCE.convert(time));
+		this.wrapper.setLastModifiedDate(this.time);
+		assertThat(this.user.lastModifiedDate).isEqualTo(LocalDateTimeToDateConverter.INSTANCE.convert(this.time));
 	}
 
 	@Test
@@ -76,13 +76,13 @@ class ReflectionAuditingBeanWrapperUnitTests {
 		}
 
 		Sample sample = new Sample();
-		AuditableBeanWrapper<Sample> wrapper = new ReflectionAuditingBeanWrapper<>(conversionService, sample);
+		AuditableBeanWrapper<Sample> wrapper = new ReflectionAuditingBeanWrapper<>(this.conversionService, sample);
 
-		wrapper.setCreatedDate(time);
-		assertThat(sample.createdDate).isEqualTo(time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
+		wrapper.setCreatedDate(this.time);
+		assertThat(sample.createdDate).isEqualTo(this.time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
 
-		wrapper.setLastModifiedDate(time);
-		assertThat(sample.modifiedDate).isEqualTo(time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
+		wrapper.setLastModifiedDate(this.time);
+		assertThat(sample.modifiedDate).isEqualTo(this.time.atZone(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
 	}
 
 	@Test
@@ -90,10 +90,10 @@ class ReflectionAuditingBeanWrapperUnitTests {
 
 		Object object = new Object();
 
-		wrapper.setCreatedBy(object);
-		assertThat(user.createdBy).isEqualTo(object);
+		this.wrapper.setCreatedBy(object);
+		assertThat(this.user.createdBy).isEqualTo(object);
 
-		wrapper.setLastModifiedBy(object);
-		assertThat(user.lastModifiedBy).isEqualTo(object);
+		this.wrapper.setLastModifiedBy(object);
+		assertThat(this.user.lastModifiedBy).isEqualTo(object);
 	}
 }

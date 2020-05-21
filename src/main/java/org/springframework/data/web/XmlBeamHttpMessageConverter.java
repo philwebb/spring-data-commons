@@ -86,7 +86,7 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 	protected boolean supports(Class<?> type) {
 
 		Class<?> rawType = ResolvableType.forType(type).resolve(Object.class);
-		Boolean result = supportedTypesCache.get(rawType);
+		Boolean result = this.supportedTypesCache.get(rawType);
 
 		if (result != null) {
 			return result;
@@ -94,7 +94,7 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 		result = rawType.isInterface() && AnnotationUtils.findAnnotation(rawType, ProjectedPayload.class) != null;
 
-		supportedTypesCache.put(rawType, result);
+		this.supportedTypesCache.put(rawType, result);
 
 		return result;
 	}
@@ -118,7 +118,7 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 		try {
 
-			return projectionFactory.io().stream(inputMessage.getBody()).read(clazz);
+			return this.projectionFactory.io().stream(inputMessage.getBody()).read(clazz);
 
 		} catch (RuntimeException o_O) {
 

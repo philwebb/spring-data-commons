@@ -49,8 +49,8 @@ public abstract class ParentTypeAwareTypeInformation<S> extends TypeDiscoverer<S
 	@Override
 	protected TypeInformation<?> createInfo(Type fieldType) {
 
-		if (parent.getType().equals(fieldType)) {
-			return parent;
+		if (this.parent.getType().equals(fieldType)) {
+			return this.parent;
 		}
 
 		return super.createInfo(fieldType);
@@ -77,7 +77,7 @@ public abstract class ParentTypeAwareTypeInformation<S> extends TypeDiscoverer<S
 	public int hashCode() {
 
 		if (this.hashCode == 0) {
-			this.hashCode = super.hashCode() + 31 * parent.hashCode();
+			this.hashCode = super.hashCode() + 31 * this.parent.hashCode();
 		}
 
 		return this.hashCode;

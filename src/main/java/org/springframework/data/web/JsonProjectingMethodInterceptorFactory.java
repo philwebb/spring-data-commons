@@ -146,7 +146,7 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 
 					if (returnType.getRequiredActualType().getType().isInterface()) {
 
-						List<?> result = context.read(jsonPath);
+						List<?> result = this.context.read(jsonPath);
 						return result.isEmpty() ? null : result.get(0);
 					}
 
@@ -154,7 +154,7 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 							? ResolvableType.forClassWithGenerics(List.class, type)
 							: type;
 
-					List<?> result = (List<?>) context.read(jsonPath, new ResolvableTypeRef(type));
+					List<?> result = (List<?>) this.context.read(jsonPath, new ResolvableTypeRef(type));
 
 					if (isCollectionResult && JsonPath.isPathDefinite(jsonPath)) {
 						result = (List<?>) result.get(0);
@@ -197,7 +197,7 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 			}
 			@Override
 			public Type getType() {
-				return type.getType();
+				return this.type.getType();
 			}
 		}
 	}

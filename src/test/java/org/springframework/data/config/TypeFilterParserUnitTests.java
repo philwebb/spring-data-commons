@@ -59,31 +59,31 @@ class TypeFilterParserUnitTests {
 	@BeforeEach
 	void setUp() throws SAXException, IOException, ParserConfigurationException {
 
-		parser = new TypeFilterParser(context, classLoader);
+		this.parser = new TypeFilterParser(this.context, this.classLoader);
 
 		Resource sampleXmlFile = new ClassPathResource("type-filter-test.xml", TypeFilterParserUnitTests.class);
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
 
-		documentElement = factory.newDocumentBuilder().parse(sampleXmlFile.getInputStream()).getDocumentElement();
+		this.documentElement = factory.newDocumentBuilder().parse(sampleXmlFile.getInputStream()).getDocumentElement();
 	}
 
 	@Test
 	void parsesIncludesCorrectly() throws Exception {
 
-		Element element = DomUtils.getChildElementByTagName(documentElement, "firstSample");
+		Element element = DomUtils.getChildElementByTagName(this.documentElement, "firstSample");
 
-		Iterable<TypeFilter> filters = parser.parseTypeFilters(element, Type.INCLUDE);
+		Iterable<TypeFilter> filters = this.parser.parseTypeFilters(element, Type.INCLUDE);
 		assertThat(filters).hasAtLeastOneElementOfType(AssignableTypeFilter.class);
 	}
 
 	@Test
 	void parsesExcludesCorrectly() throws Exception {
 
-		Element element = DomUtils.getChildElementByTagName(documentElement, "secondSample");
+		Element element = DomUtils.getChildElementByTagName(this.documentElement, "secondSample");
 
-		Iterable<TypeFilter> filters = parser.parseTypeFilters(element, Type.EXCLUDE);
+		Iterable<TypeFilter> filters = this.parser.parseTypeFilters(element, Type.EXCLUDE);
 		assertThat(filters).hasAtLeastOneElementOfType(AssignableTypeFilter.class);
 	}
 }

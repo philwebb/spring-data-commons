@@ -68,7 +68,7 @@ class QueryExecutionConvertersUnitTests {
 	void setUp() {
 
 		this.conversionService = new DefaultConversionService();
-		QueryExecutionConverters.registerConvertersIn(conversionService);
+		QueryExecutionConverters.registerConvertersIn(this.conversionService);
 	}
 
 	@Test // DATACMNS-714
@@ -131,20 +131,20 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-483
 	void turnsNullIntoGuavaOptional() {
-		assertThat(conversionService.convert(new NullableWrapper(null), Optional.class)).isEqualTo(Optional.absent());
+		assertThat(this.conversionService.convert(new NullableWrapper(null), Optional.class)).isEqualTo(Optional.absent());
 	}
 
 	@Test // DATACMNS-483
 	@SuppressWarnings("unchecked")
 	void turnsNullIntoJdk8Optional() {
-		assertThat(conversionService.convert(new NullableWrapper(null), java.util.Optional.class)).isEmpty();
+		assertThat(this.conversionService.convert(new NullableWrapper(null), java.util.Optional.class)).isEmpty();
 	}
 
 	@Test // DATACMNS-714
 	@SuppressWarnings("unchecked")
 	void turnsNullIntoCompletableFutureForNull() throws Exception {
 
-		CompletableFuture<Object> result = conversionService.convert(new NullableWrapper(null), CompletableFuture.class);
+		CompletableFuture<Object> result = this.conversionService.convert(new NullableWrapper(null), CompletableFuture.class);
 
 		assertThat(result).isNotNull();
 		assertThat(result.isDone()).isTrue();
@@ -173,7 +173,7 @@ class QueryExecutionConvertersUnitTests {
 
 	@Test // DATACMNS-795
 	void turnsNullIntoScalaOptionEmpty() {
-		assertThat(conversionService.convert(new NullableWrapper(null), Option.class)).isEqualTo(Option.empty());
+		assertThat(this.conversionService.convert(new NullableWrapper(null), Option.class)).isEqualTo(Option.empty());
 	}
 
 	@Test // DATACMNS-795
@@ -206,14 +206,14 @@ class QueryExecutionConvertersUnitTests {
 	@Test // DATACMNS-1065
 	void conversListToVavr() {
 
-		assertThat(conversionService.canConvert(List.class, io.vavr.collection.Traversable.class)).isTrue();
-		assertThat(conversionService.canConvert(List.class, io.vavr.collection.List.class)).isTrue();
-		assertThat(conversionService.canConvert(List.class, io.vavr.collection.Set.class)).isTrue();
-		assertThat(conversionService.canConvert(List.class, io.vavr.collection.Map.class)).isFalse();
+		assertThat(this.conversionService.canConvert(List.class, io.vavr.collection.Traversable.class)).isTrue();
+		assertThat(this.conversionService.canConvert(List.class, io.vavr.collection.List.class)).isTrue();
+		assertThat(this.conversionService.canConvert(List.class, io.vavr.collection.Set.class)).isTrue();
+		assertThat(this.conversionService.canConvert(List.class, io.vavr.collection.Map.class)).isFalse();
 
 		List<Integer> integers = Arrays.asList(1, 2, 3);
 
-		io.vavr.collection.Traversable<?> result = conversionService.convert(integers,
+		io.vavr.collection.Traversable<?> result = this.conversionService.convert(integers,
 				io.vavr.collection.Traversable.class);
 
 		assertThat(result).isInstanceOf(io.vavr.collection.List.class);
@@ -222,14 +222,14 @@ class QueryExecutionConvertersUnitTests {
 	@Test // DATACMNS-1065
 	void convertsSetToVavr() {
 
-		assertThat(conversionService.canConvert(Set.class, io.vavr.collection.Traversable.class)).isTrue();
-		assertThat(conversionService.canConvert(Set.class, io.vavr.collection.Set.class)).isTrue();
-		assertThat(conversionService.canConvert(Set.class, io.vavr.collection.List.class)).isTrue();
-		assertThat(conversionService.canConvert(Set.class, io.vavr.collection.Map.class)).isFalse();
+		assertThat(this.conversionService.canConvert(Set.class, io.vavr.collection.Traversable.class)).isTrue();
+		assertThat(this.conversionService.canConvert(Set.class, io.vavr.collection.Set.class)).isTrue();
+		assertThat(this.conversionService.canConvert(Set.class, io.vavr.collection.List.class)).isTrue();
+		assertThat(this.conversionService.canConvert(Set.class, io.vavr.collection.Map.class)).isFalse();
 
 		Set<Integer> integers = Collections.singleton(1);
 
-		io.vavr.collection.Traversable<?> result = conversionService.convert(integers,
+		io.vavr.collection.Traversable<?> result = this.conversionService.convert(integers,
 				io.vavr.collection.Traversable.class);
 
 		assertThat(result).isInstanceOf(io.vavr.collection.Set.class);
@@ -238,14 +238,14 @@ class QueryExecutionConvertersUnitTests {
 	@Test // DATACMNS-1065
 	void convertsMapToVavr() {
 
-		assertThat(conversionService.canConvert(Map.class, io.vavr.collection.Traversable.class)).isTrue();
-		assertThat(conversionService.canConvert(Map.class, io.vavr.collection.Map.class)).isTrue();
-		assertThat(conversionService.canConvert(Map.class, io.vavr.collection.Set.class)).isFalse();
-		assertThat(conversionService.canConvert(Map.class, io.vavr.collection.List.class)).isFalse();
+		assertThat(this.conversionService.canConvert(Map.class, io.vavr.collection.Traversable.class)).isTrue();
+		assertThat(this.conversionService.canConvert(Map.class, io.vavr.collection.Map.class)).isTrue();
+		assertThat(this.conversionService.canConvert(Map.class, io.vavr.collection.Set.class)).isFalse();
+		assertThat(this.conversionService.canConvert(Map.class, io.vavr.collection.List.class)).isFalse();
 
 		Map<String, String> map = Collections.singletonMap("key", "value");
 
-		io.vavr.collection.Traversable<?> result = conversionService.convert(map, io.vavr.collection.Traversable.class);
+		io.vavr.collection.Traversable<?> result = this.conversionService.convert(map, io.vavr.collection.Traversable.class);
 
 		assertThat(result).isInstanceOf(io.vavr.collection.Map.class);
 	}
@@ -270,7 +270,7 @@ class QueryExecutionConvertersUnitTests {
 
 		List<String> source = Collections.singletonList("foo");
 
-		assertThat(conversionService.convert(source, io.vavr.collection.Set.class)) //
+		assertThat(this.conversionService.convert(source, io.vavr.collection.Set.class)) //
 				.isInstanceOf(io.vavr.collection.Set.class);
 	}
 
@@ -335,23 +335,23 @@ class QueryExecutionConvertersUnitTests {
 	@Test // DATACMNS-1430
 	void returnsStreamableForIterable() throws Exception {
 
-		assertThat(conversionService.canConvert(Iterable.class, Streamable.class)).isTrue();
-		assertThat(conversionService.convert(Arrays.asList("foo"), Streamable.class)).containsExactly("foo");
+		assertThat(this.conversionService.canConvert(Iterable.class, Streamable.class)).isTrue();
+		assertThat(this.conversionService.convert(Arrays.asList("foo"), Streamable.class)).containsExactly("foo");
 	}
 
 	@Test // DATACMNS-1430
 	void convertsToStreamableWrapper() throws Exception {
 
-		assertThat(conversionService.canConvert(Iterable.class, StreamableWrapper.class)).isTrue();
-		assertThat(conversionService.convert(Arrays.asList("foo"), StreamableWrapper.class).getStreamable()) //
+		assertThat(this.conversionService.canConvert(Iterable.class, StreamableWrapper.class)).isTrue();
+		assertThat(this.conversionService.convert(Arrays.asList("foo"), StreamableWrapper.class).getStreamable()) //
 				.containsExactly("foo");
 	}
 
 	@Test // DATACMNS-1430
 	void convertsToStreamableWrapperImplementingStreamable() throws Exception {
 
-		assertThat(conversionService.canConvert(Iterable.class, CustomStreamableWrapper.class)).isTrue();
-		assertThat(conversionService.convert(Arrays.asList("foo"), CustomStreamableWrapper.class)) //
+		assertThat(this.conversionService.canConvert(Iterable.class, CustomStreamableWrapper.class)).isTrue();
+		assertThat(this.conversionService.convert(Arrays.asList("foo"), CustomStreamableWrapper.class)) //
 				.containsExactly("foo");
 	}
 
@@ -360,7 +360,7 @@ class QueryExecutionConvertersUnitTests {
 
 		List<String> source = Arrays.asList("1", "2");
 
-		assertThat(conversionService.convert(source, Iterable.class)).isSameAs(source);
+		assertThat(this.conversionService.convert(source, Iterable.class)).isSameAs(source);
 
 	}
 
@@ -391,7 +391,7 @@ class QueryExecutionConvertersUnitTests {
 
 		@Override
 		public Iterator<T> iterator() {
-			return source.iterator();
+			return this.source.iterator();
 		}
 	}
 }
