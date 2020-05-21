@@ -18,7 +18,8 @@ package org.springframework.data;
 import de.schauderhaft.degraph.check.JCheck;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.HamcrestCondition.matching;
 
 /**
  * @author Jens Schauder
@@ -28,7 +29,8 @@ public class DependencyTests {
 	@Test
 	public void noInternalPackageCycles() {
 		assertThat(JCheck.classpath().noJars().including("org.springframework.data.**")
-				.filterClasspath("*target/classes").printOnFailure("degraph.graphml"), JCheck.violationFree());
+				.filterClasspath("*target/classes").printOnFailure("degraph.graphml"))
+						.is(matching(JCheck.violationFree()));
 	}
 
 }
