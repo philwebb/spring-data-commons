@@ -37,10 +37,10 @@ import org.springframework.util.StringUtils;
  * Base class providing methods for handler method argument resolvers to create
  * {@link Sort} instances from request parameters or {@link SortDefault} annotations.
  *
+ * @author Mark Paluch
  * @since 2.2
  * @see SortHandlerMethodArgumentResolver
  * @see ReactiveSortHandlerMethodArgumentResolver
- * @author Mark Paluch
  */
 public abstract class SortHandlerMethodArgumentResolverSupport {
 
@@ -235,10 +235,10 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	/**
 	 * Folds the given {@link Sort} instance into two expressions. The first being the
 	 * property list, the second being the direction.
+	 * @param sort must not be {@literal null}.
+	 * @return the folded expressions
 	 * @throws IllegalArgumentException if a {@link Sort} with multiple {@link Direction}s
 	 * has been handed in.
-	 * @param sort must not be {@literal null}.
-	 * @return
 	 */
 	protected List<String> legacyFoldExpressions(Sort sort) {
 		List<String> expressions = new ArrayList<>();

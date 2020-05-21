@@ -60,7 +60,7 @@ import org.springframework.util.ClassUtils;
  * <li>{@link org.springframework.data.web.SortHandlerMethodArgumentResolver} - for
  * injection of {@link org.springframework.data.web.PagedResourcesAssembler} into
  * controller methods</li>
- * <ul>
+ * </ul>
  *
  * @since 1.6
  * @see SpringDataWebConfiguration

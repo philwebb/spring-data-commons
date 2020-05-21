@@ -24,8 +24,8 @@ import java.util.Iterator;
  * This allows implementations to clean up any resources they need to keep open to iterate
  * over elements.
  *
- * @author Thomas Darimont
  * @param <T>
+ * @author Thomas Darimont
  * @since 1.10
  */
 public interface CloseableIterator<T> extends Iterator<T>, Closeable {

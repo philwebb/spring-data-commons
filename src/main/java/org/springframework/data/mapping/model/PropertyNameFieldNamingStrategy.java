@@ -20,8 +20,8 @@ import org.springframework.data.mapping.PersistentProperty;
 /**
  * {@link FieldNamingStrategy} simply using the {@link PersistentProperty}'s name.
  *
- * @since 1.9
  * @author Oliver Gierke
+ * @since 1.9
  */
 public enum PropertyNameFieldNamingStrategy implements FieldNamingStrategy {
 

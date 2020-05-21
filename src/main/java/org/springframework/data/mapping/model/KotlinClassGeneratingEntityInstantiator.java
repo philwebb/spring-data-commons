@@ -61,7 +61,6 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 	 * and the {@code kotlin.jvm.internal.DefaultConstructorMarker}.
 	 *
 	 * @since 2.0
-	 * @author Mark Paluch
 	 */
 	static class DefaultingKotlinConstructorResolver {
 

@@ -23,8 +23,8 @@ import org.aopalliance.intercept.MethodInterceptor;
  * customize the way method executions on projection proxies are handled.
  *
  * @author Oliver Gierke
- * @see ProxyProjectionFactory
  * @since 1.13
+ * @see ProxyProjectionFactory
  */
 public interface MethodInterceptorFactory {
 

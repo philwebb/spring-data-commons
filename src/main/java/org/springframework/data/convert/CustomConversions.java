@@ -154,10 +154,9 @@ public class CustomConversions {
 	 * Returns whether the given type is considered to be simple. That means it's either a
 	 * general simple type or we have a writing {@link Converter} registered for a
 	 * particular type.
-	 *
-	 * @see SimpleTypeHolder#isSimpleType(Class)
 	 * @param type
-	 * @return
+	 * @return if the type is simple
+	 * @see SimpleTypeHolder#isSimpleType(Class)
 	 */
 	public boolean isSimpleType(Class<?> type) {
 		Assert.notNull(type, "Type must not be null!");

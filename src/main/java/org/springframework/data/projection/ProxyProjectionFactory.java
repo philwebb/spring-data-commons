@@ -44,8 +44,8 @@ import org.springframework.util.ConcurrentReferenceHashMap;
  * @author Oliver Gierke
  * @author Christoph Strobl
  * @author Mark Paluch
- * @see SpelAwareProxyProjectionFactory
  * @since 1.10
+ * @see SpelAwareProxyProjectionFactory
  */
 class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware {
 

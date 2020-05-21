@@ -21,8 +21,8 @@ package org.springframework.data.transaction;
  *
  * @author Michael Hunger
  * @author Oliver Gierke
- * @see SpringTransactionSynchronizationManager
  * @since 1.6
+ * @see SpringTransactionSynchronizationManager
  */
 interface SynchronizationManager {
 

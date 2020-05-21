@@ -154,8 +154,8 @@ public class DefaultCrudMethods implements CrudMethods {
 	 * accessible version of discovered {@link Method} if found.
 	 * @param method
 	 * @param type
+	 * @return the most specific method
 	 * @see ClassUtils#getMostSpecificMethod(Method, Class)
-	 * @return
 	 */
 	private static Optional<Method> getMostSpecificMethod(Method method, Class<?> type) {
 		return Optionals.toStream(Optional.ofNullable(ClassUtils.getMostSpecificMethod(method, type)))

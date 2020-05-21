@@ -91,9 +91,8 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 	/**
 	 * Returns whether the constructor has {@link Parameter}s.
-	 *
+	 * @return if the constructor has parameters
 	 * @see #isNoArgConstructor()
-	 * @return
 	 */
 	public boolean hasParameters() {
 		return !this.parameters.isEmpty();
@@ -101,9 +100,8 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 	/**
 	 * Returns whether the constructor does not have any arguments.
-	 *
+	 * @return if the constructor has no arguments
 	 * @see #hasParameters()
-	 * @return
 	 */
 	public boolean isNoArgConstructor() {
 		return this.parameters.isEmpty();

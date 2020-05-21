@@ -37,10 +37,10 @@ import static org.springframework.data.web.SpringDataAnnotationUtils.getSpecific
  * configuration uses request parameters beginning with
  * {@link #DEFAULT_PAGE_PARAMETER}{@link #DEFAULT_QUALIFIER_DELIMITER}.
  *
+ * @author Mark Paluch
  * @since 2.2
  * @see PageableHandlerMethodArgumentResolver
  * @see ReactivePageableHandlerMethodArgumentResolver
- * @author Mark Paluch
  */
 public abstract class PageableHandlerMethodArgumentResolverSupport {
 

@@ -32,9 +32,9 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 /**
  * Unit tests for {@link SortDefault}.
  *
- * @since 1.6
  * @author Oliver Gierke
  * @author Mark Paluch
+ * @since 1.6
  */
 abstract class SortDefaultUnitTests {
 

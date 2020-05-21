@@ -306,9 +306,9 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 * {@link RepositoryMetadata#isReactiveRepository() reactive repositories}. Must be
 	 * overridden by store modules that wish to provide reactive repositories.
 	 * @param metadata will never be {@literal null}.
+	 * @return if the configuration should be used
 	 * @throws InvalidDataAccessApiUsageException on
 	 * {@link RepositoryMetadata#isReactiveRepository() repositories} by default.
-	 * @return
 	 */
 	protected boolean useRepositoryConfiguration(RepositoryMetadata metadata) {
 		if (metadata.isReactiveRepository()) {

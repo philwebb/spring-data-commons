@@ -25,8 +25,8 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 /**
  * Unit tests for {@link PropertyMatch}. Introduced for DATACMNS-228.
  *
- * @since 1.4
  * @author Oliver Gierke
+ * @since 1.4
  */
 class PropertyMatchUnitTests {
 

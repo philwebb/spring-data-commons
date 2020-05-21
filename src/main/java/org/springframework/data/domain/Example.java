@@ -22,10 +22,10 @@ import org.springframework.data.util.ProxyUtils;
  * the example. Matching options and type safety can be tuned using
  * {@link ExampleMatcher}.
  *
+ * @param <T> the type of the probe.
  * @author Christoph Strobl
  * @author Mark Paluch
  * @author Oliver Gierke
- * @param <T> the type of the probe.
  * @since 1.12
  */
 public interface Example<T> {

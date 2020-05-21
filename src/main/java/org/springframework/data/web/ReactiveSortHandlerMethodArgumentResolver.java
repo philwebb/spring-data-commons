@@ -31,8 +31,8 @@ import org.springframework.web.server.ServerWebExchange;
  * Reactive {@link HandlerMethodArgumentResolver} to create {@link Sort} instances from
  * query string parameters or {@link SortDefault} annotations.
  *
- * @since 2.2
  * @author Mark Paluch
+ * @since 2.2
  */
 public class ReactiveSortHandlerMethodArgumentResolver extends SortHandlerMethodArgumentResolverSupport
 		implements SyncHandlerMethodArgumentResolver {

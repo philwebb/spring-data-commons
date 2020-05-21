@@ -202,8 +202,8 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * A collector to easily produce a {@link Streamable} from a {@link Stream} using
 	 * {@link Collectors#toList} as intermediate collector.
 	 * @return the collector
-	 * @see #toStreamable(Collector)
 	 * @since 2.2
+	 * @see #toStreamable(Collector)
 	 */
 	public static <S> Collector<S, ?, Streamable<S>> toStreamable() {
 		return toStreamable(Collectors.toList());

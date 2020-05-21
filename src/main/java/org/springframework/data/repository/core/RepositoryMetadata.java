@@ -70,11 +70,10 @@ public interface RepositoryMetadata {
 	/**
 	 * Returns the set of types the repository shall be discoverable for when trying to
 	 * look up a repository by domain type.
-	 *
-	 * @see Repositories#getRepositoryFor(Class)
 	 * @return the set of types the repository shall be discoverable for when trying to
 	 * look up a repository by domain type, must not be {@literal null}.
 	 * @since 1.11
+	 * @see Repositories#getRepositoryFor(Class)
 	 */
 	Set<Class<?>> getAlternativeDomainTypes();
 

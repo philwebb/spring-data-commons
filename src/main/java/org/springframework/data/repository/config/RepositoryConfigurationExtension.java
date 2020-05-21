@@ -26,8 +26,8 @@ import org.springframework.core.io.ResourceLoader;
  * SPI to implement store specific extension to the repository bean definition
  * registration process.
  *
- * @see RepositoryConfigurationExtensionSupport
  * @author Oliver Gierke
+ * @see RepositoryConfigurationExtensionSupport
  */
 public interface RepositoryConfigurationExtension {
 

@@ -52,9 +52,8 @@ public interface RepositoryConfiguration<T extends RepositoryConfigurationSource
 
 	/**
 	 * Returns the key to resolve a {@link QueryLookupStrategy} from eventually.
-	 *
+	 * @return the key to resolve
 	 * @see QueryLookupStrategy.Key
-	 * @return
 	 */
 	Object getQueryLookupStrategyKey();
 

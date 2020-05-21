@@ -254,9 +254,9 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		/**
 		 * Returns the {@link Direction} enum for the given {@link String} value.
 		 * @param value
+		 * @return the direction
 		 * @throws IllegalArgumentException in case the given value cannot be parsed into
 		 * an enum value.
-		 * @return
 		 */
 		public static Direction fromString(String value) {
 			try {

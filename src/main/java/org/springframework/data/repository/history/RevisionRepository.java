@@ -53,8 +53,8 @@ public interface RevisionRepository<T, ID, N extends Number & Comparable<N>> ext
 	 * it's not guaranteed that implementations have to support sorting by all properties.
 	 * @param id must not be {@literal null}.
 	 * @param pageable
+	 * @return the revisions
 	 * @see RevisionSort
-	 * @return
 	 */
 	Page<Revision<N, T>> findRevisions(ID id, Pageable pageable);
 

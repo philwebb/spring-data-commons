@@ -21,11 +21,11 @@ import org.springframework.data.mapping.PersistentProperty;
  * SPI to determine how to name document fields in cases the field name is not manually
  * defined.
  *
+ * @author Oliver Gierke
+ * @since 1.9
  * @see PropertyNameFieldNamingStrategy
  * @see CamelCaseAbbreviatingFieldNamingStrategy
  * @see SnakeCaseFieldNamingStrategy
- * @since 1.9
- * @author Oliver Gierke
  */
 public interface FieldNamingStrategy {
 

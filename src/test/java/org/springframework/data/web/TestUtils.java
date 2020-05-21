@@ -26,9 +26,9 @@ import org.springframework.web.context.request.ServletWebRequest;
 /**
  * General test utilities.
  *
- * @since 1.6
  * @author Oliver Gierke
  * @author Mark Paluch
+ * @since 1.6
  */
 class TestUtils {
 

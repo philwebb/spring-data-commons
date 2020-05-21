@@ -20,8 +20,8 @@ package org.springframework.data.mapping.model;
  * of the camel case parts of the
  * {@link org.springframework.data.mapping.PersistentProperty}'s name.
  *
- * @since 1.9
  * @author Oliver Gierke
+ * @since 1.9
  */
 public class CamelCaseAbbreviatingFieldNamingStrategy extends CamelCaseSplittingFieldNamingStrategy {
 

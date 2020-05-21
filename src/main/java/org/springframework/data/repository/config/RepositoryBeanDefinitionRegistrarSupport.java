@@ -106,9 +106,8 @@ public abstract class RepositoryBeanDefinitionRegistrarSupport
 	/**
 	 * Returns the {@link RepositoryConfigurationExtension} for store specific callbacks
 	 * and {@link BeanDefinition} post-processing.
-	 *
+	 * @return the extension
 	 * @see RepositoryConfigurationExtensionSupport
-	 * @return
 	 */
 	protected abstract RepositoryConfigurationExtension getExtension();
 

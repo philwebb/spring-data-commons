@@ -24,10 +24,10 @@ import org.springframework.util.Assert;
  * Base implementation of an {@link ApplicationEvent} refering to a
  * {@link PersistentEntity}.
  *
- * @author Oliver Gierke
- * @author Jon Brisbin
  * @param <E> the {@link PersistentEntity} the context was created for
  * @param <P> the {@link PersistentProperty} the {@link PersistentEntity} consists of
+ * @author Oliver Gierke
+ * @author Jon Brisbin
  */
 public class MappingContextEvent<E extends PersistentEntity<?, P>, P extends PersistentProperty<P>>
 		extends ApplicationEvent {

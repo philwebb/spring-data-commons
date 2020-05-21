@@ -19,8 +19,8 @@ package org.springframework.data.repository.config;
  * Enumeration to define in which way repositories are bootstrapped.
  *
  * @author Oliver Gierke
- * @see RepositoryConfigurationSource#getBootstrapMode()
  * @since 2.1
+ * @see RepositoryConfigurationSource#getBootstrapMode()
  */
 public enum BootstrapMode {
 

@@ -60,13 +60,12 @@ public interface MappingContext<E extends PersistentEntity<?, P>, P extends Pers
 	/**
 	 * Returns a required {@link PersistentEntity} for the given {@link Class}. Will throw
 	 * {@link IllegalArgumentException} for types that are considered simple ones.
-	 *
-	 * @see org.springframework.data.mapping.model.SimpleTypeHolder#isSimpleType(Class)
 	 * @param type must not be {@literal null}.
 	 * @return never {@literal null}.
 	 * @throws MappingException when no {@link PersistentEntity} can be found for given
 	 * {@literal type}.
 	 * @since 2.0
+	 * @see org.springframework.data.mapping.model.SimpleTypeHolder#isSimpleType(Class)
 	 */
 	default E getRequiredPersistentEntity(Class<?> type) throws MappingException {
 		E entity = getPersistentEntity(type);
@@ -101,12 +100,11 @@ public interface MappingContext<E extends PersistentEntity<?, P>, P extends Pers
 	/**
 	 * Returns a {@link PersistentEntity} for the given {@link TypeInformation}. Will
 	 * throw {@link IllegalArgumentException} for types that are considered simple ones.
-	 *
-	 * @see org.springframework.data.mapping.model.SimpleTypeHolder#isSimpleType(Class)
 	 * @param type must not be {@literal null}.
 	 * @return never {@literal null}.
 	 * @throws MappingException when no {@link PersistentEntity} can be found for given
 	 * {@link TypeInformation}.
+	 * @see org.springframework.data.mapping.model.SimpleTypeHolder#isSimpleType(Class)
 	 */
 	default E getRequiredPersistentEntity(TypeInformation<?> type) throws MappingException {
 		E entity = getPersistentEntity(type);

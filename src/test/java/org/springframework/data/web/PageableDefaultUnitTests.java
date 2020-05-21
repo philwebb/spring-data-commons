@@ -42,9 +42,9 @@ import static org.springframework.data.web.SortDefaultUnitTests.SORT_FIELDS;
  * {@link #getControllerClass()}. For sample usage see
  * {@link PageableHandlerMethodArgumentResolver}.
  *
- * @since 1.6
  * @author Oliver Gierke
  * @author Nick Williams
+ * @since 1.6
  */
 abstract class PageableDefaultUnitTests {
 

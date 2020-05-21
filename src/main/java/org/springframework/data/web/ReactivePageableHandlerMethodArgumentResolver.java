@@ -33,8 +33,8 @@ import org.springframework.web.server.ServerWebExchange;
  * parsed can be configured. Default configuration uses request parameters beginning with
  * {@link #DEFAULT_PAGE_PARAMETER}{@link #DEFAULT_QUALIFIER_DELIMITER}.
  *
- * @since 2.2
  * @author Mark Paluch
+ * @since 2.2
  */
 public class ReactivePageableHandlerMethodArgumentResolver extends PageableHandlerMethodArgumentResolverSupport
 		implements SyncHandlerMethodArgumentResolver {

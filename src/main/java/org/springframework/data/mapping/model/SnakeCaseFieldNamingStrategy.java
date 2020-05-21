@@ -19,9 +19,9 @@ package org.springframework.data.mapping.model;
  * {@link FieldNamingStrategy} that translates typical camel case Java property names to
  * lower case JSON element names, separated by underscores.
  *
- * @since 1.5
  * @author Ryan Tenney
  * @author Oliver Gierke
+ * @since 1.5
  */
 public class SnakeCaseFieldNamingStrategy extends CamelCaseSplittingFieldNamingStrategy {
 

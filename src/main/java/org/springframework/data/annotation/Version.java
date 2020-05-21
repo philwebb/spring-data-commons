@@ -28,9 +28,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Demarcates a property to be used as version field to implement optimistic locking on
  * entities.
  *
- * @since 1.5
  * @author Patryk Wasik
  * @author Oliver Gierke
+ * @since 1.5
  */
 @Documented
 @Retention(RUNTIME)

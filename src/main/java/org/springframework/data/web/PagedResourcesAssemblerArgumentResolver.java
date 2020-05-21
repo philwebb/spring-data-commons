@@ -43,10 +43,10 @@ import org.springframework.web.util.UriComponentsBuilder;
  * {@link HandlerMethodArgumentResolver} to allow injection of
  * {@link PagedResourcesAssembler} into Spring MVC controller methods.
  *
- * @since 1.6
  * @author Oliver Gierke
  * @author Nick Williams
  * @author Christoph Strobl
+ * @since 1.6
  */
 public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArgumentResolver {
 

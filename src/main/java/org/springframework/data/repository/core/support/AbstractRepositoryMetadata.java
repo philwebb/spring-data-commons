@@ -64,8 +64,8 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 	/**
 	 * Creates a new {@link RepositoryMetadata} for the given repository interface.
 	 * @param repositoryInterface must not be {@literal null}.
+	 * @return the repository metadata
 	 * @since 1.9
-	 * @return
 	 */
 	public static RepositoryMetadata getMetadata(Class<?> repositoryInterface) {
 		Assert.notNull(repositoryInterface, "Repository interface must not be null!");

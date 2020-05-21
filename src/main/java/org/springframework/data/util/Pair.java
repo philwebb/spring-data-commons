@@ -26,11 +26,11 @@ import org.springframework.util.ObjectUtils;
 /**
  * A tuple of things.
  *
+ * @param <S> Type of the first thing.
+ * @param <T> Type of the second thing.
  * @author Tobias Trelle
  * @author Oliver Gierke
  * @author Christoph Strobl
- * @param <S> Type of the first thing.
- * @param <T> Type of the second thing.
  * @since 1.12
  */
 public final class Pair<S, T> {

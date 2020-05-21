@@ -283,9 +283,9 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	/**
 	 * Returns whether the given bean is considered new according to the static metadata.
 	 * @param bean must not be {@literal null}.
-	 * @throws IllegalArgumentException in case the given bean is not an instance of the
-	 * typ represented by the {@link PersistentEntity}.
 	 * @return whether the given bean is considered a new instance.
+	 * @throws IllegalArgumentException in case the given bean is not an instance of the
+	 * type represented by the {@link PersistentEntity}.
 	 */
 	boolean isNew(Object bean);
 
@@ -294,8 +294,8 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 * to change instances via the {@link PersistentPropertyAccessor} obtained via
 	 * {@link #getPropertyAccessor(Object)}.
 	 * @return if the entity is immutable
-	 * @see Immutable
 	 * @since 2.1
+	 * @see Immutable
 	 */
 	boolean isImmutable();
 

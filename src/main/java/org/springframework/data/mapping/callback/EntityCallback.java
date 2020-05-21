@@ -57,10 +57,10 @@ package org.springframework.data.mapping.callback;
  * }
  * </pre>
  *
- * @author Mark Paluch
- * @author Christoph Strobl
  * @param <T> Entity type used to detect {@link EntityCallback callbacks} to invoke via
  * their generic type signature.
+ * @author Mark Paluch
+ * @author Christoph Strobl
  * @since 2.2
  * @see org.springframework.core.Ordered
  * @see org.springframework.core.annotation.Order

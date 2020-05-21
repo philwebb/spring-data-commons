@@ -47,10 +47,10 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUri;
  * {@link ResourceAssembler} to easily convert {@link Page} instances into
  * {@link PagedResources}.
  *
- * @since 1.6
  * @author Oliver Gierke
  * @author Nick Williams
  * @author Marcel Overdijk
+ * @since 1.6
  */
 public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<Page<T>, PagedModel<EntityModel<T>>> {
 

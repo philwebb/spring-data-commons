@@ -42,11 +42,11 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 /**
  * Unit tests for {@link SortHandlerMethodArgumentResolver}.
  *
- * @since 1.6
  * @author Oliver Gierke
  * @author Thomas Darimont
  * @author Nick Williams
  * @author Mark Paluch
+ * @since 1.6
  */
 class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 

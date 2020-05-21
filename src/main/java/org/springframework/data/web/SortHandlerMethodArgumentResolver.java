@@ -31,12 +31,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * {@link HandlerMethodArgumentResolver} to automatically create {@link Sort} instances
  * from request parameters or {@link SortDefault} annotations.
  *
- * @since 1.6
  * @author Oliver Gierke
  * @author Thomas Darimont
  * @author Nick Williams
  * @author Mark Paluch
  * @author Christoph Strobl
+ * @since 1.6
  */
 public class SortHandlerMethodArgumentResolver extends SortHandlerMethodArgumentResolverSupport
 		implements SortArgumentResolver {

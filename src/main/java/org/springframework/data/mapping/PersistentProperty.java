@@ -241,8 +241,8 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	 * Returns whether the current property is immutable, i.e. if there is no setter or
 	 * the backing {@link Field} is {@code final}.
 	 * @return if the current property is immutable
-	 * @see java.lang.reflect.Modifier#isFinal(int)
 	 * @since 2.1
+	 * @see java.lang.reflect.Modifier#isFinal(int)
 	 */
 	boolean isImmutable();
 
