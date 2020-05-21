@@ -107,7 +107,7 @@ public class Property {
 	 * creation might fail if the given property is not representing a proper property.
 	 * @param type the owning type, must not be {@literal null}.
 	 * @param descriptor must not be {@literal null}.
-	 * @return
+	 * @return the new property
 	 * @see #supportsStandalone(PropertyDescriptor)
 	 */
 	public static Property of(TypeInformation<?> type, PropertyDescriptor descriptor) {

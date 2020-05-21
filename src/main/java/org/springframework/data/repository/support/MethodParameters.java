@@ -90,7 +90,7 @@ class MethodParameters {
 	/**
 	 * Returns all parameters of the given type.
 	 * @param type must not be {@literal null}.
-	 * @return
+	 * @return the matching parameters
 	 * @since 0.9
 	 */
 	public List<MethodParameter> getParametersOfType(Class<?> type) {

@@ -182,7 +182,7 @@ public interface MappingContext<E extends PersistentEntity<?, P>, P extends Pers
 	 * be cached.
 	 * @param type must not be {@literal null}.
 	 * @param predicate must not be {@literal null}.
-	 * @return
+	 * @return all persistent property paths
 	 * @since 2.1
 	 */
 	<T> PersistentPropertyPaths<T, P> findPersistentPropertyPaths(Class<T> type, Predicate<? super P> predicate);

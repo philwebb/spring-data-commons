@@ -156,7 +156,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 	/**
 	 * Allocates an object array for instance creation.
 	 * @param argumentCount
-	 * @return
+	 * @return the allocated array
 	 * @since 2.0
 	 */
 	static Object[] allocateArguments(int argumentCount) {

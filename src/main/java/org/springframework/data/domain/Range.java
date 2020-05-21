@@ -50,7 +50,7 @@ public final class Range<T extends Comparable<T>> {
 
 	/**
 	 * Returns an unbounded {@link Range}.
-	 * @return
+	 * @return an unbounded range
 	 * @since 2.0
 	 */
 	@SuppressWarnings("unchecked")
@@ -63,7 +63,7 @@ public final class Range<T extends Comparable<T>> {
 	 * @param <T>
 	 * @param from must not be {@literal null}.
 	 * @param to must not be {@literal null}.
-	 * @return
+	 * @return the bounded range
 	 * @since 2.2
 	 */
 	public static <T extends Comparable<T>> Range<T> closed(T from, T to) {
@@ -75,7 +75,7 @@ public final class Range<T extends Comparable<T>> {
 	 * @param <T>
 	 * @param from must not be {@literal null}.
 	 * @param to must not be {@literal null}.
-	 * @return
+	 * @return the bounded range
 	 * @since 2.2
 	 */
 	public static <T extends Comparable<T>> Range<T> open(T from, T to) {
@@ -87,7 +87,7 @@ public final class Range<T extends Comparable<T>> {
 	 * @param <T>
 	 * @param from must not be {@literal null}.
 	 * @param to must not be {@literal null}.
-	 * @return
+	 * @return the bounded range
 	 * @since 2.2
 	 */
 	public static <T extends Comparable<T>> Range<T> leftOpen(T from, T to) {
@@ -99,7 +99,7 @@ public final class Range<T extends Comparable<T>> {
 	 * @param <T>
 	 * @param from must not be {@literal null}.
 	 * @param to must not be {@literal null}.
-	 * @return
+	 * @return the bounded range
 	 * @since 2.2
 	 */
 	public static <T extends Comparable<T>> Range<T> rightOpen(T from, T to) {
@@ -111,7 +111,7 @@ public final class Range<T extends Comparable<T>> {
 	 * {@link Bound#unbounded()}) with the given right bound.
 	 * @param <T>
 	 * @param to the right {@link Bound}, must not be {@literal null}.
-	 * @return
+	 * @return the range
 	 * @since 2.2
 	 */
 	public static <T extends Comparable<T>> Range<T> leftUnbounded(Bound<T> to) {
@@ -123,7 +123,7 @@ public final class Range<T extends Comparable<T>> {
 	 * {@link Bound#unbounded()}) with the given left bound.
 	 * @param <T>
 	 * @param from the left {@link Bound}, must not be {@literal null}.
-	 * @return
+	 * @return the range
 	 * @since 2.2
 	 */
 	public static <T extends Comparable<T>> Range<T> rightUnbounded(Bound<T> from) {
@@ -133,7 +133,7 @@ public final class Range<T extends Comparable<T>> {
 	/**
 	 * Create a {@link RangeBuilder} given the lower {@link Bound}.
 	 * @param lower must not be {@literal null}.
-	 * @return
+	 * @return the range
 	 * @since 2.0
 	 */
 	public static <T extends Comparable<T>> RangeBuilder<T> from(Bound<T> lower) {

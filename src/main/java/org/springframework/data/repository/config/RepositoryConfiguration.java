@@ -39,7 +39,7 @@ public interface RepositoryConfiguration<T extends RepositoryConfigurationSource
 
 	/**
 	 * Returns the base packages to scan for repository implementations.
-	 * @return
+	 * @return the base packages
 	 * @since 2.0
 	 */
 	Streamable<String> getImplementationBasePackages();
@@ -67,7 +67,7 @@ public interface RepositoryConfiguration<T extends RepositoryConfigurationSource
 	/**
 	 * Returns the name of the repository base class to be used or {@literal null} if the
 	 * store specific defaults shall be applied.
-	 * @return
+	 * @return the repository base class name
 	 * @since 1.11
 	 */
 	Optional<String> getRepositoryBaseClassName();

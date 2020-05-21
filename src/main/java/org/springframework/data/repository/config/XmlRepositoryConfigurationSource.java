@@ -201,7 +201,7 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	 * {@literal null} or it's {@link DefaultBeanNameGenerator} in particular. This is to
 	 * make sure we only use the given {@link BeanNameGenerator} if it was customized.
 	 * @param generator can be {@literal null}.
-	 * @return
+	 * @return the bean name generator to use
 	 * @since 2.2
 	 */
 	private static BeanNameGenerator defaultBeanNameGenerator(@Nullable BeanNameGenerator generator) {

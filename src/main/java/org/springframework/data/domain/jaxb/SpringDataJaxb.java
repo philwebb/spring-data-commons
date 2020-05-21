@@ -115,7 +115,7 @@ public abstract class SpringDataJaxb {
 	 * {@link XmlAdapter}.
 	 * @param source
 	 * @param adapter must not be {@literal null}.
-	 * @return
+	 * @return the unmarshalled elements
 	 * @throws Exception
 	 */
 	public static <T, S> List<T> unmarshal(Collection<S> source, XmlAdapter<S, T> adapter) {
@@ -140,7 +140,7 @@ public abstract class SpringDataJaxb {
 	 * {@link XmlAdapter}.
 	 * @param source
 	 * @param adapter must not be {@literal null}.
-	 * @return
+	 * @return the mashalled elements
 	 * @throws Exception
 	 */
 	public static <T, S> List<S> marshal(@Nullable Iterable<T> source, XmlAdapter<S, T> adapter) {

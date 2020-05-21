@@ -64,7 +64,7 @@ public interface Example<T> {
 	/**
 	 * Get the actual type for the probe used. This is usually the given class, but the
 	 * original class in case of a CGLIB-generated subclass.
-	 * @return
+	 * @return the probe type
 	 * @see ProxyUtils#getUserClass(Class)
 	 */
 	@SuppressWarnings("unchecked")

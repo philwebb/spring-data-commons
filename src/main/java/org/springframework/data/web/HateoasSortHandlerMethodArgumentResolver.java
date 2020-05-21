@@ -45,7 +45,7 @@ public class HateoasSortHandlerMethodArgumentResolver extends SortHandlerMethodA
 	/**
 	 * Returns the template variables for the sort parameter.
 	 * @param parameter must not be {@literal null}.
-	 * @return
+	 * @return the template variables
 	 * @since 1.7
 	 */
 	public TemplateVariables getSortTemplateVariables(MethodParameter parameter, UriComponents template) {

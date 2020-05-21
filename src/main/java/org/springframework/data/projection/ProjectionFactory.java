@@ -57,7 +57,7 @@ public interface ProjectionFactory {
 	/**
 	 * Returns the {@link ProjectionInformation} for the given projection type.
 	 * @param projectionType must not be {@literal null}.
-	 * @return
+	 * @return the projection information
 	 * @since 1.12
 	 */
 	ProjectionInformation getProjectionInformation(Class<?> projectionType);

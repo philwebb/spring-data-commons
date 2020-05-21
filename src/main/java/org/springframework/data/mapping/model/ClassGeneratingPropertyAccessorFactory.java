@@ -1125,7 +1125,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 * (Ljava/lang/Object)I for a method accepting {@link Object} and returning a
 		 * primitive {@code int}).
 		 * @param method
-		 * @return
+		 * @return the argument signature
 		 * @since 2.1
 		 */
 		private static String getArgumentSignature(Method method) {

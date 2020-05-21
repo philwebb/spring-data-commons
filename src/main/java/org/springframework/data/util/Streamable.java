@@ -87,7 +87,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * Returns a new {@link Streamable} that will apply the given {@link Function} to the
 	 * current one.
 	 * @param mapper must not be {@literal null}.
-	 * @return
+	 * @return the streamable
 	 * @see Stream#map(Function)
 	 */
 	default <R> Streamable<R> map(Function<? super T, ? extends R> mapper) {
@@ -99,7 +99,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * Returns a new {@link Streamable} that will apply the given {@link Function} to the
 	 * current one.
 	 * @param mapper must not be {@literal null}.
-	 * @return
+	 * @return the streamable
 	 * @see Stream#flatMap(Function)
 	 */
 	default <R> Streamable<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper) {
@@ -111,7 +111,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * Returns a new {@link Streamable} that will apply the given filter {@link Predicate}
 	 * to the current one.
 	 * @param predicate must not be {@literal null}.
-	 * @return
+	 * @return the streamable
 	 * @see Stream#filter(Predicate)
 	 */
 	default Streamable<T> filter(Predicate<? super T> predicate) {
@@ -131,7 +131,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * Creates a new {@link Streamable} from the current one and the given {@link Stream}
 	 * concatenated.
 	 * @param stream must not be {@literal null}.
-	 * @return
+	 * @return the streamable
 	 * @since 2.1
 	 */
 	default Streamable<T> and(Supplier<? extends Stream<? extends T>> stream) {
@@ -201,7 +201,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	/**
 	 * A collector to easily produce a {@link Streamable} from a {@link Stream} using
 	 * {@link Collectors#toList} as intermediate collector.
-	 * @return
+	 * @return the collector
 	 * @see #toStreamable(Collector)
 	 * @since 2.2
 	 */
@@ -212,7 +212,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	/**
 	 * A collector to easily produce a {@link Streamable} from a {@link Stream} and the
 	 * given intermediate collector.
-	 * @return
+	 * @return the collector
 	 * @since 2.2
 	 */
 	@SuppressWarnings("unchecked")

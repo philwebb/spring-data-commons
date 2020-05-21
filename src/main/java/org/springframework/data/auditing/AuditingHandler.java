@@ -59,7 +59,7 @@ public class AuditingHandler implements InitializingBean {
 	 * when looking up auditing metadata via reflection.
 	 * @param mappingContext must not be {@literal null}.
 	 * @since 1.8
-	 * @deprecated use {@link AuditingHandler(PersistentEntities)} instead.
+	 * @deprecated use {@link #AuditingHandler(PersistentEntities)} instead.
 	 */
 	@Deprecated
 	public AuditingHandler(

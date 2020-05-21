@@ -81,7 +81,7 @@ public interface RepositoryMetadata {
 	/**
 	 * Returns whether the repository is a reactive one, i.e. if it uses reactive types in
 	 * one of its methods.
-	 * @return
+	 * @return if the repository is reactive
 	 * @since 2.0
 	 */
 	boolean isReactiveRepository();

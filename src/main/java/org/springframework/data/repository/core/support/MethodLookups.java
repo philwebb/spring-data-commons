@@ -234,7 +234,7 @@ interface MethodLookups {
 		 * which the declared parameter may be wrapped but supports unwrapping. Usually
 		 * types like {@link Optional} or {@link java.util.stream.Stream}.
 		 * @param repositoryInterface
-		 * @return
+		 * @return the predicate
 		 * @see QueryExecutionConverters
 		 * @see #matchesGenericType
 		 */

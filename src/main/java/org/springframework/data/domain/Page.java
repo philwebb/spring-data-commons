@@ -29,7 +29,7 @@ public interface Page<T> extends Slice<T> {
 
 	/**
 	 * Creates a new empty {@link Page}.
-	 * @return
+	 * @return an empty page
 	 * @since 2.0
 	 */
 	static <T> Page<T> empty() {
@@ -39,7 +39,7 @@ public interface Page<T> extends Slice<T> {
 	/**
 	 * Creates a new empty {@link Page} for the given {@link Pageable}.
 	 * @param pageable must not be {@literal null}.
-	 * @return
+	 * @return the page instance
 	 * @since 2.0
 	 */
 	static <T> Page<T> empty(Pageable pageable) {

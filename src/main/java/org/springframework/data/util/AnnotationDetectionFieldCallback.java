@@ -70,7 +70,7 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 
 	/**
 	 * Returns the field that was detected.
-	 * @return
+	 * @return the field
 	 * @throws IllegalStateException in case no field with the configured annotation was
 	 * found.
 	 */
@@ -95,7 +95,7 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 	/**
 	 * Returns the type of the field or throws an {@link IllegalArgumentException} if no
 	 * field could be found.
-	 * @return
+	 * @return the type
 	 * @throws IllegalStateException in case no field with the configured annotation was
 	 * found.
 	 */

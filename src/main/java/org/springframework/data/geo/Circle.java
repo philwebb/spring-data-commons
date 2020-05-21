@@ -52,7 +52,7 @@ public class Circle implements Shape {
 	/**
 	 * Creates a new {@link Circle} from the given {@link Point} and radius.
 	 * @param center must not be {@literal null}.
-	 * @param radius's value must be greater or equal to zero.
+	 * @param radius the radius value (must be greater or equal to zero).
 	 */
 	public Circle(Point center, double radius) {
 		this(center, new Distance(radius));

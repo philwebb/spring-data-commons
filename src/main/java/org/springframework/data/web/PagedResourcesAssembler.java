@@ -139,11 +139,11 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	/**
-	 * Creates a {@link PagedResources} with an empt collection {@link EmbeddedWrapper}
+	 * Creates a {@link PagedResources} with an empty collection {@link EmbeddedWrapper}
 	 * for the given domain type.
 	 * @param page must not be {@literal null}, content must be empty.
 	 * @param type must not be {@literal null}.
-	 * @return
+	 * @return the paged model
 	 * @since 2.0
 	 */
 	public PagedModel<?> toEmptyModel(Page<?> page, Class<?> type) {
@@ -156,7 +156,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	 * @param page must not be {@literal null}, content must be empty.
 	 * @param type must not be {@literal null}.
 	 * @param link must not be {@literal null}.
-	 * @return
+	 * @return the paged model
 	 * @since 1.11
 	 */
 	public PagedModel<?> toEmptyModel(Page<?> page, Class<?> type, Link link) {
@@ -253,7 +253,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	 * Return the {@link MethodParameter} to be used to potentially qualify the paging and
 	 * sorting request parameters to. Default implementations returns {@literal null},
 	 * which means the parameters will not be qualified.
-	 * @return
+	 * @return the method parameter
 	 * @since 1.7
 	 */
 	@Nullable

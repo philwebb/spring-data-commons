@@ -358,7 +358,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * {@link ConfigurationClassPostProcessor}'s {@code importBeanNameGenerator}. This is
 	 * to make sure we only use the given {@link BeanNameGenerator} if it was customized.
 	 * @param generator can be {@literal null}.
-	 * @return
+	 * @return the bean name generator
 	 * @since 2.2
 	 */
 	private static BeanNameGenerator defaultBeanNameGenerator(@Nullable BeanNameGenerator generator) {

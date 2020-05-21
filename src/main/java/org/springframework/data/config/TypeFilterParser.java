@@ -186,7 +186,7 @@ public class TypeFilterParser {
 		 * {@link ClassLoader}.
 		 * @param expression
 		 * @param classLoader
-		 * @return
+		 * @return the type filter
 		 * @throws ClassNotFoundException
 		 */
 		abstract TypeFilter getFilter(String expression, ClassLoader classLoader) throws ClassNotFoundException;
@@ -194,7 +194,7 @@ public class TypeFilterParser {
 		/**
 		 * Returns the {@link FilterType} for the given type as {@link String}.
 		 * @param typeString
-		 * @return
+		 * @return the filter type
 		 * @throws IllegalArgumentException if no {@link FilterType} could be found for
 		 * the given argument.
 		 */

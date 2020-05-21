@@ -60,7 +60,7 @@ public interface StreamUtils {
 	 * Returns a {@link Stream} backed by the given {@link CloseableIterator} and
 	 * forwarding calls to {@link Stream#close()} to the iterator.
 	 * @param iterator must not be {@literal null}.
-	 * @return
+	 * @return the stream
 	 * @since 2.0
 	 */
 	public static <T> Stream<T> createStreamFromIterator(CloseableIterator<T> iterator) {
@@ -115,7 +115,7 @@ public interface StreamUtils {
 	 * @param left must not be {@literal null}.
 	 * @param right must not be {@literal null}.
 	 * @param combiner must not be {@literal null}.
-	 * @return
+	 * @return the zip stream
 	 * @since 2.1
 	 */
 	public static <L, R, T> Stream<T> zip(Stream<L> left, Stream<R> right, BiFunction<L, R, T> combiner) {

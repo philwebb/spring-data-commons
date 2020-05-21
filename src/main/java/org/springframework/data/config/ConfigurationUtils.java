@@ -32,7 +32,7 @@ public interface ConfigurationUtils {
 	/**
 	 * Returns the {@link ResourceLoader} from the given {@link XmlReaderContext}.
 	 * @param context must not be {@literal null}.
-	 * @return
+	 * @return the resource loader
 	 * @throws IllegalArgumentException if no {@link ResourceLoader} can be obtained from
 	 * the {@link XmlReaderContext}.
 	 */
@@ -48,7 +48,7 @@ public interface ConfigurationUtils {
 	/**
 	 * Returns the {@link ClassLoader} used by the given {@link XmlReaderContext}.
 	 * @param context must not be {@literal null}.
-	 * @return
+	 * @return the class loader
 	 * @throws IllegalArgumentException if no {@link ClassLoader} can be obtained from the
 	 * given {@link XmlReaderContext}.
 	 */
@@ -59,7 +59,7 @@ public interface ConfigurationUtils {
 	/**
 	 * Returns the {@link ClassLoader} used by the given {@link ResourceLoader}.
 	 * @param resourceLoader must not be {@literal null}.
-	 * @return
+	 * @return the class loader
 	 * @throws IllegalArgumentException if the given {@link ResourceLoader} does not
 	 * expose a {@link ClassLoader}.
 	 */
@@ -75,7 +75,7 @@ public interface ConfigurationUtils {
 	/**
 	 * Returns the bean class name of the given {@link BeanDefinition}.
 	 * @param beanDefinition must not be {@literal null}.
-	 * @return
+	 * @return the bean class name
 	 * @throws IllegalArgumentException if the given {@link BeanDefinition} does not
 	 * contain a bean class name.
 	 */

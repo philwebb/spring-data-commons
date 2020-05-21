@@ -45,7 +45,7 @@ public interface RepositoryConfigurationExtension {
 	 * @param strictMatchesOnly whether to return strict repository matches only. Handing
 	 * in {@literal true} will cause the repository interfaces and domain types handled to
 	 * be checked whether they are managed by the current store.
-	 * @return
+	 * @return the repository configurations
 	 * @since 1.9
 	 */
 	<T extends RepositoryConfigurationSource> Collection<RepositoryConfiguration<T>> getRepositoryConfigurations(

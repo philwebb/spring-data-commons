@@ -286,7 +286,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 * {@link CdiRepositoryConfiguration}.
 	 * @param factorySupplier must not be {@literal null}.
 	 * @param repositoryType must not be {@literal null}.
-	 * @return
+	 * @return the component instance
 	 * @since 2.1
 	 */
 	protected T create(Supplier<? extends RepositoryFactorySupport> factorySupplier, Class<T> repositoryType) {
@@ -348,7 +348,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 * @param creationalContext will never be {@literal null}.
 	 * @param repositoryType will never be {@literal null}.
 	 * @param customImplementation can be {@literal null}.
-	 * @return
+	 * @return the component instance
 	 * @deprecated since 2.1, override {@link #create(CreationalContext, Class)} in which
 	 * you create a repository factory and call
 	 * {@link #create(RepositoryFactorySupport, Class, RepositoryFragments)}.

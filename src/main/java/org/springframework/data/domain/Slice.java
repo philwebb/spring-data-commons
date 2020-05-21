@@ -92,7 +92,7 @@ public interface Slice<T> extends Streamable<T> {
 
 	/**
 	 * Returns the {@link Pageable} that's been used to request the current {@link Slice}.
-	 * @return
+	 * @return the pageable used to request the current slice
 	 * @since 2.0
 	 */
 	default Pageable getPageable() {
@@ -103,7 +103,7 @@ public interface Slice<T> extends Streamable<T> {
 	 * Returns the {@link Pageable} to request the next {@link Slice}. Can be
 	 * {@link Pageable#unpaged()} in case the current {@link Slice} is already the last
 	 * one. Clients should check {@link #hasNext()} before calling this method.
-	 * @return
+	 * @return the next pageable
 	 * @see #nextOrLastPageable()
 	 */
 	Pageable nextPageable();
@@ -112,7 +112,7 @@ public interface Slice<T> extends Streamable<T> {
 	 * Returns the {@link Pageable} to request the previous {@link Slice}. Can be
 	 * {@link Pageable#unpaged()} in case the current {@link Slice} is already the first
 	 * one. Clients should check {@link #hasPrevious()} before calling this method.
-	 * @return
+	 * @return the previous pageable
 	 * @see #previousPageable()
 	 */
 	Pageable previousPageable();
@@ -131,7 +131,7 @@ public interface Slice<T> extends Streamable<T> {
 	/**
 	 * Returns the {@link Pageable} describing the next slice or the one describing the
 	 * current slice in case it's the last one.
-	 * @return
+	 * @return the next or last pageable
 	 * @since 2.2
 	 */
 	default Pageable nextOrLastPageable() {
@@ -141,7 +141,7 @@ public interface Slice<T> extends Streamable<T> {
 	/**
 	 * Returns the {@link Pageable} describing the previous slice or the one describing
 	 * the current slice in case it's the first one.
-	 * @return
+	 * @return the previous or first pageable
 	 * @since 2.2
 	 */
 	default Pageable previousOrFirstPageable() {

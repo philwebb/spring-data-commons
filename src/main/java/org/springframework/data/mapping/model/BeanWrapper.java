@@ -100,7 +100,7 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 	 * @param <S>
 	 * @param property must not be {@literal null}.
 	 * @param type can be {@literal null}.
-	 * @return
+	 * @return the property value
 	 * @throws MappingException in case an exception occured when accessing the property.
 	 */
 	@Nullable

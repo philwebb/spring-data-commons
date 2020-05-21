@@ -89,7 +89,7 @@ public class CdiRepositoryContext {
 	/**
 	 * Load a {@link Class} using the CDI {@link ClassLoader}.
 	 * @param className
-	 * @return
+	 * @return the loaded class
 	 * @throws UnsatisfiedResolutionException if the class cannot be found.
 	 */
 	Class<?> loadClass(String className) {

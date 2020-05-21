@@ -266,7 +266,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 * providing implementation logic for custom logic.
 	 * @param repositoryInterface must not be {@literal null}.
 	 * @param fragments must not be {@literal null}.
-	 * @return
+	 * @return the repository instance
 	 * @since 2.0
 	 */
 	@SuppressWarnings({ "unchecked" })

@@ -101,7 +101,7 @@ public interface PersistentPropertyAccessor<T> {
 	 * Return the value pointed to by the given {@link PersistentPropertyPath}. If the
 	 * given path is empty, the wrapped bean is returned.
 	 * @param path must not be {@literal null}.
-	 * @return
+	 * @return the property value
 	 * @since 2.1
 	 * @deprecated since 2.3, use
 	 * {@link PersistentPropertyPathAccessor#getProperty(PersistentPropertyPath)} instead
@@ -120,7 +120,7 @@ public interface PersistentPropertyAccessor<T> {
 	 * are encountered during the traversal.
 	 * @param path must not be {@literal null}.
 	 * @param context must not be {@literal null}.
-	 * @return
+	 * @return the property value
 	 * @since 2.2
 	 * @deprecated since 2.3, use
 	 * {@link PersistentPropertyPathAccessor#getProperty(PersistentPropertyPath, org.springframework.data.mapping.AccessOptions.GetOptions)}

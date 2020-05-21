@@ -131,7 +131,7 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 * Return the annotations to scan domain types for when evaluating repository
 	 * interfaces for store assignment. Modules should return the annotations that
 	 * identify a domain type as managed by the store explicitly.
-	 * @return
+	 * @return the identifying annotations
 	 * @since 1.9
 	 */
 	protected Collection<Class<? extends Annotation>> getIdentifyingAnnotations() {
@@ -141,7 +141,7 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	/**
 	 * Returns the types that indicate a store match when inspecting repositories for
 	 * strict matches.
-	 * @return
+	 * @return the identifying types
 	 * @since 1.9
 	 */
 	protected Collection<Class<?>> getIdentifyingTypes() {
@@ -257,7 +257,7 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 * discarded. Implementations should make sure, the only return {@literal true} if
 	 * they're really sure the interface handed to the method is really a store interface.
 	 * @param metadata
-	 * @return
+	 * @return if the metadata is a strict repository candidate
 	 * @since 1.9
 	 */
 	protected boolean isStrictRepositoryCandidate(RepositoryMetadata metadata) {

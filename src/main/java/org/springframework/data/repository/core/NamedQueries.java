@@ -27,7 +27,7 @@ public interface NamedQueries {
 	 * returns {@literal true} you can expect {@link #getQuery(String)} to return a
 	 * non-{@literal null} query for the very same name.
 	 * @param queryName must not be {@literal null} or empty.
-	 * @return
+	 * @return if the map contains the named query
 	 * @throws IllegalArgumentException in case the given name is {@literal null} or
 	 * empty.
 	 */
@@ -36,7 +36,7 @@ public interface NamedQueries {
 	/**
 	 * Returns the named query with the given name.
 	 * @param queryName must not be {@literal null} or empty.
-	 * @return
+	 * @return the named query
 	 * @throws IllegalArgumentException in case no query with the given name exists.
 	 */
 	String getQuery(String queryName);

@@ -96,7 +96,7 @@ class OrderBySource {
 	 * @param propertySource
 	 * @param direction must not be {@literal null}.
 	 * @param domainClass must not be {@literal null}.
-	 * @return
+	 * @return the new order instance
 	 * @see PropertyPath#from(String, Class)
 	 */
 	private Order createOrder(String propertySource, Optional<Direction> direction, Optional<Class<?>> domainClass) {

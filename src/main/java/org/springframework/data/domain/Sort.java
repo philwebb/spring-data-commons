@@ -117,7 +117,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	/**
 	 * Creates a new {@link TypedSort} for the given type.
 	 * @param type must not be {@literal null}.
-	 * @return
+	 * @return the type sort
 	 * @since 2.2
 	 */
 	public static <T> TypedSort<T> sort(Class<T> type) {
@@ -235,7 +235,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		/**
 		 * Returns whether the direction is ascending.
-		 * @return
+		 * @return if the direction is ascending
 		 * @since 1.13
 		 */
 		public boolean isAscending() {
@@ -244,7 +244,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		/**
 		 * Returns whether the direction is descending.
-		 * @return
+		 * @return if the direction is descending
 		 * @since 1.13
 		 */
 		public boolean isDescending() {
@@ -432,7 +432,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		/**
 		 * Returns whether sorting for this property shall be descending.
-		 * @return
+		 * @return if descending
 		 * @since 1.13
 		 */
 		public boolean isDescending() {
@@ -459,7 +459,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		/**
 		 * Returns a new {@link Order}
 		 * @param property must not be {@literal null} or empty.
-		 * @return
+		 * @return a new order with the specified property
 		 * @since 1.13
 		 */
 		public Order withProperty(String property) {
@@ -486,7 +486,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		/**
 		 * Returns a {@link Order} with the given {@link NullHandling}.
 		 * @param nullHandling can be {@literal null}.
-		 * @return
+		 * @return a new order with the specified null handling
 		 * @since 1.8
 		 */
 		public Order with(NullHandling nullHandling) {
@@ -496,7 +496,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		/**
 		 * Returns a {@link Order} with {@link NullHandling#NULLS_FIRST} as null handling
 		 * hint.
-		 * @return
+		 * @return a new order with nulls first ordering
 		 * @since 1.8
 		 */
 		public Order nullsFirst() {
@@ -506,7 +506,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		/**
 		 * Returns a {@link Order} with {@link NullHandling#NULLS_LAST} as null handling
 		 * hint.
-		 * @return
+		 * @return a new order with nulls last ordering
 		 * @since 1.7
 		 */
 		public Order nullsLast() {
@@ -515,7 +515,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		/**
 		 * Returns a {@link Order} with {@link NullHandling#NATIVE} as null handling hint.
-		 * @return
+		 * @return a new order with nulls native ordering
 		 * @since 1.7
 		 */
 		public Order nullsNative() {
@@ -525,7 +525,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		/**
 		 * Returns the used {@link NullHandling} hint, which can but may not be respected
 		 * by the used datastore.
-		 * @return
+		 * @return a new order with null handling
 		 * @since 1.7
 		 */
 		public NullHandling getNullHandling() {

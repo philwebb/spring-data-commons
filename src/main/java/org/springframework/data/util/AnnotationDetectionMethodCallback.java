@@ -75,7 +75,7 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 
 	/**
 	 * Returns the method with the configured annotation.
-	 * @return
+	 * @return the method
 	 * @throws IllegalStateException in case no method with the configured annotation was
 	 * found.
 	 */

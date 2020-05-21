@@ -276,7 +276,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	/**
 	 * Returns the next {@link PropertyPath}.
-	 * @return
+	 * @return the next path
 	 * @throws IllegalStateException it there's no next one.
 	 */
 	private PropertyPath requiredNext() {

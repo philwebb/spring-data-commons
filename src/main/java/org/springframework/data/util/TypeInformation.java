@@ -53,7 +53,7 @@ public interface TypeInformation<S> {
 	 * {@link IllegalArgumentException} if the type information cannot be resolved.
 	 * Supports property traversal through dot notation.
 	 * @param property
-	 * @return
+	 * @return the property information
 	 * @throws IllegalArgumentException if the type information cannot be resolved.
 	 * @since 2.0
 	 */
@@ -88,7 +88,7 @@ public interface TypeInformation<S> {
 	 * Returns the component type for {@link java.util.Collection}s, the key type for
 	 * {@link java.util.Map}s or the single generic type if available. Throws
 	 * {@link IllegalStateException} if the component value type cannot be resolved.
-	 * @return
+	 * @return the component type
 	 * @throws IllegalStateException if the component type cannot be resolved, e.g. if a
 	 * raw type is used or the type is not generic in the first place.
 	 * @since 2.0
@@ -121,7 +121,7 @@ public interface TypeInformation<S> {
 	 * Will return the type of the value in case the underlying type is a
 	 * {@link java.util.Map} or throw {@link IllegalStateException} if the map value type
 	 * cannot be resolved.
-	 * @return
+	 * @return the map value type
 	 * @throws IllegalStateException if the map value type cannot be resolved, usually due
 	 * to the current {@link java.util.Map} type being a raw one.
 	 * @since 2.0
@@ -162,7 +162,7 @@ public interface TypeInformation<S> {
 	 * Transparently returns the {@link java.util.Map} value type if the type is a
 	 * {@link java.util.Map}, returns the component type if the type
 	 * {@link #isCollectionLike()} or the simple type if none of this applies.
-	 * @return
+	 * @return the actual type
 	 * @throws IllegalArgumentException if the current type is a raw {@link java.util.Map}
 	 * or {@link java.util.Collection} and no value or component type is available.
 	 * @since 2.0
@@ -250,7 +250,7 @@ public interface TypeInformation<S> {
 	 * Returns whether the current type is a sub type of the given one, i.e. whether it's
 	 * assignable but not the same one.
 	 * @param type must not be {@literal null}.
-	 * @return
+	 * @return if the current type is a subtype of the given class
 	 * @since 2.2
 	 */
 	default boolean isSubTypeOf(Class<?> type) {

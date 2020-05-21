@@ -50,7 +50,7 @@ public interface ImplementationLookupConfiguration extends ImplementationDetecti
 	 * one required. Will be used to disambiguate between multiple {@link BeanDefinition}s
 	 * matching in general.
 	 * @param definition must not be {@literal null}.
-	 * @return
+	 * @return if the bean definition has a matching bean name
 	 * @see #matches(BeanDefinition)
 	 */
 	boolean hasMatchingBeanName(BeanDefinition definition);

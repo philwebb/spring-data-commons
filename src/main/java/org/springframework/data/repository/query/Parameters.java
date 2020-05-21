@@ -249,7 +249,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	/**
 	 * Returns a {@link Parameters} instance with effectively all special parameters
 	 * removed.
-	 * @return
+	 * @return the bindable parameters
 	 * @see Parameter#TYPES
 	 * @see Parameter#isSpecialParameter()
 	 */

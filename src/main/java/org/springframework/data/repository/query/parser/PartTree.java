@@ -132,7 +132,7 @@ public class PartTree implements Streamable<OrPart> {
 
 	/**
 	 * Returns whether an exists projection shall be applied.
-	 * @return
+	 * @return if the exists projection shall be applied
 	 * @since 1.13
 	 */
 	public boolean isExistsProjection() {
@@ -142,7 +142,7 @@ public class PartTree implements Streamable<OrPart> {
 	/**
 	 * return true if the created {@link PartTree} is meant to be used for delete
 	 * operation.
-	 * @return
+	 * @return if for a delete operation
 	 * @since 1.8
 	 */
 	public boolean isDelete() {
@@ -152,7 +152,7 @@ public class PartTree implements Streamable<OrPart> {
 	/**
 	 * Return {@literal true} if the create {@link PartTree} is meant to be used for a
 	 * query with limited maximal results.
-	 * @return
+	 * @return if limits maximal results
 	 * @since 1.9
 	 */
 	public boolean isLimiting() {
@@ -287,7 +287,7 @@ public class PartTree implements Streamable<OrPart> {
 
 		/**
 		 * @param subject
-		 * @return
+		 * @return the maximum results or null
 		 * @since 1.9
 		 */
 		private Optional<Integer> returnMaxResultsIfFirstKSubjectOrNull(Optional<String> subject) {
@@ -303,7 +303,7 @@ public class PartTree implements Streamable<OrPart> {
 
 		/**
 		 * Returns {@literal true} if {@link Subject} matches {@link #DELETE_BY_TEMPLATE}.
-		 * @return
+		 * @return if the subject is matches {@link #DELETE_BY_TEMPLATE}
 		 * @since 1.8
 		 */
 		public boolean isDelete() {
@@ -316,7 +316,7 @@ public class PartTree implements Streamable<OrPart> {
 
 		/**
 		 * Returns {@literal true} if {@link Subject} matches {@link #EXISTS_BY_TEMPLATE}.
-		 * @return
+		 * @return if the subject matches {@link #EXISTS_BY_TEMPLATE}.
 		 * @since 1.13
 		 */
 		public boolean isExistsProjection() {

@@ -79,7 +79,7 @@ public class Lazy<T> implements Supplier<T> {
 
 	/**
 	 * Creates a pre-resolved empty {@link Lazy}.
-	 * @return
+	 * @return an empty {@link Lazy} instance
 	 * @since 2.1
 	 */
 	@SuppressWarnings("unchecked")
@@ -182,7 +182,7 @@ public class Lazy<T> implements Supplier<T> {
 
 	/**
 	 * Returns the value of the lazy evaluation.
-	 * @return
+	 * @return the value
 	 * @since 2.2
 	 */
 	@Nullable

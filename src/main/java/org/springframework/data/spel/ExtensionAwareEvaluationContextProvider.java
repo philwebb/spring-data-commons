@@ -147,7 +147,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	}
 
 	/**
-	 * @see 1.9
+	 * @since 1.9
 	 */
 	private class ExtensionAwarePropertyAccessor implements PropertyAccessor, MethodResolver {
 

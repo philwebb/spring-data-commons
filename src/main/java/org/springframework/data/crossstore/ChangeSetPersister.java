@@ -40,7 +40,7 @@ public interface ChangeSetPersister<K> {
 	 * Return id
 	 * @param entity
 	 * @param cs
-	 * @return
+	 * @return the persistent ID
 	 * @throws DataAccessException
 	 */
 	K getPersistentId(ChangeSetBacked entity, ChangeSet cs) throws DataAccessException;
@@ -49,7 +49,7 @@ public interface ChangeSetPersister<K> {
 	 * Return key
 	 * @param entity
 	 * @param cs Key may be null if not persistent
-	 * @return
+	 * @return the persistent state
 	 * @throws DataAccessException
 	 */
 	K persistState(ChangeSetBacked entity, ChangeSet cs) throws DataAccessException;

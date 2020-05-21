@@ -94,7 +94,7 @@ public class RepositoryComposition {
 
 	/**
 	 * Create a {@link RepositoryComposition} for just a single {@code implementation}
-	 * with {@link MethodLookups#direct()) method lookup.
+	 * with {@link MethodLookups#direct()} method lookup.
 	 * @param implementation must not be {@literal null}.
 	 * @return the {@link RepositoryComposition} for a single {@code implementation}.
 	 */
@@ -105,7 +105,7 @@ public class RepositoryComposition {
 
 	/**
 	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments}
-	 * with {@link MethodLookups#direct()) method lookup.
+	 * with {@link MethodLookups#direct()} method lookup.
 	 * @param fragments must not be {@literal null}.
 	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment
 	 * fragments}.
@@ -116,7 +116,7 @@ public class RepositoryComposition {
 
 	/**
 	 * Create a {@link RepositoryComposition} from {@link RepositoryFragment fragments}
-	 * with {@link MethodLookups#direct()) method lookup.
+	 * with {@link MethodLookups#direct()} method lookup.
 	 * @param fragments must not be {@literal null}.
 	 * @return the {@link RepositoryComposition} from {@link RepositoryFragment
 	 * fragments}.
@@ -128,7 +128,7 @@ public class RepositoryComposition {
 
 	/**
 	 * Create a {@link RepositoryComposition} from {@link RepositoryFragments} and
-	 * {@link RepositoryMetadata} with {@link MethodLookups#direct()) method lookup.
+	 * {@link RepositoryMetadata} with {@link MethodLookups#direct()} method lookup.
 	 * @param fragments must not be {@literal null}.
 	 * @return the {@link RepositoryComposition} from {@link RepositoryFragments
 	 * fragments}.
@@ -194,7 +194,7 @@ public class RepositoryComposition {
 	 * {@link RepositoryFragment}.
 	 * @param method
 	 * @param args
-	 * @return
+	 * @return the method result
 	 * @throws Throwable
 	 */
 	public Object invoke(Method method, Object... args) throws Throwable {
@@ -220,7 +220,7 @@ public class RepositoryComposition {
 	 * Find the implementation method for the given {@link Method} invoked on the
 	 * composite interface.
 	 * @param method must not be {@literal null}.
-	 * @return
+	 * @return the implementation method
 	 * @since 2.2
 	 */
 	@Nullable
@@ -373,7 +373,7 @@ public class RepositoryComposition {
 		 * @param invokedMethod invoked method as per invocation on the interface.
 		 * @param methodToCall backend method that is backing the call.
 		 * @param args
-		 * @return
+		 * @return the method result
 		 * @throws Throwable
 		 */
 		@Nullable

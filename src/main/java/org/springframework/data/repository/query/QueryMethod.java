@@ -167,7 +167,7 @@ public class QueryMethod {
 
 	/**
 	 * Returns whether the query method will return a {@link Slice}.
-	 * @return
+	 * @return if the query method will return a slice
 	 * @since 1.8
 	 */
 	public boolean isSliceQuery() {
@@ -201,7 +201,7 @@ public class QueryMethod {
 
 	/**
 	 * Returns whether the method returns a Stream.
-	 * @return
+	 * @return of the method returns a stream
 	 * @since 1.10
 	 */
 	public boolean isStreamQuery() {

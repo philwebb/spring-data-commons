@@ -72,7 +72,7 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 	/**
 	 * Returns the template variable for the pagination parameters.
 	 * @param parameter can be {@literal null}.
-	 * @return
+	 * @return the template variables
 	 * @since 1.7
 	 */
 	public TemplateVariables getPaginationTemplateVariables(MethodParameter parameter, UriComponents template) {

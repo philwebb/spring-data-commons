@@ -43,7 +43,7 @@ public class IsNewAwareAuditingHandler extends AuditingHandler {
 	 * {@link MappingContext}.
 	 * @param mappingContext must not be {@literal null}.
 	 * @since 1.8
-	 * @deprecated use {@link IsNewAwareAuditingHandler(PersistentEntities)} instead.
+	 * @deprecated use {@link #IsNewAwareAuditingHandler(PersistentEntities)} instead.
 	 */
 	@Deprecated
 	public IsNewAwareAuditingHandler(

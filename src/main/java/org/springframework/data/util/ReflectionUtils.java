@@ -188,7 +188,7 @@ public final class ReflectionUtils {
 	 * Finds the field of the given name on the given type.
 	 * @param type must not be {@literal null}.
 	 * @param name must not be {@literal null} or empty.
-	 * @return
+	 * @return the field
 	 * @throws IllegalArgumentException in case the field can't be found.
 	 */
 	public static Field findRequiredField(Class<?> type, String name) {
@@ -230,7 +230,7 @@ public final class ReflectionUtils {
 	 * @param type must not be {@literal null}.
 	 * @param name must not be {@literal null}.
 	 * @param parameterTypes must not be {@literal null}.
-	 * @return
+	 * @return the method
 	 * @throws IllegalArgumentException in case the method cannot be resolved.
 	 */
 	public static Method findRequiredMethod(Class<?> type, String name, Class<?>... parameterTypes) {
@@ -248,7 +248,7 @@ public final class ReflectionUtils {
 	 * Returns a {@link Stream} of the return and parameters types of the given
 	 * {@link Method}.
 	 * @param method must not be {@literal null}.
-	 * @return
+	 * @return the return type and parameters stream
 	 * @since 2.0
 	 */
 	public static Stream<Class<?>> returnTypeAndParameters(Method method) {
@@ -264,7 +264,7 @@ public final class ReflectionUtils {
 	 * @param type must not be {@literal null}.
 	 * @param name must not be {@literal null} or empty.
 	 * @param parameterTypes must not be {@literal null}.
-	 * @return
+	 * @return the method
 	 * @since 2.0
 	 */
 	public static Optional<Method> getMethod(Class<?> type, String name, ResolvableType... parameterTypes) {

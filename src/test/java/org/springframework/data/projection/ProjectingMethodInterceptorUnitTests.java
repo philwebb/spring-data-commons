@@ -170,7 +170,7 @@ class ProjectingMethodInterceptorUnitTests {
 	 * Mocks the {@link Helper} method of the given name to return the given value.
 	 * @param methodName
 	 * @param returnValue
-	 * @return
+	 * @return the mock invocation
 	 * @throws Throwable
 	 */
 	private MethodInvocation mockInvocationOf(String methodName, Object returnValue) throws Throwable {

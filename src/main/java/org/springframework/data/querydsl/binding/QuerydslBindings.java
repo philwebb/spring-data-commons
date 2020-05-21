@@ -147,7 +147,7 @@ public class QuerydslBindings {
 	 * which means that for properties without an explicitly defined binding a type
 	 * specific default binding will be applied.
 	 * @param excludeUnlistedProperties
-	 * @return
+	 * @return the bindings
 	 * @see #including(String...)
 	 * @see #including(Path...)
 	 */

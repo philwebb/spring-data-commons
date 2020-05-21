@@ -69,7 +69,7 @@ public class Function {
 	/**
 	 * Invokes the function with the given arguments.
 	 * @param arguments must not be {@literal null}.
-	 * @return
+	 * @return the function result
 	 * @throws Exception
 	 */
 	public Object invoke(Object[] arguments) throws Exception {

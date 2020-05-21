@@ -49,7 +49,7 @@ public interface ParameterAccessor extends Iterable<Object> {
 	/**
 	 * Returns the dynamic projection type to be used when executing the query or
 	 * {@literal null} if none is defined.
-	 * @return
+	 * @return the dynamic projection type
 	 * @since 1.12
 	 * @deprecated use {@link #findDynamicProjection()} instead.
 	 */
@@ -59,7 +59,7 @@ public interface ParameterAccessor extends Iterable<Object> {
 	/**
 	 * Returns the dynamic projection type to be used when executing the query or
 	 * {@literal null} if none is defined.
-	 * @return
+	 * @return the dynamic projection type
 	 * @since 2.2
 	 */
 	@Nullable

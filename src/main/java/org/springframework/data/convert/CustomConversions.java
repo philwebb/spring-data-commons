@@ -178,7 +178,7 @@ public class CustomConversions {
 	 * Get all converters and add origin information
 	 * @param storeConversions
 	 * @param converters
-	 * @return
+	 * @return the converter registrations
 	 * @since 2.3
 	 */
 	private List<ConverterRegistrationIntent> collectPotentialConverterRegistrations(StoreConversions storeConversions,

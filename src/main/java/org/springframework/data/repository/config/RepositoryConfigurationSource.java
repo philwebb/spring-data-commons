@@ -73,7 +73,7 @@ public interface RepositoryConfigurationSource {
 	/**
 	 * Returns the name of the repository base class to be used or
 	 * {@link Optional#empty()} if the store specific defaults shall be applied.
-	 * @return
+	 * @return the repository base class name
 	 * @since 1.11
 	 */
 	Optional<String> getRepositoryBaseClassName();
@@ -145,7 +145,7 @@ public interface RepositoryConfigurationSource {
 	/**
 	 * Returns a name for the beanDefinition.
 	 * @param beanDefinition must not be {@literal null}.
-	 * @return
+	 * @return the generated bean name
 	 * @since 2.0
 	 */
 	String generateBeanName(BeanDefinition beanDefinition);
@@ -162,7 +162,7 @@ public interface RepositoryConfigurationSource {
 
 	/**
 	 * Defines the repository {@link BootstrapMode} to be used.
-	 * @return
+	 * @return the bootstrap mode
 	 * @since 2.1
 	 */
 	BootstrapMode getBootstrapMode();

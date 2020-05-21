@@ -84,8 +84,7 @@ public interface RepositoryInvoker extends RepositoryInvocationInformation {
 	 * given id is assumed to be of a type convertible into the actual identifier type of
 	 * the backing repository.
 	 * @param id must not be {@literal null}.
-	 * @throws {@link IllegalStateException} if the repository does not expose a
-	 * delete-method.
+	 * @throws IllegalStateException if the repository does not expose a delete-method.
 	 */
 	void invokeDeleteById(Object id);
 

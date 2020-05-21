@@ -293,7 +293,7 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 * Returns whether the entity is considered immutable, i.e. clients shouldn't attempt
 	 * to change instances via the {@link PersistentPropertyAccessor} obtained via
 	 * {@link #getPropertyAccessor(Object)}.
-	 * @return
+	 * @return if the entity is immutable
 	 * @see Immutable
 	 * @since 2.1
 	 */
@@ -302,7 +302,7 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	/**
 	 * Returns whether the entity needs properties to be populated, i.e. if any property
 	 * exists that's not initialized by the constructor.
-	 * @return
+	 * @return if the entity needs properties to be populated
 	 * @since 2.1
 	 */
 	boolean requiresPropertyPopulation();

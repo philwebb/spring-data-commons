@@ -232,7 +232,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	/**
 	 * Returns whether the current property is writable, i.e. if the value held for it
 	 * shall be written to the data store.
-	 * @return
+	 * @return if the current property is writable
 	 * @since 1.9
 	 */
 	boolean isWritable();
@@ -240,7 +240,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	/**
 	 * Returns whether the current property is immutable, i.e. if there is no setter or
 	 * the backing {@link Field} is {@code final}.
-	 * @return
+	 * @return if the current property is immutable
 	 * @see java.lang.reflect.Modifier#isFinal(int)
 	 * @since 2.1
 	 */
@@ -338,7 +338,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	/**
 	 * Returns whether the actual type of the property carries the given annotation.
 	 * @param annotationType must not be {@literal null}.
-	 * @return
+	 * @return if the annotation is present
 	 * @since 2.1
 	 * @see #getActualType()
 	 */

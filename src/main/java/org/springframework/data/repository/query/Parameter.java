@@ -85,7 +85,7 @@ public class Parameter {
 
 	/**
 	 * Returns whether the parameter is a special parameter.
-	 * @return
+	 * @return if the parameter is special
 	 * @see #TYPES
 	 */
 	public boolean isSpecialParameter() {
@@ -159,7 +159,7 @@ public class Parameter {
 	/**
 	 * Returns whether the parameter is named explicitly, i.e. annotated with
 	 * {@link Param}.
-	 * @return
+	 * @return if the parameter is explicitly named
 	 * @since 1.11
 	 */
 	public boolean isExplicitlyNamed() {
@@ -216,7 +216,7 @@ public class Parameter {
 	/**
 	 * Returns whether the {@link MethodParameter} is wrapped in a wrapper type.
 	 * @param parameter must not be {@literal null}.
-	 * @return
+	 * @return if the parameter is a wrapper type
 	 * @see QueryExecutionConverters
 	 */
 	private static boolean isWrapped(MethodParameter parameter) {
@@ -226,7 +226,7 @@ public class Parameter {
 	/**
 	 * Returns whether the {@link MethodParameter} should be unwrapped.
 	 * @param parameter must not be {@literal null}.
-	 * @return
+	 * @return if the parameter should be unwrapped
 	 * @see QueryExecutionConverters
 	 */
 	private static boolean shouldUnwrap(MethodParameter parameter) {

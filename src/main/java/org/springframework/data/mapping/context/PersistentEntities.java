@@ -128,7 +128,7 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 * {@link PersistentEntity} identified by the {@link PersistentProperty}'s actual
 	 * type.
 	 * @param property must not be {@literal null}.
-	 * @return
+	 * @return the persistent entity
 	 * @since 2.1
 	 */
 	@Nullable
@@ -157,7 +157,7 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	/**
 	 * Returns the {@link PersistentEntity} identified by the given type.
 	 * @param type
-	 * @return
+	 * @return the persistent entity
 	 * @throws IllegalStateException if the entity cannot be detected uniquely as multiple
 	 * ones might share the same identifier.
 	 */

@@ -46,7 +46,7 @@ import org.springframework.util.StringUtils;
  * @author Oliver Gierke
  * @author Thomas Darimont
  * @author Christoph Strobl
- * @see 1.10
+ * @since 1.10
  */
 class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 
