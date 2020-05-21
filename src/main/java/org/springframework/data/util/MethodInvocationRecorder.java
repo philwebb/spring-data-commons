@@ -243,9 +243,11 @@ public class MethodInvocationRecorder {
 
 	public static class Recorded<T> {
 
-		private final @Nullable T currentInstance;
+		@Nullable
+		private final T currentInstance;
 
-		private final @Nullable MethodInvocationRecorder recorder;
+		@Nullable
+		private final MethodInvocationRecorder recorder;
 
 		public Recorded(T currentInstance, MethodInvocationRecorder recorder) {
 			this.currentInstance = currentInstance;

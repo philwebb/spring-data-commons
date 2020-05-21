@@ -259,7 +259,7 @@ public interface ExampleMatcher {
 
 	/**
 	 * Callback to configure a matcher.
-	 * 
+	 *
 	 * @param <T>
 	 */
 	interface MatcherConfigurer<T> {
@@ -591,9 +591,11 @@ public interface ExampleMatcher {
 
 		private final String path;
 
-		private final @Nullable StringMatcher stringMatcher;
+		@Nullable
+		private final StringMatcher stringMatcher;
 
-		private final @Nullable Boolean ignoreCase;
+		@Nullable
+		private final Boolean ignoreCase;
 
 		private final PropertyValueTransformer valueTransformer;
 

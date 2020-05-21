@@ -292,11 +292,13 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 
 	static class Sample {
 
-		private @CreatedBy Object createdBy;
+		@CreatedBy
+		private Object createdBy;
 
 		private Object lastModifiedBy;
 
-		private @LastModifiedDate Object lastModifiedDate;
+		@LastModifiedDate
+		private Object lastModifiedDate;
 
 		@LastModifiedBy
 		public Object getLastModifiedBy() {

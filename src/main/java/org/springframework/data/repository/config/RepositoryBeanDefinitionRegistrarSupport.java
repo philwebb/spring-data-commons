@@ -39,9 +39,13 @@ import org.springframework.util.Assert;
 public abstract class RepositoryBeanDefinitionRegistrarSupport
 		implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
 
-	private @SuppressWarnings("null") @Nonnull ResourceLoader resourceLoader;
+	@SuppressWarnings("null")
+	@Nonnull
+	private ResourceLoader resourceLoader;
 
-	private @SuppressWarnings("null") @Nonnull Environment environment;
+	@SuppressWarnings("null")
+	@Nonnull
+	private Environment environment;
 
 	@Override
 	public void setResourceLoader(ResourceLoader resourceLoader) {

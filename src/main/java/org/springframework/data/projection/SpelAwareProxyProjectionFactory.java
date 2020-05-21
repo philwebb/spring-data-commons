@@ -50,7 +50,8 @@ public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory impl
 
 	private final SpelExpressionParser parser = new SpelExpressionParser();
 
-	private @Nullable BeanFactory beanFactory;
+	@Nullable
+	private BeanFactory beanFactory;
 
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {

@@ -476,7 +476,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 		private final String firstname, lastname;
 
-		private @Transient String email;
+		@Transient
+		private String email;
 
 	}
 

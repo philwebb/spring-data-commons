@@ -345,7 +345,8 @@ public class QuerydslBindings {
 	 */
 	public class AliasingPathBinder<P extends Path<? extends T>, T> extends PathBinder<P, T> {
 
-		private final @Nullable String alias;
+		@Nullable
+		private final String alias;
 
 		private final P path;
 
@@ -442,7 +443,7 @@ public class QuerydslBindings {
 
 	/**
 	 * A pair of a {@link Path} and the registered {@link MultiValueBinding}.
-	 * 
+	 *
 	 * @since 1.11
 	 */
 	private static final class PathAndBinding<P extends Path<? extends T>, T> {

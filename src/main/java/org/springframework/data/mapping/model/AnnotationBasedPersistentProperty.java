@@ -55,7 +55,8 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 
 	private static final String SPRING_DATA_PACKAGE = "org.springframework.data";
 
-	private final @Nullable String value;
+	@Nullable
+	private final String value;
 
 	private final Map<Class<? extends Annotation>, Optional<? extends Annotation>> annotationCache = new ConcurrentHashMap<>();
 

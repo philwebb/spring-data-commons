@@ -49,11 +49,13 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 
 	private final ResourceReader reader;
 
-	private final @Nullable ClassLoader classLoader;
+	@Nullable
+	private final ClassLoader classLoader;
 
 	private final ResourcePatternResolver resolver;
 
-	private @Nullable ApplicationEventPublisher publisher;
+	@Nullable
+	private ApplicationEventPublisher publisher;
 
 	private Collection<Resource> resources = Collections.emptySet();
 

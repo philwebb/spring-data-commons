@@ -63,11 +63,14 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 
 	private final ObjectFactory<ConversionService> conversionService;
 
-	private @Nullable ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+	@Nullable
+	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
-	private @Autowired Optional<PageableHandlerMethodArgumentResolverCustomizer> pageableResolverCustomizer;
+	@Autowired
+	private Optional<PageableHandlerMethodArgumentResolverCustomizer> pageableResolverCustomizer;
 
-	private @Autowired Optional<SortHandlerMethodArgumentResolverCustomizer> sortResolverCustomizer;
+	@Autowired
+	private Optional<SortHandlerMethodArgumentResolverCustomizer> sortResolverCustomizer;
 
 	public SpringDataWebConfiguration(ApplicationContext context,
 			@Qualifier("mvcConversionService") ObjectFactory<ConversionService> conversionService) {

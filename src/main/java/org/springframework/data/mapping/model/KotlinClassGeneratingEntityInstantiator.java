@@ -65,7 +65,8 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 	 */
 	static class DefaultingKotlinConstructorResolver {
 
-		private final @Nullable PreferredConstructor<?, ?> defaultConstructor;
+		@Nullable
+		private final PreferredConstructor<?, ?> defaultConstructor;
 
 		@SuppressWarnings("unchecked")
 		DefaultingKotlinConstructorResolver(PersistentEntity<?, ?> entity) {

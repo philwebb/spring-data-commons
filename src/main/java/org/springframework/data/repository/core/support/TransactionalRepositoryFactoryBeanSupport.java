@@ -37,9 +37,11 @@ public abstract class TransactionalRepositoryFactoryBeanSupport<T extends Reposi
 
 	private String transactionManagerName = TxUtils.DEFAULT_TRANSACTION_MANAGER;
 
-	private @Nullable RepositoryProxyPostProcessor txPostProcessor;
+	@Nullable
+	private RepositoryProxyPostProcessor txPostProcessor;
 
-	private @Nullable RepositoryProxyPostProcessor exceptionPostProcessor;
+	@Nullable
+	private RepositoryProxyPostProcessor exceptionPostProcessor;
 
 	private boolean enableDefaultTransactions = true;
 

@@ -75,7 +75,8 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 	private static final String TYPE_MISMATCH = "Target bean of type %s is not of type of the persistent entity (%s)!";
 
-	private final @Nullable PreferredConstructor<T, P> constructor;
+	@Nullable
+	private final PreferredConstructor<T, P> constructor;
 
 	private final TypeInformation<T> information;
 
@@ -83,7 +84,8 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 	private final List<P> persistentPropertiesCache;
 
-	private final @Nullable Comparator<P> comparator;
+	@Nullable
+	private final Comparator<P> comparator;
 
 	private final Set<Association<P>> associations;
 
@@ -93,9 +95,11 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 	private final MultiValueMap<Class<? extends Annotation>, P> propertyAnnotationCache;
 
-	private @Nullable P idProperty;
+	@Nullable
+	private P idProperty;
 
-	private @Nullable P versionProperty;
+	@Nullable
+	private P versionProperty;
 
 	private PersistentPropertyAccessorFactory propertyAccessorFactory;
 

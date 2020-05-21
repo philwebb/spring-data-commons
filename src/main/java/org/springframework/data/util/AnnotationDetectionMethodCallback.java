@@ -37,9 +37,11 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 
 	private final Class<A> annotationType;
 
-	private @Nullable Method foundMethod;
+	@Nullable
+	private Method foundMethod;
 
-	private @Nullable A annotation;
+	@Nullable
+	private A annotation;
 
 	/**
 	 * Creates a new {@link AnnotationDetectionMethodCallback} for the given annotation

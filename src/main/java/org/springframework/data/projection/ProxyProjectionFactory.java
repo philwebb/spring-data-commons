@@ -55,7 +55,8 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 	private final Map<Class<?>, ProjectionInformation> projectionInformationCache = new ConcurrentReferenceHashMap<>();
 
-	private @Nullable ClassLoader classLoader;
+	@Nullable
+	private ClassLoader classLoader;
 
 	/**
 	 * Creates a new {@link ProxyProjectionFactory}.

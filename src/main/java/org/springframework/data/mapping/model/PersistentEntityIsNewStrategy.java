@@ -33,7 +33,8 @@ class PersistentEntityIsNewStrategy implements IsNewStrategy {
 
 	private final Function<Object, Object> valueLookup;
 
-	private final @Nullable Class<?> valueType;
+	@Nullable
+	private final Class<?> valueType;
 
 	/**
 	 * Creates a new {@link PersistentEntityIsNewStrategy} for the given entity.

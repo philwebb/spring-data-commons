@@ -444,7 +444,8 @@ class DefaultRepositoryInformationUnitTests {
 
 	static class DummyRepositoryImpl<T, ID> implements CrudRepository<T, ID> {
 
-		private @Delegate CrudRepository<T, ID> delegate;
+		@Delegate
+		private CrudRepository<T, ID> delegate;
 
 	}
 

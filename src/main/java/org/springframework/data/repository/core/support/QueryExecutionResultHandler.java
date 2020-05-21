@@ -206,7 +206,8 @@ class QueryExecutionResultHandler {
 
 		private final TypeDescriptor typeDescriptor;
 
-		private final @Nullable TypeDescriptor nestedTypeDescriptor;
+		@Nullable
+		private final TypeDescriptor nestedTypeDescriptor;
 
 		private ReturnTypeDescriptor(Method method) {
 			this.methodParameter = new MethodParameter(method, -1);

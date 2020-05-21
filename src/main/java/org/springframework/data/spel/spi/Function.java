@@ -41,7 +41,8 @@ public class Function {
 
 	private final Method method;
 
-	private final @Nullable Object target;
+	@Nullable
+	private final Object target;
 
 	/**
 	 * Creates a new {@link Function} to statically invoke the given {@link Method}.

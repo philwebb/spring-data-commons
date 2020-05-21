@@ -29,7 +29,8 @@ import org.springframework.lang.Nullable;
  */
 public class NullableWrapper {
 
-	private final @Nullable Object value;
+	@Nullable
+	private final Object value;
 
 	/**
 	 * Creates a new {@link NullableWrapper} for the given value.

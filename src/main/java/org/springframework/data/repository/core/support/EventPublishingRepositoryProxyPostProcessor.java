@@ -113,11 +113,13 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 		private static Map<Class<?>, EventPublishingMethod> cache = new ConcurrentReferenceHashMap<>();
 
-		private static @SuppressWarnings("null") EventPublishingMethod NONE = new EventPublishingMethod(null, null);
+		@SuppressWarnings("null")
+		private static EventPublishingMethod NONE = new EventPublishingMethod(null, null);
 
 		private final Method publishingMethod;
 
-		private final @Nullable Method clearingMethod;
+		@Nullable
+		private final Method clearingMethod;
 
 		EventPublishingMethod(Method publishingMethod, Method clearingMethod) {
 			this.publishingMethod = publishingMethod;

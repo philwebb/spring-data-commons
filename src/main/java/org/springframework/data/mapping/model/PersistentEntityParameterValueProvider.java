@@ -37,7 +37,8 @@ public class PersistentEntityParameterValueProvider<P extends PersistentProperty
 
 	private final PropertyValueProvider<P> provider;
 
-	private final @Nullable Object parent;
+	@Nullable
+	private final Object parent;
 
 	public PersistentEntityParameterValueProvider(PersistentEntity<?, P> entity, PropertyValueProvider<P> provider,
 			Object parent) {

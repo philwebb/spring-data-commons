@@ -39,7 +39,8 @@ public class Lazy<T> implements Supplier<T> {
 
 	private final Supplier<? extends T> supplier;
 
-	private @Nullable T value = null;
+	@Nullable
+	private T value = null;
 
 	private boolean resolved = false;
 

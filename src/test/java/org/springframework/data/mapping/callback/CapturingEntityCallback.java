@@ -31,7 +31,8 @@ class CapturingEntityCallback implements EntityCallback<Person> {
 
 	final List<Person> captured = new ArrayList<>(3);
 
-	final @Nullable Person returnValue;
+	@Nullable
+	final Person returnValue;
 
 	CapturingEntityCallback() {
 		this(new PersonDocument(null, null, null));

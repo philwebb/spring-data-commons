@@ -98,8 +98,9 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 		 */
 		ENCAPSULATED {
 
-			private final @Nullable Method privateLookupIn = ReflectionUtils.findMethod(MethodHandles.class,
-					"privateLookupIn", Class.class, Lookup.class);
+			@Nullable
+			private final Method privateLookupIn = ReflectionUtils.findMethod(MethodHandles.class, "privateLookupIn",
+					Class.class, Lookup.class);
 
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {

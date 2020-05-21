@@ -35,7 +35,8 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 
 	private final Class<? extends Annotation> annotationType;
 
-	private @Nullable Field field;
+	@Nullable
+	private Field field;
 
 	/**
 	 * Creates a new {@link AnnotationDetectionFieldCallback} scanning for an annotation

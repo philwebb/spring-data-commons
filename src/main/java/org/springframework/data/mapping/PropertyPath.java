@@ -67,7 +67,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 	private final boolean isCollection;
 
-	private @Nullable PropertyPath next;
+	@Nullable
+	private PropertyPath next;
 
 	/**
 	 * Creates a leaf {@link PropertyPath} (no nested ones) with the given name inside the
@@ -208,7 +209,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	public Iterator<PropertyPath> iterator() {
 		return new Iterator<PropertyPath>() {
 
-			private @Nullable PropertyPath current = PropertyPath.this;
+			@Nullable
+			private PropertyPath current = PropertyPath.this;
 
 			@Override
 			public boolean hasNext() {

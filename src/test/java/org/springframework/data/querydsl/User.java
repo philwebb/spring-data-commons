@@ -33,7 +33,8 @@ public class User {
 
 	public String firstname, lastname;
 
-	public @DateTimeFormat(iso = ISO.DATE) Date dateOfBirth;
+	@DateTimeFormat(iso = ISO.DATE)
+	public Date dateOfBirth;
 
 	public Address address;
 

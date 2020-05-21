@@ -95,7 +95,8 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 	private final PersistentPropertyPathFactory<E, P> persistentPropertyPathFactory;
 
-	private @Nullable ApplicationEventPublisher applicationEventPublisher;
+	@Nullable
+	private ApplicationEventPublisher applicationEventPublisher;
 
 	private EvaluationContextProvider evaluationContextProvider = EvaluationContextProvider.DEFAULT;
 
@@ -504,7 +505,8 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		 */
 		static class PropertyMatch {
 
-			private final @Nullable String namePattern, typeName;
+			@Nullable
+			private final String namePattern, typeName;
 
 			/**
 			 * Creates a new {@link PropertyMatch} for the given name pattern and type

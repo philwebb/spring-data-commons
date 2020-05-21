@@ -30,7 +30,8 @@ import org.springframework.lang.Nullable;
  */
 public class Jackson2RepositoryPopulatorFactoryBean extends AbstractRepositoryPopulatorFactoryBean {
 
-	private @Nullable ObjectMapper mapper;
+	@Nullable
+	private ObjectMapper mapper;
 
 	/**
 	 * Configures the {@link ObjectMapper} to be used.

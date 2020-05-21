@@ -175,13 +175,15 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 */
 	public static class Parameter<T, P extends PersistentProperty<P>> {
 
-		private final @Nullable String name;
+		@Nullable
+		private final String name;
 
 		private final TypeInformation<T> type;
 
 		private final String key;
 
-		private final @Nullable PersistentEntity<T, P> entity;
+		@Nullable
+		private final PersistentEntity<T, P> entity;
 
 		private final Lazy<Boolean> enclosingClassCache;
 

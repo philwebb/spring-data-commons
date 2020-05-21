@@ -42,9 +42,11 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 
 	private Resource[] resources = new Resource[0];
 
-	private @Nullable RepositoryPopulator populator;
+	@Nullable
+	private RepositoryPopulator populator;
 
-	private @Nullable ApplicationContext context;
+	@Nullable
+	private ApplicationContext context;
 
 	/**
 	 * Configures the {@link Resource}s to be used to load objects from and initialize the

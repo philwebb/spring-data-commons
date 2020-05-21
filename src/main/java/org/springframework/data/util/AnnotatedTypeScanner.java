@@ -43,9 +43,11 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 
 	private final boolean considerInterfaces;
 
-	private @Nullable ResourceLoader resourceLoader;
+	@Nullable
+	private ResourceLoader resourceLoader;
 
-	private @Nullable Environment environment;
+	@Nullable
+	private Environment environment;
 
 	/**
 	 * Creates a new {@link AnnotatedTypeScanner} for the given annotation types.

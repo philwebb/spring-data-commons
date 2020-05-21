@@ -115,7 +115,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	private Optional<Class<?>> repositoryBaseClass;
 
-	private @Nullable QueryLookupStrategy.Key queryLookupStrategyKey;
+	@Nullable
+	private QueryLookupStrategy.Key queryLookupStrategyKey;
 
 	private List<QueryCreationListener<?>> queryPostProcessors;
 

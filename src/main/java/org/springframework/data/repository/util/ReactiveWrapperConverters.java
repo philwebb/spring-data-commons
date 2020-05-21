@@ -469,7 +469,8 @@ public abstract class ReactiveWrapperConverters {
 	 */
 	static class RegistryHolder {
 
-		static final @Nullable ReactiveAdapterRegistry REACTIVE_ADAPTER_REGISTRY;
+		@Nullable
+		static final ReactiveAdapterRegistry REACTIVE_ADAPTER_REGISTRY;
 
 		static {
 			if (ReactiveWrappers.isAvailable(ReactiveLibrary.PROJECT_REACTOR)) {

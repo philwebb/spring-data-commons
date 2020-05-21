@@ -37,7 +37,8 @@ public class SpELContext {
 
 	private final PropertyAccessor accessor;
 
-	private final @Nullable BeanFactory factory;
+	@Nullable
+	private final BeanFactory factory;
 
 	/**
 	 * Creates a new {@link SpELContext} with the given {@link PropertyAccessor}. Defaults

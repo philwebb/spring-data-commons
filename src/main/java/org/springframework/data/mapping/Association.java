@@ -28,7 +28,8 @@ public class Association<P extends PersistentProperty<P>> {
 
 	private final P inverse;
 
-	private final @Nullable P obverse;
+	@Nullable
+	private final P obverse;
 
 	/**
 	 * Creates a new {@link Association} between the two given

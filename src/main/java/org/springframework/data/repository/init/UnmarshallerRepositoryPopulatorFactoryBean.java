@@ -29,7 +29,8 @@ import org.springframework.util.Assert;
  */
 public class UnmarshallerRepositoryPopulatorFactoryBean extends AbstractRepositoryPopulatorFactoryBean {
 
-	private @Nullable Unmarshaller unmarshaller;
+	@Nullable
+	private Unmarshaller unmarshaller;
 
 	/**
 	 * Configures the {@link Unmarshaller} to be used.
