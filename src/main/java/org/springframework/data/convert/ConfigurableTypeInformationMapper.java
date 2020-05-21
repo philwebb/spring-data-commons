@@ -54,10 +54,8 @@ public class ConfigurableTypeInformationMapper implements TypeInformationMapper 
 		for (Entry<? extends Class<?>, String> entry : sourceTypeMap.entrySet()) {
 			ClassTypeInformation<?> type = ClassTypeInformation.from(entry.getKey());
 			Alias alias = Alias.of(entry.getValue());
-			if (this.typeToAlias.containsValue(alias)) {
-				throw new IllegalArgumentException(String.format(
-						"Detected mapping ambiguity! String %s cannot be mapped to more than one type!", alias));
-			}
+			Assert.isTrue(!this.typeToAlias.containsValue(alias), () -> String
+					.format("Detected mapping ambiguity! String %s cannot be mapped to more than one type!", alias));
 			this.typeToAlias.put(type, alias);
 			this.aliasToType.put(alias, type);
 		}

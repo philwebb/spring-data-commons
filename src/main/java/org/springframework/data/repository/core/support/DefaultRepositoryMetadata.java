@@ -58,9 +58,7 @@ public class DefaultRepositoryMetadata extends AbstractRepositoryMetadata {
 
 	private static Class<?> resolveTypeParameter(List<TypeInformation<?>> arguments, int index,
 			Supplier<String> exceptionMessage) {
-		if (arguments.size() <= index || arguments.get(index) == null) {
-			throw new IllegalArgumentException(exceptionMessage.get());
-		}
+		Assert.isTrue(arguments.size() > index && arguments.get(index) != null, exceptionMessage::get);
 		return arguments.get(index).getType();
 	}
 

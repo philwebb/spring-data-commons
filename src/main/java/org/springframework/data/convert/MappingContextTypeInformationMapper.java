@@ -77,11 +77,10 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 	private Alias verify(ClassTypeInformation<?> key, Alias alias) {
 		// Reject second alias for same type
 		Alias existingAlias = this.typeMap.getOrDefault(key, Alias.NONE);
-		if (existingAlias.isPresentButDifferent(alias)) {
-			throw new IllegalArgumentException(
-					String.format("Trying to register alias '%s', but found already registered alias '%s' for type %s!",
-							alias, existingAlias, key));
-		}
+		Assert.isTrue(!existingAlias.isPresentButDifferent(alias),
+				() -> String.format(
+						"Trying to register alias '%s', but found already registered alias '%s' for type %s!", alias,
+						existingAlias, key));
 		// Reject second type for same alias
 		if (this.typeMap.containsValue(alias)) {
 			this.typeMap.entrySet().stream()

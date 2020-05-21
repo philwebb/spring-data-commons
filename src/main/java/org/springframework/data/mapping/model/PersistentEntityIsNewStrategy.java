@@ -49,13 +49,10 @@ final class PersistentEntityIsNewStrategy implements IsNewStrategy {
 		this.valueType = (entity.hasVersionProperty() && !idOnly) ? entity.getRequiredVersionProperty().getType()
 				: entity.hasIdProperty() ? entity.getRequiredIdProperty().getType() : null;
 		Class<?> type = this.valueType;
-		if (type != null && type.isPrimitive()) {
-			if (!ClassUtils.isAssignable(Number.class, type)) {
-				throw new IllegalArgumentException(String.format(
+		Assert.isTrue(type == null || !type.isPrimitive() || ClassUtils.isAssignable(Number.class, type),
+				() -> String.format(
 						"Only numeric primitives are supported as identifier / version field types! Got: %s.",
 						this.valueType));
-			}
-		}
 	}
 
 	@Override

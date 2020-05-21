@@ -61,18 +61,15 @@ public class AnnotationRepositoryMetadata extends AbstractRepositoryMetadata {
 
 	private Class<?> resolveIdType(Class<?> repositoryInterface) {
 		RepositoryDefinition annotation = repositoryInterface.getAnnotation(RepositoryDefinition.class);
-		if (annotation == null || annotation.idClass() == null) {
-			throw new IllegalArgumentException(String.format("Could not resolve id type of %s!", repositoryInterface));
-		}
+		Assert.isTrue(annotation != null && annotation.idClass() != null,
+				() -> String.format("Could not resolve id type of %s!", repositoryInterface));
 		return annotation.idClass();
 	}
 
 	private Class<?> resolveDomainType(Class<?> repositoryInterface) {
 		RepositoryDefinition annotation = repositoryInterface.getAnnotation(RepositoryDefinition.class);
-		if (annotation == null || annotation.domainClass() == null) {
-			throw new IllegalArgumentException(
-					String.format("Could not resolve domain type of %s!", repositoryInterface));
-		}
+		Assert.isTrue(annotation != null && annotation.domainClass() != null,
+				() -> String.format("Could not resolve domain type of %s!", repositoryInterface));
 		return annotation.domainClass();
 	}
 

@@ -36,7 +36,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.util.StringUtils;
 
 /**
  * Base {@link RepositoryInvoker} using reflection to invoke methods on Spring Data
@@ -163,10 +162,8 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 			}
 			else {
 				String parameterName = param.getParameterName();
-				if (!StringUtils.hasText(parameterName)) {
-					throw new IllegalArgumentException(
-							String.format(NAME_NOT_FOUND, ClassUtils.getQualifiedMethodName(method)));
-				}
+				Assert.hasText(parameterName,
+						() -> String.format(NAME_NOT_FOUND, ClassUtils.getQualifiedMethodName(method)));
 				Object value = unwrapSingleElement(rawParameters.get(parameterName));
 				result[i] = targetType.isInstance(value) ? value : convert(value, param);
 			}

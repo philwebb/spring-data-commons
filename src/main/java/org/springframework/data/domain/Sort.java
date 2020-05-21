@@ -32,6 +32,7 @@ import org.springframework.data.util.MethodInvocationRecorder.Recorded;
 import org.springframework.data.util.Streamable;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -66,9 +67,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 * strings.
 	 */
 	private Sort(Direction direction, List<String> properties) {
-		if (properties == null || properties.isEmpty()) {
-			throw new IllegalArgumentException("You have to provide at least one property to sort by!");
-		}
+		Assert.isTrue(!CollectionUtils.isEmpty(properties), "You have to provide at least one property to sort by!");
 		this.orders = properties.stream().map((it) -> new Order(direction, it)).collect(Collectors.toList());
 	}
 
@@ -368,9 +367,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @since 1.7
 		 */
 		private Order(@Nullable Direction direction, String property, boolean ignoreCase, NullHandling nullHandling) {
-			if (!StringUtils.hasText(property)) {
-				throw new IllegalArgumentException("Property must not null or empty!");
-			}
+			Assert.hasText(property, "Property must not null or empty!");
 			this.direction = (direction != null) ? direction : DEFAULT_DIRECTION;
 			this.property = property;
 			this.ignoreCase = ignoreCase;

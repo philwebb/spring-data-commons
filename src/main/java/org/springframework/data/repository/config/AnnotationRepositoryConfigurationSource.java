@@ -228,9 +228,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	@Override
 	public <T> Optional<T> getAttribute(String name, Class<T> type) {
-		if (!this.attributes.containsKey(name)) {
-			throw new IllegalArgumentException(String.format("No attribute named %s found!", name));
-		}
+		Assert.isTrue(this.attributes.containsKey(name), () -> String.format("No attribute named %s found!", name));
 		Object value = this.attributes.get(name);
 		if (value == null) {
 			return Optional.empty();

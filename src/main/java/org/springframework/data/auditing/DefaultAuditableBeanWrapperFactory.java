@@ -175,11 +175,9 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 				return this.conversionService.convert(value, targetType);
 			}
 			if (this.conversionService.canConvert(Date.class, targetType)) {
-				if (!this.conversionService.canConvert(value.getClass(), Date.class)) {
-					throw new IllegalArgumentException(
-							String.format("Cannot convert date type for member %s! From %s to java.util.Date to %s.",
-									source, value.getClass(), targetType));
-				}
+				Assert.isTrue(this.conversionService.canConvert(value.getClass(), Date.class),
+						() -> String.format("Cannot convert date type for member %s! From %s to java.util.Date to %s.",
+								source, value.getClass(), targetType));
 				Date date = this.conversionService.convert(value, Date.class);
 				return this.conversionService.convert(date, targetType);
 			}

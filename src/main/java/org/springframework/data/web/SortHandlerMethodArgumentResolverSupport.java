@@ -246,13 +246,11 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		ExpressionBuilder builder = null;
 		for (Order order : sort) {
 			Direction direction = order.getDirection();
+			Assert.isTrue(builder == null || builder.hasSameDirectionAs(order),
+					() -> String.format("%s in legacy configuration only supports a single direction to sort by!",
+							getClass().getSimpleName()));
 			if (builder == null) {
 				builder = new ExpressionBuilder(direction);
-			}
-			else if (!builder.hasSameDirectionAs(order)) {
-				throw new IllegalArgumentException(
-						String.format("%s in legacy configuration only supports a single direction to sort by!",
-								getClass().getSimpleName()));
 			}
 			builder.add(order.getProperty());
 		}

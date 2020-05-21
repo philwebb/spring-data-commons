@@ -18,6 +18,8 @@ package org.springframework.data.domain;
 
 import java.io.Serializable;
 
+import org.springframework.util.Assert;
+
 /**
  * Abstract Java Bean implementation of {@code Pageable}.
  *
@@ -40,12 +42,8 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 	 * @param size must not be less than one.
 	 */
 	public AbstractPageRequest(int page, int size) {
-		if (page < 0) {
-			throw new IllegalArgumentException("Page index must not be less than zero!");
-		}
-		if (size < 1) {
-			throw new IllegalArgumentException("Page size must not be less than one!");
-		}
+		Assert.isTrue(page >= 0, "Page index must not be less than zero!");
+		Assert.isTrue(size >= 1, "Page size must not be less than one!");
 		this.page = page;
 		this.size = size;
 	}

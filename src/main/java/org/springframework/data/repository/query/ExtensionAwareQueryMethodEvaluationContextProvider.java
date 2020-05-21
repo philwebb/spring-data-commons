@@ -141,9 +141,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 		@Nullable
 		@Override
 		public Object invoke(@Nullable MethodInvocation invocation) throws Throwable {
-			if (invocation == null) {
-				throw new IllegalArgumentException("Invocation must not be null!");
-			}
+			Assert.notNull(invocation, "Invocation must not be null!");
 			Method method = invocation.getMethod();
 			Method targetMethod = methodCache.computeIfAbsent(method,
 					(it) -> Optional.ofNullable(findTargetMethod(it)).orElse(it));

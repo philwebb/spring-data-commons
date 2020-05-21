@@ -47,10 +47,7 @@ abstract class SpringDataAnnotationUtils {
 	 */
 	static void assertPageableUniqueness(MethodParameter parameter) {
 		Method method = parameter.getMethod();
-		if (method == null) {
-			throw new IllegalArgumentException(
-					String.format("Method parameter %s is not backed by a method.", parameter));
-		}
+		Assert.notNull(method, () -> String.format("Method parameter %s is not backed by a method.", parameter));
 		if (containsMoreThanOnePageableParameter(method)) {
 			Annotation[][] annotations = method.getParameterAnnotations();
 			assertQualifiersFor(method.getParameterTypes(), annotations);

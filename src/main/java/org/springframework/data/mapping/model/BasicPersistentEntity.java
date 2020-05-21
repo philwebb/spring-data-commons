@@ -488,12 +488,8 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 
 		@Override
 		public int compare(@Nullable Association<P> left, @Nullable Association<P> right) {
-			if (left == null) {
-				throw new IllegalArgumentException("Left argument must not be null!");
-			}
-			if (right == null) {
-				throw new IllegalArgumentException("Right argument must not be null!");
-			}
+			Assert.notNull(left, "Left argument must not be null!");
+			Assert.notNull(right, "Right argument must not be null!");
 			return this.delegate.compare(left.getInverse(), right.getInverse());
 		}
 

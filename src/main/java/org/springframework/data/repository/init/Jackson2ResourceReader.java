@@ -103,9 +103,7 @@ public class Jackson2ResourceReader implements ResourceReader {
 	 */
 	private Object readSingle(JsonNode node, @Nullable ClassLoader classLoader) throws IOException {
 		JsonNode typeNode = node.findValue(this.typeKey);
-		if (typeNode == null) {
-			throw new IllegalArgumentException(String.format("Could not find type for type key '%s'!", this.typeKey));
-		}
+		Assert.notNull(typeNode, () -> String.format("Could not find type for type key '%s'!", this.typeKey));
 		String typeName = typeNode.asText();
 		Class<?> type = ClassUtils.resolveClassName(typeName, classLoader);
 		return this.mapper.readerFor(type).readValue(node);

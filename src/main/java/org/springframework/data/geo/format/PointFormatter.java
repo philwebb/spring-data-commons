@@ -25,6 +25,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.GenericConverter.ConvertiblePair;
 import org.springframework.data.geo.Point;
 import org.springframework.format.Formatter;
+import org.springframework.util.Assert;
 
 /**
  * Converter to parse two comma-separated doubles into a {@link Point}.
@@ -43,9 +44,7 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 	@Override
 	public Point convert(String source) {
 		String[] parts = source.split(",");
-		if (parts.length != 2) {
-			throw new IllegalArgumentException(String.format(INVALID_FORMAT, source));
-		}
+		Assert.isTrue(parts.length == 2, () -> String.format(INVALID_FORMAT, source));
 		try {
 			double latitude = Double.parseDouble(parts[0]);
 			double longitude = Double.parseDouble(parts[1]);

@@ -61,11 +61,9 @@ public interface TypeInformation<S> {
 	 */
 	default TypeInformation<?> getRequiredProperty(String property) {
 		TypeInformation<?> typeInformation = getProperty(property);
-		if (typeInformation != null) {
-			return typeInformation;
-		}
-		throw new IllegalArgumentException(
-				String.format("Could not find required property %s on %s!", property, getType()));
+		Assert.notNull(typeInformation,
+				() -> String.format("Could not find required property %s on %s!", property, getType()));
+		return typeInformation;
 	}
 
 	/**
@@ -210,11 +208,9 @@ public interface TypeInformation<S> {
 	 */
 	default TypeInformation<?> getRequiredSuperTypeInformation(Class<?> superType) {
 		TypeInformation<?> result = getSuperTypeInformation(superType);
-		if (result == null) {
-			throw new IllegalArgumentException(String.format(
-					"Can't retrieve super type information for %s! Does current type really implement the given one?",
-					superType));
-		}
+		Assert.notNull(result, () -> String.format(
+				"Can't retrieve super type information for %s! Does current type really implement the given one?",
+				superType));
 		return result;
 	}
 

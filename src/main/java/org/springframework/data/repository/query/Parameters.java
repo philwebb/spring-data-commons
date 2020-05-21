@@ -76,9 +76,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 			MethodParameter methodParameter = new MethodParameter(method, i);
 			methodParameter.initParameterNameDiscovery(PARAMETER_NAME_DISCOVERER);
 			T parameter = createParameter(methodParameter);
-			if (parameter.isSpecialParameter() && parameter.isNamedParameter()) {
-				throw new IllegalArgumentException(PARAM_ON_SPECIAL);
-			}
+			Assert.isTrue(!parameter.isSpecialParameter() || !parameter.isNamedParameter(), PARAM_ON_SPECIAL);
 			if (parameter.isDynamicProjectionParameter()) {
 				this.dynamicProjectionIndex = parameter.getIndex();
 			}

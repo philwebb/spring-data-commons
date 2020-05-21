@@ -386,9 +386,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 */
 	private static PropertyPath create(String source, TypeInformation<?> type, String addTail,
 			List<PropertyPath> base) {
-		if (base.size() > 1000) {
-			throw new IllegalArgumentException(PARSE_DEPTH_EXCEEDED);
-		}
+		Assert.isTrue(base.size() <= 1000, PARSE_DEPTH_EXCEEDED);
 		PropertyReferenceException exception = null;
 		PropertyPath current = null;
 		try {

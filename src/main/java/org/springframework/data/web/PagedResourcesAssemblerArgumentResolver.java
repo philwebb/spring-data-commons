@@ -102,9 +102,7 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 	@Nullable
 	private UriComponents resolveBaseUri(MethodParameter parameter) {
 		Method method = parameter.getMethod();
-		if (method == null) {
-			throw new IllegalArgumentException(String.format("Could not obtain method from parameter %s!", parameter));
-		}
+		Assert.notNull(method, () -> String.format("Could not obtain method from parameter %s!", parameter));
 		try {
 			Link linkToMethod = this.linkBuilderFactory.linkTo(parameter.getDeclaringClass(), method).withSelfRel();
 			return UriComponentsBuilder.fromUriString(linkToMethod.getHref()).build();
@@ -123,9 +121,7 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 	@Nullable
 	private static MethodParameter findMatchingPageableParameter(MethodParameter parameter) {
 		Method method = parameter.getMethod();
-		if (method == null) {
-			throw new IllegalArgumentException(String.format("Could not obtain method from parameter %s!", parameter));
-		}
+		Assert.notNull(method, () -> String.format("Could not obtain method from parameter %s!", parameter));
 		MethodParameters parameters = MethodParameters.of(method);
 		List<MethodParameter> pageableParameters = parameters.getParametersOfType(Pageable.class);
 		Qualifier assemblerQualifier = parameter.getParameterAnnotation(Qualifier.class);

@@ -95,11 +95,9 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 				BiFunction<EntityCallback<T>, T, Object> callbackInvokerFunction) {
 			try {
 				Object value = callbackInvokerFunction.apply(callback, entity);
-				if (value != null) {
-					return (value instanceof Publisher) ? Mono.from((Publisher<T>) value) : Mono.just((T) value);
-				}
-				throw new IllegalArgumentException(String.format("Callback invocation on %s returned null value for %s",
+				Assert.notNull(value, () -> String.format("Callback invocation on %s returned null value for %s",
 						callback.getClass(), entity));
+				return (value instanceof Publisher) ? Mono.from((Publisher<T>) value) : Mono.just((T) value);
 			}
 			catch (ClassCastException ex) {
 				String msg = ex.getMessage();

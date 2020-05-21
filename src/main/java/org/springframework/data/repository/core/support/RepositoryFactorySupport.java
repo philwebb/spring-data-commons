@@ -426,11 +426,9 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 */
 	private void validate(RepositoryInformation repositoryInformation, RepositoryComposition composition) {
 		if (repositoryInformation.hasCustomMethod()) {
-			if (composition.isEmpty()) {
-				throw new IllegalArgumentException(
-						String.format("You have custom methods in %s but not provided a custom implementation!",
-								repositoryInformation.getRepositoryInterface()));
-			}
+			Assert.isTrue(!composition.isEmpty(),
+					() -> String.format("You have custom methods in %s but not provided a custom implementation!",
+							repositoryInformation.getRepositoryInterface()));
 			composition.validateImplementation();
 		}
 		validate(repositoryInformation);

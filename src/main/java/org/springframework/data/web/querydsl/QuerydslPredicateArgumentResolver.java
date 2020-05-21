@@ -37,6 +37,7 @@ import org.springframework.data.util.CastUtils;
 import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -83,11 +84,9 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 		if (PREDICATE.isAssignableFrom(type) || OPTIONAL_OF_PREDICATE.isAssignableFrom(type)) {
 			return true;
 		}
-		if (parameter.hasParameterAnnotation(QuerydslPredicate.class)) {
-			throw new IllegalArgumentException(
-					String.format("Parameter at position %s must be of type Predicate but was %s.",
-							parameter.getParameterIndex(), parameter.getParameterType()));
-		}
+		Assert.isTrue(!parameter.hasParameterAnnotation(QuerydslPredicate.class),
+				() -> String.format("Parameter at position %s must be of type Predicate but was %s.",
+						parameter.getParameterIndex(), parameter.getParameterType()));
 		return false;
 	}
 
@@ -132,9 +131,7 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 
 	private static TypeInformation<?> detectDomainType(MethodParameter parameter) {
 		Method method = parameter.getMethod();
-		if (method == null) {
-			throw new IllegalArgumentException("Method parameter is not backed by a method!");
-		}
+		Assert.notNull(method, "Method parameter is not backed by a method!");
 		return detectDomainType(ClassTypeInformation.fromReturnTypeOf(method));
 	}
 
@@ -143,9 +140,7 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 			return source;
 		}
 		TypeInformation<?> actualType = source.getActualType();
-		if (actualType == null) {
-			throw new IllegalArgumentException(String.format("Could not determine domain type from %s!", source));
-		}
+		Assert.notNull(actualType, () -> String.format("Could not determine domain type from %s!", source));
 		if (source != actualType) {
 			return detectDomainType(actualType);
 		}

@@ -29,6 +29,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mapping.PropertyPath;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
@@ -77,15 +78,12 @@ class OrderBySource {
 		}
 		for (String part : clause.split(BLOCK_SPLIT)) {
 			Matcher matcher = DIRECTION_SPLIT.matcher(part);
-			if (!matcher.find()) {
-				throw new IllegalArgumentException(String.format(INVALID_ORDER_SYNTAX, part));
-			}
+			Assert.isTrue(matcher.find(), () -> String.format(INVALID_ORDER_SYNTAX, part));
 			String propertyString = matcher.group(1);
 			String directionString = matcher.group(2);
 			// No property, but only a direction keyword
-			if (DIRECTION_KEYWORDS.contains(propertyString) && directionString == null) {
-				throw new IllegalArgumentException(String.format(INVALID_ORDER_SYNTAX, part));
-			}
+			Assert.isTrue(directionString != null || !DIRECTION_KEYWORDS.contains(propertyString),
+					() -> String.format(INVALID_ORDER_SYNTAX, part));
 			this.orders.add(createOrder(propertyString, Direction.fromOptionalString(directionString), domainClass));
 		}
 	}

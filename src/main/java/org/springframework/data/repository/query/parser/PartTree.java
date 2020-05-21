@@ -355,9 +355,7 @@ public class PartTree implements Streamable<OrPart> {
 
 		Predicate(String predicate, Class<?> domainClass) {
 			String[] parts = split(detectAndSetAllIgnoreCase(predicate), ORDER_BY);
-			if (parts.length > 2) {
-				throw new IllegalArgumentException("OrderBy must not be used more than once in a method name!");
-			}
+			Assert.isTrue(parts.length <= 2, "OrderBy must not be used more than once in a method name!");
 			this.nodes = Arrays.stream(split(parts[0], "Or")).filter(StringUtils::hasText)
 					.map((part) -> new OrPart(part, domainClass, this.alwaysIgnoreCase)).collect(Collectors.toList());
 			this.orderBySource = (parts.length == 2) ? new OrderBySource(parts[1], Optional.of(domainClass))

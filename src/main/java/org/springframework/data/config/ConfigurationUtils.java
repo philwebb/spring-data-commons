@@ -40,9 +40,7 @@ public interface ConfigurationUtils {
 	static ResourceLoader getRequiredResourceLoader(XmlReaderContext context) {
 		Assert.notNull(context, "XmlReaderContext must not be null!");
 		ResourceLoader resourceLoader = context.getResourceLoader();
-		if (resourceLoader == null) {
-			throw new IllegalArgumentException("Could not obtain ResourceLoader from XmlReaderContext!");
-		}
+		Assert.notNull(resourceLoader, "Could not obtain ResourceLoader from XmlReaderContext!");
 		return resourceLoader;
 	}
 
@@ -67,9 +65,7 @@ public interface ConfigurationUtils {
 	static ClassLoader getRequiredClassLoader(ResourceLoader resourceLoader) {
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null!");
 		ClassLoader classLoader = resourceLoader.getClassLoader();
-		if (classLoader == null) {
-			throw new IllegalArgumentException("Could not obtain ClassLoader from ResourceLoader!");
-		}
+		Assert.notNull(classLoader, "Could not obtain ClassLoader from ResourceLoader!");
 		return classLoader;
 	}
 
@@ -83,10 +79,8 @@ public interface ConfigurationUtils {
 	static String getRequiredBeanClassName(BeanDefinition beanDefinition) {
 		Assert.notNull(beanDefinition, "BeanDefinition must not be null!");
 		String result = beanDefinition.getBeanClassName();
-		if (result == null) {
-			throw new IllegalArgumentException(
-					String.format("Could not obtain required bean class name from BeanDefinition!", beanDefinition));
-		}
+		Assert.notNull(result,
+				() -> String.format("Could not obtain required bean class name from BeanDefinition!", beanDefinition));
 		return result;
 	}
 

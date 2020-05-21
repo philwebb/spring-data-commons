@@ -147,9 +147,7 @@ public final class RepositoryComposition {
 	 */
 	public Object invoke(Method method, Object... args) throws Throwable {
 		Method methodToCall = getMethod(method);
-		if (methodToCall == null) {
-			throw new IllegalArgumentException(String.format("No fragment found for method %s", method));
-		}
+		Assert.notNull(methodToCall, () -> String.format("No fragment found for method %s", method));
 		ReflectionUtils.makeAccessible(methodToCall);
 		return this.fragments.invoke(method, methodToCall, this.argumentConverter.apply(methodToCall, args));
 	}
@@ -340,10 +338,8 @@ public final class RepositoryComposition {
 			RepositoryFragment<?> fragment = this.fragmentCache.computeIfAbsent(methodToCall,
 					this::findImplementationFragment);
 			Optional<?> optional = fragment.getImplementation();
-			if (!optional.isPresent()) {
-				throw new IllegalArgumentException(
-						String.format("No implementation found for method %s", methodToCall));
-			}
+			Assert.isTrue(optional.isPresent(),
+					() -> String.format("No implementation found for method %s", methodToCall));
 			ImplementationInvocationMetadata invocationMetadata = this.invocationMetadataCache.get(invokedMethod);
 			if (invocationMetadata == null) {
 				invocationMetadata = new ImplementationInvocationMetadata(invokedMethod, methodToCall);

@@ -82,9 +82,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 
 	default Method getRequiredGetter() {
 		Method getter = getGetter();
-		if (getter == null) {
-			throw new IllegalArgumentException(String.format("No getter available for persistent property %s!", this));
-		}
+		Assert.notNull(getter, () -> String.format("No getter available for persistent property %s!", this));
 		return getter;
 	}
 
@@ -99,9 +97,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 
 	default Method getRequiredSetter() {
 		Method setter = getSetter();
-		if (setter == null) {
-			throw new IllegalArgumentException(String.format("No setter available for persistent property %s!", this));
-		}
+		Assert.notNull(setter, () -> String.format("No setter available for persistent property %s!", this));
 		return setter;
 	}
 
@@ -133,9 +129,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 
 	default Method getRequiredWither() {
 		Method wither = getWither();
-		if (wither == null) {
-			throw new IllegalArgumentException(String.format("No wither available for persistent property %s!", this));
-		}
+		Assert.notNull(wither, () -> String.format("No wither available for persistent property %s!", this));
 		return wither;
 	}
 
@@ -144,9 +138,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 
 	default Field getRequiredField() {
 		Field field = getField();
-		if (field == null) {
-			throw new IllegalArgumentException(String.format("No field backing persistent property %s!", this));
-		}
+		Assert.notNull(field, () -> String.format("No field backing persistent property %s!", this));
 		return field;
 	}
 

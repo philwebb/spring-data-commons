@@ -31,6 +31,7 @@ import org.springframework.data.mapping.PreferredConstructor;
 import org.springframework.data.mapping.PreferredConstructor.Parameter;
 import org.springframework.data.util.ReflectionUtils;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 
 /**
  * Kotlin-specific extension to {@link ClassGeneratingEntityInstantiator} that adapts
@@ -162,10 +163,8 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 		DefaultingKotlinClassInstantiatorAdapter(ObjectInstantiator instantiator,
 				PreferredConstructor<?, ?> constructor) {
 			KFunction<?> kotlinConstructor = ReflectJvmMapping.getKotlinFunction(constructor.getConstructor());
-			if (kotlinConstructor == null) {
-				throw new IllegalArgumentException(
-						"No corresponding Kotlin constructor found for " + constructor.getConstructor());
-			}
+			Assert.notNull(kotlinConstructor,
+					() -> "No corresponding Kotlin constructor found for " + constructor.getConstructor());
 			this.instantiator = instantiator;
 			this.constructor = kotlinConstructor;
 			this.kParameters = kotlinConstructor.getParameters();
@@ -188,9 +187,7 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 		private <P extends PersistentProperty<P>, T> Object[] extractInvocationArguments(
 				@Nullable PreferredConstructor<? extends T, P> preferredConstructor,
 				ParameterValueProvider<P> provider) {
-			if (preferredConstructor == null) {
-				throw new IllegalArgumentException("PreferredConstructor must not be null!");
-			}
+			Assert.notNull(preferredConstructor, "PreferredConstructor must not be null!");
 			Object[] params = allocateArguments(this.synthetic.getParameterCount()
 					+ KotlinDefaultMask.getMaskCount(this.synthetic.getParameterCount())
 					+ /* DefaultConstructorMarker */1);
