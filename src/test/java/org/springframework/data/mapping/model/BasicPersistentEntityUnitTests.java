@@ -74,7 +74,10 @@ import static org.mockito.Mockito.when;
 class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Mock
-	T property, anotherProperty;
+	T property;
+
+	@Mock
+	T anotherProperty;
 
 	@Test
 	void assertInvariants() {
@@ -399,7 +402,9 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	@RequiredArgsConstructor
 	private static class PropertyPopulationRequired {
 
-		private final String firstname, lastname;
+		private final String firstname;
+
+		private final String lastname;
 
 		private String email;
 
@@ -408,14 +413,18 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	@RequiredArgsConstructor
 	private static class PropertyPopulationNotRequired {
 
-		private final String firstname, lastname;
+		private final String firstname;
+
+		private final String lastname;
 
 	}
 
 	@RequiredArgsConstructor
 	private static class PropertyPopulationNotRequiredWithTransient {
 
-		private final String firstname, lastname;
+		private final String firstname;
+
+		private final String lastname;
 
 		@Transient
 		private String email;

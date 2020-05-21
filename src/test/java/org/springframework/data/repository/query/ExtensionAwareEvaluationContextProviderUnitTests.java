@@ -296,7 +296,9 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 		public static String DUMMY_KEY = "dummy";
 
-		private final String key, value;
+		private final String key;
+
+		private final String value;
 
 		@Override
 		public String getExtensionId() {

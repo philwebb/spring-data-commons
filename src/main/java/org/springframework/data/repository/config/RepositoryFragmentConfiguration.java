@@ -34,7 +34,9 @@ import org.springframework.util.ObjectUtils;
  */
 public final class RepositoryFragmentConfiguration {
 
-	private final String interfaceName, className;
+	private final String interfaceName;
+
+	private final String className;
 
 	private final Optional<AbstractBeanDefinition> beanDefinition;
 

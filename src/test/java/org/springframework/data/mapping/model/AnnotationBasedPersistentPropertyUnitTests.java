@@ -406,7 +406,9 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@AccessType(Type.PROPERTY)
 	static class PropertyAccess {
 
-		String firstname, lastname;
+		String firstname;
+
+		String lastname;
 
 		@AccessType(Type.FIELD)
 		String emailAddress;

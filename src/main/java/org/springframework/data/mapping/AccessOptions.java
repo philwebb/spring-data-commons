@@ -277,7 +277,9 @@ public class AccessOptions {
 
 		private final SetNulls nullHandling;
 
-		private final Propagation collectionPropagation, mapPropagation;
+		private final Propagation collectionPropagation;
+
+		private final Propagation mapPropagation;
 
 		private SetOptions() {
 			this.nullHandling = SetNulls.REJECT;

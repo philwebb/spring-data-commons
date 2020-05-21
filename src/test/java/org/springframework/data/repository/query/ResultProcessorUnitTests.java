@@ -288,7 +288,9 @@ class ResultProcessorUnitTests {
 
 	static class Sample {
 
-		public String firstname, lastname;
+		public String firstname;
+
+		public String lastname;
 
 		public Sample(String firstname, String lastname) {
 			this.firstname = firstname;

@@ -42,7 +42,10 @@ import static org.mockito.Mockito.when;
 class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
 	@Mock
-	P first, second;
+	P first;
+
+	@Mock
+	P second;
 
 	@Mock
 	Converter<P, String> converter;

@@ -23,7 +23,9 @@ import com.querydsl.core.annotations.QueryEntity;
 @QueryEntity
 public class Address {
 
-	public String street, city;
+	public String street;
+
+	public String city;
 
 	public Double[] lonLat;
 

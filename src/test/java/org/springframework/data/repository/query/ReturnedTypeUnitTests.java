@@ -195,7 +195,9 @@ class ReturnedTypeUnitTests {
 
 	static class Sample implements SampleInterface {
 
-		String firstname, lastname;
+		String firstname;
+
+		String lastname;
 
 		Sample(String firstname, String lastname) {
 			this.firstname = firstname;

@@ -44,7 +44,9 @@ public class InstantiationAwarePersistentPropertyAccessorUnitTests {
 	@Value
 	static class Sample {
 
-		String firstname, lastname;
+		String firstname;
+
+		String lastname;
 
 		int age;
 

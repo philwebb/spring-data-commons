@@ -39,7 +39,10 @@ import static org.mockito.Mockito.when;
 class RevisionUnitTests {
 
 	@Mock
-	RevisionMetadata<Integer> firstMetadata, secondMetadata;
+	RevisionMetadata<Integer> firstMetadata;
+
+	@Mock
+	RevisionMetadata<Integer> secondMetadata;
 
 	@Test
 	void comparesCorrectly() {

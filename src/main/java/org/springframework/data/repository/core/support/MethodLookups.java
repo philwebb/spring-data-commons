@@ -107,7 +107,9 @@ interface MethodLookups {
 
 		private static final String ID_TYPE_NAME = PARAMETERS[1].getName();
 
-		private final ResolvableType entityType, idType;
+		private final ResolvableType entityType;
+
+		private final ResolvableType idType;
 
 		private final Class<?> repositoryInterface;
 

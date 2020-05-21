@@ -31,7 +31,9 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 @QueryEntity
 public class User {
 
-	public String firstname, lastname;
+	public String firstname;
+
+	public String lastname;
 
 	@DateTimeFormat(iso = ISO.DATE)
 	public Date dateOfBirth;

@@ -159,7 +159,10 @@ public class ReflectionUtilsUnitTests {
 		public String field;
 
 		@Autowired
-		String first, second;
+		String first;
+
+		@Autowired
+		String second;
 
 	}
 

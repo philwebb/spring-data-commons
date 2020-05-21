@@ -506,7 +506,10 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		static class PropertyMatch {
 
 			@Nullable
-			private final String namePattern, typeName;
+			private final String namePattern;
+
+			@Nullable
+			private final String typeName;
 
 			/**
 			 * Creates a new {@link PropertyMatch} for the given name pattern and type

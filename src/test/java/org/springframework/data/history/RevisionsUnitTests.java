@@ -37,9 +37,14 @@ import static org.mockito.Mockito.when;
 class RevisionsUnitTests {
 
 	@Mock
-	RevisionMetadata<Integer> first, second;
+	RevisionMetadata<Integer> first;
 
-	Revision<Integer, Object> firstRevision, secondRevision;
+	@Mock
+	RevisionMetadata<Integer> second;
+
+	Revision<Integer, Object> firstRevision;
+
+	Revision<Integer, Object> secondRevision;
 
 	@BeforeEach
 	void setUp() {

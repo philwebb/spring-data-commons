@@ -32,7 +32,11 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  */
 class SimpleParameterAccessorUnitTests {
 
-	Parameters<?, ?> parameters, sortParameters, pageableParameters;
+	Parameters<?, ?> parameters;
+
+	Parameters<?, ?> sortParameters;
+
+	Parameters<?, ?> pageableParameters;
 
 	@BeforeEach
 	void setUp() throws SecurityException, NoSuchMethodException {

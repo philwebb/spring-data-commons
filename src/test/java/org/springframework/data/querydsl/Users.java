@@ -23,7 +23,9 @@ import java.util.List;
  */
 public class Users {
 
-	public static final User OLIVER, CHRISTOPH;
+	public static final User OLIVER;
+
+	public static final User CHRISTOPH;
 
 	public static final List<User> USERS;
 

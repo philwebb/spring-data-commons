@@ -40,7 +40,11 @@ public class InvalidPersistentPropertyPath extends MappingException {
 
 	private static final String DEFAULT_MESSAGE = "No property '%s' found on %s! Did you mean: %s?";
 
-	private final String source, unresolvableSegment, resolvedPath;
+	private final String source;
+
+	private final String unresolvableSegment;
+
+	private final String resolvedPath;
 
 	private final TypeInformation<?> type;
 

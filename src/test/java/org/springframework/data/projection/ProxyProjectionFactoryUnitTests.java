@@ -191,7 +191,9 @@ class ProxyProjectionFactoryUnitTests {
 
 		Long id;
 
-		String firstname, lastname;
+		String firstname;
+
+		String lastname;
 
 		Address address;
 
@@ -205,7 +207,9 @@ class ProxyProjectionFactoryUnitTests {
 
 	static class Address {
 
-		String zipCode, city;
+		String zipCode;
+
+		String city;
 
 	}
 

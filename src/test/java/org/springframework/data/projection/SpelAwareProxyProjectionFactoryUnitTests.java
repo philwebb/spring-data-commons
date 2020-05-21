@@ -85,7 +85,9 @@ class SpelAwareProxyProjectionFactoryUnitTests {
 
 	static class Customer {
 
-		public String firstname, lastname;
+		public String firstname;
+
+		public String lastname;
 
 	}
 

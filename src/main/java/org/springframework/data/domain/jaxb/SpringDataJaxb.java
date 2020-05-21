@@ -110,7 +110,10 @@ public abstract class SpringDataJaxb {
 	public static class PageRequestDto {
 
 		@XmlAttribute
-		int page, size;
+		int page;
+
+		@XmlAttribute
+		int size;
 
 		@XmlElement(name = "order", namespace = NAMESPACE)
 		List<OrderDto> orders = new ArrayList<>();
