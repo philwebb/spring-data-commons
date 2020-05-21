@@ -88,15 +88,6 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 	public abstract Pageable first();
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + this.page;
-		result = prime * result + this.size;
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -106,6 +97,15 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 		}
 		AbstractPageRequest other = (AbstractPageRequest) obj;
 		return this.page == other.page && this.size == other.size;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + this.page;
+		result = prime * result + this.size;
+		return result;
 	}
 
 }

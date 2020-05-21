@@ -77,16 +77,6 @@ public class Point implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		int result = 1;
-		long temp = Double.doubleToLongBits(this.x);
-		result = 31 * result + (int) (temp ^ temp >>> 32);
-		temp = Double.doubleToLongBits(this.y);
-		result = 31 * result + (int) (temp ^ temp >>> 32);
-		return result;
-	}
-
-	@Override
 	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
@@ -102,6 +92,16 @@ public class Point implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = 1;
+		long temp = Double.doubleToLongBits(this.x);
+		result = 31 * result + (int) (temp ^ temp >>> 32);
+		temp = Double.doubleToLongBits(this.y);
+		result = 31 * result + (int) (temp ^ temp >>> 32);
+		return result;
 	}
 
 	@Override

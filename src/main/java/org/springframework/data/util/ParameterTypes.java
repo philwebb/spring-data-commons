@@ -155,12 +155,6 @@ public class ParameterTypes {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return this.types.stream().map(TypeDescriptor::getType).map(Class::getSimpleName)
-				.collect(Collectors.joining(", ", "(", ")"));
-	}
-
 	protected Optional<ParameterTypes> getParent() {
 		return this.types.isEmpty() ? Optional.empty() : getParent(getTail());
 	}
@@ -238,6 +232,12 @@ public class ParameterTypes {
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(this.types);
+	}
+
+	@Override
+	public String toString() {
+		return this.types.stream().map(TypeDescriptor::getType).map(Class::getSimpleName)
+				.collect(Collectors.joining(", ", "(", ")"));
 	}
 
 	/**

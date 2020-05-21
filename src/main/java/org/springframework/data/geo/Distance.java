@@ -152,16 +152,6 @@ public final class Distance implements Serializable, Comparable<Distance> {
 		return difference == 0 ? 0 : difference > 0 ? 1 : -1;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(this.value);
-		if (this.metric != Metrics.NEUTRAL) {
-			builder.append(" ").append(this.metric.toString());
-		}
-		return builder.toString();
-	}
-
 	public double getValue() {
 		return this.value;
 	}
@@ -193,6 +183,16 @@ public final class Distance implements Serializable, Comparable<Distance> {
 		result = (int) (temp ^ (temp >>> 32));
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.metric);
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.value);
+		if (this.metric != Metrics.NEUTRAL) {
+			builder.append(" ").append(this.metric.toString());
+		}
+		return builder.toString();
 	}
 
 }

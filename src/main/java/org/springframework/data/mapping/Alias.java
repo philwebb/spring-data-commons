@@ -129,11 +129,6 @@ public final class Alias {
 		return isPresent() && type.isInstance(this.value) ? (T) this.value : null;
 	}
 
-	@Override
-	public String toString() {
-		return isPresent() ? this.value.toString() : "NONE";
-	}
-
 	public Object getValue() {
 		return this.value;
 	}
@@ -153,6 +148,11 @@ public final class Alias {
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(this.value);
+	}
+
+	@Override
+	public String toString() {
+		return isPresent() ? this.value.toString() : "NONE";
 	}
 
 }

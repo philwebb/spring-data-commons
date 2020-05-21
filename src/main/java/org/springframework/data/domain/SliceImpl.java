@@ -68,16 +68,6 @@ public class SliceImpl<T> extends Chunk<T> {
 	}
 
 	@Override
-	public String toString() {
-		String contentType = "UNKNOWN";
-		List<T> content = getContent();
-		if (content.size() > 0) {
-			contentType = content.get(0).getClass().getName();
-		}
-		return String.format("Slice %d containing %s instances", getNumber(), contentType);
-	}
-
-	@Override
 	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
@@ -95,6 +85,16 @@ public class SliceImpl<T> extends Chunk<T> {
 		result += 31 * (this.hasNext ? 1 : 0);
 		result += 31 * super.hashCode();
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		String contentType = "UNKNOWN";
+		List<T> content = getContent();
+		if (content.size() > 0) {
+			contentType = content.get(0).getClass().getName();
+		}
+		return String.format("Slice %d containing %s instances", getNumber(), contentType);
 	}
 
 }

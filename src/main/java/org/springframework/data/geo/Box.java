@@ -77,8 +77,15 @@ public class Box implements Shape {
 	}
 
 	@Override
-	public String toString() {
-		return String.format("Box [%s, %s]", this.first, this.second);
+	public boolean equals(@Nullable Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Box)) {
+			return false;
+		}
+		Box other = (Box) obj;
+		return this.first.equals(other.first) && this.second.equals(other.second);
 	}
 
 	@Override
@@ -90,15 +97,8 @@ public class Box implements Shape {
 	}
 
 	@Override
-	public boolean equals(@Nullable Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof Box)) {
-			return false;
-		}
-		Box other = (Box) obj;
-		return this.first.equals(other.first) && this.second.equals(other.second);
+	public String toString() {
+		return String.format("Box [%s, %s]", this.first, this.second);
 	}
 
 }

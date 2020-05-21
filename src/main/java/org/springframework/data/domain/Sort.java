@@ -534,16 +534,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		}
 
 		@Override
-		public int hashCode() {
-			int result = 17;
-			result = 31 * result + this.direction.hashCode();
-			result = 31 * result + this.property.hashCode();
-			result = 31 * result + (this.ignoreCase ? 1 : 0);
-			result = 31 * result + this.nullHandling.hashCode();
-			return result;
-		}
-
-		@Override
 		public boolean equals(@Nullable Object obj) {
 			if (this == obj) {
 				return true;
@@ -554,6 +544,16 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 			Order other = (Order) obj;
 			return this.direction.equals(other.direction) && this.property.equals(other.property)
 					&& this.ignoreCase == other.ignoreCase && this.nullHandling.equals(other.nullHandling);
+		}
+
+		@Override
+		public int hashCode() {
+			int result = 17;
+			result = 31 * result + this.direction.hashCode();
+			result = 31 * result + this.property.hashCode();
+			result = 31 * result + (this.ignoreCase ? 1 : 0);
+			result = 31 * result + this.nullHandling.hashCode();
+			return result;
 		}
 
 		@Override

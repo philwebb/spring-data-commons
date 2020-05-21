@@ -140,12 +140,6 @@ public interface RepositoryFragment<T> {
 		}
 
 		@Override
-		public String toString() {
-			return String.format("StructuralRepositoryFragment %s",
-					ClassUtils.getShortName(this.interfaceOrImplementation));
-		}
-
-		@Override
 		public boolean equals(Object o) {
 			if (this == o) {
 				return true;
@@ -160,6 +154,12 @@ public interface RepositoryFragment<T> {
 		@Override
 		public int hashCode() {
 			return ObjectUtils.nullSafeHashCode(this.interfaceOrImplementation);
+		}
+
+		@Override
+		public String toString() {
+			return String.format("StructuralRepositoryFragment %s",
+					ClassUtils.getShortName(this.interfaceOrImplementation));
 		}
 
 	}
@@ -206,13 +206,6 @@ public interface RepositoryFragment<T> {
 		}
 
 		@Override
-		public String toString() {
-			return String.format("ImplementedRepositoryFragment %s%s",
-					this.interfaceClass.map(ClassUtils::getShortName).map((it) -> it + ":").orElse(""),
-					ClassUtils.getShortName(this.implementation.getClass()));
-		}
-
-		@Override
 		public boolean equals(Object o) {
 			if (this == o) {
 				return true;
@@ -236,6 +229,13 @@ public interface RepositoryFragment<T> {
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.implementation);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.optionalImplementation);
 			return result;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("ImplementedRepositoryFragment %s%s",
+					this.interfaceClass.map(ClassUtils::getShortName).map((it) -> it + ":").orElse(""),
+					ClassUtils.getShortName(this.implementation.getClass()));
 		}
 
 	}

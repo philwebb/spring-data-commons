@@ -414,11 +414,6 @@ public final class RepositoryComposition {
 		}
 
 		@Override
-		public String toString() {
-			return this.fragments.toString();
-		}
-
-		@Override
 		public boolean equals(Object o) {
 			if (this == o) {
 				return true;
@@ -442,6 +437,11 @@ public final class RepositoryComposition {
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.invocationMetadataCache);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(this.fragments);
 			return result;
+		}
+
+		@Override
+		public String toString() {
+			return this.fragments.toString();
 		}
 
 	}

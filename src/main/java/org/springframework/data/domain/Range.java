@@ -180,11 +180,6 @@ public final class Range<T extends Comparable<T>> {
 		return greaterThanLowerBound && lessThanUpperBound;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("%s-%s", this.lowerBound.toPrefixString(), this.upperBound.toSuffixString());
-	}
-
 	public Range.Bound<T> getLowerBound() {
 		return this.lowerBound;
 	}
@@ -213,6 +208,11 @@ public final class Range<T extends Comparable<T>> {
 		int result = ObjectUtils.nullSafeHashCode(this.lowerBound);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.upperBound);
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s-%s", this.lowerBound.toPrefixString(), this.upperBound.toSuffixString());
 	}
 
 	/**
@@ -356,11 +356,6 @@ public final class Range<T extends Comparable<T>> {
 					.orElse("unbounded");
 		}
 
-		@Override
-		public String toString() {
-			return this.value.map(Object::toString).orElse("unbounded");
-		}
-
 		public Optional<T> getValue() {
 			return this.value;
 		}
@@ -389,6 +384,11 @@ public final class Range<T extends Comparable<T>> {
 			int result = ObjectUtils.nullSafeHashCode(this.value);
 			result = 31 * result + (this.inclusive ? 1 : 0);
 			return result;
+		}
+
+		@Override
+		public String toString() {
+			return this.value.map(Object::toString).orElse("unbounded");
 		}
 
 	}

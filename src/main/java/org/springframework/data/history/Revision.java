@@ -100,12 +100,6 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 				.orElse(-1);
 	}
 
-	@Override
-	public String toString() {
-		return String.format("Revision %s of entity %s - Revision metadata %s",
-				getRevisionNumber().map(Object::toString).orElse("<unknown>"), this.entity, this.metadata);
-	}
-
 	public RevisionMetadata<N> getMetadata() {
 		return this.metadata;
 	}
@@ -134,6 +128,12 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 		int result = ObjectUtils.nullSafeHashCode(this.metadata);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(this.entity);
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Revision %s of entity %s - Revision metadata %s",
+				getRevisionNumber().map(Object::toString).orElse("<unknown>"), this.entity, this.metadata);
 	}
 
 }
