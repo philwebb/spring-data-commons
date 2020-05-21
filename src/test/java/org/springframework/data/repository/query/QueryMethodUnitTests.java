@@ -159,30 +159,21 @@ class QueryMethodUnitTests {
 		assertThat(new QueryMethod(method, repositoryMetadata, this.factory).isCollectionQuery()).isTrue();
 	}
 
-	/**
-	 * @see DATACMNS-940
-	 */
-	@Test
+	@Test // DATACMNS-940
 	void detectsCustomCollectionReturnType() throws Exception {
 		RepositoryMetadata repositoryMetadata = new DefaultRepositoryMetadata(SampleRepository.class);
 		Method method = SampleRepository.class.getMethod("returnsSeq");
 		assertThat(new QueryMethod(method, repositoryMetadata, this.factory).isCollectionQuery()).isTrue();
 	}
 
-	/**
-	 * @see DATACMNS-940
-	 */
-	@Test
+	@Test // DATACMNS-940
 	void detectsWrapperWithinWrapper() throws Exception {
 		RepositoryMetadata repositoryMetadata = new DefaultRepositoryMetadata(SampleRepository.class);
 		Method method = SampleRepository.class.getMethod("returnsFutureOfSeq");
 		assertThat(new QueryMethod(method, repositoryMetadata, this.factory).isCollectionQuery()).isTrue();
 	}
 
-	/**
-	 * @see DATACMNS-940
-	 */
-	@Test
+	@Test // DATACMNS-940
 	void detectsSinglValueWrapperWithinWrapper() throws Exception {
 		RepositoryMetadata repositoryMetadata = new DefaultRepositoryMetadata(SampleRepository.class);
 		Method method = SampleRepository.class.getMethod("returnsFutureOfOption");

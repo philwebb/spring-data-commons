@@ -43,10 +43,7 @@ class MethodParametersUnitTests {
 		assertThat(parameters.getParameter("another")).isNotPresent();
 	}
 
-	/**
-	 * @see #138
-	 */
-	@Test
+	@Test // 138
 	void returnsParametersOfAGivenType() throws Exception {
 		Method method = Sample.class.getMethod("method", String.class, String.class, Object.class);
 		MethodParameters methodParameters = new MethodParameters(method);
