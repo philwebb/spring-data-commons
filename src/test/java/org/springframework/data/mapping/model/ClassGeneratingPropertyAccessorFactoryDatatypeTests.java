@@ -137,71 +137,71 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 
 		int primitiveInteger;
 
-		int primitiveIntegerArray[];
+		int[] primitiveIntegerArray;
 
 		Integer boxedInteger;
 
-		Integer boxedIntegerArray[];
+		Integer[] boxedIntegerArray;
 
 		short primitiveShort;
 
-		short primitiveShortArray[];
+		short[] primitiveShortArray;
 
 		Short boxedShort;
 
-		Short boxedShortArray[];
+		Short[] boxedShortArray;
 
 		byte primitiveByte;
 
-		byte primitiveByteArray[];
+		byte[] primitiveByteArray;
 
 		Byte boxedByte;
 
-		Byte boxedByteArray[];
+		Byte[] boxedByteArray;
 
 		char primitiveChar;
 
-		char primitiveCharArray[];
+		char[] primitiveCharArray;
 
 		Character boxedChar;
 
-		Character boxedCharArray[];
+		Character[] boxedCharArray;
 
 		boolean primitiveBoolean;
 
-		boolean primitiveBooleanArray[];
+		boolean[] primitiveBooleanArray;
 
 		Boolean boxedBoolean;
 
-		Boolean boxedBooleanArray[];
+		Boolean[] boxedBooleanArray;
 
 		float primitiveFloat;
 
-		float primitiveFloatArray[];
+		float[] primitiveFloatArray;
 
 		Float boxedFloat;
 
-		Float boxedFloatArray[];
+		Float[] boxedFloatArray;
 
 		double primitiveDouble;
 
-		double primitiveDoubleArray[];
+		double[] primitiveDoubleArray;
 
 		Double boxedDouble;
 
-		Double boxedDoubleArray[];
+		Double[] boxedDoubleArray;
 
 		long primitiveLong;
 
-		long primitiveLongArray[];
+		long[] primitiveLongArray;
 
 		Long boxedLong;
 
-		Long boxedLongArray[];
+		Long[] boxedLongArray;
 
 		String string;
 
-		String stringArray[];
+		String[] stringArray;
 
 	}
 
@@ -212,71 +212,71 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 
 		int primitiveInteger;
 
-		int primitiveIntegerArray[];
+		int[] primitiveIntegerArray;
 
 		Integer boxedInteger;
 
-		Integer boxedIntegerArray[];
+		Integer[] boxedIntegerArray;
 
 		short primitiveShort;
 
-		short primitiveShortArray[];
+		short[] primitiveShortArray;
 
 		Short boxedShort;
 
-		Short boxedShortArray[];
+		Short[] boxedShortArray;
 
 		byte primitiveByte;
 
-		byte primitiveByteArray[];
+		byte[] primitiveByteArray;
 
 		Byte boxedByte;
 
-		Byte boxedByteArray[];
+		Byte[] boxedByteArray;
 
 		char primitiveChar;
 
-		char primitiveCharArray[];
+		char[] primitiveCharArray;
 
 		Character boxedChar;
 
-		Character boxedCharArray[];
+		Character[] boxedCharArray;
 
 		boolean primitiveBoolean;
 
-		boolean primitiveBooleanArray[];
+		boolean[] primitiveBooleanArray;
 
 		Boolean boxedBoolean;
 
-		Boolean boxedBooleanArray[];
+		Boolean[] boxedBooleanArray;
 
 		float primitiveFloat;
 
-		float primitiveFloatArray[];
+		float[] primitiveFloatArray;
 
 		Float boxedFloat;
 
-		Float boxedFloatArray[];
+		Float[] boxedFloatArray;
 
 		double primitiveDouble;
 
-		double primitiveDoubleArray[];
+		double[] primitiveDoubleArray;
 
 		Double boxedDouble;
 
-		Double boxedDoubleArray[];
+		Double[] boxedDoubleArray;
 
 		long primitiveLong;
 
-		long primitiveLongArray[];
+		long[] primitiveLongArray;
 
 		Long boxedLong;
 
-		Long boxedLongArray[];
+		Long[] boxedLongArray;
 
 		String string;
 
-		String stringArray[];
+		String[] stringArray;
 
 	}
 
@@ -286,71 +286,71 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 
 		int primitiveInteger;
 
-		int primitiveIntegerArray[];
+		int[] primitiveIntegerArray;
 
 		Integer boxedInteger;
 
-		Integer boxedIntegerArray[];
+		Integer[] boxedIntegerArray;
 
 		short primitiveShort;
 
-		short primitiveShortArray[];
+		short[] primitiveShortArray;
 
 		Short boxedShort;
 
-		Short boxedShortArray[];
+		Short[] boxedShortArray;
 
 		byte primitiveByte;
 
-		byte primitiveByteArray[];
+		byte[] primitiveByteArray;
 
 		Byte boxedByte;
 
-		Byte boxedByteArray[];
+		Byte[] boxedByteArray;
 
 		char primitiveChar;
 
-		char primitiveCharArray[];
+		char[] primitiveCharArray;
 
 		Character boxedChar;
 
-		Character boxedCharArray[];
+		Character[] boxedCharArray;
 
 		boolean primitiveBoolean;
 
-		boolean primitiveBooleanArray[];
+		boolean[] primitiveBooleanArray;
 
 		Boolean boxedBoolean;
 
-		Boolean boxedBooleanArray[];
+		Boolean[] boxedBooleanArray;
 
 		float primitiveFloat;
 
-		float primitiveFloatArray[];
+		float[] primitiveFloatArray;
 
 		Float boxedFloat;
 
-		Float boxedFloatArray[];
+		Float[] boxedFloatArray;
 
 		double primitiveDouble;
 
-		double primitiveDoubleArray[];
+		double[] primitiveDoubleArray;
 
 		Double boxedDouble;
 
-		Double boxedDoubleArray[];
+		Double[] boxedDoubleArray;
 
 		long primitiveLong;
 
-		long primitiveLongArray[];
+		long[] primitiveLongArray;
 
 		Long boxedLong;
 
-		Long boxedLongArray[];
+		Long[] boxedLongArray;
 
 		String string;
 
-		String stringArray[];
+		String[] stringArray;
 
 	}
 
@@ -361,71 +361,71 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 
 		int primitiveInteger;
 
-		int primitiveIntegerArray[];
+		int[] primitiveIntegerArray;
 
 		Integer boxedInteger;
 
-		Integer boxedIntegerArray[];
+		Integer[] boxedIntegerArray;
 
 		short primitiveShort;
 
-		short primitiveShortArray[];
+		short[] primitiveShortArray;
 
 		Short boxedShort;
 
-		Short boxedShortArray[];
+		Short[] boxedShortArray;
 
 		byte primitiveByte;
 
-		byte primitiveByteArray[];
+		byte[] primitiveByteArray;
 
 		Byte boxedByte;
 
-		Byte boxedByteArray[];
+		Byte[] boxedByteArray;
 
 		char primitiveChar;
 
-		char primitiveCharArray[];
+		char[] primitiveCharArray;
 
 		Character boxedChar;
 
-		Character boxedCharArray[];
+		Character[] boxedCharArray;
 
 		boolean primitiveBoolean;
 
-		boolean primitiveBooleanArray[];
+		boolean[] primitiveBooleanArray;
 
 		Boolean boxedBoolean;
 
-		Boolean boxedBooleanArray[];
+		Boolean[] boxedBooleanArray;
 
 		float primitiveFloat;
 
-		float primitiveFloatArray[];
+		float[] primitiveFloatArray;
 
 		Float boxedFloat;
 
-		Float boxedFloatArray[];
+		Float[] boxedFloatArray;
 
 		double primitiveDouble;
 
-		double primitiveDoubleArray[];
+		double[] primitiveDoubleArray;
 
 		Double boxedDouble;
 
-		Double boxedDoubleArray[];
+		Double[] boxedDoubleArray;
 
 		long primitiveLong;
 
-		long primitiveLongArray[];
+		long[] primitiveLongArray;
 
 		Long boxedLong;
 
-		Long boxedLongArray[];
+		Long[] boxedLongArray;
 
 		String string;
 
-		String stringArray[];
+		String[] stringArray;
 
 	}
 
