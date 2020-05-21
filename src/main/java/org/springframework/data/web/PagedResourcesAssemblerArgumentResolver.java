@@ -136,8 +136,10 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 			MethodParameter pageableParameter = pageableParameters.get(0);
 			MethodParameter matchingParameter = returnIfQualifiersMatch(pageableParameter, assemblerQualifier);
 			if (matchingParameter == null) {
-				logger.info(LogMessage.format(SUPERFLOUS_QUALIFIER, PagedResourcesAssembler.class.getSimpleName(),
-						Pageable.class.getName()));
+				logger.info(LogMessage.format(
+						"Found qualified %s parameter, but a unique unqualified %s parameter. "
+								+ "Using that one, but you might want to check your controller method configuration!",
+						PagedResourcesAssembler.class.getSimpleName(), Pageable.class.getName()));
 			}
 			return pageableParameter;
 		}

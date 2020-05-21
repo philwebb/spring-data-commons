@@ -58,12 +58,6 @@ import org.springframework.util.StopWatch;
  */
 public class RepositoryConfigurationDelegate {
 
-	private static final String REPOSITORY_REGISTRATION = "Spring Data %s - Registering repository: %s - Interface: %s - Factory: %s";
-
-	private static final String MULTIPLE_MODULES = "Multiple Spring Data modules found, entering strict repository configuration mode!";
-
-	private static final String NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER = "Non-default AutowireCandidateResolver (%s) detected. Skipping the registration of LazyRepositoryInjectionPointResolver. Lazy repository injection will not be working!";
-
 	static final String FACTORY_BEAN_OBJECT_TYPE = "factoryBeanObjectType";
 
 	private static final Log logger = LogFactory.getLog(RepositoryConfigurationDelegate.class);
@@ -155,8 +149,10 @@ public class RepositoryConfigurationDelegate {
 			beanDefinition.setResourceDescription(configuration.getResourceDescription());
 			String beanName = this.configurationSource.generateBeanName(beanDefinition);
 			if (logger.isTraceEnabled()) {
-				logger.trace(LogMessage.format(REPOSITORY_REGISTRATION, extension.getModuleName(), beanName,
-						configuration.getRepositoryInterface(), configuration.getRepositoryFactoryBeanClassName()));
+				logger.trace(
+						LogMessage.format("Spring Data %s - Registering repository: %s - Interface: %s - Factory: %s",
+								extension.getModuleName(), beanName, configuration.getRepositoryInterface(),
+								configuration.getRepositoryFactoryBeanClassName()));
 			}
 			beanDefinition.setAttribute(FACTORY_BEAN_OBJECT_TYPE, configuration.getRepositoryInterface());
 			registry.registerBeanDefinition(beanName, beanDefinition);
@@ -191,7 +187,9 @@ public class RepositoryConfigurationDelegate {
 		AutowireCandidateResolver resolver = beanFactory.getAutowireCandidateResolver();
 		if (!Arrays.asList(ContextAnnotationAutowireCandidateResolver.class, LazyRepositoryInjectionPointResolver.class)
 				.contains(resolver.getClass())) {
-			logger.warn(LogMessage.format(NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER, resolver.getClass().getName()));
+			logger.warn(LogMessage.format("Non-default AutowireCandidateResolver (%s) detected. "
+					+ "Skipping the registration of LazyRepositoryInjectionPointResolver. "
+					+ "Lazy repository injection will not be working!", resolver.getClass().getName()));
 			return;
 		}
 		AutowireCandidateResolver newResolver = LazyRepositoryInjectionPointResolver.class.isInstance(resolver)
@@ -215,7 +213,7 @@ public class RepositoryConfigurationDelegate {
 		boolean multipleModulesFound = SpringFactoriesLoader
 				.loadFactoryNames(RepositoryFactorySupport.class, this.resourceLoader.getClassLoader()).size() > 1;
 		if (multipleModulesFound) {
-			logger.info(MULTIPLE_MODULES);
+			logger.info("Multiple Spring Data modules found, entering strict repository configuration mode!");
 		}
 		return multipleModulesFound;
 	}
