@@ -19,8 +19,8 @@ package org.springframework.data.repository.core.support;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Optional;
 
-import com.google.common.base.Optional;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.data.domain.Page;
