@@ -48,7 +48,7 @@ public class GeoModule extends SimpleModule {
 	}
 
 	@JsonIgnoreProperties("unit")
-	static abstract class DistanceMixin {
+	abstract static class DistanceMixin {
 
 		DistanceMixin(@JsonProperty("value") double value,
 				@JsonProperty("metric") @JsonDeserialize(as = Metrics.class) Metric metic) {
@@ -59,28 +59,28 @@ public class GeoModule extends SimpleModule {
 
 	}
 
-	static abstract class PointMixin {
+	abstract static class PointMixin {
 
 		PointMixin(@JsonProperty("x") double x, @JsonProperty("y") double y) {
 		}
 
 	}
 
-	static abstract class CircleMixin {
+	abstract static class CircleMixin {
 
 		CircleMixin(@JsonProperty("center") Point center, @JsonProperty("radius") Distance radius) {
 		}
 
 	}
 
-	static abstract class BoxMixin {
+	abstract static class BoxMixin {
 
 		BoxMixin(@JsonProperty("first") Point first, @JsonProperty("second") Point point) {
 		}
 
 	}
 
-	static abstract class PolygonMixin {
+	abstract static class PolygonMixin {
 
 		PolygonMixin(@JsonProperty("points") List<Point> points) {
 		}

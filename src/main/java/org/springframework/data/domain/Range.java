@@ -29,7 +29,7 @@ import org.springframework.util.ObjectUtils;
  */
 public final class Range<T extends Comparable<T>> {
 
-	private final static Range<?> UNBOUNDED = Range.of(Bound.unbounded(), Bound.UNBOUNDED);
+	private static final Range<?> UNBOUNDED = Range.of(Bound.unbounded(), Bound.UNBOUNDED);
 
 	/**
 	 * The lower bound of the range.

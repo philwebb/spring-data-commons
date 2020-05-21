@@ -100,7 +100,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		return args;
 	};
 
-	final static GenericConversionService CONVERSION_SERVICE = new DefaultConversionService();
+	static final GenericConversionService CONVERSION_SERVICE = new DefaultConversionService();
 
 	private static final Log logger = LogFactory.getLog(RepositoryFactorySupport.class);
 

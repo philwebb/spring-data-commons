@@ -295,7 +295,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		 * Canonical value held in cache to indicate no transaction attribute was found
 		 * for this method, and we don't need to look again.
 		 */
-		private final static TransactionAttribute NULL_TRANSACTION_ATTRIBUTE = new DefaultTransactionAttribute();
+		private static final TransactionAttribute NULL_TRANSACTION_ATTRIBUTE = new DefaultTransactionAttribute();
 
 		/**
 		 * Logger available to subclasses.

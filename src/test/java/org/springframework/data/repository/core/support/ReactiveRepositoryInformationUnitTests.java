@@ -135,7 +135,7 @@ class ReactiveRepositoryInformationUnitTests {
 
 	}
 
-	static abstract class DummyGenericReactiveRepositorySupport<T, ID> implements ReactiveCrudRepository<T, ID> {
+	abstract static class DummyGenericReactiveRepositorySupport<T, ID> implements ReactiveCrudRepository<T, ID> {
 
 	}
 

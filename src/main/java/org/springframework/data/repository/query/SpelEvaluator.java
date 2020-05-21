@@ -37,7 +37,7 @@ import org.springframework.util.Assert;
  */
 public class SpelEvaluator {
 
-	private final static SpelExpressionParser PARSER = new SpelExpressionParser();
+	private static final SpelExpressionParser PARSER = new SpelExpressionParser();
 
 	private final QueryMethodEvaluationContextProvider evaluationContextProvider;
 

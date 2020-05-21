@@ -47,13 +47,13 @@ public class DataCmns511Tests {
 
 	}
 
-	static abstract class AbstractUser<USER extends AbstractUser<USER, ROLE>, ROLE extends AbstractRole<USER, ROLE>> {
+	abstract static class AbstractUser<USER extends AbstractUser<USER, ROLE>, ROLE extends AbstractRole<USER, ROLE>> {
 
 		Set<ROLE> roles = new HashSet<>();
 
 	}
 
-	static abstract class AuditingEntity<USER extends AbstractUser<USER, ?>> {
+	abstract static class AuditingEntity<USER extends AbstractUser<USER, ?>> {
 
 		USER createdBy;
 

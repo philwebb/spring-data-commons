@@ -156,7 +156,7 @@ class AuditingHandlerUnitTests {
 		assertThat(result.modified).isNotNull();
 	}
 
-	static abstract class AbstractModel {
+	abstract static class AbstractModel {
 
 		@CreatedDate
 		Instant created;

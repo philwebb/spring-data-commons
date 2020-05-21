@@ -291,7 +291,7 @@ public abstract class QueryExecutionConverters {
 	 * Base class for converters that create instances of wrapper types such as Google
 	 * Guava's and JDK 8's {@code Optional} types.
 	 */
-	private static abstract class AbstractWrapperTypeConverter implements GenericConverter {
+	private abstract static class AbstractWrapperTypeConverter implements GenericConverter {
 
 		private final ConversionService conversionService;
 
@@ -447,7 +447,7 @@ public abstract class QueryExecutionConverters {
 
 	/**
 	 * A Spring {@link Converter} to support Scala's {@link Option}.
-	 * 
+	 *
 	 * @since 1.13
 	 */
 	private static class NullableWrapperToScalaOptionConverter extends AbstractWrapperTypeConverter {
@@ -470,7 +470,7 @@ public abstract class QueryExecutionConverters {
 	/**
 	 * Converter to convert from {@link NullableWrapper} into JavaSlang's
 	 * {@link io.vavr.control.Option}.
-	 * 
+	 *
 	 * @since 2.0
 	 */
 	private static class NullableWrapperToVavrOptionConverter extends AbstractWrapperTypeConverter {

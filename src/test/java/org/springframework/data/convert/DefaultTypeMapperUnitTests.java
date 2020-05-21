@@ -106,7 +106,7 @@ class DefaultTypeMapperUnitTests {
 
 	}
 
-	static abstract class AbstractBar<T> {
+	abstract static class AbstractBar<T> {
 
 	}
 

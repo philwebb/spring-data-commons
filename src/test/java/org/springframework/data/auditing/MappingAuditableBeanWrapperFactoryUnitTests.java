@@ -267,7 +267,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 
 	}
 
-	static abstract class ExtendingAuditable implements Auditable<Object, Long, LocalDateTime> {
+	abstract static class ExtendingAuditable implements Auditable<Object, Long, LocalDateTime> {
 
 	}
 

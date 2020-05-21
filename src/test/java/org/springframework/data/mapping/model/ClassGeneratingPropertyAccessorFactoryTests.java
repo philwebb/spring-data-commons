@@ -46,9 +46,9 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  */
 public class ClassGeneratingPropertyAccessorFactoryTests {
 
-	private final static ClassGeneratingPropertyAccessorFactory factory = new ClassGeneratingPropertyAccessorFactory();
+	private static final ClassGeneratingPropertyAccessorFactory factory = new ClassGeneratingPropertyAccessorFactory();
 
-	private final static SampleMappingContext mappingContext = new SampleMappingContext();
+	private static final SampleMappingContext mappingContext = new SampleMappingContext();
 
 	@SuppressWarnings("unchecked")
 	public static List<Object[]> parameters() throws ReflectiveOperationException {

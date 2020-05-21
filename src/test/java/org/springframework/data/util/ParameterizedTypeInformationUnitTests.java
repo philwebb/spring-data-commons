@@ -232,7 +232,7 @@ class ParameterizedTypeInformationUnitTests {
 
 	// FOO
 
-	static abstract class Generic<T> {
+	abstract static class Generic<T> {
 
 		Inner<T> inner;
 

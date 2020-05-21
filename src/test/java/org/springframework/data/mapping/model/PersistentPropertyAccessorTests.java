@@ -45,7 +45,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 public class PersistentPropertyAccessorTests {
 
-	private final static SampleMappingContext MAPPING_CONTEXT = new SampleMappingContext();
+	private static final SampleMappingContext MAPPING_CONTEXT = new SampleMappingContext();
 
 	@SuppressWarnings("unchecked")
 	public static List<Object[]> parameters() {
