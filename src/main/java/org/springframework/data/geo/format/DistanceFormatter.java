@@ -56,11 +56,6 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 
 		SUPPORTED_METRICS = Collections.unmodifiableMap(metrics);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-	 */
 	@Nullable
 	@Override
 	public final Distance convert(String source) {

@@ -71,11 +71,6 @@ class MapDataBinder extends WebDataBinder {
 		this.type = type;
 		this.conversionService = conversionService;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.validation.DataBinder#getTarget()
-	 */
 	@NonNull
 	@Override
 	@SuppressWarnings("unchecked")
@@ -89,11 +84,6 @@ class MapDataBinder extends WebDataBinder {
 
 		return (Map<String, Object>) target;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.validation.DataBinder#getPropertyAccessor()
-	 */
 	@Override
 	protected ConfigurablePropertyAccessor getPropertyAccessor() {
 		return new MapPropertyAccessor(type, getTarget(), conversionService);
@@ -121,20 +111,10 @@ class MapDataBinder extends WebDataBinder {
 			this.map = map;
 			this.conversionService = conversionService;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.beans.PropertyAccessor#isReadableProperty(java.lang.String)
-		 */
 		@Override
 		public boolean isReadableProperty(String propertyName) {
 			throw new UnsupportedOperationException();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.beans.PropertyAccessor#isWritableProperty(java.lang.String)
-		 */
 		@Override
 		public boolean isWritableProperty(String propertyName) {
 
@@ -144,21 +124,11 @@ class MapDataBinder extends WebDataBinder {
 				return false;
 			}
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.beans.PropertyAccessor#getPropertyTypeDescriptor(java.lang.String)
-		 */
 		@Nullable
 		@Override
 		public TypeDescriptor getPropertyTypeDescriptor(String propertyName) throws BeansException {
 			throw new UnsupportedOperationException();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.beans.AbstractPropertyAccessor#getPropertyValue(java.lang.String)
-		 */
 		@Nullable
 		@Override
 		public Object getPropertyValue(String propertyName) throws BeansException {

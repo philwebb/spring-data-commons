@@ -145,11 +145,6 @@ public class Version implements Comparable<Version> {
 	public boolean isLessThanOrEqualTo(Version version) {
 		return compareTo(version) <= 0;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	public int compareTo(@SuppressWarnings("null") Version that) {
 
 		if (major != that.major) {
@@ -170,11 +165,6 @@ public class Version implements Comparable<Version> {
 
 		return 0;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -191,11 +181,6 @@ public class Version implements Comparable<Version> {
 		return this.major == that.major && this.minor == that.minor && this.bugfix == that.bugfix
 				&& this.build == that.build;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 
@@ -206,11 +191,6 @@ public class Version implements Comparable<Version> {
 		result += 31 * build;
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 

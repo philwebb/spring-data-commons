@@ -164,11 +164,6 @@ class EvaluationContextExtensionInformation {
 			public PublicMethodAndFieldFilter(boolean staticOnly) {
 				this.staticOnly = staticOnly;
 			}
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.util.ReflectionUtils.MethodFilter#matches(java.lang.reflect.Method)
-			 */
 			@Override
 			public boolean matches(Method method) {
 
@@ -181,11 +176,6 @@ class EvaluationContextExtensionInformation {
 
 				return Modifier.isPublic(method.getModifiers()) && staticMatch;
 			}
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.util.ReflectionUtils.FieldFilter#matches(java.lang.reflect.Field)
-			 */
 			@Override
 			public boolean matches(Field field) {
 

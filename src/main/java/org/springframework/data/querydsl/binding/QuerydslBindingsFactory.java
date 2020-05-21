@@ -63,11 +63,6 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 		this.beanFactory = Optional.empty();
 		this.repositories = Optional.empty();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
-	 */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 

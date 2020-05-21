@@ -40,11 +40,6 @@ import org.springframework.lang.Nullable;
  * @since 2.0
  */
 class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInstantiator {
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.ClassGeneratingEntityInstantiator#doCreateEntityInstantiator(org.springframework.data.mapping.PersistentEntity)
-	 */
 	@Override
 	protected EntityInstantiator doCreateEntityInstantiator(PersistentEntity<?, ?> entity) {
 

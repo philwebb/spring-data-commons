@@ -42,20 +42,10 @@ class QuerydslPathInformation implements PathInformation {
 	public static QuerydslPathInformation of(Path<?> path) {
 		return new QuerydslPathInformation(path);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.MappedPath#getLeafType()
-	 */
 	@Override
 	public Class<?> getLeafType() {
 		return path.getType();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.MappedPath#getLeafParentType()
-	 */
 	@Override
 	public Class<?> getLeafParentType() {
 
@@ -67,47 +57,22 @@ class QuerydslPathInformation implements PathInformation {
 
 		return parent.getType();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.MappedPath#getLeafProperty()
-	 */
 	@Override
 	public String getLeafProperty() {
 		return path.getMetadata().getElement().toString();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.MappedPath#getLeafPropertyDescriptor()
-	 */
 	@Nullable
 	@Override
 	public PropertyDescriptor getLeafPropertyDescriptor() {
 		return BeanUtils.getPropertyDescriptor(getLeafParentType(), getLeafProperty());
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.MappedPath#toDotPath()
-	 */
 	@Override
 	public String toDotPath() {
 		return QuerydslUtils.toDotPath(path);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.PathInformation#reifyPath(org.springframework.data.querydsl.EntityPathResolver)
-	 */
 	public Path<?> reifyPath(EntityPathResolver resolver) {
 		return path;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -122,20 +87,10 @@ class QuerydslPathInformation implements PathInformation {
 		QuerydslPathInformation that = (QuerydslPathInformation) o;
 		return ObjectUtils.nullSafeEquals(path, that.path);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(path);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "QuerydslPathInformation(path=" + this.path + ")";

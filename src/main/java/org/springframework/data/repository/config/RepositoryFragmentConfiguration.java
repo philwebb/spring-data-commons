@@ -102,11 +102,6 @@ public final class RepositoryFragmentConfiguration {
 	public Optional<AbstractBeanDefinition> getBeanDefinition() {
 		return this.beanDefinition;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -129,11 +124,6 @@ public final class RepositoryFragmentConfiguration {
 
 		return ObjectUtils.nullSafeEquals(beanDefinition, that.beanDefinition);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(interfaceName);
@@ -141,11 +131,6 @@ public final class RepositoryFragmentConfiguration {
 		result = 31 * result + ObjectUtils.nullSafeHashCode(beanDefinition);
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "RepositoryFragmentConfiguration(interfaceName=" + this.getInterfaceName() + ", className="

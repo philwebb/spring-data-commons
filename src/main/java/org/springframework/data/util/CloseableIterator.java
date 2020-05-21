@@ -28,11 +28,6 @@ import java.util.Iterator;
  * @since 1.10
  */
 public interface CloseableIterator<T> extends Iterator<T>, Closeable {
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.io.Closeable#close()
-	 */
 	@Override
 	void close();
 }

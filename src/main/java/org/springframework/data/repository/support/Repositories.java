@@ -254,11 +254,6 @@ public class Repositories implements Iterable<Class<?>> {
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
 		return getRepositoryFactoryInfoFor(domainClass).getQueryMethods();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
 	public Iterator<Class<?>> iterator() {
 		return repositoryFactoryInfos.keySet().iterator();
 	}

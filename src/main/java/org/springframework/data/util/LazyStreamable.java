@@ -36,20 +36,10 @@ final class LazyStreamable<T> implements Streamable<T> {
 	public static <T> LazyStreamable<T> of(Supplier<? extends Stream<T>> stream) {
 		return new LazyStreamable<T>(stream);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
 	@Override
 	public Iterator<T> iterator() {
 		return stream().iterator();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.util.Streamable#stream()
-	 */
 	@Override
 	public Stream<T> stream() {
 		return stream.get();
@@ -58,11 +48,6 @@ final class LazyStreamable<T> implements Streamable<T> {
 	public Supplier<? extends Stream<T>> getStream() {
 		return this.stream;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "LazyStreamable(stream=" + this.getStream() + ")";

@@ -100,56 +100,26 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	}
 
 	protected abstract Association<P> createAssociation();
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getOwner()
-	 */
 	@Override
 	public PersistentEntity<?, P> getOwner() {
 		return this.owner;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getName()
-	 */
 	@Override
 	public String getName() {
 		return name;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getType()
-	 */
 	@Override
 	public Class<?> getType() {
 		return information.getType();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getRawType()
-	 */
 	@Override
 	public Class<?> getRawType() {
 		return this.rawType;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getTypeInformation()
-	 */
 	@Override
 	public TypeInformation<?> getTypeInformation() {
 		return information;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getPersistentEntityTypes()
-	 */
 	@Override
 	public Iterable<? extends TypeInformation<?>> getPersistentEntityTypes() {
 
@@ -161,149 +131,69 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 				.map(Collections::singleton)//
 				.orElseGet(Collections::emptySet);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getGetter()
-	 */
 	@Override
 	public Method getGetter() {
 		return this.getter;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getSetter()
-	 */
 	@Override
 	public Method getSetter() {
 		return this.setter;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getWither()
-	 */
 	@Override
 	public Method getWither() {
 		return this.wither;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getField()
-	 */
 	@Nullable
 	public Field getField() {
 		return this.field;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getSpelExpression()
-	 */
 	@Override
 	@Nullable
 	public String getSpelExpression() {
 		return null;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isTransient()
-	 */
 	@Override
 	public boolean isTransient() {
 		return false;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isWritable()
-	 */
 	@Override
 	public boolean isWritable() {
 		return !isTransient();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isImmutable()
-	 */
 	@Override
 	public boolean isImmutable() {
 		return immutable;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isAssociation()
-	 */
 	@Override
 	public boolean isAssociation() {
 		return isAnnotationPresent(Reference.class);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getAssociation()
-	 */
 	@Nullable
 	@Override
 	public Association<P> getAssociation() {
 		return association.orElse(null);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isCollectionLike()
-	 */
 	@Override
 	public boolean isCollectionLike() {
 		return information.isCollectionLike();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isMap()
-	 */
 	@Override
 	public boolean isMap() {
 		return Map.class.isAssignableFrom(getType());
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isArray()
-	 */
 	@Override
 	public boolean isArray() {
 		return getType().isArray();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isEntity()
-	 */
 	@Override
 	public boolean isEntity() {
 		return !isTransient() && entityTypeInformation.get().isPresent();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getComponentType()
-	 */
 	@Nullable
 	@Override
 	public Class<?> getComponentType() {
 		return isMap() || isCollectionLike() ? information.getRequiredComponentType().getType() : null;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getMapValueType()
-	 */
 	@Nullable
 	@Override
 	public Class<?> getMapValueType() {
@@ -318,20 +208,10 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 		return null;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getActualType()
-	 */
 	@Override
 	public Class<?> getActualType() {
 		return information.getRequiredActualType().getType();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mongodb.core.mapping.MongoPersistentProperty#usePropertyAccess()
-	 */
 	public boolean usePropertyAccess() {
 		return usePropertyAccess.get();
 	}
@@ -340,11 +220,6 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	protected Property getProperty() {
 		return this.property;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -360,20 +235,10 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 		return this.property.equals(that.property);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		return this.hashCode.get();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return property.toString();

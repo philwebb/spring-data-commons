@@ -214,19 +214,9 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		return null;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
 	public Iterator<Order> iterator() {
 		return this.orders.iterator();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -242,11 +232,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		return this.orders.equals(that.orders);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 
@@ -254,11 +239,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		result = 31 * result + orders.hashCode();
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return orders.isEmpty() ? "UNSORTED" : StringUtils.collectionToCommaDelimitedString(orders);
@@ -594,11 +574,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		public NullHandling getNullHandling() {
 			return nullHandling;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 
@@ -611,11 +586,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 			return result;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(@Nullable Object obj) {
 
@@ -632,11 +602,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 			return this.direction.equals(that.direction) && this.property.equals(that.property)
 					&& this.ignoreCase == that.ignoreCase && this.nullHandling.equals(that.nullHandling);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 
@@ -705,11 +670,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 					.map(direction) //
 					.orElseGet(Sort::unsorted);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.domain.Sort#iterator()
-		 */
 		@Override
 		public Iterator<Order> iterator() {
 
@@ -719,11 +679,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 					.orElseGet(Collections::emptySet).iterator();
 
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.domain.Sort#toString()
-		 */
 		@Override
 		public String toString() {
 

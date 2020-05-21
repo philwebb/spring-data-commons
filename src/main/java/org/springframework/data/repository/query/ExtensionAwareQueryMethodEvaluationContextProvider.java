@@ -161,11 +161,6 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 		public void registerResultMapping(String methodName, java.util.function.Function<Object, Object> mapping) {
 			this.directMappings.put(methodName, mapping);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
-		 */
 		@Nullable
 		@Override
 		public Object invoke(@Nullable MethodInvocation invocation) throws Throwable {

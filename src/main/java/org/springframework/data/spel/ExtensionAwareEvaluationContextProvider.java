@@ -261,11 +261,6 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue) {
 			// noop
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.expression.PropertyAccessor#getSpecificTargetClasses()
-		 */
 		@Nullable
 		@Override
 		public Class<?>[] getSpecificTargetClasses() {

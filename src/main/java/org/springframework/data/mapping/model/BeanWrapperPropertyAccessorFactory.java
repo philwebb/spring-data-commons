@@ -35,11 +35,6 @@ enum BeanWrapperPropertyAccessorFactory implements PersistentPropertyAccessorFac
 	public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
 		return new BeanWrapper<>(bean);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.PersistentPropertyAccessorFactory#isSupported(org.springframework.data.mapping.PersistentEntity)
-	 */
 	@Override
 	public boolean isSupported(PersistentEntity<?, ?> entity) {
 		return true;

@@ -60,11 +60,6 @@ public class ReactivePageableHandlerMethodArgumentResolver extends PageableHandl
 
 		this.sortResolver = sortResolver;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.reactive.result.method.HandlerMethodArgumentResolver#supportsParameter(org.springframework.core.MethodParameter)
-	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return Pageable.class.equals(parameter.getParameterType());

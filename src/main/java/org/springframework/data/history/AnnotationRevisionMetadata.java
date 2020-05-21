@@ -80,35 +80,15 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 		this.revisionDate = detectAnnotation(entity, revisionTimeStampAnnotation);
 		this.revisionType = revisionType;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.history.RevisionMetadata#getRevisionNumber()
-	 */
 	public Optional<N> getRevisionNumber() {
 		return revisionNumber.get();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.history.RevisionMetadata#getRevisionDate()
-	 */
 	public Optional<Instant> getRevisionInstant() {
 		return revisionDate.get().map(AnnotationRevisionMetadata::convertToInstant);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.history.RevisionMetadata#getRevisionDate()
-	 */
 	public RevisionType getRevisionType() {
 		return revisionType;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.history.RevisionMetadata#getDelegate()
-	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getDelegate() {
 		return (T) entity;

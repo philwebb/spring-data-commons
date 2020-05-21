@@ -818,11 +818,6 @@ public class CustomConversions {
 		Collection<?> getStoreConverters() {
 			return this.storeConverters;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -841,22 +836,12 @@ public class CustomConversions {
 
 			return ObjectUtils.nullSafeEquals(storeConverters, that.storeConverters);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(storeTypeHolder);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(storeConverters);
 			return result;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return "StoreConversions{" + "storeTypeHolder=" + storeTypeHolder + ", storeConverters=" + storeConverters + '}';

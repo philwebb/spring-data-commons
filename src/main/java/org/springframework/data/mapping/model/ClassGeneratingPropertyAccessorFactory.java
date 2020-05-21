@@ -1403,11 +1403,6 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			this.label = label;
 			this.hash = hash;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Comparable#compareTo(java.lang.Object)
-		 */
 		@Override
 		public int compareTo(PropertyStackAddress o) {
 			return Integer.compare(hash, o.hash);

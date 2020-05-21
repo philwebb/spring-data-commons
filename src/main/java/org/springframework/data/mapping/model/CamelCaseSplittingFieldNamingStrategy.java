@@ -44,11 +44,6 @@ public class CamelCaseSplittingFieldNamingStrategy implements FieldNamingStrateg
 		Assert.notNull(delimiter, "Delimiter must not be null!");
 		this.delimiter = delimiter;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.FieldNamingStrategy#getFieldName(org.springframework.data.mapping.PersistentProperty)
-	 */
 	@Override
 	public String getFieldName(PersistentProperty<?> property) {
 

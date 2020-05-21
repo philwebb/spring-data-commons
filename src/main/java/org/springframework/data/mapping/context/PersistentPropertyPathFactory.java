@@ -286,11 +286,6 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		public String getPath() {
 			return this.path;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -310,22 +305,12 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 			return ObjectUtils.nullSafeEquals(path, that.path);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(type);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(path);
 			return result;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return "PersistentPropertyPathFactory.TypeAndPath(type=" + this.getType() + ", path=" + this.getPath() + ")";
@@ -362,29 +347,14 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 			return new DefaultPersistentPropertyPaths<>(type, sorted);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.mapping.PersistentPropertyPaths#getFirst()
-		 */
 		@Override
 		public Optional<PersistentPropertyPath<P>> getFirst() {
 			return isEmpty() ? Optional.empty() : Optional.of(iterator().next());
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.mapping.PersistentPropertyPaths#contains(java.lang.String)
-		 */
 		@Override
 		public boolean contains(String path) {
 			return contains(PropertyPath.from(path, type));
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.mapping.PersistentPropertyPaths#contains(org.springframework.data.mapping.PropertyPath)
-		 */
 		@Override
 		public boolean contains(PropertyPath path) {
 
@@ -398,20 +368,10 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 			return stream().anyMatch(it -> dotPath.equals(it.toDotPath()));
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Iterable#iterator()
-		 */
 		@Override
 		public Iterator<PersistentPropertyPath<P>> iterator() {
 			return paths.iterator();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.mapping.PersistentPropertyPaths#dropPathIfSegmentMatches(java.util.function.Predicate)
-		 */
 		@Override
 		public PersistentPropertyPaths<T, P> dropPathIfSegmentMatches(Predicate<? super P> predicate) {
 
@@ -423,11 +383,6 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 			return paths.equals(this.paths) ? this : new DefaultPersistentPropertyPaths<>(type, paths);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return "PersistentPropertyPathFactory.DefaultPersistentPropertyPaths(type=" + this.type + ", paths=" + this.paths

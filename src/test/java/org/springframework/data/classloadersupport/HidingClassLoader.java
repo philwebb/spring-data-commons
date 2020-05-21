@@ -60,31 +60,16 @@ public class HidingClassLoader extends ShadowingClassLoader {
 				.map(it -> it.getPackage().getName())//
 				.collect(Collectors.toList()));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.classloadersupport.ShadowingClassLoader#loadClass(java.lang.String)
-	 */
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 
 		checkIfHidden(name);
 		return super.loadClass(name);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.classloadersupport.ShadowingClassLoader#isEligibleForShadowing(java.lang.String)
-	 */
 	@Override
 	protected boolean isEligibleForShadowing(String className) {
 		return isExcluded(className);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.ClassLoader#findClass(java.lang.String)
-	 */
 	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
 

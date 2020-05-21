@@ -36,11 +36,6 @@ public class IsNewAwareAuditingHandlerBeanDefinitionParser extends AuditingHandl
 	public IsNewAwareAuditingHandlerBeanDefinitionParser(String mappingContextBeanName) {
 		super(mappingContextBeanName);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.config.AuditingHandlerBeanDefinitionParser#getBeanClass(org.w3c.dom.Element)
-	 */
 	@Override
 	protected Class<?> getBeanClass(Element element) {
 		return IsNewAwareAuditingHandler.class;

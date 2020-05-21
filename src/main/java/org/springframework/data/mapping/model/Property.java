@@ -211,11 +211,6 @@ public class Property {
 	public Class<?> getType() {
 		return rawType;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -231,20 +226,10 @@ public class Property {
 
 		return this.field.isPresent() ? this.field.equals(that.field) : this.descriptor.equals(that.descriptor);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		return hashCode.get();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return toString.get();

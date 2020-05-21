@@ -55,20 +55,10 @@ public class RepositoryFragmentsFactoryBean<T>
 		Assert.notNull(fragmentBeanNames, "Fragment bean names must not be null!");
 		this.fragmentBeanNames = fragmentBeanNames;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
-	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-	 */
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void afterPropertiesSet() {
@@ -79,21 +69,11 @@ public class RepositoryFragmentsFactoryBean<T>
 
 		this.repositoryFragments = RepositoryFragments.from(fragments);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.FactoryBean#getObject()
-	 */
 	@Nonnull
 	@Override
 	public RepositoryFragments getObject() throws Exception {
 		return this.repositoryFragments;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.FactoryBean#getObjectType()
-	 */
 	@Nonnull
 	@Override
 	public Class<?> getObjectType() {

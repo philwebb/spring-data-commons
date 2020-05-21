@@ -58,28 +58,13 @@ public class SliceImpl<T> extends Chunk<T> {
 	public SliceImpl(List<T> content) {
 		this(content, Pageable.unpaged(), false);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.Slice#hasNext()
-	 */
 	public boolean hasNext() {
 		return hasNext;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.Slice#transform(org.springframework.core.convert.converter.Converter)
-	 */
 	@Override
 	public <U> Slice<U> map(Function<? super T, ? extends U> converter) {
 		return new SliceImpl<>(getConvertedContent(converter), pageable, hasNext);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 
@@ -92,11 +77,6 @@ public class SliceImpl<T> extends Chunk<T> {
 
 		return String.format("Slice %d containing %s instances", getNumber(), contentType);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(@Nullable Object obj) {
 
@@ -112,11 +92,6 @@ public class SliceImpl<T> extends Chunk<T> {
 
 		return this.hasNext == that.hasNext && super.equals(obj);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 

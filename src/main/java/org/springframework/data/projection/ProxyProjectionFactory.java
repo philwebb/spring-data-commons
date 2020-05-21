@@ -63,11 +63,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		this.conversionService = DefaultConversionService.getSharedInstance();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.BeanClassLoaderAware#setBeanClassLoader(java.lang.ClassLoader)
-	 */
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader;
@@ -114,11 +109,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		return (T) factory.getProxy(classLoader == null ? ClassUtils.getDefaultClassLoader() : classLoader);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.projection.ProjectionFactory#createProjection(java.lang.Class)
-	 */
 	@Override
 	public <T> T createProjection(Class<T> projectionType) {
 
@@ -126,11 +116,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		return createProjection(projectionType, new HashMap<String, Object>());
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.projection.ProjectionFactory#getProjectionInformation(java.lang.Class)
-	 */
 	@Override
 	public final ProjectionInformation getProjectionInformation(Class<?> projectionType) {
 
@@ -227,11 +212,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 			Assert.notNull(targetType, "Target type must not be null!");
 			this.targetType = targetType;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
-		 */
 		@Nullable
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {

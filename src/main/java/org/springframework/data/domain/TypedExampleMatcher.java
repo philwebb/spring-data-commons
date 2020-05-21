@@ -54,11 +54,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 		this.defaultIgnoreCase = defaultIgnoreCase;
 		this.mode = mode;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#withIgnorePaths(java.lang.String...)
-	 */
 	@Override
 	public ExampleMatcher withIgnorePaths(String... ignoredPaths) {
 
@@ -71,11 +66,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 		return new TypedExampleMatcher(nullHandler, defaultStringMatcher, propertySpecifiers, newIgnoredPaths,
 				defaultIgnoreCase, mode);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#withStringMatcher(java.lang.String)
-	 */
 	@Override
 	public ExampleMatcher withStringMatcher(StringMatcher defaultStringMatcher) {
 
@@ -84,11 +74,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 		return new TypedExampleMatcher(nullHandler, defaultStringMatcher, propertySpecifiers, ignoredPaths,
 				defaultIgnoreCase, mode);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#withIgnoreCase(boolean)
-	 */
 	@Override
 	public ExampleMatcher withIgnoreCase(boolean defaultIgnoreCase) {
 		return new TypedExampleMatcher(nullHandler, defaultStringMatcher, propertySpecifiers, ignoredPaths,
@@ -142,11 +127,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 		return new TypedExampleMatcher(nullHandler, defaultStringMatcher, propertySpecifiers, ignoredPaths,
 				defaultIgnoreCase, mode);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#withIgnoreCase(java.lang.String...)
-	 */
 	@Override
 	public ExampleMatcher withIgnoreCase(String... propertyPaths) {
 
@@ -163,11 +143,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 		return new TypedExampleMatcher(nullHandler, defaultStringMatcher, propertySpecifiers, ignoredPaths,
 				defaultIgnoreCase, mode);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#withNullHandler(org.springframework.data.domain.ExampleMatcher.NullHandler)
-	 */
 	@Override
 	public ExampleMatcher withNullHandler(NullHandler nullHandler) {
 
@@ -175,56 +150,26 @@ class TypedExampleMatcher implements ExampleMatcher {
 		return new TypedExampleMatcher(nullHandler, defaultStringMatcher, propertySpecifiers, ignoredPaths,
 				defaultIgnoreCase, mode);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#getNullHandler()
-	 */
 	@Override
 	public NullHandler getNullHandler() {
 		return nullHandler;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#getDefaultStringMatcher()
-	 */
 	@Override
 	public StringMatcher getDefaultStringMatcher() {
 		return defaultStringMatcher;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#isIgnoreCaseEnabled()
-	 */
 	@Override
 	public boolean isIgnoreCaseEnabled() {
 		return this.defaultIgnoreCase;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#getIgnoredPaths()
-	 */
 	@Override
 	public Set<String> getIgnoredPaths() {
 		return ignoredPaths;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#getPropertySpecifiers()
-	 */
 	@Override
 	public PropertySpecifiers getPropertySpecifiers() {
 		return propertySpecifiers;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.ExampleMatcher#getMatchMode()
-	 */
 	@Override
 	public MatchMode getMatchMode() {
 		return mode;
@@ -244,11 +189,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 
 		return new PropertySpecifier(propertyPath);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -285,11 +225,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 
 		return mode == that.mode;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(nullHandler);
@@ -300,11 +235,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 		result = 31 * result + ObjectUtils.nullSafeHashCode(mode);
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "TypedExampleMatcher{" + "nullHandler=" + nullHandler + ", defaultStringMatcher=" + defaultStringMatcher

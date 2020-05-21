@@ -39,11 +39,6 @@ public class DirectFieldAccessFallbackBeanWrapper extends BeanWrapperImpl {
 	public DirectFieldAccessFallbackBeanWrapper(Class<?> type) {
 		super(type);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.BeanWrapperImpl#getPropertyValue(java.lang.String)
-	 */
 	@Override
 	@Nullable
 	public Object getPropertyValue(String propertyName) {

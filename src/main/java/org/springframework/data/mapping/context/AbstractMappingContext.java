@@ -111,20 +111,10 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		this.persistentPropertyAccessorFactory = new InstantiationAwarePropertyAccessorFactory(accessorFactory,
 				instantiators);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.ApplicationEventPublisherAware#setApplicationEventPublisher(org.springframework.context.ApplicationEventPublisher)
-	 */
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
 		this.applicationEventPublisher = applicationEventPublisher;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
-	 */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
@@ -168,11 +158,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		this.simpleTypeHolder = simpleTypes;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.MappingContext#getPersistentEntities()
-	 */
 	@Override
 	public Collection<E> getPersistentEntities() {
 
@@ -188,20 +173,10 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			read.unlock();
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.MappingContext#getPersistentEntity(java.lang.Class)
-	 */
 	@Nullable
 	public E getPersistentEntity(Class<?> type) {
 		return getPersistentEntity(ClassTypeInformation.from(type));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.context.MappingContext#hasPersistentEntityFor(java.lang.Class)
-	 */
 	@Override
 	public boolean hasPersistentEntityFor(Class<?> type) {
 
@@ -211,11 +186,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		return entity == null ? false : entity.isPresent();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.MappingContext#getPersistentEntity(org.springframework.data.util.TypeInformation)
-	 */
 	@Nullable
 	@Override
 	public E getPersistentEntity(TypeInformation<?> type) {
@@ -254,11 +224,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		return addPersistentEntity(type).orElse(null);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.context.MappingContext#getPersistentEntity(org.springframework.data.mapping.PersistentProperty)
-	 */
 	@Nullable
 	@Override
 	public E getPersistentEntity(P persistentProperty) {
@@ -405,11 +370,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		return Optional.of(entity);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.context.PersistentEntityAware#getManagedTypes()
-	 */
 	@Override
 	public Collection<TypeInformation<?>> getManagedTypes() {
 
@@ -441,11 +401,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 * @return
 	 */
 	protected abstract P createPersistentProperty(Property property, E owner, SimpleTypeHolder simpleTypeHolder);
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-	 */
 	@Override
 	public void afterPropertiesSet() {
 		initialize();
@@ -499,11 +454,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			this.descriptors = descriptors;
 			this.remainingDescriptors = remainingDescriptors;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.util.ReflectionUtils.FieldCallback#doWith(java.lang.reflect.Field)
-		 */
 		public void doWith(Field field) {
 
 			String fieldName = field.getName();
@@ -582,11 +532,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 			UNMAPPED_PROPERTIES = Streamable.of(matches);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.util.ReflectionUtils.FieldFilter#matches(java.lang.reflect.Field)
-		 */
 		public boolean matches(Field field) {
 
 			if (Modifier.isStatic(field.getModifiers())) {

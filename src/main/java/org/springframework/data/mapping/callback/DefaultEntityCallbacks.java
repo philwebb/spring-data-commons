@@ -90,11 +90,6 @@ class DefaultEntityCallbacks implements EntityCallbacks {
 
 		return value;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.callback.EntityCallbacks#addEntityCallback(org.springframework.data.mapping.callback.EntityCallback)
-	 */
 	@Override
 	public void addEntityCallback(EntityCallback<?> callback) {
 		this.callbackDiscoverer.addEntityCallback(callback);

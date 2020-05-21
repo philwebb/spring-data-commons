@@ -48,11 +48,6 @@ class MethodParameterAwarePagedResourcesAssembler<T> extends PagedResourcesAssem
 		Assert.notNull(parameter, "Method parameter must not be null!");
 		this.parameter = parameter;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.web.PagedResourcesAssembler#getMethodParameter()
-	 */
 	@Nonnull
 	@Override
 	protected MethodParameter getMethodParameter() {

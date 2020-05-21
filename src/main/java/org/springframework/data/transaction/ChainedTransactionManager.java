@@ -82,11 +82,6 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 		this.synchronizationManager = synchronizationManager;
 		this.transactionManagers = asList(transactionManagers);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.PlatformTransactionManager#getTransaction(org.springframework.transaction.TransactionDefinition)
-	 */
 	public MultiTransactionStatus getTransaction(@Nullable TransactionDefinition definition) throws TransactionException {
 
 		MultiTransactionStatus mts = new MultiTransactionStatus(transactionManagers.get(0));
@@ -129,11 +124,6 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 
 		return mts;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.PlatformTransactionManager#commit(org.springframework.transaction.TransactionStatus)
-	 */
 	public void commit(TransactionStatus status) throws TransactionException {
 
 		MultiTransactionStatus multiTransactionStatus = (MultiTransactionStatus) status;
@@ -177,11 +167,6 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 			throw new HeuristicCompletionException(transactionState, commitException);
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.PlatformTransactionManager#rollback(org.springframework.transaction.TransactionStatus)
-	 */
 	public void rollback(TransactionStatus status) throws TransactionException {
 
 		Exception rollbackException = null;

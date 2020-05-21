@@ -239,11 +239,6 @@ public class QueryMethod {
 	public ResultProcessor getResultProcessor() {
 		return resultProcessor;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return method.toString();

@@ -150,11 +150,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 		Collections.sort(qualifierNames);
 		return StringUtils.collectionToDelimitedString(qualifierNames, ":") + ":" + repositoryType.getName();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.Bean#getTypes()
-	 */
 	@SuppressWarnings("rawtypes")
 	public Set<Type> getTypes() {
 
@@ -199,11 +194,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	public final void initialize() {
 		create(beanManager.createCreationalContext(this));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.context.spi.Contextual#create(javax.enterprise.context.spi.CreationalContext)
-	 */
 	public final T create(@SuppressWarnings("null") CreationalContext<T> creationalContext) {
 
 		T repoInstance = this.repoInstance;
@@ -234,27 +224,12 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 		creationalContext.release();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.Bean#getQualifiers()
-	 */
 	public Set<Annotation> getQualifiers() {
 		return qualifiers;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.Bean#getName()
-	 */
 	public String getName() {
 		return repositoryType.getName();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.Bean#getStereotypes()
-	 */
 	public Set<Class<? extends Annotation>> getStereotypes() {
 
 		return Arrays.stream(repositoryType.getAnnotations())//
@@ -262,51 +237,21 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 				.filter(it -> it.isAnnotationPresent(Stereotype.class))//
 				.collect(Collectors.toSet());
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.Bean#getBeanClass()
-	 */
 	public Class<?> getBeanClass() {
 		return repositoryType;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.Bean#isAlternative()
-	 */
 	public boolean isAlternative() {
 		return repositoryType.isAnnotationPresent(Alternative.class);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.Bean#isNullable()
-	 */
 	public boolean isNullable() {
 		return false;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.Bean#getInjectionPoints()
-	 */
 	public Set<InjectionPoint> getInjectionPoints() {
 		return Collections.emptySet();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.Bean#getScope()
-	 */
 	public Class<? extends Annotation> getScope() {
 		return ApplicationScoped.class;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.enterprise.inject.spi.PassivationCapable#getId()
-	 */
 	public String getId() {
 		return passivationId;
 	}
@@ -508,11 +453,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	private static Annotation[] getQualifiersArray(Set<Annotation> qualifiers) {
 		return qualifiers.toArray(new Annotation[qualifiers.size()]);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return String.format("CdiRepositoryBean: type='%s', qualifiers=%s", repositoryType.getName(),

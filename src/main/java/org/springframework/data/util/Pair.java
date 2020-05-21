@@ -84,11 +84,6 @@ public final class Pair<S, T> {
 	public static <S, T> Collector<Pair<S, T>, ?, Map<S, T>> toMap() {
 		return Collectors.toMap(Pair::getFirst, Pair::getSecond);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -108,22 +103,12 @@ public final class Pair<S, T> {
 
 		return ObjectUtils.nullSafeEquals(second, pair.second);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(first);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(second);
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return String.format("%s->%s", this.first, this.second);

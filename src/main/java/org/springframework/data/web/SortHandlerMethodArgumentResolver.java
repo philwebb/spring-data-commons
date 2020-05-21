@@ -40,11 +40,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 public class SortHandlerMethodArgumentResolver extends SortHandlerMethodArgumentResolverSupport
 		implements SortArgumentResolver {
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#supportsParameter(org.springframework.core.MethodParameter)
-	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return Sort.class.equals(parameter.getParameterType());

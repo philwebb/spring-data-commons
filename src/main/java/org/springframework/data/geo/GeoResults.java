@@ -94,20 +94,10 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 	public List<GeoResult<T>> getContent() {
 		return Collections.unmodifiableList(results);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
 	@SuppressWarnings("unchecked")
 	public Iterator<GeoResult<T>> iterator() {
 		return (Iterator<GeoResult<T>>) results.iterator();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -127,22 +117,12 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 
 		return ObjectUtils.nullSafeEquals(averageDistance, that.averageDistance);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(results);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(averageDistance);
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return String.format("GeoResults: [averageDistance: %s, results: %s]", averageDistance.toString(),

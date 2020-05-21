@@ -65,11 +65,6 @@ public class QuerydslWebConfiguration implements WebMvcConfigurer {
 	public QuerydslBindingsFactory querydslBindingsFactory() {
 		return new QuerydslBindingsFactory(resolver.getIfUnique(() -> SimpleEntityPathResolver.INSTANCE));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addArgumentResolvers(java.util.List)
-	 */
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(0, querydslPredicateArgumentResolver());

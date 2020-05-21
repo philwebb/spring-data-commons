@@ -73,11 +73,6 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 		this.predicateBuilder = new QuerydslPredicateBuilder(conversionService.orElseGet(DefaultConversionService::new),
 				factory.getEntityPathResolver());
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#supportsParameter(org.springframework.core.MethodParameter)
-	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 

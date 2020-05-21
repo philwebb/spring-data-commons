@@ -357,11 +357,6 @@ public abstract class QueryExecutionConverters {
 			this.wrapperTypes = wrapperTypes;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
-		 */
-
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
 
@@ -413,11 +408,6 @@ public abstract class QueryExecutionConverters {
 		public NullableWrapperToGuavaOptionalConverter(ConversionService conversionService) {
 			super(conversionService, Optional.absent(), Collections.singleton(Optional.class));
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.util.QueryExecutionConverters.AbstractWrapperTypeConverter#wrap(java.lang.Object)
-		 */
 		@Override
 		protected Object wrap(Object source) {
 			return Optional.of(source);
@@ -443,11 +433,6 @@ public abstract class QueryExecutionConverters {
 		public NullableWrapperToJdk8OptionalConverter(ConversionService conversionService) {
 			super(conversionService, java.util.Optional.empty());
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.util.QueryExecutionConverters.AbstractWrapperTypeConverter#wrap(java.lang.Object)
-		 */
 		@Override
 		protected Object wrap(Object source) {
 			return java.util.Optional.of(source);
@@ -473,11 +458,6 @@ public abstract class QueryExecutionConverters {
 		public NullableWrapperToFutureConverter(ConversionService conversionService) {
 			super(conversionService, new AsyncResult<>(null), Arrays.asList(Future.class, ListenableFuture.class));
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.util.QueryExecutionConverters.AbstractWrapperTypeConverter#wrap(java.lang.Object)
-		 */
 		@Override
 		protected Object wrap(Object source) {
 			return new AsyncResult<>(source);
@@ -499,11 +479,6 @@ public abstract class QueryExecutionConverters {
 		public NullableWrapperToCompletableFutureConverter(ConversionService conversionService) {
 			super(conversionService, CompletableFuture.completedFuture(null));
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.util.QueryExecutionConverters.AbstractWrapperTypeConverter#wrap(java.lang.Object)
-		 */
 		@Override
 		protected Object wrap(Object source) {
 			return source instanceof CompletableFuture ? source : CompletableFuture.completedFuture(source);
@@ -525,11 +500,6 @@ public abstract class QueryExecutionConverters {
 		public NullableWrapperToScalaOptionConverter(ConversionService conversionService) {
 			super(conversionService, Option.empty(), Collections.singleton(Option.class));
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.util.QueryExecutionConverters.AbstractWrapperTypeConverter#wrap(java.lang.Object)
-		 */
 		@Override
 		protected Object wrap(Object source) {
 			return Option.apply(source);
@@ -560,11 +530,6 @@ public abstract class QueryExecutionConverters {
 		public static WrapperType getWrapperType() {
 			return WrapperType.singleValue(io.vavr.control.Option.class);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.util.QueryExecutionConverters.AbstractWrapperTypeConverter#wrap(java.lang.Object)
-		 */
 		@Override
 		protected Object wrap(Object source) {
 			return io.vavr.control.Option.of(source);
@@ -580,11 +545,6 @@ public abstract class QueryExecutionConverters {
 	private enum GuavaOptionalUnwrapper implements Converter<Object, Object> {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@Nullable
 		@Override
 		public Object convert(Object source) {
@@ -601,11 +561,6 @@ public abstract class QueryExecutionConverters {
 	private enum Jdk8OptionalUnwrapper implements Converter<Object, Object> {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@Nullable
 		@Override
 		public Object convert(Object source) {
@@ -625,22 +580,12 @@ public abstract class QueryExecutionConverters {
 		INSTANCE;
 
 		private final Function0<Object> alternative = new AbstractFunction0<Object>() {
-
-			/*
-			 * (non-Javadoc)
-			 * @see scala.Function0#apply()
-			 */
 			@Nullable
 			@Override
 			public Option<Object> apply() {
 				return null;
 			}
 		};
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@Nullable
 		@Override
 		public Object convert(Object source) {
@@ -657,11 +602,6 @@ public abstract class QueryExecutionConverters {
 	private enum VavrOptionUnwrapper implements Converter<Object, Object> {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@Nullable
 		@Override
 		@SuppressWarnings("unchecked")
@@ -687,11 +627,6 @@ public abstract class QueryExecutionConverters {
 		private final ConversionService conversionService = DefaultConversionService.getSharedInstance();
 
 		public IterableToStreamableConverter() {}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
-		 */
 		@NonNull
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
@@ -755,11 +690,6 @@ public abstract class QueryExecutionConverters {
 		public Cardinality getCardinality() {
 			return cardinality;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -779,22 +709,12 @@ public abstract class QueryExecutionConverters {
 
 			return cardinality == that.cardinality;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(type);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(cardinality);
 			return result;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return "QueryExecutionConverters.WrapperType(type=" + this.getType() + ", cardinality=" + this.getCardinality()

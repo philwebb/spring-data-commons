@@ -331,11 +331,6 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	public static boolean isBindable(Class<?> type) {
 		return !TYPES.contains(type);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
 	public Iterator<T> iterator() {
 		return parameters.iterator();
 	}

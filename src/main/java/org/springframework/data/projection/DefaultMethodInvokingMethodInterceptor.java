@@ -65,11 +65,6 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 		return false;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
-	 */
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -113,11 +108,6 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 			private final @Nullable Method privateLookupIn = ReflectionUtils.findMethod(MethodHandles.class,
 					"privateLookupIn", Class.class, Lookup.class);
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.MethodHandleLookup#lookup(java.lang.reflect.Method)
-			 */
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {
 
@@ -127,11 +117,6 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 				return doLookup(method, getLookup(method.getDeclaringClass(), privateLookupIn));
 			}
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.MethodHandleLookup#isAvailable()
-			 */
 			@Override
 			boolean isAvailable() {
 				return privateLookupIn != null;
@@ -156,11 +141,6 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 		OPEN {
 
 			private final Lazy<Constructor<Lookup>> constructor = Lazy.of(MethodHandleLookup::getLookupConstructor);
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.MethodHandleLookup#lookup(java.lang.reflect.Method)
-			 */
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {
 
@@ -172,11 +152,6 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 				return constructor.newInstance(method.getDeclaringClass()).unreflectSpecial(method, method.getDeclaringClass());
 			}
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.MethodHandleLookup#isAvailable()
-			 */
 			@Override
 			boolean isAvailable() {
 				return constructor.orElse(null) != null;
@@ -189,20 +164,10 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 		 * @since 2.1
 		 */
 		FALLBACK {
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.MethodHandleLookup#lookup(java.lang.reflect.Method)
-			 */
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {
 				return doLookup(method, MethodHandles.lookup());
 			}
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.MethodHandleLookup#isAvailable()
-			 */
 			@Override
 			boolean isAvailable() {
 				return true;

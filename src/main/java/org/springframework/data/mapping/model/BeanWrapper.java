@@ -105,11 +105,6 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 			throw new MappingException("Could not set object property!", e);
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#getProperty(org.springframework.data.mapping.PersistentProperty)
-	 */
 	@Nullable
 	public Object getProperty(PersistentProperty<?> property) {
 		return getProperty(property, property.getType());
@@ -149,11 +144,6 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 					String.format("Could not read property %s of %s!", property.toString(), bean.toString()), e);
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#getBean()
-	 */
 	public T getBean() {
 		return bean;
 	}

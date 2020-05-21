@@ -177,19 +177,9 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	public boolean isTransient() {
 		return isTransient.get();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isIdProperty()
-	 */
 	public boolean isIdProperty() {
 		return isId.get();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#isVersionProperty()
-	 */
 	public boolean isVersionProperty() {
 		return isVersion.get();
 	}
@@ -201,11 +191,6 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	public boolean isAssociation() {
 		return isReference.get();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.AbstractPersistentProperty#isWritable()
-	 */
 	@Override
 	public boolean isWritable() {
 		return isWritable.get();
@@ -244,11 +229,6 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 					.findFirst();
 		});
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#findPropertyOrOwnerAnnotation(java.lang.Class)
-	 */
 	@Nullable
 	@Override
 	public <A extends Annotation> A findPropertyOrOwnerAnnotation(Class<A> annotationType) {
@@ -267,20 +247,10 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	public boolean isAnnotationPresent(Class<? extends Annotation> annotationType) {
 		return doFindAnnotation(annotationType).isPresent();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.AbstractPersistentProperty#usePropertyAccess()
-	 */
 	@Override
 	public boolean usePropertyAccess() {
 		return usePropertyAccess.get();
 	}
-
-	/* 
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentProperty#getAssociationTargetType()
-	 */
 	@Nullable
 	@Override
 	public Class<?> getAssociationTargetType() {
@@ -297,11 +267,6 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 				? isEntity() ? getActualType() : null //
 				: targetType;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.AbstractPersistentProperty#toString()
-	 */
 	@Override
 	public String toString() {
 

@@ -196,11 +196,6 @@ public final class Range<T extends Comparable<T>> {
 
 		return greaterThanLowerBound && lessThanUpperBound;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return String.format("%s-%s", lowerBound.toPrefixString(), upperBound.toSuffixString());
@@ -213,11 +208,6 @@ public final class Range<T extends Comparable<T>> {
 	public Range.Bound<T> getUpperBound() {
 		return this.upperBound;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -237,11 +227,6 @@ public final class Range<T extends Comparable<T>> {
 
 		return ObjectUtils.nullSafeEquals(upperBound, range.upperBound);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(lowerBound);
@@ -405,11 +390,6 @@ public final class Range<T extends Comparable<T>> {
 					.map(it -> isInclusive() ? it.concat("]") : it.concat(")")) //
 					.orElse("unbounded");
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return value.map(Object::toString).orElse("unbounded");
@@ -422,11 +402,6 @@ public final class Range<T extends Comparable<T>> {
 		public boolean isInclusive() {
 			return this.inclusive;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -445,11 +420,6 @@ public final class Range<T extends Comparable<T>> {
 
 			return ObjectUtils.nullSafeEquals(value, bound.value);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(value);

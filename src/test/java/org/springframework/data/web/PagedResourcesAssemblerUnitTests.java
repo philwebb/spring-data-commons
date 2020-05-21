@@ -282,11 +282,6 @@ class PagedResourcesAssemblerUnitTests {
 	}
 
 	static class PersonResourceAssembler implements RepresentationModelAssembler<Person, PersonResource> {
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.hateoas.server.RepresentationModelAssembler#toModel(java.lang.Object)
-		 */
 		@Override
 		public PersonResource toModel(Person entity) {
 			PersonResource resource = new PersonResource();

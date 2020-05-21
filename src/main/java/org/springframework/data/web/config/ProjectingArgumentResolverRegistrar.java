@@ -79,20 +79,10 @@ public class ProjectingArgumentResolverRegistrar {
 				@Qualifier("mvcConversionService") ObjectFactory<ConversionService> conversionService) {
 			this.resolver = new ProxyingHandlerMethodArgumentResolver(conversionService, false);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
-		 */
 		@Override
 		public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 			this.resolver.setBeanFactory(beanFactory);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.beans.factory.BeanClassLoaderAware#setBeanClassLoader(java.lang.ClassLoader)
-		 */
 		@Override
 		public void setBeanClassLoader(ClassLoader classLoader) {
 			this.resolver.setBeanClassLoader(classLoader);

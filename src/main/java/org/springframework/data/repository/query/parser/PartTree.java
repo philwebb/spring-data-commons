@@ -95,11 +95,6 @@ public class PartTree implements Streamable<OrPart> {
 			this.predicate = new Predicate(source.substring(matcher.group().length()), domainClass);
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
 	public Iterator<OrPart> iterator() {
 		return predicate.iterator();
 	}
@@ -199,11 +194,6 @@ public class PartTree implements Streamable<OrPart> {
 	public boolean hasPredicate() {
 		return predicate.iterator().hasNext();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 
@@ -253,11 +243,6 @@ public class PartTree implements Streamable<OrPart> {
 		public Iterator<Part> iterator() {
 			return children.iterator();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return StringUtils.collectionToDelimitedString(children, " and ");
@@ -402,11 +387,6 @@ public class PartTree implements Streamable<OrPart> {
 		public OrderBySource getOrderBySource() {
 			return orderBySource;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Iterable#iterator()
-		 */
 		@Override
 		public Iterator<OrPart> iterator() {
 			return nodes.iterator();

@@ -55,30 +55,15 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	public SimplePersistentPropertyPathAccessor(PersistentPropertyAccessor<T> delegate) {
 		this.delegate = delegate;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#getBean()
-	 */
 	@Override
 	public T getBean() {
 		return delegate.getBean();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#getProperty(org.springframework.data.mapping.PersistentProperty)
-	 */
 	@Nullable
 	@Override
 	public Object getProperty(PersistentProperty<?> property) {
 		return delegate.getProperty(property);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyPathAccessor#getProperty(org.springframework.data.mapping.PersistentPropertyPath)
-	 */
 	@Nullable
 	@Override
 	public Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path) {

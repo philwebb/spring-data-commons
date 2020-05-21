@@ -73,11 +73,6 @@ public class EntityInstantiators extends org.springframework.data.mapping.model.
 			Map<Class<?>, EntityInstantiator> customInstantiators) {
 		super(defaultInstantiator, adaptFromLegacy(customInstantiators));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.EntityInstantiators#getInstantiatorFor(org.springframework.data.mapping.PersistentEntity)
-	 */
 	@Override
 	public EntityInstantiator getInstantiatorFor(PersistentEntity<?, ?> entity) {
 		return new EntityInstantiatorAdapter(super.getInstantiatorFor(entity));

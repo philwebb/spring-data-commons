@@ -101,11 +101,6 @@ public class Revisions<N extends Number & Comparable<N>, T> implements Streamabl
 	public Revisions<N, T> reverse() {
 		return new Revisions<>(revisions, !latestLast);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
 	public Iterator<Revision<N, T>> iterator() {
 		return revisions.iterator();
 	}

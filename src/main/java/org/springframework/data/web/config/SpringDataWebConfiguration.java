@@ -75,20 +75,10 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		this.context = context;
 		this.conversionService = conversionService;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.BeanClassLoaderAware#setBeanClassLoader(java.lang.ClassLoader)
-	 */
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.beanClassLoader = classLoader;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.web.config.SpringDataWebConfiguration#pageableResolver()
-	 */
 	@Bean
 	public PageableHandlerMethodArgumentResolver pageableResolver() {
 
@@ -97,11 +87,6 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		customizePageableResolver(pageableResolver);
 		return pageableResolver;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.web.config.SpringDataWebConfiguration#sortResolver()
-	 */
 	@Bean
 	public SortHandlerMethodArgumentResolver sortResolver() {
 
@@ -109,11 +94,6 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		customizeSortResolver(sortResolver);
 		return sortResolver;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addFormatters(org.springframework.format.FormatterRegistry)
-	 */
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 
@@ -129,11 +109,6 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		DomainClassConverter<FormattingConversionService> converter = new DomainClassConverter<>(conversionService);
 		converter.setApplicationContext(context);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addArgumentResolvers(java.util.List)
-	 */
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 
@@ -146,11 +121,6 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 
 		argumentResolvers.add(resolver);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#extendMessageConverters(java.util.List)
-	 */
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 

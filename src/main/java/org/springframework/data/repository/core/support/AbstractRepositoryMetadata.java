@@ -76,11 +76,6 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 		return Repository.class.isAssignableFrom(repositoryInterface) ? new DefaultRepositoryMetadata(repositoryInterface)
 				: new AnnotationRepositoryMetadata(repositoryInterface);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.RepositoryMetadata#getReturnedDomainClass(java.lang.reflect.Method)
-	 */
 	public Class<?> getReturnedDomainClass(Method method) {
 
 		TypeInformation<?> returnType = null;
@@ -97,28 +92,13 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 
 		return QueryExecutionConverters.unwrapWrapperTypes(returnType).getType();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.RepositoryMetadata#getRepositoryInterface()
-	 */
 	public Class<?> getRepositoryInterface() {
 		return this.repositoryInterface;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.RepositoryMetadata#getCrudMethods()
-	 */
 	@Override
 	public CrudMethods getCrudMethods() {
 		return this.crudMethods.get();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.RepositoryMetadata#isPagingRepository()
-	 */
 	@Override
 	public boolean isPagingRepository() {
 
@@ -126,20 +106,10 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 				.map(it -> Arrays.asList(it.getParameterTypes()).contains(Pageable.class))//
 				.orElse(false);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.RepositoryMetadata#getAlternativeDomainTypes()
-	 */
 	@Override
 	public Set<Class<?>> getAlternativeDomainTypes() {
 		return Collections.emptySet();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.RepositoryMetadata#isReactiveRepository()
-	 */
 	@Override
 	public boolean isReactiveRepository() {
 		return ReactiveWrappers.usesReactiveType(repositoryInterface);

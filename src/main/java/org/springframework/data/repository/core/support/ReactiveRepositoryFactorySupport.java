@@ -34,11 +34,6 @@ import org.springframework.util.ClassUtils;
  * @since 2.0
  */
 public abstract class ReactiveRepositoryFactorySupport extends RepositoryFactorySupport {
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.support.RepositoryFactorySupport#validate(org.springframework.data.repository.core.RepositoryMetadata)
-	 */
 	@Override
 	protected void validate(RepositoryMetadata repositoryMetadata) {
 

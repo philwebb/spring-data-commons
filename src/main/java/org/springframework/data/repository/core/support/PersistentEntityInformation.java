@@ -34,40 +34,20 @@ public class PersistentEntityInformation<T, ID> implements EntityInformation<T, 
 	public PersistentEntityInformation(PersistentEntity<T, ? extends PersistentProperty<?>> persistentEntity) {
 		this.persistentEntity = persistentEntity;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.support.AbstractEntityInformation#isNew(java.lang.Object)
-	 */
 	@Override
 	public boolean isNew(T entity) {
 		return persistentEntity.isNew(entity);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.EntityInformation#getId(java.lang.Object)
-	 */
 	@Nullable
 	@Override
 	@SuppressWarnings("unchecked")
 	public ID getId(T entity) {
 		return (ID) persistentEntity.getIdentifierAccessor(entity).getIdentifier();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.EntityMetadata#getJavaType()
-	 */
 	@Override
 	public Class<T> getJavaType() {
 		return persistentEntity.getType();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.EntityInformation#getIdType()
-	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<ID> getIdType() {

@@ -158,47 +158,22 @@ public abstract class ReturnedType {
 			this.information = information;
 			this.domainType = domainType;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ReturnedType#getReturnedType()
-		 */
 		@Override
 		public Class<?> getReturnedType() {
 			return information.getType();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ReturnedType#needsCustomConstruction()
-		 */
 		public boolean needsCustomConstruction() {
 			return isProjecting() && information.isClosed();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ReturnedType#isProjecting()
-		 */
 		@Override
 		public boolean isProjecting() {
 			return !information.getType().isAssignableFrom(domainType);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ReturnedType#getTypeToRead()
-		 */
 		@Nullable
 		@Override
 		public Class<?> getTypeToRead() {
 			return isProjecting() && information.isClosed() ? null : domainType;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ReturnedType#getInputProperties()
-		 */
 		@Override
 		public List<String> getInputProperties() {
 
@@ -244,46 +219,21 @@ public abstract class ReturnedType {
 			this.type = returnedType;
 			this.inputProperties = detectConstructorParameterNames(returnedType);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ResultFactory.ReturnedTypeInformation#getReturnedType()
-		 */
 		@Override
 		public Class<?> getReturnedType() {
 			return type;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ResultFactory.ReturnedType#getTypeToRead()
-		 */
 		@Nonnull
 		public Class<?> getTypeToRead() {
 			return type;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ResultFactory.ReturnedType#isProjecting()
-		 */
 		@Override
 		public boolean isProjecting() {
 			return isDto();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ResultFactory.ReturnedType#needsCustomConstruction()
-		 */
 		public boolean needsCustomConstruction() {
 			return isDto() && !inputProperties.isEmpty();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.query.ResultFactory.ReturnedTypeInformation#getInputProperties()
-		 */
 		@Override
 		public List<String> getInputProperties() {
 			return inputProperties;
@@ -356,11 +306,6 @@ public abstract class ReturnedType {
 		public int getProjectionFactoryHashCode() {
 			return this.projectionFactoryHashCode;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -384,11 +329,6 @@ public abstract class ReturnedType {
 
 			return ObjectUtils.nullSafeEquals(domainType, cacheKey.domainType);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(returnedType);
@@ -396,11 +336,6 @@ public abstract class ReturnedType {
 			result = 31 * result + projectionFactoryHashCode;
 			return result;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return "ReturnedType.CacheKey(returnedType=" + this.getReturnedType() + ", domainType=" + this.getDomainType()

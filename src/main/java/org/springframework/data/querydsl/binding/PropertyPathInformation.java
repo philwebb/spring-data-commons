@@ -70,57 +70,27 @@ class PropertyPathInformation implements PathInformation {
 	private static PropertyPathInformation of(PropertyPath path) {
 		return new PropertyPathInformation(path);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.PathInformation#getLeafType()
-	 */
 	@Override
 	public Class<?> getLeafType() {
 		return path.getLeafProperty().getType();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.PathInformation#getLeafParentType()
-	 */
 	@Override
 	public Class<?> getLeafParentType() {
 		return path.getLeafProperty().getOwningType().getType();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.PathInformation#getLeafProperty()
-	 */
 	@Override
 	public String getLeafProperty() {
 		return path.getLeafProperty().getSegment();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.PathInformation#getLeafPropertyDescriptor()
-	 */
 	@Nullable
 	@Override
 	public PropertyDescriptor getLeafPropertyDescriptor() {
 		return BeanUtils.getPropertyDescriptor(getLeafParentType(), getLeafProperty());
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.PathInformation#toDotPath()
-	 */
 	@Override
 	public String toDotPath() {
 		return path.toDotPath();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.PathInformation#reifyPath(org.springframework.data.querydsl.EntityPathResolver)
-	 */
 	@Override
 	public Path<?> reifyPath(EntityPathResolver resolver) {
 		return reifyPath(resolver, path, Optional.empty());
@@ -150,11 +120,6 @@ class PropertyPathInformation implements PathInformation {
 			return (Path<?>) value;
 		});
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -169,20 +134,10 @@ class PropertyPathInformation implements PathInformation {
 		PropertyPathInformation that = (PropertyPathInformation) o;
 		return ObjectUtils.nullSafeEquals(path, that.path);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(path);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "PropertyPathInformation(path=" + this.path + ")";

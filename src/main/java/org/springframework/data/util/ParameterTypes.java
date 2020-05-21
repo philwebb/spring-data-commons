@@ -179,11 +179,6 @@ public class ParameterTypes {
 
 		return true;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 
@@ -275,11 +270,6 @@ public class ParameterTypes {
 	private TypeDescriptor getTail() {
 		return types.get(types.size() - 1);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -291,11 +281,6 @@ public class ParameterTypes {
 		ParameterTypes that = (ParameterTypes) o;
 		return ObjectUtils.nullSafeEquals(types, that.types);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(types);
@@ -320,20 +305,10 @@ public class ParameterTypes {
 		public static ParentParameterTypes of(List<TypeDescriptor> types, TypeDescriptor tail) {
 			return new ParentParameterTypes(types, tail);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.util.ParameterTypes#getParent()
-		 */
 		@Override
 		protected Optional<ParameterTypes> getParent() {
 			return super.getParent(tail);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.util.ParameterTypes#withLastVarArgs()
-		 */
 		@Override
 		protected Optional<ParameterTypes> withLastVarArgs() {
 
@@ -341,11 +316,6 @@ public class ParameterTypes {
 					? Optional.empty() //
 					: super.withLastVarArgs();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.util.ParentTypeAwareTypeInformation#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -364,11 +334,6 @@ public class ParameterTypes {
 			ParentParameterTypes that = (ParentParameterTypes) o;
 			return ObjectUtils.nullSafeEquals(tail, that.tail);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = super.hashCode();

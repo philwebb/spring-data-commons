@@ -88,20 +88,10 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 
 		return projectionFactory;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.BeanClassLoaderAware#setBeanClassLoader(java.lang.ClassLoader)
-	 */
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		projectionFactory.setBeanClassLoader(classLoader);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
-	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		projectionFactory.setBeanFactory(beanFactory);

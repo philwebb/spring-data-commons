@@ -225,11 +225,6 @@ public class ResultProcessor {
 						: converter.convert(intermediate);
 			});
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@Nullable
 		@Override
 		public Object convert(Object source) {
@@ -246,11 +241,6 @@ public class ResultProcessor {
 	private static enum NoOpConverter implements Converter<Object, Object> {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@Override
 		public Object convert(Object source) {
 			return source;
@@ -291,11 +281,6 @@ public class ResultProcessor {
 
 			return new ProjectingConverter(type, factory, conversionService);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@Nullable
 		@Override
 		public Object convert(Object source) {

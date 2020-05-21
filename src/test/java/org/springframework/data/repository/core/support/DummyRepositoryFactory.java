@@ -56,30 +56,15 @@ public class DummyRepositoryFactory extends RepositoryFactorySupport {
 		when(strategy.resolveQuery(Mockito.any(Method.class), Mockito.any(RepositoryMetadata.class),
 				Mockito.any(ProjectionFactory.class), Mockito.any(NamedQueries.class))).thenReturn(queryOne);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.support.RepositoryFactorySupport#getEntityInformation(java.lang.Class)
-	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T, ID> EntityInformation<T, ID> getEntityInformation(Class<T> domainClass) {
 		return mock(EntityInformation.class);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.support.RepositoryFactorySupport#getTargetRepository(org.springframework.data.repository.core.RepositoryMetadata)
-	 */
 	@Override
 	protected Object getTargetRepository(RepositoryInformation information) {
 		return repository;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.support.RepositoryFactorySupport#getRepositoryBaseClass(org.springframework.data.repository.core.RepositoryMetadata)
-	 */
 	@Override
 	protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
 		return repository.getClass();
@@ -94,11 +79,6 @@ public class DummyRepositoryFactory extends RepositoryFactorySupport {
 			QueryMethodEvaluationContextProvider evaluationContextProvider) {
 		return Optional.of(strategy);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.support.RepositoryFactorySupport#getRepositoryFragments(org.springframework.data.repository.core.RepositoryMetadata)
-	 */
 	@Override
 	protected RepositoryFragments getRepositoryFragments(RepositoryMetadata metadata) {
 

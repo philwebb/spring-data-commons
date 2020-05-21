@@ -244,11 +244,6 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		protected boolean allowPublicMethodsOnly() {
 			return this.publicMethodsOnly;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object other) {
 			if (this == other) {
@@ -261,11 +256,6 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 			return (this.annotationParsers.equals(otherTas.annotationParsers)
 					&& this.publicMethodsOnly == otherTas.publicMethodsOnly);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			return this.annotationParsers.hashCode();
@@ -496,11 +486,6 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 				this.method = method;
 				this.targetClass = targetClass;
 			}
-
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#equals(java.lang.Object)
-			 */
 			@Override
 			public boolean equals(Object other) {
 				if (this == other) {
@@ -513,11 +498,6 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 				return this.method.equals(otherKey.method)
 						&& ObjectUtils.nullSafeEquals(this.targetClass, otherKey.targetClass);
 			}
-
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#hashCode()
-			 */
 			@Override
 			public int hashCode() {
 				return this.method.hashCode() * 29 + (this.targetClass != null ? this.targetClass.hashCode() : 0);

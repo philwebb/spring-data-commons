@@ -69,11 +69,6 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 		this.resolver = resolver;
 		this.linkBuilderFactory = linkBuilderFactory == null ? new WebMvcLinkBuilderFactory() : linkBuilderFactory;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#supportsParameter(org.springframework.core.MethodParameter)
-	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return PagedResourcesAssembler.class.equals(parameter.getParameterType());

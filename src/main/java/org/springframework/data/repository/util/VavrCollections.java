@@ -50,11 +50,6 @@ class VavrCollections {
 		public WrapperType getWrapperType() {
 			return WrapperType.multiValue(io.vavr.collection.Traversable.class);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@Nonnull
 		@Override
 		public Object convert(Object source) {
@@ -78,11 +73,6 @@ class VavrCollections {
 	public enum FromJavaConverter implements ConditionalGenericConverter {
 
 		INSTANCE {
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
-			 */
 			@Nonnull
 			@Override
 			public java.util.Set<ConvertiblePair> getConvertibleTypes() {

@@ -99,11 +99,6 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 		EntityInstantiator instantiator = instantiators.getInstantiatorFor(owner);
 
 		this.bean = (T) instantiator.createInstance(owner, new ParameterValueProvider() {
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.springframework.data.mapping.model.ParameterValueProvider#getParameterValue(org.springframework.data.mapping.PreferredConstructor.Parameter)
-			 */
 			@Override
 			@Nullable
 			@SuppressWarnings("null")
@@ -115,21 +110,11 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 			}
 		});
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#getProperty(org.springframework.data.mapping.PersistentProperty)
-	 */
 	@Nullable
 	@Override
 	public Object getProperty(PersistentProperty<?> property) {
 		return delegate.getProperty(property);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#getBean()
-	 */
 	@Override
 	public T getBean() {
 		return this.bean;

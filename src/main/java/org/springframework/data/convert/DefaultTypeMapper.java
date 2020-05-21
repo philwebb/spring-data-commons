@@ -105,11 +105,6 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 			return Optional.empty();
 		};
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.TypeMapper#readType(java.lang.Object)
-	 */
 	@Nullable
 	public TypeInformation<?> readType(S source) {
 

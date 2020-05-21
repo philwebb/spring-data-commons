@@ -46,29 +46,14 @@ class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMap<K, V
 	static <T, K, V> MultiValueMapCollector<T, K, V> of(Function<T, K> keyFunction, Function<T, V> valueFunction) {
 		return new MultiValueMapCollector<T, K, V>(keyFunction, valueFunction);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.stream.Collector#supplier()
-	 */
 	@Override
 	public Supplier<MultiValueMap<K, V>> supplier() {
 		return () -> CollectionUtils.toMultiValueMap(new HashMap<>());
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.stream.Collector#accumulator()
-	 */
 	@Override
 	public BiConsumer<MultiValueMap<K, V>, T> accumulator() {
 		return (map, t) -> map.add(keyFunction.apply(t), valueFunction.apply(t));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.stream.Collector#combiner()
-	 */
 	@Override
 	public BinaryOperator<MultiValueMap<K, V>> combiner() {
 
@@ -81,20 +66,10 @@ class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMap<K, V
 			return map1;
 		};
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.stream.Collector#finisher()
-	 */
 	@Override
 	public Function<MultiValueMap<K, V>, MultiValueMap<K, V>> finisher() {
 		return Function.identity();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.stream.Collector#characteristics()
-	 */
 	@Override
 	public Set<Characteristics> characteristics() {
 		return EnumSet.of(Characteristics.IDENTITY_FINISH, Characteristics.UNORDERED);

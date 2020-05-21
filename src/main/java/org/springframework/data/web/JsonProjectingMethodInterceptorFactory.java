@@ -128,11 +128,6 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 		public InputMessageProjecting(DocumentContext context) {
 			this.context = context;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
-		 */
 		@Nullable
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -200,11 +195,6 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 			ResolvableTypeRef(ResolvableType type) {
 				this.type = type;
 			}
-
-			/*
-			 * (non-Javadoc)
-			 * @see com.jayway.jsonpath.TypeRef#getType()
-			 */
 			@Override
 			public Type getType() {
 				return type.getType();

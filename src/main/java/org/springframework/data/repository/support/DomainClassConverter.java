@@ -62,11 +62,6 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 		this.conversionService = conversionService;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
-	 */
 	@Nonnull
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -99,11 +94,6 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 	private Optional<? extends ConditionalGenericConverter> getConverter(TypeDescriptor targetType) {
 		return repositories.hasRepositoryFor(targetType.getType()) ? toEntityConverter : toIdConverter;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
-	 */
 	public void setApplicationContext(ApplicationContext context) {
 
 		this.repositories = new Repositories(context);
@@ -134,11 +124,6 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 		public ToEntityConverter(Repositories repositories, ConversionService conversionService) {
 			this.repositoryInvokerFactory = new DefaultRepositoryInvokerFactory(repositories, conversionService);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
-		 */
 		@Nonnull
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
@@ -207,11 +192,6 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 	 * @since 1.10
 	 */
 	class ToIdConverter implements ConditionalGenericConverter {
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
-		 */
 		@Nonnull
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {

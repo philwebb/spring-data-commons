@@ -58,65 +58,30 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 		this.beanName = Introspector
 				.decapitalize(ClassUtils.getShortName(interfaceName).concat(config.getImplementationPostfix()));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.ImplementationLookupConfiguration#getImplementationBeanName()
-	 */
 	@Override
 	public String getImplementationBeanName() {
 		return beanName;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.ImplementationDetectionConfiguration#getImplementationPostfix()
-	 */
 	@Override
 	public String getImplementationPostfix() {
 		return config.getImplementationPostfix();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.ImplementationDetectionConfiguration#getExcludeFilters()
-	 */
 	@Override
 	public Streamable<TypeFilter> getExcludeFilters() {
 		return config.getExcludeFilters().and(new AnnotationTypeFilter(NoRepositoryBean.class));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.ImplementationDetectionConfiguration#getMetadataReaderFactory()
-	 */
 	@Override
 	public MetadataReaderFactory getMetadataReaderFactory() {
 		return config.getMetadataReaderFactory();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.ImplementationDetectionConfiguration#getBasePackages()
-	 */
 	@Override
 	public Streamable<String> getBasePackages() {
 		return Streamable.of(ClassUtils.getPackageName(interfaceName));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.ImplementationLookupConfiguration#getImplementationClassName()
-	 */
 	@Override
 	public String getImplementationClassName() {
 		return ClassUtils.getShortName(interfaceName).concat(getImplementationPostfix());
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.ImplementationLookupConfiguration#hasMatchingBeanName(org.springframework.beans.factory.config.BeanDefinition)
-	 */
 	@Override
 	public boolean hasMatchingBeanName(BeanDefinition definition) {
 

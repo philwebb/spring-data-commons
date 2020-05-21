@@ -49,11 +49,6 @@ public class HateoasAwareSpringDataWebConfiguration extends SpringDataWebConfigu
 			@Qualifier("mvcConversionService") ObjectFactory<ConversionService> conversionService) {
 		super(context, conversionService);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.web.config.SpringDataWebConfiguration#pageableResolver()
-	 */
 	@Bean
 	@Override
 	public HateoasPageableHandlerMethodArgumentResolver pageableResolver() {
@@ -63,11 +58,6 @@ public class HateoasAwareSpringDataWebConfiguration extends SpringDataWebConfigu
 		customizePageableResolver(pageableResolver);
 		return pageableResolver;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.web.config.SpringDataWebConfiguration#sortResolver()
-	 */
 	@Bean
 	@Override
 	public HateoasSortHandlerMethodArgumentResolver sortResolver() {
@@ -86,11 +76,6 @@ public class HateoasAwareSpringDataWebConfiguration extends SpringDataWebConfigu
 	public PagedResourcesAssemblerArgumentResolver pagedResourcesAssemblerArgumentResolver() {
 		return new PagedResourcesAssemblerArgumentResolver(pageableResolver(), null);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport#addArgumentResolvers(java.util.List)
-	 */
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		super.addArgumentResolvers(argumentResolvers);

@@ -57,11 +57,6 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	private static final String MULTI_STORE_DROPPED = "Spring Data %s - Could not safely identify store assignment for repository candidate %s. If you want this repository to be a %s repository,";
 
 	private boolean noMultiStoreSupport = false;
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationExtension#getModuleName()
-	 */
 	@Override
 	public String getModuleName() {
 		return StringUtils.capitalize(getModulePrefix());
@@ -111,11 +106,6 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationExtension#getDefaultNamedQueryLocation()
-	 */
 	public String getDefaultNamedQueryLocation() {
 		return String.format("classpath*:META-INF/%s-named-queries.properties", getModulePrefix());
 	}

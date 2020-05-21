@@ -95,11 +95,6 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	public Instant getRequiredRevisionInstant() {
 		return metadata.getRequiredRevisionInstant();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	public int compareTo(@Nullable Revision<N, ?> that) {
 
 		if (that == null) {
@@ -109,11 +104,6 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 		return mapIfAllPresent(getRevisionNumber(), that.getRevisionNumber(), //
 				Comparable::compareTo).orElse(-1);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return String.format("Revision %s of entity %s - Revision metadata %s",
@@ -127,11 +117,6 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	public T getEntity() {
 		return this.entity;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -151,11 +136,6 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 
 		return ObjectUtils.nullSafeEquals(entity, revision.entity);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(metadata);

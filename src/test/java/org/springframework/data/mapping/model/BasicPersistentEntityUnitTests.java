@@ -414,20 +414,10 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	static class PersistableEntity implements Persistable<Long> {
 
 		private final Long id = 42L;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.domain.Persistable#getId()
-		 */
 		@Override
 		public Long getId() {
 			return 4711L;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.domain.Persistable#isNew()
-		 */
 		@Override
 		public boolean isNew() {
 			return false;

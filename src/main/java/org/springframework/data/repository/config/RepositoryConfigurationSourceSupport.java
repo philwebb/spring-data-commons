@@ -61,11 +61,6 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 		this.beanNameGenerator = new RepositoryBeanNameGenerator(classLoader, generator);
 		this.registry = registry;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#getCandidates(org.springframework.core.io.ResourceLoader)
-	 */
 	@Override
 	public Streamable<BeanDefinition> getCandidates(ResourceLoader loader) {
 
@@ -90,11 +85,6 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 	public Streamable<TypeFilter> getExcludeFilters() {
 		return Streamable.empty();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#getBeanNameGenerator()
-	 */
 	@Override
 	public String generateBeanName(BeanDefinition beanDefinition) {
 		return beanNameGenerator.generateBeanName(beanDefinition);
@@ -119,11 +109,6 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 	public boolean shouldConsiderNestedRepositories() {
 		return false;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#toImplementationDetectionConfiguration()
-	 */
 	@Override
 	public ImplementationDetectionConfiguration toImplementationDetectionConfiguration(MetadataReaderFactory factory) {
 		return new SpringImplementationDetectionConfiguration(this, factory);
@@ -139,39 +124,19 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 			this.source = source;
 			this.metadataReaderFactory = metadataReaderFactory;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.config.CustomRepositoryImplementationDetector.ImplementationDetectionConfiguration#getImplementationPostfix()
-		 */
 		@Override
 		public String getImplementationPostfix() {
 			return source.getRepositoryImplementationPostfix()
 					.orElse(DefaultRepositoryConfiguration.DEFAULT_REPOSITORY_IMPLEMENTATION_POSTFIX);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.config.CustomRepositoryImplementationDetector.ImplementationDetectionConfiguration#getBasePackages()
-		 */
 		@Override
 		public Streamable<String> getBasePackages() {
 			return source.getBasePackages();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.config.CustomRepositoryImplementationDetector.ImplementationDetectionConfiguration#getExcludeFilters()
-		 */
 		@Override
 		public Streamable<TypeFilter> getExcludeFilters() {
 			return source.getExcludeFilters();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.repository.config.CustomRepositoryImplementationDetector.ImplementationDetectionConfiguration#generateBeanName(org.springframework.beans.factory.config.BeanDefinition)
-		 */
 		@Override
 		public String generateBeanName(BeanDefinition definition) {
 			return source.generateBeanName(definition);

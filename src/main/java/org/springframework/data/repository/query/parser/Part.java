@@ -129,11 +129,6 @@ public class Part {
 	public IgnoreCaseType shouldIgnoreCase() {
 		return ignoreCase;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -157,11 +152,6 @@ public class Part {
 
 		return ignoreCase == part.ignoreCase;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(propertyPath);
@@ -169,11 +159,6 @@ public class Part {
 		result = 31 * result + ObjectUtils.nullSafeHashCode(ignoreCase);
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return String.format("%s %s %s", propertyPath.getSegment(), type, ignoreCase);
@@ -312,11 +297,6 @@ public class Part {
 
 			return candidate;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Enum#toString()
-		 */
 		@Override
 		public String toString() {
 			return String.format("%s (%s): %s", name(), getNumberOfArguments(), getKeywords());

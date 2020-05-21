@@ -41,20 +41,10 @@ public abstract class RepositoryBeanDefinitionRegistrarSupport
 
 	private @SuppressWarnings("null") @Nonnull ResourceLoader resourceLoader;
 	private @SuppressWarnings("null") @Nonnull Environment environment;
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.ResourceLoaderAware#setResourceLoader(org.springframework.core.io.ResourceLoader)
-	 */
 	@Override
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.EnvironmentAware#setEnvironment(org.springframework.core.env.Environment)
-	 */
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;

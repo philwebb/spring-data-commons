@@ -62,29 +62,14 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 		this.proxyFactory = new SpelAwareProxyProjectionFactory();
 		this.conversionService = conversionService;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
-	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.proxyFactory.setBeanFactory(beanFactory);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.BeanClassLoaderAware#setBeanClassLoader(java.lang.ClassLoader)
-	 */
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.proxyFactory.setBeanClassLoader(classLoader);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#supportsParameter(org.springframework.core.MethodParameter)
-	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 

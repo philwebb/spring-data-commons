@@ -221,11 +221,6 @@ public class AuditingHandler implements InitializingBean {
 
 		return now;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-	 */
 	public void afterPropertiesSet() {
 
 		if (!auditorAware.isPresent()) {

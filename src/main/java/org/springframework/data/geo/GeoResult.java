@@ -50,11 +50,6 @@ public final class GeoResult<T> implements Serializable {
 	public Distance getDistance() {
 		return this.distance;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -74,22 +69,12 @@ public final class GeoResult<T> implements Serializable {
 
 		return ObjectUtils.nullSafeEquals(distance, geoResult.distance);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(content);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(distance);
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return String.format("GeoResult [content: %s, distance: %s, ]", content.toString(), distance.toString());

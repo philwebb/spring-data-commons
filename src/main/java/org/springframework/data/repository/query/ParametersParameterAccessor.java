@@ -89,11 +89,6 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	protected Object[] getValues() {
 		return this.values;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.query.ParameterAccessor#getPageable()
-	 */
 	public Pageable getPageable() {
 
 		if (!parameters.hasPageableParameter()) {
@@ -104,11 +99,6 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 		return pageable == null ? Pageable.unpaged() : pageable;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.query.ParameterAccessor#getSort()
-	 */
 	public Sort getSort() {
 
 		if (parameters.hasSortParameter()) {
@@ -159,19 +149,9 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	protected <T> T getValue(int index) {
 		return (T) values[index];
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.query.ParameterAccessor#getBindableValue(int)
-	 */
 	public Object getBindableValue(int index) {
 		return values[parameters.getBindableParameter(index).getIndex()];
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.query.ParameterAccessor#hasBindableNullValue()
-	 */
 	public boolean hasBindableNullValue() {
 
 		for (Parameter parameter : parameters.getBindableParameters()) {
@@ -182,11 +162,6 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 		return false;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.query.ParameterAccessor#iterator()
-	 */
 	public BindableParameterIterator iterator() {
 		return new BindableParameterIterator(this);
 	}
@@ -224,19 +199,9 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 		public Object next() {
 			return accessor.getBindableValue(currentIndex++);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.util.Iterator#hasNext()
-		 */
 		public boolean hasNext() {
 			return bindableParameterCount > currentIndex;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.util.Iterator#remove()
-		 */
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

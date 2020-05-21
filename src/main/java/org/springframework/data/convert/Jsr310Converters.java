@@ -296,11 +296,6 @@ public abstract class Jsr310Converters {
 	public static enum StringToLocalDateConverter implements Converter<String, LocalDate> {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@NonNull
 		@Override
 		public LocalDate convert(String source) {
@@ -312,11 +307,6 @@ public abstract class Jsr310Converters {
 	public static enum StringToLocalDateTimeConverter implements Converter<String, LocalDateTime> {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@NonNull
 		@Override
 		public LocalDateTime convert(String source) {
@@ -328,11 +318,6 @@ public abstract class Jsr310Converters {
 	public static enum StringToInstantConverter implements Converter<String, Instant> {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@NonNull
 		@Override
 		public Instant convert(String source) {

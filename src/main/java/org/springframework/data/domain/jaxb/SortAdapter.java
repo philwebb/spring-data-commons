@@ -30,11 +30,6 @@ import org.springframework.lang.Nullable;
 public class SortAdapter extends XmlAdapter<SortDto, Sort> {
 
 	public static final SortAdapter INSTANCE = new SortAdapter();
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
-	 */
 	@Nullable
 	@Override
 	public SortDto marshal(@Nullable Sort source) {
@@ -48,11 +43,6 @@ public class SortAdapter extends XmlAdapter<SortDto, Sort> {
 
 		return dto;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
-	 */
 	@Nonnull
 	@Override
 	public Sort unmarshal(@Nullable SortDto source) {

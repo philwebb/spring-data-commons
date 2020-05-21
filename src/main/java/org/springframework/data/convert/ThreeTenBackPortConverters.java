@@ -102,11 +102,6 @@ public abstract class ThreeTenBackPortConverters {
 			implements Converter<LocalDateTime, java.time.LocalDateTime> {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
 		@Nonnull
 		@Override
 		public java.time.LocalDateTime convert(LocalDateTime source) {

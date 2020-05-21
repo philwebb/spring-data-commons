@@ -159,20 +159,10 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	public void setNamedQueries(NamedQueries namedQueries) {
 		this.namedQueries = namedQueries == null ? PropertiesBasedNamedQueries.EMPTY : namedQueries;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.BeanClassLoaderAware#setBeanClassLoader(java.lang.ClassLoader)
-	 */
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader == null ? org.springframework.util.ClassUtils.getDefaultClassLoader() : classLoader;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
-	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
@@ -531,11 +521,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		public ImplementationMethodExecutionInterceptor(RepositoryComposition composition) {
 			this.composition = composition;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
-		 */
 		@Nullable
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
@@ -614,11 +599,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		public long getCompositionHash() {
 			return this.compositionHash;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 			if (this == o) {
@@ -633,22 +613,12 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 			}
 			return ObjectUtils.nullSafeEquals(repositoryInterfaceName, that.repositoryInterfaceName);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(repositoryInterfaceName);
 			result = 31 * result + (int) (compositionHash ^ (compositionHash >>> 32));
 			return result;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return "RepositoryFactorySupport.RepositoryInformationCacheKey(repositoryInterfaceName="

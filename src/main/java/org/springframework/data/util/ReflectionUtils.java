@@ -98,19 +98,9 @@ public final class ReflectionUtils {
 		public AnnotationFieldFilter(Class<? extends Annotation> annotationType) {
 			this.annotationType = annotationType;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.util.ReflectionUtils.FieldFilter#matches(java.lang.reflect.Field)
-		 */
 		public boolean matches(Field field) {
 			return AnnotationUtils.getAnnotation(field, annotationType) != null;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.util.ReflectionUtils.DescribedFieldFilter#getDescription()
-		 */
 		public String getDescription() {
 			return String.format("Annotation filter for %s", annotationType.getName());
 		}

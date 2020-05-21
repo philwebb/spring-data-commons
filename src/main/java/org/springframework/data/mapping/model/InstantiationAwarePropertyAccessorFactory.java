@@ -46,11 +46,6 @@ public class InstantiationAwarePropertyAccessorFactory implements PersistentProp
 
 		return new InstantiationAwarePropertyAccessor<>(accessor, instantiators);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.model.PersistentPropertyAccessorFactory#isSupported(org.springframework.data.mapping.PersistentEntity)
-	 */
 	@Override
 	public boolean isSupported(PersistentEntity<?, ?> entity) {
 		return delegate.isSupported(entity);

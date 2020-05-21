@@ -109,22 +109,12 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 			this.type = (Class<? extends TemporalAccessor>) ResolvableType.forClass(Auditable.class, auditable.getClass())
 					.getGeneric(2).resolve(TemporalAccessor.class);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#setCreatedBy(java.util.Optional)
-		 */
 		@Override
 		public Object setCreatedBy(Object value) {
 
 			auditable.setCreatedBy(value);
 			return value;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#setCreatedDate(java.util.Optional)
-		 */
 		@Override
 		public TemporalAccessor setCreatedDate(TemporalAccessor value) {
 
@@ -132,11 +122,6 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 			return value;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.DefaultAuditableBeanWrapperFactory.AuditableInterfaceBeanWrapper#setLastModifiedBy(java.util.Optional)
-		 */
 		@Override
 		public Object setLastModifiedBy(Object value) {
 
@@ -144,20 +129,10 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 			return value;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#getLastModifiedDate()
-		 */
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
 			return getAsTemporalAccessor(auditable.getLastModifiedDate(), TemporalAccessor.class);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#setLastModifiedDate(java.util.Optional)
-		 */
 		@Override
 		public TemporalAccessor setLastModifiedDate(TemporalAccessor value) {
 
@@ -166,11 +141,6 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 			return value;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#getBean()
-		 */
 		@Override
 		public Auditable<Object, ?, TemporalAccessor> getBean() {
 			return auditable;
@@ -283,39 +253,19 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 			this.metadata = AnnotationAuditingMetadata.getMetadata(target.getClass());
 			this.target = target;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#setCreatedBy(java.util.Optional)
-		 */
 		@Override
 		public Object setCreatedBy(Object value) {
 			return setField(metadata.getCreatedByField(), value);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#setCreatedDate(java.util.Optional)
-		 */
 		@Override
 		public TemporalAccessor setCreatedDate(TemporalAccessor value) {
 
 			return setDateField(metadata.getCreatedDateField(), value);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#setLastModifiedBy(java.util.Optional)
-		 */
 		@Override
 		public Object setLastModifiedBy(Object value) {
 			return setField(metadata.getLastModifiedByField(), value);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#getLastModifiedDate()
-		 */
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
 
@@ -326,20 +276,10 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 			}), TemporalAccessor.class);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#setLastModifiedDate(java.util.Optional)
-		 */
 		@Override
 		public TemporalAccessor setLastModifiedDate(TemporalAccessor value) {
 			return setDateField(metadata.getLastModifiedDateField(), value);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.auditing.AuditableBeanWrapper#getBean()
-		 */
 		@Override
 		public T getBean() {
 			return target;

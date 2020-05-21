@@ -45,11 +45,6 @@ public enum SurroundingTransactionDetectorMethodInterceptor implements MethodInt
 	public boolean isSurroundingTransactionActive() {
 		return Boolean.TRUE == SURROUNDING_TX_ACTIVE.get();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
-	 */
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {

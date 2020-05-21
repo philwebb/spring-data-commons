@@ -106,11 +106,6 @@ public class MethodInvocationRecorder {
 	private class RecordingMethodInterceptor implements org.aopalliance.intercept.MethodInterceptor {
 
 		private InvocationInformation information = InvocationInformation.NOT_INVOKED;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
-		 */
 		@Override
 		@SuppressWarnings("null")
 		public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -213,11 +208,6 @@ public class MethodInvocationRecorder {
 		public Method getInvokedMethod() {
 			return this.invokedMethod;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -237,22 +227,12 @@ public class MethodInvocationRecorder {
 
 			return ObjectUtils.nullSafeEquals(invokedMethod, that.invokedMethod);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(recorded);
 			result = 31 * result + ObjectUtils.nullSafeHashCode(invokedMethod);
 			return result;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return "MethodInvocationRecorder.InvocationInformation(recorded=" + this.getRecorded() + ", invokedMethod="
@@ -269,11 +249,6 @@ public class MethodInvocationRecorder {
 	private enum DefaultPropertyNameDetectionStrategy implements PropertyNameDetectionStrategy {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.hateoas.core.Recorder.PropertyNameDetectionStrategy#getPropertyName(java.lang.reflect.Method)
-		 */
 
 		@Override
 		public String getPropertyName(Method method) {
@@ -359,11 +334,6 @@ public class MethodInvocationRecorder {
 
 			return new Recorded<S>(converter.apply(currentInstance).values().iterator().next(), recorder);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return "MethodInvocationRecorder.Recorded(currentInstance=" + this.currentInstance + ", recorder=" + this.recorder
@@ -381,11 +351,6 @@ public class MethodInvocationRecorder {
 		private Unrecorded() {
 			super(null, null);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.util.MethodInvocationRecorder.Recorded#getPropertyPath(java.util.List)
-		 */
 		@Override
 		public Optional<String> getPropertyPath(List<PropertyNameDetectionStrategy> strategies) {
 			return Optional.empty();

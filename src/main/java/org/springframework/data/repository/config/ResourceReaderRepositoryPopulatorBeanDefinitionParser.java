@@ -33,11 +33,6 @@ import org.w3c.dom.Element;
  * @author Oliver Gierke
  */
 public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser#getBeanClassName(org.w3c.dom.Element)
-	 */
 	@Nonnull
 	@Override
 	protected String getBeanClassName(Element element) {
@@ -100,11 +95,6 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 			builder.addPropertyReference("unmarshaller", unmarshallerRefName);
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.xml.AbstractBeanDefinitionParser#shouldGenerateIdAsFallback()
-	 */
 	@Override
 	protected boolean shouldGenerateIdAsFallback() {
 		return true;

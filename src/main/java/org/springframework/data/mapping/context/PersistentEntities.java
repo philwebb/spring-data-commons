@@ -127,11 +127,6 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 				.flatMap(it -> it.getManagedTypes().stream())//
 				.collect(Collectors.toSet()));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
 	@Override
 	public Iterator<PersistentEntity<?, ? extends PersistentProperty<?>>> iterator() {
 

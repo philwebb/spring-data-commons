@@ -54,20 +54,10 @@ public class MethodsMetadataReaderFactory extends SimpleMetadataReaderFactory {
 	public MethodsMetadataReaderFactory(@Nullable ClassLoader classLoader) {
 		super(classLoader);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.core.type.classreading.SimpleMetadataReaderFactory#getMetadataReader(java.lang.String)
-	 */
 	@Override
 	public MethodsMetadataReader getMetadataReader(String className) throws IOException {
 		return (MethodsMetadataReader) super.getMetadataReader(className);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.core.type.classreading.SimpleMetadataReaderFactory#getMetadataReader(org.springframework.core.io.Resource)
-	 */
 	@Override
 	public MethodsMetadataReader getMetadataReader(Resource resource) throws IOException {
 		return new DefaultMethodsMetadataReader(resource, getResourceLoader().getClassLoader());

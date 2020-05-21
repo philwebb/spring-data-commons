@@ -30,11 +30,6 @@ public abstract class TargetAwareIdentifierAccessor implements IdentifierAccesso
 	public TargetAwareIdentifierAccessor(Object target) {
 		this.target = target;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.IdentifierAccessor#getRequiredIdentifier()
-	 */
 	@Override
 	public Object getRequiredIdentifier() {
 

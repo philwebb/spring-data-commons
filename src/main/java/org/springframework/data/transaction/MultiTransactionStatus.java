@@ -82,53 +82,23 @@ class MultiTransactionStatus implements TransactionStatus {
 	public void rollback(PlatformTransactionManager transactionManager) {
 		transactionManager.rollback(getTransactionStatus(transactionManager));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.TransactionStatus#isRollbackOnly()
-	 */
 	public boolean isRollbackOnly() {
 		return getMainTransactionStatus().isRollbackOnly();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.TransactionStatus#isCompleted()
-	 */
 	public boolean isCompleted() {
 		return getMainTransactionStatus().isCompleted();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.TransactionStatus#isNewTransaction()
-	 */
 	public boolean isNewTransaction() {
 		return getMainTransactionStatus().isNewTransaction();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.TransactionStatus#hasSavepoint()
-	 */
 	public boolean hasSavepoint() {
 		return getMainTransactionStatus().hasSavepoint();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.TransactionStatus#setRollbackOnly()
-	 */
 	public void setRollbackOnly() {
 		for (TransactionStatus ts : transactionStatuses.values()) {
 			ts.setRollbackOnly();
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.SavepointManager#createSavepoint()
-	 */
 	public Object createSavepoint() throws TransactionException {
 
 		SavePoints savePoints = new SavePoints();
@@ -138,28 +108,13 @@ class MultiTransactionStatus implements TransactionStatus {
 		}
 		return savePoints;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.SavepointManager#rollbackToSavepoint(java.lang.Object)
-	 */
 	public void rollbackToSavepoint(Object savepoint) throws TransactionException {
 		SavePoints savePoints = (SavePoints) savepoint;
 		savePoints.rollback();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.SavepointManager#releaseSavepoint(java.lang.Object)
-	 */
 	public void releaseSavepoint(Object savepoint) throws TransactionException {
 		((SavePoints) savepoint).release();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.transaction.TransactionStatus#flush()
-	 */
 	public void flush() {
 		for (TransactionStatus transactionStatus : transactionStatuses.values()) {
 			transactionStatus.flush();

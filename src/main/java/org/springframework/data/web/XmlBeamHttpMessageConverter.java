@@ -56,11 +56,6 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 		this(new XBProjector(new DefaultXMLFactoriesConfig() {
 
 			private static final long serialVersionUID = -1324345769124477493L;
-
-			/*
-			 * (non-Javadoc)
-			 * @see org.xmlbeam.config.DefaultXMLFactoriesConfig#createDocumentBuilderFactory()
-			 */
 			@Override
 			public DocumentBuilderFactory createDocumentBuilderFactory() {
 
@@ -87,11 +82,6 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 
 		this.projectionFactory = projector;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.http.converter.AbstractHttpMessageConverter#supports(java.lang.Class)
-	 */
 	@Override
 	protected boolean supports(Class<?> type) {
 

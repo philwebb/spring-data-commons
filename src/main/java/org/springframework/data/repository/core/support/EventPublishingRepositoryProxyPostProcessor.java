@@ -94,11 +94,6 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 				ApplicationEventPublisher publisher) {
 			return new EventPublishingMethodInterceptor(eventMethod, publisher);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
-		 */
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
 

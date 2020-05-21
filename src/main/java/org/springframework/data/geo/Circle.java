@@ -90,11 +90,6 @@ public class Circle implements Shape {
 	public Distance getRadius() {
 		return radius;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -114,22 +109,12 @@ public class Circle implements Shape {
 
 		return ObjectUtils.nullSafeEquals(radius, circle.radius);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		int result = ObjectUtils.nullSafeHashCode(center);
 		result = 31 * result + ObjectUtils.nullSafeHashCode(radius);
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return String.format("Circle: [center=%s, radius=%s]", center, radius);

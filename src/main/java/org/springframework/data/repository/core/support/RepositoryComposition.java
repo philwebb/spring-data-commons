@@ -238,11 +238,6 @@ public class RepositoryComposition {
 				.orElseThrow(() -> new IllegalStateException(String.format("Fragment %s has no implementation.",
 						ClassUtils.getQualifiedName(it.getSignatureContributor())))));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 
@@ -257,11 +252,6 @@ public class RepositoryComposition {
 		RepositoryComposition that = (RepositoryComposition) o;
 		return ObjectUtils.nullSafeEquals(fragments, that.fragments);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(fragments);
@@ -378,11 +368,6 @@ public class RepositoryComposition {
 		private static RepositoryFragments concat(Stream<RepositoryFragment<?>> left, Stream<RepositoryFragment<?>> right) {
 			return from(Stream.concat(left, right).collect(Collectors.toList()));
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Iterable#iterator()
-		 */
 		@Override
 		public Iterator<RepositoryFragment<?>> iterator() {
 			return fragments.iterator();
@@ -449,20 +434,10 @@ public class RepositoryComposition {
 
 			return null;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return fragments.toString();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -486,11 +461,6 @@ public class RepositoryComposition {
 
 			return ObjectUtils.nullSafeEquals(fragments, that.fragments);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(fragmentCache);

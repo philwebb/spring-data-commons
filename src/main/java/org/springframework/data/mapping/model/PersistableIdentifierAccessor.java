@@ -40,11 +40,6 @@ class PersistableIdentifierAccessor extends TargetAwareIdentifierAccessor {
 
 		this.target = target;
 	}
-
-	/* 
-	 * (non-Javadoc)
-	 * @see org.springframework.data.mapping.IdentifierAccessor#getIdentifier()
-	 */
 	@Override
 	@Nullable
 	public Object getIdentifier() {

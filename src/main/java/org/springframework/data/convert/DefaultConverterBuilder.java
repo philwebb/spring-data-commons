@@ -56,49 +56,24 @@ class DefaultConverterBuilder<S, T>
 		this.writing = writing;
 		this.reading = reading;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.WritingConverterBuilder#andReading(java.util.function.Function)
-	 */
 	@Override
 	public ConverterAware andReading(Function<? super T, ? extends S> function) {
 		return withReading(Optional.of(function));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.ReadingConverterBuilder#andWriting(java.util.function.Function)
-	 */
 	@Override
 	public ConverterAware andWriting(Function<? super S, ? extends T> function) {
 		return withWriting(Optional.of(function));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.ReadingConverterBuilder#getRequiredReadingConverter()
-	 */
 	@Override
 	public GenericConverter getReadingConverter() {
 		return getOptionalReadingConverter()
 				.orElseThrow(() -> new IllegalStateException("No reading converter specified!"));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.WritingConverterBuilder#getRequiredWritingConverter()
-	 */
 	@Override
 	public GenericConverter getWritingConverter() {
 		return getOptionalWritingConverter()
 				.orElseThrow(() -> new IllegalStateException("No writing converter specified!"));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.convert.ConverterBuilder#getConverters()
-	 */
 	@Override
 	public Set<GenericConverter> getConverters() {
 
@@ -150,20 +125,10 @@ class DefaultConverterBuilder<S, T>
 			return function.apply((S) source);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.GenericConverter#getConvertibleTypes()
-		 */
-
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
 			return Collections.singleton(convertiblePair);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -183,11 +148,6 @@ class DefaultConverterBuilder<S, T>
 
 			return ObjectUtils.nullSafeEquals(function, that.function);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(convertiblePair);

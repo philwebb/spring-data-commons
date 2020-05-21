@@ -171,11 +171,6 @@ public class Parameter {
 	public boolean isExplicitlyNamed() {
 		return parameter.hasParameterAnnotation(Param.class);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return format("%s:%s", isNamedParameter() ? getName() : "#" + getIndex(), getType().getName());

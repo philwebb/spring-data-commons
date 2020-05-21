@@ -103,11 +103,6 @@ public interface ImplementationDetectionConfiguration {
 		Assert.notNull(config, "RepositoryConfiguration must not be null!");
 
 		return new DefaultImplementationLookupConfiguration(this, config.getRepositoryInterface()) {
-
-			/* 
-			 * (non-Javadoc)
-			 * @see org.springframework.data.repository.config.DefaultImplementationLookupConfiguration#getBasePackages()
-			 */
 			@Override
 			public Streamable<String> getBasePackages() {
 				return config.getImplementationBasePackages();

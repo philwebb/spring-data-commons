@@ -36,22 +36,12 @@ public class PropertiesBasedNamedQueries implements NamedQueries {
 	public PropertiesBasedNamedQueries(Properties properties) {
 		this.properties = properties;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.NamedQueries#hasNamedQuery(java.lang.String)
-	 */
 	public boolean hasQuery(String queryName) {
 
 		Assert.hasText(queryName, "Query name must not be null or empty!");
 
 		return properties.containsKey(queryName);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.NamedQueries#getNamedQuery(java.lang.String)
-	 */
 	public String getQuery(String queryName) {
 
 		Assert.hasText(queryName, "Query name must not be null or empty!");

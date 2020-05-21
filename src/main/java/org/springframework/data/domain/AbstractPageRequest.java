@@ -51,51 +51,21 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 		this.page = page;
 		this.size = size;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.Pageable#getPageSize()
-	 */
 	public int getPageSize() {
 		return size;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.Pageable#getPageNumber()
-	 */
 	public int getPageNumber() {
 		return page;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.Pageable#getOffset()
-	 */
 	public long getOffset() {
 		return (long) page * (long) size;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.Pageable#hasPrevious()
-	 */
 	public boolean hasPrevious() {
 		return page > 0;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.Pageable#previousOrFirst()
-	 */
 	public Pageable previousOrFirst() {
 		return hasPrevious() ? previous() : first();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.Pageable#next()
-	 */
 	public abstract Pageable next();
 
 	/**
@@ -104,17 +74,7 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 	 * @return
 	 */
 	public abstract Pageable previous();
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.domain.Pageable#first()
-	 */
 	public abstract Pageable first();
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 
@@ -126,11 +86,6 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 
 		return result;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 

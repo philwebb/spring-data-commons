@@ -68,21 +68,11 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	public String getResolvedBeanName() {
 		return resolvedBeanName;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser#getBeanClass(org.w3c.dom.Element)
-	 */
 	@Nonnull
 	@Override
 	protected Class<?> getBeanClass(Element element) {
 		return AuditingHandler.class;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.beans.factory.xml.AbstractBeanDefinitionParser#shouldGenerateId()
-	 */
 	@Override
 	protected boolean shouldGenerateId() {
 		return true;

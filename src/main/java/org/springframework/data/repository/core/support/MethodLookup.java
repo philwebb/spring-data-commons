@@ -107,11 +107,6 @@ public interface MethodLookup {
 		public Method getMethod() {
 			return this.method;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -126,20 +121,10 @@ public interface MethodLookup {
 			InvokedMethod that = (InvokedMethod) o;
 			return ObjectUtils.nullSafeEquals(method, that.method);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			return ObjectUtils.nullSafeHashCode(method);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString() {
 			return "MethodLookup.InvokedMethod(method=" + this.getMethod() + ")";

@@ -69,11 +69,6 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 		this.conversionService = conversionService;
 		this.invokers = new ConcurrentHashMap<>();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.rest.core.invoke.RepositoryInvokerFactory#getInvokerFor(java.lang.Class)
-	 */
 	@Override
 	public RepositoryInvoker getInvokerFor(Class<?> domainType) {
 		return invokers.computeIfAbsent(domainType, this::prepareInvokers);

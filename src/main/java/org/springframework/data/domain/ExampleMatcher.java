@@ -439,11 +439,6 @@ public interface ExampleMatcher {
 		protected boolean canEqual(final Object other) {
 			return other instanceof GenericPropertyMatcher;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -466,11 +461,6 @@ public interface ExampleMatcher {
 
 			return ObjectUtils.nullSafeEquals(valueTransformer, that.valueTransformer);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(stringMatcher);
@@ -608,11 +598,6 @@ public interface ExampleMatcher {
 	enum NoOpPropertyValueTransformer implements ExampleMatcher.PropertyValueTransformer {
 
 		INSTANCE;
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.util.function.Function#apply(java.lang.Object)
-		 */
 		@Override
 		@SuppressWarnings("null")
 		public Optional<Object> apply(Optional<Object> source) {
@@ -739,11 +724,6 @@ public interface ExampleMatcher {
 		public Optional<Object> transformValue(Optional<Object> source) {
 			return getPropertyValueTransformer().apply(source);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -770,11 +750,6 @@ public interface ExampleMatcher {
 
 			return ObjectUtils.nullSafeEquals(valueTransformer, that.valueTransformer);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			int result = ObjectUtils.nullSafeHashCode(path);
@@ -828,11 +803,6 @@ public interface ExampleMatcher {
 		public Collection<PropertySpecifier> getSpecifiers() {
 			return propertySpecifiers.values();
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object o) {
 
@@ -847,11 +817,6 @@ public interface ExampleMatcher {
 			PropertySpecifiers that = (PropertySpecifiers) o;
 			return ObjectUtils.nullSafeEquals(propertySpecifiers, that.propertySpecifiers);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			return ObjectUtils.nullSafeHashCode(propertySpecifiers);

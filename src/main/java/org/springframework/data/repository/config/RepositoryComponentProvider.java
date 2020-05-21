@@ -100,11 +100,6 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 
 		super.addIncludeFilter(new AllTypeFilter(filterPlusAnnotation));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider#isCandidateComponent(org.springframework.beans.factory.annotation.AnnotatedBeanDefinition)
-	 */
 	@Override
 	protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
 
@@ -131,11 +126,6 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 
 		return candidates;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider#getRegistry()
-	 */
 	@Nonnull
 	@Override
 	protected BeanDefinitionRegistry getRegistry() {

@@ -152,11 +152,6 @@ class MethodParameters {
 					flatMap(it -> it.getValueFrom(this).map(Object::toString)).//
 					orElseGet(super::getParameterName));
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.MethodParameter#getParameterName()
-		 */
 		@Nullable
 		@Override
 		public String getParameterName() {

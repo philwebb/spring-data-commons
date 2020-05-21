@@ -38,11 +38,6 @@ class DeferredRepositoryInitializationListener implements ApplicationListener<Co
 	DeferredRepositoryInitializationListener(ListableBeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
-	 */
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 
@@ -52,11 +47,6 @@ class DeferredRepositoryInitializationListener implements ApplicationListener<Co
 
 		LOG.info("Spring Data repositories initialized!");
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.core.Ordered#getOrder()
-	 */
 	@Override
 	public int getOrder() {
 		return Ordered.HIGHEST_PRECEDENCE;

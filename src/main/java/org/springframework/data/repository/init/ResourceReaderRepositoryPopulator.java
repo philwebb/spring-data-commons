@@ -97,19 +97,9 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 	public void setResources(Resource... resources) {
 		this.resources = Arrays.asList(resources);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.context.ApplicationEventPublisherAware#setApplicationEventPublisher(org.springframework.context.ApplicationEventPublisher)
-	 */
 	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
 		this.publisher = publisher;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.init.RepositoryPopulator#initialize()
-	 */
 	public void populate(Repositories repositories) {
 
 		Assert.notNull(repositories, "Repositories must not be null!");

@@ -137,20 +137,10 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 			this.methodMetadataSet.add(visitor);
 			return visitor;
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.util.MethodsMetadata#getMethods()
-		 */
 		@Override
 		public Set<MethodMetadata> getMethods() {
 			return Collections.unmodifiableSet(methodMetadataSet);
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.data.util.MethodsMetadata#getMethods(String)
-		 */
 		@Override
 		public Set<MethodMetadata> getMethods(String name) {
 

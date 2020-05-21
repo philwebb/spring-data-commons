@@ -66,11 +66,6 @@ public class PageableHandlerMethodArgumentResolver extends PageableHandlerMethod
 	public PageableHandlerMethodArgumentResolver(@Nullable SortArgumentResolver sortResolver) {
 		this.sortResolver = sortResolver == null ? DEFAULT_SORT_RESOLVER : sortResolver;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#supportsParameter(org.springframework.core.MethodParameter)
-	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return Pageable.class.equals(parameter.getParameterType());
