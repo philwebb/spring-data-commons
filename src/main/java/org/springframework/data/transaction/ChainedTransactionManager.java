@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.CannotCreateTransactionException;
@@ -56,7 +56,7 @@ import static java.util.Arrays.asList;
  */
 public class ChainedTransactionManager implements PlatformTransactionManager {
 
-	private final static Logger logger = LoggerFactory.getLogger(ChainedTransactionManager.class);
+	private final static Log logger = LogFactory.getLog(ChainedTransactionManager.class);
 
 	private final List<PlatformTransactionManager> transactionManagers;
 

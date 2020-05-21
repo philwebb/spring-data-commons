@@ -15,7 +15,8 @@
  */
 package org.springframework.data.repository.config;
 
-import org.slf4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.context.ApplicationListener;
@@ -32,8 +33,7 @@ import org.springframework.data.repository.Repository;
  */
 class DeferredRepositoryInitializationListener implements ApplicationListener<ContextRefreshedEvent>, Ordered {
 
-	private static final Logger logger = org.slf4j.LoggerFactory
-			.getLogger(DeferredRepositoryInitializationListener.class);
+	private static final Log logger = LogFactory.getLog(DeferredRepositoryInitializationListener.class);
 
 	private final ListableBeanFactory beanFactory;
 

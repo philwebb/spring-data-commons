@@ -37,9 +37,10 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.enterprise.inject.spi.PassivationCapable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
+import org.springframework.core.log.LogMessage;
 import org.springframework.data.repository.config.CustomRepositoryImplementationDetector;
 import org.springframework.data.repository.config.RepositoryFragmentConfiguration;
 import org.springframework.data.repository.core.support.RepositoryComposition.RepositoryFragments;
@@ -63,7 +64,7 @@ import org.springframework.util.StringUtils;
  */
 public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapable {
 
-	private static final Logger logger = LoggerFactory.getLogger(CdiRepositoryBean.class);
+	private static final Log logger = LogFactory.getLog(CdiRepositoryBean.class);
 
 	private static final CdiRepositoryConfiguration DEFAULT_CONFIGURATION = DefaultCdiRepositoryConfiguration.INSTANCE;
 
@@ -197,10 +198,11 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	public final T create(@SuppressWarnings("null") CreationalContext<T> creationalContext) {
 		T repoInstance = this.repoInstance;
 		if (repoInstance != null) {
-			logger.debug("Returning eagerly created CDI repository instance for {}.", this.repositoryType.getName());
+			logger.debug(LogMessage.format("Returning eagerly created CDI repository instance for %s.",
+					this.repositoryType.getName()));
 			return repoInstance;
 		}
-		logger.debug("Creating CDI repository bean instance for {}.", this.repositoryType.getName());
+		logger.debug(LogMessage.format("Creating CDI repository bean instance for %s.", this.repositoryType.getName()));
 		repoInstance = create(creationalContext, this.repositoryType);
 		this.repoInstance = repoInstance;
 		return repoInstance;

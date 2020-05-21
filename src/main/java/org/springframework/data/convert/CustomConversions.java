@@ -30,7 +30,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.core.convert.converter.Converter;
@@ -62,7 +63,7 @@ import org.springframework.util.ObjectUtils;
  */
 public class CustomConversions {
 
-	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(CustomConversions.class);
+	private static final Log logger = LogFactory.getLog(CustomConversions.class);
 
 	private static final String READ_CONVERTER_NOT_SIMPLE = "Registering converter from %s to %s as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.";
 
@@ -785,7 +786,7 @@ public class CustomConversions {
 	/**
 	 * Value object holding the actual {@link StoreConversions} and custom
 	 * {@link Converter converters} configured for registration.
-	 * 
+	 *
 	 * @since 2.3
 	 */
 	protected static class ConverterConfiguration {

@@ -15,14 +15,14 @@
  */
 package org.springframework.data.crossstore;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.transaction.support.TransactionSynchronization;
 
 public class ChangeSetBackedTransactionSynchronization implements TransactionSynchronization {
 
-	protected final Logger log = LoggerFactory.getLogger(getClass());
+	protected final Log logger = LogFactory.getLog(getClass());
 
 	private final ChangeSetPersister<Object> changeSetPersister;
 
@@ -38,22 +38,23 @@ public class ChangeSetBackedTransactionSynchronization implements TransactionSyn
 
 	@Override
 	public void afterCommit() {
-		this.log.debug("After Commit called for " + this.entity);
+		this.logger.debug("After Commit called for " + this.entity);
 		this.changeSetPersister.persistState(this.entity, this.entity.getChangeSet());
 		this.changeSetTxStatus = 0;
 	}
 
 	@Override
 	public void afterCompletion(int status) {
-		this.log.debug("After Completion called with status = " + status);
+		this.logger.debug("After Completion called with status = " + status);
 		if (this.changeSetTxStatus == 0) {
 			if (status == STATUS_COMMITTED) {
 				// this is good
-				this.log.debug("ChangedSetBackedTransactionSynchronization completed successfully for " + this.entity);
+				this.logger
+						.debug("ChangedSetBackedTransactionSynchronization completed successfully for " + this.entity);
 			}
 			else {
 				// this could be bad - TODO: compensate
-				this.log.error("ChangedSetBackedTransactionSynchronization failed for " + this.entity);
+				this.logger.error("ChangedSetBackedTransactionSynchronization failed for " + this.entity);
 			}
 		}
 	}

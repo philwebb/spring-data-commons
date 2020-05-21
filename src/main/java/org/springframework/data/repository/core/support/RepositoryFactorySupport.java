@@ -27,7 +27,8 @@ import java.util.stream.Collectors;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.slf4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
@@ -38,6 +39,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.core.convert.support.GenericConversionService;
+import org.springframework.core.log.LogMessage;
 import org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
@@ -100,7 +102,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	final static GenericConversionService CONVERSION_SERVICE = new DefaultConversionService();
 
-	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(RepositoryFactorySupport.class);
+	private static final Log logger = LogFactory.getLog(RepositoryFactorySupport.class);
 
 	static {
 		QueryExecutionConverters.registerConvertersIn(CONVERSION_SERVICE);
@@ -269,7 +271,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	@SuppressWarnings({ "unchecked" })
 	public <T> T getRepository(Class<T> repositoryInterface, RepositoryFragments fragments) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("Initializing repository instance for {}…", repositoryInterface.getName());
+			logger.debug(
+					LogMessage.format("Initializing repository instance for %s...", repositoryInterface.getName()));
 		}
 		Assert.notNull(repositoryInterface, "Repository interface must not be null!");
 		Assert.notNull(fragments, "RepositoryFragments must not be null!");
@@ -299,7 +302,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		result.addAdvice(new ImplementationMethodExecutionInterceptor(composition));
 		T repository = (T) result.getProxy(this.classLoader);
 		if (logger.isDebugEnabled()) {
-			logger.debug("Finished creation of repository instance for {}.", repositoryInterface.getName());
+			logger.debug(LogMessage.format("Finished creation of repository instance for %s.",
+					repositoryInterface.getName()));
 		}
 		return repository;
 	}

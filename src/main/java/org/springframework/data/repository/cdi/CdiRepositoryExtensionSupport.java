@@ -33,10 +33,11 @@ import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.inject.Qualifier;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.log.LogMessage;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.RepositoryDefinition;
@@ -53,7 +54,7 @@ import org.springframework.data.repository.config.CustomRepositoryImplementation
  */
 public abstract class CdiRepositoryExtensionSupport implements Extension {
 
-	private static final Logger logger = LoggerFactory.getLogger(CdiRepositoryExtensionSupport.class);
+	private static final Log logger = LogFactory.getLog(CdiRepositoryExtensionSupport.class);
 
 	private final Map<Class<?>, Set<Annotation>> repositoryTypes = new HashMap<>();
 
@@ -128,7 +129,7 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 */
 	void afterDeploymentValidation(@Observes AfterDeploymentValidation event, BeanManager manager) {
 		for (CdiRepositoryBean<?> bean : this.eagerRepositories) {
-			logger.debug("Eagerly instantiating CDI repository bean for {}.", bean.getBeanClass());
+			logger.debug(LogMessage.format("Eagerly instantiating CDI repository bean for %s.", bean.getBeanClass()));
 			bean.initialize();
 		}
 	}

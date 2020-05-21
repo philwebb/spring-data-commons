@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
@@ -38,6 +39,7 @@ import org.springframework.core.env.EnvironmentCapable;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.SpringFactoriesLoader;
+import org.springframework.core.log.LogMessage;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -56,15 +58,15 @@ import org.springframework.util.StopWatch;
  */
 public class RepositoryConfigurationDelegate {
 
-	private static final String REPOSITORY_REGISTRATION = "Spring Data {} - Registering repository: {} - Interface: {} - Factory: {}";
+	private static final String REPOSITORY_REGISTRATION = "Spring Data %s - Registering repository: %s - Interface: %s - Factory: %s";
 
 	private static final String MULTIPLE_MODULES = "Multiple Spring Data modules found, entering strict repository configuration mode!";
 
-	private static final String NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER = "Non-default AutowireCandidateResolver ({}) detected. Skipping the registration of LazyRepositoryInjectionPointResolver. Lazy repository injection will not be working!";
+	private static final String NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER = "Non-default AutowireCandidateResolver (%s) detected. Skipping the registration of LazyRepositoryInjectionPointResolver. Lazy repository injection will not be working!";
 
 	static final String FACTORY_BEAN_OBJECT_TYPE = "factoryBeanObjectType";
 
-	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(RepositoryConfigurationDelegate.class);
+	private static final Log logger = LogFactory.getLog(RepositoryConfigurationDelegate.class);
 
 	private final RepositoryConfigurationSource configurationSource;
 
@@ -122,8 +124,8 @@ public class RepositoryConfigurationDelegate {
 	public List<BeanComponentDefinition> registerRepositoriesIn(BeanDefinitionRegistry registry,
 			RepositoryConfigurationExtension extension) {
 		if (logger.isInfoEnabled()) {
-			logger.info("Bootstrapping Spring Data {} repositories in {} mode.", extension.getModuleName(),
-					this.configurationSource.getBootstrapMode().name());
+			logger.info(LogMessage.format("Bootstrapping Spring Data %s repositories in %s mode.",
+					extension.getModuleName(), this.configurationSource.getBootstrapMode().name()));
 		}
 		extension.registerBeansForRoot(registry, this.configurationSource);
 		RepositoryBeanDefinitionBuilder builder = new RepositoryBeanDefinitionBuilder(registry, extension,
@@ -131,8 +133,8 @@ public class RepositoryConfigurationDelegate {
 		List<BeanComponentDefinition> definitions = new ArrayList<>();
 		StopWatch watch = new StopWatch();
 		if (logger.isDebugEnabled()) {
-			logger.debug("Scanning for {} repositories in packages {}.", extension.getModuleName(),
-					this.configurationSource.getBasePackages().stream().collect(Collectors.joining(", ")));
+			logger.debug(LogMessage.format("Scanning for %s repositories in packages %s.", extension.getModuleName(),
+					this.configurationSource.getBasePackages().stream().collect(Collectors.joining(", "))));
 		}
 		watch.start();
 		Collection<RepositoryConfiguration<RepositoryConfigurationSource>> configurations = extension
@@ -153,8 +155,8 @@ public class RepositoryConfigurationDelegate {
 			beanDefinition.setResourceDescription(configuration.getResourceDescription());
 			String beanName = this.configurationSource.generateBeanName(beanDefinition);
 			if (logger.isTraceEnabled()) {
-				logger.trace(REPOSITORY_REGISTRATION, extension.getModuleName(), beanName,
-						configuration.getRepositoryInterface(), configuration.getRepositoryFactoryBeanClassName());
+				logger.trace(LogMessage.format(REPOSITORY_REGISTRATION, extension.getModuleName(), beanName,
+						configuration.getRepositoryInterface(), configuration.getRepositoryFactoryBeanClassName()));
 			}
 			beanDefinition.setAttribute(FACTORY_BEAN_OBJECT_TYPE, configuration.getRepositoryInterface());
 			registry.registerBeanDefinition(beanName, beanDefinition);
@@ -164,8 +166,9 @@ public class RepositoryConfigurationDelegate {
 				this.configurationSource.getBootstrapMode());
 		watch.stop();
 		if (logger.isInfoEnabled()) {
-			logger.info("Finished Spring Data repository scanning in {}ms. Found {} {} repository interfaces.",
-					watch.getLastTaskTimeMillis(), configurations.size(), extension.getModuleName());
+			logger.info(LogMessage.format(
+					"Finished Spring Data repository scanning in %sms. Found %s %s repository interfaces.",
+					watch.getLastTaskTimeMillis(), configurations.size(), extension.getModuleName()));
 		}
 		return definitions;
 	}
@@ -188,7 +191,7 @@ public class RepositoryConfigurationDelegate {
 		AutowireCandidateResolver resolver = beanFactory.getAutowireCandidateResolver();
 		if (!Arrays.asList(ContextAnnotationAutowireCandidateResolver.class, LazyRepositoryInjectionPointResolver.class)
 				.contains(resolver.getClass())) {
-			logger.warn(NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER, resolver.getClass().getName());
+			logger.warn(LogMessage.format(NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER, resolver.getClass().getName()));
 			return;
 		}
 		AutowireCandidateResolver newResolver = LazyRepositoryInjectionPointResolver.class.isInstance(resolver)
@@ -225,8 +228,7 @@ public class RepositoryConfigurationDelegate {
 	 */
 	static class LazyRepositoryInjectionPointResolver extends ContextAnnotationAutowireCandidateResolver {
 
-		private static final Logger logger = org.slf4j.LoggerFactory
-				.getLogger(LazyRepositoryInjectionPointResolver.class);
+		private static final Log logger = LogFactory.getLog(LazyRepositoryInjectionPointResolver.class);
 
 		private final Map<String, RepositoryConfiguration<?>> configurations;
 
@@ -256,7 +258,8 @@ public class RepositoryConfigurationDelegate {
 			}
 			boolean lazyInit = configuration.isLazyInit();
 			if (lazyInit) {
-				logger.debug("Creating lazy injection proxy for {}…", configuration.getRepositoryInterface());
+				logger.debug(LogMessage.format("Creating lazy injection proxy for %s…",
+						configuration.getRepositoryInterface()));
 			}
 			return lazyInit;
 		}

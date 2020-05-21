@@ -27,9 +27,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.core.log.LogMessage;
 import org.springframework.core.type.MethodMetadata;
 import org.springframework.data.type.MethodsMetadata;
 import org.springframework.data.type.classreading.MethodsMetadataReader;
@@ -107,7 +109,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 	 */
 	private static class PropertyDescriptorSource {
 
-		private static final Logger logger = org.slf4j.LoggerFactory.getLogger(PropertyDescriptorSource.class);
+		private static final Log logger = LogFactory.getLog(PropertyDescriptorSource.class);
 
 		private final Class<?> type;
 
@@ -199,7 +201,8 @@ class DefaultProjectionInformation implements ProjectionInformation {
 				return Optional.of(metadataReader.getMethodsMetadata());
 			}
 			catch (IOException e) {
-				logger.info("Couldn't read class metadata for {}. Input property calculation might fail!", type);
+				logger.info(LogMessage
+						.format("Couldn't read class metadata for %s. Input property calculation might fail!", type));
 				return Optional.empty();
 			}
 		}

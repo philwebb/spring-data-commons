@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -34,6 +34,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.log.LogMessage;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.AbstractRepositoryMetadata;
@@ -55,7 +56,7 @@ import static org.springframework.beans.factory.support.BeanDefinitionReaderUtil
  */
 public abstract class RepositoryConfigurationExtensionSupport implements RepositoryConfigurationExtension {
 
-	private static final Logger logger = LoggerFactory.getLogger(RepositoryConfigurationExtensionSupport.class);
+	private static final Log logger = LogFactory.getLog(RepositoryConfigurationExtensionSupport.class);
 
 	private static final String CLASS_LOADING_ERROR = "%s - Could not load type %s using class loader %s.";
 
@@ -268,7 +269,7 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 		String moduleName = getModuleName();
 		if (types.isEmpty() && annotations.isEmpty()) {
 			if (!this.noMultiStoreSupport) {
-				logger.warn("Spring Data {} does not support multi-store setups!", moduleName);
+				logger.warn(LogMessage.format("Spring Data %s does not support multi-store setups!", moduleName));
 				this.noMultiStoreSupport = true;
 				return false;
 			}
