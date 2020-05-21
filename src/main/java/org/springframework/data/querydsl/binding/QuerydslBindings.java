@@ -225,8 +225,8 @@ public class QuerydslBindings {
 			return null;
 		}
 		if (this.pathSpecs.containsKey(path)) {
-			return this.pathSpecs.get(path).getPath()//
-					.map(QuerydslPathInformation::of)//
+			return this.pathSpecs.get(path).getPath()
+					.map(QuerydslPathInformation::of)
 					.orElse(null);
 		}
 		try {

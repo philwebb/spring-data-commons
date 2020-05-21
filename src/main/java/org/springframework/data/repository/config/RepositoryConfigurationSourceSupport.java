@@ -69,7 +69,7 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 		scanner.setEnvironment(this.environment);
 		scanner.setResourceLoader(loader);
 		getExcludeFilters().forEach(it -> scanner.addExcludeFilter(it));
-		return Streamable.of(() -> getBasePackages().stream()//
+		return Streamable.of(() -> getBasePackages().stream()
 				.flatMap(it -> scanner.findCandidateComponents(it).stream()));
 	}
 

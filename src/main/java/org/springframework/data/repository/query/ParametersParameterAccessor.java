@@ -110,8 +110,8 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	 */
 	@Override
 	public Optional<Class<?>> getDynamicProjection() {
-		return Optional.ofNullable(this.parameters.hasDynamicProjection() //
-				? (Class<?>) this.values[this.parameters.getDynamicProjectionIndex()] //
+		return Optional.ofNullable(this.parameters.hasDynamicProjection() 
+				? (Class<?>) this.values[this.parameters.getDynamicProjectionIndex()] 
 				: null);
 	}
 
@@ -122,7 +122,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	@Override
 	@Nullable
 	public Class<?> findDynamicProjection() {
-		return this.parameters.hasDynamicProjection() //
+		return this.parameters.hasDynamicProjection() 
 				? (Class<?>) this.values[this.parameters.getDynamicProjectionIndex()] : null;
 	}
 

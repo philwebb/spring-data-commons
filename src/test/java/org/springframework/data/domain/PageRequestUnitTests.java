@@ -64,7 +64,7 @@ class PageRequestUnitTests extends AbstractPageRequestUnitTests {
 	@Test // DATACMNS-1581
 	void rejectsNullSort() {
 
-		assertThatExceptionOfType(IllegalArgumentException.class) //
+		assertThatExceptionOfType(IllegalArgumentException.class) 
 				.isThrownBy(() -> PageRequest.of(0, 10, null));
 	}
 

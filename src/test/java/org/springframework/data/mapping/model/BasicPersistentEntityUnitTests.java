@@ -367,7 +367,7 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 	@Test // DATACMNS-1366
 	void exposesPropertyPopulationNotRequired() {
 
-		Stream.of(PropertyPopulationNotRequired.class, PropertyPopulationNotRequiredWithTransient.class) //
+		Stream.of(PropertyPopulationNotRequired.class, PropertyPopulationNotRequiredWithTransient.class) 
 				.forEach(it -> assertThat(createPopulatedPersistentEntity(it).requiresPropertyPopulation()).isFalse());
 	}
 

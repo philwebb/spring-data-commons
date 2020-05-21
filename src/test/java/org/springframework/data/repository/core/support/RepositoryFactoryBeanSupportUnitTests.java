@@ -53,15 +53,15 @@ class RepositoryFactoryBeanSupportUnitTests {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void initializationFailsWithMissingRepositoryInterface() {
 
-		assertThatExceptionOfType(IllegalArgumentException.class)//
-				.isThrownBy(() -> new DummyRepositoryFactoryBean(null))//
+		assertThatExceptionOfType(IllegalArgumentException.class)
+				.isThrownBy(() -> new DummyRepositoryFactoryBean(null))
 				.withMessageContaining("Repository interface");
 	}
 
 	@Test // DATACMNS-1117
 	void returnsRepositoryInformationForFragmentSetup() {
 
-		RepositoryFactoryBeanSupport<SampleWithQuerydslRepository, Object, Long> factoryBean = //
+		RepositoryFactoryBeanSupport<SampleWithQuerydslRepository, Object, Long> factoryBean = 
 				new DummyRepositoryFactoryBean<>(SampleWithQuerydslRepository.class);
 		factoryBean.afterPropertiesSet();
 
@@ -84,7 +84,7 @@ class RepositoryFactoryBeanSupportUnitTests {
 
 		bean.afterPropertiesSet();
 
-		assertThatExceptionOfType(IllegalStateException.class) //
+		assertThatExceptionOfType(IllegalStateException.class) 
 				.isThrownBy(() -> bean.getPersistentEntity());
 	}
 

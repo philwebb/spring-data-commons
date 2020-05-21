@@ -49,7 +49,7 @@ public class FragmentMetadata {
 	 */
 	public Stream<String> getFragmentInterfaces(String interfaceName) {
 		Assert.hasText(interfaceName, "Interface name must not be null or empty!");
-		return Arrays.stream(getClassMetadata(interfaceName).getInterfaceNames()) //
+		return Arrays.stream(getClassMetadata(interfaceName).getInterfaceNames()) 
 				.filter(this::isCandidate);
 	}
 

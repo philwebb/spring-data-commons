@@ -43,9 +43,9 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 	 */
 	public PageImpl(List<T> content, Pageable pageable, long total) {
 		super(content, pageable);
-		this.total = pageable.toOptional().filter(it -> !content.isEmpty())//
-				.filter(it -> it.getOffset() + it.getPageSize() > total)//
-				.map(it -> it.getOffset() + content.size())//
+		this.total = pageable.toOptional().filter(it -> !content.isEmpty())
+				.filter(it -> it.getOffset() + it.getPageSize() > total)
+				.map(it -> it.getOffset() + content.size())
 				.orElse(total);
 	}
 

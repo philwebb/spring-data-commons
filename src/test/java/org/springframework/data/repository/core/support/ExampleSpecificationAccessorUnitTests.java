@@ -64,7 +64,7 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void nullHandlerShouldReturnInclude() {
 
-		this.specification = ExampleMatcher.matching().//
+		this.specification = ExampleMatcher.matching().
 				withIncludeNullValues();
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 
@@ -90,7 +90,7 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void exampleShouldUseConfiguredStringMatcherAsDefaultForPathThatDoesNotHavePropertySpecifier() {
 
-		this.specification = ExampleMatcher.matching().//
+		this.specification = ExampleMatcher.matching().
 				withStringMatcher(StringMatcher.CONTAINING);
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -102,8 +102,8 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void exampleShouldUseDefaultIgnoreCaseForPathThatDoesHavePropertySpecifierWithMatcher() {
 
-		this.specification = ExampleMatcher.matching().//
-				withIgnoreCase().//
+		this.specification = ExampleMatcher.matching().
+				withIgnoreCase().
 				withMatcher("firstname", contains());
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -114,8 +114,8 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void exampleShouldUseConfiguredIgnoreCaseForPathThatDoesHavePropertySpecifierWithMatcher() {
 
-		this.specification = ExampleMatcher.matching().//
-				withIgnoreCase().//
+		this.specification = ExampleMatcher.matching().
+				withIgnoreCase().
 				withMatcher("firstname", contains().caseSensitive());
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -126,7 +126,7 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void exampleShouldUseDefinedStringMatcherForPathThatDoesHavePropertySpecifierWithStringMatcherStarting() {
 
-		this.specification = ExampleMatcher.matching().//
+		this.specification = ExampleMatcher.matching().
 				withMatcher("firstname", startsWith());
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -138,7 +138,7 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void exampleShouldUseDefinedStringMatcherForPathThatDoesHavePropertySpecifierWithStringMatcherContaining() {
 
-		this.specification = ExampleMatcher.matching().//
+		this.specification = ExampleMatcher.matching().
 				withMatcher("firstname", contains());
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -150,7 +150,7 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void exampleShouldUseDefinedStringMatcherForPathThatDoesHavePropertySpecifierWithStringMatcherRegex() {
 
-		this.specification = ExampleMatcher.matching().//
+		this.specification = ExampleMatcher.matching().
 				withMatcher("firstname", regex());
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -180,8 +180,8 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void exampleShouldUseDefaultStringMatcherForPathThatHasPropertySpecifierWithoutStringMatcher() {
 
-		this.specification = ExampleMatcher.matching().//
-				withStringMatcher(StringMatcher.STARTING).//
+		this.specification = ExampleMatcher.matching().
+				withStringMatcher(StringMatcher.STARTING).
 				withMatcher("firstname", GenericPropertyMatcher::ignoreCase);
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -202,7 +202,7 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void ignoreCaseShouldReturnTrueWhenIgnoreCaseIsEnabled() {
 
-		this.specification = ExampleMatcher.matching().//
+		this.specification = ExampleMatcher.matching().
 				withIgnoreCase();
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -214,7 +214,7 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void ignoreCaseShouldFavorPathSpecificSettings() {
 
-		this.specification = ExampleMatcher.matching().//
+		this.specification = ExampleMatcher.matching().
 				withIgnoreCase("firstname");
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -234,7 +234,7 @@ class ExampleSpecificationAccessorUnitTests {
 
 		PropertyValueTransformer transformer = source -> source.map(Object::toString);
 
-		this.specification = ExampleMatcher.matching().//
+		this.specification = ExampleMatcher.matching().
 				withTransformer("firstname", transformer);
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 
@@ -249,8 +249,8 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-810
 	void hasPropertySpecifiersReturnsTrueWhenAtLeastOneIsSet() {
 
-		this.specification = ExampleMatcher.matching().//
-				withStringMatcher(StringMatcher.STARTING).//
+		this.specification = ExampleMatcher.matching().
+				withStringMatcher(StringMatcher.STARTING).
 				withMatcher("firstname", contains());
 
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
@@ -261,7 +261,7 @@ class ExampleSpecificationAccessorUnitTests {
 	@Test // DATACMNS-953
 	void exactMatcherUsesExactMatching() {
 
-		ExampleMatcher matcher = ExampleMatcher.matching()//
+		ExampleMatcher matcher = ExampleMatcher.matching()
 				.withMatcher("firstname", exact());
 
 		assertThat(new ExampleMatcherAccessor(matcher).getPropertySpecifier("firstname").getStringMatcher())

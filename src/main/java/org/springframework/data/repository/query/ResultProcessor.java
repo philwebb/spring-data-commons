@@ -97,8 +97,8 @@ public class ResultProcessor {
 	public ResultProcessor withDynamicProjection(ParameterAccessor accessor) {
 		Assert.notNull(accessor, "Parameter accessor must not be null!");
 		Class<?> projection = accessor.findDynamicProjection();
-		return projection == null //
-				? this //
+		return projection == null 
+				? this 
 				: withType(projection);
 	}
 

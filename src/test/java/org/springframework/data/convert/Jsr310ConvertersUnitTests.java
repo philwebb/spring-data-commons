@@ -200,20 +200,20 @@ class Jsr310ConvertersUnitTests {
 
 	static Stream<Object[]> parameters() {
 
-		List<Object[]> duration = Arrays.asList(new Object[][] { //
-				{ "PT240H", Duration.ofDays(10) }, //
-				{ "PT2H", Duration.ofHours(2) }, //
-				{ "PT3M", Duration.ofMinutes(3) }, //
-				{ "PT4S", Duration.ofSeconds(4) }, //
-				{ "PT0.005S", Duration.ofMillis(5) }, //
-				{ "PT0.000000006S", Duration.ofNanos(6) } //
+		List<Object[]> duration = Arrays.asList(new Object[][] { 
+				{ "PT240H", Duration.ofDays(10) }, 
+				{ "PT2H", Duration.ofHours(2) }, 
+				{ "PT3M", Duration.ofMinutes(3) }, 
+				{ "PT4S", Duration.ofSeconds(4) }, 
+				{ "PT0.005S", Duration.ofMillis(5) }, 
+				{ "PT0.000000006S", Duration.ofNanos(6) } 
 		});
 
-		List<Object[]> period = Arrays.asList(new Object[][] { //
-				{ "P2D", Period.ofDays(2) }, //
-				{ "P21D", Period.ofWeeks(3) }, //
-				{ "P4M", Period.ofMonths(4) }, //
-				{ "P5Y", Period.ofYears(5) }, //
+		List<Object[]> period = Arrays.asList(new Object[][] { 
+				{ "P2D", Period.ofDays(2) }, 
+				{ "P21D", Period.ofWeeks(3) }, 
+				{ "P4M", Period.ofMonths(4) }, 
+				{ "P5Y", Period.ofYears(5) }, 
 		});
 
 		return Stream.concat(duration.stream(), period.stream());

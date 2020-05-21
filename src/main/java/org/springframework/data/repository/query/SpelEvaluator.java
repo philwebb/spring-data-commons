@@ -63,9 +63,9 @@ public class SpelEvaluator {
 		Assert.notNull(values, "Values must not be null.");
 		EvaluationContext evaluationContext = this.evaluationContextProvider.getEvaluationContext(this.parameters,
 				values);
-		return this.extractor.getParameters().collect(Collectors.toMap(//
-				Entry::getKey, //
-				it -> getSpElValue(evaluationContext, it.getValue()) //
+		return this.extractor.getParameters().collect(Collectors.toMap(
+				Entry::getKey, 
+				it -> getSpElValue(evaluationContext, it.getValue()) 
 		));
 	}
 

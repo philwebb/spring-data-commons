@@ -236,11 +236,11 @@ public class AbstractPersistentPropertyUnitTests {
 		Optional<Field> field = Optional.ofNullable(ReflectionUtils.findField(type, name));
 		Optional<PropertyDescriptor> descriptor = getPropertyDescriptor(type, name);
 
-		Property property = Optionals.firstNonEmpty( //
+		Property property = Optionals.firstNonEmpty( 
 				() -> Optionals.mapIfAllPresent(field, descriptor,
-						(left, right) -> Property.of(typeInformation, left, right)), //
-				() -> field.map(it -> Property.of(typeInformation, it)), //
-				() -> descriptor.map(it -> Property.of(typeInformation, it))) //
+						(left, right) -> Property.of(typeInformation, left, right)), 
+				() -> field.map(it -> Property.of(typeInformation, it)), 
+				() -> descriptor.map(it -> Property.of(typeInformation, it))) 
 				.orElseThrow(() -> new IllegalArgumentException(
 						String.format("Couldn't find property %s on %s!", name, type)));
 
@@ -251,8 +251,8 @@ public class AbstractPersistentPropertyUnitTests {
 
 		try {
 
-			return Arrays.stream(Introspector.getBeanInfo(type).getPropertyDescriptors())//
-					.filter(it -> it.getName().equals(propertyName))//
+			return Arrays.stream(Introspector.getBeanInfo(type).getPropertyDescriptors())
+					.filter(it -> it.getName().equals(propertyName))
 					.findFirst();
 
 		}

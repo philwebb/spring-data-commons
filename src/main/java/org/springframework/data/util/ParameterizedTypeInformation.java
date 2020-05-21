@@ -71,9 +71,9 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 		Set<Type> supertypes = new HashSet<>();
 		Optional.ofNullable(rawType.getGenericSuperclass()).ifPresent(supertypes::add);
 		supertypes.addAll(Arrays.asList(rawType.getGenericInterfaces()));
-		Optional<TypeInformation<?>> result = supertypes.stream()//
-				.map(it -> Pair.of(it, resolveType(it)))//
-				.filter(it -> Map.class.isAssignableFrom(it.getSecond()))//
+		Optional<TypeInformation<?>> result = supertypes.stream()
+				.map(it -> Pair.of(it, resolveType(it)))
+				.filter(it -> Map.class.isAssignableFrom(it.getSecond()))
 				.<TypeInformation<?>>map(it -> {
 					ParameterizedType parameterizedSupertype = (ParameterizedType) it.getFirst();
 					Type[] arguments = parameterizedSupertype.getActualTypeArguments();
@@ -133,8 +133,8 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 		if (asSupertype == null || !ParameterizedTypeInformation.class.isInstance(asSupertype)) {
 			return super.specialize(type);
 		}
-		return ((ParameterizedTypeInformation<?>) asSupertype).isResolvedCompletely() //
-				? (TypeInformation<? extends T>) type //
+		return ((ParameterizedTypeInformation<?>) asSupertype).isResolvedCompletely() 
+				? (TypeInformation<? extends T>) type 
 				: super.specialize(type);
 	}
 
@@ -199,8 +199,8 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 		TypeVariable<?>[] typeParameters = resolvedType.getTypeParameters();
 		Type[] arguments = type.getActualTypeArguments();
 		Map<TypeVariable<?>, Type> localTypeVariables = new HashMap<>(parent.getTypeVariableMap());
-		IntStream.range(0, typeParameters.length) //
-				.mapToObj(it -> Pair.of(typeParameters[it], flattenTypeVariable(arguments[it], localTypeVariables))) //
+		IntStream.range(0, typeParameters.length) 
+				.mapToObj(it -> Pair.of(typeParameters[it], flattenTypeVariable(arguments[it], localTypeVariables))) 
 				.forEach(it -> localTypeVariables.put(it.getFirst(), it.getSecond()));
 		return localTypeVariables;
 	}

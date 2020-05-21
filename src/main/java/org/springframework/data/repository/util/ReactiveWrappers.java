@@ -136,8 +136,8 @@ public abstract class ReactiveWrappers {
 	 */
 	public static boolean usesReactiveType(Class<?> type) {
 		Assert.notNull(type, "Type must not be null!");
-		return Arrays.stream(type.getMethods())//
-				.flatMap(ReflectionUtils::returnTypeAndParameters)//
+		return Arrays.stream(type.getMethods())
+				.flatMap(ReflectionUtils::returnTypeAndParameters)
 				.anyMatch(ReactiveWrapperConverters::supports);
 	}
 

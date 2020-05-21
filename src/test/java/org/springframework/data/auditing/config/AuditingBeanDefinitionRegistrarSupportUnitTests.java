@@ -62,7 +62,7 @@ class AuditingBeanDefinitionRegistrarSupportUnitTests {
 
 		AuditingBeanDefinitionRegistrarSupport registrar = new DummyAuditingBeanDefinitionRegistrarSupport();
 
-		assertThatExceptionOfType(IllegalArgumentException.class) //
+		assertThatExceptionOfType(IllegalArgumentException.class) 
 				.isThrownBy(() -> registrar.registerBeanDefinitions(null, this.registry));
 	}
 
@@ -72,7 +72,7 @@ class AuditingBeanDefinitionRegistrarSupportUnitTests {
 		AuditingBeanDefinitionRegistrarSupport registrar = new DummyAuditingBeanDefinitionRegistrarSupport();
 		AnnotationMetadata metadata = new StandardAnnotationMetadata(SampleConfig.class);
 
-		assertThatExceptionOfType(IllegalArgumentException.class) //
+		assertThatExceptionOfType(IllegalArgumentException.class) 
 				.isThrownBy(() -> registrar.registerBeanDefinitions(metadata, null));
 	}
 

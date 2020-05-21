@@ -93,10 +93,10 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 	@Nullable
 	@SuppressWarnings("unchecked")
 	private <S> S convertIfNecessary(@Nullable Object source, Class<S> type) {
-		return (S) (source == null //
-				? null //
-				: type.isAssignableFrom(source.getClass()) //
-						? source //
+		return (S) (source == null 
+				? null 
+				: type.isAssignableFrom(source.getClass()) 
+						? source 
 						: this.conversionService.convert(source, type));
 	}
 

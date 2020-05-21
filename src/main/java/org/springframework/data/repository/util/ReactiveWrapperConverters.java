@@ -148,10 +148,10 @@ public abstract class ReactiveWrapperConverters {
 	public static <T> T map(Object reactiveObject, Function<Object, Object> converter) {
 		Assert.notNull(reactiveObject, "Reactive source object must not be null!");
 		Assert.notNull(converter, "Converter must not be null!");
-		return REACTIVE_WRAPPERS.stream()//
-				.filter(it -> ClassUtils.isAssignable(it.getWrapperClass(), reactiveObject.getClass()))//
-				.findFirst()//
-				.map(it -> (T) it.map(reactiveObject, converter))//
+		return REACTIVE_WRAPPERS.stream()
+				.filter(it -> ClassUtils.isAssignable(it.getWrapperClass(), reactiveObject.getClass()))
+				.findFirst()
+				.map(it -> (T) it.map(reactiveObject, converter))
 				.orElseThrow(
 						() -> new IllegalStateException(String.format("Cannot apply converter to %s", reactiveObject)));
 	}

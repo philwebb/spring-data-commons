@@ -68,9 +68,8 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 * @return
 	 */
 	public Optional<PersistentEntity<?, ? extends PersistentProperty<?>>> getPersistentEntity(Class<?> type) {
-		return this.contexts.stream()//
-				.filter(it -> it.hasPersistentEntityFor(type))//
-				.findFirst().map(it -> it.getRequiredPersistentEntity(type));
+		return this.contexts.stream().filter(it -> it.hasPersistentEntityFor(type)).findFirst()
+				.map(it -> it.getRequiredPersistentEntity(type));
 	}
 
 	/**
@@ -100,10 +99,8 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 			BiFunction<MappingContext<?, ? extends PersistentProperty<?>>, PersistentEntity<?, ?>, T> combiner) {
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(combiner, "Combining BiFunction must not be null!");
-		return this.contexts.stream() //
-				.filter(it -> it.hasPersistentEntityFor(type)) //
-				.map(it -> combiner.apply(it, it.getRequiredPersistentEntity(type))) //
-				.findFirst();
+		return this.contexts.stream().filter(it -> it.hasPersistentEntityFor(type))
+				.map(it -> combiner.apply(it, it.getRequiredPersistentEntity(type))).findFirst();
 	}
 
 	/**
@@ -112,9 +109,8 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 * @return
 	 */
 	public Streamable<TypeInformation<?>> getManagedTypes() {
-		return Streamable.of(this.contexts.stream()//
-				.flatMap(it -> it.getManagedTypes().stream())//
-				.collect(Collectors.toSet()));
+		return Streamable
+				.of(this.contexts.stream().flatMap(it -> it.getManagedTypes().stream()).collect(Collectors.toSet()));
 	}
 
 	@Override
@@ -142,8 +138,7 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 			return null;
 		}
 		Class<?> associationTargetType = property.getAssociationTargetType();
-		return associationTargetType == null //
-				? getEntityIdentifiedBy(propertyType) //
+		return associationTargetType == null ? getEntityIdentifiedBy(propertyType)
 				: getPersistentEntity(associationTargetType).orElseGet(() -> getEntityIdentifiedBy(propertyType));
 	}
 
@@ -156,9 +151,7 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	public TypeInformation<?> getTypeUltimatelyReferredToBy(PersistentProperty<?> property) {
 		Assert.notNull(property, "PersistentProperty must not be null!");
 		PersistentEntity<?, ?> entity = getEntityUltimatelyReferredToBy(property);
-		return entity == null //
-				? property.getTypeInformation().getRequiredActualType() //
-				: entity.getTypeInformation();
+		return entity == null ? property.getTypeInformation().getRequiredActualType() : entity.getTypeInformation();
 	}
 
 	/**
@@ -170,12 +163,10 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 */
 	@Nullable
 	private PersistentEntity<?, ?> getEntityIdentifiedBy(TypeInformation<?> type) {
-		Collection<PersistentEntity<?, ?>> entities = this.contexts.stream() //
-				.flatMap(it -> it.getPersistentEntities().stream()) //
-				.map(PersistentEntity::getIdProperty) //
-				.filter(it -> it != null && type.equals(it.getTypeInformation().getActualType())) //
-				.map(PersistentProperty::getOwner) //
-				.collect(Collectors.toList());
+		Collection<PersistentEntity<?, ?>> entities = this.contexts.stream()
+				.flatMap(it -> it.getPersistentEntities().stream()).map(PersistentEntity::getIdProperty)
+				.filter(it -> it != null && type.equals(it.getTypeInformation().getActualType()))
+				.map(PersistentProperty::getOwner).collect(Collectors.toList());
 		if (entities.size() > 1) {
 			String message = "Found multiple entities identified by " + type.getType() + ": ";
 			message += entities.stream().map(it -> it.getType().getName()).collect(Collectors.joining(", "));

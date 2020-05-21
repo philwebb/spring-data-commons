@@ -98,7 +98,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	@Override
 	public <T> T invokeSave(T object) {
-		Method method = this.methods.getSaveMethod()//
+		Method method = this.methods.getSaveMethod()
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a save-method declared!"));
 		return invokeForNonNullResult(method, object);
 	}
@@ -110,7 +110,7 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	@Override
 	public <T> Optional<T> invokeFindById(Object id) {
-		Method method = this.methods.getFindOneMethod()//
+		Method method = this.methods.getFindOneMethod()
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a find-one-method declared!"));
 		return returnAsOptional(invoke(method, convertId(id)));
 	}
@@ -212,8 +212,8 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	@SuppressWarnings("unchecked")
 	private <T> Optional<T> returnAsOptional(@Nullable Object source) {
-		return (Optional<T>) (source instanceof Optional //
-				? source //
+		return (Optional<T>) (source instanceof Optional 
+				? source 
 				: Optional.ofNullable(QueryExecutionConverters.unwrap(source)));
 	}
 

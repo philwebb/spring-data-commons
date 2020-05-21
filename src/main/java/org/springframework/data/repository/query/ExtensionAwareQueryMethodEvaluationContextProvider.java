@@ -87,15 +87,15 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	 */
 	private static Map<String, Object> collectVariables(Parameters<?, ?> parameters, Object[] arguments) {
 		Map<String, Object> variables = new HashMap<>();
-		parameters.stream()//
-				.filter(Parameter::isSpecialParameter)//
-				.forEach(it -> variables.put(//
-						StringUtils.uncapitalize(it.getType().getSimpleName()), //
+		parameters.stream()
+				.filter(Parameter::isSpecialParameter)
+				.forEach(it -> variables.put(
+						StringUtils.uncapitalize(it.getType().getSimpleName()), 
 						arguments[it.getIndex()]));
-		parameters.stream()//
-				.filter(Parameter::isNamedParameter)//
-				.forEach(it -> variables.put(//
-						it.getName().orElseThrow(() -> new IllegalStateException("Should never occur!")), //
+		parameters.stream()
+				.filter(Parameter::isNamedParameter)
+				.forEach(it -> variables.put(
+						it.getName().orElseThrow(() -> new IllegalStateException("Should never occur!")), 
 						arguments[it.getIndex()]));
 		return variables;
 	}

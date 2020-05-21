@@ -196,10 +196,10 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 				if (target.isInstance(it)) {
 					return (S) it;
 				}
-				Class<?> typeToConvertTo = Stream.of(target, Instant.class)//
-						.filter(type -> target.isAssignableFrom(type))//
-						.filter(type -> this.conversionService.canConvert(it.getClass(), type))//
-						.findFirst() //
+				Class<?> typeToConvertTo = Stream.of(target, Instant.class)
+						.filter(type -> target.isAssignableFrom(type))
+						.filter(type -> this.conversionService.canConvert(it.getClass(), type))
+						.findFirst() 
 						.orElseThrow(
 								() -> rejectUnsupportedType(source.map(Object.class::cast).orElseGet(() -> source)));
 				return (S) this.conversionService.convert(it, typeToConvertTo);

@@ -86,8 +86,8 @@ class DefaultProjectionInformationUnitTests {
 
 	private static List<String> toNames(List<PropertyDescriptor> descriptors) {
 
-		return descriptors.stream()//
-				.map(FeatureDescriptor::getName)//
+		return descriptors.stream()
+				.map(FeatureDescriptor::getName)
 				.distinct().collect(Collectors.toList());
 	}
 

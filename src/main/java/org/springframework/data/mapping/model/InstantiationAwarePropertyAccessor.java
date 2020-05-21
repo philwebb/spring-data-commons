@@ -92,7 +92,7 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 			@Nullable
 			@SuppressWarnings("null")
 			public Object getParameterValue(Parameter parameter) {
-				return property.getName().equals(parameter.getName()) //
+				return property.getName().equals(parameter.getName()) 
 						? value : InstantiationAwarePropertyAccessor.this.delegate
 								.getProperty(owner.getRequiredPersistentProperty(parameter.getName()));
 			}

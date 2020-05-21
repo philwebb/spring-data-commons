@@ -167,8 +167,8 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	public Collection<E> getPersistentEntities() {
 		try {
 			this.read.lock();
-			return this.persistentEntities.values().stream()//
-					.flatMap(Optionals::toStream)//
+			return this.persistentEntities.values().stream()
+					.flatMap(Optionals::toStream)
 					.collect(Collectors.toSet());
 		}
 		finally {
@@ -422,8 +422,8 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			String fieldName = field.getName();
 			TypeInformation<?> type = this.entity.getTypeInformation();
 			ReflectionUtils.makeAccessible(field);
-			Property property = Optional.ofNullable(this.descriptors.get(fieldName))//
-					.map(it -> Property.of(type, field, it))//
+			Property property = Optional.ofNullable(this.descriptors.get(fieldName))
+					.map(it -> Property.of(type, field, it))
 					.orElseGet(() -> Property.of(type, field));
 			createAndRegisterProperty(property);
 			this.remainingDescriptors.remove(fieldName);
@@ -436,10 +436,10 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		 * @see PersistentPropertyFilter
 		 */
 		public void addPropertiesForRemainingDescriptors() {
-			this.remainingDescriptors.values().stream() //
-					.filter(Property::supportsStandalone) //
-					.map(it -> Property.of(this.entity.getTypeInformation(), it)) //
-					.filter(PersistentPropertyFilter.INSTANCE::matches) //
+			this.remainingDescriptors.values().stream() 
+					.filter(Property::supportsStandalone) 
+					.map(it -> Property.of(this.entity.getTypeInformation(), it)) 
+					.filter(PersistentPropertyFilter.INSTANCE::matches) 
 					.forEach(this::createAndRegisterProperty);
 		}
 
@@ -488,7 +488,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			if (Modifier.isStatic(field.getModifiers())) {
 				return false;
 			}
-			return !UNMAPPED_PROPERTIES.stream()//
+			return !UNMAPPED_PROPERTIES.stream()
 					.anyMatch(it -> it.matches(field.getName(), field.getType()));
 		}
 
@@ -503,7 +503,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			if (!property.hasAccessor()) {
 				return false;
 			}
-			return !UNMAPPED_PROPERTIES.stream()//
+			return !UNMAPPED_PROPERTIES.stream()
 					.anyMatch(it -> it.matches(property.getName(), property.getType()));
 		}
 

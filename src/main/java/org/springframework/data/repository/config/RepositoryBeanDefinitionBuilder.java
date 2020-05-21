@@ -101,7 +101,7 @@ class RepositoryBeanDefinitionBuilder {
 		builder.addPropertyValue("lazyInit", configuration.isLazyInit());
 		builder.setLazyInit(configuration.isLazyInit());
 		builder.setPrimary(configuration.isPrimary());
-		configuration.getRepositoryBaseClassName()//
+		configuration.getRepositoryBaseClassName()
 				.ifPresent(it -> builder.addPropertyValue("repositoryBaseClass", it));
 		NamedQueriesBeanDefinitionBuilder definitionBuilder = new NamedQueriesBeanDefinitionBuilder(
 				this.extension.getDefaultNamedQueryLocation());
@@ -113,8 +113,8 @@ class RepositoryBeanDefinitionBuilder {
 		});
 		BeanDefinitionBuilder fragmentsBuilder = BeanDefinitionBuilder
 				.rootBeanDefinition(RepositoryFragmentsFactoryBean.class);
-		List<String> fragmentBeanNames = registerRepositoryFragmentsImplementation(configuration) //
-				.map(RepositoryFragmentConfiguration::getFragmentBeanName) //
+		List<String> fragmentBeanNames = registerRepositoryFragmentsImplementation(configuration) 
+				.map(RepositoryFragmentConfiguration::getFragmentBeanName) 
 				.collect(Collectors.toList());
 		fragmentsBuilder.addConstructorArgValue(fragmentBeanNames);
 		builder.addPropertyValue("repositoryFragments",
@@ -146,10 +146,10 @@ class RepositoryBeanDefinitionBuilder {
 			RepositoryConfiguration<?> configuration) {
 		ImplementationDetectionConfiguration config = configuration
 				.toImplementationDetectionConfiguration(this.metadataReaderFactory);
-		return this.fragmentMetadata.getFragmentInterfaces(configuration.getRepositoryInterface()) //
-				.map(it -> detectRepositoryFragmentConfiguration(it, config)) //
-				.flatMap(Optionals::toStream) //
-				.peek(it -> potentiallyRegisterFragmentImplementation(configuration, it)) //
+		return this.fragmentMetadata.getFragmentInterfaces(configuration.getRepositoryInterface()) 
+				.map(it -> detectRepositoryFragmentConfiguration(it, config)) 
+				.flatMap(Optionals::toStream) 
+				.peek(it -> potentiallyRegisterFragmentImplementation(configuration, it)) 
 				.peek(it -> potentiallyRegisterRepositoryFragment(configuration, it));
 	}
 

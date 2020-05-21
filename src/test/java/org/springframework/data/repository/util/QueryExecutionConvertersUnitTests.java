@@ -273,7 +273,7 @@ class QueryExecutionConvertersUnitTests {
 
 		List<String> source = Collections.singletonList("foo");
 
-		assertThat(this.conversionService.convert(source, io.vavr.collection.Set.class)) //
+		assertThat(this.conversionService.convert(source, io.vavr.collection.Set.class)) 
 				.isInstanceOf(io.vavr.collection.Set.class);
 	}
 
@@ -346,7 +346,7 @@ class QueryExecutionConvertersUnitTests {
 	void convertsToStreamableWrapper() throws Exception {
 
 		assertThat(this.conversionService.canConvert(Iterable.class, StreamableWrapper.class)).isTrue();
-		assertThat(this.conversionService.convert(Arrays.asList("foo"), StreamableWrapper.class).getStreamable()) //
+		assertThat(this.conversionService.convert(Arrays.asList("foo"), StreamableWrapper.class).getStreamable()) 
 				.containsExactly("foo");
 	}
 
@@ -354,7 +354,7 @@ class QueryExecutionConvertersUnitTests {
 	void convertsToStreamableWrapperImplementingStreamable() throws Exception {
 
 		assertThat(this.conversionService.canConvert(Iterable.class, CustomStreamableWrapper.class)).isTrue();
-		assertThat(this.conversionService.convert(Arrays.asList("foo"), CustomStreamableWrapper.class)) //
+		assertThat(this.conversionService.convert(Arrays.asList("foo"), CustomStreamableWrapper.class)) 
 				.containsExactly("foo");
 	}
 

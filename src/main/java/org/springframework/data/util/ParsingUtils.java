@@ -35,7 +35,7 @@ public abstract class ParsingUtils {
 
 	private static final String LOWER = "\\p{Ll}";
 
-	private static final String CAMEL_CASE_REGEX = "(?<!(^|[%u_$]))(?=[%u])|(?<!^)(?=[%u][%l])". //
+	private static final String CAMEL_CASE_REGEX = "(?<!(^|[%u_$]))(?=[%u])|(?<!^)(?=[%u][%l])". 
 			replace("%u", UPPER).replace("%l", LOWER);
 
 	private static final Pattern CAMEL_CASE = Pattern.compile(CAMEL_CASE_REGEX);

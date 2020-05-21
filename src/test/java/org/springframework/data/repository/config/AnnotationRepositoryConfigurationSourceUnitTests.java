@@ -70,7 +70,7 @@ class AnnotationRepositoryConfigurationSourceUnitTests {
 	@Test // DATACMNS-47
 	void findsBasePackagesForClasses() {
 
-		assertThat(this.source.getBasePackages())//
+		assertThat(this.source.getBasePackages())
 				.contains(AnnotationRepositoryConfigurationSourceUnitTests.class.getPackage().getName());
 	}
 

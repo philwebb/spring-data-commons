@@ -32,16 +32,16 @@ public class ParsingUtilsUnitTests {
 	@Test // DATCMNS-486
 	public void splitsCamelCaseWithAllSortsOfCharacters() {
 
-		String sample = "prefix" + "이름" //
-				+ "Anders" //
-				+ "Øre" //
-				+ "År" //
-				+ "Property1" //
-				+ "생일" //
-				+ "Foo_bar" //
-				+ "FOO_BAR" //
-				+ "Bar$foo" //
-				+ "BAR$FOO" //
+		String sample = "prefix" + "이름" 
+				+ "Anders" 
+				+ "Øre" 
+				+ "År" 
+				+ "Property1" 
+				+ "생일" 
+				+ "Foo_bar" 
+				+ "FOO_BAR" 
+				+ "Bar$foo" 
+				+ "BAR$FOO" 
 				+ "Suffix";
 
 		List<String> result = ParsingUtils.splitCamelCaseToLower(sample);

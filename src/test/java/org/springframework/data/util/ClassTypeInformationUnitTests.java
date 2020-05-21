@@ -329,7 +329,7 @@ public class ClassTypeInformationUnitTests {
 
 		ClassTypeInformation<ConcreteRoot> rootType = from(ConcreteRoot.class);
 
-		assertThat(rootType.getProperty("subs").getActualType().getProperty("subSub").getType())//
+		assertThat(rootType.getProperty("subs").getActualType().getProperty("subSub").getType())
 				.isEqualTo(ConcreteSubSub.class);
 	}
 
@@ -337,7 +337,7 @@ public class ClassTypeInformationUnitTests {
 	public void considersGenericsOfTypeBounds() {
 
 		assertThat(
-				from(ConcreteRootIntermediate.class).getProperty("intermediate.content.intermediate.content").getType())//
+				from(ConcreteRootIntermediate.class).getProperty("intermediate.content.intermediate.content").getType())
 						.isEqualTo(Leaf.class);
 	}
 
@@ -346,7 +346,7 @@ public class ClassTypeInformationUnitTests {
 
 		ClassTypeInformation<Foo> root = from(Foo.class);
 
-		assertThat(root.getProperty("abstractBar").specialize(from(Bar.class)))//
+		assertThat(root.getProperty("abstractBar").specialize(from(Bar.class)))
 				.satisfies(it -> {
 					assertThat(it.getType()).isEqualTo(Bar.class);
 					assertThat(it.getProperty("field").getType()).isEqualTo(Character.class);

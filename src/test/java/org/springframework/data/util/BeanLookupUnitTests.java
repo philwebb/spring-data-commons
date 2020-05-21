@@ -59,7 +59,7 @@ public class BeanLookupUnitTests {
 
 		this.beans.put("foo", SimpleEntityPathResolver.INSTANCE);
 
-		assertThat(BeanLookup.lazyIfAvailable(EntityPathResolver.class, this.beanFactory).get()) //
+		assertThat(BeanLookup.lazyIfAvailable(EntityPathResolver.class, this.beanFactory).get()) 
 				.isEqualTo(SimpleEntityPathResolver.INSTANCE);
 	}
 
@@ -74,10 +74,10 @@ public class BeanLookupUnitTests {
 		this.beans.put("foo", SimpleEntityPathResolver.INSTANCE);
 		this.beans.put("bar", SimpleEntityPathResolver.INSTANCE);
 
-		assertThatExceptionOfType(NoUniqueBeanDefinitionException.class) //
-				.isThrownBy(() -> BeanLookup.lazyIfAvailable(EntityPathResolver.class, this.beanFactory).get()) //
-				.withMessageContaining("foo") //
-				.withMessageContaining("bar") //
+		assertThatExceptionOfType(NoUniqueBeanDefinitionException.class) 
+				.isThrownBy(() -> BeanLookup.lazyIfAvailable(EntityPathResolver.class, this.beanFactory).get()) 
+				.withMessageContaining("foo") 
+				.withMessageContaining("bar") 
 				.withMessageContaining(EntityPathResolver.class.getName());
 	}
 

@@ -56,8 +56,8 @@ class Functions {
 	void addAll(MultiValueMap<String, Function> newFunctions) {
 		newFunctions.forEach((k, list) -> {
 			List<Function> currentElements = get(k);
-			list.stream() //
-					.filter(f -> !contains(currentElements, f)) //
+			list.stream() 
+					.filter(f -> !contains(currentElements, f)) 
 					.forEach(f -> this.functions.add(k, f));
 		});
 	}
@@ -78,7 +78,7 @@ class Functions {
 	 * parameters.
 	 */
 	Optional<Function> get(String name, List<TypeDescriptor> argumentTypes) {
-		Stream<Function> candidates = get(name).stream() //
+		Stream<Function> candidates = get(name).stream() 
 				.filter(f -> f.supports(argumentTypes));
 		List<Function> collect = candidates.collect(Collectors.toList());
 		return bestMatch(collect, argumentTypes);
@@ -103,8 +103,8 @@ class Functions {
 	}
 
 	private static String createErrorMessage(List<Function> candidates, List<TypeDescriptor> argumentTypes) {
-		String argumentTypeString = argumentTypes.stream()//
-				.map(TypeDescriptor::getName)//
+		String argumentTypeString = argumentTypes.stream()
+				.map(TypeDescriptor::getName)
 				.collect(Collectors.joining(","));
 		return String.format(MESSAGE_TEMPLATE, candidates.get(0).getName(), argumentTypeString);
 	}

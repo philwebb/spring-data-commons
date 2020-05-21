@@ -125,7 +125,7 @@ class ParameterizedTypeInformationUnitTests {
 
 		TypeInformation<NormalizedProfile> information = ClassTypeInformation.from(NormalizedProfile.class);
 
-		assertThat(information.getProperty("education2.data").getComponentType().getProperty("value"))//
+		assertThat(information.getProperty("education2.data").getComponentType().getProperty("value"))
 				.satisfies(it -> assertThat(it.getType()).isEqualTo(Education.class));
 	}
 

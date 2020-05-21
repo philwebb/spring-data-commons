@@ -169,7 +169,7 @@ public class QuerydslPredicateBuilder {
 		PropertyDescriptor descriptor = path.getLeafPropertyDescriptor();
 		Class<?> owningType = path.getLeafParentType();
 		String leafProperty = path.getLeafProperty();
-		TypeDescriptor result = descriptor == null //
+		TypeDescriptor result = descriptor == null 
 				? TypeDescriptor.nested(
 						org.springframework.data.util.ReflectionUtils.findRequiredField(owningType, leafProperty), 0)
 				: TypeDescriptor.nested(

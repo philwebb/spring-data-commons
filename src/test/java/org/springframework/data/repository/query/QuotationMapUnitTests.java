@@ -115,7 +115,7 @@ class QuotationMapUnitTests {
 		for (int index : indexes) {
 
 			assertThat(quotationMap.isQuoted(index))
-					.describedAs(String.format("(%s) %s does not contain a quote at %s", label, query, index)) //
+					.describedAs(String.format("(%s) %s does not contain a quote at %s", label, query, index)) 
 					.isFalse();
 		}
 	}
@@ -127,7 +127,7 @@ class QuotationMapUnitTests {
 		for (int index : indexes) {
 
 			assertThat(quotationMap.isQuoted(index))
-					.describedAs(String.format("(%s) %s does contain a quote at %s", label, query, index)) //
+					.describedAs(String.format("(%s) %s does contain a quote at %s", label, query, index)) 
 					.isTrue();
 		}
 	}

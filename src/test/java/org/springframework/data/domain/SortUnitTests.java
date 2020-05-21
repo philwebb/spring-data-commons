@@ -168,21 +168,21 @@ class SortUnitTests {
 	@SuppressWarnings("null")
 	void preventsNullDirection() {
 
-		assertThatExceptionOfType(IllegalArgumentException.class)//
-				.isThrownBy(() -> Sort.by((Direction) null, "foo"))//
+		assertThatExceptionOfType(IllegalArgumentException.class)
+				.isThrownBy(() -> Sort.by((Direction) null, "foo"))
 				.withMessageContaining("Direction");
 	}
 
 	@Test // DATACMNS-1450
 	void translatesTypedSortCorrectly() {
 
-		assertThat(Sort.sort(Sample.class).by(Sample::getNested).by(Nested::getFirstname)) //
+		assertThat(Sort.sort(Sample.class).by(Sample::getNested).by(Nested::getFirstname)) 
 				.containsExactly(Order.by("nested.firstname"));
 
-		assertThat(Sort.sort(Sample.class).by((Sample it) -> it.getNested().getFirstname())) //
+		assertThat(Sort.sort(Sample.class).by((Sample it) -> it.getNested().getFirstname())) 
 				.containsExactly(Order.by("nested.firstname"));
 
-		assertThat(Sort.sort(Sample.class).by(Sample::getNesteds).by(Nested::getFirstname)) //
+		assertThat(Sort.sort(Sample.class).by(Sample::getNesteds).by(Nested::getFirstname)) 
 				.containsExactly(Order.by("nesteds.firstname"));
 	}
 

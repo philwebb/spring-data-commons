@@ -64,19 +64,19 @@ public class Property {
 		Assert.isTrue(Optionals.isAnyPresent(field, descriptor), "Either field or descriptor has to be given!");
 		this.field = field;
 		this.descriptor = descriptor;
-		this.rawType = withFieldOrDescriptor( //
-				it -> type.getRequiredProperty(it.getName()).getType(), //
-				it -> type.getRequiredProperty(it.getName()).getType() //
+		this.rawType = withFieldOrDescriptor( 
+				it -> type.getRequiredProperty(it.getName()).getType(), 
+				it -> type.getRequiredProperty(it.getName()).getType() 
 		);
 		this.hashCode = Lazy.of(() -> withFieldOrDescriptor(Object::hashCode));
 		this.name = Lazy.of(() -> withFieldOrDescriptor(Field::getName, FeatureDescriptor::getName));
 		this.toString = Lazy.of(() -> withFieldOrDescriptor(Object::toString,
 				it -> String.format("%s.%s", type.getType().getName(), it.getDisplayName())));
-		this.getter = descriptor.map(PropertyDescriptor::getReadMethod)//
-				.filter(it -> getType() != null)//
+		this.getter = descriptor.map(PropertyDescriptor::getReadMethod)
+				.filter(it -> getType() != null)
 				.filter(it -> getType().isAssignableFrom(type.getReturnType(it).getType()));
-		this.setter = descriptor.map(PropertyDescriptor::getWriteMethod)//
-				.filter(it -> getType() != null)//
+		this.setter = descriptor.map(PropertyDescriptor::getWriteMethod)
+				.filter(it -> getType() != null)
 				.filter(it -> type.getParameterTypes(it).get(0).getType().isAssignableFrom(getType()));
 		this.wither = Lazy.of(() -> findWither(type, getName(), getType()));
 	}
@@ -239,9 +239,9 @@ public class Property {
 	 */
 	private <T> T withFieldOrDescriptor(Function<? super Field, T> field,
 			Function<? super PropertyDescriptor, T> descriptor) {
-		return Optionals.firstNonEmpty(//
-				() -> this.field.map(field), //
-				() -> this.descriptor.map(descriptor))//
+		return Optionals.firstNonEmpty(
+				() -> this.field.map(field), 
+				() -> this.descriptor.map(descriptor))
 				.orElseThrow(() -> new IllegalStateException(
 						"Should not occur! Either field or descriptor has to be given"));
 	}
@@ -259,8 +259,8 @@ public class Property {
 	}
 
 	private static boolean isMethodWithSingleParameterOfType(Method method, String name, Class<?> type) {
-		return method.getParameterCount() == 1 //
-				&& method.getName().equals(name) //
+		return method.getParameterCount() == 1 
+				&& method.getName().equals(name) 
 				&& method.getParameterTypes()[0].equals(type);
 	}
 

@@ -61,7 +61,7 @@ public abstract class ThreeTenBackPortConverters {
 	private static final Collection<Class<?>> SUPPORTED_TYPES;
 
 	static {
-		SUPPORTED_TYPES = THREE_TEN_BACK_PORT_IS_PRESENT //
+		SUPPORTED_TYPES = THREE_TEN_BACK_PORT_IS_PRESENT 
 				? Arrays.asList(LocalDateTime.class, LocalDate.class, LocalTime.class, Instant.class,
 						java.time.Instant.class)
 				: Collections.emptySet();

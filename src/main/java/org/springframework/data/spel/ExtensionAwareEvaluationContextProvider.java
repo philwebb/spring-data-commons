@@ -141,9 +141,9 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	 */
 	private List<EvaluationContextExtensionAdapter> toAdapters(
 			Collection<? extends EvaluationContextExtension> extensions) {
-		return extensions.stream()//
-				.sorted(AnnotationAwareOrderComparator.INSTANCE)//
-				.map(it -> new EvaluationContextExtensionAdapter(it, getOrCreateInformation(it)))//
+		return extensions.stream()
+				.sorted(AnnotationAwareOrderComparator.INSTANCE)
+				.map(it -> new EvaluationContextExtensionAdapter(it, getOrCreateInformation(it)))
 				.collect(Collectors.toList());
 	}
 
@@ -166,7 +166,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		public ExtensionAwarePropertyAccessor(Collection<? extends EvaluationContextExtension> extensions) {
 			Assert.notNull(extensions, "Extensions must not be null!");
 			this.adapters = toAdapters(extensions);
-			this.adapterMap = this.adapters.stream()//
+			this.adapterMap = this.adapters.stream()
 					.collect(Collectors.toMap(EvaluationContextExtensionAdapter::getExtensionId, it -> it));
 			Collections.reverse(this.adapters);
 		}
@@ -190,9 +190,9 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			if (this.adapterMap.containsKey(name)) {
 				return new TypedValue(this.adapterMap.get(name));
 			}
-			return this.adapters.stream()//
-					.filter(it -> it.getProperties().containsKey(name))//
-					.map(it -> lookupPropertyFrom(it, name))//
+			return this.adapters.stream()
+					.filter(it -> it.getProperties().containsKey(name))
+					.map(it -> lookupPropertyFrom(it, name))
 					.findFirst().orElse(TypedValue.NULL);
 		}
 
@@ -203,8 +203,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			if (target instanceof EvaluationContextExtensionAdapter) {
 				return getMethodExecutor((EvaluationContextExtensionAdapter) target, name, argumentTypes).orElse(null);
 			}
-			return this.adapters.stream()//
-					.flatMap(it -> Optionals.toStream(getMethodExecutor(it, name, argumentTypes)))//
+			return this.adapters.stream()
+					.flatMap(it -> Optionals.toStream(getMethodExecutor(it, name, argumentTypes)))
 					.findFirst().orElse(null);
 		}
 

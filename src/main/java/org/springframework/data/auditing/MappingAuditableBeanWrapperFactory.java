@@ -78,7 +78,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 			return this.entities.mapOnContext(it.getClass(), (context, entity) -> {
 				MappingAuditingMetadata metadata = this.metadataCache.computeIfAbsent(it.getClass(),
 						key -> new MappingAuditingMetadata(context, it.getClass()));
-				return Optional.<AuditableBeanWrapper<T>>ofNullable(metadata.isAuditable() //
+				return Optional.<AuditableBeanWrapper<T>>ofNullable(metadata.isAuditable() 
 						? new MappingMetadataAuditableBeanWrapper<>(getConversionService(),
 								entity.getPropertyPathAccessor(it), metadata)
 						: null);
@@ -113,11 +113,11 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 			this.createdDatePaths = findPropertyPaths(type, CreatedDate.class, context);
 			this.lastModifiedByPaths = findPropertyPaths(type, LastModifiedBy.class, context);
 			this.lastModifiedDatePaths = findPropertyPaths(type, LastModifiedDate.class, context);
-			this.isAuditable = Lazy.of( //
-					() -> //
+			this.isAuditable = Lazy.of( 
+					() -> 
 					Stream.of(this.createdByPaths, this.createdDatePaths, this.lastModifiedByPaths,
-							this.lastModifiedDatePaths) //
-							.anyMatch(it -> !it.isEmpty())//
+							this.lastModifiedDatePaths) 
+							.anyMatch(it -> !it.isEmpty())
 			);
 		}
 
@@ -133,8 +133,8 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		private PersistentPropertyPaths<?, ? extends PersistentProperty<?>> findPropertyPaths(Class<?> type,
 				Class<? extends Annotation> annotation, MappingContext<?, ? extends PersistentProperty<?>> context) {
 
-			return context //
-					.findPersistentPropertyPaths(type, withAnnotation(annotation)) //
+			return context 
+					.findPersistentPropertyPaths(type, withAnnotation(annotation)) 
 					.dropPathIfSegmentMatches(HAS_COLLECTION_PROPERTY);
 		}
 
@@ -153,7 +153,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 	 */
 	static class MappingMetadataAuditableBeanWrapper<T> extends DateConvertingAuditableBeanWrapper<T> {
 
-		private static final SetOptions OPTIONS = AccessOptions.defaultSetOptions() //
+		private static final SetOptions OPTIONS = AccessOptions.defaultSetOptions() 
 				.skipNulls() // ;
 				.withCollectionAndMapPropagation(Propagation.SKIP);
 
@@ -193,7 +193,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
-			Optional<Object> firstValue = this.metadata.lastModifiedDatePaths.getFirst() //
+			Optional<Object> firstValue = this.metadata.lastModifiedDatePaths.getFirst() 
 					.map(this.accessor::getProperty);
 			return getAsTemporalAccessor(firstValue, TemporalAccessor.class);
 		}

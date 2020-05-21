@@ -196,10 +196,10 @@ class QuerydslPredicateBuilderUnitTests {
 		this.values.add("specialProperty", "VALUE");
 
 		QuerydslBindings bindings = new QuerydslBindings();
-		bindings.bind(QUser.user.as(QSpecialUser.class).specialProperty)//
+		bindings.bind(QUser.user.as(QSpecialUser.class).specialProperty)
 				.first(QuerydslBindingsUnitTests.ContainsBinding.INSTANCE);
 
-		assertThat(this.builder.getPredicate(USER_TYPE, this.values, bindings))//
+		assertThat(this.builder.getPredicate(USER_TYPE, this.values, bindings))
 				.isEqualTo(QUser.user.as(QSpecialUser.class).specialProperty.contains("VALUE"));
 	}
 
@@ -211,10 +211,10 @@ class QuerydslPredicateBuilderUnitTests {
 		QUserWrapper $ = QUserWrapper.userWrapper;
 
 		QuerydslBindings bindings = new QuerydslBindings();
-		bindings.bind($.user.as(QSpecialUser.class).specialProperty)//
+		bindings.bind($.user.as(QSpecialUser.class).specialProperty)
 				.first(QuerydslBindingsUnitTests.ContainsBinding.INSTANCE);
 
-		assertThat(this.builder.getPredicate(USER_TYPE, this.values, bindings))//
+		assertThat(this.builder.getPredicate(USER_TYPE, this.values, bindings))
 				.isEqualTo($.user.as(QSpecialUser.class).specialProperty.contains("VALUE"));
 	}
 
@@ -223,7 +223,7 @@ class QuerydslPredicateBuilderUnitTests {
 
 		this.values.add("firstname", " ");
 
-		assertThat(this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS)) //
+		assertThat(this.builder.getPredicate(USER_TYPE, this.values, DEFAULT_BINDINGS)) 
 				.isEqualTo(QUser.user.firstname.eq(" "));
 	}
 

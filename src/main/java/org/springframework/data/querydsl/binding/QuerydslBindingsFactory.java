@@ -152,12 +152,12 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private QuerydslBinderCustomizer<EntityPath<?>> findCustomizerForDomainType(
 			Optional<? extends Class<? extends QuerydslBinderCustomizer>> customizer, Class<?> domainType) {
-		return customizer//
-				.filter(it -> !QuerydslBinderCustomizer.class.equals(it))//
+		return customizer
+				.filter(it -> !QuerydslBinderCustomizer.class.equals(it))
 				.map(this::createQuerydslBinderCustomizer)
-				.orElseGet(() -> this.repositories.flatMap(it -> it.getRepositoryFor(domainType))//
+				.orElseGet(() -> this.repositories.flatMap(it -> it.getRepositoryFor(domainType))
 						.map(it -> it instanceof QuerydslBinderCustomizer ? (QuerydslBinderCustomizer<EntityPath<?>>) it
-								: null)//
+								: null)
 						.orElse(NoOpCustomizer.INSTANCE));
 	}
 

@@ -105,8 +105,8 @@ class MapDataBinderUnitTests {
 		ConfigurablePropertyAccessor accessor = new MapDataBinder(Bar.class, new DefaultFormattingConversionService())
 				.getPropertyAccessor();
 
-		assertThatExceptionOfType(NotWritablePropertyException.class) //
-				.isThrownBy(() -> accessor.setPropertyValue("fooBar['foo']", null)) //
+		assertThatExceptionOfType(NotWritablePropertyException.class) 
+				.isThrownBy(() -> accessor.setPropertyValue("fooBar['foo']", null)) 
 				.withCauseInstanceOf(SpelEvaluationException.class);
 	}
 
@@ -116,8 +116,8 @@ class MapDataBinderUnitTests {
 		ConfigurablePropertyAccessor accessor = new MapDataBinder(Bar.class, new DefaultFormattingConversionService())
 				.getPropertyAccessor();
 
-		assertThatExceptionOfType(NotWritablePropertyException.class) //
-				.isThrownBy(() -> accessor.setPropertyValue("fooBar[T(java.lang.String)]", null)) //
+		assertThatExceptionOfType(NotWritablePropertyException.class) 
+				.isThrownBy(() -> accessor.setPropertyValue("fooBar[T(java.lang.String)]", null)) 
 				.withCauseInstanceOf(SpelEvaluationException.class);
 	}
 

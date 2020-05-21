@@ -170,11 +170,11 @@ public final class Range<T extends Comparable<T>> {
 	 */
 	public boolean contains(T value) {
 		Assert.notNull(value, "Reference value must not be null!");
-		boolean greaterThanLowerBound = this.lowerBound.getValue() //
-				.map(it -> this.lowerBound.isInclusive() ? it.compareTo(value) <= 0 : it.compareTo(value) < 0) //
+		boolean greaterThanLowerBound = this.lowerBound.getValue() 
+				.map(it -> this.lowerBound.isInclusive() ? it.compareTo(value) <= 0 : it.compareTo(value) < 0) 
 				.orElse(true);
-		boolean lessThanUpperBound = this.upperBound.getValue() //
-				.map(it -> this.upperBound.isInclusive() ? it.compareTo(value) >= 0 : it.compareTo(value) > 0) //
+		boolean lessThanUpperBound = this.upperBound.getValue() 
+				.map(it -> this.upperBound.isInclusive() ? it.compareTo(value) >= 0 : it.compareTo(value) > 0) 
 				.orElse(true);
 		return greaterThanLowerBound && lessThanUpperBound;
 	}
@@ -224,7 +224,7 @@ public final class Range<T extends Comparable<T>> {
 	 */
 	public static final class Bound<T extends Comparable<T>> {
 
-		@SuppressWarnings({ "rawtypes", "unchecked" }) //
+		@SuppressWarnings({ "rawtypes", "unchecked" }) 
 		private static final Bound<?> UNBOUNDED = new Bound(Optional.empty(), true);
 
 		private final Optional<T> value;
@@ -347,16 +347,16 @@ public final class Range<T extends Comparable<T>> {
 		}
 
 		String toPrefixString() {
-			return getValue() //
-					.map(Object::toString) //
-					.map(it -> isInclusive() ? "[".concat(it) : "(".concat(it)) //
+			return getValue() 
+					.map(Object::toString) 
+					.map(it -> isInclusive() ? "[".concat(it) : "(".concat(it)) 
 					.orElse("unbounded");
 		}
 
 		String toSuffixString() {
-			return getValue() //
-					.map(Object::toString) //
-					.map(it -> isInclusive() ? it.concat("]") : it.concat(")")) //
+			return getValue() 
+					.map(Object::toString) 
+					.map(it -> isInclusive() ? it.concat("]") : it.concat(")")) 
 					.orElse("unbounded");
 		}
 

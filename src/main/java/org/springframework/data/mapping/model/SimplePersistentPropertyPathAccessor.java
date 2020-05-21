@@ -130,8 +130,8 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 			if (source == null) {
 				return;
 			}
-			newValue = source.stream() //
-					.map(it -> setValue(it, leafProperty, value)) //
+			newValue = source.stream() 
+					.map(it -> setValue(it, leafProperty, value)) 
 					.collect(Collectors
 							.toCollection(() -> CollectionFactory.createApproximateCollection(source, source.size())));
 		}
@@ -205,7 +205,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 			return null;
 		}
 		if (!type.isInstance(value)) {
-			throw new MappingException(String.format("Invalid property value type! Need %s but got %s!", //
+			throw new MappingException(String.format("Invalid property value type! Need %s but got %s!", 
 					type.getName(), value.getClass().getName()));
 		}
 		return type.cast(value);

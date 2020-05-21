@@ -51,8 +51,8 @@ class DefaultReactiveEntityCallbacksUnitTests {
 
 		assertThat(personDocument.getSsn()).isNull();
 
-		afterCallback.as(StepVerifier::create) //
-				.consumeNextWith(it -> assertThat(it.getSsn()).isEqualTo(6)) //
+		afterCallback.as(StepVerifier::create) 
+				.consumeNextWith(it -> assertThat(it.getSsn()).isEqualTo(6)) 
 				.verifyComplete();
 	}
 
@@ -62,9 +62,9 @@ class DefaultReactiveEntityCallbacksUnitTests {
 		DefaultReactiveEntityCallbacks callbacks = new DefaultReactiveEntityCallbacks();
 		callbacks.addEntityCallback(new GenericPersonCallback());
 
-		callbacks.callback(GenericPersonCallback.class, new PersonDocument(null, "Walter", null)) //
-				.as(StepVerifier::create) //
-				.consumeNextWith(it -> assertThat(it.getSsn()).isEqualTo(6)) //
+		callbacks.callback(GenericPersonCallback.class, new PersonDocument(null, "Walter", null)) 
+				.as(StepVerifier::create) 
+				.consumeNextWith(it -> assertThat(it.getSsn()).isEqualTo(6)) 
 				.verifyComplete();
 	}
 
@@ -80,9 +80,9 @@ class DefaultReactiveEntityCallbacksUnitTests {
 
 		PersonDocument initial = new PersonDocument(null, "Walter", null);
 
-		callbacks.callback(CapturingEntityCallback.class, initial) //
-				.as(StepVerifier::create) //
-				.expectNextCount(1) //
+		callbacks.callback(CapturingEntityCallback.class, initial) 
+				.as(StepVerifier::create) 
+				.expectNextCount(1) 
 				.verifyComplete();
 
 		assertThat(first.capturedValue()).isSameAs(initial);
@@ -115,9 +115,9 @@ class DefaultReactiveEntityCallbacksUnitTests {
 
 		PersonDocument initial = new PersonDocument(null, "Walter", null);
 
-		callbacks.callback(CapturingEntityCallback.class, initial) //
-				.as(StepVerifier::create) //
-				.expectError(IllegalArgumentException.class) //
+		callbacks.callback(CapturingEntityCallback.class, initial) 
+				.as(StepVerifier::create) 
+				.expectError(IllegalArgumentException.class) 
 				.verify();
 
 		assertThat(first.capturedValue()).isSameAs(initial);

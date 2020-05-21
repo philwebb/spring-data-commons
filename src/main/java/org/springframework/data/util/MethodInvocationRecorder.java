@@ -164,14 +164,14 @@ public class MethodInvocationRecorder {
 			}
 			String propertyName = getPropertyName(invokedMethod, strategies);
 			Optional<String> next = this.recorded.getPropertyPath(strategies);
-			return Optionals.firstNonEmpty(() -> next.map(it -> propertyName.concat(".").concat(it)), //
+			return Optionals.firstNonEmpty(() -> next.map(it -> propertyName.concat(".").concat(it)), 
 					() -> Optional.of(propertyName));
 		}
 
 		private static String getPropertyName(Method invokedMethod, List<PropertyNameDetectionStrategy> strategies) {
-			return strategies.stream() //
-					.map(it -> it.getPropertyName(invokedMethod)) //
-					.findFirst() //
+			return strategies.stream() 
+					.map(it -> it.getPropertyName(invokedMethod)) 
+					.findFirst() 
 					.orElseThrow(() -> new IllegalArgumentException(
 							String.format("No property name found for method %s!", invokedMethod)));
 		}

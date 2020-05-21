@@ -295,9 +295,9 @@ class DefaultRepositoryInformationUnitTests {
 
 	private static Method getMethodFrom(Class<?> type, String name) {
 
-		return Arrays.stream(type.getMethods())//
-				.filter(method -> method.getName().equals(name))//
-				.findFirst()//
+		return Arrays.stream(type.getMethods())
+				.filter(method -> method.getName().equals(name))
+				.findFirst()
 				.orElseThrow(() -> new IllegalStateException("No method found with name ".concat(name).concat("!")));
 	}
 

@@ -149,7 +149,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 			String displayName) {
 
 		assertThat(getProperty(new Dummy(), "dummy"))
-				.satisfies(property -> assertThatExceptionOfType(UnsupportedOperationException.class)//
+				.satisfies(property -> assertThatExceptionOfType(UnsupportedOperationException.class)
 						.isThrownBy(() -> getPersistentPropertyAccessor(bean).getProperty(property)));
 	}
 
@@ -159,7 +159,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 			String displayName) {
 
 		assertThat(getProperty(new Dummy(), "dummy"))
-				.satisfies(property -> assertThatExceptionOfType(UnsupportedOperationException.class)//
+				.satisfies(property -> assertThatExceptionOfType(UnsupportedOperationException.class)
 						.isThrownBy(() -> getPersistentPropertyAccessor(bean).setProperty(property, Optional.empty())));
 	}
 

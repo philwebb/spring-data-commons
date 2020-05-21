@@ -211,7 +211,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 		if (page.hasPrevious()) {
 			resources.add(createLink(base, page.previousPageable(), IanaLinkRelations.PREV));
 		}
-		Link selfLink = link.map(Link::withSelfRel)//
+		Link selfLink = link.map(Link::withSelfRel)
 				.orElseGet(() -> createLink(base, page.getPageable(), IanaLinkRelations.SELF));
 		resources.add(selfLink);
 		if (page.hasNext()) {

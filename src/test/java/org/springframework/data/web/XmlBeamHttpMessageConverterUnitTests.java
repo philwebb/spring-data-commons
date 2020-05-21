@@ -94,13 +94,13 @@ class XmlBeamHttpMessageConverterUnitTests {
 	@Test // DATACMNS-1292
 	void doesNotSupportEntityExpansion() throws Exception {
 
-		preparePayload("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" //
-				+ "<!DOCTYPE foo [\n" //
-				+ "<!ELEMENT foo ANY >\n" //
+		preparePayload("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" 
+				+ "<!DOCTYPE foo [\n" 
+				+ "<!ELEMENT foo ANY >\n" 
 				+ "<!ENTITY xxe \"Bar\" >]><user><firstname>&xxe;</firstname><lastname>Matthews</lastname></user>");
 
-		assertThatExceptionOfType(HttpMessageNotReadableException.class) //
-				.isThrownBy(() -> this.converter.read(Customer.class, this.message)) //
+		assertThatExceptionOfType(HttpMessageNotReadableException.class) 
+				.isThrownBy(() -> this.converter.read(Customer.class, this.message)) 
 				.withCauseInstanceOf(SAXParseException.class);
 	}
 

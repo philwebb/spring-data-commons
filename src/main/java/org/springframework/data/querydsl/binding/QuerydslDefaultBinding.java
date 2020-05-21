@@ -66,8 +66,8 @@ class QuerydslDefaultBinding implements MultiValueBinding<Path<? extends Object>
 				return Optional.of(expression.in(value));
 			}
 			Object object = value.iterator().next();
-			return Optional.of(object == null //
-					? expression.isNull() //
+			return Optional.of(object == null 
+					? expression.isNull() 
 					: expression.eq(object));
 		}
 		throw new IllegalArgumentException(String.format("Cannot create predicate for path '%s' with type '%s'.", path,

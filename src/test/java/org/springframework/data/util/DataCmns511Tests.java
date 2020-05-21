@@ -35,7 +35,7 @@ public class DataCmns511Tests {
 
 		TypeInformation<?> createdBy = ClassTypeInformation.from(AbstractRole.class).getProperty("createdBy");
 
-		assertThat(createdBy.getProperty("roles").getActualType().getProperty("createdBy"))//
+		assertThat(createdBy.getProperty("roles").getActualType().getProperty("createdBy"))
 				.satisfies(second -> {
 
 					TypeInformation<?> third = second.getProperty("roles").getActualType().getProperty("createdBy");

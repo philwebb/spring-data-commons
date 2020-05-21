@@ -40,8 +40,8 @@ public class TargetAwareIdentifierAccessorUnitTests {
 			}
 		};
 
-		assertThatExceptionOfType(IllegalStateException.class)//
-				.isThrownBy(accessor::getRequiredIdentifier)//
+		assertThatExceptionOfType(IllegalStateException.class)
+				.isThrownBy(accessor::getRequiredIdentifier)
 				.withMessageContaining(sample.toString());
 	}
 

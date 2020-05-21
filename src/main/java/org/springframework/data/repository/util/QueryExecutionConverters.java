@@ -258,11 +258,11 @@ public abstract class QueryExecutionConverters {
 	public static TypeInformation<?> unwrapWrapperTypes(TypeInformation<?> type) {
 		Assert.notNull(type, "type must not be null");
 		Class<?> rawType = type.getType();
-		boolean needToUnwrap = type.isCollectionLike() //
-				|| Slice.class.isAssignableFrom(rawType) //
-				|| GeoResults.class.isAssignableFrom(rawType) //
-				|| rawType.isArray() //
-				|| supports(rawType) //
+		boolean needToUnwrap = type.isCollectionLike() 
+				|| Slice.class.isAssignableFrom(rawType) 
+				|| GeoResults.class.isAssignableFrom(rawType) 
+				|| rawType.isArray() 
+				|| supports(rawType) 
 				|| Stream.class.isAssignableFrom(rawType);
 		return needToUnwrap ? unwrapWrapperTypes(type.getRequiredComponentType()) : type;
 	}
@@ -327,8 +327,8 @@ public abstract class QueryExecutionConverters {
 
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
-			return Streamable.of(this.wrapperTypes)//
-					.map(it -> new ConvertiblePair(NullableWrapper.class, it))//
+			return Streamable.of(this.wrapperTypes)
+					.map(it -> new ConvertiblePair(NullableWrapper.class, it))
 					.stream().collect(StreamUtils.toUnmodifiableSet());
 		}
 
@@ -639,11 +639,11 @@ public abstract class QueryExecutionConverters {
 		@Nullable
 		@Override
 		public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-			Streamable<Object> streamable = source == null //
-					? Streamable.empty() //
+			Streamable<Object> streamable = source == null 
+					? Streamable.empty() 
 					: Streamable.of(Iterable.class.cast(source));
-			return Streamable.class.equals(targetType.getType()) //
-					? streamable //
+			return Streamable.class.equals(targetType.getType()) 
+					? streamable 
 					: this.conversionService.convert(streamable, STREAMABLE, targetType);
 		}
 

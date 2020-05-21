@@ -88,7 +88,7 @@ public class PersistentPropertyAccessorUnitTests {
 
 		setUp(new Order(null), "");
 
-		assertThatExceptionOfType(IllegalArgumentException.class) //
+		assertThatExceptionOfType(IllegalArgumentException.class) 
 				.isThrownBy(() -> this.accessor.setProperty(this.path, "Oliver August"));
 	}
 
@@ -97,7 +97,7 @@ public class PersistentPropertyAccessorUnitTests {
 
 		setUp(new Order(null), "customer.firstname");
 
-		assertThatExceptionOfType(MappingException.class)//
+		assertThatExceptionOfType(MappingException.class)
 				.isThrownBy(() -> this.accessor.getProperty(this.path));
 	}
 
@@ -106,7 +106,7 @@ public class PersistentPropertyAccessorUnitTests {
 
 		setUp(new Order(null), "customer.firstname");
 
-		assertThatExceptionOfType(MappingException.class)//
+		assertThatExceptionOfType(MappingException.class)
 				.isThrownBy(() -> this.accessor.setProperty(this.path, "Oliver August"));
 	}
 
@@ -152,12 +152,12 @@ public class PersistentPropertyAccessorUnitTests {
 	@Test // DATACMNS-1555
 	public void usesTraversalContextToTraverseCollections() {
 
-		WithContext withContext = WithContext.builder() //
-				.collection(Collections.singleton("value")) //
-				.list(Collections.singletonList("value")) //
-				.set(Collections.singleton("value")) //
-				.map(Collections.singletonMap("key", "value")) //
-				.string(" value ") //
+		WithContext withContext = WithContext.builder() 
+				.collection(Collections.singleton("value")) 
+				.list(Collections.singletonList("value")) 
+				.set(Collections.singleton("value")) 
+				.map(Collections.singletonMap("key", "value")) 
+				.string(" value ") 
 				.build();
 
 		Spec collectionHelper = Spec.of("collection",
@@ -195,7 +195,7 @@ public class PersistentPropertyAccessorUnitTests {
 
 		TraversalContext traversal = new TraversalContext();
 
-		assertThatExceptionOfType(IllegalArgumentException.class) //
+		assertThatExceptionOfType(IllegalArgumentException.class) 
 				.isThrownBy(() -> traversal.registerHandler(property, Map.class, Function.identity()));
 	}
 

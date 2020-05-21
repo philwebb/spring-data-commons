@@ -82,9 +82,9 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 				this.propertyValueProvider, Optional.of(this.property));
 
 		assertThat(entity.getPersistenceConstructor())
-				.satisfies(constructor -> assertThatExceptionOfType(MappingException.class)//
-						.isThrownBy(() -> provider.getParameterValue(constructor.getParameters().iterator().next()))//
-						.withMessageContaining("bar")//
+				.satisfies(constructor -> assertThatExceptionOfType(MappingException.class)
+						.isThrownBy(() -> provider.getParameterValue(constructor.getParameters().iterator().next()))
+						.withMessageContaining("bar")
 						.withMessageContaining(Entity.class.getName()));
 	}
 

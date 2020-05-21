@@ -194,7 +194,7 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	@Override
 	public RepositoryInformation getRepositoryInformation() {
-		RepositoryFragments fragments = this.customImplementation.map(RepositoryFragments::just)//
+		RepositoryFragments fragments = this.customImplementation.map(RepositoryFragments::just)
 				.orElse(RepositoryFragments.empty());
 		return this.factory.getRepositoryInformation(this.repositoryMetadata, fragments);
 	}
@@ -241,11 +241,11 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 					.addRepositoryProxyPostProcessor(new EventPublishingRepositoryProxyPostProcessor(this.publisher));
 		}
 		this.repositoryBaseClass.ifPresent(this.factory::setRepositoryBaseClass);
-		RepositoryFragments customImplementationFragment = this.customImplementation //
-				.map(RepositoryFragments::just) //
+		RepositoryFragments customImplementationFragment = this.customImplementation 
+				.map(RepositoryFragments::just) 
 				.orElseGet(RepositoryFragments::empty);
-		RepositoryFragments repositoryFragmentsToUse = this.repositoryFragments //
-				.orElseGet(RepositoryFragments::empty) //
+		RepositoryFragments repositoryFragmentsToUse = this.repositoryFragments 
+				.orElseGet(RepositoryFragments::empty) 
 				.append(customImplementationFragment);
 		this.repositoryMetadata = this.factory.getRepositoryMetadata(this.repositoryInterface);
 		// Make sure the aggregate root type is present in the MappingContext (e.g. for

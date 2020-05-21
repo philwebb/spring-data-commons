@@ -54,7 +54,7 @@ public class QPageRequestUnitTests extends AbstractPageRequestUnitTests {
 	@Test // DATACMNS-1581
 	void rejectsNullSort() {
 
-		assertThatExceptionOfType(IllegalArgumentException.class) //
+		assertThatExceptionOfType(IllegalArgumentException.class) 
 				.isThrownBy(() -> QPageRequest.of(0, 10, (QSort) null));
 	}
 

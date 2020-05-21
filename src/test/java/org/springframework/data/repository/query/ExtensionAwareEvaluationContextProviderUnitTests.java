@@ -159,7 +159,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-533
 	void shouldBeAbleToAccessCustomRootObjectPropertiesAndFunctions() {
 
-		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(Collections.singletonList( //
+		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(Collections.singletonList( 
 				new DummyExtension("_first", "first") {
 					@Override
 					public CustomExtensionRootObject1 getRootObject() {
@@ -181,13 +181,13 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 	@Test // DATACMNS-533
 	void shouldBeAbleToAccessCustomRootObjectPropertiesAndFunctionsInMultipleExtensions() {
 
-		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(Arrays.asList( //
+		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(Arrays.asList( 
 				new DummyExtension("_first", "first") {
 					@Override
 					public CustomExtensionRootObject1 getRootObject() {
 						return new CustomExtensionRootObject1();
 					}
-				}, //
+				}, 
 				new DummyExtension("_second", "second") {
 					@Override
 					public CustomExtensionRootObject2 getRootObject() {
@@ -209,7 +209,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 		final AtomicInteger counter = new AtomicInteger();
 
-		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(Collections.singletonList( //
+		this.provider = new ExtensionAwareQueryMethodEvaluationContextProvider(Collections.singletonList( 
 				new DummyExtension("_first", "first") {
 
 					@Override
@@ -217,7 +217,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 						counter.incrementAndGet();
 						return new CustomExtensionRootObject1();
 					}
-				}) //
+				}) 
 		);
 
 		// inc counter / property access
@@ -274,9 +274,9 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 		this.provider = createContextProviderWithOverloads();
 
-		assertThatExceptionOfType(IllegalStateException.class) //
-				.isThrownBy(() -> evaluateExpression("ambiguousOverloaded(23)")) //
-				.withMessageContaining("ambiguousOverloaded") //
+		assertThatExceptionOfType(IllegalStateException.class) 
+				.isThrownBy(() -> evaluateExpression("ambiguousOverloaded(23)")) 
+				.withMessageContaining("ambiguousOverloaded") 
 				.withMessageContaining("(java.lang.Integer)");
 	}
 
@@ -319,7 +319,7 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 
 	private static ExtensionAwareQueryMethodEvaluationContextProvider createContextProviderWithOverloads() {
 
-		return new ExtensionAwareQueryMethodEvaluationContextProvider(Collections.singletonList( //
+		return new ExtensionAwareQueryMethodEvaluationContextProvider(Collections.singletonList( 
 				new DummyExtension("_first", "first") {
 					@Override
 					public Object getRootObject() {

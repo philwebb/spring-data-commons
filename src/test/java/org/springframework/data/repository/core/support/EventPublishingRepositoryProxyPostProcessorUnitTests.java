@@ -128,8 +128,8 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 		MultipleEvents sample = MultipleEvents.of(Collections.singletonList(event));
 		mockInvocation(this.invocation, SampleRepository.class.getMethod("save", Object.class), sample);
 
-		EventPublishingMethodInterceptor//
-				.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)//
+		EventPublishingMethodInterceptor
+				.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
 
 		verify(this.publisher).publishEvent(event);
@@ -140,8 +140,8 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 
 		doReturn(SampleRepository.class.getMethod("findById", Object.class)).when(this.invocation).getMethod();
 
-		EventPublishingMethodInterceptor//
-				.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)//
+		EventPublishingMethodInterceptor
+				.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
 
 		verify(this.publisher, never()).publishEvent(any());
@@ -180,8 +180,8 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 		MultipleEvents sample = MultipleEvents.of(Collections.singletonList(event));
 		mockInvocation(this.invocation, SampleRepository.class.getMethod("saveAll", Iterable.class), sample);
 
-		EventPublishingMethodInterceptor//
-				.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)//
+		EventPublishingMethodInterceptor
+				.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
 
 		verify(this.publisher).publishEvent(any(SomeEvent.class));
@@ -193,8 +193,8 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 		doThrow(new IllegalStateException()).when(this.invocation).proceed();
 
 		try {
-			EventPublishingMethodInterceptor//
-					.of(EventPublishingMethod.of(OneEvent.class), this.publisher)//
+			EventPublishingMethodInterceptor
+					.of(EventPublishingMethod.of(OneEvent.class), this.publisher)
 					.invoke(this.invocation);
 		}
 		catch (IllegalStateException o_O) {
@@ -209,8 +209,8 @@ class EventPublishingRepositoryProxyPostProcessorUnitTests {
 		MultipleEvents sample = MultipleEvents.of(Collections.singletonList(event));
 		mockInvocation(this.invocation, SampleRepository.class.getMethod("saveAndFlush", MultipleEvents.class), sample);
 
-		EventPublishingMethodInterceptor//
-				.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)//
+		EventPublishingMethodInterceptor
+				.of(EventPublishingMethod.of(MultipleEvents.class), this.publisher)
 				.invoke(this.invocation);
 
 		verify(this.publisher).publishEvent(event);

@@ -57,7 +57,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 	@Nullable
 	static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(Class<T> type) {
 		Assert.notNull(type, "Type must not be null!");
-		return Discoverers.findDiscoverer(type) //
+		return Discoverers.findDiscoverer(type) 
 				.discover(ClassTypeInformation.from(type), null);
 	}
 
@@ -70,7 +70,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 	@Nullable
 	static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(PersistentEntity<T, P> entity) {
 		Assert.notNull(entity, "PersistentEntity must not be null!");
-		return Discoverers.findDiscoverer(entity.getType()) //
+		return Discoverers.findDiscoverer(entity.getType()) 
 				.discover(entity.getTypeInformation(), entity);
 	}
 
@@ -130,13 +130,13 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 			<T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(TypeInformation<T> type,
 					@Nullable PersistentEntity<T, P> entity) {
 				Class<?> rawOwningType = type.getType();
-				return Arrays.stream(rawOwningType.getDeclaredConstructors()) //
+				return Arrays.stream(rawOwningType.getDeclaredConstructors()) 
 						// Synthetic constructors should not be considered
 						.filter(it -> !it.isSynthetic())
 						// Explicitly defined constructor trumps all
 						.filter(it -> it.isAnnotationPresent(PersistenceConstructor.class))
-						.map(it -> buildPreferredConstructor(it, type, entity)) //
-						.findFirst() //
+						.map(it -> buildPreferredConstructor(it, type, entity)) 
+						.findFirst() 
 						.orElseGet(() -> {
 							KFunction<T> primaryConstructor = KClasses
 									.getPrimaryConstructor(JvmClassMappingKt.getKotlinClass(type.getType()));

@@ -139,10 +139,10 @@ class CdiRepositoryBeanUnitTests {
 	@Test // DATACMNS-322
 	void createsPassivationId() {
 
-		CdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>( //
-				SINGLE_ANNOTATION, //
-				SampleRepository.class, //
-				this.beanManager //
+		CdiRepositoryBean<SampleRepository> bean = new DummyCdiRepositoryBean<>( 
+				SINGLE_ANNOTATION, 
+				SampleRepository.class, 
+				this.beanManager 
 		);
 
 		assertThat(bean.getId()).isEqualTo(PASSIVATION_ID);
@@ -153,18 +153,18 @@ class CdiRepositoryBeanUnitTests {
 
 		CustomRepositoryImplementationDetector detector = mock(CustomRepositoryImplementationDetector.class);
 
-		CdiRepositoryBean<SampleRepository> bean = new CdiRepositoryBean<SampleRepository>( //
-				SINGLE_ANNOTATION, //
-				SampleRepository.class, //
-				this.beanManager, //
-				Optional.of(detector) //
+		CdiRepositoryBean<SampleRepository> bean = new CdiRepositoryBean<SampleRepository>( 
+				SINGLE_ANNOTATION, 
+				SampleRepository.class, 
+				this.beanManager, 
+				Optional.of(detector) 
 		) {
 
 			@Override
-			protected SampleRepository create( //
-					CreationalContext<SampleRepository> creationalContext, //
-					Class<SampleRepository> repositoryType, //
-					Optional<Object> customImplementation //
+			protected SampleRepository create( 
+					CreationalContext<SampleRepository> creationalContext, 
+					Class<SampleRepository> repositoryType, 
+					Optional<Object> customImplementation 
 			) {
 				return null;
 			}

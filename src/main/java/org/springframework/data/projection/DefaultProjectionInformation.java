@@ -70,9 +70,9 @@ class DefaultProjectionInformation implements ProjectionInformation {
 
 	@Override
 	public List<PropertyDescriptor> getInputProperties() {
-		return this.properties.stream()//
-				.filter(this::isInputProperty)//
-				.distinct()//
+		return this.properties.stream()
+				.filter(this::isInputProperty)
+				.distinct()
 				.collect(Collectors.toList());
 	}
 
@@ -143,12 +143,12 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private Stream<PropertyDescriptor> collectDescriptors() {
-			Stream<PropertyDescriptor> allButDefaultGetters = Arrays.stream(BeanUtils.getPropertyDescriptors(this.type)) //
+			Stream<PropertyDescriptor> allButDefaultGetters = Arrays.stream(BeanUtils.getPropertyDescriptors(this.type)) 
 					.filter(it -> !hasDefaultGetter(it));
 			Stream<PropertyDescriptor> ownDescriptors = this.metadata
 					.map(it -> filterAndOrder(allButDefaultGetters, it)).orElse(allButDefaultGetters);
-			Stream<PropertyDescriptor> superTypeDescriptors = this.metadata.map(this::fromMetadata) //
-					.orElseGet(this::fromType) //
+			Stream<PropertyDescriptor> superTypeDescriptors = this.metadata.map(this::fromMetadata) 
+					.orElseGet(this::fromType) 
 					.flatMap(it -> new PropertyDescriptorSource(it).collectDescriptors());
 			return Stream.concat(ownDescriptors, superTypeDescriptors);
 		}
@@ -217,8 +217,8 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private static Class<?> findType(String name, Class<?>[] types) {
-			return Arrays.stream(types) //
-					.filter(it -> name.equals(it.getName())) //
+			return Arrays.stream(types) 
+					.filter(it -> name.equals(it.getName())) 
 					.findFirst().orElseThrow(() -> new IllegalStateException(
 							String.format("Did not find type %s in %s!", name, Arrays.toString(types))));
 		}
@@ -230,13 +230,13 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private static Map<String, Integer> getMethodOrder(MethodsMetadata metadata) {
-			List<String> methods = metadata.getMethods() //
-					.stream() //
-					.map(MethodMetadata::getMethodName) //
-					.distinct() //
+			List<String> methods = metadata.getMethods() 
+					.stream() 
+					.map(MethodMetadata::getMethodName) 
+					.distinct() 
 					.collect(Collectors.toList());
-			return IntStream.range(0, methods.size()) //
-					.boxed() //
+			return IntStream.range(0, methods.size()) 
+					.boxed() 
 					.collect(Collectors.toMap(methods::get, i -> i));
 		}
 

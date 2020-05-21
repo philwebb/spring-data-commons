@@ -270,10 +270,10 @@ class ReactivePageableHandlerMethodArgumentResolverUnitTests {
 		void simpleDefaultWithSortAndDirection(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER,
 				sort = { "firstname", "lastname" }, direction = Direction.DESC) Pageable pageable);
 
-		void simpleDefaultWithExternalSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) //
+		void simpleDefaultWithExternalSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) 
 		@SortDefault(sort = { "firstname", "lastname" }, direction = Direction.DESC) Pageable pageable);
 
-		void simpleDefaultWithContaineredExternalSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) //
+		void simpleDefaultWithContaineredExternalSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) 
 		@SortDefaults(@SortDefault(sort = { "firstname", "lastname" }, direction = Direction.DESC)) Pageable pageable);
 
 		void invalidQualifiers(@Qualifier("foo") Pageable first, @Qualifier("foo") Pageable second);

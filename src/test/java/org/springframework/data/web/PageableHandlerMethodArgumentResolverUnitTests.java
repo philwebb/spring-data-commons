@@ -112,7 +112,7 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		MethodParameter parameter = new MethodParameter(
 				Sample.class.getMethod("invalidDefaultPageSize", Pageable.class), 0);
 
-		assertThatIllegalStateException().isThrownBy(() -> assertSupportedAndResult(parameter, DEFAULT_PAGE_REQUEST)) //
+		assertThatIllegalStateException().isThrownBy(() -> assertSupportedAndResult(parameter, DEFAULT_PAGE_REQUEST)) 
 				.withMessageContaining("invalidDefaultPageSize");
 	}
 
@@ -278,10 +278,10 @@ class PageableHandlerMethodArgumentResolverUnitTests extends PageableDefaultUnit
 		void simpleDefaultWithSortAndDirection(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER,
 				sort = { "firstname", "lastname" }, direction = Direction.DESC) Pageable pageable);
 
-		void simpleDefaultWithExternalSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) //
+		void simpleDefaultWithExternalSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) 
 		@SortDefault(sort = { "firstname", "lastname" }, direction = Direction.DESC) Pageable pageable);
 
-		void simpleDefaultWithContaineredExternalSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) //
+		void simpleDefaultWithContaineredExternalSort(@PageableDefault(size = PAGE_SIZE, page = PAGE_NUMBER) 
 		@SortDefaults(@SortDefault(sort = { "firstname", "lastname" }, direction = Direction.DESC)) Pageable pageable);
 
 		void invalidQualifiers(@Qualifier("foo") Pageable first, @Qualifier("foo") Pageable second);

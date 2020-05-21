@@ -76,8 +76,8 @@ public interface PersistentPropertyAccessor<T> {
 			throw new MappingException(String.format(nullIntermediateMessage, parentProperty, path.toDotPath(),
 					getBean().getClass().getName()));
 		}
-		PersistentPropertyAccessor<?> accessor = parent == getBean() //
-				? this //
+		PersistentPropertyAccessor<?> accessor = parent == getBean() 
+				? this 
 				: leafProperty.getOwner().getPropertyAccessor(parent);
 		accessor.setProperty(leafProperty, value);
 		if (parentPath.isEmpty()) {

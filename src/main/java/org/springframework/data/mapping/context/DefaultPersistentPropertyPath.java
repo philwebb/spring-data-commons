@@ -108,9 +108,9 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	public String toPath(String delimiter, Converter<? super P, String> converter) {
 		Assert.hasText(delimiter, "Delimiter must not be null or empty!");
 		Assert.notNull(converter, "Converter must not be null!");
-		String result = this.properties.stream() //
-				.map(converter::convert) //
-				.filter(StringUtils::hasText) //
+		String result = this.properties.stream() 
+				.map(converter::convert) 
+				.filter(StringUtils::hasText) 
 				.collect(Collectors.joining(delimiter));
 		return result.isEmpty() ? null : result;
 	}
@@ -181,9 +181,9 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 * @return
 	 */
 	public boolean containsPropertyOfType(@Nullable TypeInformation<?> type) {
-		return type == null //
-				? false //
-				: this.properties.stream() //
+		return type == null 
+				? false 
+				: this.properties.stream() 
 						.anyMatch(property -> type.equals(property.getTypeInformation().getActualType()));
 	}
 

@@ -87,8 +87,8 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 
 		RepositoryComposition.RepositoryFragments fragments = super.getRepositoryFragments(metadata);
 
-		return QuerydslPredicateExecutor.class.isAssignableFrom(metadata.getRepositoryInterface()) //
-				? fragments.append(RepositoryComposition.RepositoryFragments.just(this.querydsl)) //
+		return QuerydslPredicateExecutor.class.isAssignableFrom(metadata.getRepositoryInterface()) 
+				? fragments.append(RepositoryComposition.RepositoryFragments.just(this.querydsl)) 
 				: fragments;
 	}
 

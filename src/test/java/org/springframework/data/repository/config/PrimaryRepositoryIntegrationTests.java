@@ -43,7 +43,7 @@ class PrimaryRepositoryIntegrationTests {
 	}
 
 	@Configuration
-	@EnableRepositories(considerNestedRepositories = true, //
+	@EnableRepositories(considerNestedRepositories = true, 
 			includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = Marker.class))
 	static class Config {
 

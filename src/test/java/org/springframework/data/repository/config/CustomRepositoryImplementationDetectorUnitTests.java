@@ -102,7 +102,7 @@ class CustomRepositoryImplementationDetectorUnitTests {
 		ImplementationLookupConfiguration lookup = this.configuration
 				.forRepositoryConfiguration(configFor(CanonicalSampleRepository.class));
 
-		assertThat(this.detector.detectCustomImplementation(lookup)) //
+		assertThat(this.detector.detectCustomImplementation(lookup)) 
 				.hasValueSatisfying(it -> assertThat(it.getBeanClassName())
 						.isEqualTo(CanonicalSampleRepositoryTestImpl.class.getName()));
 	}

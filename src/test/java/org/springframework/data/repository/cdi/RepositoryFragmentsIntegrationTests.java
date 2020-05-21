@@ -36,9 +36,9 @@ class RepositoryFragmentsIntegrationTests {
 	@BeforeAll
 	static void setUp() {
 
-		container = SeContainerInitializer.newInstance() //
-				.disableDiscovery() //
-				.addPackages(ComposedRepository.class) //
+		container = SeContainerInitializer.newInstance() 
+				.disableDiscovery() 
+				.addPackages(ComposedRepository.class) 
 				.initialize();
 	}
 

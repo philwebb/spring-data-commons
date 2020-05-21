@@ -82,9 +82,9 @@ public class EntityInstantiators extends org.springframework.data.mapping.model.
 
 	private static Map<Class<?>, org.springframework.data.mapping.model.EntityInstantiator> adaptFromLegacy(
 			Map<Class<?>, EntityInstantiator> instantiators) {
-		return instantiators == null //
-				? null //
-				: instantiators.entrySet().stream() //
+		return instantiators == null 
+				? null 
+				: instantiators.entrySet().stream() 
 						.collect(Collectors.toMap(Entry::getKey, e -> new EntityInstantiatorAdapter(e.getValue())));
 	}
 

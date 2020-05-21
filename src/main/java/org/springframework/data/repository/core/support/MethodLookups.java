@@ -221,7 +221,7 @@ interface MethodLookups {
 			MethodPredicate convertibleComparison = (invokedMethod, candidate) -> {
 				List<Supplier<Optional<Method>>> suppliers = new ArrayList<>();
 				if (usesParametersWithReactiveWrappers(invokedMethod.getMethod())) {
-					suppliers.add(() -> getMethodCandidate(invokedMethod, candidate, assignableWrapperMatch())); //
+					suppliers.add(() -> getMethodCandidate(invokedMethod, candidate, assignableWrapperMatch())); 
 					suppliers.add(() -> getMethodCandidate(invokedMethod, candidate, wrapperConversionMatch()));
 				}
 				return suppliers.stream().anyMatch(supplier -> supplier.get().isPresent());
@@ -277,7 +277,7 @@ interface MethodLookups {
 		 */
 		private static boolean usesParametersWithReactiveWrappers(Method method) {
 			Assert.notNull(method, "Method must not be null!");
-			return Arrays.stream(method.getParameterTypes())//
+			return Arrays.stream(method.getParameterTypes())
 					.anyMatch(ReactiveTypeInteropMethodLookup::isNonUnwrappingWrapper);
 		}
 
@@ -291,9 +291,9 @@ interface MethodLookups {
 		 */
 		private static Optional<Method> getMethodCandidate(InvokedMethod invokedMethod, Method candidate,
 				Predicate<ParameterOverrideCriteria> predicate) {
-			return Optional.of(candidate)//
-					.filter(it -> invokedMethod.getName().equals(it.getName()))//
-					.filter(it -> parameterCountMatch(invokedMethod, it))//
+			return Optional.of(candidate)
+					.filter(it -> invokedMethod.getName().equals(it.getName()))
+					.filter(it -> parameterCountMatch(invokedMethod, it))
 					.filter(it -> parametersMatch(invokedMethod.getMethod(), it, predicate));
 		}
 
@@ -319,8 +319,8 @@ interface MethodLookups {
 		 * @return
 		 */
 		private static Predicate<ParameterOverrideCriteria> wrapperConversionMatch() {
-			return (parameterCriteria) -> isNonUnwrappingWrapper(parameterCriteria.getBaseType()) //
-					&& isNonUnwrappingWrapper(parameterCriteria.getDeclaredType()) //
+			return (parameterCriteria) -> isNonUnwrappingWrapper(parameterCriteria.getBaseType()) 
+					&& isNonUnwrappingWrapper(parameterCriteria.getDeclaredType()) 
 					&& ReactiveWrapperConverters.canConvert(parameterCriteria.getDeclaredType(),
 							parameterCriteria.getBaseType());
 		}
@@ -333,8 +333,8 @@ interface MethodLookups {
 		 * @return
 		 */
 		private static Predicate<ParameterOverrideCriteria> assignableWrapperMatch() {
-			return (parameterCriteria) -> isNonUnwrappingWrapper(parameterCriteria.getBaseType()) //
-					&& isNonUnwrappingWrapper(parameterCriteria.getDeclaredType()) //
+			return (parameterCriteria) -> isNonUnwrappingWrapper(parameterCriteria.getBaseType()) 
+					&& isNonUnwrappingWrapper(parameterCriteria.getDeclaredType()) 
 					&& parameterCriteria.getBaseType().isAssignableFrom(parameterCriteria.getDeclaredType());
 		}
 
@@ -346,7 +346,7 @@ interface MethodLookups {
 
 		private static Stream<ParameterOverrideCriteria> methodParameters(Method invokedMethod,
 				Method baseClassMethod) {
-			return IntStream.range(0, baseClassMethod.getParameterCount()) //
+			return IntStream.range(0, baseClassMethod.getParameterCount()) 
 					.mapToObj(index -> ParameterOverrideCriteria.of(new MethodParameter(invokedMethod, index),
 							new MethodParameter(baseClassMethod, index)));
 		}

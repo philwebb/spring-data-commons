@@ -57,12 +57,12 @@ public class StreamableUnitTests {
 	@Test // DATACMNS-1447
 	public void usesStreamableCollectors() {
 
-		assertThat(Streamable.of(1, 2).stream() //
-				.collect(Streamable.toStreamable())) //
+		assertThat(Streamable.of(1, 2).stream() 
+				.collect(Streamable.toStreamable())) 
 						.containsExactly(1, 2);
 
-		assertThat(Streamable.of(1, 2, 2).stream() //
-				.collect(Streamable.toStreamable(Collectors.toSet()))) //
+		assertThat(Streamable.of(1, 2, 2).stream() 
+				.collect(Streamable.toStreamable(Collectors.toSet()))) 
 						.containsExactlyInAnyOrder(1, 2);
 	}
 

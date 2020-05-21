@@ -150,7 +150,7 @@ public class Function {
 	 * @return {@code true} if name and argument list are the same.
 	 */
 	public boolean isSignatureEqual(Function other) {
-		return getName().equals(other.getName()) //
+		return getName().equals(other.getName()) 
 				&& this.method.getParameterCount() == other.method.getParameterCount()
 				&& Arrays.equals(this.method.getParameterTypes(), other.method.getParameterTypes());
 	}

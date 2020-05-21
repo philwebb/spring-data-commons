@@ -217,7 +217,7 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 		this.request.addParameter("firstname", "");
 
-		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)) //
+		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)) 
 				.isNotNull();
 	}
 
@@ -238,12 +238,12 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 		this.request.addParameter("firstname", "");
 
-		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)) //
+		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)) 
 				.isInstanceOfSatisfying(Optional.class, it -> assertThat(it).isEmpty());
 
 		this.request.addParameter("lastname", "Matthews");
 
-		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)) //
+		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null)) 
 				.isInstanceOfSatisfying(Optional.class, it -> assertThat(it).isPresent());
 	}
 

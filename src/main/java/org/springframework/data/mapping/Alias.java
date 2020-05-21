@@ -38,7 +38,7 @@ public final class Alias {
 	/**
 	 * Common instance for {@code empty()}.
 	 */
-	@SuppressWarnings("null") //
+	@SuppressWarnings("null") 
 	public static final Alias NONE = new Alias(null);
 
 	private final Object value;

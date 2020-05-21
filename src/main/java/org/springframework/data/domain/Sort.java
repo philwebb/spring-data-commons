@@ -67,8 +67,8 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		if (properties == null || properties.isEmpty()) {
 			throw new IllegalArgumentException("You have to provide at least one property to sort by!");
 		}
-		this.orders = properties.stream() //
-				.map(it -> new Order(direction, it)) //
+		this.orders = properties.stream() 
+				.map(it -> new Order(direction, it)) 
 				.collect(Collectors.toList());
 	}
 
@@ -79,8 +79,8 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 */
 	public static Sort by(String... properties) {
 		Assert.notNull(properties, "Properties must not be null!");
-		return properties.length == 0 //
-				? Sort.unsorted() //
+		return properties.length == 0 
+				? Sort.unsorted() 
 				: new Sort(DEFAULT_DIRECTION, Arrays.asList(properties));
 	}
 
@@ -114,8 +114,8 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		Assert.notNull(direction, "Direction must not be null!");
 		Assert.notNull(properties, "Properties must not be null!");
 		Assert.isTrue(properties.length > 0, "At least one property must be given!");
-		return Sort.by(Arrays.stream(properties)//
-				.map(it -> new Order(direction, it))//
+		return Sort.by(Arrays.stream(properties)
+				.map(it -> new Order(direction, it))
 				.collect(Collectors.toList()));
 	}
 
@@ -623,26 +623,26 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		}
 
 		private Sort withDirection(Function<Sort, Sort> direction) {
-			return this.recorded.getPropertyPath() //
-					.map(Sort::by) //
-					.map(direction) //
+			return this.recorded.getPropertyPath() 
+					.map(Sort::by) 
+					.map(direction) 
 					.orElseGet(Sort::unsorted);
 		}
 
 		@Override
 		public Iterator<Order> iterator() {
-			return this.recorded.getPropertyPath() //
-					.map(Order::by) //
-					.map(Collections::singleton) //
+			return this.recorded.getPropertyPath() 
+					.map(Order::by) 
+					.map(Collections::singleton) 
 					.orElseGet(Collections::emptySet).iterator();
 
 		}
 
 		@Override
 		public String toString() {
-			return this.recorded.getPropertyPath() //
-					.map(Sort::by) //
-					.orElseGet(Sort::unsorted) //
+			return this.recorded.getPropertyPath() 
+					.map(Sort::by) 
+					.orElseGet(Sort::unsorted) 
 					.toString();
 		}
 

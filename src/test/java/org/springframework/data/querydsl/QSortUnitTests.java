@@ -169,7 +169,7 @@ class QSortUnitTests {
 	@com.querydsl.core.annotations.QueryEntity
 	static class WrapperToWrapWrapperForUserWrapper {
 
-		@QueryInit("wrapper.user") //
+		@QueryInit("wrapper.user") 
 		WrapperForUserWrapper wrapperForUserWrapper;
 
 		@com.querydsl.core.annotations.QueryEntity

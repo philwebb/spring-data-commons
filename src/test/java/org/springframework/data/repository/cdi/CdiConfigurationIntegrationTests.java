@@ -38,9 +38,9 @@ class CdiConfigurationIntegrationTests {
 	@BeforeAll
 	static void setUp() {
 
-		container = SeContainerInitializer.newInstance() //
-				.disableDiscovery() //
-				.addPackages(IsolatedComposedRepository.class) //
+		container = SeContainerInitializer.newInstance() 
+				.disableDiscovery() 
+				.addPackages(IsolatedComposedRepository.class) 
 				.initialize();
 	}
 

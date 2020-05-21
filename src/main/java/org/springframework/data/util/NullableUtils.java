@@ -240,10 +240,10 @@ public abstract class NullableUtils {
 	}
 
 	private static Set<Class<?>> findClasses(String... classNames) {
-		return Arrays.stream(classNames) //
-				.map(NullableUtils::findClass) //
-				.filter(Optional::isPresent) //
-				.map(Optional::get) //
+		return Arrays.stream(classNames) 
+				.map(NullableUtils::findClass) 
+				.filter(Optional::isPresent) 
+				.map(Optional::get) 
 				.collect(Collectors.toSet());
 	}
 

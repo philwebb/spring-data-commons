@@ -331,7 +331,7 @@ public class AccessOptions {
 		 */
 		public SetOptions withCollectionAndMapPropagation(Propagation propagation) {
 			Assert.notNull(propagation, "Propagation must not be null!");
-			return withCollectionPropagation(propagation) //
+			return withCollectionPropagation(propagation) 
 					.withMapPropagation(propagation);
 		}
 

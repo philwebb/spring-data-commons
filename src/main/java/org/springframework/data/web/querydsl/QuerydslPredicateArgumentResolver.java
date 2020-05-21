@@ -101,18 +101,18 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 		Optional<QuerydslPredicate> annotation = Optional
 				.ofNullable(parameter.getParameterAnnotation(QuerydslPredicate.class));
 		TypeInformation<?> domainType = extractTypeInfo(parameter).getRequiredActualType();
-		Optional<Class<? extends QuerydslBinderCustomizer<?>>> bindingsAnnotation = annotation //
-				.map(QuerydslPredicate::bindings) //
+		Optional<Class<? extends QuerydslBinderCustomizer<?>>> bindingsAnnotation = annotation 
+				.map(QuerydslPredicate::bindings) 
 				.map(CastUtils::cast);
-		QuerydslBindings bindings = bindingsAnnotation //
-				.map(it -> this.bindingsFactory.createBindingsFor(domainType, it)) //
+		QuerydslBindings bindings = bindingsAnnotation 
+				.map(it -> this.bindingsFactory.createBindingsFor(domainType, it)) 
 				.orElseGet(() -> this.bindingsFactory.createBindingsFor(domainType));
 		Predicate result = this.predicateBuilder.getPredicate(domainType, parameters, bindings);
 		if (!parameter.isOptional() && result == null) {
 			return new BooleanBuilder();
 		}
-		return OPTIONAL_OF_PREDICATE.isAssignableFrom(ResolvableType.forMethodParameter(parameter)) //
-				? Optional.ofNullable(result) //
+		return OPTIONAL_OF_PREDICATE.isAssignableFrom(ResolvableType.forMethodParameter(parameter)) 
+				? Optional.ofNullable(result) 
 				: result;
 	}
 
@@ -126,8 +126,8 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 	static TypeInformation<?> extractTypeInfo(MethodParameter parameter) {
 		Optional<QuerydslPredicate> annotation = Optional
 				.ofNullable(parameter.getParameterAnnotation(QuerydslPredicate.class));
-		return annotation.filter(it -> !Object.class.equals(it.root()))//
-				.<TypeInformation<?>>map(it -> ClassTypeInformation.from(it.root()))//
+		return annotation.filter(it -> !Object.class.equals(it.root()))
+				.<TypeInformation<?>>map(it -> ClassTypeInformation.from(it.root()))
 				.orElseGet(() -> detectDomainType(parameter));
 	}
 

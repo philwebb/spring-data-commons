@@ -84,7 +84,7 @@ class MethodParameters {
 	 */
 	public Optional<MethodParameter> getParameter(String name) {
 		Assert.hasText(name, "Parameter name must not be null!");
-		return getParameters().stream()//
+		return getParameters().stream()
 				.filter(it -> name.equals(it.getParameterName())).findFirst();
 	}
 
@@ -96,8 +96,8 @@ class MethodParameters {
 	 */
 	public List<MethodParameter> getParametersOfType(Class<?> type) {
 		Assert.notNull(type, "Type must not be null!");
-		return getParameters().stream()//
-				.filter(it -> it.getParameterType().equals(type))//
+		return getParameters().stream()
+				.filter(it -> it.getParameterType().equals(type))
 				.collect(Collectors.toList());
 	}
 
@@ -108,8 +108,8 @@ class MethodParameters {
 	 */
 	public List<MethodParameter> getParametersWith(Class<? extends Annotation> annotation) {
 		Assert.notNull(annotation, "Annotation must not be null!");
-		return getParameters().stream()//
-				.filter(it -> it.hasParameterAnnotation(annotation))//
+		return getParameters().stream()
+				.filter(it -> it.hasParameterAnnotation(annotation))
 				.collect(Collectors.toList());
 	}
 
@@ -136,8 +136,8 @@ class MethodParameters {
 				Optional<AnnotationAttribute> attribute) {
 			super(method, parameterIndex);
 			this.attribute = attribute;
-			this.name = Lazy.of(() -> this.attribute.//
-					flatMap(it -> it.getValueFrom(this).map(Object::toString)).//
+			this.name = Lazy.of(() -> this.attribute.
+					flatMap(it -> it.getValueFrom(this).map(Object::toString)).
 					orElseGet(super::getParameterName));
 		}
 

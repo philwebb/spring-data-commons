@@ -122,7 +122,7 @@ public class RepositoryConfigurationDelegate {
 	public List<BeanComponentDefinition> registerRepositoriesIn(BeanDefinitionRegistry registry,
 			RepositoryConfigurationExtension extension) {
 		if (LOG.isInfoEnabled()) {
-			LOG.info("Bootstrapping Spring Data {} repositories in {} mode.", //
+			LOG.info("Bootstrapping Spring Data {} repositories in {} mode.", 
 					extension.getModuleName(), this.configurationSource.getBootstrapMode().name());
 		}
 		extension.registerBeansForRoot(registry, this.configurationSource);
@@ -131,8 +131,8 @@ public class RepositoryConfigurationDelegate {
 		List<BeanComponentDefinition> definitions = new ArrayList<>();
 		StopWatch watch = new StopWatch();
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Scanning for {} repositories in packages {}.", //
-					extension.getModuleName(), //
+			LOG.debug("Scanning for {} repositories in packages {}.", 
+					extension.getModuleName(), 
 					this.configurationSource.getBasePackages().stream().collect(Collectors.joining(", ")));
 		}
 		watch.start();
@@ -165,7 +165,7 @@ public class RepositoryConfigurationDelegate {
 				this.configurationSource.getBootstrapMode());
 		watch.stop();
 		if (LOG.isInfoEnabled()) {
-			LOG.info("Finished Spring Data repository scanning in {}ms. Found {} {} repository interfaces.", //
+			LOG.info("Finished Spring Data repository scanning in {}ms. Found {} {} repository interfaces.", 
 					watch.getLastTaskTimeMillis(), configurations.size(), extension.getModuleName());
 		}
 		return definitions;
@@ -192,8 +192,8 @@ public class RepositoryConfigurationDelegate {
 			LOG.warn(NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER, resolver.getClass().getName());
 			return;
 		}
-		AutowireCandidateResolver newResolver = LazyRepositoryInjectionPointResolver.class.isInstance(resolver) //
-				? LazyRepositoryInjectionPointResolver.class.cast(resolver).withAdditionalConfigurations(configurations) //
+		AutowireCandidateResolver newResolver = LazyRepositoryInjectionPointResolver.class.isInstance(resolver) 
+				? LazyRepositoryInjectionPointResolver.class.cast(resolver).withAdditionalConfigurations(configurations) 
 				: new LazyRepositoryInjectionPointResolver(configurations);
 		beanFactory.setAutowireCandidateResolver(newResolver);
 		if (mode.equals(BootstrapMode.DEFERRED)) {

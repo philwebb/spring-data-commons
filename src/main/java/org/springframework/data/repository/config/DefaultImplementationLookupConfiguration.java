@@ -104,7 +104,7 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 		String beanPackage = ClassUtils.getPackageName(beanClassName);
 		String shortName = ClassUtils.getShortName(beanClassName);
 		String localName = shortName.substring(shortName.lastIndexOf('.') + 1);
-		return localName.equals(getImplementationClassName()) //
+		return localName.equals(getImplementationClassName()) 
 				&& getBasePackages().stream().anyMatch(it -> beanPackage.startsWith(it));
 	}
 

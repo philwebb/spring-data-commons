@@ -157,7 +157,7 @@ class AbstractRepositoryMetadataUnitTests {
 		@Override
 		@SuppressWarnings("unchecked")
 		public Class<? extends Serializable> getIdType() {
-			return (Class<? extends Serializable>) ResolvableType//
+			return (Class<? extends Serializable>) ResolvableType
 					.forClass(Repository.class, getRepositoryInterface()).getGeneric(1).resolve();
 		}
 

@@ -84,7 +84,7 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 	private RepositoryInvoker prepareInvokers(Class<?> domainType) {
 		Optional<RepositoryInformation> information = this.repositories.getRepositoryInformationFor(domainType);
 		Optional<Object> repository = this.repositories.getRepositoryFor(domainType);
-		return mapIfAllPresent(information, repository, this::createInvoker)//
+		return mapIfAllPresent(information, repository, this::createInvoker)
 				.orElseThrow(() -> new IllegalArgumentException(
 						String.format("No repository found for domain type: %s", domainType)));
 	}

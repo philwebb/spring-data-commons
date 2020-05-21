@@ -218,10 +218,10 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	@SuppressWarnings("unchecked")
 	public static <S, T extends Iterable<S>> Collector<S, ?, Streamable<S>> toStreamable(
 			Collector<S, ?, T> intermediate) {
-		return Collector.of( //
-				(Supplier<T>) intermediate.supplier(), //
-				(BiConsumer<T, S>) intermediate.accumulator(), //
-				(BinaryOperator<T>) intermediate.combiner(), //
+		return Collector.of( 
+				(Supplier<T>) intermediate.supplier(), 
+				(BiConsumer<T, S>) intermediate.accumulator(), 
+				(BinaryOperator<T>) intermediate.combiner(), 
 				Streamable::of);
 	}
 
