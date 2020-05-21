@@ -203,10 +203,10 @@ class QuerydslPredicateArgumentResolverUnitTests {
 		MethodParameter parameter = getMethodParameterFor("optionalPredicateWithoutAnnotation", Optional.class);
 		this.request.addParameter("firstname", "");
 		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null))
-				.isInstanceOfSatisfying(Optional.class, it -> assertThat(it).isEmpty());
+				.isInstanceOfSatisfying(Optional.class, (it) -> assertThat(it).isEmpty());
 		this.request.addParameter("lastname", "Matthews");
 		assertThat(this.resolver.resolveArgument(parameter, null, new ServletWebRequest(this.request), null))
-				.isInstanceOfSatisfying(Optional.class, it -> assertThat(it).isPresent());
+				.isInstanceOfSatisfying(Optional.class, (it) -> assertThat(it).isPresent());
 	}
 
 	private static MethodParameter getMethodParameterFor(String methodName, Class<?>... args) throws RuntimeException {
@@ -222,7 +222,7 @@ class QuerydslPredicateArgumentResolverUnitTests {
 
 		@Override
 		public void customize(QuerydslBindings bindings, QUser user) {
-			bindings.bind(user.firstname).firstOptional((path, value) -> value.map(it -> path.eq(it.toUpperCase())));
+			bindings.bind(user.firstname).firstOptional((path, value) -> value.map((it) -> path.eq(it.toUpperCase())));
 			bindings.bind(user.lastname).first((path, value) -> path.toLowerCase().eq(value));
 			bindings.excluding(user.address);
 		}

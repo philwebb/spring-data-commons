@@ -161,13 +161,13 @@ class DefaultEntityCallbacksUnitTests {
 
 		@Bean
 		BeforeSaveCallback<User> userCallback() {
-			return object -> object;
+			return (object) -> object;
 		}
 
 		@Bean
 		BeforeSaveCallback<Person> personCallback() {
 
-			return object -> {
+			return (object) -> {
 				object.setSsn(object.getFirstName().length());
 				return object;
 			};

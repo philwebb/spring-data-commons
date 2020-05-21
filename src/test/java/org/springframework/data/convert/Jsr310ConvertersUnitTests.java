@@ -167,12 +167,12 @@ class Jsr310ConvertersUnitTests {
 
 	private static Predicate<Date> formatted(Temporal expected, String format) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-		return d -> format(d, format).equals(formatter.format(expected));
+		return (d) -> format(d, format).equals(formatter.format(expected));
 	}
 
 	private static Predicate<Temporal> formatted(Date expected, String format) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-		return d -> formatter.format(d).equals(format(expected, format));
+		return (d) -> formatter.format(d).equals(format(expected, format));
 	}
 
 	private static String format(Date date, String format) {

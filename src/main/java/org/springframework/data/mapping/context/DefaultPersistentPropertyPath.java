@@ -181,7 +181,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 */
 	public boolean containsPropertyOfType(@Nullable TypeInformation<?> type) {
 		return type == null ? false : this.properties.stream()
-				.anyMatch(property -> type.equals(property.getTypeInformation().getActualType()));
+				.anyMatch((property) -> type.equals(property.getTypeInformation().getActualType()));
 	}
 
 	@Override

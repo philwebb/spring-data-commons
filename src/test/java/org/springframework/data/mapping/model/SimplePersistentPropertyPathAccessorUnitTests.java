@@ -84,7 +84,7 @@ class SimplePersistentPropertyPathAccessorUnitTests {
 		PersistentPropertyPath<SamplePersistentProperty> propertyPath = this.context.getPersistentPropertyPath(path,
 				Customers.class);
 		getAccessor(customers).setProperty(propertyPath, "firstname");
-		Stream.of(this.first, this.second).forEach(it -> {
+		Stream.of(this.first, this.second).forEach((it) -> {
 			assertThat(it.firstname).isEqualTo("firstname");
 		});
 	}

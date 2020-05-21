@@ -106,13 +106,13 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 		String shortName = ClassUtils.getShortName(beanClassName);
 		String localName = shortName.substring(shortName.lastIndexOf('.') + 1);
 		return localName.equals(getImplementationClassName())
-				&& getBasePackages().stream().anyMatch(it -> beanPackage.startsWith(it));
+				&& getBasePackages().stream().anyMatch((it) -> beanPackage.startsWith(it));
 	}
 
 	private boolean isExcluded(String beanClassName, Streamable<TypeFilter> filters) {
 		try {
 			MetadataReader reader = getMetadataReaderFactory().getMetadataReader(beanClassName);
-			return filters.stream().anyMatch(it -> matches(it, reader));
+			return filters.stream().anyMatch((it) -> matches(it, reader));
 		}
 		catch (IOException ex) {
 			return true;

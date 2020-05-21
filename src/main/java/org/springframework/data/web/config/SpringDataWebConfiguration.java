@@ -141,11 +141,11 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 	}
 
 	protected void customizePageableResolver(PageableHandlerMethodArgumentResolver pageableResolver) {
-		this.pageableResolverCustomizer.ifPresent(c -> c.customize(pageableResolver));
+		this.pageableResolverCustomizer.ifPresent((c) -> c.customize(pageableResolver));
 	}
 
 	protected void customizeSortResolver(SortHandlerMethodArgumentResolver sortResolver) {
-		this.sortResolverCustomizer.ifPresent(c -> c.customize(sortResolver));
+		this.sortResolverCustomizer.ifPresent((c) -> c.customize(sortResolver));
 	}
 
 	private void forwardBeanClassLoader(BeanClassLoaderAware target) {

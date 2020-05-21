@@ -67,7 +67,7 @@ public abstract class ReturnedType {
 		Assert.notNull(returnedType, "Returned type must not be null!");
 		Assert.notNull(domainType, "Domain type must not be null!");
 		Assert.notNull(factory, "ProjectionFactory must not be null!");
-		return cache.computeIfAbsent(CacheKey.of(returnedType, domainType, factory.hashCode()), key -> {
+		return cache.computeIfAbsent(CacheKey.of(returnedType, domainType, factory.hashCode()), (key) -> {
 			return returnedType.isInterface()
 					? new ReturnedInterface(factory.getProjectionInformation(returnedType), domainType)
 					: new ReturnedClass(returnedType, domainType);

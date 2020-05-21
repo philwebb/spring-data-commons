@@ -90,11 +90,11 @@ class DefaultConverterBuilder<S, T>
 	}
 
 	private Optional<GenericConverter> getOptionalReadingConverter() {
-		return this.reading.map(it -> new ConfigurableGenericConverter.Reading<>(this.convertiblePair, it));
+		return this.reading.map((it) -> new ConfigurableGenericConverter.Reading<>(this.convertiblePair, it));
 	}
 
 	private Optional<GenericConverter> getOptionalWritingConverter() {
-		return this.writing.map(it -> new ConfigurableGenericConverter.Writing<>(invertedPair(), it));
+		return this.writing.map((it) -> new ConfigurableGenericConverter.Writing<>(invertedPair(), it));
 	}
 
 	private ConvertiblePair invertedPair() {

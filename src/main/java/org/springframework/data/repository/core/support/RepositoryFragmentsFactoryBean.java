@@ -66,7 +66,7 @@ public class RepositoryFragmentsFactoryBean<T>
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void afterPropertiesSet() {
 		List<RepositoryFragment<?>> fragments = (List) this.fragmentBeanNames.stream()
-				.map(it -> this.beanFactory.getBean(it, RepositoryFragment.class)).collect(Collectors.toList());
+				.map((it) -> this.beanFactory.getBean(it, RepositoryFragment.class)).collect(Collectors.toList());
 		this.repositoryFragments = RepositoryFragments.from(fragments);
 	}
 

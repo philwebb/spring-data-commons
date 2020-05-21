@@ -130,7 +130,7 @@ class ResultProcessorUnitTests {
 	@Test // DATACMNS-89
 	void refrainsFromProjectingIfThePreparingConverterReturnsACompatibleInstance() throws Exception {
 		Object result = getProcessor("findAllDtos").processResult(new Sample("Dave", "Matthews"),
-				source -> new SampleDto());
+				(source) -> new SampleDto());
 		assertThat(result).isInstanceOf(SampleDto.class);
 	}
 
@@ -198,7 +198,7 @@ class ResultProcessorUnitTests {
 	void refrainsFromProjectingUsingReactiveWrappersIfThePreparingConverterReturnsACompatibleInstance()
 			throws Exception {
 		ResultProcessor processor = getProcessor("findMonoSampleDto");
-		Object result = processor.processResult(Mono.just(new Sample("Dave", "Matthews")), source -> new SampleDto());
+		Object result = processor.processResult(Mono.just(new Sample("Dave", "Matthews")), (source) -> new SampleDto());
 		assertThat(result).isInstanceOf(Mono.class);
 		Object content = ((Mono<Object>) result).block();
 		assertThat(content).isInstanceOf(SampleDto.class);

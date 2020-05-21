@@ -122,7 +122,7 @@ class PagedResourcesAssemblerArgumentResolverUnitTests {
 		assertThat(result).isInstanceOf(PagedResourcesAssembler.class);
 		Optional<UriComponents> uriComponents = (Optional<UriComponents>) ReflectionTestUtils.getField(result,
 				"baseUri");
-		assertThat(uriComponents).hasValueSatisfying(it -> {
+		assertThat(uriComponents).hasValueSatisfying((it) -> {
 			assertThat(it.getPath()).isEqualTo("/foo/mapping");
 		});
 	}

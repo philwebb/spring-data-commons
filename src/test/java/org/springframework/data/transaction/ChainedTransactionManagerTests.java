@@ -54,7 +54,7 @@ class ChainedTransactionManagerTests {
 	void shouldThrowRolledBackExceptionForSingleTMFailure() {
 		setupTransactionManagers(TestPlatformTransactionManager.createFailingTransactionManager("single"));
 		assertThatExceptionOfType(HeuristicCompletionException.class).isThrownBy(this::createAndCommitTransaction)
-				.matches(e -> e.getOutcomeState() == HeuristicCompletionException.STATE_ROLLED_BACK);
+				.matches((e) -> e.getOutcomeState() == HeuristicCompletionException.STATE_ROLLED_BACK);
 	}
 
 	@Test
@@ -85,7 +85,7 @@ class ChainedTransactionManagerTests {
 		setupTransactionManagers(TestPlatformTransactionManager.createFailingTransactionManager("first"),
 				TestPlatformTransactionManager.createNonFailingTransactionManager("second"));
 		assertThatExceptionOfType(HeuristicCompletionException.class).isThrownBy(this::createAndCommitTransaction)
-				.matches(e -> e.getOutcomeState() == HeuristicCompletionException.STATE_MIXED);
+				.matches((e) -> e.getOutcomeState() == HeuristicCompletionException.STATE_MIXED);
 	}
 
 	@Test

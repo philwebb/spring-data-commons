@@ -141,7 +141,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @return
 	 */
 	public <T> PersistentPropertyPaths<T, P> from(TypeInformation<T> type, Predicate<? super P> propertyFilter) {
-		return from(type, propertyFilter, it -> !it.isAssociation());
+		return from(type, propertyFilter, (it) -> !it.isAssociation());
 	}
 
 	/**
@@ -163,7 +163,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 	private PersistentPropertyPath<P> getPersistentPropertyPath(TypeInformation<?> type, String propertyPath) {
 		return this.propertyPaths.computeIfAbsent(TypeAndPath.of(type, propertyPath),
-				it -> createPersistentPropertyPath(it.getPath(), it.getType()));
+				(it) -> createPersistentPropertyPath(it.getPath(), it.getType()));
 	}
 
 	/**
@@ -213,7 +213,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		}
 		E entity = this.context.getRequiredPersistentEntity(actualType);
 		Set<PersistentPropertyPath<P>> properties = new HashSet<>();
-		PropertyHandler<P> propertyTester = persistentProperty -> {
+		PropertyHandler<P> propertyTester = (persistentProperty) -> {
 			TypeInformation<?> typeInformation = persistentProperty.getTypeInformation();
 			TypeInformation<?> actualPropertyType = typeInformation.getActualType();
 			if (basePath.containsPropertyOfType(actualPropertyType)) {
@@ -228,7 +228,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 			}
 		};
 		entity.doWithProperties(propertyTester);
-		AssociationHandler<P> handler = association -> propertyTester
+		AssociationHandler<P> handler = (association) -> propertyTester
 				.doWithPersistentProperty(association.getInverse());
 		entity.doWithAssociations(handler);
 		return properties;
@@ -332,7 +332,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 				return false;
 			}
 			String dotPath = path.toDotPath();
-			return stream().anyMatch(it -> dotPath.equals(it.toDotPath()));
+			return stream().anyMatch((it) -> dotPath.equals(it.toDotPath()));
 		}
 
 		@Override
@@ -343,7 +343,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		@Override
 		public PersistentPropertyPaths<T, P> dropPathIfSegmentMatches(Predicate<? super P> predicate) {
 			Assert.notNull(predicate, "Predicate must not be null!");
-			List<PersistentPropertyPath<P>> paths = this.stream().filter(it -> !it.stream().anyMatch(predicate))
+			List<PersistentPropertyPath<P>> paths = this.stream().filter((it) -> !it.stream().anyMatch(predicate))
 					.collect(Collectors.toList());
 			return paths.equals(this.paths) ? this : new DefaultPersistentPropertyPaths<>(this.type, paths);
 		}
@@ -368,10 +368,10 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 			@Override
 			@SuppressWarnings("null")
 			public int compare(PersistentPropertyPath<?> left, PersistentPropertyPath<?> right) {
-				Function<PersistentProperty<?>, Integer> mapper = it -> it.getName().length();
+				Function<PersistentProperty<?>, Integer> mapper = (it) -> it.getName().length();
 				Stream<Integer> leftNames = left.stream().map(mapper);
 				Stream<Integer> rightNames = right.stream().map(mapper);
-				return StreamUtils.zip(leftNames, rightNames, (l, r) -> l - r).filter(it -> it != 0).findFirst()
+				return StreamUtils.zip(leftNames, rightNames, (l, r) -> l - r).filter((it) -> it != 0).findFirst()
 						.orElse(0);
 			}
 

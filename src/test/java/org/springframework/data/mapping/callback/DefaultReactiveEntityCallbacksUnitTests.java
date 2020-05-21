@@ -47,7 +47,7 @@ class DefaultReactiveEntityCallbacksUnitTests {
 		PersonDocument personDocument = new PersonDocument(null, "Walter", null);
 		Mono<PersonDocument> afterCallback = callbacks.callback(ReactiveBeforeSaveCallback.class, personDocument);
 		assertThat(personDocument.getSsn()).isNull();
-		afterCallback.as(StepVerifier::create).consumeNextWith(it -> assertThat(it.getSsn()).isEqualTo(6))
+		afterCallback.as(StepVerifier::create).consumeNextWith((it) -> assertThat(it.getSsn()).isEqualTo(6))
 				.verifyComplete();
 	}
 
@@ -56,7 +56,8 @@ class DefaultReactiveEntityCallbacksUnitTests {
 		DefaultReactiveEntityCallbacks callbacks = new DefaultReactiveEntityCallbacks();
 		callbacks.addEntityCallback(new GenericPersonCallback());
 		callbacks.callback(GenericPersonCallback.class, new PersonDocument(null, "Walter", null))
-				.as(StepVerifier::create).consumeNextWith(it -> assertThat(it.getSsn()).isEqualTo(6)).verifyComplete();
+				.as(StepVerifier::create).consumeNextWith((it) -> assertThat(it.getSsn()).isEqualTo(6))
+				.verifyComplete();
 	}
 
 	@Test // DATACMNS-1467

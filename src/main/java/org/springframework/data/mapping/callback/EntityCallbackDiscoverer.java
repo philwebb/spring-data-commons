@@ -154,7 +154,7 @@ class EntityCallbackDiscoverer {
 			}
 		}
 		else {
-			// No CallbackRetriever caching -> no synchronization necessary
+			// No CallbackRetriever (caching) -> no synchronization necessary
 			return (Collection) retrieveEntityCallbacks(callbackType, callbackType, null);
 		}
 	}
@@ -308,7 +308,7 @@ class EntityCallbackDiscoverer {
 	@Nullable
 	static Method lookupCallbackMethod(Class<?> callbackType, Class<?> entityType, Object[] args) {
 		Collection<Method> methods = new ArrayList<>(1);
-		ReflectionUtils.doWithMethods(callbackType, methods::add, method -> {
+		ReflectionUtils.doWithMethods(callbackType, methods::add, (method) -> {
 			if (!Modifier.isPublic(method.getModifiers()) || method.getParameterCount() != args.length + 1
 					|| method.isBridge() || ReflectionUtils.isObjectMethod(method)) {
 				return false;
@@ -432,8 +432,8 @@ class EntityCallbackDiscoverer {
 
 		@Override
 		public int compareTo(CallbackCacheKey other) {
-			return Comparators.<CallbackCacheKey>nullsHigh().thenComparing(it -> this.callbackType.toString())
-					.thenComparing(it -> this.entityType.getName()).compare(this, other);
+			return Comparators.<CallbackCacheKey>nullsHigh().thenComparing((it) -> this.callbackType.toString())
+					.thenComparing((it) -> this.entityType.getName()).compare(this, other);
 
 		}
 

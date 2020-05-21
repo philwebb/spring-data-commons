@@ -142,11 +142,11 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 */
 		private Stream<PropertyDescriptor> collectDescriptors() {
 			Stream<PropertyDescriptor> allButDefaultGetters = Arrays.stream(BeanUtils.getPropertyDescriptors(this.type))
-					.filter(it -> !hasDefaultGetter(it));
+					.filter((it) -> !hasDefaultGetter(it));
 			Stream<PropertyDescriptor> ownDescriptors = this.metadata
-					.map(it -> filterAndOrder(allButDefaultGetters, it)).orElse(allButDefaultGetters);
+					.map((it) -> filterAndOrder(allButDefaultGetters, it)).orElse(allButDefaultGetters);
 			Stream<PropertyDescriptor> superTypeDescriptors = this.metadata.map(this::fromMetadata)
-					.orElseGet(this::fromType).flatMap(it -> new PropertyDescriptorSource(it).collectDescriptors());
+					.orElseGet(this::fromType).flatMap((it) -> new PropertyDescriptorSource(it).collectDescriptors());
 			return Stream.concat(ownDescriptors, superTypeDescriptors);
 		}
 
@@ -164,9 +164,9 @@ class DefaultProjectionInformation implements ProjectionInformation {
 			if (orderedMethods.isEmpty()) {
 				return source;
 			}
-			return source.filter(descriptor -> descriptor.getReadMethod() != null)
-					.filter(descriptor -> orderedMethods.containsKey(descriptor.getReadMethod().getName()))
-					.sorted(Comparator.comparingInt(left -> orderedMethods.get(left.getReadMethod().getName())));
+			return source.filter((descriptor) -> descriptor.getReadMethod() != null)
+					.filter((descriptor) -> orderedMethods.containsKey(descriptor.getReadMethod().getName()))
+					.sorted(Comparator.comparingInt((left) -> orderedMethods.get(left.getReadMethod().getName())));
 		}
 
 		/**
@@ -176,7 +176,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private Stream<Class<?>> fromMetadata(MethodsMetadata metadata) {
-			return Arrays.stream(metadata.getInterfaceNames()).map(it -> findType(it, this.type.getInterfaces()));
+			return Arrays.stream(metadata.getInterfaceNames()).map((it) -> findType(it, this.type.getInterfaces()));
 		}
 
 		/**
@@ -215,7 +215,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private static Class<?> findType(String name, Class<?>[] types) {
-			return Arrays.stream(types).filter(it -> name.equals(it.getName())).findFirst()
+			return Arrays.stream(types).filter((it) -> name.equals(it.getName())).findFirst()
 					.orElseThrow(() -> new IllegalStateException(
 							String.format("Did not find type %s in %s!", name, Arrays.toString(types))));
 		}
@@ -229,7 +229,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		private static Map<String, Integer> getMethodOrder(MethodsMetadata metadata) {
 			List<String> methods = metadata.getMethods().stream().map(MethodMetadata::getMethodName).distinct()
 					.collect(Collectors.toList());
-			return IntStream.range(0, methods.size()).boxed().collect(Collectors.toMap(methods::get, i -> i));
+			return IntStream.range(0, methods.size()).boxed().collect(Collectors.toMap(methods::get, (i) -> i));
 		}
 
 	}

@@ -177,7 +177,7 @@ class RepositoryFactorySupportUnitTests {
 	@Test // DATACMNS-489
 	void wrapsExecutionResultIntoFutureIfConfigured() throws Exception {
 		final Object reference = new Object();
-		given(this.factory.queryOne.execute(any(Object[].class))).will(invocation -> {
+		given(this.factory.queryOne.execute(any(Object[].class))).will((invocation) -> {
 			Thread.sleep(500);
 			return reference;
 		});
@@ -310,7 +310,7 @@ class RepositoryFactorySupportUnitTests {
 	}
 
 	private ConvertingRepository prepareConvertingRepository(final Object expectedValue) {
-		given(this.factory.queryOne.execute(any(Object[].class))).will(invocation -> {
+		given(this.factory.queryOne.execute(any(Object[].class))).will((invocation) -> {
 			Thread.sleep(200);
 			return expectedValue;
 		});

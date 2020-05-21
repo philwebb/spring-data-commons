@@ -179,56 +179,56 @@ class ReactiveWrapperConvertersUnitTests {
 	@Test // DATACMNS-836
 	void shouldMapMono() {
 		Mono<String> foo = Mono.just("foo");
-		Mono<Long> map = ReactiveWrapperConverters.map(foo, source -> 1L);
+		Mono<Long> map = ReactiveWrapperConverters.map(foo, (source) -> 1L);
 		assertThat(map.block()).isEqualTo(1L);
 	}
 
 	@Test // DATACMNS-836
 	void shouldMapFlux() {
 		Flux<String> foo = Flux.just("foo");
-		Flux<Long> map = ReactiveWrapperConverters.map(foo, source -> 1L);
+		Flux<Long> map = ReactiveWrapperConverters.map(foo, (source) -> 1L);
 		assertThat(map.next().block()).isEqualTo(1L);
 	}
 
 	@Test // DATACMNS-836
 	void shouldMapRxJava1Single() {
 		Single<String> foo = Single.just("foo");
-		Single<Long> map = ReactiveWrapperConverters.map(foo, source -> 1L);
+		Single<Long> map = ReactiveWrapperConverters.map(foo, (source) -> 1L);
 		assertThat(map.toBlocking().value()).isEqualTo(1L);
 	}
 
 	@Test // DATACMNS-836
 	void shouldMapRxJava1Observable() {
 		Observable<String> foo = Observable.just("foo");
-		Observable<Long> map = ReactiveWrapperConverters.map(foo, source -> 1L);
+		Observable<Long> map = ReactiveWrapperConverters.map(foo, (source) -> 1L);
 		assertThat(map.toBlocking().first()).isEqualTo(1L);
 	}
 
 	@Test // DATACMNS-836
 	void shouldMapRxJava2Single() {
 		io.reactivex.Single<String> foo = io.reactivex.Single.just("foo");
-		io.reactivex.Single<Long> map = ReactiveWrapperConverters.map(foo, source -> 1L);
+		io.reactivex.Single<Long> map = ReactiveWrapperConverters.map(foo, (source) -> 1L);
 		assertThat(map.blockingGet()).isEqualTo(1L);
 	}
 
 	@Test // DATACMNS-836
 	void shouldMapRxJava2Maybe() {
 		io.reactivex.Maybe<String> foo = io.reactivex.Maybe.just("foo");
-		io.reactivex.Maybe<Long> map = ReactiveWrapperConverters.map(foo, source -> 1L);
+		io.reactivex.Maybe<Long> map = ReactiveWrapperConverters.map(foo, (source) -> 1L);
 		assertThat(map.toSingle().blockingGet()).isEqualTo(1L);
 	}
 
 	@Test // DATACMNS-836
 	void shouldMapRxJava2Observable() {
 		io.reactivex.Observable<String> foo = io.reactivex.Observable.just("foo");
-		io.reactivex.Observable<Long> map = ReactiveWrapperConverters.map(foo, source -> 1L);
+		io.reactivex.Observable<Long> map = ReactiveWrapperConverters.map(foo, (source) -> 1L);
 		assertThat(map.blockingFirst()).isEqualTo(1L);
 	}
 
 	@Test // DATACMNS-836
 	void shouldMapRxJava2Flowable() {
 		io.reactivex.Flowable<String> foo = io.reactivex.Flowable.just("foo");
-		io.reactivex.Flowable<Long> map = ReactiveWrapperConverters.map(foo, source -> 1L);
+		io.reactivex.Flowable<Long> map = ReactiveWrapperConverters.map(foo, (source) -> 1L);
 		assertThat(map.blockingFirst()).isEqualTo(1L);
 	}
 

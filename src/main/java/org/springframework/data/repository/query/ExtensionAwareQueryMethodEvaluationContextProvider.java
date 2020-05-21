@@ -89,10 +89,10 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	 */
 	private static Map<String, Object> collectVariables(Parameters<?, ?> parameters, Object[] arguments) {
 		Map<String, Object> variables = new HashMap<>();
-		parameters.stream().filter(Parameter::isSpecialParameter).forEach(
-				it -> variables.put(StringUtils.uncapitalize(it.getType().getSimpleName()), arguments[it.getIndex()]));
+		parameters.stream().filter(Parameter::isSpecialParameter).forEach((it) -> variables
+				.put(StringUtils.uncapitalize(it.getType().getSimpleName()), arguments[it.getIndex()]));
 		parameters.stream().filter(Parameter::isNamedParameter)
-				.forEach(it -> variables.put(
+				.forEach((it) -> variables.put(
 						it.getName().orElseThrow(() -> new IllegalStateException("Should never occur!")),
 						arguments[it.getIndex()]));
 		return variables;
@@ -146,7 +146,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 			}
 			Method method = invocation.getMethod();
 			Method targetMethod = methodCache.computeIfAbsent(method,
-					it -> Optional.ofNullable(findTargetMethod(it)).orElse(it));
+					(it) -> Optional.ofNullable(findTargetMethod(it)).orElse(it));
 			Object result = method.equals(targetMethod) ? invocation.proceed()
 					: ReflectionUtils.invokeMethod(targetMethod, this.target, invocation.getArguments());
 			if (result == null) {

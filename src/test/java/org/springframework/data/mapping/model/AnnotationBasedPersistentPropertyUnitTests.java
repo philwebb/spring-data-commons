@@ -90,14 +90,14 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 	@Test // DATACMNS-282
 	void populatesAnnotationCacheWithDirectAnnotationsOnCreation() {
-		assertThat(this.entity.getPersistentProperty("meta")).satisfies(property -> {
+		assertThat(this.entity.getPersistentProperty("meta")).satisfies((property) -> {
 			// Assert direct annotations are cached on construction
 			Map<Class<? extends Annotation>, Annotation> cache = getAnnotationCache(property);
 			assertThat(cache.containsKey(MyAnnotationAsMeta.class)).isTrue();
 			assertThat(cache.containsKey(MyAnnotation.class)).isFalse();
 			// Assert meta annotation is found and cached
 			assertThat(property.findAnnotation(MyAnnotation.class))
-					.satisfies(annotation -> assertThat(cache.containsKey(MyAnnotation.class)).isTrue());
+					.satisfies((annotation) -> assertThat(cache.containsKey(MyAnnotation.class)).isTrue());
 		});
 	}
 
@@ -115,25 +115,25 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@Test // DATACMNS-243
 	void defaultsToFieldAccess() {
 		assertThat(getProperty(FieldAccess.class, "name"))
-				.satisfies(it -> assertThat(it.usePropertyAccess()).isFalse());
+				.satisfies((it) -> assertThat(it.usePropertyAccess()).isFalse());
 	}
 
 	@Test // DATACMNS-243
 	void usesAccessTypeDeclaredOnTypeAsDefault() {
 		assertThat(getProperty(PropertyAccess.class, "firstname"))
-				.satisfies(it -> assertThat(it.usePropertyAccess()).isTrue());
+				.satisfies((it) -> assertThat(it.usePropertyAccess()).isTrue());
 	}
 
 	@Test // DATACMNS-243
 	void propertyAnnotationOverridesTypeConfiguration() {
 		assertThat(getProperty(PropertyAccess.class, "lastname"))
-				.satisfies(it -> assertThat(it.usePropertyAccess()).isFalse());
+				.satisfies((it) -> assertThat(it.usePropertyAccess()).isFalse());
 	}
 
 	@Test // DATACMNS-243
 	void fieldAnnotationOverridesTypeConfiguration() {
 		assertThat(getProperty(PropertyAccess.class, "emailAddress"))
-				.satisfies(it -> assertThat(it.usePropertyAccess()).isFalse());
+				.satisfies((it) -> assertThat(it.usePropertyAccess()).isFalse());
 	}
 
 	@Test // DATACMNS-243
@@ -144,7 +144,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@Test // DATACMNS-534
 	void treatsNoAnnotationCorrectly() {
 		assertThat(getProperty(ClassWithReadOnlyProperties.class, "noAnnotations"))
-				.satisfies(it -> assertThat(it.isWritable()).isTrue());
+				.satisfies((it) -> assertThat(it.isWritable()).isTrue());
 	}
 
 	@Test // DATACMNS-534
@@ -155,13 +155,13 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@Test // DATACMNS-534
 	void treatsReadOnlyAsNonWritable() {
 		assertThat(getProperty(ClassWithReadOnlyProperties.class, "readOnlyProperty"))
-				.satisfies(it -> assertThat(it.isWritable()).isFalse());
+				.satisfies((it) -> assertThat(it.isWritable()).isFalse());
 	}
 
 	@Test // DATACMNS-534
 	void considersPropertyWithReadOnlyMetaAnnotationReadOnly() {
 		assertThat(getProperty(ClassWithReadOnlyProperties.class, "customReadOnlyProperty"))
-				.satisfies(it -> assertThat(it.isWritable()).isFalse());
+				.satisfies((it) -> assertThat(it.isWritable()).isFalse());
 	}
 
 	@Test // DATACMNS-556
@@ -173,7 +173,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 	@SuppressWarnings("unchecked")
 	void cachesNonPresenceOfAnnotationOnField() {
 		SamplePersistentProperty property = getProperty(Sample.class, "getterWithoutField");
-		assertThat(property).satisfies(it -> {
+		assertThat(property).satisfies((it) -> {
 			assertThat(it.findAnnotation(MyAnnotation.class)).isNull();
 			Map<Class<?>, ?> field = (Map<Class<?>, ?>) ReflectionTestUtils.getField(it, "annotationCache");
 			assertThat(field.containsKey(MyAnnotation.class)).isTrue();
@@ -183,29 +183,29 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 	@Test // DATACMNS-825
 	void composedAnnotationWithAliasForGetCachedCorrectly() {
-		assertThat(this.entity.getPersistentProperty("metaAliased")).satisfies(property -> {
+		assertThat(this.entity.getPersistentProperty("metaAliased")).satisfies((property) -> {
 			// Assert direct annotations are cached on construction
 			Map<Class<? extends Annotation>, Annotation> cache = getAnnotationCache(property);
 			assertThat(cache.containsKey(MyComposedAnnotationUsingAliasFor.class)).isTrue();
 			assertThat(cache.containsKey(MyAnnotation.class)).isFalse();
 			// Assert meta annotation is found and cached
 			assertThat(property.findAnnotation(MyAnnotation.class))
-					.satisfies(it -> assertThat(cache.containsKey(MyAnnotation.class)).isTrue());
+					.satisfies((it) -> assertThat(cache.containsKey(MyAnnotation.class)).isTrue());
 		});
 	}
 
 	@Test // DATACMNS-825
 	void composedAnnotationWithAliasShouldHaveSynthesizedAttributeValues() {
 		assertThat(this.entity.getPersistentProperty("metaAliased"))
-				.satisfies(property -> assertThat(property.findAnnotation(MyAnnotation.class))
-						.satisfies(annotation -> assertThat(AnnotationUtils.getValue(annotation)).isEqualTo("spring")));
+				.satisfies((property) -> assertThat(property.findAnnotation(MyAnnotation.class)).satisfies(
+						(annotation) -> assertThat(AnnotationUtils.getValue(annotation)).isEqualTo("spring")));
 	}
 
 	@Test // DATACMNS-867
 	void revisedAnnotationWithAliasShouldHaveSynthesizedAttributeValues() {
 		assertThat(this.entity.getPersistentProperty("setter"))
-				.satisfies(property -> assertThat(property.findAnnotation(RevisedAnnnotationWithAliasFor.class))
-						.satisfies(annotation -> {
+				.satisfies((property) -> assertThat(property.findAnnotation(RevisedAnnnotationWithAliasFor.class))
+						.satisfies((annotation) -> {
 							assertThat(annotation.name()).isEqualTo("my-value");
 							assertThat(annotation.value()).isEqualTo("my-value");
 						}));
@@ -226,7 +226,7 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 	@Test // DATACMNS-1318
 	void detectsUltimateAssociationTargetClass() {
-		Stream.of("toSample", "toSample2", "sample", "withoutAnnotation").forEach(it -> {
+		Stream.of("toSample", "toSample2", "sample", "withoutAnnotation").forEach((it) -> {
 			assertThat(getProperty(WithReferences.class, it).getAssociationTargetType()).isEqualTo(Sample.class);
 		});
 	}

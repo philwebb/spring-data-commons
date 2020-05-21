@@ -104,7 +104,8 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 		TypeInformation<?> domainType = extractTypeInfo(parameter).getRequiredActualType();
 		Optional<Class<? extends QuerydslBinderCustomizer<?>>> bindingsAnnotation = annotation
 				.map(QuerydslPredicate::bindings).map(CastUtils::cast);
-		QuerydslBindings bindings = bindingsAnnotation.map(it -> this.bindingsFactory.createBindingsFor(domainType, it))
+		QuerydslBindings bindings = bindingsAnnotation
+				.map((it) -> this.bindingsFactory.createBindingsFor(domainType, it))
 				.orElseGet(() -> this.bindingsFactory.createBindingsFor(domainType));
 		Predicate result = this.predicateBuilder.getPredicate(domainType, parameters, bindings);
 		if (!parameter.isOptional() && result == null) {
@@ -124,8 +125,8 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 	static TypeInformation<?> extractTypeInfo(MethodParameter parameter) {
 		Optional<QuerydslPredicate> annotation = Optional
 				.ofNullable(parameter.getParameterAnnotation(QuerydslPredicate.class));
-		return annotation.filter(it -> !Object.class.equals(it.root()))
-				.<TypeInformation<?>>map(it -> ClassTypeInformation.from(it.root()))
+		return annotation.filter((it) -> !Object.class.equals(it.root()))
+				.<TypeInformation<?>>map((it) -> ClassTypeInformation.from(it.root()))
 				.orElseGet(() -> detectDomainType(parameter));
 	}
 

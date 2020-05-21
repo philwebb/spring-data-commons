@@ -90,7 +90,7 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 		this.mappers = Collections.unmodifiableList(mappers);
 		this.accessor = accessor;
 		this.typeCache = new ConcurrentHashMap<>();
-		this.getAlias = key -> {
+		this.getAlias = (key) -> {
 			for (TypeInformationMapper mapper : mappers) {
 				TypeInformation<?> typeInformation = mapper.resolveTypeFrom(key);
 				if (typeInformation != null) {

@@ -56,7 +56,7 @@ public class HidingClassLoader extends ShadowingClassLoader {
 	public static HidingClassLoader hide(Class<?>... packages) {
 		Assert.notNull(packages, "Packages must not be null!");
 		return new HidingClassLoader(
-				Arrays.stream(packages).map(it -> it.getPackage().getName()).collect(Collectors.toList()));
+				Arrays.stream(packages).map((it) -> it.getPackage().getName()).collect(Collectors.toList()));
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class HidingClassLoader extends ShadowingClassLoader {
 	}
 
 	private void checkIfHidden(String name) throws ClassNotFoundException {
-		if (this.hidden.stream().anyMatch(it -> name.startsWith(it))) {
+		if (this.hidden.stream().anyMatch((it) -> name.startsWith(it))) {
 			throw new ClassNotFoundException();
 		}
 	}

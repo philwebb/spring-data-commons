@@ -57,7 +57,7 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 			ReferenceType.WEAK);
 
 	static {
-		Arrays.asList(COLLECTION, LIST, SET, MAP, OBJECT).forEach(it -> cache.put(it.getType(), it));
+		Arrays.asList(COLLECTION, LIST, SET, MAP, OBJECT).forEach((it) -> cache.put(it.getType(), it));
 	}
 
 	private final Class<S> type;

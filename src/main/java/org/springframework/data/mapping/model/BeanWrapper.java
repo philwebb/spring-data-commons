@@ -146,7 +146,7 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 		 */
 		static <T> Object setProperty(PersistentProperty<?> property, T bean, @Nullable Object value) {
 			Class<?> type = property.getOwner().getType();
-			KCallable<?> copy = copyMethodCache.computeIfAbsent(type, it -> getCopyMethod(it, property));
+			KCallable<?> copy = copyMethodCache.computeIfAbsent(type, (it) -> getCopyMethod(it, property));
 			if (copy == null) {
 				throw new UnsupportedOperationException(
 						String.format("Kotlin class %s has no .copy(...) method for property %s!", type.getName(),
@@ -173,7 +173,7 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 
 		@Nullable
 		private static KCallable<?> getCopyMethod(Class<?> type, PersistentProperty<?> property) {
-			return KotlinCopyMethod.findCopyMethod(type).filter(it -> it.supportsProperty(property))
+			return KotlinCopyMethod.findCopyMethod(type).filter((it) -> it.supportsProperty(property))
 					.map(KotlinCopyMethod::getCopyFunction).orElse(null);
 		}
 

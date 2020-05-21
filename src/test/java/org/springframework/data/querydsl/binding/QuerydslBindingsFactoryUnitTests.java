@@ -66,7 +66,7 @@ class QuerydslBindingsFactoryUnitTests {
 		QuerydslBindings bindings = factory.createBindingsFor(USER_TYPE);
 		Optional<MultiValueBinding<Path<Object>, Object>> binding = bindings
 				.getBindingForPath(PropertyPathInformation.of("firstname", User.class));
-		assertThat(binding).hasValueSatisfying(it -> {
+		assertThat(binding).hasValueSatisfying((it) -> {
 			Optional<Predicate> bind = it.bind((Path) QUser.user.firstname, Collections.singleton("rand"));
 			assertThat(bind).hasValue(QUser.user.firstname.contains("rand"));
 		});
@@ -82,7 +82,7 @@ class QuerydslBindingsFactoryUnitTests {
 		QuerydslBindings bindings = factory.createBindingsFor(USER_TYPE, SpecificBinding.class);
 		Optional<MultiValueBinding<Path<Object>, Object>> binding = bindings
 				.getBindingForPath(PropertyPathInformation.of("firstname", User.class));
-		assertThat(binding).hasValueSatisfying(it -> {
+		assertThat(binding).hasValueSatisfying((it) -> {
 			Optional<Predicate> bind = it.bind((Path) QUser.user.firstname, Collections.singleton("rand"));
 			assertThat(bind).hasValue(QUser.user.firstname.eq("RAND"));
 		});
@@ -99,8 +99,8 @@ class QuerydslBindingsFactoryUnitTests {
 
 		@Override
 		public void customize(QuerydslBindings bindings, QUser user) {
-			bindings.bind(user.firstname).firstOptional((path, value) -> value.map(it -> path.eq(it.toUpperCase())));
-			bindings.bind(user.lastname).firstOptional((path, value) -> value.map(it -> path.toLowerCase().eq(it)));
+			bindings.bind(user.firstname).firstOptional((path, value) -> value.map((it) -> path.eq(it.toUpperCase())));
+			bindings.bind(user.lastname).firstOptional((path, value) -> value.map((it) -> path.toLowerCase().eq(it)));
 			bindings.excluding(user.address);
 		}
 

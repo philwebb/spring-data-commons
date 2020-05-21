@@ -77,9 +77,9 @@ public abstract class ReactiveRepositoryFactorySupport extends RepositoryFactory
 								method.getReturnType().getName(), method.getDeclaringClass().getName(), method));
 			}
 			Arrays.stream(method.getParameterTypes()).filter(ReactiveWrappers::supports)
-					.filter(parameterType -> !ClassUtils.isAssignable(Publisher.class, parameterType))
-					.filter(parameterType -> !ReactiveWrapperConverters.supports(parameterType))
-					.forEach(parameterType -> {
+					.filter((parameterType) -> !ClassUtils.isAssignable(Publisher.class, parameterType))
+					.filter((parameterType) -> !ReactiveWrapperConverters.supports(parameterType))
+					.forEach((parameterType) -> {
 						throw new InvalidDataAccessApiUsageException(
 								String.format("No reactive type converter found for type %s used in %s, method %s.",
 										parameterType.getName(), method.getDeclaringClass().getName(), method));

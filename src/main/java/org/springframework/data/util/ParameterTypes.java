@@ -111,8 +111,8 @@ public class ParameterTypes {
 	 * @return
 	 */
 	private boolean hasValidAlternativeFor(Method method) {
-		return this.alternatives.get().stream().anyMatch(it -> it.areValidTypes(method))
-				|| getParent().map(parent -> parent.hasValidAlternativeFor(method)).orElse(false);
+		return this.alternatives.get().stream().anyMatch((it) -> it.areValidTypes(method))
+				|| getParent().map((parent) -> parent.hasValidAlternativeFor(method)).orElse(false);
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class ParameterTypes {
 	List<ParameterTypes> getAllAlternatives() {
 		List<ParameterTypes> result = new ArrayList<>();
 		result.addAll(this.alternatives.get());
-		getParent().ifPresent(it -> result.addAll(it.getAllAlternatives()));
+		getParent().ifPresent((it) -> result.addAll(it.getAllAlternatives()));
 		return result;
 	}
 

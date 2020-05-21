@@ -407,7 +407,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 			if (!StringUtils.hasText(property)) {
 				return Optional.empty();
 			}
-			Order order = this.direction.map(it -> new Order(it, property)).orElseGet(() -> Order.by(property));
+			Order order = this.direction.map((it) -> new Order(it, property)).orElseGet(() -> Order.by(property));
 			if (this.ignoreCase.isPresent()) {
 				return Optional.of(order.ignoreCase());
 			}

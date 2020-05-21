@@ -109,7 +109,7 @@ public class CustomRepositoryImplementationDetector {
 				.orElseGet(() -> findCandidateBeanDefinitions(lookup)).stream().filter(lookup::matches)
 				.collect(StreamUtils.toUnmodifiableSet());
 		return SelectionSet
-				.of(definitions, c -> c.isEmpty() ? Optional.empty() : throwAmbiguousCustomImplementationException(c))
+				.of(definitions, (c) -> c.isEmpty() ? Optional.empty() : throwAmbiguousCustomImplementationException(c))
 				.filterIfNecessary(lookup::hasMatchingBeanName).uniqueResult().map(AbstractBeanDefinition.class::cast);
 	}
 
@@ -121,8 +121,8 @@ public class CustomRepositoryImplementationDetector {
 		provider.setResourcePattern(String.format(CUSTOM_IMPLEMENTATION_RESOURCE_PATTERN, postfix));
 		provider.setMetadataReaderFactory(config.getMetadataReaderFactory());
 		provider.addIncludeFilter((reader, factory) -> true);
-		config.getExcludeFilters().forEach(it -> provider.addExcludeFilter(it));
-		return config.getBasePackages().stream().flatMap(it -> provider.findCandidateComponents(it).stream())
+		config.getExcludeFilters().forEach((it) -> provider.addExcludeFilter(it));
+		return config.getBasePackages().stream().flatMap((it) -> provider.findCandidateComponents(it).stream())
 				.collect(Collectors.toSet());
 	}
 

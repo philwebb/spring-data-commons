@@ -77,7 +77,7 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 		Object instance = ReflectionEntityInstantiator.INSTANCE.createInstance(this.entity, this.provider);
 		assertThat(instance).isInstanceOf(Foo.class);
 		assertThat(constructor).satisfies(
-				it -> verify(this.provider, times(1)).getParameterValue(it.getParameters().iterator().next()));
+				(it) -> verify(this.provider, times(1)).getParameterValue(it.getParameters().iterator().next()));
 	}
 
 	@Test // DATACMNS-300
@@ -91,7 +91,7 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 	@Test // DATACMNS-134
 	void createsInnerClassInstanceCorrectly() {
 		BasicPersistentEntity<Inner, P> entity = new BasicPersistentEntity<>(ClassTypeInformation.from(Inner.class));
-		assertThat(entity.getPersistenceConstructor()).satisfies(it -> {
+		assertThat(entity.getPersistenceConstructor()).satisfies((it) -> {
 			Parameter<Object, P> parameter = it.getParameters().iterator().next();
 			Object outer = new Outer();
 			given(this.provider.getParameterValue(parameter)).willReturn(outer);
@@ -99,7 +99,7 @@ class ReflectionEntityInstantiatorUnitTests<P extends PersistentProperty<P>> {
 			assertThat(instance).isNotNull();
 			// Hack to check synthetic field as compiles create different field names
 			// (e.g. this$0, this$1)
-			ReflectionUtils.doWithFields(Inner.class, field -> {
+			ReflectionUtils.doWithFields(Inner.class, (field) -> {
 				if (field.isSynthetic() && field.getName().startsWith("this$")) {
 					ReflectionUtils.makeAccessible(field);
 					assertThat(ReflectionUtils.getField(field, instance)).isEqualTo(outer);

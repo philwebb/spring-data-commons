@@ -181,7 +181,7 @@ public interface RepositoryFragment<T> {
 		public ImplementedRepositoryFragment(Optional<Class<T>> interfaceClass, T implementation) {
 			Assert.notNull(interfaceClass, "Interface class must not be null!");
 			Assert.notNull(implementation, "Implementation object must not be null!");
-			interfaceClass.ifPresent(it -> {
+			interfaceClass.ifPresent((it) -> {
 				Assert.isTrue(ClassUtils.isAssignableValue(it, implementation),
 						() -> String.format("Fragment implementation %s does not implement %s!",
 								ClassUtils.getQualifiedName(implementation.getClass()),
@@ -211,7 +211,7 @@ public interface RepositoryFragment<T> {
 		@Override
 		public String toString() {
 			return String.format("ImplementedRepositoryFragment %s%s",
-					this.interfaceClass.map(ClassUtils::getShortName).map(it -> it + ":").orElse(""),
+					this.interfaceClass.map(ClassUtils::getShortName).map((it) -> it + ":").orElse(""),
 					ClassUtils.getShortName(this.implementation.getClass()));
 		}
 

@@ -150,7 +150,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		Set<String> packages = new HashSet<>();
 		packages.addAll(Arrays.asList(value));
 		packages.addAll(Arrays.asList(basePackages));
-		Arrays.stream(basePackageClasses).map(ClassUtils::getPackageName).forEach(it -> packages.add(it));
+		Arrays.stream(basePackageClasses).map(ClassUtils::getPackageName).forEach((it) -> packages.add(it));
 		return Streamable.of(packages);
 	}
 
@@ -268,7 +268,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	private Streamable<TypeFilter> parseFilters(String attributeName) {
 		AnnotationAttributes[] filters = this.attributes.getAnnotationArray(attributeName);
-		return Streamable.of(() -> Arrays.stream(filters).flatMap(it -> typeFiltersFor(it).stream()));
+		return Streamable.of(() -> Arrays.stream(filters).flatMap((it) -> typeFiltersFor(it).stream()));
 	}
 
 	/**
@@ -349,7 +349,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 */
 	private static boolean hasExplicitFilters(AnnotationAttributes attributes) {
 		return Stream.of("includeFilters", "excludeFilters")
-				.anyMatch(it -> attributes.getAnnotationArray(it).length > 0);
+				.anyMatch((it) -> attributes.getAnnotationArray(it).length > 0);
 	}
 
 	/**

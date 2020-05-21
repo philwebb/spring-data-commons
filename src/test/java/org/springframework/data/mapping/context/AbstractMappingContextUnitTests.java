@@ -118,7 +118,7 @@ class AbstractMappingContextUnitTests {
 		SampleMappingContext mappingContext = new SampleMappingContext();
 		PersistentEntity<Object, SamplePersistentProperty> entity = mappingContext
 				.getRequiredPersistentEntity(Extension.class);
-		assertThat(entity.getPersistentProperty("foo")).satisfies(it -> assertThat(it.isIdProperty()).isTrue());
+		assertThat(entity.getPersistentProperty("foo")).satisfies((it) -> assertThat(it.isIdProperty()).isTrue());
 	}
 
 	@Test // DATACMNS-345
@@ -128,8 +128,8 @@ class AbstractMappingContextUnitTests {
 		PersistentEntity<Object, SamplePersistentProperty> entity = mappingContext
 				.getRequiredPersistentEntity(Sample.class);
 		assertThat(entity.getPersistentProperty("persons"))
-				.satisfies(it -> assertThat(mappingContext.getPersistentEntity(it))
-						.satisfies(inner -> assertThat(((PersistentEntity) inner).getType()).isEqualTo(Person.class)));
+				.satisfies((it) -> assertThat(mappingContext.getPersistentEntity(it)).satisfies(
+						(inner) -> assertThat(((PersistentEntity) inner).getType()).isEqualTo(Person.class)));
 	}
 
 	@Test // DATACMNS-390
@@ -282,7 +282,7 @@ class AbstractMappingContextUnitTests {
 				@Override
 				public void verify() {
 					if (TypeRejectingMappingContext.this.rejectedTypes.stream()
-							.anyMatch(it -> it.isAssignableFrom(getType()))) {
+							.anyMatch((it) -> it.isAssignableFrom(getType()))) {
 						throw TypeRejectingMappingContext.this.exception.get();
 					}
 				}

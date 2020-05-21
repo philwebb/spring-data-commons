@@ -70,12 +70,12 @@ final class SelectionSet<T> {
 	 * @param predicate To be used for filtering.
 	 */
 	SelectionSet<T> filterIfNecessary(Predicate<T> predicate) {
-		return findUniqueResult().map(it -> this).orElseGet(() -> new SelectionSet<>(
+		return findUniqueResult().map((it) -> this).orElseGet(() -> new SelectionSet<>(
 				this.collection.stream().filter(predicate).collect(Collectors.toList()), this.fallback));
 	}
 
 	private static <S> Function<Collection<S>, Optional<S>> defaultFallback() {
-		return c -> {
+		return (c) -> {
 			if (c.isEmpty()) {
 				return Optional.empty();
 			}

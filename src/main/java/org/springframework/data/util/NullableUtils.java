@@ -206,7 +206,7 @@ public abstract class NullableUtils {
 	 * @return {@literal true} if the annotation expresses non-nullability.
 	 */
 	private static boolean isNonNull(Annotation annotation) {
-		return test(annotation, NON_NULL_CLASS_NAME, "when", o -> WHEN_NON_NULLABLE.contains(o.toString()));
+		return test(annotation, NON_NULL_CLASS_NAME, "when", (o) -> WHEN_NON_NULLABLE.contains(o.toString()));
 	}
 
 	/**
@@ -216,7 +216,7 @@ public abstract class NullableUtils {
 	 * @return {@literal true} if the annotation expresses nullability.
 	 */
 	private static boolean isNullable(Annotation annotation) {
-		return test(annotation, NON_NULL_CLASS_NAME, "when", o -> WHEN_NULLABLE.contains(o.toString()));
+		return test(annotation, NON_NULL_CLASS_NAME, "when", (o) -> WHEN_NULLABLE.contains(o.toString()));
 	}
 
 	@SuppressWarnings("unchecked")

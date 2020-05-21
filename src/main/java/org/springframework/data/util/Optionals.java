@@ -55,7 +55,7 @@ public interface Optionals {
 	@SafeVarargs
 	static <T> Stream<T> toStream(Optional<? extends T>... optionals) {
 		Assert.notNull(optionals, "Optional must not be null!");
-		return Arrays.asList(optionals).stream().flatMap(it -> it.map(Stream::of).orElseGet(Stream::empty));
+		return Arrays.asList(optionals).stream().flatMap((it) -> it.map(Stream::of).orElseGet(Stream::empty));
 	}
 
 	/**
@@ -82,7 +82,7 @@ public interface Optionals {
 	static <S, T> T firstNonEmpty(Iterable<S> source, Function<S, T> function, T defaultValue) {
 		Assert.notNull(source, "Source must not be null!");
 		Assert.notNull(function, "Function must not be null!");
-		return Streamable.of(source).stream().map(function::apply).filter(it -> !it.equals(defaultValue)).findFirst()
+		return Streamable.of(source).stream().map(function::apply).filter((it) -> !it.equals(defaultValue)).findFirst()
 				.orElse(defaultValue);
 	}
 
@@ -129,7 +129,7 @@ public interface Optionals {
 	 * @return
 	 */
 	static <T, S> Optional<Pair<T, S>> withBoth(Optional<T> left, Optional<S> right) {
-		return left.flatMap(l -> right.map(r -> Pair.of(l, r)));
+		return left.flatMap((l) -> right.map((r) -> Pair.of(l, r)));
 	}
 
 	/**
@@ -160,7 +160,7 @@ public interface Optionals {
 		Assert.notNull(left, "Optional must not be null!");
 		Assert.notNull(right, "Optional must not be null!");
 		Assert.notNull(function, "BiFunctionmust not be null!");
-		return left.flatMap(l -> right.map(r -> function.apply(l, r)));
+		return left.flatMap((l) -> right.map((r) -> function.apply(l, r)));
 	}
 
 	/**

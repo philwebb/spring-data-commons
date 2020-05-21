@@ -123,8 +123,8 @@ public class PropertyPathUnitTests {
 	void handlesInvalidMapValueTypeProperly() {
 		assertThatExceptionOfType(PropertyReferenceException.class)
 				.isThrownBy(() -> PropertyPath.from("userMapMame", Bar.class))
-				.matches(e -> e.getPropertyName().equals("mame"))
-				.matches(e -> e.getBaseProperty().equals(PropertyPath.from("userMap", Bar.class)));
+				.matches((e) -> e.getPropertyName().equals("mame"))
+				.matches((e) -> e.getBaseProperty().equals(PropertyPath.from("userMap", Bar.class)));
 	}
 
 	@Test
@@ -199,7 +199,7 @@ public class PropertyPathUnitTests {
 	void rejectsInvalidProperty() {
 		assertThatExceptionOfType(PropertyReferenceException.class)
 				.isThrownBy(() -> PropertyPath.from("_foo_id", Sample2.class))
-				.matches(e -> e.getBaseProperty().getSegment().equals("_foo"));
+				.matches((e) -> e.getBaseProperty().getSegment().equals("_foo"));
 	}
 
 	@Test

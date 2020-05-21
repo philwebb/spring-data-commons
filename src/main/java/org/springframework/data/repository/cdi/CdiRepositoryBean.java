@@ -232,7 +232,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	@Override
 	public Set<Class<? extends Annotation>> getStereotypes() {
 		return Arrays.stream(this.repositoryType.getAnnotations()).map(Annotation::annotationType)
-				.filter(it -> it.isAnnotationPresent(Stereotype.class)).collect(Collectors.toSet());
+				.filter((it) -> it.isAnnotationPresent(Stereotype.class)).collect(Collectors.toSet());
 	}
 
 	@Override
@@ -327,19 +327,19 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 			CdiRepositoryConfiguration cdiRepositoryConfiguration) {
 		Stream<RepositoryFragmentConfiguration> fragmentConfigurations = this.context
 				.getRepositoryFragments(cdiRepositoryConfiguration, repositoryType);
-		return fragmentConfigurations.flatMap(it -> {
+		return fragmentConfigurations.flatMap((it) -> {
 			Class<Object> interfaceClass = (Class<Object>) lookupFragmentInterface(repositoryType,
 					it.getInterfaceName());
 			Class<?> implementationClass = this.context.loadClass(it.getClassName());
 			Optional<Bean<?>> bean = getBean(implementationClass, this.beanManager, this.qualifiers);
 			return Optionals.toStream(bean.map(this::getDependencyInstance)
-					.map(implementation -> RepositoryFragment.implemented(interfaceClass, implementation)));
+					.map((implementation) -> RepositoryFragment.implemented(interfaceClass, implementation)));
 
 		}).collect(Collectors.toList());
 	}
 
 	private static Class<?> lookupFragmentInterface(Class<?> repositoryType, String interfaceName) {
-		return Arrays.stream(repositoryType.getInterfaces()).filter(it -> it.getName().equals(interfaceName))
+		return Arrays.stream(repositoryType.getInterfaces()).filter((it) -> it.getName().equals(interfaceName))
 				.findFirst().orElseThrow(() -> new IllegalArgumentException(String.format("Did not find type %s in %s!",
 						interfaceName, Arrays.asList(repositoryType.getInterfaces()))));
 	}
@@ -370,7 +370,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 */
 	protected CdiRepositoryConfiguration lookupConfiguration(BeanManager beanManager, Set<Annotation> qualifiers) {
 		return beanManager.getBeans(CdiRepositoryConfiguration.class, getQualifiersArray(qualifiers)).stream()
-				.findFirst().map(it -> (CdiRepositoryConfiguration) getDependencyInstance(it))
+				.findFirst().map((it) -> (CdiRepositoryConfiguration) getDependencyInstance(it))
 				.orElse(DEFAULT_CONFIGURATION);
 	}
 
@@ -385,7 +385,7 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	private Optional<Bean<?>> getCustomImplementationBean(Class<?> repositoryType,
 			CdiRepositoryConfiguration cdiRepositoryConfiguration) {
 		return this.context.getCustomImplementationClass(repositoryType, cdiRepositoryConfiguration)
-				.flatMap(type -> getBean(type, this.beanManager, this.qualifiers));
+				.flatMap((type) -> getBean(type, this.beanManager, this.qualifiers));
 	}
 
 	/**

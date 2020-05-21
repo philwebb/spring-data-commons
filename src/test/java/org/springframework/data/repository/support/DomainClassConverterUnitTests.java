@@ -172,7 +172,7 @@ class DomainClassConverterUnitTests {
 				"toIdConverter");
 		Method method = Wrapper.class.getMethod("foo", User.class);
 		TypeDescriptor target = TypeDescriptor.nested(new MethodParameter(method, 0), 0);
-		assertThat(toIdConverter).map(it -> it.matches(SUB_USER_TYPE, target)).hasValue(false);
+		assertThat(toIdConverter).map((it) -> it.matches(SUB_USER_TYPE, target)).hasValue(false);
 	}
 
 	private ApplicationContext initContextWithRepo() {

@@ -203,7 +203,7 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 
 	@Test // DATACMNS-1551
 	void resolvesDotOnlyInputToDefault() {
-		Stream.of(".", ".,ASC").forEach(it -> {
+		Stream.of(".", ".,ASC").forEach((it) -> {
 			MockHttpServletRequest request = new MockHttpServletRequest();
 			request.addParameter("sort", it);
 			assertThatCode(() -> {

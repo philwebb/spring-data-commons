@@ -249,7 +249,7 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 		this.repositoryMetadata = this.factory.getRepositoryMetadata(this.repositoryInterface);
 		// Make sure the aggregate root type is present in the MappingContext (e.g. for
 		// auditing)
-		this.mappingContext.ifPresent(it -> it.getPersistentEntity(this.repositoryMetadata.getDomainType()));
+		this.mappingContext.ifPresent((it) -> it.getPersistentEntity(this.repositoryMetadata.getDomainType()));
 		this.repository = Lazy.of(() -> this.factory.getRepository(this.repositoryInterface, repositoryFragmentsToUse));
 		if (!this.lazyInit) {
 			this.repository.get();

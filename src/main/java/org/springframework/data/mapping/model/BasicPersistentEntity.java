@@ -148,7 +148,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 				? PersistableIsNewStrategy.INSTANCE : getFallbackIsNewStrategy());
 		this.isImmutable = Lazy.of(() -> isAnnotationPresent(Immutable.class));
 		this.requiresPropertyPopulation = Lazy.of(() -> !isImmutable()
-				&& this.properties.stream().anyMatch(it -> !(isConstructorArgument(it) || it.isTransient())));
+				&& this.properties.stream().anyMatch((it) -> !(isConstructorArgument(it) || it.isTransient())));
 	}
 
 	@Override
@@ -209,7 +209,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 		if (!property.isTransient() && !property.isAssociation()) {
 			this.persistentPropertiesCache.add(property);
 		}
-		this.propertyCache.computeIfAbsent(property.getName(), key -> property);
+		this.propertyCache.computeIfAbsent(property.getName(), (key) -> property);
 		P candidate = returnPropertyIfBetterIdPropertyCandidateOrNull(property);
 		if (candidate != null) {
 			this.idProperty = candidate;
@@ -273,13 +273,13 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	}
 
 	private List<P> doFindPersistentProperty(Class<? extends Annotation> annotationType) {
-		List<P> annotatedProperties = this.properties.stream().filter(it -> it.isAnnotationPresent(annotationType))
+		List<P> annotatedProperties = this.properties.stream().filter((it) -> it.isAnnotationPresent(annotationType))
 				.collect(Collectors.toList());
 		if (!annotatedProperties.isEmpty()) {
 			return annotatedProperties;
 		}
 		return this.associations.stream().map(Association::getInverse)
-				.filter(it -> it.isAnnotationPresent(annotationType)).collect(Collectors.toList());
+				.filter((it) -> it.isAnnotationPresent(annotationType)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -343,7 +343,7 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 	@SuppressWarnings("unchecked")
 	private <A extends Annotation> Optional<A> doFindAnnotation(Class<A> annotationType) {
 		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType,
-				it -> Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(getType(), it)));
+				(it) -> Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(getType(), it)));
 	}
 
 	@Override

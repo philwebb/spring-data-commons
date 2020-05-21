@@ -98,12 +98,12 @@ public @interface EnableSpringDataWebSupport {
 		public String[] selectImports(AnnotationMetadata importingClassMetadata) {
 			List<String> imports = new ArrayList<>();
 			imports.add(ProjectingArgumentResolverRegistrar.class.getName());
-			imports.add(this.resourceLoader.filter(it -> ClassUtils.isPresent("org.springframework.hateoas.Link", it))
-					.map(it -> HateoasAwareSpringDataWebConfiguration.class.getName())
+			imports.add(this.resourceLoader.filter((it) -> ClassUtils.isPresent("org.springframework.hateoas.Link", it))
+					.map((it) -> HateoasAwareSpringDataWebConfiguration.class.getName())
 					.orElseGet(() -> SpringDataWebConfiguration.class.getName()));
-			this.resourceLoader.filter(it -> ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper", it))
-					.map(it -> SpringFactoriesLoader.loadFactoryNames(SpringDataJacksonModules.class, it))
-					.ifPresent(it -> imports.addAll(it));
+			this.resourceLoader.filter((it) -> ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper", it))
+					.map((it) -> SpringFactoriesLoader.loadFactoryNames(SpringDataJacksonModules.class, it))
+					.ifPresent((it) -> imports.addAll(it));
 			return imports.toArray(new String[imports.size()]);
 		}
 

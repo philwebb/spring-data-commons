@@ -147,7 +147,7 @@ public class ResultProcessor {
 			return (T) target;
 		}
 		if (source instanceof Stream && this.method.isStreamQuery()) {
-			return (T) ((Stream<Object>) source).map(t -> this.type.isInstance(t) ? t : converter.convert(t));
+			return (T) ((Stream<Object>) source).map((t) -> this.type.isInstance(t) ? t : converter.convert(t));
 		}
 		if (ReactiveWrapperConverters.supports(source.getClass())) {
 			return (T) ReactiveWrapperConverters.map(source, converter::convert);
@@ -199,7 +199,7 @@ public class ResultProcessor {
 		 */
 		public ChainingConverter and(final Converter<Object, Object> converter) {
 			Assert.notNull(converter, "Converter must not be null!");
-			return new ChainingConverter(this.targetType, source -> {
+			return new ChainingConverter(this.targetType, (source) -> {
 				Object intermediate = ChainingConverter.this.convert(source);
 				return intermediate == null || this.targetType.isInstance(intermediate) ? intermediate
 						: converter.convert(intermediate);

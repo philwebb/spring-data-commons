@@ -44,7 +44,7 @@ class PropertyUnitTests {
 	void shouldDiscoverWitherMethod() {
 		Property property = Property.of(ClassTypeInformation.from(WitherType.class),
 				ReflectionUtils.findField(WitherType.class, "id"));
-		assertThat(property.getWither()).isPresent().hasValueSatisfying(actual -> {
+		assertThat(property.getWither()).isPresent().hasValueSatisfying((actual) -> {
 			assertThat(actual.getName()).isEqualTo("withId");
 			assertThat(actual.getReturnType()).isEqualTo(WitherType.class);
 		});
@@ -54,7 +54,7 @@ class PropertyUnitTests {
 	void shouldDiscoverDerivedWitherMethod() {
 		Property property = Property.of(ClassTypeInformation.from(DerivedWitherClass.class),
 				ReflectionUtils.findField(DerivedWitherClass.class, "id"));
-		assertThat(property.getWither()).isPresent().hasValueSatisfying(actual -> {
+		assertThat(property.getWither()).isPresent().hasValueSatisfying((actual) -> {
 			assertThat(actual.getName()).isEqualTo("withId");
 			assertThat(actual.getReturnType()).isEqualTo(DerivedWitherClass.class);
 			assertThat(actual.getDeclaringClass()).isEqualTo(DerivedWitherClass.class);

@@ -148,7 +148,7 @@ public class AuditingHandler implements InitializingBean {
 
 	private <T> T touch(T target, boolean isNew) {
 		Optional<AuditableBeanWrapper<T>> wrapper = this.factory.getBeanWrapperFor(target);
-		return wrapper.map(it -> {
+		return wrapper.map((it) -> {
 			Optional<Object> auditor = touchAuditor(it, isNew);
 			Optional<TemporalAccessor> now = this.dateTimeForNow ? touchDate(it, isNew) : Optional.empty();
 			if (logger.isDebugEnabled()) {
@@ -169,12 +169,12 @@ public class AuditingHandler implements InitializingBean {
 	 */
 	private Optional<Object> touchAuditor(AuditableBeanWrapper<?> wrapper, boolean isNew) {
 		Assert.notNull(wrapper, "AuditableBeanWrapper must not be null!");
-		return this.auditorAware.map(it -> {
+		return this.auditorAware.map((it) -> {
 			Optional<?> auditor = it.getCurrentAuditor();
 			Assert.notNull(auditor,
 					() -> String.format("Auditor must not be null! Returned by: %s!", AopUtils.getTargetClass(it)));
-			auditor.filter(temporalAccessor -> isNew).ifPresent(wrapper::setCreatedBy);
-			auditor.filter(temporalAccessor -> !isNew || this.modifyOnCreation).ifPresent(wrapper::setLastModifiedBy);
+			auditor.filter((temporalAccessor) -> isNew).ifPresent(wrapper::setCreatedBy);
+			auditor.filter((temporalAccessor) -> !isNew || this.modifyOnCreation).ifPresent(wrapper::setLastModifiedBy);
 			return auditor;
 		});
 	}
@@ -190,8 +190,8 @@ public class AuditingHandler implements InitializingBean {
 		Optional<TemporalAccessor> now = this.dateTimeProvider.getNow();
 		Assert.notNull(now,
 				() -> String.format("Now must not be null! Returned by: %s!", this.dateTimeProvider.getClass()));
-		now.filter(temporalAccessor -> isNew).ifPresent(wrapper::setCreatedDate);
-		now.filter(temporalAccessor -> !isNew || this.modifyOnCreation).ifPresent(wrapper::setLastModifiedDate);
+		now.filter((temporalAccessor) -> isNew).ifPresent(wrapper::setCreatedDate);
+		now.filter((temporalAccessor) -> !isNew || this.modifyOnCreation).ifPresent(wrapper::setLastModifiedDate);
 		return now;
 	}
 

@@ -115,7 +115,7 @@ public class CdiRepositoryContext {
 		CdiImplementationDetectionConfiguration config = new CdiImplementationDetectionConfiguration(configuration,
 				this.metadataReaderFactory);
 		return this.metdata.getFragmentInterfaces(repositoryInterface.getName())
-				.map(it -> detectRepositoryFragmentConfiguration(it, config)).flatMap(Optionals::toStream);
+				.map((it) -> detectRepositoryFragmentConfiguration(it, config)).flatMap(Optionals::toStream);
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class CdiRepositoryContext {
 			String fragmentInterfaceName, CdiImplementationDetectionConfiguration config) {
 		ImplementationLookupConfiguration lookup = config.forFragment(fragmentInterfaceName);
 		Optional<AbstractBeanDefinition> beanDefinition = this.detector.detectCustomImplementation(lookup);
-		return beanDefinition.map(bd -> new RepositoryFragmentConfiguration(fragmentInterfaceName, bd));
+		return beanDefinition.map((bd) -> new RepositoryFragmentConfiguration(fragmentInterfaceName, bd));
 	}
 
 	@Nullable

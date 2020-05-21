@@ -85,7 +85,7 @@ public final class KotlinDefaultMask {
 			}
 		}
 		masks.add(mask);
-		return new KotlinDefaultMask(masks.stream().mapToInt(i -> i).toArray());
+		return new KotlinDefaultMask(masks.stream().mapToInt((i) -> i).toArray());
 	}
 
 	public int[] getDefaulting() {

@@ -138,11 +138,11 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 	private boolean hasUniquePropertyHashCodes(PersistentEntity<?, ?> entity) {
 		Set<Integer> hashCodes = new HashSet<>();
 		AtomicInteger propertyCount = new AtomicInteger();
-		entity.doWithProperties((SimplePropertyHandler) property -> {
+		entity.doWithProperties((SimplePropertyHandler) (property) -> {
 			hashCodes.add(property.getName().hashCode());
 			propertyCount.incrementAndGet();
 		});
-		entity.doWithAssociations((SimpleAssociationHandler) association -> {
+		entity.doWithAssociations((SimpleAssociationHandler) (association) -> {
 			if (association.getInverse() != null) {
 				hashCodes.add(association.getInverse().getName().hashCode());
 				propertyCount.incrementAndGet();
@@ -236,7 +236,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 	private static boolean hasKotlinCopyMethod(PersistentProperty<?> property) {
 		Class<?> type = property.getOwner().getType();
 		if (BytecodeUtil.isAccessible(type) && KotlinDetector.isKotlinType(type)) {
-			return KotlinCopyMethod.findCopyMethod(type).filter(it -> it.supportsProperty(property)).isPresent();
+			return KotlinCopyMethod.findCopyMethod(type).filter((it) -> it.supportsProperty(property)).isPresent();
 		}
 		return false;
 	}
@@ -415,12 +415,12 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 
 		private static List<PersistentProperty<?>> getPersistentProperties(PersistentEntity<?, ?> entity) {
 			final List<PersistentProperty<?>> persistentProperties = new ArrayList<>();
-			entity.doWithAssociations((SimpleAssociationHandler) association -> {
+			entity.doWithAssociations((SimpleAssociationHandler) (association) -> {
 				if (association.getInverse() != null) {
 					persistentProperties.add(association.getInverse());
 				}
 			});
-			entity.doWithProperties((SimplePropertyHandler) property -> persistentProperties.add(property));
+			entity.doWithProperties((SimplePropertyHandler) (property) -> persistentProperties.add(property));
 			return persistentProperties;
 		}
 
@@ -589,7 +589,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 */
 		@SuppressWarnings("null")
 		private static List<Class<?>> getPropertyDeclaratingClasses(List<PersistentProperty<?>> persistentProperties) {
-			return persistentProperties.stream().flatMap(property -> {
+			return persistentProperties.stream().flatMap((property) -> {
 				return Optionals
 						.toStream(Optional.ofNullable(property.getField()), Optional.ofNullable(property.getGetter()),
 								Optional.ofNullable(property.getSetter()))
@@ -597,9 +597,9 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 						// LambdaConversionException: Invalid receiver type class
 						// java.lang.reflect.AccessibleObject; not a subtype
 						// of implementation type interface java.lang.reflect.Member
-						.map(it -> it.getDeclaringClass());
+						.map((it) -> it.getDeclaringClass());
 
-			}).collect(Collectors.collectingAndThen(Collectors.toSet(), it -> new ArrayList<>(it)));
+			}).collect(Collectors.collectingAndThen(Collectors.toSet(), (it) -> new ArrayList<>(it)));
 		}
 
 		/**

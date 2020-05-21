@@ -65,7 +65,7 @@ public class SpelEvaluator {
 		EvaluationContext evaluationContext = this.evaluationContextProvider.getEvaluationContext(this.parameters,
 				values);
 		return this.extractor.getParameters()
-				.collect(Collectors.toMap(Entry::getKey, it -> getSpElValue(evaluationContext, it.getValue())));
+				.collect(Collectors.toMap(Entry::getKey, (it) -> getSpElValue(evaluationContext, it.getValue())));
 	}
 
 	/**

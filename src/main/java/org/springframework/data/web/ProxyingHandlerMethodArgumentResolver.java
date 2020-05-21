@@ -93,7 +93,7 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 		}
 		// Fallback for only user defined interfaces
 		String packageName = ClassUtils.getPackageName(type);
-		return !IGNORED_PACKAGES.stream().anyMatch(it -> packageName.startsWith(it));
+		return !IGNORED_PACKAGES.stream().anyMatch((it) -> packageName.startsWith(it));
 	}
 
 	@Override

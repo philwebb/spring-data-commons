@@ -151,8 +151,8 @@ public abstract class ReactiveWrapperConverters {
 		Assert.notNull(reactiveObject, "Reactive source object must not be null!");
 		Assert.notNull(converter, "Converter must not be null!");
 		return REACTIVE_WRAPPERS.stream()
-				.filter(it -> ClassUtils.isAssignable(it.getWrapperClass(), reactiveObject.getClass())).findFirst()
-				.map(it -> (T) it.map(reactiveObject, converter)).orElseThrow(
+				.filter((it) -> ClassUtils.isAssignable(it.getWrapperClass(), reactiveObject.getClass())).findFirst()
+				.map((it) -> (T) it.map(reactiveObject, converter)).orElseThrow(
 						() -> new IllegalStateException(String.format("Cannot apply converter to %s", reactiveObject)));
 	}
 
@@ -451,7 +451,7 @@ public abstract class ReactiveWrapperConverters {
 		@Override
 		@SuppressWarnings({ "ConstantConditions", "unchecked" })
 		public <T> Converter<Object, T> getConverter(Class<T> targetType) {
-			return source -> {
+			return (source) -> {
 				Publisher<?> publisher = source instanceof Publisher ? (Publisher<?>) source
 						: RegistryHolder.REACTIVE_ADAPTER_REGISTRY.getAdapter(Publisher.class, source)
 								.toPublisher(source);

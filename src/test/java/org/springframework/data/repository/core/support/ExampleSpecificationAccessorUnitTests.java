@@ -183,7 +183,7 @@ class ExampleSpecificationAccessorUnitTests {
 
 	@Test // DATACMNS-810
 	void getValueTransformerForPathReturnsConfigurtedTransformerForPath() {
-		PropertyValueTransformer transformer = source -> source.map(Object::toString);
+		PropertyValueTransformer transformer = (source) -> source.map(Object::toString);
 		this.specification = ExampleMatcher.matching().withTransformer("firstname", transformer);
 		this.exampleSpecificationAccessor = new ExampleMatcherAccessor(this.specification);
 		assertThat(this.exampleSpecificationAccessor.getValueTransformerForPath("firstname")).isEqualTo(transformer);

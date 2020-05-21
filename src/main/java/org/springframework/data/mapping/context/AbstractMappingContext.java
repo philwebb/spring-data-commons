@@ -245,7 +245,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			Predicate<? super P> predicate) {
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(predicate, "Selection predicate must not be null!");
-		return doFindPersistentPropertyPaths(type, predicate, it -> !it.isAssociation());
+		return doFindPersistentPropertyPaths(type, predicate, (it) -> !it.isAssociation());
 	}
 
 	/**
@@ -421,7 +421,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			TypeInformation<?> type = this.entity.getTypeInformation();
 			ReflectionUtils.makeAccessible(field);
 			Property property = Optional.ofNullable(this.descriptors.get(fieldName))
-					.map(it -> Property.of(type, field, it)).orElseGet(() -> Property.of(type, field));
+					.map((it) -> Property.of(type, field, it)).orElseGet(() -> Property.of(type, field));
 			createAndRegisterProperty(property);
 			this.remainingDescriptors.remove(fieldName);
 		}
@@ -434,7 +434,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		 */
 		public void addPropertiesForRemainingDescriptors() {
 			this.remainingDescriptors.values().stream().filter(Property::supportsStandalone)
-					.map(it -> Property.of(this.entity.getTypeInformation(), it))
+					.map((it) -> Property.of(this.entity.getTypeInformation(), it))
 					.filter(PersistentPropertyFilter.INSTANCE::matches).forEach(this::createAndRegisterProperty);
 		}
 
@@ -481,7 +481,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			if (Modifier.isStatic(field.getModifiers())) {
 				return false;
 			}
-			return !UNMAPPED_PROPERTIES.stream().anyMatch(it -> it.matches(field.getName(), field.getType()));
+			return !UNMAPPED_PROPERTIES.stream().anyMatch((it) -> it.matches(field.getName(), field.getType()));
 		}
 
 		/**
@@ -495,7 +495,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			if (!property.hasAccessor()) {
 				return false;
 			}
-			return !UNMAPPED_PROPERTIES.stream().anyMatch(it -> it.matches(property.getName(), property.getType()));
+			return !UNMAPPED_PROPERTIES.stream().anyMatch((it) -> it.matches(property.getName(), property.getType()));
 		}
 
 		/**

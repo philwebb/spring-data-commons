@@ -286,7 +286,7 @@ class QueryExecutionResultHandlerUnitTests {
 		Entity value = new Entity();
 		Optional<Entity> entity = Optional.of(value);
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("option"));
-		assertThat(result).isInstanceOfSatisfying(Option.class, it -> assertThat(it.get()).isEqualTo(value));
+		assertThat(result).isInstanceOfSatisfying(Option.class, (it) -> assertThat(it.get()).isEqualTo(value));
 	}
 
 	@Test // DATACMNS-1165
@@ -295,20 +295,20 @@ class QueryExecutionResultHandlerUnitTests {
 		Iterable<?> source = Arrays.asList(new Object());
 		Object result = this.handler.postProcessInvocationResult(source, getMethod("streamable"));
 		assertThat(result).isInstanceOfSatisfying(Streamable.class,
-				it -> assertThat(it.stream().collect(Collectors.toList())).isEqualTo(source));
+				(it) -> assertThat(it.stream().collect(Collectors.toList())).isEqualTo(source));
 	}
 
 	@Test // DATACMNS-938
 	void resolvesNestedWrapperIfOuterDoesntNeedConversion() throws Exception {
 		Entity entity = new Entity();
 		Object result = this.handler.postProcessInvocationResult(entity, getMethod("tryOfOption"));
-		assertThat(result).isInstanceOfSatisfying(Option.class, it -> assertThat(it.get()).isEqualTo(entity));
+		assertThat(result).isInstanceOfSatisfying(Option.class, (it) -> assertThat(it.get()).isEqualTo(entity));
 	}
 
 	@Test // DATACMNS-1430
 	void convertsElementsAndValueIntoCustomStreamable() throws Exception {
 		Object result = this.handler.postProcessInvocationResult(Arrays.asList("foo"), getMethod("customStreamable"));
-		assertThat(result).isInstanceOfSatisfying(CustomStreamableWrapper.class, it -> {
+		assertThat(result).isInstanceOfSatisfying(CustomStreamableWrapper.class, (it) -> {
 			assertThat(it).containsExactly("foo");
 		});
 	}
@@ -317,10 +317,10 @@ class QueryExecutionResultHandlerUnitTests {
 	void nestedConversion() throws Exception {
 		Object result = this.handler.postProcessInvocationResult(Arrays.asList(BigDecimal.ZERO, BigDecimal.ONE),
 				getMethod("listOfInteger"));
-		assertThat(result).isInstanceOfSatisfying(List.class, list -> {
-			SoftAssertions.assertSoftly(s -> {
+		assertThat(result).isInstanceOfSatisfying(List.class, (list) -> {
+			SoftAssertions.assertSoftly((s) -> {
 				// for making the test failure more obvious:
-				s.assertThat(list).allMatch(it -> Integer.class.isInstance(it));
+				s.assertThat(list).allMatch((it) -> Integer.class.isInstance(it));
 				s.assertThat(list).containsExactly(0, 1);
 			});
 		});

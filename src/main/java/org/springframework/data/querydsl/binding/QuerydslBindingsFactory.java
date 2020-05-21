@@ -130,7 +130,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	 * configuration is necessary.
 	 */
 	private EntityPath<?> verifyEntityPathPresent(TypeInformation<?> candidate) {
-		return this.entityPaths.computeIfAbsent(candidate, key -> {
+		return this.entityPaths.computeIfAbsent(candidate, (key) -> {
 			try {
 				return this.entityPathResolver.createPath(key.getType());
 			}
@@ -152,10 +152,10 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private QuerydslBinderCustomizer<EntityPath<?>> findCustomizerForDomainType(
 			Optional<? extends Class<? extends QuerydslBinderCustomizer>> customizer, Class<?> domainType) {
-		return customizer.filter(it -> !QuerydslBinderCustomizer.class.equals(it))
+		return customizer.filter((it) -> !QuerydslBinderCustomizer.class.equals(it))
 				.map(this::createQuerydslBinderCustomizer).orElseGet(
-						() -> this.repositories.flatMap(it -> it.getRepositoryFor(domainType))
-								.map(it -> it instanceof QuerydslBinderCustomizer
+						() -> this.repositories.flatMap((it) -> it.getRepositoryFor(domainType))
+								.map((it) -> it instanceof QuerydslBinderCustomizer
 										? (QuerydslBinderCustomizer<EntityPath<?>>) it : null)
 								.orElse(NoOpCustomizer.INSTANCE));
 	}
@@ -173,7 +173,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private QuerydslBinderCustomizer<EntityPath<?>> createQuerydslBinderCustomizer(
 			Class<? extends QuerydslBinderCustomizer> type) {
-		return this.beanFactory.map(it -> {
+		return this.beanFactory.map((it) -> {
 			try {
 				return it.getBean(type);
 			}

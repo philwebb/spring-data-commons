@@ -130,7 +130,7 @@ public class Repositories implements Iterable<Class<?>> {
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
 		Class<?> userClass = ProxyUtils.getUserClass(domainClass);
 		Optional<String> repositoryBeanName = Optional.ofNullable(this.repositoryBeanNames.get(userClass));
-		return this.beanFactory.flatMap(it -> repositoryBeanName.map(it::getBean));
+		return this.beanFactory.flatMap((it) -> repositoryBeanName.map(it::getBean));
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class Repositories implements Iterable<Class<?>> {
 	 */
 	public Optional<RepositoryInformation> getRepositoryInformation(Class<?> repositoryInterface) {
 		return this.repositoryFactoryInfos.values().stream().map(RepositoryFactoryInformation::getRepositoryInformation)
-				.filter(information -> information.getRepositoryInterface().equals(repositoryInterface)).findFirst();
+				.filter((information) -> information.getRepositoryInterface().equals(repositoryInterface)).findFirst();
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class Repositories implements Iterable<Class<?>> {
 	private void cacheFirstOrPrimary(Class<?> type, RepositoryFactoryInformation information, String name) {
 		if (this.repositoryBeanNames.containsKey(type)) {
 			Boolean presentAndPrimary = this.beanFactory.filter(ConfigurableListableBeanFactory.class::isInstance)
-					.map(ConfigurableListableBeanFactory.class::cast).map(it -> it.getBeanDefinition(name))
+					.map(ConfigurableListableBeanFactory.class::cast).map((it) -> it.getBeanDefinition(name))
 					.map(BeanDefinition::isPrimary).orElse(false);
 			if (!presentAndPrimary) {
 				return;

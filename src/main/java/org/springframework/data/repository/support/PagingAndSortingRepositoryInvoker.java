@@ -66,7 +66,7 @@ class PagingAndSortingRepositoryInvoker extends CrudRepositoryInvoker {
 	}
 
 	private static boolean isRedeclaredMethod(Optional<Method> method) {
-		return method.map(it -> !it.getDeclaringClass().equals(PagingAndSortingRepository.class)).orElse(false);
+		return method.map((it) -> !it.getDeclaringClass().equals(PagingAndSortingRepository.class)).orElse(false);
 	}
 
 }

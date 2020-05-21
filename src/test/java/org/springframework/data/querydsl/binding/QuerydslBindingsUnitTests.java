@@ -209,7 +209,7 @@ class QuerydslBindingsUnitTests {
 
 	private static <P extends Path<? extends S>, S> void assertAdapterWithTargetBinding(
 			Optional<MultiValueBinding<P, S>> binding, SingleValueBinding<? extends Path<?>, ?> expected) {
-		assertThat(binding).hasValueSatisfying(it -> {
+		assertThat(binding).hasValueSatisfying((it) -> {
 			// assertThat(binding,
 			// is(instanceOf(QuerydslBindings.MultiValueBindingAdapter.class)));
 			// assertThat(ReflectionTestUtils.getField(binding, "delegate"), is((Object)

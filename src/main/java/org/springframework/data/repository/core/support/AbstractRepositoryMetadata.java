@@ -103,7 +103,7 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 	@Override
 	public boolean isPagingRepository() {
 		return getCrudMethods().getFindAllMethod()
-				.map(it -> Arrays.asList(it.getParameterTypes()).contains(Pageable.class)).orElse(false);
+				.map((it) -> Arrays.asList(it.getParameterTypes()).contains(Pageable.class)).orElse(false);
 	}
 
 	@Override

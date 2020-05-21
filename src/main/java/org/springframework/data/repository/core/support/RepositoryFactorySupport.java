@@ -291,7 +291,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 			result.addAdvice(new MethodInvocationValidator());
 		}
 		result.addAdvisor(ExposeInvocationInterceptor.ADVISOR);
-		this.postProcessors.forEach(processor -> processor.postProcess(result, information));
+		this.postProcessors.forEach((processor) -> processor.postProcess(result, information));
 		if (DefaultMethodInvokingMethodInterceptor.hasDefaultMethods(repositoryInterface)) {
 			result.addAdvice(new DefaultMethodInvokingMethodInterceptor());
 		}
@@ -369,7 +369,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	private RepositoryInformation getRepositoryInformation(RepositoryMetadata metadata,
 			RepositoryComposition composition) {
 		RepositoryInformationCacheKey cacheKey = new RepositoryInformationCacheKey(metadata, composition);
-		return this.repositoryInformationCache.computeIfAbsent(cacheKey, key -> {
+		return this.repositoryInformationCache.computeIfAbsent(cacheKey, (key) -> {
 			Class<?> baseClass = this.repositoryBaseClass.orElse(getRepositoryBaseClass(metadata));
 			return new DefaultRepositoryInformation(metadata, baseClass, composition);
 		});
@@ -462,7 +462,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	@SuppressWarnings("unchecked")
 	protected final <R> R getTargetRepositoryViaReflection(Class<?> baseClass, Object... constructorArguments) {
 		Optional<Constructor<?>> constructor = ReflectionUtils.findConstructor(baseClass, constructorArguments);
-		return constructor.map(it -> (R) BeanUtils.instantiateClass(it, constructorArguments))
+		return constructor.map((it) -> (R) BeanUtils.instantiateClass(it, constructorArguments))
 				.orElseThrow(() -> new IllegalStateException(String.format(
 						"No suitable constructor found on %s to match the given arguments: %s. Make sure you implement a constructor taking these",
 						baseClass,

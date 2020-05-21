@@ -75,7 +75,7 @@ class PersistentEntitiesUnitTests {
 		assertThat(entities.getPersistentEntity(Object.class)).isNotPresent();
 		assertThat(entities.getManagedTypes()).contains(ClassTypeInformation.from(Sample.class));
 		assertThat(entities.getPersistentEntity(Sample.class))
-				.hasValueSatisfying(it -> assertThat(entities).contains(it));
+				.hasValueSatisfying((it) -> assertThat(entities).contains(it));
 	}
 
 	@Test // DATACMNS-1318

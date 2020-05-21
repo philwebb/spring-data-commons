@@ -127,10 +127,10 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 				Class<?> rawOwningType = type.getType();
 				return Arrays.stream(rawOwningType.getDeclaredConstructors())
 						// Synthetic constructors should not be considered
-						.filter(it -> !it.isSynthetic())
+						.filter((it) -> !it.isSynthetic())
 						// Explicitly defined constructor trumps all
-						.filter(it -> it.isAnnotationPresent(PersistenceConstructor.class))
-						.map(it -> buildPreferredConstructor(it, type, entity)).findFirst().orElseGet(() -> {
+						.filter((it) -> it.isAnnotationPresent(PersistenceConstructor.class))
+						.map((it) -> buildPreferredConstructor(it, type, entity)).findFirst().orElseGet(() -> {
 							KFunction<T> primaryConstructor = KClasses
 									.getPrimaryConstructor(JvmClassMappingKt.getKotlinClass(type.getType()));
 							if (primaryConstructor == null) {

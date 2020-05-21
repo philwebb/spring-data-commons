@@ -101,12 +101,12 @@ class OrderBySource {
 	 * @see PropertyPath#from(String, Class)
 	 */
 	private Order createOrder(String propertySource, Optional<Direction> direction, Optional<Class<?>> domainClass) {
-		return domainClass.map(type -> {
+		return domainClass.map((type) -> {
 			PropertyPath propertyPath = PropertyPath.from(propertySource, type);
-			return direction.map(it -> new Order(it, propertyPath.toDotPath()))
+			return direction.map((it) -> new Order(it, propertyPath.toDotPath()))
 					.orElseGet(() -> Order.by(propertyPath.toDotPath()));
 
-		}).orElseGet(() -> direction.map(it -> new Order(it, StringUtils.uncapitalize(propertySource)))
+		}).orElseGet(() -> direction.map((it) -> new Order(it, StringUtils.uncapitalize(propertySource)))
 				.orElseGet(() -> Order.by(StringUtils.uncapitalize(propertySource))));
 	}
 

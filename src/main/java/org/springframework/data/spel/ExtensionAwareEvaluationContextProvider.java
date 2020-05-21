@@ -131,7 +131,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	private EvaluationContextExtensionInformation getOrCreateInformation(EvaluationContextExtension extension) {
 		Class<? extends EvaluationContextExtension> extensionType = extension.getClass();
 		return this.extensionInformationCache.computeIfAbsent(extensionType,
-				type -> new EvaluationContextExtensionInformation(extensionType));
+				(type) -> new EvaluationContextExtensionInformation(extensionType));
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 	private List<EvaluationContextExtensionAdapter> toAdapters(
 			Collection<? extends EvaluationContextExtension> extensions) {
 		return extensions.stream().sorted(AnnotationAwareOrderComparator.INSTANCE)
-				.map(it -> new EvaluationContextExtensionAdapter(it, getOrCreateInformation(it)))
+				.map((it) -> new EvaluationContextExtensionAdapter(it, getOrCreateInformation(it)))
 				.collect(Collectors.toList());
 	}
 
@@ -165,7 +165,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			Assert.notNull(extensions, "Extensions must not be null!");
 			this.adapters = toAdapters(extensions);
 			this.adapterMap = this.adapters.stream()
-					.collect(Collectors.toMap(EvaluationContextExtensionAdapter::getExtensionId, it -> it));
+					.collect(Collectors.toMap(EvaluationContextExtensionAdapter::getExtensionId, (it) -> it));
 			Collections.reverse(this.adapters);
 		}
 
@@ -177,7 +177,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			if (this.adapterMap.containsKey(name)) {
 				return true;
 			}
-			return this.adapters.stream().anyMatch(it -> it.getProperties().containsKey(name));
+			return this.adapters.stream().anyMatch((it) -> it.getProperties().containsKey(name));
 		}
 
 		@Override
@@ -188,8 +188,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			if (this.adapterMap.containsKey(name)) {
 				return new TypedValue(this.adapterMap.get(name));
 			}
-			return this.adapters.stream().filter(it -> it.getProperties().containsKey(name))
-					.map(it -> lookupPropertyFrom(it, name)).findFirst().orElse(TypedValue.NULL);
+			return this.adapters.stream().filter((it) -> it.getProperties().containsKey(name))
+					.map((it) -> lookupPropertyFrom(it, name)).findFirst().orElse(TypedValue.NULL);
 		}
 
 		@Nullable
@@ -199,8 +199,9 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			if (target instanceof EvaluationContextExtensionAdapter) {
 				return getMethodExecutor((EvaluationContextExtensionAdapter) target, name, argumentTypes).orElse(null);
 			}
-			return this.adapters.stream().flatMap(it -> Optionals.toStream(getMethodExecutor(it, name, argumentTypes)))
-					.findFirst().orElse(null);
+			return this.adapters.stream()
+					.flatMap((it) -> Optionals.toStream(getMethodExecutor(it, name, argumentTypes))).findFirst()
+					.orElse(null);
 		}
 
 		@Override

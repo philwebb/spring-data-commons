@@ -83,7 +83,7 @@ public class MappingInstantiationException extends RuntimeException {
 
 	private static String buildExceptionMessage(Optional<PersistentEntity<?, ?>> entity, List<Object> arguments,
 			@Nullable String defaultMessage) {
-		return entity.map(it -> {
+		return entity.map((it) -> {
 			Optional<? extends PreferredConstructor<?, ?>> constructor = Optional
 					.ofNullable(it.getPersistenceConstructor());
 			List<String> toStringArgs = new ArrayList<>(arguments.size());

@@ -79,7 +79,7 @@ final class KotlinCopyMethod {
 			return Optional.empty();
 		}
 		Optional<Method> publicCopyMethod = syntheticCopyMethod.flatMap(KotlinCopyMethod::findPublicCopyMethod);
-		return publicCopyMethod.map(method -> new KotlinCopyMethod(method, syntheticCopyMethod.get()));
+		return publicCopyMethod.map((method) -> new KotlinCopyMethod(method, syntheticCopyMethod.get()));
 	}
 
 	public Method getPublicCopyMethod() {
@@ -151,11 +151,12 @@ final class KotlinCopyMethod {
 			return Optional.empty();
 		}
 		List<KParameter> constructorArguments = primaryConstructor.getParameters().stream()
-				.filter(it -> it.getKind() == Kind.VALUE).collect(Collectors.toList());
+				.filter((it) -> it.getKind() == Kind.VALUE).collect(Collectors.toList());
 		return Arrays.stream(type.getDeclaredMethods())
-				.filter(it -> it.getName().equals("copy") && !it.isSynthetic() && !Modifier.isStatic(it.getModifiers())
-						&& it.getReturnType().equals(type) && it.getParameterCount() == constructorArguments.size())
-				.filter(it -> {
+				.filter((it) -> it.getName().equals("copy") && !it.isSynthetic()
+						&& !Modifier.isStatic(it.getModifiers()) && it.getReturnType().equals(type)
+						&& it.getParameterCount() == constructorArguments.size())
+				.filter((it) -> {
 					KFunction<?> kotlinFunction = ReflectJvmMapping.getKotlinFunction(it);
 					if (kotlinFunction == null) {
 						return false;
@@ -187,7 +188,7 @@ final class KotlinCopyMethod {
 
 	private static Optional<Method> findSyntheticCopyMethod(Class<?> type) {
 		return Arrays
-				.stream(type.getDeclaredMethods()).filter(it -> it.getName().equals("copy$default")
+				.stream(type.getDeclaredMethods()).filter((it) -> it.getName().equals("copy$default")
 						&& Modifier.isStatic(it.getModifiers()) && it.getReturnType().equals(type))
 				.filter(Method::isSynthetic).findFirst();
 	}
@@ -206,7 +207,7 @@ final class KotlinCopyMethod {
 		KotlinCopyByProperty(KFunction<?> copyFunction, PersistentProperty<?> property) {
 			this.parameterPosition = findIndex(copyFunction, property.getName());
 			this.parameterCount = copyFunction.getParameters().size();
-			this.defaultMask = KotlinDefaultMask.from(copyFunction, it -> property.getName().equals(it.getName()));
+			this.defaultMask = KotlinDefaultMask.from(copyFunction, (it) -> property.getName().equals(it.getName()));
 		}
 
 		static int findIndex(KFunction<?> function, String parameterName) {

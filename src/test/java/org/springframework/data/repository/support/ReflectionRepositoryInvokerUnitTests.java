@@ -235,7 +235,7 @@ class ReflectionRepositoryInvokerUnitTests {
 		Method method = ManualCrudRepository.class.getMethod("findAll");
 		Optional<Object> result = getInvokerFor(mock).invokeQueryMethod(method, new LinkedMultiValueMap<>(),
 				Pageable.unpaged(), Sort.unsorted());
-		assertThat(result).hasValueSatisfying(it -> {
+		assertThat(result).hasValueSatisfying((it) -> {
 			assertThat(it).isInstanceOf(Collection.class);
 		});
 	}

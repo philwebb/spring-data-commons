@@ -76,12 +76,12 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 	@Nullable
 	@Override
 	public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-		return getConverter(targetType).map(it -> it.convert(source, sourceType, targetType)).orElse(source);
+		return getConverter(targetType).map((it) -> it.convert(source, sourceType, targetType)).orElse(source);
 	}
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-		return getConverter(targetType).map(it -> it.matches(sourceType, targetType)).orElse(false);
+		return getConverter(targetType).map((it) -> it.matches(sourceType, targetType)).orElse(false);
 	}
 
 	/**
@@ -96,9 +96,9 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 	public void setApplicationContext(ApplicationContext context) {
 		this.repositories = new Repositories(context);
 		this.toEntityConverter = Optional.of(new ToEntityConverter(this.repositories, this.conversionService));
-		this.toEntityConverter.ifPresent(it -> this.conversionService.addConverter(it));
+		this.toEntityConverter.ifPresent((it) -> this.conversionService.addConverter(it));
 		this.toIdConverter = Optional.of(new ToIdConverter());
-		this.toIdConverter.ifPresent(it -> this.conversionService.addConverter(it));
+		this.toIdConverter.ifPresent((it) -> this.conversionService.addConverter(it));
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 			}
 			Optional<RepositoryInformation> repositoryInformation = DomainClassConverter.this.repositories
 					.getRepositoryInformationFor(domainType);
-			return repositoryInformation.map(it -> {
+			return repositoryInformation.map((it) -> {
 				Class<?> rawIdType = it.getIdType();
 				return sourceType.equals(TypeDescriptor.valueOf(rawIdType))
 						|| DomainClassConverter.this.conversionService.canConvert(sourceType.getType(), rawIdType);
@@ -206,7 +206,7 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 			}
 			Optional<RepositoryInformation> information = DomainClassConverter.this.repositories
 					.getRepositoryInformationFor(domainType);
-			return information.map(it -> {
+			return information.map((it) -> {
 				Class<?> rawIdType = it.getIdType();
 				return targetType.equals(TypeDescriptor.valueOf(rawIdType))
 						|| DomainClassConverter.this.conversionService.canConvert(rawIdType, targetType.getType());

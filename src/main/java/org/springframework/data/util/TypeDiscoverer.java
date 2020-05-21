@@ -202,7 +202,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		if (field != null) {
 			return Optional.of(createInfo(field.getGenericType()));
 		}
-		return findPropertyDescriptor(rawType, fieldname).map(it -> createInfo(getGenericType(it)));
+		return findPropertyDescriptor(rawType, fieldname).map((it) -> createInfo(getGenericType(it)));
 	}
 
 	/**
@@ -221,7 +221,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		superTypes.addAll(Arrays.asList(type.getInterfaces()));
 		superTypes.add(type.getSuperclass());
 		return Streamable.of(type.getInterfaces()).stream()
-				.flatMap(it -> Optionals.toStream(findPropertyDescriptor(it, fieldname))).findFirst();
+				.flatMap((it) -> Optionals.toStream(findPropertyDescriptor(it, fieldname))).findFirst();
 	}
 
 	/**

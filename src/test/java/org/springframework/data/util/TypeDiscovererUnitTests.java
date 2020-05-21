@@ -130,12 +130,12 @@ public class TypeDiscovererUnitTests {
 		TypeDiscoverer<Person> discoverer = new TypeDiscoverer<>(Person.class, EMPTY_MAP);
 		TypeInformation reference = ClassTypeInformation.from(Address.class);
 		TypeInformation<?> addresses = discoverer.getProperty("addresses");
-		assertThat(addresses).satisfies(it -> {
+		assertThat(addresses).satisfies((it) -> {
 			assertThat(it.isCollectionLike()).isFalse();
 			assertThat(it.getComponentType()).isEqualTo(reference);
 		});
 		TypeInformation<?> adressIterable = discoverer.getProperty("addressIterable");
-		assertThat(adressIterable).satisfies(it -> {
+		assertThat(adressIterable).satisfies((it) -> {
 			assertThat(it.isCollectionLike()).isTrue();
 			assertThat(it.getComponentType()).isEqualTo(reference);
 		});

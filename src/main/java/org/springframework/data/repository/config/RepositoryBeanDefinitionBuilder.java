@@ -102,12 +102,13 @@ class RepositoryBeanDefinitionBuilder {
 		builder.addPropertyValue("lazyInit", configuration.isLazyInit());
 		builder.setLazyInit(configuration.isLazyInit());
 		builder.setPrimary(configuration.isPrimary());
-		configuration.getRepositoryBaseClassName().ifPresent(it -> builder.addPropertyValue("repositoryBaseClass", it));
+		configuration.getRepositoryBaseClassName()
+				.ifPresent((it) -> builder.addPropertyValue("repositoryBaseClass", it));
 		NamedQueriesBeanDefinitionBuilder definitionBuilder = new NamedQueriesBeanDefinitionBuilder(
 				this.extension.getDefaultNamedQueryLocation());
 		configuration.getNamedQueriesLocation().ifPresent(definitionBuilder::setLocations);
 		builder.addPropertyValue("namedQueries", definitionBuilder.build(configuration.getSource()));
-		registerCustomImplementation(configuration).ifPresent(it -> {
+		registerCustomImplementation(configuration).ifPresent((it) -> {
 			builder.addPropertyReference("customImplementation", it);
 			builder.addDependsOn(it);
 		});
@@ -130,7 +131,7 @@ class RepositoryBeanDefinitionBuilder {
 		}
 		Optional<AbstractBeanDefinition> beanDefinition = this.implementationDetector
 				.detectCustomImplementation(lookup);
-		return beanDefinition.map(it -> {
+		return beanDefinition.map((it) -> {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Registering custom repository implementation: " + lookup.getImplementationBeanName() + " "
 						+ it.getBeanClassName());
@@ -146,9 +147,9 @@ class RepositoryBeanDefinitionBuilder {
 		ImplementationDetectionConfiguration config = configuration
 				.toImplementationDetectionConfiguration(this.metadataReaderFactory);
 		return this.fragmentMetadata.getFragmentInterfaces(configuration.getRepositoryInterface())
-				.map(it -> detectRepositoryFragmentConfiguration(it, config)).flatMap(Optionals::toStream)
-				.peek(it -> potentiallyRegisterFragmentImplementation(configuration, it))
-				.peek(it -> potentiallyRegisterRepositoryFragment(configuration, it));
+				.map((it) -> detectRepositoryFragmentConfiguration(it, config)).flatMap(Optionals::toStream)
+				.peek((it) -> potentiallyRegisterFragmentImplementation(configuration, it))
+				.peek((it) -> potentiallyRegisterRepositoryFragment(configuration, it));
 	}
 
 	private Optional<RepositoryFragmentConfiguration> detectRepositoryFragmentConfiguration(String fragmentInterface,
@@ -156,7 +157,7 @@ class RepositoryBeanDefinitionBuilder {
 		ImplementationLookupConfiguration lookup = config.forFragment(fragmentInterface);
 		Optional<AbstractBeanDefinition> beanDefinition = this.implementationDetector
 				.detectCustomImplementation(lookup);
-		return beanDefinition.map(bd -> new RepositoryFragmentConfiguration(fragmentInterface, bd));
+		return beanDefinition.map((bd) -> new RepositoryFragmentConfiguration(fragmentInterface, bd));
 	}
 
 	private void potentiallyRegisterFragmentImplementation(RepositoryConfiguration<?> repositoryConfiguration,
@@ -170,7 +171,7 @@ class RepositoryBeanDefinitionBuilder {
 			logger.debug(String.format("Registering repository fragment implementation: %s %s", beanName,
 					fragmentConfiguration.getClassName()));
 		}
-		fragmentConfiguration.getBeanDefinition().ifPresent(bd -> {
+		fragmentConfiguration.getBeanDefinition().ifPresent((bd) -> {
 			bd.setSource(repositoryConfiguration.getSource());
 			this.registry.registerBeanDefinition(beanName, bd);
 		});

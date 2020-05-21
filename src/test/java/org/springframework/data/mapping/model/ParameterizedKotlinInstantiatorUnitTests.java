@@ -89,7 +89,8 @@ class ParameterizedKotlinInstantiatorUnitTests {
 		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = context
 				.getPersistentEntity(entityType);
 		return IntStream.range(0, propertyCount)
-				.mapToObj(index -> new Fixture(persistentEntity, propertyCount, entityInstantiator, index, entityType))
+				.mapToObj(
+						(index) -> new Fixture(persistentEntity, propertyCount, entityInstantiator, index, entityType))
 				.collect(Collectors.toList());
 	}
 

@@ -53,7 +53,7 @@ public class PersistentPropertyAccessorTests {
 		List<Object[]> parameters = new ArrayList<>();
 		ClassGeneratingPropertyAccessorFactory factory = new ClassGeneratingPropertyAccessorFactory();
 		Function<Object, PersistentPropertyAccessor<?>> beanWrapper = BeanWrapper::new;
-		Function<Object, PersistentPropertyAccessor<?>> classGenerating = it -> factory
+		Function<Object, PersistentPropertyAccessor<?>> classGenerating = (it) -> factory
 				.getPropertyAccessor(MAPPING_CONTEXT.getRequiredPersistentEntity(it.getClass()), it);
 		parameters.add(new Object[] { beanWrapper, "BeanWrapper" });
 		parameters.add(new Object[] { classGenerating, "ClassGeneratingPropertyAccessorFactory" });

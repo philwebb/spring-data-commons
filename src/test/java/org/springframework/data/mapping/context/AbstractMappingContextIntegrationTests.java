@@ -71,7 +71,7 @@ class AbstractMappingContextIntegrationTests<T extends PersistentProperty<T>> {
 		Thread a = new Thread(() -> context.getPersistentEntity(Person.class));
 		Thread b = new Thread(() -> {
 			PersistentEntity<Object, T> entity = context.getRequiredPersistentEntity(Person.class);
-			entity.doWithProperties((PropertyHandler<T>) persistentProperty -> {
+			entity.doWithProperties((PropertyHandler<T>) (persistentProperty) -> {
 				try {
 					Thread.sleep(250);
 				}

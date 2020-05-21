@@ -53,7 +53,7 @@ class SpringDataWebConfigurationIntegrationTests {
 	void shouldNotLoadJacksonConverterWhenJacksonNotPresent() {
 		List<HttpMessageConverter<?>> converters = new ArrayList<>();
 		createConfigWithClassLoader(HidingClassLoader.hide(ObjectMapper.class),
-				it -> it.extendMessageConverters(converters));
+				(it) -> it.extendMessageConverters(converters));
 		assertThat(converters).areNot(instanceWithClassName(ProjectingJackson2HttpMessageConverter.class));
 	}
 
@@ -61,7 +61,7 @@ class SpringDataWebConfigurationIntegrationTests {
 	void shouldNotLoadJacksonConverterWhenJaywayNotPresent() {
 		List<HttpMessageConverter<?>> converters = new ArrayList<>();
 		createConfigWithClassLoader(HidingClassLoader.hide(DocumentContext.class),
-				it -> it.extendMessageConverters(converters));
+				(it) -> it.extendMessageConverters(converters));
 		assertThat(converters).areNot(instanceWithClassName(ProjectingJackson2HttpMessageConverter.class));
 	}
 
@@ -69,27 +69,27 @@ class SpringDataWebConfigurationIntegrationTests {
 	void shouldNotLoadXBeamConverterWhenXBeamNotPresent() throws Exception {
 		List<HttpMessageConverter<?>> converters = new ArrayList<>();
 		ClassLoader classLoader = HidingClassLoader.hide(XBProjector.class);
-		createConfigWithClassLoader(classLoader, it -> it.extendMessageConverters(converters));
+		createConfigWithClassLoader(classLoader, (it) -> it.extendMessageConverters(converters));
 		assertThat(converters).areNot(instanceWithClassName(XmlBeamHttpMessageConverter.class));
 	}
 
 	@Test // DATACMNS-987
 	void shouldLoadAllConvertersWhenDependenciesArePresent() throws Exception {
 		List<HttpMessageConverter<?>> converters = new ArrayList<>();
-		createConfigWithClassLoader(getClass().getClassLoader(), it -> it.extendMessageConverters(converters));
+		createConfigWithClassLoader(getClass().getClassLoader(), (it) -> it.extendMessageConverters(converters));
 		assertThat(converters).haveAtLeastOne(instanceWithClassName(XmlBeamHttpMessageConverter.class));
 		assertThat(converters).haveAtLeastOne(instanceWithClassName(ProjectingJackson2HttpMessageConverter.class));
 	}
 
 	@Test // DATACMNS-1152
 	void usesCustomObjectMapper() {
-		createConfigWithClassLoader(getClass().getClassLoader(), it -> {
+		createConfigWithClassLoader(getClass().getClassLoader(), (it) -> {
 			List<HttpMessageConverter<?>> converters = new ArrayList<>();
 			it.extendMessageConverters(converters);
 			// Converters contains ProjectingJackson2HttpMessageConverter with custom
 			// ObjectMapper
-			assertThat(converters).anySatisfy(converter -> {
-				assertThat(converter).isInstanceOfSatisfying(ProjectingJackson2HttpMessageConverter.class, __ -> {
+			assertThat(converters).anySatisfy((converter) -> {
+				assertThat(converter).isInstanceOfSatisfying(ProjectingJackson2HttpMessageConverter.class, (__) -> {
 					assertThat(ReflectionTestUtils.getField(converter, "objectMapper"))
 							.isSameAs(SomeConfiguration.MAPPER);
 				});
@@ -130,7 +130,7 @@ class SpringDataWebConfigurationIntegrationTests {
 	 * @return a {@link Condition}
 	 */
 	private static Condition<Object> instanceWithClassName(Class<?> expectedClass) {
-		return new Condition<>(it -> it.getClass().getName().equals(expectedClass.getName()), "with class name %s!",
+		return new Condition<>((it) -> it.getClass().getName().equals(expectedClass.getName()), "with class name %s!",
 				expectedClass.getName());
 	}
 

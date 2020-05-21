@@ -91,8 +91,8 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 		this.hashCode = Lazy.of(property::hashCode);
 		this.usePropertyAccess = Lazy.of(() -> owner.getType().isInterface() || CAUSE_FIELD.equals(getField()));
 		this.entityTypeInformation = Lazy.of(() -> Optional.ofNullable(this.information.getActualType())
-				.filter(it -> !simpleTypeHolder.isSimpleType(it.getType())).filter(it -> !it.isCollectionLike())
-				.filter(it -> !it.isMap()));
+				.filter((it) -> !simpleTypeHolder.isSimpleType(it.getType())).filter((it) -> !it.isCollectionLike())
+				.filter((it) -> !it.isMap()));
 		this.getter = property.getGetter().orElse(null);
 		this.setter = property.getSetter().orElse(null);
 		this.field = property.getField().orElse(null);

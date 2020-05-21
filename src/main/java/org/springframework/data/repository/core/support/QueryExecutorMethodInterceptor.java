@@ -80,15 +80,15 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 					+ "you don't have any query lookup strategy defined. The "
 					+ "infrastructure apparently does not support query methods!");
 		}
-		this.queries = queryLookupStrategy.map(it -> mapMethodsToQuery(repositoryInformation, it, projectionFactory))
+		this.queries = queryLookupStrategy.map((it) -> mapMethodsToQuery(repositoryInformation, it, projectionFactory))
 				.orElse(Collections.emptyMap());
 	}
 
 	private Map<Method, RepositoryQuery> mapMethodsToQuery(RepositoryInformation repositoryInformation,
 			QueryLookupStrategy lookupStrategy, ProjectionFactory projectionFactory) {
 		return repositoryInformation.getQueryMethods().stream()
-				.map(method -> lookupQuery(method, repositoryInformation, lookupStrategy, projectionFactory))
-				.peek(pair -> invokeListeners(pair.getSecond())).collect(Pair.toMap());
+				.map((method) -> lookupQuery(method, repositoryInformation, lookupStrategy, projectionFactory))
+				.peek((pair) -> invokeListeners(pair.getSecond())).collect(Pair.toMap());
 	}
 
 	private Pair<Method, RepositoryQuery> lookupQuery(Method method, RepositoryInformation information,

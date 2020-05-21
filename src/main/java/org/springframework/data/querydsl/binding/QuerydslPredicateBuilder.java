@@ -134,7 +134,7 @@ public class QuerydslPredicateBuilder {
 	 */
 	private Path<?> getPath(PathInformation path, QuerydslBindings bindings) {
 		Optional<Path<?>> resolvedPath = bindings.getExistingPath(path);
-		return resolvedPath.orElseGet(() -> this.paths.computeIfAbsent(path, it -> it.reifyPath(this.resolver)));
+		return resolvedPath.orElseGet(() -> this.paths.computeIfAbsent(path, (it) -> it.reifyPath(this.resolver)));
 	}
 
 	/**

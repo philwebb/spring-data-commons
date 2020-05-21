@@ -324,7 +324,7 @@ public class QuerydslBindings {
 
 		public void first(SingleValueBinding<P, T> binding) {
 			Assert.notNull(binding, "Binding must not be null!");
-			all((path, value) -> Optionals.next(value.iterator()).map(t -> binding.bind(path, t)));
+			all((path, value) -> Optionals.next(value.iterator()).map((t) -> binding.bind(path, t)));
 		}
 
 		/**
@@ -334,7 +334,7 @@ public class QuerydslBindings {
 		 */
 		public void all(MultiValueBinding<P, T> binding) {
 			Assert.notNull(binding, "Binding must not be null!");
-			this.paths.forEach(path -> registerBinding(PathAndBinding.withPath(path).with(binding)));
+			this.paths.forEach((path) -> registerBinding(PathAndBinding.withPath(path).with(binding)));
 		}
 
 		protected void registerBinding(PathAndBinding<P, T> binding) {
@@ -432,7 +432,7 @@ public class QuerydslBindings {
 		public <P extends Path<T>> void first(SingleValueBinding<P, T> binding) {
 			Assert.notNull(binding, "Binding must not be null!");
 			all((MultiValueBinding<P, T>) (path, value) -> Optionals.next(value.iterator())
-					.map(t -> binding.bind(path, t)));
+					.map((t) -> binding.bind(path, t)));
 		}
 
 		/**

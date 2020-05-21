@@ -69,7 +69,7 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 	@SuppressWarnings("unchecked")
 	public <T> Optional<AuditableBeanWrapper<T>> getBeanWrapperFor(T source) {
 		Assert.notNull(source, "Source must not be null!");
-		return Optional.of(source).map(it -> {
+		return Optional.of(source).map((it) -> {
 			if (it instanceof Auditable) {
 				return (AuditableBeanWrapper<T>) new AuditableInterfaceBeanWrapper(this.conversionService,
 						(Auditable<Object, ?, TemporalAccessor>) it);
@@ -195,13 +195,14 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		@SuppressWarnings("unchecked")
 		protected <S extends TemporalAccessor> Optional<S> getAsTemporalAccessor(Optional<?> source,
 				Class<? extends S> target) {
-			return source.map(it -> {
+			return source.map((it) -> {
 				if (target.isInstance(it)) {
 					return (S) it;
 				}
 				Class<?> typeToConvertTo = Stream.of(target, Instant.class)
-						.filter(type -> target.isAssignableFrom(type))
-						.filter(type -> this.conversionService.canConvert(it.getClass(), type)).findFirst().orElseThrow(
+						.filter((type) -> target.isAssignableFrom(type))
+						.filter((type) -> this.conversionService.canConvert(it.getClass(), type)).findFirst()
+						.orElseThrow(
 								() -> rejectUnsupportedType(source.map(Object.class::cast).orElseGet(() -> source)));
 				return (S) this.conversionService.convert(it, typeToConvertTo);
 			});
@@ -250,7 +251,7 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
-			return getAsTemporalAccessor(this.metadata.getLastModifiedDateField().map(field -> {
+			return getAsTemporalAccessor(this.metadata.getLastModifiedDateField().map((field) -> {
 				Object value = org.springframework.util.ReflectionUtils.getField(field, this.target);
 				return value instanceof Optional ? ((Optional<?>) value).orElse(null) : value;
 			}), TemporalAccessor.class);
@@ -272,7 +273,7 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		 * @param value
 		 */
 		private <S> S setField(Optional<Field> field, S value) {
-			field.ifPresent(it -> ReflectionUtils.setField(it, this.target, value));
+			field.ifPresent((it) -> ReflectionUtils.setField(it, this.target, value));
 			return value;
 		}
 
@@ -283,7 +284,7 @@ class DefaultAuditableBeanWrapperFactory implements AuditableBeanWrapperFactory 
 		 */
 		private TemporalAccessor setDateField(Optional<Field> field, TemporalAccessor value) {
 			field.ifPresent(
-					it -> ReflectionUtils.setField(it, this.target, getDateValueToSet(value, it.getType(), it)));
+					(it) -> ReflectionUtils.setField(it, this.target, getDateValueToSet(value, it.getType(), it)));
 			return value;
 		}
 

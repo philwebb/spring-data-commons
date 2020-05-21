@@ -180,7 +180,7 @@ class DefaultRepositoryInformationUnitTests {
 		RepositoryMetadata metadata = new DefaultRepositoryMetadata(CustomDefaultRepositoryMethodsRepository.class);
 		RepositoryInformation information = new DefaultRepositoryInformation(metadata, CrudRepository.class,
 				RepositoryComposition.empty());
-		assertThat(information.getQueryMethods()).allMatch(method -> !method.isBridge());
+		assertThat(information.getQueryMethods()).allMatch((method) -> !method.isBridge());
 	}
 
 	@Test // DATACMNS-854
@@ -244,7 +244,7 @@ class DefaultRepositoryInformationUnitTests {
 	}
 
 	private static Method getMethodFrom(Class<?> type, String name) {
-		return Arrays.stream(type.getMethods()).filter(method -> method.getName().equals(name)).findFirst()
+		return Arrays.stream(type.getMethods()).filter((method) -> method.getName().equals(name)).findFirst()
 				.orElseThrow(() -> new IllegalStateException("No method found with name ".concat(name).concat("!")));
 	}
 

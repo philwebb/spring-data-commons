@@ -72,12 +72,13 @@ public class ParameterTypesUnitTests {
 		List<ParameterTypes> alternatives = types.getAllAlternatives();
 		assertThat(alternatives).hasSize(6);
 		assertThat(alternatives)
-				.anyMatch(it -> it.hasTypes(String.class, String.class, Integer.class, Integer[].class));
-		assertThat(alternatives).anyMatch(it -> it.hasTypes(String.class, String.class, Integer.class, Object[].class));
-		assertThat(alternatives).anyMatch(it -> it.hasTypes(String.class, String.class, Integer[].class));
-		assertThat(alternatives).anyMatch(it -> it.hasTypes(String.class, String.class, Object[].class));
-		assertThat(alternatives).anyMatch(it -> it.hasTypes(String.class, Object[].class));
-		assertThat(alternatives).anyMatch(it -> it.hasTypes(Object[].class));
+				.anyMatch((it) -> it.hasTypes(String.class, String.class, Integer.class, Integer[].class));
+		assertThat(alternatives)
+				.anyMatch((it) -> it.hasTypes(String.class, String.class, Integer.class, Object[].class));
+		assertThat(alternatives).anyMatch((it) -> it.hasTypes(String.class, String.class, Integer[].class));
+		assertThat(alternatives).anyMatch((it) -> it.hasTypes(String.class, String.class, Object[].class));
+		assertThat(alternatives).anyMatch((it) -> it.hasTypes(String.class, Object[].class));
+		assertThat(alternatives).anyMatch((it) -> it.hasTypes(Object[].class));
 	}
 
 	interface Sample {

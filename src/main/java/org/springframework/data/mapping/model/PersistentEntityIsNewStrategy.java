@@ -44,8 +44,8 @@ final class PersistentEntityIsNewStrategy implements IsNewStrategy {
 	private PersistentEntityIsNewStrategy(PersistentEntity<?, ?> entity, boolean idOnly) {
 		Assert.notNull(entity, "PersistentEntity must not be null!");
 		this.valueLookup = entity.hasVersionProperty() && !idOnly
-				? source -> entity.getPropertyAccessor(source).getProperty(entity.getRequiredVersionProperty())
-				: source -> entity.getIdentifierAccessor(source).getIdentifier();
+				? (source) -> entity.getPropertyAccessor(source).getProperty(entity.getRequiredVersionProperty())
+				: (source) -> entity.getIdentifierAccessor(source).getIdentifier();
 		this.valueType = entity.hasVersionProperty() && !idOnly ? entity.getRequiredVersionProperty().getType()
 				: entity.hasIdProperty() ? entity.getRequiredIdProperty().getType() : null;
 		Class<?> type = this.valueType;

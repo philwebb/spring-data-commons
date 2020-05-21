@@ -61,9 +61,9 @@ public final class KotlinReflectionUtils {
 			return false;
 		}
 		return Arrays.stream(type.getDeclaredAnnotations())
-				.filter(annotation -> annotation.annotationType().getName().equals("kotlin.Metadata"))
-				.map(annotation -> AnnotationUtils.getValue(annotation, "k"))
-				.anyMatch(it -> Integer.valueOf(KotlinClassHeaderKind.CLASS.id).equals(it));
+				.filter((annotation) -> annotation.annotationType().getName().equals("kotlin.Metadata"))
+				.map((annotation) -> AnnotationUtils.getValue(annotation, "k"))
+				.anyMatch((it) -> Integer.valueOf(KotlinClassHeaderKind.CLASS.id).equals(it));
 	}
 
 	/**
@@ -148,7 +148,7 @@ public final class KotlinReflectionUtils {
 	private static Optional<? extends KFunction<?>> findKFunction(Method method) {
 		KClass<?> kotlinClass = JvmClassMappingKt.getKotlinClass(method.getDeclaringClass());
 		return kotlinClass.getMembers().stream().flatMap(KotlinReflectionUtils::toKFunctionStream)
-				.filter(it -> isSame(it, method)).findFirst();
+				.filter((it) -> isSame(it, method)).findFirst();
 	}
 
 	private static Stream<? extends KFunction<?>> toKFunctionStream(KCallable<?> it) {

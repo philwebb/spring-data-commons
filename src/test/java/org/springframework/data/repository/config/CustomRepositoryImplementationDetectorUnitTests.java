@@ -79,12 +79,12 @@ class CustomRepositoryImplementationDetectorUnitTests {
 				.forRepositoryConfiguration(configFor(SingleSampleRepository.class));
 		Optional<AbstractBeanDefinition> beanDefinition = this.detector.detectCustomImplementation(lookup);
 		assertThat(beanDefinition).hasValueSatisfying(
-				it -> assertThat(it.getBeanClassName()).isEqualTo(SingleSampleRepositoryTestImpl.class.getName()));
+				(it) -> assertThat(it.getBeanClassName()).isEqualTo(SingleSampleRepositoryTestImpl.class.getName()));
 	}
 
 	@Test // DATACMNS-764, DATACMNS-1371
 	void returnsBeanDefinitionMatchingByNameWhenMultipleImplementationAreFound() {
-		given(this.configuration.generateBeanName(any())).will(it -> {
+		given(this.configuration.generateBeanName(any())).will((it) -> {
 			BeanDefinition definition = it.getArgument(0);
 			String className = definition.getBeanClassName();
 			return className.contains("$First$") ? "canonicalSampleRepositoryTestImpl" : "otherBeanName";
@@ -92,7 +92,7 @@ class CustomRepositoryImplementationDetectorUnitTests {
 		ImplementationLookupConfiguration lookup = this.configuration
 				.forRepositoryConfiguration(configFor(CanonicalSampleRepository.class));
 		assertThat(this.detector.detectCustomImplementation(lookup)).hasValueSatisfying(
-				it -> assertThat(it.getBeanClassName()).isEqualTo(CanonicalSampleRepositoryTestImpl.class.getName()));
+				(it) -> assertThat(it.getBeanClassName()).isEqualTo(CanonicalSampleRepositoryTestImpl.class.getName()));
 	}
 
 	@Test // DATACMNS-764, DATACMNS-1371

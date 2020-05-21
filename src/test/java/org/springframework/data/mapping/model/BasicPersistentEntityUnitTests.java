@@ -179,7 +179,7 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 		Entity value = new Entity();
 		PersistentPropertyAccessor accessor = entity.getPropertyAccessor(value);
 		assertThat(accessor).isNotInstanceOf(BeanWrapper.class);
-		assertThat(accessor).isInstanceOfSatisfying(InstantiationAwarePropertyAccessor.class, it -> {
+		assertThat(accessor).isInstanceOfSatisfying(InstantiationAwarePropertyAccessor.class, (it) -> {
 			PersistentPropertyAccessor delegate = (PersistentPropertyAccessor) ReflectionTestUtils.getField(it,
 					"delegate");
 			assertThat(delegate.getClass().getName()).contains("_Accessor_");
@@ -313,8 +313,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 
 	@Test // DATACMNS-1366
 	void exposesPropertyPopulationNotRequired() {
-		Stream.of(PropertyPopulationNotRequired.class, PropertyPopulationNotRequiredWithTransient.class)
-				.forEach(it -> assertThat(createPopulatedPersistentEntity(it).requiresPropertyPopulation()).isFalse());
+		Stream.of(PropertyPopulationNotRequired.class, PropertyPopulationNotRequiredWithTransient.class).forEach(
+				(it) -> assertThat(createPopulatedPersistentEntity(it).requiresPropertyPopulation()).isFalse());
 	}
 
 	private <S> BasicPersistentEntity<S, T> createEntity(Class<S> type) {

@@ -102,7 +102,7 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 	@ParameterizedTest(name = "{3}") // DATACMNS-809
 	@MethodSource("parameters")
 	void shouldSetAndGetProperty(Object bean, String propertyName, Object value, String displayName) {
-		assertThat(getProperty(bean, propertyName)).satisfies(property -> {
+		assertThat(getProperty(bean, propertyName)).satisfies((property) -> {
 			PersistentPropertyAccessor persistentPropertyAccessor = getPersistentPropertyAccessor(bean);
 			persistentPropertyAccessor.setProperty(property, value);
 			assertThat(persistentPropertyAccessor.getProperty(property)).isEqualTo(value);
@@ -116,7 +116,7 @@ public class ClassGeneratingPropertyAccessorFactoryDatatypeTests {
 		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = this.mappingContext
 				.getRequiredPersistentEntity(bean.getClass());
 		assertThat(ReflectionTestUtils.getField(persistentEntity, "propertyAccessorFactory"))
-				.isInstanceOfSatisfying(InstantiationAwarePropertyAccessorFactory.class, it -> {
+				.isInstanceOfSatisfying(InstantiationAwarePropertyAccessorFactory.class, (it) -> {
 					assertThat(ReflectionTestUtils.getField(it, "delegate"))
 							.isInstanceOf(ClassGeneratingPropertyAccessorFactory.class);
 				});

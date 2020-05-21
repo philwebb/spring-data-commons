@@ -80,7 +80,7 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 			throw new IllegalStateException(
 					String.format(NO_CONSTRUCTOR_PARAMETER, property.getName(), constructor.getConstructor()));
 		}
-		constructor.getParameters().stream().forEach(it -> {
+		constructor.getParameters().stream().forEach((it) -> {
 			if (it.getName() == null) {
 				throw new IllegalStateException(
 						String.format("Cannot detect parameter names of copy constructor of %s!", owner.getType()));

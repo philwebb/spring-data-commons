@@ -155,7 +155,7 @@ public class SimpleTypeHolder {
 	}
 
 	private void register(Collection<? extends Class<?>> types) {
-		types.forEach(customSimpleType -> this.simpleTypes.put(customSimpleType, true));
+		types.forEach((customSimpleType) -> this.simpleTypes.put(customSimpleType, true));
 	}
 
 	private static Map<Class<?>, Boolean> put(Map<Class<?>, Boolean> simpleTypes, Class<?> type, boolean isSimpleType) {

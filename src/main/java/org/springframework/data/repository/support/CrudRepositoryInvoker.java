@@ -98,7 +98,7 @@ class CrudRepositoryInvoker extends ReflectionRepositoryInvoker {
 	}
 
 	private static boolean isRedeclaredMethod(Optional<Method> method) {
-		return method.map(it -> !it.getDeclaringClass().equals(CrudRepository.class)).orElse(false);
+		return method.map((it) -> !it.getDeclaringClass().equals(CrudRepository.class)).orElse(false);
 	}
 
 }

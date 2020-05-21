@@ -129,11 +129,11 @@ interface MethodLookups {
 		@Override
 		public List<MethodPredicate> getLookups() {
 			MethodPredicate detailedComparison = (invoked, candidate) -> Optional.of(candidate)
-					.filter(baseClassMethod -> baseClassMethod.getName().equals(invoked.getName()))
+					.filter((baseClassMethod) -> baseClassMethod.getName().equals(invoked.getName()))
 					// Right
-					.filter(baseClassMethod -> baseClassMethod.getParameterCount() == invoked.getParameterCount())
+					.filter((baseClassMethod) -> baseClassMethod.getParameterCount() == invoked.getParameterCount())
 					// All parameters match
-					.filter(baseClassMethod -> parametersMatch(invoked.getMethod(), baseClassMethod)).isPresent();
+					.filter((baseClassMethod) -> parametersMatch(invoked.getMethod(), baseClassMethod)).isPresent();
 			return Collections.singletonList(detailedComparison);
 		}
 
@@ -221,7 +221,7 @@ interface MethodLookups {
 					suppliers.add(() -> getMethodCandidate(invokedMethod, candidate, assignableWrapperMatch()));
 					suppliers.add(() -> getMethodCandidate(invokedMethod, candidate, wrapperConversionMatch()));
 				}
-				return suppliers.stream().anyMatch(supplier -> supplier.get().isPresent());
+				return suppliers.stream().anyMatch((supplier) -> supplier.get().isPresent());
 			};
 			MethodPredicate detailedComparison = (invokedMethod,
 					candidate) -> getMethodCandidate(invokedMethod, candidate,
@@ -289,9 +289,9 @@ interface MethodLookups {
 		 */
 		private static Optional<Method> getMethodCandidate(InvokedMethod invokedMethod, Method candidate,
 				Predicate<ParameterOverrideCriteria> predicate) {
-			return Optional.of(candidate).filter(it -> invokedMethod.getName().equals(it.getName()))
-					.filter(it -> parameterCountMatch(invokedMethod, it))
-					.filter(it -> parametersMatch(invokedMethod.getMethod(), it, predicate));
+			return Optional.of(candidate).filter((it) -> invokedMethod.getName().equals(it.getName()))
+					.filter((it) -> parameterCountMatch(invokedMethod, it))
+					.filter((it) -> parametersMatch(invokedMethod.getMethod(), it, predicate));
 		}
 
 		/**
@@ -342,7 +342,7 @@ interface MethodLookups {
 
 		private static Stream<ParameterOverrideCriteria> methodParameters(Method invokedMethod,
 				Method baseClassMethod) {
-			return IntStream.range(0, baseClassMethod.getParameterCount()).mapToObj(index -> ParameterOverrideCriteria
+			return IntStream.range(0, baseClassMethod.getParameterCount()).mapToObj((index) -> ParameterOverrideCriteria
 					.of(new MethodParameter(invokedMethod, index), new MethodParameter(baseClassMethod, index)));
 		}
 

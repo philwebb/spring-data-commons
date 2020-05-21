@@ -149,7 +149,7 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 
 	@Override
 	public boolean isQueryMethod(Method method) {
-		return getQueryMethods().stream().anyMatch(it -> it.equals(method));
+		return getQueryMethods().stream().anyMatch((it) -> it.equals(method));
 	}
 
 	@Override

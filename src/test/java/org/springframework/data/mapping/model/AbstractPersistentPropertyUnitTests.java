@@ -211,8 +211,8 @@ public class AbstractPersistentPropertyUnitTests {
 				.firstNonEmpty(
 						() -> Optionals.mapIfAllPresent(field, descriptor,
 								(left, right) -> Property.of(typeInformation, left, right)),
-						() -> field.map(it -> Property.of(typeInformation, it)),
-						() -> descriptor.map(it -> Property.of(typeInformation, it)))
+						() -> field.map((it) -> Property.of(typeInformation, it)),
+						() -> descriptor.map((it) -> Property.of(typeInformation, it)))
 				.orElseThrow(() -> new IllegalArgumentException(
 						String.format("Couldn't find property %s on %s!", name, type)));
 		return new SamplePersistentProperty(property, getEntity(type), this.typeHolder);
@@ -221,7 +221,7 @@ public class AbstractPersistentPropertyUnitTests {
 	private static Optional<PropertyDescriptor> getPropertyDescriptor(Class<?> type, String propertyName) {
 		try {
 			return Arrays.stream(Introspector.getBeanInfo(type).getPropertyDescriptors())
-					.filter(it -> it.getName().equals(propertyName)).findFirst();
+					.filter((it) -> it.getName().equals(propertyName)).findFirst();
 		}
 		catch (IntrospectionException ex) {
 			throw new RuntimeException(ex);

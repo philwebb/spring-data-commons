@@ -91,13 +91,13 @@ class EvaluationContextExtensionInformation {
 	 * @return
 	 */
 	public RootObjectInformation getRootObjectInformation(Optional<Object> target) {
-		return target.map(it -> this.rootObjectInformation.orElseGet(() -> new RootObjectInformation(it.getClass())))
+		return target.map((it) -> this.rootObjectInformation.orElseGet(() -> new RootObjectInformation(it.getClass())))
 				.orElse(RootObjectInformation.NONE);
 	}
 
 	private static Map<String, Object> discoverDeclaredProperties(Class<?> type) {
 		Map<String, Object> map = new HashMap<>();
-		ReflectionUtils.doWithFields(type, field -> map.put(field.getName(), field.get(null)),
+		ReflectionUtils.doWithFields(type, (field) -> map.put(field.getName(), field.get(null)),
 				PublicMethodAndFieldFilter.STATIC);
 		return map.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(map);
 	}
@@ -133,7 +133,7 @@ class EvaluationContextExtensionInformation {
 
 		private static MultiValueMap<String, Function> discoverDeclaredFunctions(Class<?> type) {
 			MultiValueMap<String, Function> map = CollectionUtils.toMultiValueMap(new HashMap<>());
-			ReflectionUtils.doWithMethods(type, method -> map.add(method.getName(), new Function(method, null)),
+			ReflectionUtils.doWithMethods(type, (method) -> map.add(method.getName(), new Function(method, null)),
 					PublicMethodAndFieldFilter.STATIC);
 			return CollectionUtils.unmodifiableMultiValueMap(map);
 		}
@@ -206,10 +206,10 @@ class EvaluationContextExtensionInformation {
 				return;
 			}
 			Streamable<PropertyDescriptor> descriptors = Streamable.of(BeanUtils.getPropertyDescriptors(type));
-			ReflectionUtils.doWithMethods(type, method -> {
+			ReflectionUtils.doWithMethods(type, (method) -> {
 				RootObjectInformation.this.methods.add(method);
-				descriptors.stream().filter(it -> method.equals(it.getReadMethod()))
-						.forEach(it -> RootObjectInformation.this.accessors.put(it.getName(), method));
+				descriptors.stream().filter((it) -> method.equals(it.getReadMethod()))
+						.forEach((it) -> RootObjectInformation.this.accessors.put(it.getName(), method));
 			}, PublicMethodAndFieldFilter.NON_STATIC);
 			ReflectionUtils.doWithFields(type, RootObjectInformation.this.fields::add,
 					PublicMethodAndFieldFilter.NON_STATIC);
@@ -226,7 +226,8 @@ class EvaluationContextExtensionInformation {
 		}
 
 		private MultiValueMap<String, Function> getFunctions(Object target) {
-			return this.methods.stream().collect(StreamUtils.toMultiMap(Method::getName, m -> new Function(m, target)));
+			return this.methods.stream()
+					.collect(StreamUtils.toMultiMap(Method::getName, (m) -> new Function(m, target)));
 		}
 
 		/**
@@ -236,12 +237,12 @@ class EvaluationContextExtensionInformation {
 		 * @return the properties
 		 */
 		public Map<String, Object> getProperties(Optional<Object> target) {
-			return target.map(it -> {
+			return target.map((it) -> {
 				Map<String, Object> properties = new HashMap<>();
 				this.accessors.entrySet().stream()
-						.forEach(method -> properties.put(method.getKey(), new Function(method.getValue(), it)));
+						.forEach((method) -> properties.put(method.getKey(), new Function(method.getValue(), it)));
 				this.fields.stream()
-						.forEach(field -> properties.put(field.getName(), ReflectionUtils.getField(field, it)));
+						.forEach((field) -> properties.put(field.getName(), ReflectionUtils.getField(field, it)));
 				return Collections.unmodifiableMap(properties);
 			}).orElseGet(Collections::emptyMap);
 		}

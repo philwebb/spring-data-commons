@@ -105,13 +105,13 @@ public class CustomConversions {
 
 	private final ConverterConfiguration converterConfiguration;
 
-	private final Function<ConvertiblePair, Class<?>> getReadTarget = convertiblePair -> getCustomTarget(
+	private final Function<ConvertiblePair, Class<?>> getReadTarget = (convertiblePair) -> getCustomTarget(
 			convertiblePair.getSourceType(), convertiblePair.getTargetType(), this.readingPairs);
 
-	private final Function<ConvertiblePair, Class<?>> getWriteTarget = convertiblePair -> getCustomTarget(
+	private final Function<ConvertiblePair, Class<?>> getWriteTarget = (convertiblePair) -> getCustomTarget(
 			convertiblePair.getSourceType(), convertiblePair.getTargetType(), this.writingPairs);
 
-	private final Function<ConvertiblePair, Class<?>> getRawWriteTarget = convertiblePair -> getCustomTarget(
+	private final Function<ConvertiblePair, Class<?>> getRawWriteTarget = (convertiblePair) -> getCustomTarget(
 			convertiblePair.getSourceType(), null, this.writingPairs);
 
 	/**
@@ -171,7 +171,7 @@ public class CustomConversions {
 	 */
 	public void registerConvertersIn(ConverterRegistry conversionService) {
 		Assert.notNull(conversionService, "ConversionService must not be null!");
-		this.converters.forEach(it -> registerConverterIn(it, conversionService));
+		this.converters.forEach((it) -> registerConverterIn(it, conversionService));
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class CustomConversions {
 		}
 		if (candidate instanceof ConverterAware) {
 			ConverterAware.class.cast(candidate).getConverters()
-					.forEach(it -> registerConverterIn(it, conversionService));
+					.forEach((it) -> registerConverterIn(it, conversionService));
 			return;
 		}
 		throw new IllegalArgumentException(String.format(NOT_A_CONVERTER, candidate));
@@ -699,13 +699,13 @@ public class CustomConversions {
 			boolean isReading = type.isAnnotationPresent(ReadingConverter.class);
 			if (converter instanceof ConverterAware) {
 				return Streamable.of(() -> ConverterAware.class.cast(converter).getConverters().stream()
-						.flatMap(it -> getRegistrationsFor(it).stream()));
+						.flatMap((it) -> getRegistrationsFor(it).stream()));
 
 			}
 			else if (converter instanceof GenericConverter) {
 				Set<ConvertiblePair> convertibleTypes = GenericConverter.class.cast(converter).getConvertibleTypes();
 				return convertibleTypes == null ? Streamable.empty()
-						: Streamable.of(convertibleTypes).map(it -> register(converter, it, isReading, isWriting));
+						: Streamable.of(convertibleTypes).map((it) -> register(converter, it, isReading, isWriting));
 
 			}
 			else if (converter instanceof ConverterFactory) {
@@ -805,7 +805,7 @@ public class CustomConversions {
 		 * {@link Collections#emptyList()} instead.
 		 */
 		public ConverterConfiguration(StoreConversions storeConversions, List<?> userConverters) {
-			this(storeConversions, userConverters, it -> true);
+			this(storeConversions, userConverters, (it) -> true);
 		}
 
 		/**

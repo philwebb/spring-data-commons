@@ -103,9 +103,9 @@ final class PropertyPathInformation implements PathInformation {
 	}
 
 	private static Path<?> reifyPath(EntityPathResolver resolver, PropertyPath path, Optional<Path<?>> base) {
-		Optional<Path<?>> map = base.filter(it -> it instanceof CollectionPathBase).map(CollectionPathBase.class::cast)
-				.map(CollectionPathBase::any).map(Path.class::cast)
-				.map(it -> reifyPath(resolver, path, Optional.of(it)));
+		Optional<Path<?>> map = base.filter((it) -> it instanceof CollectionPathBase)
+				.map(CollectionPathBase.class::cast).map(CollectionPathBase::any).map(Path.class::cast)
+				.map((it) -> reifyPath(resolver, path, Optional.of(it)));
 		return map.orElseGet(() -> {
 			Path<?> entityPath = base.orElseGet(() -> resolver.createPath(path.getOwningType().getType()));
 			Field field = org.springframework.data.util.ReflectionUtils.findRequiredField(entityPath.getClass(),

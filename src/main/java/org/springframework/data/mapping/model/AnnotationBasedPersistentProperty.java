@@ -100,7 +100,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	 * methods
 	 */
 	private void populateAnnotationCache(Property property) {
-		Optionals.toStream(property.getGetter(), property.getSetter()).forEach(it -> {
+		Optionals.toStream(property.getGetter(), property.getSetter()).forEach((it) -> {
 			for (Annotation annotation : it.getAnnotations()) {
 				Class<? extends Annotation> annotationType = annotation.annotationType();
 				validateAnnotation(annotation,
@@ -111,7 +111,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 						Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(it, annotationType)));
 			}
 		});
-		property.getField().ifPresent(it -> {
+		property.getField().ifPresent((it) -> {
 			for (Annotation annotation : it.getAnnotations()) {
 				Class<? extends Annotation> annotationType = annotation.annotationType();
 				validateAnnotation(annotation,
@@ -211,8 +211,8 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 		if (annotation != null) {
 			return (Optional<A>) annotation;
 		}
-		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType, type -> {
-			return getAccessors().map(it -> AnnotatedElementUtils.findMergedAnnotation(it, type))
+		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType, (type) -> {
+			return getAccessors().map((it) -> AnnotatedElementUtils.findMergedAnnotation(it, type))
 					.flatMap(StreamUtils::fromNullable).findFirst();
 		});
 	}

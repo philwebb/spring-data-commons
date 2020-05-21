@@ -129,7 +129,7 @@ class RepositoriesUnitTests {
 		Optional<RepositoryInformation> information = new Repositories(this.context)
 				.getRepositoryInformation(PersonRepository.class);
 		assertThat(information)
-				.hasValueSatisfying(it -> assertThat(it.getRepositoryInterface()).isEqualTo(PersonRepository.class));
+				.hasValueSatisfying((it) -> assertThat(it.getRepositoryInterface()).isEqualTo(PersonRepository.class));
 	}
 
 	@Test // DATACMNS-1215
@@ -155,7 +155,7 @@ class RepositoriesUnitTests {
 		this.context = new GenericApplicationContext(beanFactory);
 		this.context.refresh();
 		Repositories repositories = new Repositories(beanFactory);
-		assertThat(repositories.getRepositoryFor(SomeEntity.class)).hasValueSatisfying(it -> {
+		assertThat(repositories.getRepositoryFor(SomeEntity.class)).hasValueSatisfying((it) -> {
 			assertThat(it).isInstanceOf(PrimaryRepository.class);
 		});
 	}

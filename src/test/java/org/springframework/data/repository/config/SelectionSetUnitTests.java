@@ -52,7 +52,7 @@ class SelectionSetUnitTests {
 	@Test // DATACMNS-764
 	void throwsCustomExceptionWhenConfigured() {
 		assertThatNullPointerException().isThrownBy(() -> {
-			SelectionSet.of(Arrays.asList("one", "two"), c -> {
+			SelectionSet.of(Arrays.asList("one", "two"), (c) -> {
 				throw new NullPointerException();
 			}).uniqueResult();
 		});
@@ -60,21 +60,21 @@ class SelectionSetUnitTests {
 
 	@Test // DATACMNS-764
 	void usesFallbackWhenConfigured() {
-		assertThat(
-				SelectionSet.of(Arrays.asList("one", "two"), c -> Optional.of(String.valueOf(c.size()))).uniqueResult())
-						.hasValue("2");
+		assertThat(SelectionSet.of(Arrays.asList("one", "two"), (c) -> Optional.of(String.valueOf(c.size())))
+				.uniqueResult()).hasValue("2");
 	}
 
 	@Test // DATACMNS-764
 	void returnsUniqueResultAfterFilter() {
 		SelectionSet<String> selection = SelectionSet.of(Arrays.asList("one", "two", "three"))
-				.filterIfNecessary(s -> s.contains("w"));
+				.filterIfNecessary((s) -> s.contains("w"));
 		assertThat(selection.uniqueResult()).hasValue("two");
 	}
 
 	@Test // DATACMNS-764
 	void ignoresFilterWhenResultIsAlreadyUnique() {
-		SelectionSet<String> selection = SelectionSet.of(Arrays.asList("one")).filterIfNecessary(s -> s.contains("w"));
+		SelectionSet<String> selection = SelectionSet.of(Arrays.asList("one"))
+				.filterIfNecessary((s) -> s.contains("w"));
 		assertThat(selection.uniqueResult()).hasValue("one");
 	}
 

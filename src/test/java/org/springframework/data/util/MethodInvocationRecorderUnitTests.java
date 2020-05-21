@@ -61,7 +61,7 @@ class MethodInvocationRecorderUnitTests {
 	@Test // DATACMNS-1449
 	void usesCustomPropertyNamingStrategy() {
 		Recorded<Bar> recorded = MethodInvocationRecorder.forProxyOf(Foo.class).record(Foo::getBar);
-		assertThat(recorded.getPropertyPath(method -> method.getName())).hasValue("getBar");
+		assertThat(recorded.getPropertyPath((method) -> method.getName())).hasValue("getBar");
 	}
 
 	@Test // DATACMNS-1449

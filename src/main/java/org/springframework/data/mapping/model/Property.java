@@ -65,16 +65,16 @@ public final class Property {
 		Assert.isTrue(Optionals.isAnyPresent(field, descriptor), "Either field or descriptor has to be given!");
 		this.field = field;
 		this.descriptor = descriptor;
-		this.rawType = withFieldOrDescriptor(it -> type.getRequiredProperty(it.getName()).getType(),
-				it -> type.getRequiredProperty(it.getName()).getType());
+		this.rawType = withFieldOrDescriptor((it) -> type.getRequiredProperty(it.getName()).getType(),
+				(it) -> type.getRequiredProperty(it.getName()).getType());
 		this.hashCode = Lazy.of(() -> withFieldOrDescriptor(Object::hashCode));
 		this.name = Lazy.of(() -> withFieldOrDescriptor(Field::getName, FeatureDescriptor::getName));
 		this.toString = Lazy.of(() -> withFieldOrDescriptor(Object::toString,
-				it -> String.format("%s.%s", type.getType().getName(), it.getDisplayName())));
-		this.getter = descriptor.map(PropertyDescriptor::getReadMethod).filter(it -> getType() != null)
-				.filter(it -> getType().isAssignableFrom(type.getReturnType(it).getType()));
-		this.setter = descriptor.map(PropertyDescriptor::getWriteMethod).filter(it -> getType() != null)
-				.filter(it -> type.getParameterTypes(it).get(0).getType().isAssignableFrom(getType()));
+				(it) -> String.format("%s.%s", type.getType().getName(), it.getDisplayName())));
+		this.getter = descriptor.map(PropertyDescriptor::getReadMethod).filter((it) -> getType() != null)
+				.filter((it) -> getType().isAssignableFrom(type.getReturnType(it).getType()));
+		this.setter = descriptor.map(PropertyDescriptor::getWriteMethod).filter((it) -> getType() != null)
+				.filter((it) -> type.getParameterTypes(it).get(0).getType().isAssignableFrom(getType()));
 		this.wither = Lazy.of(() -> findWither(type, getName(), getType()));
 	}
 
@@ -243,11 +243,11 @@ public final class Property {
 	private static Optional<Method> findWither(TypeInformation<?> owner, String propertyName, Class<?> rawType) {
 		AtomicReference<Method> resultHolder = new AtomicReference<>();
 		String methodName = String.format("with%s", StringUtils.capitalize(propertyName));
-		ReflectionUtils.doWithMethods(owner.getType(), it -> {
+		ReflectionUtils.doWithMethods(owner.getType(), (it) -> {
 			if (owner.isAssignableFrom(owner.getReturnType(it))) {
 				resultHolder.set(it);
 			}
-		}, it -> isMethodWithSingleParameterOfType(it, methodName, rawType));
+		}, (it) -> isMethodWithSingleParameterOfType(it, methodName, rawType));
 		Method method = resultHolder.get();
 		return method != null ? Optional.of(method) : Optional.empty();
 	}

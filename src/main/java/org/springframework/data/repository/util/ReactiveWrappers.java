@@ -160,7 +160,7 @@ public abstract class ReactiveWrappers {
 	 */
 	public static boolean isSingleValueType(Class<?> type) {
 		Assert.notNull(type, "Candidate type must not be null!");
-		return findDescriptor(type).map(it -> !it.isMultiValue() && !it.isNoValue()).orElse(false);
+		return findDescriptor(type).map((it) -> !it.isMultiValue() && !it.isNoValue()).orElse(false);
 	}
 
 	/**

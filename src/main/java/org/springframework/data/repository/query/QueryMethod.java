@@ -72,8 +72,8 @@ public class QueryMethod {
 		Assert.notNull(method, "Method must not be null!");
 		Assert.notNull(metadata, "Repository metadata must not be null!");
 		Assert.notNull(factory, "ProjectionFactory must not be null!");
-		Parameters.TYPES.stream().filter(type -> ClassUtils.getNumberOfOccurences(method, type) > 1).findFirst()
-				.ifPresent(type -> {
+		Parameters.TYPES.stream().filter((type) -> ClassUtils.getNumberOfOccurences(method, type) > 1).findFirst()
+				.ifPresent((type) -> {
 					throw new IllegalStateException(
 							String.format("Method must only one argument of type %s! Offending method: %s",
 									type.getSimpleName(), method.toString()));

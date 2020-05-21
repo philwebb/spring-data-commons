@@ -185,7 +185,7 @@ public class PartTree implements Streamable<OrPart> {
 	 * @return
 	 */
 	public Streamable<Part> getParts(Type type) {
-		return getParts().filter(part -> part.getType().equals(type));
+		return getParts().filter((part) -> part.getType().equals(type));
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class PartTree implements Streamable<OrPart> {
 		OrPart(String source, Class<?> domainClass, boolean alwaysIgnoreCase) {
 			String[] split = split(source, "And");
 			this.children = Arrays.stream(split).filter(StringUtils::hasText)
-					.map(part -> new Part(part, domainClass, alwaysIgnoreCase)).collect(Collectors.toList());
+					.map((part) -> new Part(part, domainClass, alwaysIgnoreCase)).collect(Collectors.toList());
 		}
 
 		@Override
@@ -279,7 +279,7 @@ public class PartTree implements Streamable<OrPart> {
 		private final Optional<Integer> maxResults;
 
 		Subject(Optional<String> subject) {
-			this.distinct = subject.map(it -> it.contains(DISTINCT)).orElse(false);
+			this.distinct = subject.map((it) -> it.contains(DISTINCT)).orElse(false);
 			this.count = matches(subject, COUNT_BY_TEMPLATE);
 			this.exists = matches(subject, EXISTS_BY_TEMPLATE);
 			this.delete = matches(subject, DELETE_BY_TEMPLATE);
@@ -292,7 +292,7 @@ public class PartTree implements Streamable<OrPart> {
 		 * @since 1.9
 		 */
 		private Optional<Integer> returnMaxResultsIfFirstKSubjectOrNull(Optional<String> subject) {
-			return subject.map(it -> {
+			return subject.map((it) -> {
 				Matcher grp = LIMITED_QUERY_TEMPLATE.matcher(it);
 				if (!grp.find()) {
 					return null;
@@ -333,7 +333,7 @@ public class PartTree implements Streamable<OrPart> {
 		}
 
 		private boolean matches(Optional<String> subject, Pattern pattern) {
-			return subject.map(it -> pattern.matcher(it).find()).orElse(false);
+			return subject.map((it) -> pattern.matcher(it).find()).orElse(false);
 		}
 
 	}
@@ -359,7 +359,7 @@ public class PartTree implements Streamable<OrPart> {
 				throw new IllegalArgumentException("OrderBy must not be used more than once in a method name!");
 			}
 			this.nodes = Arrays.stream(split(parts[0], "Or")).filter(StringUtils::hasText)
-					.map(part -> new OrPart(part, domainClass, this.alwaysIgnoreCase)).collect(Collectors.toList());
+					.map((part) -> new OrPart(part, domainClass, this.alwaysIgnoreCase)).collect(Collectors.toList());
 			this.orderBySource = parts.length == 2 ? new OrderBySource(parts[1], Optional.of(domainClass))
 					: OrderBySource.EMPTY;
 		}

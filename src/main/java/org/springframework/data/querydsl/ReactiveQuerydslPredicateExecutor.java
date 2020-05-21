@@ -39,7 +39,7 @@ import org.springframework.data.domain.Sort;
  *  // ...
  *
  *  personRepository.findOne(QPerson.person.email.eq("t-800&#0064;skynet.io"))
- *      .flatMap(t800 ->
+ *      .flatMap((t800) ->
  *      //....
  *
  *     </code> </pre>

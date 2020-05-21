@@ -172,10 +172,10 @@ public final class Range<T extends Comparable<T>> {
 	public boolean contains(T value) {
 		Assert.notNull(value, "Reference value must not be null!");
 		boolean greaterThanLowerBound = this.lowerBound.getValue()
-				.map(it -> this.lowerBound.isInclusive() ? it.compareTo(value) <= 0 : it.compareTo(value) < 0)
+				.map((it) -> this.lowerBound.isInclusive() ? it.compareTo(value) <= 0 : it.compareTo(value) < 0)
 				.orElse(true);
 		boolean lessThanUpperBound = this.upperBound.getValue()
-				.map(it -> this.upperBound.isInclusive() ? it.compareTo(value) >= 0 : it.compareTo(value) > 0)
+				.map((it) -> this.upperBound.isInclusive() ? it.compareTo(value) >= 0 : it.compareTo(value) > 0)
 				.orElse(true);
 		return greaterThanLowerBound && lessThanUpperBound;
 	}
@@ -347,12 +347,12 @@ public final class Range<T extends Comparable<T>> {
 		}
 
 		String toPrefixString() {
-			return getValue().map(Object::toString).map(it -> isInclusive() ? "[".concat(it) : "(".concat(it))
+			return getValue().map(Object::toString).map((it) -> isInclusive() ? "[".concat(it) : "(".concat(it))
 					.orElse("unbounded");
 		}
 
 		String toSuffixString() {
-			return getValue().map(Object::toString).map(it -> isInclusive() ? it.concat("]") : it.concat(")"))
+			return getValue().map(Object::toString).map((it) -> isInclusive() ? it.concat("]") : it.concat(")"))
 					.orElse("unbounded");
 		}
 

@@ -66,14 +66,15 @@ public class ConvertingPropertyAccessorUnitTests {
 	void convertsPropertyValueToExpectedType() {
 		Entity entity = new Entity();
 		entity.id = 1L;
-		assertThat(getIdProperty()).satisfies(
-				it -> assertThat(getAccessor(entity, CONVERSION_SERVICE).getProperty(it, String.class)).isEqualTo("1"));
+		assertThat(getIdProperty())
+				.satisfies((it) -> assertThat(getAccessor(entity, CONVERSION_SERVICE).getProperty(it, String.class))
+						.isEqualTo("1"));
 	}
 
 	@Test // DATACMNS-596
 	void doesNotInvokeConversionForNullValues() {
 		ConversionService conversionService = mock(ConversionService.class);
-		assertThat(getIdProperty()).satisfies(it -> {
+		assertThat(getIdProperty()).satisfies((it) -> {
 			assertThat(getAccessor(new Entity(), conversionService).getProperty(it, Number.class)).isNull();
 			verify(conversionService, times(0)).convert(1L, Number.class);
 		});
@@ -84,7 +85,7 @@ public class ConvertingPropertyAccessorUnitTests {
 		Entity entity = new Entity();
 		entity.id = 1L;
 		ConversionService conversionService = mock(ConversionService.class);
-		assertThat(getIdProperty()).satisfies(it -> {
+		assertThat(getIdProperty()).satisfies((it) -> {
 			assertThat(getAccessor(entity, conversionService).getProperty(it, Number.class)).isEqualTo(1L);
 			verify(conversionService, times(0)).convert(1L, Number.class);
 		});
@@ -93,7 +94,7 @@ public class ConvertingPropertyAccessorUnitTests {
 	@Test // DATACMNS-596
 	void convertsValueOnSetIfTypesDontMatch() {
 		Entity entity = new Entity();
-		assertThat(getIdProperty()).satisfies(property -> {
+		assertThat(getIdProperty()).satisfies((property) -> {
 			getAccessor(entity, CONVERSION_SERVICE).setProperty(property, "1");
 			assertThat(entity.id).isEqualTo(1L);
 		});
@@ -101,7 +102,7 @@ public class ConvertingPropertyAccessorUnitTests {
 
 	@Test // DATACMNS-596
 	void doesNotInvokeConversionIfTypeAlreadyMatchesOnSet() {
-		assertThat(getIdProperty()).satisfies(it -> {
+		assertThat(getIdProperty()).satisfies((it) -> {
 			getAccessor(new Entity(), mock(ConversionService.class)).setProperty(it, 1L);
 			verify(mock(ConversionService.class), times(0)).convert(1L, Long.class);
 		});

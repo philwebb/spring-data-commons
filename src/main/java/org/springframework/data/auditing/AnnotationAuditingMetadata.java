@@ -102,7 +102,7 @@ final class AnnotationAuditingMetadata {
 	 * @param field
 	 */
 	private void assertValidDateFieldType(Optional<Field> field) {
-		field.ifPresent(it -> {
+		field.ifPresent((it) -> {
 			if (SUPPORTED_DATE_TYPES.contains(it.getType().getName())) {
 				return;
 			}

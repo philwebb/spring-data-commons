@@ -52,7 +52,7 @@ public abstract class ProxyUtils {
 	 */
 	public static Class<?> getUserClass(Class<?> type) {
 		Assert.notNull(type, "Type must not be null!");
-		return USER_TYPES.computeIfAbsent(type, it -> {
+		return USER_TYPES.computeIfAbsent(type, (it) -> {
 			Class<?> result = it;
 			for (ProxyDetector proxyDetector : DETECTORS) {
 				result = proxyDetector.getUserType(result);

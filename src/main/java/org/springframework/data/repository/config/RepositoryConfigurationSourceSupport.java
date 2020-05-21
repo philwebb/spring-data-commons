@@ -69,9 +69,9 @@ public abstract class RepositoryConfigurationSourceSupport implements Repository
 		scanner.setConsiderNestedRepositoryInterfaces(shouldConsiderNestedRepositories());
 		scanner.setEnvironment(this.environment);
 		scanner.setResourceLoader(loader);
-		getExcludeFilters().forEach(it -> scanner.addExcludeFilter(it));
+		getExcludeFilters().forEach((it) -> scanner.addExcludeFilter(it));
 		return Streamable
-				.of(() -> getBasePackages().stream().flatMap(it -> scanner.findCandidateComponents(it).stream()));
+				.of(() -> getBasePackages().stream().flatMap((it) -> scanner.findCandidateComponents(it).stream()));
 	}
 
 	/**

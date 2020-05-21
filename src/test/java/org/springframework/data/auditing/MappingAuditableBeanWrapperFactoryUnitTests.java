@@ -75,7 +75,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 	void discoversAuditingPropertyOnField() {
 		Sample sample = new Sample();
 		Optional<AuditableBeanWrapper<Sample>> wrapper = this.factory.getBeanWrapperFor(sample);
-		assertThat(wrapper).hasValueSatisfying(it -> {
+		assertThat(wrapper).hasValueSatisfying((it) -> {
 			it.setCreatedBy(Optional.of("Me!"));
 			assertThat(it.getBean().createdBy).isNotNull();
 		});
@@ -85,7 +85,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 	void discoversAuditingPropertyOnAccessor() {
 		Sample sample = new Sample();
 		Optional<AuditableBeanWrapper<Sample>> wrapper = this.factory.getBeanWrapperFor(sample);
-		assertThat(wrapper).hasValueSatisfying(it -> {
+		assertThat(wrapper).hasValueSatisfying((it) -> {
 			it.setLastModifiedBy(Optional.of("Me, too!"));
 			assertThat(it.getBean().lastModifiedBy).isNotNull();
 		});
@@ -95,7 +95,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 	void settingInavailablePropertyIsNoop() {
 		Sample sample = new Sample();
 		Optional<AuditableBeanWrapper<Sample>> wrapper = this.factory.getBeanWrapperFor(sample);
-		assertThat(wrapper).hasValueSatisfying(it -> it.setLastModifiedDate(Instant.now()));
+		assertThat(wrapper).hasValueSatisfying((it) -> it.setLastModifiedDate(Instant.now()));
 	}
 
 	@Test // DATACMNS-365
@@ -106,7 +106,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 	@Test // DATACMNS-365
 	void returnsAuditableWrapperForAuditable() {
 		assertThat(this.factory.getBeanWrapperFor(mock(ExtendingAuditable.class)))
-				.hasValueSatisfying(it -> assertThat(it).isInstanceOf(AuditableInterfaceBeanWrapper.class));
+				.hasValueSatisfying((it) -> assertThat(it).isInstanceOf(AuditableInterfaceBeanWrapper.class));
 	}
 
 	@Test // DATACMNS-638
@@ -149,7 +149,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		SampleWithInstant sample = new SampleWithInstant();
 		sample.modified = Instant.now();
 		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(sample)
-				.flatMap(it -> it.getLastModifiedDate());
+				.flatMap((it) -> it.getLastModifiedDate());
 		assertThat(result).hasValue(sample.modified);
 	}
 
@@ -164,7 +164,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		WithEmbedded target = new WithEmbedded();
 		target.embedded = new Embedded();
 		Optional<AuditableBeanWrapper<WithEmbedded>> wrapper = this.factory.getBeanWrapperFor(target);
-		assertThat(wrapper).hasValueSatisfying(it -> {
+		assertThat(wrapper).hasValueSatisfying((it) -> {
 			Instant now = Instant.now();
 			String user = "user";
 			it.setCreatedBy(user);
@@ -183,7 +183,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 	@Test // DATACMNS-1461, DATACMNS-1671
 	void skipsNullIntermediatesWhenSettingProperties() {
 		WithEmbedded withEmbedded = new WithEmbedded();
-		assertThat(this.factory.getBeanWrapperFor(withEmbedded)).hasValueSatisfying(it -> {
+		assertThat(this.factory.getBeanWrapperFor(withEmbedded)).hasValueSatisfying((it) -> {
 			assertThatCode(() -> it.setCreatedBy("user")).doesNotThrowAnyException();
 			assertThatCode(() -> it.setLastModifiedDate(Instant.now())).doesNotThrowAnyException();
 		});
@@ -196,7 +196,7 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		withEmbedded.embeddeds = Arrays.asList(new Embedded());
 		withEmbedded.embeddedMap = new HashMap<>();
 		withEmbedded.embeddedMap.put("key", new Embedded());
-		assertThat(this.factory.getBeanWrapperFor(withEmbedded)).hasValueSatisfying(it -> {
+		assertThat(this.factory.getBeanWrapperFor(withEmbedded)).hasValueSatisfying((it) -> {
 			String user = "user";
 			Instant now = Instant.now();
 			it.setCreatedBy(user);
@@ -220,8 +220,8 @@ class MappingAuditableBeanWrapperFactoryUnitTests {
 		Sample sample = new Sample();
 		sample.lastModifiedDate = source;
 		Optional<TemporalAccessor> result = this.factory.getBeanWrapperFor(sample)
-				.flatMap(it -> it.getLastModifiedDate());
-		assertThat(result).hasValueSatisfying(ta -> compareTemporalAccessors(expected, ta));
+				.flatMap((it) -> it.getLastModifiedDate());
+		assertThat(result).hasValueSatisfying((ta) -> compareTemporalAccessors(expected, ta));
 	}
 
 	private static AbstractLongAssert<?> compareTemporalAccessors(TemporalAccessor expected, TemporalAccessor actual) {

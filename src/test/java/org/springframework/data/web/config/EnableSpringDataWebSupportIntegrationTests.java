@@ -169,7 +169,7 @@ class EnableSpringDataWebSupportIntegrationTests {
 		RequestMappingHandlerAdapter adapter = context.getBean(RequestMappingHandlerAdapter.class);
 		assertThat(adapter).isNotNull();
 		List<HandlerMethodArgumentResolver> resolvers = adapter.getCustomArgumentResolvers();
-		Arrays.asList(resolverTypes).forEach(type -> assertThat(resolvers).hasAtLeastOneElementOfType(type));
+		Arrays.asList(resolverTypes).forEach((type) -> assertThat(resolvers).hasAtLeastOneElementOfType(type));
 	}
 
 	@Configuration
@@ -191,7 +191,7 @@ class EnableSpringDataWebSupportIntegrationTests {
 
 		@Bean
 		PageableHandlerMethodArgumentResolverCustomizer testPageableResolverCustomizer() {
-			return pageableResolver -> pageableResolver.setMaxPageSize(100);
+			return (pageableResolver) -> pageableResolver.setMaxPageSize(100);
 		}
 
 	}
@@ -203,7 +203,7 @@ class EnableSpringDataWebSupportIntegrationTests {
 
 		@Bean
 		SortHandlerMethodArgumentResolverCustomizer testSortResolverCustomizer() {
-			return sortResolver -> sortResolver.setSortParameter("foo");
+			return (sortResolver) -> sortResolver.setSortParameter("foo");
 		}
 
 	}

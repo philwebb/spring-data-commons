@@ -312,7 +312,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	public static PropertyPath from(String source, TypeInformation<?> type) {
 		Assert.hasText(source, "Source must not be null or empty!");
 		Assert.notNull(type, "TypeInformation must not be null or empty!");
-		return cache.computeIfAbsent(Key.of(type, source), it -> {
+		return cache.computeIfAbsent(Key.of(type, source), (it) -> {
 			List<String> iteratorSource = new ArrayList<>();
 			Matcher matcher = isQuoted(it.path)
 					? SPLITTER_FOR_QUOTED.matcher(it.path.replace("\\Q", "").replace("\\E", ""))

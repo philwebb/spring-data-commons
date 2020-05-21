@@ -141,7 +141,7 @@ public abstract class QueryExecutionConverters {
 			UNWRAPPERS.add(VavrOptionUnwrapper.INSTANCE);
 			// Try support
 			WRAPPER_TYPES.add(WrapperType.singleValue(io.vavr.control.Try.class));
-			EXECUTION_ADAPTER.put(io.vavr.control.Try.class, it -> io.vavr.control.Try.of(it::get));
+			EXECUTION_ADAPTER.put(io.vavr.control.Try.class, (it) -> io.vavr.control.Try.of(it::get));
 			ALLOWED_PAGEABLE_TYPES.add(io.vavr.collection.Seq.class);
 		}
 	}
@@ -156,7 +156,7 @@ public abstract class QueryExecutionConverters {
 	 */
 	public static boolean supports(Class<?> type) {
 		Assert.notNull(type, "Type must not be null!");
-		return supportsCache.computeIfAbsent(type, key -> {
+		return supportsCache.computeIfAbsent(type, (key) -> {
 			for (WrapperType candidate : WRAPPER_TYPES) {
 				if (candidate.getType().isAssignableFrom(key)) {
 					return true;
@@ -323,7 +323,7 @@ public abstract class QueryExecutionConverters {
 
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
-			return Streamable.of(this.wrapperTypes).map(it -> new ConvertiblePair(NullableWrapper.class, it)).stream()
+			return Streamable.of(this.wrapperTypes).map((it) -> new ConvertiblePair(NullableWrapper.class, it)).stream()
 					.collect(StreamUtils.toUnmodifiableSet());
 		}
 
@@ -608,7 +608,7 @@ public abstract class QueryExecutionConverters {
 			if (Streamable.class.equals(targetType.getType())) {
 				return true;
 			}
-			return this.targetTypeCache.computeIfAbsent(targetType, it -> {
+			return this.targetTypeCache.computeIfAbsent(targetType, (it) -> {
 				return this.conversionService.canConvert(STREAMABLE, targetType);
 			});
 		}

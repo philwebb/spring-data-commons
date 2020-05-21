@@ -130,7 +130,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 			if (source == null) {
 				return;
 			}
-			newValue = source.stream().map(it -> setValue(it, leafProperty, value)).collect(Collectors
+			newValue = source.stream().map((it) -> setValue(it, leafProperty, value)).collect(Collectors
 					.toCollection(() -> CollectionFactory.createApproximateCollection(source, source.size())));
 		}
 		else if (Map.class.isInstance(parent)) {

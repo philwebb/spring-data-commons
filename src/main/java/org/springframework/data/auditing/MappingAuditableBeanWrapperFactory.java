@@ -72,13 +72,13 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 
 	@Override
 	public <T> Optional<AuditableBeanWrapper<T>> getBeanWrapperFor(T source) {
-		return Optional.of(source).flatMap(it -> {
+		return Optional.of(source).flatMap((it) -> {
 			if (it instanceof Auditable) {
 				return super.getBeanWrapperFor(source);
 			}
 			return this.entities.mapOnContext(it.getClass(), (context, entity) -> {
 				MappingAuditingMetadata metadata = this.metadataCache.computeIfAbsent(it.getClass(),
-						key -> new MappingAuditingMetadata(context, it.getClass()));
+						(key) -> new MappingAuditingMetadata(context, it.getClass()));
 				return Optional.<AuditableBeanWrapper<T>>ofNullable(
 						metadata.isAuditable() ? new MappingMetadataAuditableBeanWrapper<>(getConversionService(),
 								entity.getPropertyPathAccessor(it), metadata) : null);
@@ -93,8 +93,8 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 	 */
 	static class MappingAuditingMetadata {
 
-		private static final Predicate<? super PersistentProperty<?>> HAS_COLLECTION_PROPERTY = it -> it
-				.isCollectionLike() || it.isMap();
+		private static final Predicate<? super PersistentProperty<?>> HAS_COLLECTION_PROPERTY = (
+				it) -> it.isCollectionLike() || it.isMap();
 
 		private final PersistentPropertyPaths<?, ? extends PersistentProperty<?>> createdByPaths;
 
@@ -118,7 +118,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 			this.lastModifiedByPaths = findPropertyPaths(type, LastModifiedBy.class, context);
 			this.lastModifiedDatePaths = findPropertyPaths(type, LastModifiedDate.class, context);
 			this.isAuditable = Lazy.of(() -> Stream.of(this.createdByPaths, this.createdDatePaths,
-					this.lastModifiedByPaths, this.lastModifiedDatePaths).anyMatch(it -> !it.isEmpty()));
+					this.lastModifiedByPaths, this.lastModifiedDatePaths).anyMatch((it) -> !it.isEmpty()));
 		}
 
 		/**
@@ -138,7 +138,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		}
 
 		private static Predicate<PersistentProperty<?>> withAnnotation(Class<? extends Annotation> type) {
-			return t -> t.findAnnotation(type) != null;
+			return (t) -> t.findAnnotation(type) != null;
 		}
 
 	}
@@ -206,13 +206,13 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		}
 
 		private <S> S setProperty(PersistentPropertyPaths<?, ? extends PersistentProperty<?>> paths, S value) {
-			paths.forEach(it -> this.accessor.setProperty(it, value, OPTIONS));
+			paths.forEach((it) -> this.accessor.setProperty(it, value, OPTIONS));
 			return value;
 		}
 
 		private TemporalAccessor setDateProperty(PersistentPropertyPaths<?, ? extends PersistentProperty<?>> property,
 				TemporalAccessor value) {
-			property.forEach(it -> {
+			property.forEach((it) -> {
 				Class<?> type = it.getRequiredLeafProperty().getType();
 				this.accessor.setProperty(it, getDateValueToSet(value, type, this.accessor.getBean()), OPTIONS);
 			});

@@ -185,7 +185,7 @@ public final class ReflectionUtils {
 		Assert.notNull(type, "Target type must not be null!");
 		Assert.notNull(constructorArguments, "Constructor arguments must not be null!");
 		return Arrays.stream(type.getDeclaredConstructors())
-				.filter(constructor -> argumentsMatch(constructor.getParameterTypes(), constructorArguments))
+				.filter((constructor) -> argumentsMatch(constructor.getParameterTypes(), constructorArguments))
 				.findFirst();
 	}
 
@@ -239,8 +239,8 @@ public final class ReflectionUtils {
 				.collect(Collectors.toList());
 		Method method = org.springframework.util.ReflectionUtils.findMethod(type, name,
 				collect.toArray(new Class<?>[collect.size()]));
-		return Optional.ofNullable(method).filter(it -> IntStream.range(0, it.getParameterCount())
-				.allMatch(index -> ResolvableType.forMethodParameter(it, index).equals(parameterTypes[index])));
+		return Optional.ofNullable(method).filter((it) -> IntStream.range(0, it.getParameterCount())
+				.allMatch((index) -> ResolvableType.forMethodParameter(it, index).equals(parameterTypes[index])));
 	}
 
 	private static boolean argumentsMatch(Class<?>[] parameterTypes, Object[] arguments) {

@@ -120,7 +120,7 @@ class EntityCallbackDiscovererUnitTests {
 		@Bean
 		EntityCallback<Person> callback4() {
 
-			return (BeforeSaveCallback<Person>) object -> object;
+			return (BeforeSaveCallback<Person>) (object) -> object;
 		}
 
 		@Bean

@@ -120,7 +120,7 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 		private static boolean parametersMatch(java.lang.reflect.Parameter[] constructorParameters,
 				java.lang.reflect.Parameter[] candidateParameters) {
 			return IntStream.range(0, constructorParameters.length)
-					.allMatch(i -> constructorParameters[i].getType().equals(candidateParameters[i].getType()));
+					.allMatch((i) -> constructorParameters[i].getType().equals(candidateParameters[i].getType()));
 		}
 
 		@Nullable
@@ -201,7 +201,7 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 				Parameter<Object, P> parameter = parameters.get(i);
 				params[i] = provider.getParameterValue(parameter);
 			}
-			KotlinDefaultMask defaultMask = KotlinDefaultMask.from(this.constructor, it -> {
+			KotlinDefaultMask defaultMask = KotlinDefaultMask.from(this.constructor, (it) -> {
 				int index = this.kParameters.indexOf(it);
 				Parameter<Object, P> parameter = parameters.get(index);
 				Class<Object> type = parameter.getType().getType();

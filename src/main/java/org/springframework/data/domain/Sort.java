@@ -69,7 +69,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		if (properties == null || properties.isEmpty()) {
 			throw new IllegalArgumentException("You have to provide at least one property to sort by!");
 		}
-		this.orders = properties.stream().map(it -> new Order(direction, it)).collect(Collectors.toList());
+		this.orders = properties.stream().map((it) -> new Order(direction, it)).collect(Collectors.toList());
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		Assert.notNull(direction, "Direction must not be null!");
 		Assert.notNull(properties, "Properties must not be null!");
 		Assert.isTrue(properties.length > 0, "At least one property must be given!");
-		return Sort.by(Arrays.stream(properties).map(it -> new Order(direction, it)).collect(Collectors.toList()));
+		return Sort.by(Arrays.stream(properties).map((it) -> new Order(direction, it)).collect(Collectors.toList()));
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 */
 	private Sort withDirection(Direction direction) {
 		return Sort.by(
-				this.orders.stream().map(it -> new Order(direction, it.getProperty())).collect(Collectors.toList()));
+				this.orders.stream().map((it) -> new Order(direction, it.getProperty())).collect(Collectors.toList()));
 	}
 
 	/**

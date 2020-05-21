@@ -97,7 +97,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	void shouldSetAndGetProperty(Object bean, String propertyName, Class<?> expectedConstructorType, String displayName)
 			throws Exception {
 		assumeThat(propertyName).isNotEmpty();
-		assertThat(getProperty(bean, propertyName)).satisfies(property -> {
+		assertThat(getProperty(bean, propertyName)).satisfies((property) -> {
 			PersistentPropertyAccessor persistentPropertyAccessor = getPersistentPropertyAccessor(bean);
 			if (property.isImmutable() && property.getWither() == null) {
 				assertThatThrownBy(() -> persistentPropertyAccessor.setProperty(property, "value"))
@@ -134,7 +134,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	void getPropertyShouldFailOnUnhandledProperty(Object bean, String propertyName, Class<?> expectedConstructorType,
 			String displayName) {
 		assertThat(getProperty(new Dummy(), "dummy"))
-				.satisfies(property -> assertThatExceptionOfType(UnsupportedOperationException.class)
+				.satisfies((property) -> assertThatExceptionOfType(UnsupportedOperationException.class)
 						.isThrownBy(() -> getPersistentPropertyAccessor(bean).getProperty(property)));
 	}
 
@@ -143,7 +143,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 	void setPropertyShouldFailOnUnhandledProperty(Object bean, String propertyName, Class<?> expectedConstructorType,
 			String displayName) {
 		assertThat(getProperty(new Dummy(), "dummy"))
-				.satisfies(property -> assertThatExceptionOfType(UnsupportedOperationException.class)
+				.satisfies((property) -> assertThatExceptionOfType(UnsupportedOperationException.class)
 						.isThrownBy(() -> getPersistentPropertyAccessor(bean).setProperty(property, Optional.empty())));
 	}
 
@@ -154,7 +154,7 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = mappingContext
 				.getRequiredPersistentEntity(bean.getClass());
 		assertThat(ReflectionTestUtils.getField(persistentEntity, "propertyAccessorFactory"))
-				.isInstanceOfSatisfying(InstantiationAwarePropertyAccessorFactory.class, it -> {
+				.isInstanceOfSatisfying(InstantiationAwarePropertyAccessorFactory.class, (it) -> {
 					assertThat(ReflectionTestUtils.getField(it, "delegate"))
 							.isInstanceOf(ClassGeneratingPropertyAccessorFactory.class);
 				});

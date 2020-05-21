@@ -130,7 +130,8 @@ public interface StreamUtils {
 			@Override
 			@SuppressWarnings("null")
 			public boolean tryAdvance(Consumer<? super T> action) {
-				return lefts.tryAdvance(left -> rights.tryAdvance(right -> action.accept(combiner.apply(left, right))));
+				return lefts
+						.tryAdvance((left) -> rights.tryAdvance((right) -> action.accept(combiner.apply(left, right))));
 			}
 
 		}, parallel);

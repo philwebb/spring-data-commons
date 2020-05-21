@@ -57,7 +57,7 @@ class Functions {
 	void addAll(MultiValueMap<String, Function> newFunctions) {
 		newFunctions.forEach((k, list) -> {
 			List<Function> currentElements = get(k);
-			list.stream().filter(f -> !contains(currentElements, f)).forEach(f -> this.functions.add(k, f));
+			list.stream().filter((f) -> !contains(currentElements, f)).forEach((f) -> this.functions.add(k, f));
 		});
 	}
 
@@ -77,7 +77,7 @@ class Functions {
 	 * parameters.
 	 */
 	Optional<Function> get(String name, List<TypeDescriptor> argumentTypes) {
-		Stream<Function> candidates = get(name).stream().filter(f -> f.supports(argumentTypes));
+		Stream<Function> candidates = get(name).stream().filter((f) -> f.supports(argumentTypes));
 		List<Function> collect = candidates.collect(Collectors.toList());
 		return bestMatch(collect, argumentTypes);
 	}
@@ -93,7 +93,7 @@ class Functions {
 		if (candidates.size() == 1) {
 			return Optional.of(candidates.get(0));
 		}
-		Optional<Function> exactMatch = candidates.stream().filter(f -> f.supportsExact(argumentTypes)).findFirst();
+		Optional<Function> exactMatch = candidates.stream().filter((f) -> f.supportsExact(argumentTypes)).findFirst();
 		if (!exactMatch.isPresent()) {
 			throw new IllegalStateException(createErrorMessage(candidates, argumentTypes));
 		}

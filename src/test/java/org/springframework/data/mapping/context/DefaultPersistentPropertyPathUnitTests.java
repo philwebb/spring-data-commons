@@ -129,12 +129,12 @@ class DefaultPersistentPropertyPathUnitTests<P extends PersistentProperty<P>> {
 
 	@Test // DATACMNS-444
 	void skipsMappedPropertyNameIfConverterReturnsNull() {
-		assertThat(this.twoLegs.toDotPath(source -> null)).isNull();
+		assertThat(this.twoLegs.toDotPath((source) -> null)).isNull();
 	}
 
 	@Test // DATACMNS-444
 	void skipsMappedPropertyNameIfConverterReturnsEmptyStrings() {
-		assertThat(this.twoLegs.toDotPath(source -> "")).isNull();
+		assertThat(this.twoLegs.toDotPath((source) -> "")).isNull();
 	}
 
 	@Test // DATACMNS-1466

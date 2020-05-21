@@ -61,7 +61,7 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 			}
 
 		};
-		assertThat(entity.getPersistenceConstructor()).satisfies(constructor -> {
+		assertThat(entity.getPersistenceConstructor()).satisfies((constructor) -> {
 			Iterator<Parameter<Object, P>> iterator = constructor.getParameters().iterator();
 			ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity,
 					this.propertyValueProvider, outer);
@@ -77,7 +77,7 @@ class PersistentEntityParameterValueProviderUnitTests<P extends PersistentProper
 		ParameterValueProvider<P> provider = new PersistentEntityParameterValueProvider<>(entity,
 				this.propertyValueProvider, Optional.of(this.property));
 		assertThat(entity.getPersistenceConstructor())
-				.satisfies(constructor -> assertThatExceptionOfType(MappingException.class)
+				.satisfies((constructor) -> assertThatExceptionOfType(MappingException.class)
 						.isThrownBy(() -> provider.getParameterValue(constructor.getParameters().iterator().next()))
 						.withMessageContaining("bar").withMessageContaining(Entity.class.getName()));
 	}

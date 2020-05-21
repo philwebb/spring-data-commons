@@ -142,7 +142,7 @@ class ProjectingMethodInterceptorUnitTests {
 				.invoke(mockInvocationOf("getHelperMap", Collections.singletonMap("foo", mock(Helper.class))));
 		assertThat(result).isInstanceOf(Map.class);
 		Map<String, Object> projections = (Map<String, Object>) result;
-		assertThat(projections).hasSize(1).matches(map -> map.get("foo") instanceof HelperProjection);
+		assertThat(projections).hasSize(1).matches((map) -> map.get("foo") instanceof HelperProjection);
 	}
 
 	@Test

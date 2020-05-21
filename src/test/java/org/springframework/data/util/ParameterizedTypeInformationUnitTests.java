@@ -94,8 +94,8 @@ class ParameterizedTypeInformationUnitTests {
 		TypeInformation<?> first = ClassTypeInformation.from(First.class).getProperty("property");
 		TypeInformation<?> second = ClassTypeInformation.from(Second.class).getProperty("property");
 		assertThat(first).isEqualTo(second);
-		assertThat(first).satisfies(
-				left -> assertThat(second).satisfies(right -> assertThat(left.hashCode()).isEqualTo(right.hashCode())));
+		assertThat(first).satisfies((left) -> assertThat(second)
+				.satisfies((right) -> assertThat(left.hashCode()).isEqualTo(right.hashCode())));
 	}
 
 	@Test // DATACMNS-485
@@ -108,7 +108,7 @@ class ParameterizedTypeInformationUnitTests {
 	void usesLocalGenericInformationOfFields() {
 		TypeInformation<NormalizedProfile> information = ClassTypeInformation.from(NormalizedProfile.class);
 		assertThat(information.getProperty("education2.data").getComponentType().getProperty("value"))
-				.satisfies(it -> assertThat(it.getType()).isEqualTo(Education.class));
+				.satisfies((it) -> assertThat(it.getType()).isEqualTo(Education.class));
 	}
 
 	@Test // DATACMNS-899

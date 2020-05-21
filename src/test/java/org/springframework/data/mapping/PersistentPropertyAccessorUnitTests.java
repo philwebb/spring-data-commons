@@ -107,7 +107,7 @@ public class PersistentPropertyAccessorUnitTests {
 		PersistentPropertyAccessor accessor = entity.getPropertyAccessor(outer);
 		accessor.setProperty(path, "bar");
 		Object result = accessor.getBean();
-		assertThat(result).isInstanceOfSatisfying(Outer.class, it -> {
+		assertThat(result).isInstanceOfSatisfying(Outer.class, (it) -> {
 			assertThat(it.immutable).isNotSameAs(immutable);
 			assertThat(it).isNotSameAs(outer);
 		});
@@ -132,16 +132,16 @@ public class PersistentPropertyAccessorUnitTests {
 				.list(Collections.singletonList("value")).set(Collections.singleton("value"))
 				.map(Collections.singletonMap("key", "value")).string(" value ").build();
 		Spec collectionHelper = Spec.of("collection",
-				(context, property) -> context.registerCollectionHandler(property, it -> it.iterator().next()));
+				(context, property) -> context.registerCollectionHandler(property, (it) -> it.iterator().next()));
 		Spec listHelper = Spec.of("list",
-				(context, property) -> context.registerListHandler(property, it -> it.get(0)));
+				(context, property) -> context.registerListHandler(property, (it) -> it.get(0)));
 		Spec setHelper = Spec.of("set",
-				(context, property) -> context.registerSetHandler(property, it -> it.iterator().next()));
+				(context, property) -> context.registerSetHandler(property, (it) -> it.iterator().next()));
 		Spec mapHelper = Spec.of("map",
-				(context, property) -> context.registerMapHandler(property, it -> it.get("key")));
+				(context, property) -> context.registerMapHandler(property, (it) -> it.get("key")));
 		Spec stringHelper = Spec.of("string",
-				(context, property) -> context.registerHandler(property, String.class, it -> it.trim()));
-		Stream.of(collectionHelper, listHelper, setHelper, mapHelper, stringHelper).forEach(it -> {
+				(context, property) -> context.registerHandler(property, String.class, (it) -> it.trim()));
+		Stream.of(collectionHelper, listHelper, setHelper, mapHelper, stringHelper).forEach((it) -> {
 			PersistentEntity<Object, SamplePersistentProperty> entity = this.context
 					.getPersistentEntity(WithContext.class);
 			PersistentProperty<?> property = entity.getRequiredPersistentProperty(it.name);
