@@ -206,9 +206,8 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 		Stream.of(".", ".,ASC").forEach((it) -> {
 			MockHttpServletRequest request = new MockHttpServletRequest();
 			request.addParameter("sort", it);
-			assertThatCode(() -> {
-				assertThat(resolveSort(request, PARAMETER)).isEqualTo(Sort.unsorted());
-			}).doesNotThrowAnyException();
+			assertThatCode(() -> assertThat(resolveSort(request, PARAMETER)).isEqualTo(Sort.unsorted()))
+					.doesNotThrowAnyException();
 		});
 	}
 

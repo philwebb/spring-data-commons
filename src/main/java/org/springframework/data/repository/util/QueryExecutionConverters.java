@@ -608,9 +608,8 @@ public abstract class QueryExecutionConverters {
 			if (Streamable.class.equals(targetType.getType())) {
 				return true;
 			}
-			return this.targetTypeCache.computeIfAbsent(targetType, (it) -> {
-				return this.conversionService.canConvert(STREAMABLE, targetType);
-			});
+			return this.targetTypeCache.computeIfAbsent(targetType,
+					(it) -> this.conversionService.canConvert(STREAMABLE, targetType));
 		}
 
 		@SuppressWarnings("unchecked")

@@ -75,18 +75,15 @@ class SimplePersistentPropertyPathAccessorUnitTests {
 		PersistentPropertyPathAccessor<CustomerWrapper> accessor = getAccessor(wrapper);
 		PersistentPropertyPath<SamplePersistentProperty> path = this.context
 				.getPersistentPropertyPath("customer.firstname", CustomerWrapper.class);
-		assertThatCode(() -> {
-			accessor.setProperty(path, "Dave", AccessOptions.defaultSetOptions().withNullHandling(SetNulls.SKIP));
-		}).doesNotThrowAnyException();
+		assertThatCode(() -> accessor.setProperty(path, "Dave",
+				AccessOptions.defaultSetOptions().withNullHandling(SetNulls.SKIP))).doesNotThrowAnyException();
 	}
 
 	private void assertFirstnamesSetFor(Customers customers, String path) {
 		PersistentPropertyPath<SamplePersistentProperty> propertyPath = this.context.getPersistentPropertyPath(path,
 				Customers.class);
 		getAccessor(customers).setProperty(propertyPath, "firstname");
-		Stream.of(this.first, this.second).forEach((it) -> {
-			assertThat(it.firstname).isEqualTo("firstname");
-		});
+		Stream.of(this.first, this.second).forEach((it) -> assertThat(it.firstname).isEqualTo("firstname"));
 	}
 
 	private <T> PersistentPropertyPathAccessor<T> getAccessor(T source) {

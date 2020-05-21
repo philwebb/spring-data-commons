@@ -589,17 +589,15 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 */
 		@SuppressWarnings("null")
 		private static List<Class<?>> getPropertyDeclaratingClasses(List<PersistentProperty<?>> persistentProperties) {
-			return persistentProperties.stream().flatMap((property) -> {
-				return Optionals
-						.toStream(Optional.ofNullable(property.getField()), Optional.ofNullable(property.getGetter()),
-								Optional.ofNullable(property.getSetter()))
-						// keep it a lambda to infer the correct types, preventing
-						// LambdaConversionException: Invalid receiver type class
-						// java.lang.reflect.AccessibleObject; not a subtype
-						// of implementation type interface java.lang.reflect.Member
-						.map((it) -> it.getDeclaringClass());
-
-			}).collect(Collectors.collectingAndThen(Collectors.toSet(), (it) -> new ArrayList<>(it)));
+			return persistentProperties.stream()
+					.flatMap((property) -> Optionals.toStream(Optional.ofNullable(property.getField()),
+							Optional.ofNullable(property.getGetter()), Optional.ofNullable(property.getSetter()))
+							// keep it a lambda to infer the correct types, preventing
+							// LambdaConversionException: Invalid receiver type class
+							// java.lang.reflect.AccessibleObject; not a subtype
+							// of implementation type interface java.lang.reflect.Member
+							.map((it) -> it.getDeclaringClass()))
+					.collect(Collectors.collectingAndThen(Collectors.toSet(), (it) -> new ArrayList<>(it)));
 		}
 
 		/**

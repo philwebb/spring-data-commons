@@ -88,12 +88,10 @@ class SpringDataWebConfigurationIntegrationTests {
 			it.extendMessageConverters(converters);
 			// Converters contains ProjectingJackson2HttpMessageConverter with custom
 			// ObjectMapper
-			assertThat(converters).anySatisfy((converter) -> {
-				assertThat(converter).isInstanceOfSatisfying(ProjectingJackson2HttpMessageConverter.class, (__) -> {
-					assertThat(ReflectionTestUtils.getField(converter, "objectMapper"))
-							.isSameAs(SomeConfiguration.MAPPER);
-				});
-			});
+			assertThat(converters).anySatisfy((converter) -> assertThat(converter).isInstanceOfSatisfying(
+					ProjectingJackson2HttpMessageConverter.class,
+					(type) -> assertThat(ReflectionTestUtils.getField(converter, "objectMapper"))
+							.isSameAs(SomeConfiguration.MAPPER)));
 		}, SomeConfiguration.class);
 	}
 

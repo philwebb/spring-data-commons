@@ -308,9 +308,8 @@ class QueryExecutionResultHandlerUnitTests {
 	@Test // DATACMNS-1430
 	void convertsElementsAndValueIntoCustomStreamable() throws Exception {
 		Object result = this.handler.postProcessInvocationResult(Arrays.asList("foo"), getMethod("customStreamable"));
-		assertThat(result).isInstanceOfSatisfying(CustomStreamableWrapper.class, (it) -> {
-			assertThat(it).containsExactly("foo");
-		});
+		assertThat(result).isInstanceOfSatisfying(CustomStreamableWrapper.class,
+				(it) -> assertThat(it).containsExactly("foo"));
 	}
 
 	@Test // DATACMNS-1482

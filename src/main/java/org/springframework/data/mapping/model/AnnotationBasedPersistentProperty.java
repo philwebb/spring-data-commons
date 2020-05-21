@@ -211,10 +211,9 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 		if (annotation != null) {
 			return (Optional<A>) annotation;
 		}
-		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType, (type) -> {
-			return getAccessors().map((it) -> AnnotatedElementUtils.findMergedAnnotation(it, type))
-					.flatMap(StreamUtils::fromNullable).findFirst();
-		});
+		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType,
+				(type) -> getAccessors().map((it) -> AnnotatedElementUtils.findMergedAnnotation(it, type))
+						.flatMap(StreamUtils::fromNullable).findFirst());
 	}
 
 	@Nullable

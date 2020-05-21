@@ -155,9 +155,8 @@ class RepositoriesUnitTests {
 		this.context = new GenericApplicationContext(beanFactory);
 		this.context.refresh();
 		Repositories repositories = new Repositories(beanFactory);
-		assertThat(repositories.getRepositoryFor(SomeEntity.class)).hasValueSatisfying((it) -> {
-			assertThat(it).isInstanceOf(PrimaryRepository.class);
-		});
+		assertThat(repositories.getRepositoryFor(SomeEntity.class))
+				.hasValueSatisfying((it) -> assertThat(it).isInstanceOf(PrimaryRepository.class));
 	}
 
 	class Person {

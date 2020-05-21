@@ -226,9 +226,9 @@ public class AnnotationBasedPersistentPropertyUnitTests<P extends AnnotationBase
 
 	@Test // DATACMNS-1318
 	void detectsUltimateAssociationTargetClass() {
-		Stream.of("toSample", "toSample2", "sample", "withoutAnnotation").forEach((it) -> {
-			assertThat(getProperty(WithReferences.class, it).getAssociationTargetType()).isEqualTo(Sample.class);
-		});
+		Stream.of("toSample", "toSample2", "sample", "withoutAnnotation")
+				.forEach((it) -> assertThat(getProperty(WithReferences.class, it).getAssociationTargetType())
+						.isEqualTo(Sample.class));
 	}
 
 	@Test // DATACMNS-1359

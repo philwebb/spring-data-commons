@@ -153,11 +153,10 @@ public class ClassGeneratingPropertyAccessorFactoryTests {
 			String displayName) throws Exception {
 		BasicPersistentEntity<Object, SamplePersistentProperty> persistentEntity = mappingContext
 				.getRequiredPersistentEntity(bean.getClass());
-		assertThat(ReflectionTestUtils.getField(persistentEntity, "propertyAccessorFactory"))
-				.isInstanceOfSatisfying(InstantiationAwarePropertyAccessorFactory.class, (it) -> {
-					assertThat(ReflectionTestUtils.getField(it, "delegate"))
-							.isInstanceOf(ClassGeneratingPropertyAccessorFactory.class);
-				});
+		assertThat(ReflectionTestUtils.getField(persistentEntity, "propertyAccessorFactory")).isInstanceOfSatisfying(
+				InstantiationAwarePropertyAccessorFactory.class,
+				(it) -> assertThat(ReflectionTestUtils.getField(it, "delegate"))
+						.isInstanceOf(ClassGeneratingPropertyAccessorFactory.class));
 	}
 
 	private PersistentPropertyAccessor getPersistentPropertyAccessor(Object bean) {
