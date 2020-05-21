@@ -61,12 +61,6 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 		this.bean = delegate.getBean();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
-	 * springframework.data.mapping.PersistentProperty, java.lang.Object)
-	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {

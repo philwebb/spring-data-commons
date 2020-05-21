@@ -71,12 +71,6 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 		this.context = JsonPath.using(build);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.projection.MethodInterceptorFactory#
-	 * createMethodInterceptor(java.lang.Object, java.lang.Class)
-	 */
 	@Override
 	public MethodInterceptor createMethodInterceptor(Object source, Class<?> targetType) {
 		DocumentContext context = InputStream.class.isInstance(source) ? this.context.parse((InputStream) source)
@@ -84,13 +78,6 @@ public class JsonProjectingMethodInterceptorFactory implements MethodInterceptor
 		return new InputMessageProjecting(context);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang.
-	 * Object, java.lang.Class)
-	 */
 	@Override
 	public boolean supports(Object source, Class<?> targetType) {
 		if (InputStream.class.isInstance(source) || JSONObject.class.isInstance(source)

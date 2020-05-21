@@ -61,13 +61,6 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 		this.callbackDiscoverer = new EntityCallbackDiscoverer(beanFactory);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.mapping.callback.ReactiveEntityCallbacks#callback(java.
-	 * lang.Class, java.lang.Object, java.lang.Object)
-	 */
 	@Override
 	public <T> Mono<T> callback(Class<? extends EntityCallback> callbackType, T entity, Object... args) {
 		Assert.notNull(entity, "Entity must not be null!");

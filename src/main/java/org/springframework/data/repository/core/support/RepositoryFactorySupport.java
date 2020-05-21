@@ -505,12 +505,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		 */
 		private final List<QueryMethod> queryMethods = new ArrayList<>();
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see org.springframework.data.repository.core.support.QueryCreationListener#
-		 * onCreation(org.springframework.data.repository.query.RepositoryQuery)
-		 */
 		@Override
 		public void onCreation(RepositoryQuery query) {
 			this.queryMethods.add(query.getQueryMethod());

@@ -140,13 +140,6 @@ class MapDataBinder extends WebDataBinder {
 			throw new UnsupportedOperationException();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.beans.AbstractPropertyAccessor#setPropertyValue(java.lang.
-		 * String, java.lang.Object)
-		 */
 		@Override
 		public void setPropertyValue(String propertyName, @Nullable Object value) throws BeansException {
 			if (!isWritableProperty(propertyName)) {
@@ -223,26 +216,12 @@ class MapDataBinder extends WebDataBinder {
 				this.conversionService = conversionService;
 			}
 
-			/*
-			 * (non-Javadoc)
-			 *
-			 * @see org.springframework.context.expression.MapAccessor#canRead(org.
-			 * springframework.expression.EvaluationContext, java.lang.Object,
-			 * java.lang.String)
-			 */
 			@Override
 			public boolean canRead(EvaluationContext context, @Nullable Object target, String name)
 					throws AccessException {
 				return true;
 			}
 
-			/*
-			 * (non-Javadoc)
-			 *
-			 * @see
-			 * org.springframework.context.expression.MapAccessor#read(org.springframework
-			 * .expression.EvaluationContext, java.lang.Object, java.lang.String)
-			 */
 			@Override
 			@SuppressWarnings("unchecked")
 			public TypedValue read(EvaluationContext context, @Nullable Object target, String name)

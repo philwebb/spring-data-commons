@@ -48,14 +48,6 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 		throw new IllegalStateException("Unsupported populator type " + name + "!");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser#doParse(
-	 * org.w3c.dom.Element, org.springframework.beans.factory.xml.ParserContext,
-	 * org.springframework.beans.factory.support.BeanDefinitionBuilder)
-	 */
 	@Override
 	protected void doParse(Element element, BeanDefinitionBuilder builder) {
 		String localName = element.getLocalName();

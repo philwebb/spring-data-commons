@@ -28,13 +28,6 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  */
 public class QPageRequestUnitTests extends AbstractPageRequestUnitTests {
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.domain.AbstractPageRequestUnitTests#newPageRequest(int,
-	 * int)
-	 */
 	@Override
 	public AbstractPageRequest newPageRequest(int page, int size) {
 		return QPageRequest.of(page, size);

@@ -103,13 +103,6 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 		return toPath(delimiter, DEFAULT_CONVERTER);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.mapping.context.PersistentPropertyPath#toPath(java.lang.
-	 * String, org.springframework.core.convert.converter.Converter)
-	 */
 	@Override
 	@Nullable
 	public String toPath(String delimiter, Converter<? super P, String> converter) {

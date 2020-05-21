@@ -66,15 +66,6 @@ public class ReactivePageableHandlerMethodArgumentResolver extends PageableHandl
 		return Pageable.class.equals(parameter.getParameterType());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentResolver#
-	 * resolveArgumentValue(org.springframework.core.MethodParameter,
-	 * org.springframework.web.reactive.BindingContext,
-	 * org.springframework.web.server.ServerWebExchange)
-	 */
 	@Nonnull
 	@Override
 	public Pageable resolveArgumentValue(MethodParameter parameter, BindingContext bindingContext,

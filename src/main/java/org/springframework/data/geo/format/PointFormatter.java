@@ -55,21 +55,11 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.format.Printer#print(java.lang.Object, java.util.Locale)
-	 */
 	@Override
 	public String print(Point point, Locale locale) {
 		return point == null ? null : String.format("%s,%s", point.getY(), point.getX());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.format.Parser#parse(java.lang.String, java.util.Locale)
-	 */
 	@Override
 	public Point parse(String text, Locale locale) throws ParseException {
 		return convert(text);

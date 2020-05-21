@@ -488,11 +488,6 @@ public class BasicPersistentEntity<T, P extends PersistentProperty<P>> implement
 			this.delegate = delegate;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-		 */
 		@Override
 		public int compare(@Nullable Association<P> left, @Nullable Association<P> right) {
 			if (left == null) {

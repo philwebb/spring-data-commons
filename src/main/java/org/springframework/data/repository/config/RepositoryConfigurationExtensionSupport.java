@@ -68,25 +68,11 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 		return StringUtils.capitalize(getModulePrefix());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationExtension#
-	 * getRepositoryConfigurations(org.springframework.data.repository.config.
-	 * RepositoryConfigurationSource, org.springframework.core.io.ResourceLoader)
-	 */
 	public <T extends RepositoryConfigurationSource> Collection<RepositoryConfiguration<T>> getRepositoryConfigurations(
 			T configSource, ResourceLoader loader) {
 		return getRepositoryConfigurations(configSource, loader, false);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationExtension#
-	 * getRepositoryConfigurations(org.springframework.data.repository.config.
-	 * RepositoryConfigurationSource, org.springframework.core.io.ResourceLoader, boolean)
-	 */
 	@Override
 	public <T extends RepositoryConfigurationSource> Collection<RepositoryConfiguration<T>> getRepositoryConfigurations(
 			T configSource, ResourceLoader loader, boolean strictMatchesOnly) {
@@ -116,14 +102,6 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 		return String.format("classpath*:META-INF/%s-named-queries.properties", getModulePrefix());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationExtension#
-	 * registerBeansForRoot(org.springframework.beans.factory.support.
-	 * BeanDefinitionRegistry,
-	 * org.springframework.data.repository.config.RepositoryConfigurationSource)
-	 */
 	@Override
 	public void registerBeansForRoot(BeanDefinitionRegistry registry,
 			RepositoryConfigurationSource configurationSource) {
@@ -136,35 +114,14 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 */
 	protected abstract String getModulePrefix();
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationExtension#
-	 * postProcess(org.springframework.beans.factory.support.BeanDefinitionBuilder,
-	 * org.springframework.data.repository.config.RepositoryConfigurationSource)
-	 */
 	@Override
 	public void postProcess(BeanDefinitionBuilder builder, RepositoryConfigurationSource source) {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationExtension#
-	 * postProcess(org.springframework.beans.factory.support.BeanDefinitionBuilder,
-	 * org.springframework.data.repository.config.AnnotationRepositoryConfigurationSource)
-	 */
 	@Override
 	public void postProcess(BeanDefinitionBuilder builder, AnnotationRepositoryConfigurationSource config) {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationExtension#
-	 * postProcess(org.springframework.beans.factory.support.BeanDefinitionBuilder,
-	 * org.springframework.data.repository.config.XmlRepositoryConfigurationSource)
-	 */
 	@Override
 	public void postProcess(BeanDefinitionBuilder builder, XmlRepositoryConfigurationSource config) {
 	}

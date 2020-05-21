@@ -52,23 +52,11 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 		this.conversionService = conversionService;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
-	 * springframework.data.mapping.PersistentProperty, java.lang.Object)
-	 */
 	@Override
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
 		this.accessor.setProperty(property, convertIfNecessary(value, property.getType()));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
-	 * springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
-	 */
 	@Override
 	public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value) {
 		Object converted = convertIfNecessary(value, path.getRequiredLeafProperty().getType());
@@ -89,13 +77,6 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 		return convertIfNecessary(getProperty(property), targetType);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.mapping.model.SimplePersistentPropertyPathAccessor#
-	 * getTypedProperty(org.springframework.data.mapping.PersistentProperty,
-	 * java.lang.Class)
-	 */
 	@Nullable
 	@Override
 	protected <S> S getTypedProperty(PersistentProperty<?> property, Class<S> type) {

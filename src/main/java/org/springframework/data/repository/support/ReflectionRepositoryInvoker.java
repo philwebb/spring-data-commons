@@ -133,14 +133,6 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.rest.core.invoke.RepositoryInvoker#invokeQueryMethod(java.
-	 * lang.reflect.Method, java.util.Map, org.springframework.data.domain.Pageable,
-	 * org.springframework.data.domain.Sort)
-	 */
 	@Override
 	public Optional<Object> invokeQueryMethod(Method method, MultiValueMap<String, ?> parameters, Pageable pageable,
 			Sort sort) {

@@ -93,24 +93,12 @@ public class ProjectingArgumentResolverRegistrar {
 			this.resolver.setBeanClassLoader(classLoader);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see org.springframework.beans.factory.config.BeanPostProcessor#
-		 * postProcessBeforeInitialization(java.lang.Object, java.lang.String)
-		 */
 		@Nullable
 		@Override
 		public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 			return bean;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see org.springframework.beans.factory.config.BeanPostProcessor#
-		 * postProcessAfterInitialization(java.lang.Object, java.lang.String)
-		 */
 		@Nullable
 		@Override
 		public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {

@@ -46,15 +46,6 @@ public class SortHandlerMethodArgumentResolver extends SortHandlerMethodArgument
 		return Sort.class.equals(parameter.getParameterType());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#
-	 * resolveArgument(org.springframework.core.MethodParameter,
-	 * org.springframework.web.method.support.ModelAndViewContainer,
-	 * org.springframework.web.context.request.NativeWebRequest,
-	 * org.springframework.web.bind.support.WebDataBinderFactory)
-	 */
 	@Override
 	public Sort resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {

@@ -30,13 +30,6 @@ import static org.springframework.data.domain.UnitTestUtils.assertNotEqualsAndHa
  */
 class PageRequestUnitTests extends AbstractPageRequestUnitTests {
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.domain.AbstractPageRequestUnitTests#newPageRequest(int,
-	 * int)
-	 */
 	@Override
 	public AbstractPageRequest newPageRequest(int page, int size) {
 		return PageRequest.of(page, size);

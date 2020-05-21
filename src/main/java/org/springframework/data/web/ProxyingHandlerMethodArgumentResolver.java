@@ -95,14 +95,6 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 		return !IGNORED_PACKAGES.stream().anyMatch(it -> packageName.startsWith(it));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.web.method.annotation.ModelAttributeMethodProcessor#
-	 * createAttribute(java.lang.String, org.springframework.core.MethodParameter,
-	 * org.springframework.web.bind.support.WebDataBinderFactory,
-	 * org.springframework.web.context.request.NativeWebRequest)
-	 */
 	@Override
 	protected Object createAttribute(String attributeName, MethodParameter parameter,
 			WebDataBinderFactory binderFactory, NativeWebRequest request) throws Exception {
@@ -111,13 +103,6 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 		return this.proxyFactory.createProjection(parameter.getParameterType(), binder.getTarget());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.web.method.annotation.ModelAttributeMethodProcessor#
-	 * bindRequestParameters(org.springframework.web.bind.WebDataBinder,
-	 * org.springframework.web.context.request.NativeWebRequest)
-	 */
 	@Override
 	protected void bindRequestParameters(WebDataBinder binder, NativeWebRequest request) {
 	}

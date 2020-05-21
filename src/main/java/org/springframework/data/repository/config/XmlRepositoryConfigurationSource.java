@@ -132,12 +132,6 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 		return this.includeFilters;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#
-	 * getRepositoryImplementationPostfix()
-	 */
 	@Override
 	public Optional<String> getRepositoryImplementationPostfix() {
 		return getNullDefaultedAttribute(this.element, REPOSITORY_IMPL_POSTFIX);
@@ -175,12 +169,6 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 		return StringUtils.hasText(attribute) ? Optional.of(attribute) : Optional.empty();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#
-	 * getAttribute(java.lang.String, java.lang.Class)
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Optional<T> getAttribute(String name, Class<T> type) {

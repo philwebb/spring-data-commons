@@ -83,13 +83,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 		this.factories.add(0, factory);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.rest.core.projection.ProjectionFactory#createProjection(
-	 * java.lang.Object, java.lang.Class)
-	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T createProjection(Class<T> projectionType, Object source) {
@@ -231,25 +224,12 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		INSTANCE;
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see org.springframework.data.projection.MethodInterceptorFactory#
-		 * createMethodInterceptor(java.lang.Object, java.lang.Class)
-		 */
 		@Override
 		@SuppressWarnings("unchecked")
 		public MethodInterceptor createMethodInterceptor(Object source, Class<?> targetType) {
 			return new MapAccessingMethodInterceptor((Map<String, Object>) source);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang
-		 * .Object, java.lang.Class)
-		 */
 		@Override
 		public boolean supports(Object source, Class<?> targetType) {
 			return Map.class.isInstance(source);
@@ -267,24 +247,11 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 
 		INSTANCE;
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see org.springframework.data.projection.MethodInterceptorFactory#
-		 * createMethodInterceptor(java.lang.Object, java.lang.Class)
-		 */
 		@Override
 		public MethodInterceptor createMethodInterceptor(Object source, Class<?> targetType) {
 			return new PropertyAccessingMethodInterceptor(source);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.data.projection.MethodInterceptorFactory#supports(java.lang
-		 * .Object, java.lang.Class)
-		 */
 		@Override
 		public boolean supports(Object source, Class<?> targetType) {
 			return true;

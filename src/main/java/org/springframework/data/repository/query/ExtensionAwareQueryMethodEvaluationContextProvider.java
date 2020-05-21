@@ -71,14 +71,6 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 		this.delegate = new org.springframework.data.spel.ExtensionAwareEvaluationContextProvider(extensions);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.repository.query.QueryMethodEvaluationContextProvider#
-	 * getEvaluationContext(org.springframework.data.repository.query.Parameters,
-	 * java.lang.Object[])
-	 */
 	@Override
 	public <T extends Parameters<?, ?>> EvaluationContext getEvaluationContext(T parameters, Object[] parameterValues) {
 		StandardEvaluationContext evaluationContext = this.delegate.getEvaluationContext(parameterValues);

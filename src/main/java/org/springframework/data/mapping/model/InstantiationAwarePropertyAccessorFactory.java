@@ -38,13 +38,6 @@ public class InstantiationAwarePropertyAccessorFactory implements PersistentProp
 		this.instantiators = instantiators;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.mapping.model.PersistentPropertyAccessorFactory#
-	 * getPropertyAccessor(org.springframework.data.mapping.PersistentEntity,
-	 * java.lang.Object)
-	 */
 	@Override
 	public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
 		PersistentPropertyAccessor<T> accessor = this.delegate.getPropertyAccessor(entity, bean);

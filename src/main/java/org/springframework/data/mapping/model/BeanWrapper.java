@@ -54,12 +54,6 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 		this.bean = bean;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
-	 * springframework.data.mapping.PersistentProperty, java.util.Optional)
-	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {

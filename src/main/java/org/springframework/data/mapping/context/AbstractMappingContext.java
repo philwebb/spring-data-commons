@@ -230,37 +230,16 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		return getPersistentEntity(typeInfo.getRequiredActualType());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.mapping.context.MappingContext#getPersistentPropertyPath(
-	 * java.lang.Class, java.lang.String)
-	 */
 	@Override
 	public PersistentPropertyPath<P> getPersistentPropertyPath(PropertyPath propertyPath) {
 		return this.persistentPropertyPathFactory.from(propertyPath);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.mapping.context.MappingContext#getPersistentPropertyPath(
-	 * java.lang.String, java.lang.Class)
-	 */
 	@Override
 	public PersistentPropertyPath<P> getPersistentPropertyPath(String propertyPath, Class<?> type) {
 		return this.persistentPropertyPathFactory.from(type, propertyPath);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.mapping.context.MappingContext#findPersistentPropertyPath(
-	 * java.lang.Class, java.util.function.Predicate)
-	 */
 	@Override
 	public <T> PersistentPropertyPaths<T, P> findPersistentPropertyPaths(Class<T> type,
 			Predicate<? super P> predicate) {

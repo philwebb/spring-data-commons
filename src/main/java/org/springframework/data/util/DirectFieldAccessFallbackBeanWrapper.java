@@ -60,12 +60,6 @@ public class DirectFieldAccessFallbackBeanWrapper extends BeanWrapperImpl {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.beans.BeanWrapperImpl#setPropertyValue(java.lang.String,
-	 * java.lang.Object)
-	 */
 	@Override
 	public void setPropertyValue(String propertyName, @Nullable Object value) {
 		try {

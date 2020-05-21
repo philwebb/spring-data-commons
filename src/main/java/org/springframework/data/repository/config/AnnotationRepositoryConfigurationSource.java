@@ -229,12 +229,6 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		return getAttribute(name, String.class);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.RepositoryConfigurationSource#
-	 * getAttribute(java.lang.String, java.lang.Class)
-	 */
 	@Override
 	public <T> Optional<T> getAttribute(String name, Class<T> type) {
 		if (!this.attributes.containsKey(name)) {

@@ -120,14 +120,6 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 			super(classLoader);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.core.type.classreading.AnnotationMetadataReadingVisitor#
-		 * visitMethod(int, java.lang.String, java.lang.String, java.lang.String,
-		 * java.lang.String[])
-		 */
 		@Override
 		@SuppressWarnings("null")
 		public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {

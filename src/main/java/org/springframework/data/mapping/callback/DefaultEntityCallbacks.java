@@ -61,13 +61,6 @@ class DefaultEntityCallbacks implements EntityCallbacks {
 		this.callbackDiscoverer = new EntityCallbackDiscoverer(beanFactory);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.mapping.callback.EntityCallbacks#callback(java.lang.Class,
-	 * java.lang.Object, java.lang.Object)
-	 */
 	@Override
 	public <T> T callback(Class<? extends EntityCallback> callbackType, T entity, Object... args) {
 		Assert.notNull(entity, "Entity must not be null!");

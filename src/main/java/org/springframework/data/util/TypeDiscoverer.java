@@ -370,13 +370,6 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		return Collections.emptyList();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.util.TypeInformation#isAssignableFrom(org.springframework.
-	 * data.util.TypeInformation)
-	 */
 	@Override
 	public boolean isAssignableFrom(TypeInformation<?> target) {
 		TypeInformation<?> superTypeInformation = target.getSuperTypeInformation(getType());

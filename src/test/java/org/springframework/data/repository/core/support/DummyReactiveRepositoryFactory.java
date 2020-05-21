@@ -76,14 +76,6 @@ public class DummyReactiveRepositoryFactory extends ReactiveRepositoryFactorySup
 		return this.repository.getClass();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.core.support.RepositoryFactorySupport#
-	 * getQueryLookupStrategy(org.springframework.data.repository.query.
-	 * QueryLookupStrategy.Key,
-	 * org.springframework.data.repository.query.EvaluationContextProvider)
-	 */
 	@Override
 	protected Optional<QueryLookupStrategy> getQueryLookupStrategy(Key key,
 			QueryMethodEvaluationContextProvider evaluationContextProvider) {

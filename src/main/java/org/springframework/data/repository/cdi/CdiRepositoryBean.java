@@ -206,12 +206,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 		return repoInstance;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see javax.enterprise.context.spi.Contextual#destroy(java.lang.Object,
-	 * javax.enterprise.context.spi.CreationalContext)
-	 */
 	@Override
 	public void destroy(@SuppressWarnings("null") T instance,
 			@SuppressWarnings("null") CreationalContext<T> creationalContext) {

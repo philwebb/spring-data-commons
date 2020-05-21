@@ -98,14 +98,6 @@ public class QuerydslRepositoryInvokerAdapter implements RepositoryInvoker {
 		return this.delegate.invokeFindById(id);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.repository.support.RepositoryInvoker#invokeQueryMethod(
-	 * java.lang.reflect.Method, org.springframework.util.MultiValueMap,
-	 * org.springframework.data.domain.Pageable, org.springframework.data.domain.Sort)
-	 */
 	@Override
 	public Optional<Object> invokeQueryMethod(Method method, MultiValueMap<String, ? extends Object> parameters,
 			Pageable pageable, Sort sort) {

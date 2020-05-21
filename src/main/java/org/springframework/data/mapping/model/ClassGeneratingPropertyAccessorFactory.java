@@ -110,13 +110,6 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 	private volatile Map<TypeInformation<?>, Class<PersistentPropertyAccessor<?>>> propertyAccessorClasses = new HashMap<>(
 			32);
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.mapping.model.PersistentPropertyAccessorFactory#
-	 * getPropertyAccessor(org.springframework.data.mapping.PersistentEntity,
-	 * java.lang.Object)
-	 */
 	@Override
 	public <T> PersistentPropertyAccessor<T> getPropertyAccessor(PersistentEntity<?, ?> entity, T bean) {
 		Constructor<?> constructor = this.constructorMap.get(entity);

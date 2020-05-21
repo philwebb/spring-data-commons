@@ -74,14 +74,6 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 		return getProperty(path, AccessOptions.defaultGetOptions());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.mapping.PersistentPropertyPathAccessor#getProperty(org.
-	 * springframework.data.mapping.PersistentPropertyPath,
-	 * org.springframework.data.mapping.PersistentPropertyPathAccessor.Options)
-	 */
 	@Nullable
 	@Override
 	public Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, GetOptions options) {
@@ -101,36 +93,16 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 		return current;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.mapping.PersistentPropertyAccessor#setProperty(org.
-	 * springframework.data.mapping.PersistentProperty, java.lang.Object)
-	 */
 	@Override
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
 		this.delegate.setProperty(property, value);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.mapping.PersistentPropertyPathAccessor#setProperty(org.
-	 * springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
-	 */
 	@Override
 	public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value) {
 		setProperty(path, value, AccessOptions.defaultSetOptions());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.mapping.model.ConvertingPropertyAccessor#setProperty(org.
-	 * springframework.data.mapping.PersistentPropertyPath, java.lang.Object)
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value,

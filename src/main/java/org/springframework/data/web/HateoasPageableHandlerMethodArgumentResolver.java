@@ -92,13 +92,6 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 		return pagingVariables.concat(this.sortResolver.getSortTemplateVariables(parameter, template));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.hateoas.server.mvc.UriComponentsContributor#enhance(org.
-	 * springframework.web.util.UriComponentsBuilder,
-	 * org.springframework.core.MethodParameter, java.lang.Object)
-	 */
 	@Override
 	public void enhance(UriComponentsBuilder builder, @Nullable MethodParameter parameter, Object value) {
 		Assert.notNull(builder, "UriComponentsBuilder must not be null!");

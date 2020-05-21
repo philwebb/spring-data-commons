@@ -172,13 +172,6 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 			this.synthetic = constructor.getConstructor();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see org.springframework.data.convert.EntityInstantiator#createInstance(org.
-		 * springframework.data.mapping.PersistentEntity,
-		 * org.springframework.data.mapping.model.ParameterValueProvider)
-		 */
 		@Override
 		@SuppressWarnings("unchecked")
 		public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(

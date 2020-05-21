@@ -77,14 +77,6 @@ class VavrCollections {
 				return CONVERTIBLE_PAIRS;
 			}
 
-			/*
-			 * (non-Javadoc)
-			 *
-			 * @see
-			 * org.springframework.core.convert.converter.ConditionalConverter#matches(org
-			 * .springframework.core.convert.TypeDescriptor,
-			 * org.springframework.core.convert.TypeDescriptor)
-			 */
 			@Override
 			public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
 				// Prevent collections to be mapped to maps
@@ -99,14 +91,6 @@ class VavrCollections {
 				return true;
 			}
 
-			/*
-			 * (non-Javadoc)
-			 *
-			 * @see
-			 * org.springframework.core.convert.converter.GenericConverter#convert(java.
-			 * lang.Object, org.springframework.core.convert.TypeDescriptor,
-			 * org.springframework.core.convert.TypeDescriptor)
-			 */
 			@Nullable
 			@Override
 			public Object convert(@Nullable Object source, TypeDescriptor sourceDescriptor,

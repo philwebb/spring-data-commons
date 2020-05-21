@@ -332,14 +332,6 @@ public abstract class QueryExecutionConverters {
 					.stream().collect(StreamUtils.toUnmodifiableSet());
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
-		 * Object, org.springframework.core.convert.TypeDescriptor,
-		 * org.springframework.core.convert.TypeDescriptor)
-		 */
 		@Nullable
 		@Override
 		public final Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -627,14 +619,6 @@ public abstract class QueryExecutionConverters {
 			return Collections.singleton(new ConvertiblePair(Iterable.class, Object.class));
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.core.convert.converter.ConditionalConverter#matches(org.
-		 * springframework.core.convert.TypeDescriptor,
-		 * org.springframework.core.convert.TypeDescriptor)
-		 */
 		@Override
 		public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
 			if (sourceType.isAssignableTo(targetType)) {
@@ -651,14 +635,6 @@ public abstract class QueryExecutionConverters {
 			});
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
-		 * Object, org.springframework.core.convert.TypeDescriptor,
-		 * org.springframework.core.convert.TypeDescriptor)
-		 */
 		@SuppressWarnings("unchecked")
 		@Nullable
 		@Override

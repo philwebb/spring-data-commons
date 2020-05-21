@@ -90,15 +90,6 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.web.method.support.HandlerMethodArgumentResolver#
-	 * resolveArgument(org.springframework.core.MethodParameter,
-	 * org.springframework.web.method.support.ModelAndViewContainer,
-	 * org.springframework.web.context.request.NativeWebRequest,
-	 * org.springframework.web.bind.support.WebDataBinderFactory)
-	 */
 	@Nullable
 	@Override
 	public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,

@@ -94,13 +94,6 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 		return this.beanName != null && this.beanName.equals(this.config.generateBeanName(definition));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.repository.config.ImplementationLookupConfiguration#
-	 * matches(org.springframework.beans.factory.config.BeanDefinition,
-	 * org.springframework.core.type.classreading.MetadataReaderFactory)
-	 */
 	@Override
 	public boolean matches(BeanDefinition definition) {
 		Assert.notNull(definition, "BeanDefinition must not be null!");

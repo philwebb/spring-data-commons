@@ -72,14 +72,6 @@ public abstract class RepositoryBeanDefinitionRegistrarSupport
 		registerBeanDefinitions(metadata, registry, ConfigurationClassPostProcessor.IMPORT_BEAN_NAME_GENERATOR);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.context.annotation.ImportBeanDefinitionRegistrar#
-	 * registerBeanDefinitions(org.springframework.core.type.AnnotationMetadata,
-	 * org.springframework.beans.factory.support.BeanDefinitionRegistry,
-	 * org.springframework.beans.factory.support.BeanNameGenerator)
-	 */
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry,
 			BeanNameGenerator generator) {

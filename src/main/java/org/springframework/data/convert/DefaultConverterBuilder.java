@@ -123,14 +123,6 @@ class DefaultConverterBuilder<S, T>
 			this.function = function;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.core.convert.converter.GenericConverter#convert(java.lang.
-		 * Object, org.springframework.core.convert.TypeDescriptor,
-		 * org.springframework.core.convert.TypeDescriptor)
-		 */
 		@Nullable
 		@Override
 		@SuppressWarnings("unchecked")

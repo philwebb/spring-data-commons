@@ -123,12 +123,6 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 		return typeInformation.orElse(null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.convert.TypeMapper#readType(java.lang.Object,
-	 * org.springframework.data.util.TypeInformation)
-	 */
 	@Override
 	public <T> TypeInformation<? extends T> readType(S source, TypeInformation<T> basicType) {
 		Assert.notNull(source, "Source must not be null!");
@@ -172,24 +166,11 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.convert.TypeMapper#writeType(java.lang.Class,
-	 * java.lang.Object)
-	 */
 	@Override
 	public void writeType(Class<?> type, S dbObject) {
 		writeType(ClassTypeInformation.from(type), dbObject);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.convert.TypeMapper#writeType(org.springframework.data.util
-	 * .TypeInformation, java.lang.Object)
-	 */
 	@Override
 	public void writeType(TypeInformation<?> info, S sink) {
 		Assert.notNull(info, "TypeInformation must not be null!");

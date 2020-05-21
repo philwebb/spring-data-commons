@@ -83,12 +83,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 				this.ignoredPaths, defaultIgnoreCase, this.mode);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.springframework.data.domain.ExampleMatcher#withMatcher(java.lang.String,
-	 * org.springframework.data.domain.ExampleMatcher.MatcherConfigurer)
-	 */
 	@Override
 	public ExampleMatcher withMatcher(String propertyPath, GenericPropertyMatcher genericPropertyMatcher) {
 		Assert.hasText(propertyPath, "PropertyPath must not be empty!");
@@ -107,13 +101,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.springframework.data.domain.ExampleMatcher#withTransformer(java.lang.String,
-	 * org.springframework.data.domain.ExampleMatcher.PropertyValueTransformer)
-	 */
 	@Override
 	public ExampleMatcher withTransformer(String propertyPath, PropertyValueTransformer propertyValueTransformer) {
 		Assert.hasText(propertyPath, "PropertyPath must not be empty!");
