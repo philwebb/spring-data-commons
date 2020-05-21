@@ -307,8 +307,8 @@ class ExtensionAwareEvaluationContextProviderUnitTests {
 				functions.put("aliasedMethod", new Function(getClass().getMethod("extensionMethod")));
 				return functions;
 			}
-			catch (Exception o_O) {
-				throw new RuntimeException(o_O);
+			catch (Exception ex) {
+				throw new RuntimeException(ex);
 			}
 		}
 

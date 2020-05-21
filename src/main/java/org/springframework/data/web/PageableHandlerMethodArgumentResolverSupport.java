@@ -276,7 +276,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 			int parsed = Integer.parseInt(parameter) - (this.oneIndexedParameters && shiftIndex ? 1 : 0);
 			return Optional.of(parsed < 0 ? 0 : parsed > upper ? upper : parsed);
 		}
-		catch (NumberFormatException e) {
+		catch (NumberFormatException ex) {
 			return Optional.of(0);
 		}
 	}

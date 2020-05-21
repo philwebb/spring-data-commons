@@ -113,7 +113,7 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 			MetadataReader reader = getMetadataReaderFactory().getMetadataReader(beanClassName);
 			return filters.stream().anyMatch(it -> matches(it, reader));
 		}
-		catch (IOException o_O) {
+		catch (IOException ex) {
 			return true;
 		}
 	}
@@ -122,7 +122,7 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 		try {
 			return filter.match(reader, getMetadataReaderFactory());
 		}
-		catch (IOException e) {
+		catch (IOException ex) {
 			return false;
 		}
 	}

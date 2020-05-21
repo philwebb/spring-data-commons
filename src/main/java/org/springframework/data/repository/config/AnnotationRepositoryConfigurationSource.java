@@ -253,7 +253,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		try {
 			return this.attributes.getEnum(BOOTSTRAP_MODE);
 		}
-		catch (IllegalArgumentException o_O) {
+		catch (IllegalArgumentException ex) {
 			return BootstrapMode.DEFAULT;
 		}
 	}
@@ -336,7 +336,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 		try {
 			return filterAttributes.getStringArray("pattern");
 		}
-		catch (IllegalArgumentException o_O) {
+		catch (IllegalArgumentException ex) {
 			return new String[0];
 		}
 	}

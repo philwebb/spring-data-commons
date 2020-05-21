@@ -49,8 +49,8 @@ class TestUtils {
 		try {
 			return controller.getMethod(name, argumentTypes);
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 

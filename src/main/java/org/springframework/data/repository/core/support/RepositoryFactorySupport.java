@@ -487,8 +487,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 			try {
 				return this.composition.invoke(method, arguments);
 			}
-			catch (Exception e) {
-				ClassUtils.unwrapReflectionException(e);
+			catch (Exception ex) {
+				ClassUtils.unwrapReflectionException(ex);
 			}
 			throw new IllegalStateException("Should not occur!");
 		}

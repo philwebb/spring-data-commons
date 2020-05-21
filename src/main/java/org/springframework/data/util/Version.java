@@ -73,8 +73,8 @@ public class Version implements Comparable<Version> {
 				try {
 					intParts[i] = Integer.parseInt(input);
 				}
-				catch (IllegalArgumentException o_O) {
-					throw new IllegalArgumentException(String.format(VERSION_PARSE_ERROR, input, version), o_O);
+				catch (IllegalArgumentException ex) {
+					throw new IllegalArgumentException(String.format(VERSION_PARSE_ERROR, input, version), ex);
 				}
 			}
 		}

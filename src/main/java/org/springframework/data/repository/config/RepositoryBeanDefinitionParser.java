@@ -71,8 +71,8 @@ public class RepositoryBeanDefinitionParser implements BeanDefinitionParser {
 				readerContext.fireComponentRegistered(definition);
 			}
 		}
-		catch (RuntimeException e) {
-			handleError(e, element, readerContext);
+		catch (RuntimeException ex) {
+			handleError(ex, element, readerContext);
 		}
 		return null;
 	}

@@ -166,7 +166,7 @@ public class SpringDataWebConfiguration implements WebMvcConfigurer, BeanClassLo
 		try {
 			return context.getBean(type);
 		}
-		catch (NoSuchBeanDefinitionException o_O) {
+		catch (NoSuchBeanDefinitionException ex) {
 			return fallback.get();
 		}
 	}

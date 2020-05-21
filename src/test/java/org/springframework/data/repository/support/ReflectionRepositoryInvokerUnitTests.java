@@ -202,10 +202,10 @@ class ReflectionRepositoryInvokerUnitTests {
 		try {
 			invoker.invokeQueryMethod(method, parameters, Pageable.unpaged(), Sort.unsorted());
 		}
-		catch (QueryMethodParameterConversionException o_O) {
-			assertThat(o_O.getParameter()).isEqualTo(new MethodParameters(method).getParameters().get(0));
-			assertThat(o_O.getSource()).isEqualTo("value");
-			assertThat(o_O.getCause()).isInstanceOf(ConversionFailedException.class);
+		catch (QueryMethodParameterConversionException ex) {
+			assertThat(ex.getParameter()).isEqualTo(new MethodParameters(method).getParameters().get(0));
+			assertThat(ex.getSource()).isEqualTo("value");
+			assertThat(ex.getCause()).isInstanceOf(ConversionFailedException.class);
 		}
 	}
 

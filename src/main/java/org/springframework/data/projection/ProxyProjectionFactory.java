@@ -186,8 +186,8 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 				GET_TARGET_CLASS_METHOD = TargetAware.class.getMethod("getTargetClass");
 				GET_TARGET_METHOD = TargetAware.class.getMethod("getTarget");
 			}
-			catch (NoSuchMethodException e) {
-				throw new IllegalStateException(e);
+			catch (NoSuchMethodException ex) {
+				throw new IllegalStateException(ex);
 			}
 		}
 

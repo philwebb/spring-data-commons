@@ -262,10 +262,10 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 			try {
 				return Direction.valueOf(value.toUpperCase(Locale.US));
 			}
-			catch (Exception e) {
+			catch (Exception ex) {
 				throw new IllegalArgumentException(String.format(
 						"Invalid value '%s' for orders given! Has to be either 'desc' or 'asc' (case insensitive).",
-						value), e);
+						value), ex);
 			}
 		}
 
@@ -279,7 +279,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 			try {
 				return Optional.of(fromString(value));
 			}
-			catch (IllegalArgumentException e) {
+			catch (IllegalArgumentException ex) {
 				return Optional.empty();
 			}
 		}

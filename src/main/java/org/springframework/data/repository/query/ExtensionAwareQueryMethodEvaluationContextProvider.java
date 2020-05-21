@@ -160,7 +160,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 			try {
 				return this.target.getClass().getMethod(method.getName(), method.getParameterTypes());
 			}
-			catch (Exception e) {
+			catch (Exception ex) {
 				return null;
 			}
 		}

@@ -74,8 +74,8 @@ class AbstractMappingContextIntegrationTests<T extends PersistentProperty<T>> {
 				try {
 					Thread.sleep(250);
 				}
-				catch (InterruptedException e) {
-					throw new RuntimeException(e);
+				catch (InterruptedException ex) {
+					throw new RuntimeException(ex);
 				}
 			});
 		});
@@ -105,8 +105,8 @@ class AbstractMappingContextIntegrationTests<T extends PersistentProperty<T>> {
 			try {
 				Thread.sleep(200);
 			}
-			catch (InterruptedException e) {
-				throw new RuntimeException(e);
+			catch (InterruptedException ex) {
+				throw new RuntimeException(ex);
 			}
 			return (T) prop;
 		}

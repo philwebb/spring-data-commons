@@ -232,8 +232,8 @@ class RepositoriesUnitTests {
 			try {
 				this.domainType = ClassUtils.forName(domainType, CustomRepositoryMetadata.class.getClassLoader());
 			}
-			catch (Exception e) {
-				throw new RuntimeException(e);
+			catch (Exception ex) {
+				throw new RuntimeException(ex);
 			}
 		}
 

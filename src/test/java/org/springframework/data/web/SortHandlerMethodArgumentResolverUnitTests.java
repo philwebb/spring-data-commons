@@ -220,8 +220,8 @@ class SortHandlerMethodArgumentResolverUnitTests extends SortDefaultUnitTests {
 		try {
 			assertThat(resolver.resolveArgument(parameter, null, request, null)).isEqualTo(sort);
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 

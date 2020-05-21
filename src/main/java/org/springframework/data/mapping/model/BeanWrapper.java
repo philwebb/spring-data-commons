@@ -83,8 +83,8 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 			ReflectionUtils.makeAccessible(setter);
 			ReflectionUtils.invokeMethod(setter, this.bean, value);
 		}
-		catch (IllegalStateException e) {
-			throw new MappingException("Could not set object property!", e);
+		catch (IllegalStateException ex) {
+			throw new MappingException("Could not set object property!", ex);
 		}
 	}
 
@@ -116,9 +116,9 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 			ReflectionUtils.makeAccessible(getter);
 			return ReflectionUtils.invokeMethod(getter, this.bean);
 		}
-		catch (IllegalStateException e) {
+		catch (IllegalStateException ex) {
 			throw new MappingException(
-					String.format("Could not read property %s of %s!", property.toString(), this.bean.toString()), e);
+					String.format("Could not read property %s of %s!", property.toString(), this.bean.toString()), ex);
 		}
 	}
 

@@ -64,7 +64,7 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		try {
 			mapTypes.add(ClassUtils.forName("io.vavr.collection.Map", classLoader));
 		}
-		catch (ClassNotFoundException o_O) {
+		catch (ClassNotFoundException ex) {
 		}
 		MAP_TYPES = mapTypes.toArray(new Class[0]);
 	}

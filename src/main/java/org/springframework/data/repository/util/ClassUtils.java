@@ -74,10 +74,10 @@ public abstract class ClassUtils {
 			Class<?> theClass = org.springframework.util.ClassUtils.forName(className, classLoader);
 			action.accept(theClass);
 		}
-		catch (IllegalAccessError err) {
+		catch (IllegalAccessError ex) {
 			throw new IllegalStateException(
-					"Readability mismatch in inheritance hierarchy of class [" + className + "]: " + err.getMessage(),
-					err);
+					"Readability mismatch in inheritance hierarchy of class [" + className + "]: " + ex.getMessage(),
+					ex);
 		}
 		catch (Throwable ex) {
 			// Typically ClassNotFoundException or NoClassDefFoundError...

@@ -253,8 +253,8 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 				try {
 					syncLatch.await();
 				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
+				catch (InterruptedException ex) {
+					ex.printStackTrace();
 				}
 				return super.findAnnotation(annotationType);
 			}
@@ -264,7 +264,7 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 			try {
 				entity.findAnnotation(AccessType.class);
 			}
-			catch (Exception e) {
+			catch (Exception ex) {
 				failed.set(true);
 			}
 			finally {
@@ -275,7 +275,7 @@ class BasicPersistentEntityUnitTests<T extends PersistentProperty<T>> {
 			try {
 				entity.findAnnotation(Persistent.class);
 			}
-			catch (Exception e) {
+			catch (Exception ex) {
 				failed.set(true);
 			}
 			finally {

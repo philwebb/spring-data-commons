@@ -50,8 +50,8 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 			double longitude = Double.parseDouble(parts[1]);
 			return new Point(longitude, latitude);
 		}
-		catch (NumberFormatException o_O) {
-			throw new IllegalArgumentException(String.format(INVALID_FORMAT, source), o_O);
+		catch (NumberFormatException ex) {
+			throw new IllegalArgumentException(String.format(INVALID_FORMAT, source), ex);
 		}
 	}
 

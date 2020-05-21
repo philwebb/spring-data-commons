@@ -313,14 +313,14 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 					entity.setPersistentPropertyAccessorFactory(this.persistentPropertyAccessorFactory);
 				}
 			}
-			catch (RuntimeException e) {
+			catch (RuntimeException ex) {
 				this.persistentEntities.remove(typeInformation);
-				throw e;
+				throw ex;
 			}
 
 		}
-		catch (BeansException e) {
-			throw new MappingException(e.getMessage(), e);
+		catch (BeansException ex) {
+			throw new MappingException(ex.getMessage(), ex);
 		}
 		finally {
 			this.write.unlock();

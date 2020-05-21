@@ -122,7 +122,7 @@ class MapDataBinder extends WebDataBinder {
 			try {
 				return getPropertyPath(propertyName) != null;
 			}
-			catch (PropertyReferenceException o_O) {
+			catch (PropertyReferenceException ex) {
 				return false;
 			}
 		}
@@ -170,8 +170,8 @@ class MapDataBinder extends WebDataBinder {
 			try {
 				expression.setValue(context, value);
 			}
-			catch (SpelEvaluationException o_O) {
-				throw new NotWritablePropertyException(this.type, propertyName, "Could not write property!", o_O);
+			catch (SpelEvaluationException ex) {
+				throw new NotWritablePropertyException(this.type, propertyName, "Could not write property!", ex);
 			}
 		}
 
@@ -229,7 +229,7 @@ class MapDataBinder extends WebDataBinder {
 				try {
 					return super.read(context, target, name);
 				}
-				catch (AccessException o_O) {
+				catch (AccessException ex) {
 					Object emptyResult = path.isCollection() ? CollectionFactory.createCollection(List.class, 0)
 							: CollectionFactory.createMap(Map.class, 0);
 					((Map<String, Object>) target).put(name, emptyResult);

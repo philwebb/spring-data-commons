@@ -170,7 +170,7 @@ public class ResultProcessor {
 		try {
 			return CollectionFactory.createCollection(source.getClass(), source.size());
 		}
-		catch (RuntimeException o_O) {
+		catch (RuntimeException ex) {
 			return CollectionFactory.createApproximateCollection(source, source.size());
 		}
 	}

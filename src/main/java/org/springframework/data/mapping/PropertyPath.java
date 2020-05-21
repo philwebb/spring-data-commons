@@ -402,11 +402,11 @@ public class PropertyPath implements Streamable<PropertyPath> {
 			return current;
 
 		}
-		catch (PropertyReferenceException e) {
+		catch (PropertyReferenceException ex) {
 			if (current != null) {
-				throw e;
+				throw ex;
 			}
-			exception = e;
+			exception = ex;
 		}
 		Pattern pattern = Pattern.compile("\\p{Lu}\\p{Ll}*$");
 		Matcher matcher = pattern.matcher(source);
@@ -417,8 +417,8 @@ public class PropertyPath implements Streamable<PropertyPath> {
 			try {
 				return create(head, type, tail + addTail, base);
 			}
-			catch (PropertyReferenceException e) {
-				throw e.hasDeeperResolutionDepthThan(exception) ? e : exception;
+			catch (PropertyReferenceException ex) {
+				throw ex.hasDeeperResolutionDepthThan(exception) ? ex : exception;
 			}
 		}
 		throw exception;

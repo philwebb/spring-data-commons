@@ -367,8 +367,8 @@ class CustomConversionsUnitTests {
 				try {
 					return this.targetType.newInstance();
 				}
-				catch (Exception e) {
-					throw new IllegalArgumentException(e.getMessage(), e);
+				catch (Exception ex) {
+					throw new IllegalArgumentException(ex.getMessage(), ex);
 				}
 			}
 

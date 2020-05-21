@@ -94,8 +94,8 @@ public class TypeFilterParser {
 			try {
 				filters.add(createTypeFilter(childElement, this.classLoader));
 			}
-			catch (RuntimeException e) {
-				this.readerContext.error(e.getMessage(), this.readerContext.extractSource(element), e.getCause());
+			catch (RuntimeException ex) {
+				this.readerContext.error(ex.getMessage(), this.readerContext.extractSource(element), ex.getCause());
 			}
 		}
 		return filters;

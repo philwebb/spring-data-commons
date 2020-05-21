@@ -209,9 +209,9 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 		try {
 			return this.parameters.get(index);
 		}
-		catch (IndexOutOfBoundsException e) {
+		catch (IndexOutOfBoundsException ex) {
 			throw new ParameterOutOfBoundsException(
-					"Invalid parameter index! You seem to have declared too little query method parameters!", e);
+					"Invalid parameter index! You seem to have declared too little query method parameters!", ex);
 		}
 	}
 
@@ -224,7 +224,7 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 		try {
 			return null != getParameter(position);
 		}
-		catch (ParameterOutOfBoundsException e) {
+		catch (ParameterOutOfBoundsException ex) {
 			return false;
 		}
 	}

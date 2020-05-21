@@ -210,8 +210,8 @@ class QuerydslPredicateArgumentResolverUnitTests {
 		try {
 			return new MethodParameter(Sample.class.getMethod(methodName, args), args.length == 0 ? -1 : 0);
 		}
-		catch (NoSuchMethodException e) {
-			throw new RuntimeException(e);
+		catch (NoSuchMethodException ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 

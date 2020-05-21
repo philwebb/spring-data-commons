@@ -127,9 +127,9 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		try {
 			return (PersistentPropertyAccessor<T>) constructor.newInstance(args);
 		}
-		catch (Exception e) {
+		catch (Exception ex) {
 			throw new IllegalArgumentException(
-					String.format("Cannot create persistent property accessor for %s", entity), e);
+					String.format("Cannot create persistent property accessor for %s", entity), ex);
 		}
 		finally {
 			args[0] = null;
@@ -156,7 +156,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			return ReflectionUtils.findMethod(entity.getType().getClassLoader().getClass(), "defineClass", String.class,
 					byte[].class, Integer.TYPE, Integer.TYPE, ProtectionDomain.class) != null;
 		}
-		catch (Exception e) {
+		catch (Exception ex) {
 			return false;
 		}
 	}
@@ -208,8 +208,8 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 			return (Class<PersistentPropertyAccessor<?>>) PropertyAccessorClassGenerator
 					.generateCustomAccessorClass(entity);
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 
@@ -354,16 +354,16 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				try {
 					return ClassUtils.forName(className, classLoader);
 				}
-				catch (Exception o_O) {
-					throw new IllegalStateException(o_O);
+				catch (Exception ex) {
+					throw new IllegalStateException(ex);
 				}
 			}
 			byte[] bytecode = generateBytecode(className.replace('.', '/'), entity);
 			try {
 				return ReflectUtils.defineClass(className, bytecode, classLoader, type.getProtectionDomain(), type);
 			}
-			catch (Exception o_O) {
-				throw new IllegalStateException(o_O);
+			catch (Exception ex) {
+				throw new IllegalStateException(ex);
 			}
 		}
 

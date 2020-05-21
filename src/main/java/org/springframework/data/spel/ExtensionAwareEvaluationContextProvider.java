@@ -247,8 +247,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			try {
 				return new TypedValue(function.invoke(new Object[0]));
 			}
-			catch (Exception e) {
-				throw new SpelEvaluationException(e, SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED, name,
+			catch (Exception ex) {
+				throw new SpelEvaluationException(ex, SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED, name,
 						function.getDeclaringClass());
 			}
 		}
@@ -274,8 +274,8 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 			try {
 				return new TypedValue(this.function.invoke(arguments));
 			}
-			catch (Exception e) {
-				throw new SpelEvaluationException(e, SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED,
+			catch (Exception ex) {
+				throw new SpelEvaluationException(ex, SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED,
 						this.function.getName(), this.function.getDeclaringClass());
 			}
 		}

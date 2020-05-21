@@ -61,8 +61,8 @@ enum ReflectionEntityInstantiator implements EntityInstantiator {
 					return BeanUtils.instantiateClass(entity.getType());
 				}
 			}
-			catch (BeanInstantiationException e) {
-				throw new MappingInstantiationException(entity, Collections.emptyList(), e);
+			catch (BeanInstantiationException ex) {
+				throw new MappingInstantiationException(entity, Collections.emptyList(), ex);
 			}
 		}
 		int parameterCount = constructor.getConstructor().getParameterCount();
@@ -74,8 +74,8 @@ enum ReflectionEntityInstantiator implements EntityInstantiator {
 		try {
 			return BeanUtils.instantiateClass(constructor.getConstructor(), params);
 		}
-		catch (BeanInstantiationException e) {
-			throw new MappingInstantiationException(entity, new ArrayList<>(Arrays.asList(params)), e);
+		catch (BeanInstantiationException ex) {
+			throw new MappingInstantiationException(entity, new ArrayList<>(Arrays.asList(params)), ex);
 		}
 	}
 

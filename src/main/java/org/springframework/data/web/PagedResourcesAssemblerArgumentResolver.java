@@ -109,7 +109,7 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 			Link linkToMethod = this.linkBuilderFactory.linkTo(parameter.getDeclaringClass(), method).withSelfRel();
 			return UriComponentsBuilder.fromUriString(linkToMethod.getHref()).build();
 		}
-		catch (IllegalArgumentException o_O) {
+		catch (IllegalArgumentException ex) {
 			return null;
 		}
 	}

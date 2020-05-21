@@ -67,9 +67,9 @@ public class SimpleEntityPathResolver implements EntityPathResolver {
 			return getStaticFieldOfType(pathClass).map(it -> (EntityPath<T>) ReflectionUtils.getField(it, null))
 					.orElseThrow(() -> new IllegalStateException(String.format(NO_FIELD_FOUND_TEMPLATE, pathClass)));
 		}
-		catch (ClassNotFoundException e) {
+		catch (ClassNotFoundException ex) {
 			throw new IllegalArgumentException(
-					String.format(NO_CLASS_FOUND_TEMPLATE, pathClassName, domainClass.getName()), e);
+					String.format(NO_CLASS_FOUND_TEMPLATE, pathClassName, domainClass.getName()), ex);
 		}
 	}
 

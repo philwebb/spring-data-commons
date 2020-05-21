@@ -222,8 +222,8 @@ public class AbstractPersistentPropertyUnitTests {
 			return Arrays.stream(Introspector.getBeanInfo(type).getPropertyDescriptors())
 					.filter(it -> it.getName().equals(propertyName)).findFirst();
 		}
-		catch (IntrospectionException o_O) {
-			throw new RuntimeException(o_O);
+		catch (IntrospectionException ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 

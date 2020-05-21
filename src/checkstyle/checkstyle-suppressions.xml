@@ -25,7 +25,6 @@
 	<suppress files=".*" checks="RedundantModifier" />
 	<suppress files=".*" checks="Regexp" />
 	<suppress files=".*" checks="RegexpSinglelineJava" />
-	<suppress files=".*" checks="SpringCatch" />
 	<suppress files=".*" checks="SpringHeader" />
 	<suppress files=".*" checks="SpringHideUtilityClassConstructor" />
 	<suppress files=".*" checks="SpringJUnit5" />

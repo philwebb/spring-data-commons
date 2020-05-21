@@ -91,8 +91,8 @@ class RepositoryBeanNameGenerator {
 			try {
 				return ClassUtils.forName(value.toString(), this.beanClassLoader);
 			}
-			catch (Exception o_O) {
-				throw new RuntimeException(o_O);
+			catch (Exception ex) {
+				throw new RuntimeException(ex);
 			}
 		}
 	}

@@ -249,7 +249,7 @@ public abstract class NullableUtils {
 		try {
 			return Optional.of((Class) ClassUtils.forName(className, NullableUtils.class.getClassLoader()));
 		}
-		catch (ClassNotFoundException e) {
+		catch (ClassNotFoundException ex) {
 			return Optional.empty();
 		}
 	}

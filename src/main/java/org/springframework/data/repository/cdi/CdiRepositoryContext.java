@@ -96,8 +96,8 @@ public class CdiRepositoryContext {
 		try {
 			return ClassUtils.forName(className, this.classLoader);
 		}
-		catch (ClassNotFoundException e) {
-			throw new UnsatisfiedResolutionException(String.format("Unable to resolve class for '%s'", className), e);
+		catch (ClassNotFoundException ex) {
+			throw new UnsatisfiedResolutionException(String.format("Unable to resolve class for '%s'", className), ex);
 		}
 	}
 

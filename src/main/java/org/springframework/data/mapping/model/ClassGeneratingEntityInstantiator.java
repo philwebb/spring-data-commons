@@ -177,8 +177,8 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 			return (ObjectInstantiator) this.generator.generateCustomInstantiatorClass(entity, constructor)
 					.newInstance();
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 
@@ -207,8 +207,8 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 			try {
 				return (T) this.instantiator.newInstance(params);
 			}
-			catch (Exception e) {
-				throw new MappingInstantiationException(entity, Arrays.asList(params), e);
+			catch (Exception ex) {
+				throw new MappingInstantiationException(entity, Arrays.asList(params), ex);
 			}
 		}
 
@@ -310,8 +310,8 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 				return ReflectUtils.defineClass(className, bytecode, type.getClassLoader(), type.getProtectionDomain(),
 						type);
 			}
-			catch (Exception e) {
-				throw new IllegalStateException(e);
+			catch (Exception ex) {
+				throw new IllegalStateException(ex);
 			}
 		}
 

@@ -87,7 +87,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 		try {
 			return new Distance(Double.parseDouble(source));
 		}
-		catch (NumberFormatException o_O) {
+		catch (NumberFormatException ex) {
 			throw new IllegalArgumentException(String.format(INVALID_DISTANCE,
 					StringUtils.collectionToCommaDelimitedString(SUPPORTED_METRICS.keySet()), source));
 		}
@@ -106,7 +106,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 		try {
 			return new Distance(Double.parseDouble(amountString), metric.getValue());
 		}
-		catch (NumberFormatException o_O) {
+		catch (NumberFormatException ex) {
 			throw new IllegalArgumentException(String.format(INVALID_DISTANCE,
 					StringUtils.collectionToCommaDelimitedString(SUPPORTED_METRICS.keySet()), source));
 		}

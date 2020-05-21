@@ -107,8 +107,8 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 				try {
 					types.add(ClassUtils.forName(beanClassName, classLoader));
 				}
-				catch (ClassNotFoundException o_O) {
-					throw new IllegalStateException(o_O);
+				catch (ClassNotFoundException ex) {
+					throw new IllegalStateException(ex);
 				}
 			}
 		}

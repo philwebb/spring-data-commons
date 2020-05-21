@@ -72,7 +72,7 @@ public class SimpleTypeInformationMapper implements TypeInformationMapper {
 		try {
 			return Optional.of(ClassTypeInformation.from(ClassUtils.forName(typeName, null)));
 		}
-		catch (ClassNotFoundException e) {
+		catch (ClassNotFoundException ex) {
 			return Optional.empty();
 		}
 	}

@@ -200,7 +200,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 				MethodsMetadataReader metadataReader = factory.getMetadataReader(ClassUtils.getQualifiedName(type));
 				return Optional.of(metadataReader.getMethodsMetadata());
 			}
-			catch (IOException e) {
+			catch (IOException ex) {
 				logger.info(LogMessage
 						.format("Couldn't read class metadata for %s. Input property calculation might fail!", type));
 				return Optional.empty();

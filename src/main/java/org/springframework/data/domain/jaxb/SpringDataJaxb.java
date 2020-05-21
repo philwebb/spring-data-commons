@@ -128,8 +128,8 @@ public abstract class SpringDataJaxb {
 			try {
 				result.add(adapter.unmarshal(element));
 			}
-			catch (Exception o_O) {
-				throw new RuntimeException(o_O);
+			catch (Exception ex) {
+				throw new RuntimeException(ex);
 			}
 		}
 		return result;
@@ -153,8 +153,8 @@ public abstract class SpringDataJaxb {
 			try {
 				result.add(adapter.marshal(element));
 			}
-			catch (Exception o_O) {
-				throw new RuntimeException(o_O);
+			catch (Exception ex) {
+				throw new RuntimeException(ex);
 			}
 		}
 		return result;

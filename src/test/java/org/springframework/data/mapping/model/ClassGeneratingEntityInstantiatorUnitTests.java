@@ -127,14 +127,14 @@ class ClassGeneratingEntityInstantiatorUnitTests<P extends PersistentProperty<P>
 			this.instance.createInstance(entity, this.provider);
 			fail("Expected MappingInstantiationException!");
 		}
-		catch (MappingInstantiationException o_O) {
-			assertThat(o_O.getConstructor()).hasValue(constructor);
-			assertThat(o_O.getConstructorArguments()).isEqualTo(parameters);
-			assertThat(o_O.getEntityType()).hasValue(Sample.class);
-			assertThat(o_O.getMessage()).contains(Sample.class.getName());
-			assertThat(o_O.getMessage()).contains(Long.class.getName());
-			assertThat(o_O.getMessage()).contains(String.class.getName());
-			assertThat(o_O.getMessage()).contains("FOO");
+		catch (MappingInstantiationException ex) {
+			assertThat(ex.getConstructor()).hasValue(constructor);
+			assertThat(ex.getConstructorArguments()).isEqualTo(parameters);
+			assertThat(ex.getEntityType()).hasValue(Sample.class);
+			assertThat(ex.getMessage()).contains(Sample.class.getName());
+			assertThat(ex.getMessage()).contains(Long.class.getName());
+			assertThat(ex.getMessage()).contains(String.class.getName());
+			assertThat(ex.getMessage()).contains("FOO");
 		}
 	}
 

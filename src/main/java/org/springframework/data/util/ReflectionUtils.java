@@ -65,7 +65,7 @@ public final class ReflectionUtils {
 			Class<?> type = ClassUtils.forName(classname, ClassUtils.getDefaultClassLoader());
 			return (T) BeanUtils.instantiateClass(type);
 		}
-		catch (Exception e) {
+		catch (Exception ex) {
 			return defaultInstance;
 		}
 	}

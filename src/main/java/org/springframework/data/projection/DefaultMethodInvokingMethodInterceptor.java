@@ -120,7 +120,7 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 				try {
 					return (Lookup) privateLookupIn.invoke(MethodHandles.class, declaringClass, lookup);
 				}
-				catch (ReflectiveOperationException e) {
+				catch (ReflectiveOperationException ex) {
 					return lookup;
 				}
 			}

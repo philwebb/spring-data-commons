@@ -142,8 +142,8 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 		try {
 			return this.reader.readFrom(resource, this.classLoader);
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 

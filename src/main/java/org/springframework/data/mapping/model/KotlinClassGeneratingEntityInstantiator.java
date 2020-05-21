@@ -180,8 +180,8 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 			try {
 				return (T) this.instantiator.newInstance(params);
 			}
-			catch (Exception e) {
-				throw new MappingInstantiationException(entity, Arrays.asList(params), e);
+			catch (Exception ex) {
+				throw new MappingInstantiationException(entity, Arrays.asList(params), ex);
 			}
 		}
 
