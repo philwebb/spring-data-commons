@@ -126,7 +126,7 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		 * the auditing annotations is present).
 		 * @return
 		 */
-		public boolean isAuditable() {
+		boolean isAuditable() {
 			return this.isAuditable.get();
 		}
 

@@ -176,12 +176,12 @@ public final class MethodInvocationRecorder {
 							String.format("No property name found for method %s!", invokedMethod)));
 		}
 
-		public Recorded<?> getRecorded() {
+		Recorded<?> getRecorded() {
 			return this.recorded;
 		}
 
 		@Nullable
-		public Method getInvokedMethod() {
+		Method getInvokedMethod() {
 			return this.invokedMethod;
 		}
 

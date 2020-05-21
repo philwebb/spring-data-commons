@@ -49,7 +49,7 @@ final class SelectionSet<T> {
 		return new SelectionSet<>(collection, defaultFallback());
 	}
 
-	public static <T> SelectionSet<T> of(Collection<T> collection, Function<Collection<T>, Optional<T>> fallback) {
+	static <T> SelectionSet<T> of(Collection<T> collection, Function<Collection<T>, Optional<T>> fallback) {
 		return new SelectionSet<>(collection, fallback);
 	}
 

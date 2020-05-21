@@ -59,7 +59,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 * Creates an empty {@link DefaultPersistentPropertyPath}.
 	 * @return
 	 */
-	public static <T extends PersistentProperty<T>> DefaultPersistentPropertyPath<T> empty() {
+	static <T extends PersistentProperty<T>> DefaultPersistentPropertyPath<T> empty() {
 		return new DefaultPersistentPropertyPath<T>(Collections.emptyList());
 	}
 
@@ -72,7 +72,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 * @throws IllegalArgumentException in case the property is not a property of the type
 	 * of the current leaf property.
 	 */
-	public DefaultPersistentPropertyPath<P> append(P property) {
+	DefaultPersistentPropertyPath<P> append(P property) {
 		Assert.notNull(property, "Property must not be null!");
 		if (isEmpty()) {
 			return new DefaultPersistentPropertyPath<>(Collections.singletonList(property));
@@ -179,7 +179,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 * @param type can be {@literal null}.
 	 * @return
 	 */
-	public boolean containsPropertyOfType(@Nullable TypeInformation<?> type) {
+	boolean containsPropertyOfType(@Nullable TypeInformation<?> type) {
 		return type == null ? false : this.properties.stream()
 				.anyMatch((property) -> type.equals(property.getTypeInformation().getActualType()));
 	}

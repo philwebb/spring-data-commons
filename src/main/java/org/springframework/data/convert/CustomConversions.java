@@ -419,7 +419,7 @@ public class CustomConversions {
 		 * @return the optional target type.
 		 */
 		@Nullable
-		public Class<?> computeIfAbsent(Class<?> sourceType, Function<ConvertiblePair, Class<?>> mappingFunction) {
+		Class<?> computeIfAbsent(Class<?> sourceType, Function<ConvertiblePair, Class<?>> mappingFunction) {
 			return computeIfAbsent(sourceType, AbsentTargetTypeMarker.class, mappingFunction);
 		}
 
@@ -434,7 +434,7 @@ public class CustomConversions {
 		 * @return the optional target type.
 		 */
 		@Nullable
-		public Class<?> computeIfAbsent(Class<?> sourceType, Class<?> targetType,
+		Class<?> computeIfAbsent(Class<?> sourceType, Class<?> targetType,
 				Function<ConvertiblePair, Class<?>> mappingFunction) {
 			TargetTypes targetTypes = this.customReadTargetTypes.get(sourceType);
 			if (targetTypes == null) {
@@ -476,7 +476,7 @@ public class CustomConversions {
 		 * @return the optional target type.
 		 */
 		@Nullable
-		public Class<?> computeIfAbsent(Class<?> targetType, Function<ConvertiblePair, Class<?>> mappingFunction) {
+		Class<?> computeIfAbsent(Class<?> targetType, Function<ConvertiblePair, Class<?>> mappingFunction) {
 			Class<?> optionalTarget = this.conversionTargets.get(targetType);
 			if (optionalTarget == null) {
 				optionalTarget = mappingFunction.apply(new ConvertiblePair(this.sourceType, targetType));
@@ -597,7 +597,7 @@ public class CustomConversions {
 		 * Returns whether the converter shall be used for writing.
 		 * @return
 		 */
-		public boolean isWriting() {
+		boolean isWriting() {
 			return this.writing || (!this.reading && isSimpleTargetType());
 		}
 
@@ -605,7 +605,7 @@ public class CustomConversions {
 		 * Returns whether the converter shall be used for reading.
 		 * @return
 		 */
-		public boolean isReading() {
+		boolean isReading() {
 			return this.reading || (!this.writing && isSimpleSourceType());
 		}
 
@@ -613,7 +613,7 @@ public class CustomConversions {
 		 * Returns the actual conversion pair.
 		 * @return
 		 */
-		public ConvertiblePair getConvertiblePair() {
+		ConvertiblePair getConvertiblePair() {
 			return this.convertiblePair;
 		}
 
@@ -621,7 +621,7 @@ public class CustomConversions {
 		 * Returns whether the source type is a simple one.
 		 * @return
 		 */
-		public boolean isSimpleSourceType() {
+		boolean isSimpleSourceType() {
 			return this.storeConversions.isStoreSimpleType(this.convertiblePair.getSourceType());
 		}
 
@@ -629,7 +629,7 @@ public class CustomConversions {
 		 * Returns whether the target type is a simple one.
 		 * @return
 		 */
-		public boolean isSimpleTargetType() {
+		boolean isSimpleTargetType() {
 			return this.storeConversions.isStoreSimpleType(this.convertiblePair.getTargetType());
 		}
 

@@ -298,7 +298,7 @@ public class SpelQueryContext {
 		 * @param index to check if it is part of a quoted range.
 		 * @return whether the query contains a quoted range at {@literal index}.
 		 */
-		public boolean isQuoted(int index) {
+		boolean isQuoted(int index) {
 			return this.quotedRanges.stream().anyMatch((r) -> r.contains(index));
 		}
 

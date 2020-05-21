@@ -35,7 +35,7 @@ final class LazyStreamable<T> implements Streamable<T> {
 		this.stream = stream;
 	}
 
-	public static <T> LazyStreamable<T> of(Supplier<? extends Stream<T>> stream) {
+	static <T> LazyStreamable<T> of(Supplier<? extends Stream<T>> stream) {
 		return new LazyStreamable<>(stream);
 	}
 
@@ -49,7 +49,7 @@ final class LazyStreamable<T> implements Streamable<T> {
 		return this.stream.get();
 	}
 
-	public Supplier<? extends Stream<T>> getStream() {
+	Supplier<? extends Stream<T>> getStream() {
 		return this.stream;
 	}
 

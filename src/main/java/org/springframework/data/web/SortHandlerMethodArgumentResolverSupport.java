@@ -360,7 +360,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * never be {@literal null}.
 		 * @return the parsing state object.
 		 */
-		public static SortOrderParser parse(String part, String delimiter) {
+		static SortOrderParser parse(String part, String delimiter) {
 			String[] elements = Arrays.stream(part.split(delimiter))
 					.filter(SortHandlerMethodArgumentResolver::notOnlyDots).toArray(String[]::new);
 			return new SortOrderParser(elements);
@@ -370,7 +370,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * Parse the {@code ignoreCase} portion of the sort specification.
 		 * @return a new parsing state object.
 		 */
-		public SortOrderParser parseIgnoreCase() {
+		SortOrderParser parseIgnoreCase() {
 			Optional<Boolean> ignoreCase = this.lastIndex > 0 ? fromOptionalString(this.elements[this.lastIndex - 1])
 					: Optional.empty();
 			return new SortOrderParser(this.elements, this.lastIndex - (ignoreCase.isPresent() ? 1 : 0), this.direction,
@@ -381,7 +381,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * Parse the {@link Order} portion of the sort specification.
 		 * @return a new parsing state object.
 		 */
-		public SortOrderParser parseDirection() {
+		SortOrderParser parseDirection() {
 			Optional<Direction> direction = this.lastIndex > 0
 					? Direction.fromOptionalString(this.elements[this.lastIndex - 1]) : Optional.empty();
 			return new SortOrderParser(this.elements, this.lastIndex - (direction.isPresent() ? 1 : 0), direction,
@@ -393,7 +393,7 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * object.
 		 * @param callback block to be executed.
 		 */
-		public void forEachOrder(Consumer<? super Order> callback) {
+		void forEachOrder(Consumer<? super Order> callback) {
 			for (int i = 0; i < this.lastIndex; i++) {
 				toOrder(this.elements[i]).ifPresent(callback);
 			}

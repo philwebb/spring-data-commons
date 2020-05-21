@@ -97,7 +97,7 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 
 	private void assertTransactionAttributeFor(Class<?> implementationClass) throws Exception {
 		Method repositorySaveMethod = SampleRepository.class.getMethod("save", Sample.class);
-		Method implementationClassMethod = implementationClass.getMethod("save", Object.class);
+		Method implementationClassMethod = implementationClass.getDeclaredMethod("save", Object.class);
 		given(this.repositoryInformation.getTargetClassMethod(repositorySaveMethod))
 				.willReturn(implementationClassMethod);
 		CustomAnnotationTransactionAttributeSource attributeSource = new CustomAnnotationTransactionAttributeSource();
@@ -123,7 +123,7 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 	static class SampleImplementation<T> {
 
 		@Transactional
-		public <S extends T> S save(S object) {
+		<S extends T> S save(S object) {
 			return null;
 		}
 
@@ -132,7 +132,7 @@ class TransactionRepositoryProxyPostProcessorUnitTests {
 	@Transactional
 	static class SampleImplementationWithClassAnnotation<T> {
 
-		public <S extends T> S save(S object) {
+		<S extends T> S save(S object) {
 			return null;
 		}
 

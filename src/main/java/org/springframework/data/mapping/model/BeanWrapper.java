@@ -105,7 +105,7 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 	 * @throws MappingException in case an exception occured when accessing the property.
 	 */
 	@Nullable
-	public <S> Object getProperty(PersistentProperty<?> property, Class<? extends S> type) {
+	<S> Object getProperty(PersistentProperty<?> property, Class<? extends S> type) {
 		Assert.notNull(property, "PersistentProperty must not be null!");
 		try {
 			if (!property.usePropertyAccess()) {

@@ -67,7 +67,7 @@ class QueryExecutionResultHandler {
 	 * @return
 	 */
 	@Nullable
-	public Object postProcessInvocationResult(@Nullable Object result, Method method) {
+	Object postProcessInvocationResult(@Nullable Object result, Method method) {
 		if (!processingRequired(result, method.getReturnType())) {
 			return result;
 		}
@@ -221,7 +221,7 @@ class QueryExecutionResultHandler {
 		 * @param method
 		 * @return
 		 */
-		public static ReturnTypeDescriptor of(Method method) {
+		static ReturnTypeDescriptor of(Method method) {
 			return new ReturnTypeDescriptor(method);
 		}
 
@@ -235,7 +235,7 @@ class QueryExecutionResultHandler {
 		 * @see TypeDescriptor#nested(MethodParameter, int)
 		 */
 		@Nullable
-		public TypeDescriptor getReturnTypeDescriptor(int nestingLevel) {
+		TypeDescriptor getReturnTypeDescriptor(int nestingLevel) {
 			// optimizing for nesting level 0 and 1 (Optional<T>, List<T>)
 			// nesting level 2 (Optional<List<T>>) uses the slow path.
 			switch (nestingLevel) {

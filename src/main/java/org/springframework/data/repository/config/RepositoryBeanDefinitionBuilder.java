@@ -91,7 +91,7 @@ class RepositoryBeanDefinitionBuilder {
 	 * @param configuration must not be {@literal null}.
 	 * @return
 	 */
-	public BeanDefinitionBuilder build(RepositoryConfiguration<?> configuration) {
+	BeanDefinitionBuilder build(RepositoryConfiguration<?> configuration) {
 		Assert.notNull(this.registry, "BeanDefinitionRegistry must not be null!");
 		Assert.notNull(this.resourceLoader, "ResourceLoader must not be null!");
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder

@@ -120,14 +120,14 @@ final class AnnotationAuditingMetadata {
 	 * Return a {@link AnnotationAuditingMetadata} for the given {@link Class}.
 	 * @param type the type to inspect, must not be {@literal null}.
 	 */
-	public static AnnotationAuditingMetadata getMetadata(Class<?> type) {
+	static AnnotationAuditingMetadata getMetadata(Class<?> type) {
 		return metadataCache.computeIfAbsent(type, AnnotationAuditingMetadata::new);
 	}
 
 	/**
 	 * Returns whether the {@link Class} represented in this instance is auditable or not.
 	 */
-	public boolean isAuditable() {
+	boolean isAuditable() {
 		return Optionals.isAnyPresent(this.createdByField, this.createdDateField, this.lastModifiedByField,
 				this.lastModifiedDateField);
 	}
@@ -135,28 +135,28 @@ final class AnnotationAuditingMetadata {
 	/**
 	 * Return the field annotated by {@link CreatedBy}.
 	 */
-	public Optional<Field> getCreatedByField() {
+	Optional<Field> getCreatedByField() {
 		return this.createdByField;
 	}
 
 	/**
 	 * Return the field annotated by {@link CreatedDate}.
 	 */
-	public Optional<Field> getCreatedDateField() {
+	Optional<Field> getCreatedDateField() {
 		return this.createdDateField;
 	}
 
 	/**
 	 * Return the field annotated by {@link LastModifiedBy}.
 	 */
-	public Optional<Field> getLastModifiedByField() {
+	Optional<Field> getLastModifiedByField() {
 		return this.lastModifiedByField;
 	}
 
 	/**
 	 * Return the field annotated by {@link LastModifiedDate}.
 	 */
-	public Optional<Field> getLastModifiedDateField() {
+	Optional<Field> getLastModifiedDateField() {
 		return this.lastModifiedDateField;
 	}
 

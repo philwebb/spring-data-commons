@@ -73,7 +73,7 @@ class MethodParameters {
 	 * Returns all {@link MethodParameter}s.
 	 * @return
 	 */
-	public List<MethodParameter> getParameters() {
+	List<MethodParameter> getParameters() {
 		return this.parameters;
 	}
 
@@ -83,7 +83,7 @@ class MethodParameters {
 	 * @param name must not be {@literal null} or empty.
 	 * @return
 	 */
-	public Optional<MethodParameter> getParameter(String name) {
+	Optional<MethodParameter> getParameter(String name) {
 		Assert.hasText(name, "Parameter name must not be null!");
 		return getParameters().stream().filter((it) -> name.equals(it.getParameterName())).findFirst();
 	}
@@ -94,7 +94,7 @@ class MethodParameters {
 	 * @return the matching parameters
 	 * @since 0.9
 	 */
-	public List<MethodParameter> getParametersOfType(Class<?> type) {
+	List<MethodParameter> getParametersOfType(Class<?> type) {
 		Assert.notNull(type, "Type must not be null!");
 		return getParameters().stream().filter((it) -> it.getParameterType().equals(type)).collect(Collectors.toList());
 	}
@@ -104,7 +104,7 @@ class MethodParameters {
 	 * @param annotation must not be {@literal null}.
 	 * @return
 	 */
-	public List<MethodParameter> getParametersWith(Class<? extends Annotation> annotation) {
+	List<MethodParameter> getParametersWith(Class<? extends Annotation> annotation) {
 		Assert.notNull(annotation, "Annotation must not be null!");
 		return getParameters().stream().filter((it) -> it.hasParameterAnnotation(annotation))
 				.collect(Collectors.toList());

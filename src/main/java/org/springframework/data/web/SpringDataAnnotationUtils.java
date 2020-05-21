@@ -44,7 +44,7 @@ abstract class SpringDataAnnotationUtils {
 	 * {@link MethodParameter}.
 	 * @param parameter must not be {@literal null}.
 	 */
-	public static void assertPageableUniqueness(MethodParameter parameter) {
+	static void assertPageableUniqueness(MethodParameter parameter) {
 		Method method = parameter.getMethod();
 		if (method == null) {
 			throw new IllegalArgumentException(
@@ -84,7 +84,7 @@ abstract class SpringDataAnnotationUtils {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T getSpecificPropertyOrDefaultFromValue(Annotation annotation, String property) {
+	static <T> T getSpecificPropertyOrDefaultFromValue(Annotation annotation, String property) {
 		Object propertyDefaultValue = AnnotationUtils.getDefaultValue(annotation, property);
 		Object propertyValue = AnnotationUtils.getValue(annotation, property);
 		Object result = ObjectUtils.nullSafeEquals(propertyDefaultValue, propertyValue)
@@ -101,7 +101,7 @@ abstract class SpringDataAnnotationUtils {
 	 * @param parameterTypes must not be {@literal null}.
 	 * @param annotations must not be {@literal null}.
 	 */
-	public static void assertQualifiersFor(Class<?>[] parameterTypes, Annotation[][] annotations) {
+	static void assertQualifiersFor(Class<?>[] parameterTypes, Annotation[][] annotations) {
 		Set<String> values = new HashSet<>();
 		for (int i = 0; i < annotations.length; i++) {
 			if (Pageable.class.equals(parameterTypes[i])) {

@@ -128,7 +128,7 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 	/**
 	 * @return the considerNestedRepositoryInterfaces
 	 */
-	public boolean isConsiderNestedRepositoryInterfaces() {
+	boolean isConsiderNestedRepositoryInterfaces() {
 		return this.considerNestedRepositoryInterfaces;
 	}
 
@@ -137,7 +137,7 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 	 * be considered for automatic discovery. This defaults to {@literal false}.
 	 * @param considerNestedRepositoryInterfaces
 	 */
-	public void setConsiderNestedRepositoryInterfaces(boolean considerNestedRepositoryInterfaces) {
+	void setConsiderNestedRepositoryInterfaces(boolean considerNestedRepositoryInterfaces) {
 		this.considerNestedRepositoryInterfaces = considerNestedRepositoryInterfaces;
 	}
 

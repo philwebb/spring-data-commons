@@ -307,11 +307,11 @@ public class PartTree implements Streamable<OrPart> {
 		 * @return if the subject is matches {@link #DELETE_BY_TEMPLATE}
 		 * @since 1.8
 		 */
-		public boolean isDelete() {
+		boolean isDelete() {
 			return this.delete;
 		}
 
-		public boolean isCountProjection() {
+		boolean isCountProjection() {
 			return this.count;
 		}
 
@@ -320,15 +320,15 @@ public class PartTree implements Streamable<OrPart> {
 		 * @return if the subject matches {@link #EXISTS_BY_TEMPLATE}.
 		 * @since 1.13
 		 */
-		public boolean isExistsProjection() {
+		boolean isExistsProjection() {
 			return this.exists;
 		}
 
-		public boolean isDistinct() {
+		boolean isDistinct() {
 			return this.distinct;
 		}
 
-		public Optional<Integer> getMaxResults() {
+		Optional<Integer> getMaxResults() {
 			return this.maxResults;
 		}
 
@@ -374,7 +374,7 @@ public class PartTree implements Streamable<OrPart> {
 			return predicate;
 		}
 
-		public OrderBySource getOrderBySource() {
+		OrderBySource getOrderBySource() {
 			return this.orderBySource;
 		}
 

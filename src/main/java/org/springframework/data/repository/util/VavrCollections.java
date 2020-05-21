@@ -48,7 +48,7 @@ class VavrCollections {
 
 		INSTANCE;
 
-		public WrapperType getWrapperType() {
+		WrapperType getWrapperType() {
 			return WrapperType.multiValue(io.vavr.collection.Traversable.class);
 		}
 

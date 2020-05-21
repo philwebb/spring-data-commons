@@ -512,7 +512,7 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 			this.queryMethods.add(query.getQueryMethod());
 		}
 
-		public List<QueryMethod> getQueryMethods() {
+		List<QueryMethod> getQueryMethods() {
 			return this.queryMethods;
 		}
 
@@ -544,11 +544,11 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 			this.compositionHash = compositionHash;
 		}
 
-		public String getRepositoryInterfaceName() {
+		String getRepositoryInterfaceName() {
 			return this.repositoryInterfaceName;
 		}
 
-		public long getCompositionHash() {
+		long getCompositionHash() {
 			return this.compositionHash;
 		}
 

@@ -36,7 +36,6 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -124,62 +123,6 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 			return this.delegate.invoke(invocation);
 		}
 		return expression.getValue(this.evaluationContext, TargetWrapper.of(this.target, invocation.getArguments()));
-	}
-
-	/**
-	 * Wrapper class to expose an object to the SpEL expression as {@code target}.
-	 */
-	static final class TargetWrapper {
-
-		private final Object target;
-
-		private final Object[] args;
-
-		private TargetWrapper(Object target, Object[] args) {
-			this.target = target;
-			this.args = args;
-		}
-
-		public static TargetWrapper of(Object target, Object[] args) {
-			return new TargetWrapper(target, args);
-		}
-
-		public Object getTarget() {
-			return this.target;
-		}
-
-		public Object[] getArgs() {
-			return this.args;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			}
-			if (!(o instanceof TargetWrapper)) {
-				return false;
-			}
-			TargetWrapper other = (TargetWrapper) o;
-			if (!ObjectUtils.nullSafeEquals(this.target, other.target)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.args, other.args);
-		}
-
-		@Override
-		public int hashCode() {
-			int result = ObjectUtils.nullSafeHashCode(this.target);
-			result = 31 * result + ObjectUtils.nullSafeHashCode(this.args);
-			return result;
-		}
-
-		@Override
-		public String toString() {
-			return "SpelEvaluatingMethodInterceptor.TargetWrapper(target=" + this.getTarget() + ", args="
-					+ java.util.Arrays.deepToString(this.getArgs()) + ")";
-		}
-
 	}
 
 }

@@ -281,7 +281,7 @@ class EntityCallbackDiscoverer {
 				&& callbackType.isAssignableFrom(ResolvableType.forInstance(callback));
 	}
 
-	public void setBeanClassLoader(ClassLoader classLoader) {
+	void setBeanClassLoader(ClassLoader classLoader) {
 		this.beanClassLoader = classLoader;
 	}
 
@@ -292,7 +292,7 @@ class EntityCallbackDiscoverer {
 	 * @param beanFactory must not be {@literal null}.
 	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(BeanFactory)
 	 */
-	public void setBeanFactory(BeanFactory beanFactory) {
+	void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 		if (beanFactory instanceof ConfigurableBeanFactory) {
 			ConfigurableBeanFactory cbf = (ConfigurableBeanFactory) beanFactory;

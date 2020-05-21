@@ -86,7 +86,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 			this.publisher = publisher;
 		}
 
-		public static EventPublishingMethodInterceptor of(EventPublishingMethod eventMethod,
+		static EventPublishingMethodInterceptor of(EventPublishingMethod eventMethod,
 				ApplicationEventPublisher publisher) {
 			return new EventPublishingMethodInterceptor(eventMethod, publisher);
 		}
@@ -134,7 +134,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		 * in case the given type does not expose an event publishing method.
 		 */
 		@Nullable
-		public static EventPublishingMethod of(Class<?> type) {
+		static EventPublishingMethod of(Class<?> type) {
 			Assert.notNull(type, "Type must not be null!");
 			EventPublishingMethod eventPublishingMethod = cache.get(type);
 			if (eventPublishingMethod != null) {
@@ -152,7 +152,7 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		 * @param object can be {@literal null}.
 		 * @param publisher must not be {@literal null}.
 		 */
-		public void publishEventsFrom(@Nullable Object object, ApplicationEventPublisher publisher) {
+		void publishEventsFrom(@Nullable Object object, ApplicationEventPublisher publisher) {
 			if (object == null) {
 				return;
 			}

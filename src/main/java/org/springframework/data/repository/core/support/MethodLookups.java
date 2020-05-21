@@ -363,40 +363,40 @@ interface MethodLookups {
 				this.base = base;
 			}
 
-			public static ParameterOverrideCriteria of(MethodParameter declared, MethodParameter base) {
+			static ParameterOverrideCriteria of(MethodParameter declared, MethodParameter base) {
 				return new ParameterOverrideCriteria(declared, base);
 			}
 
 			/**
 			 * @return base method parameter type.
 			 */
-			public Class<?> getBaseType() {
+			Class<?> getBaseType() {
 				return this.base.getParameterType();
 			}
 
 			/**
 			 * @return generic base method parameter type.
 			 */
-			public Type getGenericBaseType() {
+			Type getGenericBaseType() {
 				return this.base.getGenericParameterType();
 			}
 
 			/**
 			 * @return declared method parameter type.
 			 */
-			public Class<?> getDeclaredType() {
+			Class<?> getDeclaredType() {
 				return this.declared.getParameterType();
 			}
 
-			public boolean isAssignableFromDeclared() {
+			boolean isAssignableFromDeclared() {
 				return getBaseType().isAssignableFrom(getDeclaredType());
 			}
 
-			public MethodParameter getDeclared() {
+			MethodParameter getDeclared() {
 				return this.declared;
 			}
 
-			public MethodParameter getBase() {
+			MethodParameter getBase() {
 				return this.base;
 			}
 

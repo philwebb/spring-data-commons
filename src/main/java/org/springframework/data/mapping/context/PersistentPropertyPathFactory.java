@@ -75,7 +75,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @param propertyPath must not be {@literal null}.
 	 * @return
 	 */
-	public PersistentPropertyPath<P> from(Class<?> type, String propertyPath) {
+	PersistentPropertyPath<P> from(Class<?> type, String propertyPath) {
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyPath, "Property path must not be null!");
 		return getPersistentPropertyPath(ClassTypeInformation.from(type), propertyPath);
@@ -88,7 +88,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @param propertyPath must not be {@literal null}.
 	 * @return
 	 */
-	public PersistentPropertyPath<P> from(TypeInformation<?> type, String propertyPath) {
+	PersistentPropertyPath<P> from(TypeInformation<?> type, String propertyPath) {
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyPath, "Property path must not be null!");
 		return getPersistentPropertyPath(type, propertyPath);
@@ -99,7 +99,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @param path must not be {@literal null}.
 	 * @return
 	 */
-	public PersistentPropertyPath<P> from(PropertyPath path) {
+	PersistentPropertyPath<P> from(PropertyPath path) {
 		Assert.notNull(path, "Property path must not be null!");
 		return from(path.getOwningType(), path.toDotPath());
 	}
@@ -111,7 +111,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @param propertyFilter must not be {@literal null}.
 	 * @return
 	 */
-	public <T> PersistentPropertyPaths<T, P> from(Class<T> type, Predicate<? super P> propertyFilter) {
+	<T> PersistentPropertyPaths<T, P> from(Class<T> type, Predicate<? super P> propertyFilter) {
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyFilter, "Property filter must not be null!");
 		return from(ClassTypeInformation.from(type), propertyFilter);
@@ -125,7 +125,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @param traversalGuard must not be {@literal null}.
 	 * @return
 	 */
-	public <T> PersistentPropertyPaths<T, P> from(Class<T> type, Predicate<? super P> propertyFilter,
+	<T> PersistentPropertyPaths<T, P> from(Class<T> type, Predicate<? super P> propertyFilter,
 			Predicate<P> traversalGuard) {
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyFilter, "Property filter must not be null!");
@@ -140,7 +140,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @param propertyFilter must not be {@literal null}.
 	 * @return
 	 */
-	public <T> PersistentPropertyPaths<T, P> from(TypeInformation<T> type, Predicate<? super P> propertyFilter) {
+	<T> PersistentPropertyPaths<T, P> from(TypeInformation<T> type, Predicate<? super P> propertyFilter) {
 		return from(type, propertyFilter, (it) -> !it.isAssociation());
 	}
 
@@ -152,7 +152,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @param traversalGuard must not be {@literal null}.
 	 * @return
 	 */
-	public <T> PersistentPropertyPaths<T, P> from(TypeInformation<T> type, Predicate<? super P> propertyFilter,
+	<T> PersistentPropertyPaths<T, P> from(TypeInformation<T> type, Predicate<? super P> propertyFilter,
 			Predicate<P> traversalGuard) {
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyFilter, "Property filter must not be null!");
@@ -245,15 +245,15 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 			this.path = path;
 		}
 
-		public static TypeAndPath of(TypeInformation<?> type, String path) {
+		static TypeAndPath of(TypeInformation<?> type, String path) {
 			return new TypeAndPath(type, path);
 		}
 
-		public TypeInformation<?> getType() {
+		TypeInformation<?> getType() {
 			return this.type;
 		}
 
-		public String getPath() {
+		String getPath() {
 			return this.path;
 		}
 

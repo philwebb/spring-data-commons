@@ -432,7 +432,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		 *
 		 * @see PersistentPropertyFilter
 		 */
-		public void addPropertiesForRemainingDescriptors() {
+		void addPropertiesForRemainingDescriptors() {
 			this.remainingDescriptors.values().stream().filter(Property::supportsStandalone)
 					.map((it) -> Property.of(this.entity.getTypeInformation(), it))
 					.filter(PersistentPropertyFilter.INSTANCE::matches).forEach(this::createAndRegisterProperty);
@@ -533,7 +533,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			 * @param type must not be {@literal null}.
 			 * @return
 			 */
-			public boolean matches(String name, Class<?> type) {
+			boolean matches(String name, Class<?> type) {
 				Assert.notNull(name, "Name must not be null!");
 				Assert.notNull(type, "Type must not be null!");
 				if (this.namePattern != null && !name.matches(this.namePattern)) {

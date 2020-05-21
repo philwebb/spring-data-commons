@@ -45,7 +45,7 @@ class SpringDataAnnotationBeanNameGenerator {
 	 * @return
 	 */
 	@SuppressWarnings("null")
-	public String generateBeanName(BeanDefinition definition) {
+	String generateBeanName(BeanDefinition definition) {
 		return this.delegate.generateBeanName(definition, null);
 	}
 

@@ -253,7 +253,7 @@ public class ParameterTypes {
 			this.tail = tail;
 		}
 
-		public static ParentParameterTypes of(List<TypeDescriptor> types, TypeDescriptor tail) {
+		static ParentParameterTypes of(List<TypeDescriptor> types, TypeDescriptor tail) {
 			return new ParentParameterTypes(types, tail);
 		}
 

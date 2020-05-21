@@ -72,7 +72,7 @@ final class KotlinCopyMethod {
 	 * @param type the class.
 	 * @return {@link Optional} {@link KotlinCopyMethod}.
 	 */
-	public static Optional<KotlinCopyMethod> findCopyMethod(Class<?> type) {
+	static Optional<KotlinCopyMethod> findCopyMethod(Class<?> type) {
 		Assert.notNull(type, "Type must not be null!");
 		Optional<Method> syntheticCopyMethod = findSyntheticCopyMethod(type);
 		if (!syntheticCopyMethod.isPresent()) {
@@ -82,19 +82,19 @@ final class KotlinCopyMethod {
 		return publicCopyMethod.map((method) -> new KotlinCopyMethod(method, syntheticCopyMethod.get()));
 	}
 
-	public Method getPublicCopyMethod() {
+	Method getPublicCopyMethod() {
 		return this.publicCopyMethod;
 	}
 
-	public Method getSyntheticCopyMethod() {
+	Method getSyntheticCopyMethod() {
 		return this.syntheticCopyMethod;
 	}
 
-	public int getParameterCount() {
+	int getParameterCount() {
 		return this.parameterCount;
 	}
 
-	public KFunction<?> getCopyFunction() {
+	KFunction<?> getCopyFunction() {
 		return this.copyFunction;
 	}
 
@@ -219,15 +219,15 @@ final class KotlinCopyMethod {
 			return -1;
 		}
 
-		public int getParameterPosition() {
+		int getParameterPosition() {
 			return this.parameterPosition;
 		}
 
-		public int getParameterCount() {
+		int getParameterCount() {
 			return this.parameterCount;
 		}
 
-		public KotlinDefaultMask getDefaultMask() {
+		KotlinDefaultMask getDefaultMask() {
 			return this.defaultMask;
 		}
 

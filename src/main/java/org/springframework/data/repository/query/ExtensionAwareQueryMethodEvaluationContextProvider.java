@@ -134,7 +134,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 		 * @param methodName
 		 * @param mapping
 		 */
-		public void registerResultMapping(String methodName, Function<Object, Object> mapping) {
+		void registerResultMapping(String methodName, Function<Object, Object> mapping) {
 			this.directMappings.put(methodName, mapping);
 		}
 

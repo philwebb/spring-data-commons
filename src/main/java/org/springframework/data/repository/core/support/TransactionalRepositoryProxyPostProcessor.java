@@ -322,14 +322,14 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		/**
 		 * @param repositoryInformation the repositoryInformation to set
 		 */
-		public void setRepositoryInformation(RepositoryInformation repositoryInformation) {
+		void setRepositoryInformation(RepositoryInformation repositoryInformation) {
 			this.repositoryInformation = repositoryInformation;
 		}
 
 		/**
 		 * @param enableDefaultTransactions the enableDefaultTransactions to set
 		 */
-		public void setEnableDefaultTransactions(boolean enableDefaultTransactions) {
+		void setEnableDefaultTransactions(boolean enableDefaultTransactions) {
 			this.enableDefaultTransactions = enableDefaultTransactions;
 		}
 

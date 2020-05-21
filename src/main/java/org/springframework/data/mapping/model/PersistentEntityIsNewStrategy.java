@@ -64,7 +64,7 @@ final class PersistentEntityIsNewStrategy implements IsNewStrategy {
 	 * @param entity must not be {@literal null}.
 	 * @return
 	 */
-	public static PersistentEntityIsNewStrategy forIdOnly(PersistentEntity<?, ?> entity) {
+	static PersistentEntityIsNewStrategy forIdOnly(PersistentEntity<?, ?> entity) {
 		return new PersistentEntityIsNewStrategy(entity, true);
 	}
 
@@ -74,7 +74,7 @@ final class PersistentEntityIsNewStrategy implements IsNewStrategy {
 	 * @param entity must not be {@literal null}.
 	 * @return
 	 */
-	public static PersistentEntityIsNewStrategy of(PersistentEntity<?, ?> entity) {
+	static PersistentEntityIsNewStrategy of(PersistentEntity<?, ?> entity) {
 		return new PersistentEntityIsNewStrategy(entity, false);
 	}
 

@@ -115,8 +115,7 @@ class ParameterizedKotlinInstantiatorUnitTests {
 			this.entityType = entityType;
 		}
 
-		public Object createInstance(
-				Function<Fixture, ParameterValueProvider<SamplePersistentProperty>> providerFactory) {
+		Object createInstance(Function<Fixture, ParameterValueProvider<SamplePersistentProperty>> providerFactory) {
 			return this.entityInstantiator.createInstance(this.entity, providerFactory.apply(this));
 		}
 

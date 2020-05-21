@@ -40,7 +40,7 @@ final class QuerydslPathInformation implements PathInformation {
 		this.path = path;
 	}
 
-	public static QuerydslPathInformation of(Path<?> path) {
+	static QuerydslPathInformation of(Path<?> path) {
 		return new QuerydslPathInformation(path);
 	}
 

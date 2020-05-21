@@ -54,24 +54,23 @@ class MultiTransactionStatus implements TransactionStatus {
 		this.mainTransactionManager = mainTransactionManager;
 	}
 
-	public Map<PlatformTransactionManager, TransactionStatus> getTransactionStatuses() {
+	Map<PlatformTransactionManager, TransactionStatus> getTransactionStatuses() {
 		return this.transactionStatuses;
 	}
 
-	public void setNewSynchonization() {
+	void setNewSynchonization() {
 		this.newSynchonization = true;
 	}
 
-	public boolean isNewSynchonization() {
+	boolean isNewSynchonization() {
 		return this.newSynchonization;
 	}
 
-	public void registerTransactionManager(TransactionDefinition definition,
-			PlatformTransactionManager transactionManager) {
+	void registerTransactionManager(TransactionDefinition definition, PlatformTransactionManager transactionManager) {
 		getTransactionStatuses().put(transactionManager, transactionManager.getTransaction(definition));
 	}
 
-	public void commit(PlatformTransactionManager transactionManager) {
+	void commit(PlatformTransactionManager transactionManager) {
 		TransactionStatus transactionStatus = getTransactionStatus(transactionManager);
 		transactionManager.commit(transactionStatus);
 	}
@@ -81,7 +80,7 @@ class MultiTransactionStatus implements TransactionStatus {
 	 * {@link PlatformTransactionManager}.
 	 * @param transactionManager must not be {@literal null}.
 	 */
-	public void rollback(PlatformTransactionManager transactionManager) {
+	void rollback(PlatformTransactionManager transactionManager) {
 		transactionManager.rollback(getTransactionStatus(transactionManager));
 	}
 
@@ -161,7 +160,7 @@ class MultiTransactionStatus implements TransactionStatus {
 			addSavePoint(transactionStatus, savepoint);
 		}
 
-		public void rollback() {
+		void rollback() {
 			for (TransactionStatus transactionStatus : this.savepoints.keySet()) {
 				transactionStatus.rollbackToSavepoint(savepointFor(transactionStatus));
 			}
@@ -171,7 +170,7 @@ class MultiTransactionStatus implements TransactionStatus {
 			return this.savepoints.get(transactionStatus);
 		}
 
-		public void release() {
+		void release() {
 			for (TransactionStatus transactionStatus : this.savepoints.keySet()) {
 				transactionStatus.releaseSavepoint(savepointFor(transactionStatus));
 			}

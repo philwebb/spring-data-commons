@@ -462,23 +462,23 @@ public class QuerydslBindings {
 			this.binding = binding;
 		}
 
-		public static <T, P extends Path<? extends T>> PathAndBinding<P, T> withPath(P path) {
+		static <T, P extends Path<? extends T>> PathAndBinding<P, T> withPath(P path) {
 			return new PathAndBinding<>(Optional.of(path), Optional.empty());
 		}
 
-		public static <T, S extends Path<? extends T>> PathAndBinding<S, T> withoutPath() {
+		static <T, S extends Path<? extends T>> PathAndBinding<S, T> withoutPath() {
 			return new PathAndBinding<>(Optional.empty(), Optional.empty());
 		}
 
-		public PathAndBinding<P, T> with(MultiValueBinding<P, T> binding) {
+		PathAndBinding<P, T> with(MultiValueBinding<P, T> binding) {
 			return new PathAndBinding<>(this.path, Optional.of(binding));
 		}
 
-		public Optional<Path<?>> getPath() {
+		Optional<Path<?>> getPath() {
 			return this.path;
 		}
 
-		public Optional<MultiValueBinding<P, T>> getBinding() {
+		Optional<MultiValueBinding<P, T>> getBinding() {
 			return this.binding;
 		}
 

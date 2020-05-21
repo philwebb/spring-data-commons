@@ -187,7 +187,7 @@ public class ResultProcessor {
 			this.delegate = delegate;
 		}
 
-		public static ChainingConverter of(Class<?> targetType, Converter<Object, Object> delegate) {
+		static ChainingConverter of(Class<?> targetType, Converter<Object, Object> delegate) {
 			return new ChainingConverter(targetType, delegate);
 		}
 
@@ -197,7 +197,7 @@ public class ResultProcessor {
 		 * @param converter must not be {@literal null}.
 		 * @return
 		 */
-		public ChainingConverter and(final Converter<Object, Object> converter) {
+		ChainingConverter and(final Converter<Object, Object> converter) {
 			Assert.notNull(converter, "Converter must not be null!");
 			return new ChainingConverter(this.targetType, (source) -> {
 				Object intermediate = ChainingConverter.this.convert(source);

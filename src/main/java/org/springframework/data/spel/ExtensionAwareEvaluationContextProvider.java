@@ -345,7 +345,7 @@ public class ExtensionAwareEvaluationContextProvider implements EvaluationContex
 		 * {@link Function} in turn
 		 * @return a map from property name to property value.
 		 */
-		public Map<String, Object> getProperties() {
+		Map<String, Object> getProperties() {
 			return this.properties;
 		}
 

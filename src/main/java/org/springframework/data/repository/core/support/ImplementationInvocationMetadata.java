@@ -63,7 +63,7 @@ class ImplementationInvocationMetadata {
 	}
 
 	@Nullable
-	public Object invoke(Method methodToCall, Object instance, Object[] args) throws Throwable {
+	Object invoke(Method methodToCall, Object instance, Object[] args) throws Throwable {
 		return shouldAdaptReactiveToSuspended() ? invokeReactiveToSuspend(methodToCall, instance, args)
 				: methodToCall.invoke(instance, args);
 

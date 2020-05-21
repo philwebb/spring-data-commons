@@ -441,15 +441,11 @@ public class PropertyPath implements Streamable<PropertyPath> {
 			this.path = path;
 		}
 
-		public static Key of(TypeInformation<?> type, String path) {
-			return new Key(type, path);
-		}
-
-		public TypeInformation<?> getType() {
+		TypeInformation<?> getType() {
 			return this.type;
 		}
 
-		public String getPath() {
+		String getPath() {
 			return this.path;
 		}
 
@@ -478,6 +474,10 @@ public class PropertyPath implements Streamable<PropertyPath> {
 		@Override
 		public String toString() {
 			return "PropertyPath.Key(type=" + this.getType() + ", path=" + this.getPath() + ")";
+		}
+
+		static Key of(TypeInformation<?> type, String path) {
+			return new Key(type, path);
 		}
 
 	}

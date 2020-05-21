@@ -169,7 +169,7 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 		}
 
 		@Nullable
-		public Object invoke(RepositoryQuery query, Object[] args) {
+		Object invoke(RepositoryQuery query, Object[] args) {
 			return this.suspendedDeclaredMethod ? invokeReactiveToSuspend(query, args) : query.execute(args);
 		}
 

@@ -367,7 +367,7 @@ public abstract class QueryExecutionConverters {
 			return Optional.of(source);
 		}
 
-		public static WrapperType getWrapperType() {
+		static WrapperType getWrapperType() {
 			return WrapperType.singleValue(Optional.class);
 		}
 
@@ -392,7 +392,7 @@ public abstract class QueryExecutionConverters {
 			return java.util.Optional.of(source);
 		}
 
-		public static WrapperType getWrapperType() {
+		static WrapperType getWrapperType() {
 			return WrapperType.singleValue(java.util.Optional.class);
 		}
 
@@ -440,7 +440,7 @@ public abstract class QueryExecutionConverters {
 			return source instanceof CompletableFuture ? source : CompletableFuture.completedFuture(source);
 		}
 
-		public static WrapperType getWrapperType() {
+		static WrapperType getWrapperType() {
 			return WrapperType.singleValue(CompletableFuture.class);
 		}
 
@@ -462,7 +462,7 @@ public abstract class QueryExecutionConverters {
 			return Option.apply(source);
 		}
 
-		public static WrapperType getWrapperType() {
+		static WrapperType getWrapperType() {
 			return WrapperType.singleValue(Option.class);
 		}
 
@@ -486,7 +486,7 @@ public abstract class QueryExecutionConverters {
 					Collections.singleton(io.vavr.control.Option.class));
 		}
 
-		public static WrapperType getWrapperType() {
+		static WrapperType getWrapperType() {
 			return WrapperType.singleValue(io.vavr.control.Option.class);
 		}
 

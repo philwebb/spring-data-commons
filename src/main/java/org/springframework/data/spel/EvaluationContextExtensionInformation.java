@@ -80,7 +80,7 @@ class EvaluationContextExtensionInformation {
 	 * Returns the {@link ExtensionTypeInformation} for the extension.
 	 * @return
 	 */
-	public ExtensionTypeInformation getExtensionTypeInformation() {
+	ExtensionTypeInformation getExtensionTypeInformation() {
 		return this.extensionTypeInformation;
 	}
 
@@ -90,7 +90,7 @@ class EvaluationContextExtensionInformation {
 	 * @param target
 	 * @return
 	 */
-	public RootObjectInformation getRootObjectInformation(Optional<Object> target) {
+	RootObjectInformation getRootObjectInformation(Optional<Object> target) {
 		return target.map((it) -> this.rootObjectInformation.orElseGet(() -> new RootObjectInformation(it.getClass())))
 				.orElse(RootObjectInformation.NONE);
 	}
@@ -221,7 +221,7 @@ class EvaluationContextExtensionInformation {
 		 * @param target can be {@literal null}.
 		 * @return the methods
 		 */
-		public MultiValueMap<String, Function> getFunctions(Optional<Object> target) {
+		MultiValueMap<String, Function> getFunctions(Optional<Object> target) {
 			return target.map(this::getFunctions).orElseGet(LinkedMultiValueMap::new);
 		}
 
@@ -236,7 +236,7 @@ class EvaluationContextExtensionInformation {
 		 * to be resolved downstream.
 		 * @return the properties
 		 */
-		public Map<String, Object> getProperties(Optional<Object> target) {
+		Map<String, Object> getProperties(Optional<Object> target) {
 			return target.map((it) -> {
 				Map<String, Object> properties = new HashMap<>();
 				this.accessors.entrySet().stream()

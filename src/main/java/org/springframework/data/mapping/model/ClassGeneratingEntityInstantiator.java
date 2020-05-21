@@ -287,7 +287,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		 * @param constructor
 		 * @return
 		 */
-		public Class<?> generateCustomInstantiatorClass(PersistentEntity<?, ?> entity,
+		Class<?> generateCustomInstantiatorClass(PersistentEntity<?, ?> entity,
 				@Nullable PreferredConstructor<?, ?> constructor) {
 			String className = generateClassName(entity);
 			byte[] bytecode = generateBytecode(className, entity, constructor);
@@ -316,7 +316,7 @@ class ClassGeneratingEntityInstantiator implements EntityInstantiator {
 		 * @param constructor
 		 * @return
 		 */
-		public byte[] generateBytecode(String internalClassName, PersistentEntity<?, ?> entity,
+		byte[] generateBytecode(String internalClassName, PersistentEntity<?, ?> entity,
 				@Nullable PreferredConstructor<?, ?> constructor) {
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 			cw.visit(Opcodes.V1_6, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER, internalClassName.replace('.', '/'), null,

@@ -48,7 +48,7 @@ import org.springframework.util.ConcurrentReferenceHashMap;
  * @since 1.10
  * @see SpelAwareProxyProjectionFactory
  */
-class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware {
+public class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware {
 
 	private final List<MethodInterceptorFactory> factories;
 
@@ -62,7 +62,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	/**
 	 * Creates a new {@link ProxyProjectionFactory}.
 	 */
-	protected ProxyProjectionFactory() {
+	ProxyProjectionFactory() {
 		this.factories = new ArrayList<>();
 		this.factories.add(MapAccessingMethodInterceptorFactory.INSTANCE);
 		this.factories.add(PropertyAccessingMethodInvokerFactory.INSTANCE);

@@ -280,19 +280,19 @@ public abstract class ReturnedType {
 			this.projectionFactoryHashCode = projectionFactoryHashCode;
 		}
 
-		public static CacheKey of(Class<?> returnedType, Class<?> domainType, int projectionFactoryHashCode) {
+		static CacheKey of(Class<?> returnedType, Class<?> domainType, int projectionFactoryHashCode) {
 			return new CacheKey(returnedType, domainType, projectionFactoryHashCode);
 		}
 
-		public Class<?> getReturnedType() {
+		Class<?> getReturnedType() {
 			return this.returnedType;
 		}
 
-		public Class<?> getDomainType() {
+		Class<?> getDomainType() {
 			return this.domainType;
 		}
 
-		public int getProjectionFactoryHashCode() {
+		int getProjectionFactoryHashCode() {
 			return this.projectionFactoryHashCode;
 		}
 

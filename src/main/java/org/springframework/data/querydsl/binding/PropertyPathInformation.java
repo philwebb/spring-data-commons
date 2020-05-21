@@ -52,7 +52,7 @@ final class PropertyPathInformation implements PathInformation {
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
-	public static PropertyPathInformation of(String path, Class<?> type) {
+	static PropertyPathInformation of(String path, Class<?> type) {
 		return PropertyPathInformation.of(PropertyPath.from(path, type));
 	}
 
@@ -63,7 +63,7 @@ final class PropertyPathInformation implements PathInformation {
 	 * @param type must not be {@literal null}.
 	 * @return
 	 */
-	public static PropertyPathInformation of(String path, TypeInformation<?> type) {
+	static PropertyPathInformation of(String path, TypeInformation<?> type) {
 		return PropertyPathInformation.of(PropertyPath.from(path, type));
 	}
 

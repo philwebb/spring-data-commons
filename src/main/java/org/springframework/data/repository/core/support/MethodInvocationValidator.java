@@ -146,11 +146,11 @@ public class MethodInvocationValidator implements MethodInterceptor {
 			return parameter.getParameterType().equals(Void.class) || parameter.getParameterType().equals(Void.TYPE);
 		}
 
-		public boolean[] getNullableParameters() {
+		boolean[] getNullableParameters() {
 			return this.nullableParameters;
 		}
 
-		public MethodParameter[] getMethodParameters() {
+		MethodParameter[] getMethodParameters() {
 			return this.methodParameters;
 		}
 
