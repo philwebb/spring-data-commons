@@ -3,7 +3,6 @@
 		"-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
 		"https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <suppressions>
-	<suppress files=".*" checks="IllegalImport" />
 	<suppress files=".*" checks="JavadocMethod" />
 	<suppress files=".*" checks="JavadocStyle" />
 	<suppress files=".*" checks="JavadocTagContinuationIndentation" />
@@ -12,6 +11,8 @@
 	<suppress files=".*" checks="NonEmptyAtclauseDescription" />
 	<suppress files=".*" checks="SpringJavadoc" />
 	<suppress files="generated-test-sources" checks=".*" />
+	<suppress files="QueryExecutionConverters.*" checks="IllegalImport"/>
+	<suppress files="RepositoryBeanNameGeneratorUnitTests" checks="IllegalImport"/>
 	<suppress files="test[\\/]java[\\/]org[\\/]springframework[\\/]data[\\/]mapping[\\/]model[\\/]" checks="FinalClass|RedundantModifier" />
 	<suppress files="PropertyReferenceExceptionUnitTests|ClassGeneratingPropertyAccessorFactoryTests|ClassGeneratingPropertyAccessorPackageDefaultType|.*PropertyUnitTests|DefaultEntityCallbacksUnitTests|CapturingEntityCallback|DefaultRepositoryInformationUnitTests|DefaultReactiveEntityCallbacksUnitTests|BasicPersistentEntityUnitTests|MappingAuditableBeanWrapperFactoryUnitTests|SpelEvaluatingMethodInterceptorUnitTests|ClassTypeInformationUnitTests|ProjectingJackson2HttpMessageConverterUnitTests" checks="SpringMethodVisibility" />
 </suppressions>
