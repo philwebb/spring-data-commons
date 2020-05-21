@@ -125,21 +125,19 @@ public class Part {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof Part)) {
+		if (!(obj instanceof Part)) {
 			return false;
 		}
-		Part part = (Part) o;
-		if (!ObjectUtils.nullSafeEquals(this.propertyPath, part.propertyPath)) {
-			return false;
-		}
-		if (this.type != part.type) {
-			return false;
-		}
-		return this.ignoreCase == part.ignoreCase;
+		Part other = (Part) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.propertyPath, other.propertyPath);
+		result = result && this.type == other.type;
+		result = result && this.ignoreCase == other.ignoreCase;
+		return result;
 	}
 
 	@Override

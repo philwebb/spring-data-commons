@@ -640,18 +640,18 @@ public abstract class QueryExecutionConverters {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof WrapperType)) {
+			if (!(obj instanceof WrapperType)) {
 				return false;
 			}
-			WrapperType other = (WrapperType) o;
-			if (!ObjectUtils.nullSafeEquals(this.type, other.type)) {
-				return false;
-			}
-			return this.cardinality == other.cardinality;
+			WrapperType other = (WrapperType) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.type, other.type);
+			result = result && this.cardinality == other.cardinality;
+			return result;
 		}
 
 		@Override

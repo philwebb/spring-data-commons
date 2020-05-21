@@ -186,14 +186,14 @@ public final class RepositoryComposition {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof RepositoryComposition)) {
+		if (!(obj instanceof RepositoryComposition)) {
 			return false;
 		}
-		RepositoryComposition other = (RepositoryComposition) o;
+		RepositoryComposition other = (RepositoryComposition) obj;
 		return ObjectUtils.nullSafeEquals(this.fragments, other.fragments);
 	}
 
@@ -368,21 +368,19 @@ public final class RepositoryComposition {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof RepositoryFragments)) {
+			if (!(obj instanceof RepositoryFragments)) {
 				return false;
 			}
-			RepositoryFragments other = (RepositoryFragments) o;
-			if (!ObjectUtils.nullSafeEquals(this.fragmentCache, other.fragmentCache)) {
-				return false;
-			}
-			if (!ObjectUtils.nullSafeEquals(this.invocationMetadataCache, other.invocationMetadataCache)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.fragments, other.fragments);
+			RepositoryFragments other = (RepositoryFragments) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.fragmentCache, other.fragmentCache);
+			result = result && ObjectUtils.nullSafeEquals(this.invocationMetadataCache, other.invocationMetadataCache);
+			result = result && ObjectUtils.nullSafeEquals(this.fragments, other.fragments);
+			return result;
 		}
 
 		@Override

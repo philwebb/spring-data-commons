@@ -135,18 +135,18 @@ class DefaultConverterBuilder<S, T>
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof ConfigurableGenericConverter)) {
+			if (!(obj instanceof ConfigurableGenericConverter)) {
 				return false;
 			}
-			ConfigurableGenericConverter<?, ?> other = (ConfigurableGenericConverter<?, ?>) o;
-			if (!ObjectUtils.nullSafeEquals(this.convertiblePair, other.convertiblePair)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.function, other.function);
+			ConfigurableGenericConverter<?, ?> other = (ConfigurableGenericConverter<?, ?>) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.convertiblePair, other.convertiblePair);
+			result = result && ObjectUtils.nullSafeEquals(this.function, other.function);
+			return result;
 		}
 
 		@Override

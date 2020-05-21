@@ -465,18 +465,18 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof SyntheticParamterizedType)) {
+			if (!(obj instanceof SyntheticParamterizedType)) {
 				return false;
 			}
-			SyntheticParamterizedType other = (SyntheticParamterizedType) o;
-			if (!ObjectUtils.nullSafeEquals(this.typeInformation, other.typeInformation)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.typeParameters, other.typeParameters);
+			SyntheticParamterizedType other = (SyntheticParamterizedType) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.typeInformation, other.typeInformation);
+			result = result && ObjectUtils.nullSafeEquals(this.typeParameters, other.typeParameters);
+			return result;
 		}
 
 		@Override

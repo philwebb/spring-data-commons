@@ -186,18 +186,18 @@ public final class MethodInvocationRecorder {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof InvocationInformation)) {
+			if (!(obj instanceof InvocationInformation)) {
 				return false;
 			}
-			InvocationInformation other = (InvocationInformation) o;
-			if (!ObjectUtils.nullSafeEquals(this.recorded, other.recorded)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.invokedMethod, other.invokedMethod);
+			InvocationInformation other = (InvocationInformation) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.recorded, other.recorded);
+			result = result && ObjectUtils.nullSafeEquals(this.invokedMethod, other.invokedMethod);
+			return result;
 		}
 
 		@Override

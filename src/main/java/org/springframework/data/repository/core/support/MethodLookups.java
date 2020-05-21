@@ -397,18 +397,18 @@ interface MethodLookups {
 			}
 
 			@Override
-			public boolean equals(Object o) {
-				if (this == o) {
+			public boolean equals(Object obj) {
+				if (this == obj) {
 					return true;
 				}
-				if (!(o instanceof ParameterOverrideCriteria)) {
+				if (!(obj instanceof ParameterOverrideCriteria)) {
 					return false;
 				}
-				ParameterOverrideCriteria other = (ParameterOverrideCriteria) o;
-				if (!ObjectUtils.nullSafeEquals(this.declared, other.declared)) {
-					return false;
-				}
-				return ObjectUtils.nullSafeEquals(this.base, other.base);
+				ParameterOverrideCriteria other = (ParameterOverrideCriteria) obj;
+				boolean result = true;
+				result = result && ObjectUtils.nullSafeEquals(this.declared, other.declared);
+				result = result && ObjectUtils.nullSafeEquals(this.base, other.base);
+				return result;
 			}
 
 			@Override

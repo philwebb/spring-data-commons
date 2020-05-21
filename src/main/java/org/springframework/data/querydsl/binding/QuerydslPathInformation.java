@@ -76,14 +76,14 @@ final class QuerydslPathInformation implements PathInformation {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof QuerydslPathInformation)) {
+		if (!(obj instanceof QuerydslPathInformation)) {
 			return false;
 		}
-		QuerydslPathInformation other = (QuerydslPathInformation) o;
+		QuerydslPathInformation other = (QuerydslPathInformation) obj;
 		return ObjectUtils.nullSafeEquals(this.path, other.path);
 	}
 

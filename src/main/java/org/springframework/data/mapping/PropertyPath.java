@@ -238,30 +238,22 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof PropertyPath)) {
+		if (!(obj instanceof PropertyPath)) {
 			return false;
 		}
-		PropertyPath other = (PropertyPath) o;
-		if (this.isCollection != other.isCollection) {
-			return false;
-		}
-		if (!ObjectUtils.nullSafeEquals(this.owningType, other.owningType)) {
-			return false;
-		}
-		if (!ObjectUtils.nullSafeEquals(this.name, other.name)) {
-			return false;
-		}
-		if (!ObjectUtils.nullSafeEquals(this.typeInformation, other.typeInformation)) {
-			return false;
-		}
-		if (!ObjectUtils.nullSafeEquals(this.actualTypeInformation, other.actualTypeInformation)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.next, other.next);
+		PropertyPath other = (PropertyPath) obj;
+		boolean result = true;
+		result = result && this.isCollection == other.isCollection;
+		result = result && ObjectUtils.nullSafeEquals(this.owningType, other.owningType);
+		result = result && ObjectUtils.nullSafeEquals(this.name, other.name);
+		result = result && ObjectUtils.nullSafeEquals(this.typeInformation, other.typeInformation);
+		result = result && ObjectUtils.nullSafeEquals(this.actualTypeInformation, other.actualTypeInformation);
+		result = result && ObjectUtils.nullSafeEquals(this.next, other.next);
+		return result;
 	}
 
 	@Override
@@ -444,18 +436,18 @@ public class PropertyPath implements Streamable<PropertyPath> {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof Key)) {
+			if (!(obj instanceof Key)) {
 				return false;
 			}
-			Key key = (Key) o;
-			if (!ObjectUtils.nullSafeEquals(this.type, key.type)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.path, key.path);
+			Key other = (Key) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.type, other.type);
+			result = result && ObjectUtils.nullSafeEquals(this.path, other.path);
+			return result;
 		}
 
 		@Override

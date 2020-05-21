@@ -414,13 +414,15 @@ class EntityCallbackDiscoverer {
 		}
 
 		@Override
-		public boolean equals(Object other) {
-			if (this == other) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			CallbackCacheKey otherKey = (CallbackCacheKey) other;
-			return (this.callbackType.equals(otherKey.callbackType)
-					&& ObjectUtils.nullSafeEquals(this.entityType, otherKey.entityType));
+			CallbackCacheKey other = (CallbackCacheKey) obj;
+			boolean result = true;
+			result = result && this.callbackType.equals(other.callbackType);
+			result = result && ObjectUtils.nullSafeEquals(this.entityType, other.entityType);
+			return result;
 		}
 
 		@Override

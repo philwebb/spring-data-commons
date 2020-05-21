@@ -103,21 +103,19 @@ public final class RepositoryFragmentConfiguration {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof RepositoryFragmentConfiguration)) {
+		if (!(obj instanceof RepositoryFragmentConfiguration)) {
 			return false;
 		}
-		RepositoryFragmentConfiguration other = (RepositoryFragmentConfiguration) o;
-		if (!ObjectUtils.nullSafeEquals(this.interfaceName, other.interfaceName)) {
-			return false;
-		}
-		if (!ObjectUtils.nullSafeEquals(this.className, other.className)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.beanDefinition, other.beanDefinition);
+		RepositoryFragmentConfiguration other = (RepositoryFragmentConfiguration) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.interfaceName, other.interfaceName);
+		result = result && ObjectUtils.nullSafeEquals(this.className, other.className);
+		result = result && ObjectUtils.nullSafeEquals(this.beanDefinition, other.beanDefinition);
+		return result;
 	}
 
 	@Override

@@ -751,18 +751,18 @@ public class CustomConversions {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof StoreConversions)) {
+			if (!(obj instanceof StoreConversions)) {
 				return false;
 			}
-			StoreConversions other = (StoreConversions) o;
-			if (!ObjectUtils.nullSafeEquals(this.storeTypeHolder, other.storeTypeHolder)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.storeConverters, other.storeConverters);
+			StoreConversions other = (StoreConversions) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.storeTypeHolder, other.storeTypeHolder);
+			result = result && ObjectUtils.nullSafeEquals(this.storeConverters, other.storeConverters);
+			return result;
 		}
 
 		@Override

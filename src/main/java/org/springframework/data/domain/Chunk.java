@@ -138,9 +138,10 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 			return false;
 		}
 		Chunk<?> other = (Chunk<?>) obj;
-		boolean contentEqual = this.content.equals(other.content);
-		boolean pageableEqual = this.pageable.equals(other.pageable);
-		return contentEqual && pageableEqual;
+		boolean result = true;
+		result = result && this.content.equals(other.content);
+		result = result && this.pageable.equals(other.pageable);
+		return result;
 	}
 
 	@Override

@@ -64,18 +64,18 @@ public final class Pair<S, T> {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof Pair)) {
+		if (!(obj instanceof Pair)) {
 			return false;
 		}
-		Pair<?, ?> pair = (Pair<?, ?>) o;
-		if (!ObjectUtils.nullSafeEquals(this.first, pair.first)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.second, pair.second);
+		Pair<?, ?> other = (Pair<?, ?>) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.first, other.first);
+		result = result && ObjectUtils.nullSafeEquals(this.second, other.second);
+		return result;
 	}
 
 	@Override

@@ -250,16 +250,18 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 		}
 
 		@Override
-		public boolean equals(Object other) {
-			if (this == other) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(other instanceof CustomAnnotationTransactionAttributeSource)) {
+			if (!(obj instanceof CustomAnnotationTransactionAttributeSource)) {
 				return false;
 			}
-			CustomAnnotationTransactionAttributeSource otherTas = (CustomAnnotationTransactionAttributeSource) other;
-			return (this.annotationParsers.equals(otherTas.annotationParsers)
-					&& this.publicMethodsOnly == otherTas.publicMethodsOnly);
+			CustomAnnotationTransactionAttributeSource other = (CustomAnnotationTransactionAttributeSource) obj;
+			boolean result = true;
+			result = result && this.annotationParsers.equals(other.annotationParsers);
+			result = result && this.publicMethodsOnly == other.publicMethodsOnly;
+			return true;
 		}
 
 		@Override
@@ -495,16 +497,18 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 			}
 
 			@Override
-			public boolean equals(Object other) {
-				if (this == other) {
+			public boolean equals(Object obj) {
+				if (this == obj) {
 					return true;
 				}
-				if (!(other instanceof DefaultCacheKey)) {
+				if (!(obj instanceof DefaultCacheKey)) {
 					return false;
 				}
-				DefaultCacheKey otherKey = (DefaultCacheKey) other;
-				return this.method.equals(otherKey.method)
-						&& ObjectUtils.nullSafeEquals(this.targetClass, otherKey.targetClass);
+				DefaultCacheKey other = (DefaultCacheKey) obj;
+				boolean result = true;
+				result = result && this.method.equals(other.method);
+				result = result && ObjectUtils.nullSafeEquals(this.targetClass, other.targetClass);
+				return result;
 			}
 
 			@Override

@@ -94,7 +94,10 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 			return false;
 		}
 		AbstractPageRequest other = (AbstractPageRequest) obj;
-		return this.page == other.page && this.size == other.size;
+		boolean result = true;
+		result = result && this.page == other.page;
+		result = result && this.size == other.size;
+		return result;
 	}
 
 	@Override

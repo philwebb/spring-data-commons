@@ -87,18 +87,18 @@ public class Circle implements Shape {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof Circle)) {
+		if (!(obj instanceof Circle)) {
 			return false;
 		}
-		Circle circle = (Circle) o;
-		if (!ObjectUtils.nullSafeEquals(this.center, circle.center)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.radius, circle.radius);
+		Circle other = (Circle) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.center, other.center);
+		result = result && ObjectUtils.nullSafeEquals(this.radius, other.radius);
+		return result;
 	}
 
 	@Override

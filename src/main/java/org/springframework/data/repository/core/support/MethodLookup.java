@@ -105,14 +105,14 @@ public interface MethodLookup {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof InvokedMethod)) {
+			if (!(obj instanceof InvokedMethod)) {
 				return false;
 			}
-			InvokedMethod other = (InvokedMethod) o;
+			InvokedMethod other = (InvokedMethod) obj;
 			return ObjectUtils.nullSafeEquals(this.method, other.method);
 		}
 

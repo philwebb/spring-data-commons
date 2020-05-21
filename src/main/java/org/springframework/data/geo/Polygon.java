@@ -87,14 +87,14 @@ public class Polygon implements Iterable<Point>, Shape {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof Polygon)) {
+		if (!(obj instanceof Polygon)) {
 			return false;
 		}
-		Polygon other = (Polygon) o;
+		Polygon other = (Polygon) obj;
 		return ObjectUtils.nullSafeEquals(this.points, other.points);
 	}
 

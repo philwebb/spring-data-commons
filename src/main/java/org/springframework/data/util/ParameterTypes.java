@@ -197,14 +197,14 @@ public class ParameterTypes {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof ParameterTypes)) {
+		if (!(obj instanceof ParameterTypes)) {
 			return false;
 		}
-		ParameterTypes other = (ParameterTypes) o;
+		ParameterTypes other = (ParameterTypes) obj;
 		return ObjectUtils.nullSafeEquals(this.types, other.types);
 	}
 
@@ -268,17 +268,17 @@ public class ParameterTypes {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof ParentParameterTypes)) {
+			if (!(obj instanceof ParentParameterTypes)) {
 				return false;
 			}
-			if (!super.equals(o)) {
+			if (!super.equals(obj)) {
 				return false;
 			}
-			ParentParameterTypes other = (ParentParameterTypes) o;
+			ParentParameterTypes other = (ParentParameterTypes) obj;
 			return ObjectUtils.nullSafeEquals(this.tail, other.tail);
 		}
 

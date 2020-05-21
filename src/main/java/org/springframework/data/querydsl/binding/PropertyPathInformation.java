@@ -95,14 +95,14 @@ final class PropertyPathInformation implements PathInformation {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof PropertyPathInformation)) {
+		if (!(obj instanceof PropertyPathInformation)) {
 			return false;
 		}
-		PropertyPathInformation other = (PropertyPathInformation) o;
+		PropertyPathInformation other = (PropertyPathInformation) obj;
 		return ObjectUtils.nullSafeEquals(this.path, other.path);
 	}
 

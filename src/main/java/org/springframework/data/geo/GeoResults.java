@@ -98,18 +98,18 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof GeoResults)) {
+		if (!(obj instanceof GeoResults)) {
 			return false;
 		}
-		GeoResults<?> other = (GeoResults<?>) o;
-		if (!ObjectUtils.nullSafeEquals(this.results, other.results)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.averageDistance, other.averageDistance);
+		GeoResults<?> other = (GeoResults<?>) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.results, other.results);
+		result = result && ObjectUtils.nullSafeEquals(this.averageDistance, other.averageDistance);
+		return result;
 	}
 
 	@Override

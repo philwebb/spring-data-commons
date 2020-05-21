@@ -398,21 +398,19 @@ public interface ExampleMatcher {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof GenericPropertyMatcher)) {
+			if (!(obj instanceof GenericPropertyMatcher)) {
 				return false;
 			}
-			GenericPropertyMatcher other = (GenericPropertyMatcher) o;
-			if (this.stringMatcher != other.stringMatcher) {
-				return false;
-			}
-			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, other.ignoreCase)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.valueTransformer, other.valueTransformer);
+			GenericPropertyMatcher other = (GenericPropertyMatcher) obj;
+			boolean result = true;
+			result = result && this.stringMatcher == other.stringMatcher;
+			result = result && ObjectUtils.nullSafeEquals(this.ignoreCase, other.ignoreCase);
+			result = result && ObjectUtils.nullSafeEquals(this.valueTransformer, other.valueTransformer);
+			return result;
 		}
 
 		@Override
@@ -698,24 +696,20 @@ public interface ExampleMatcher {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof PropertySpecifier)) {
+			if (!(obj instanceof PropertySpecifier)) {
 				return false;
 			}
-			PropertySpecifier other = (PropertySpecifier) o;
-			if (!ObjectUtils.nullSafeEquals(this.path, other.path)) {
-				return false;
-			}
-			if (this.stringMatcher != other.stringMatcher) {
-				return false;
-			}
-			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, other.ignoreCase)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.valueTransformer, other.valueTransformer);
+			PropertySpecifier other = (PropertySpecifier) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.path, other.path);
+			result = result && this.stringMatcher == other.stringMatcher;
+			result = result && ObjectUtils.nullSafeEquals(this.ignoreCase, other.ignoreCase);
+			result = result && ObjectUtils.nullSafeEquals(this.valueTransformer, other.valueTransformer);
+			return result;
 		}
 
 		@Override
@@ -771,14 +765,14 @@ public interface ExampleMatcher {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof PropertySpecifiers)) {
+			if (!(obj instanceof PropertySpecifiers)) {
 				return false;
 			}
-			PropertySpecifiers other = (PropertySpecifiers) o;
+			PropertySpecifiers other = (PropertySpecifiers) obj;
 			return ObjectUtils.nullSafeEquals(this.propertySpecifiers, other.propertySpecifiers);
 		}
 

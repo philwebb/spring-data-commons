@@ -142,21 +142,19 @@ public class MethodInvocationValidator implements MethodInterceptor {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof Nullability)) {
+			if (!(obj instanceof Nullability)) {
 				return false;
 			}
-			Nullability other = (Nullability) o;
-			if (this.nullableReturn != other.nullableReturn) {
-				return false;
-			}
-			if (!ObjectUtils.nullSafeEquals(this.nullableParameters, other.nullableParameters)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.methodParameters, other.methodParameters);
+			Nullability other = (Nullability) obj;
+			boolean result = true;
+			result = result && this.nullableReturn == other.nullableReturn;
+			result = result && ObjectUtils.nullSafeEquals(this.nullableParameters, other.nullableParameters);
+			result = result && ObjectUtils.nullSafeEquals(this.methodParameters, other.methodParameters);
+			return result;
 		}
 
 		@Override

@@ -74,18 +74,18 @@ public final class Range<T extends Comparable<T>> {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof Range)) {
+		if (!(obj instanceof Range)) {
 			return false;
 		}
-		Range<?> range = (Range<?>) o;
-		if (!ObjectUtils.nullSafeEquals(this.lowerBound, range.lowerBound)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.upperBound, range.upperBound);
+		Range<?> other = (Range<?>) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.lowerBound, other.lowerBound);
+		result = result && ObjectUtils.nullSafeEquals(this.upperBound, other.upperBound);
+		return result;
 	}
 
 	@Override
@@ -263,18 +263,18 @@ public final class Range<T extends Comparable<T>> {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof Bound)) {
+			if (!(obj instanceof Bound)) {
 				return false;
 			}
-			Bound<?> bound = (Bound<?>) o;
-			if (this.inclusive != bound.inclusive) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.value, bound.value);
+			Bound<?> other = (Bound<?>) obj;
+			boolean result = true;
+			result = result && this.inclusive == other.inclusive;
+			result = result && ObjectUtils.nullSafeEquals(this.value, other.value);
+			return result;
 		}
 
 		@Override

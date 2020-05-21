@@ -134,15 +134,15 @@ public final class Alias {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof Alias)) {
+		if (!(obj instanceof Alias)) {
 			return false;
 		}
-		Alias alias = (Alias) o;
-		return ObjectUtils.nullSafeEquals(this.value, alias.value);
+		Alias other = (Alias) obj;
+		return ObjectUtils.nullSafeEquals(this.value, other.value);
 	}
 
 	@Override

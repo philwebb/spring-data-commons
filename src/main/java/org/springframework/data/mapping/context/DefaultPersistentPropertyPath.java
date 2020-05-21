@@ -185,14 +185,14 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof DefaultPersistentPropertyPath)) {
+		if (!(obj instanceof DefaultPersistentPropertyPath)) {
 			return false;
 		}
-		DefaultPersistentPropertyPath<?> other = (DefaultPersistentPropertyPath<?>) o;
+		DefaultPersistentPropertyPath<?> other = (DefaultPersistentPropertyPath<?>) obj;
 		return ObjectUtils.nullSafeEquals(this.properties, other.properties);
 	}
 

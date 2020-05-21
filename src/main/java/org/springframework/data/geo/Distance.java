@@ -138,18 +138,18 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof Distance)) {
+		if (!(obj instanceof Distance)) {
 			return false;
 		}
-		Distance distance = (Distance) o;
-		if (this.value != distance.value) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.metric, distance.metric);
+		Distance other = (Distance) obj;
+		boolean result = true;
+		result = result && this.value == other.value;
+		result = result && ObjectUtils.nullSafeEquals(this.metric, other.metric);
+		return result;
 	}
 
 	@Override

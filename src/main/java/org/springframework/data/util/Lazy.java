@@ -164,21 +164,19 @@ public class Lazy<T> implements Supplier<T> {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof Lazy)) {
+		if (!(obj instanceof Lazy)) {
 			return false;
 		}
-		Lazy<?> lazy = (Lazy<?>) o;
-		if (this.resolved != lazy.resolved) {
-			return false;
-		}
-		if (!ObjectUtils.nullSafeEquals(this.supplier, lazy.supplier)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.value, lazy.value);
+		Lazy<?> other = (Lazy<?>) obj;
+		boolean result = true;
+		result = result && this.resolved == other.resolved;
+		result = result && ObjectUtils.nullSafeEquals(this.supplier, other.supplier);
+		result = result && ObjectUtils.nullSafeEquals(this.value, other.value);
+		return result;
 	}
 
 	@Override

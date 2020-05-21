@@ -52,18 +52,18 @@ public final class GeoResult<T> implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof GeoResult)) {
+		if (!(obj instanceof GeoResult)) {
 			return false;
 		}
-		GeoResult<?> geoResult = (GeoResult<?>) o;
-		if (!ObjectUtils.nullSafeEquals(this.content, geoResult.content)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.distance, geoResult.distance);
+		GeoResult<?> other = (GeoResult<?>) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.content, other.content);
+		result = result && ObjectUtils.nullSafeEquals(this.distance, other.distance);
+		return result;
 	}
 
 	@Override

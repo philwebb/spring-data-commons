@@ -297,21 +297,19 @@ public abstract class ReturnedType {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof CacheKey)) {
+			if (!(obj instanceof CacheKey)) {
 				return false;
 			}
-			CacheKey cacheKey = (CacheKey) o;
-			if (this.projectionFactoryHashCode != cacheKey.projectionFactoryHashCode) {
-				return false;
-			}
-			if (!ObjectUtils.nullSafeEquals(this.returnedType, cacheKey.returnedType)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.domainType, cacheKey.domainType);
+			CacheKey other = (CacheKey) obj;
+			boolean result = true;
+			result = result && this.projectionFactoryHashCode == other.projectionFactoryHashCode;
+			result = result && ObjectUtils.nullSafeEquals(this.returnedType, other.returnedType);
+			result = result && ObjectUtils.nullSafeEquals(this.domainType, other.domainType);
+			return result;
 		}
 
 		@Override

@@ -263,24 +263,20 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof Parameter)) {
+			if (!(obj instanceof Parameter)) {
 				return false;
 			}
-			Parameter<?, ?> parameter = (Parameter<?, ?>) o;
-			if (!ObjectUtils.nullSafeEquals(this.name, parameter.name)) {
-				return false;
-			}
-			if (!ObjectUtils.nullSafeEquals(this.type, parameter.type)) {
-				return false;
-			}
-			if (!ObjectUtils.nullSafeEquals(this.key, parameter.key)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.entity, parameter.entity);
+			Parameter<?, ?> other = (Parameter<?, ?>) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.name, other.name);
+			result = result && ObjectUtils.nullSafeEquals(this.type, other.type);
+			result = result && ObjectUtils.nullSafeEquals(this.key, other.key);
+			result = result && ObjectUtils.nullSafeEquals(this.entity, other.entity);
+			return result;
 		}
 
 		@Override

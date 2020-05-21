@@ -473,18 +473,18 @@ public class QuerydslBindings {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof PathAndBinding)) {
+			if (!(obj instanceof PathAndBinding)) {
 				return false;
 			}
-			PathAndBinding<?, ?> other = (PathAndBinding<?, ?>) o;
-			if (!ObjectUtils.nullSafeEquals(this.path, other.path)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.binding, other.binding);
+			PathAndBinding<?, ?> other = (PathAndBinding<?, ?>) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.path, other.path);
+			result = result && ObjectUtils.nullSafeEquals(this.binding, other.binding);
+			return result;
 		}
 
 		@Override

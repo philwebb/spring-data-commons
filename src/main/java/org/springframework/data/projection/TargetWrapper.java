@@ -41,18 +41,18 @@ public final class TargetWrapper {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof TargetWrapper)) {
+		if (!(obj instanceof TargetWrapper)) {
 			return false;
 		}
-		TargetWrapper other = (TargetWrapper) o;
-		if (!ObjectUtils.nullSafeEquals(this.target, other.target)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.args, other.args);
+		TargetWrapper other = (TargetWrapper) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.target, other.target);
+		result = result && ObjectUtils.nullSafeEquals(this.args, other.args);
+		return result;
 	}
 
 	@Override

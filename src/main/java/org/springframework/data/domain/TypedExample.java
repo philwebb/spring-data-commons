@@ -50,18 +50,18 @@ class TypedExample<T> implements Example<T> {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof TypedExample)) {
+		if (!(obj instanceof TypedExample)) {
 			return false;
 		}
-		TypedExample<?> other = (TypedExample<?>) o;
-		if (!ObjectUtils.nullSafeEquals(this.probe, other.probe)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.matcher, other.matcher);
+		TypedExample<?> other = (TypedExample<?>) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.probe, other.probe);
+		result = result && ObjectUtils.nullSafeEquals(this.matcher, other.matcher);
+		return result;
 	}
 
 	@Override

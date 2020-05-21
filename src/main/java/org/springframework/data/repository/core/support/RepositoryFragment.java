@@ -140,14 +140,14 @@ public interface RepositoryFragment<T> {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof StructuralRepositoryFragment)) {
+			if (!(obj instanceof StructuralRepositoryFragment)) {
 				return false;
 			}
-			StructuralRepositoryFragment<?> other = (StructuralRepositoryFragment<?>) o;
+			StructuralRepositoryFragment<?> other = (StructuralRepositoryFragment<?>) obj;
 			return ObjectUtils.nullSafeEquals(this.interfaceOrImplementation, other.interfaceOrImplementation);
 		}
 
@@ -206,21 +206,19 @@ public interface RepositoryFragment<T> {
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof ImplementedRepositoryFragment)) {
+			if (!(obj instanceof ImplementedRepositoryFragment)) {
 				return false;
 			}
-			ImplementedRepositoryFragment<?> other = (ImplementedRepositoryFragment<?>) o;
-			if (!ObjectUtils.nullSafeEquals(this.interfaceClass, other.interfaceClass)) {
-				return false;
-			}
-			if (!ObjectUtils.nullSafeEquals(this.implementation, other.implementation)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.optionalImplementation, other.optionalImplementation);
+			ImplementedRepositoryFragment<?> other = (ImplementedRepositoryFragment<?>) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.interfaceClass, other.interfaceClass);
+			result = result && ObjectUtils.nullSafeEquals(this.implementation, other.implementation);
+			result = result && ObjectUtils.nullSafeEquals(this.optionalImplementation, other.optionalImplementation);
+			return result;
 		}
 
 		@Override

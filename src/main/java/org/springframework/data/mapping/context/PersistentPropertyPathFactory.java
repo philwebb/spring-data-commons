@@ -254,18 +254,18 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof TypeAndPath)) {
+			if (!(obj instanceof TypeAndPath)) {
 				return false;
 			}
-			TypeAndPath other = (TypeAndPath) o;
-			if (!ObjectUtils.nullSafeEquals(this.type, other.type)) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.path, other.path);
+			TypeAndPath other = (TypeAndPath) obj;
+			boolean result = true;
+			result = result && ObjectUtils.nullSafeEquals(this.type, other.type);
+			result = result && ObjectUtils.nullSafeEquals(this.path, other.path);
+			return result;
 		}
 
 		@Override

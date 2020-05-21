@@ -99,18 +99,18 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof Revision)) {
+		if (!(obj instanceof Revision)) {
 			return false;
 		}
-		Revision<?, ?> revision = (Revision<?, ?>) o;
-		if (!ObjectUtils.nullSafeEquals(this.metadata, revision.metadata)) {
-			return false;
-		}
-		return ObjectUtils.nullSafeEquals(this.entity, revision.entity);
+		Revision<?, ?> other = (Revision<?, ?>) obj;
+		boolean result = true;
+		result = result && ObjectUtils.nullSafeEquals(this.metadata, other.metadata);
+		result = result && ObjectUtils.nullSafeEquals(this.entity, other.entity);
+		return result;
 	}
 
 	@Override

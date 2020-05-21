@@ -551,18 +551,18 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
+		public boolean equals(Object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (!(o instanceof RepositoryInformationCacheKey)) {
+			if (!(obj instanceof RepositoryInformationCacheKey)) {
 				return false;
 			}
-			RepositoryInformationCacheKey other = (RepositoryInformationCacheKey) o;
-			if (this.compositionHash != other.compositionHash) {
-				return false;
-			}
-			return ObjectUtils.nullSafeEquals(this.repositoryInterfaceName, other.repositoryInterfaceName);
+			RepositoryInformationCacheKey other = (RepositoryInformationCacheKey) obj;
+			boolean result = true;
+			result = result && this.compositionHash == other.compositionHash;
+			result = result && ObjectUtils.nullSafeEquals(this.repositoryInterfaceName, other.repositoryInterfaceName);
+			return result;
 		}
 
 		@Override

@@ -176,30 +176,22 @@ class TypedExampleMatcher implements ExampleMatcher {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if (!(o instanceof TypedExampleMatcher)) {
+		if (!(obj instanceof TypedExampleMatcher)) {
 			return false;
 		}
-		TypedExampleMatcher other = (TypedExampleMatcher) o;
-		if (this.defaultIgnoreCase != other.defaultIgnoreCase) {
-			return false;
-		}
-		if (this.nullHandler != other.nullHandler) {
-			return false;
-		}
-		if (this.defaultStringMatcher != other.defaultStringMatcher) {
-			return false;
-		}
-		if (!ObjectUtils.nullSafeEquals(this.propertySpecifiers, other.propertySpecifiers)) {
-			return false;
-		}
-		if (!ObjectUtils.nullSafeEquals(this.ignoredPaths, other.ignoredPaths)) {
-			return false;
-		}
-		return this.mode == other.mode;
+		TypedExampleMatcher other = (TypedExampleMatcher) obj;
+		boolean result = true;
+		result = result && this.defaultIgnoreCase == other.defaultIgnoreCase;
+		result = result && this.nullHandler == other.nullHandler;
+		result = result && this.defaultStringMatcher == other.defaultStringMatcher;
+		result = result && ObjectUtils.nullSafeEquals(this.propertySpecifiers, other.propertySpecifiers);
+		result = result && ObjectUtils.nullSafeEquals(this.ignoredPaths, other.ignoredPaths);
+		result = result && this.mode == other.mode;
+		return result;
 	}
 
 	@Override
