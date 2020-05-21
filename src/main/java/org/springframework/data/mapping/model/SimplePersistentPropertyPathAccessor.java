@@ -49,7 +49,7 @@ import static org.springframework.data.mapping.AccessOptions.SetOptions.SetNulls
  */
 class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathAccessor<T> {
 
-	private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(SimplePersistentPropertyPathAccessor.class);
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SimplePersistentPropertyPathAccessor.class);
 
 	private final PersistentPropertyAccessor<T> delegate;
 
@@ -164,7 +164,7 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 		}
 		String nullIntermediateMessage = "Cannot lookup property %s on null intermediate! Original path was: %s on %s.";
 		if (SetNulls.SKIP_AND_LOG.equals(handling)) {
-			LOG.info(nullIntermediateMessage);
+			logger.info(nullIntermediateMessage);
 			return null;
 		}
 		PersistentPropertyPath<? extends PersistentProperty<?>> parentPath = path.getParentPath();

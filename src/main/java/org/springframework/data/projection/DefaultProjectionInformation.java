@@ -107,7 +107,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 	 */
 	private static class PropertyDescriptorSource {
 
-		private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(PropertyDescriptorSource.class);
+		private static final Logger logger = org.slf4j.LoggerFactory.getLogger(PropertyDescriptorSource.class);
 
 		private final Class<?> type;
 
@@ -199,7 +199,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 				return Optional.of(metadataReader.getMethodsMetadata());
 			}
 			catch (IOException e) {
-				LOG.info("Couldn't read class metadata for {}. Input property calculation might fail!", type);
+				logger.info("Couldn't read class metadata for {}. Input property calculation might fail!", type);
 				return Optional.empty();
 			}
 		}

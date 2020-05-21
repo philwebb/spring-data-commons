@@ -64,7 +64,7 @@ public class RepositoryConfigurationDelegate {
 
 	static final String FACTORY_BEAN_OBJECT_TYPE = "factoryBeanObjectType";
 
-	private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(RepositoryConfigurationDelegate.class);
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(RepositoryConfigurationDelegate.class);
 
 	private final RepositoryConfigurationSource configurationSource;
 
@@ -121,8 +121,8 @@ public class RepositoryConfigurationDelegate {
 	 */
 	public List<BeanComponentDefinition> registerRepositoriesIn(BeanDefinitionRegistry registry,
 			RepositoryConfigurationExtension extension) {
-		if (LOG.isInfoEnabled()) {
-			LOG.info("Bootstrapping Spring Data {} repositories in {} mode.", extension.getModuleName(),
+		if (logger.isInfoEnabled()) {
+			logger.info("Bootstrapping Spring Data {} repositories in {} mode.", extension.getModuleName(),
 					this.configurationSource.getBootstrapMode().name());
 		}
 		extension.registerBeansForRoot(registry, this.configurationSource);
@@ -130,8 +130,8 @@ public class RepositoryConfigurationDelegate {
 				this.configurationSource, this.resourceLoader, this.environment);
 		List<BeanComponentDefinition> definitions = new ArrayList<>();
 		StopWatch watch = new StopWatch();
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Scanning for {} repositories in packages {}.", extension.getModuleName(),
+		if (logger.isDebugEnabled()) {
+			logger.debug("Scanning for {} repositories in packages {}.", extension.getModuleName(),
 					this.configurationSource.getBasePackages().stream().collect(Collectors.joining(", ")));
 		}
 		watch.start();
@@ -152,8 +152,8 @@ public class RepositoryConfigurationDelegate {
 			AbstractBeanDefinition beanDefinition = definitionBuilder.getBeanDefinition();
 			beanDefinition.setResourceDescription(configuration.getResourceDescription());
 			String beanName = this.configurationSource.generateBeanName(beanDefinition);
-			if (LOG.isTraceEnabled()) {
-				LOG.trace(REPOSITORY_REGISTRATION, extension.getModuleName(), beanName,
+			if (logger.isTraceEnabled()) {
+				logger.trace(REPOSITORY_REGISTRATION, extension.getModuleName(), beanName,
 						configuration.getRepositoryInterface(), configuration.getRepositoryFactoryBeanClassName());
 			}
 			beanDefinition.setAttribute(FACTORY_BEAN_OBJECT_TYPE, configuration.getRepositoryInterface());
@@ -163,8 +163,8 @@ public class RepositoryConfigurationDelegate {
 		potentiallyLazifyRepositories(configurationsByRepositoryName, registry,
 				this.configurationSource.getBootstrapMode());
 		watch.stop();
-		if (LOG.isInfoEnabled()) {
-			LOG.info("Finished Spring Data repository scanning in {}ms. Found {} {} repository interfaces.",
+		if (logger.isInfoEnabled()) {
+			logger.info("Finished Spring Data repository scanning in {}ms. Found {} {} repository interfaces.",
 					watch.getLastTaskTimeMillis(), configurations.size(), extension.getModuleName());
 		}
 		return definitions;
@@ -188,7 +188,7 @@ public class RepositoryConfigurationDelegate {
 		AutowireCandidateResolver resolver = beanFactory.getAutowireCandidateResolver();
 		if (!Arrays.asList(ContextAnnotationAutowireCandidateResolver.class, LazyRepositoryInjectionPointResolver.class)
 				.contains(resolver.getClass())) {
-			LOG.warn(NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER, resolver.getClass().getName());
+			logger.warn(NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER, resolver.getClass().getName());
 			return;
 		}
 		AutowireCandidateResolver newResolver = LazyRepositoryInjectionPointResolver.class.isInstance(resolver)
@@ -196,7 +196,7 @@ public class RepositoryConfigurationDelegate {
 				: new LazyRepositoryInjectionPointResolver(configurations);
 		beanFactory.setAutowireCandidateResolver(newResolver);
 		if (mode.equals(BootstrapMode.DEFERRED)) {
-			LOG.debug("Registering deferred repository initialization listener.");
+			logger.debug("Registering deferred repository initialization listener.");
 			beanFactory.registerSingleton(DeferredRepositoryInitializationListener.class.getName(),
 					new DeferredRepositoryInitializationListener(beanFactory));
 		}
@@ -212,7 +212,7 @@ public class RepositoryConfigurationDelegate {
 		boolean multipleModulesFound = SpringFactoriesLoader
 				.loadFactoryNames(RepositoryFactorySupport.class, this.resourceLoader.getClassLoader()).size() > 1;
 		if (multipleModulesFound) {
-			LOG.info(MULTIPLE_MODULES);
+			logger.info(MULTIPLE_MODULES);
 		}
 		return multipleModulesFound;
 	}
@@ -225,7 +225,8 @@ public class RepositoryConfigurationDelegate {
 	 */
 	static class LazyRepositoryInjectionPointResolver extends ContextAnnotationAutowireCandidateResolver {
 
-		private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(LazyRepositoryInjectionPointResolver.class);
+		private static final Logger logger = org.slf4j.LoggerFactory
+				.getLogger(LazyRepositoryInjectionPointResolver.class);
 
 		private final Map<String, RepositoryConfiguration<?>> configurations;
 
@@ -255,7 +256,7 @@ public class RepositoryConfigurationDelegate {
 			}
 			boolean lazyInit = configuration.isLazyInit();
 			if (lazyInit) {
-				LOG.debug("Creating lazy injection proxy for {}…", configuration.getRepositoryInterface());
+				logger.debug("Creating lazy injection proxy for {}…", configuration.getRepositoryInterface());
 			}
 			return lazyInit;
 		}
