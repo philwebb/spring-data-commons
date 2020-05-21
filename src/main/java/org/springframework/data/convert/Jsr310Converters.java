@@ -26,7 +26,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +33,6 @@ import javax.annotation.Nonnull;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
-import org.springframework.util.ClassUtils;
 
 import static java.time.Instant.ofEpochMilli;
 import static java.time.LocalDateTime.ofInstant;
@@ -52,9 +50,6 @@ import static java.time.ZoneId.systemDefault;
  */
 public abstract class Jsr310Converters {
 
-	private static final boolean JAVA_8_IS_PRESENT = ClassUtils.isPresent("java.time.LocalDateTime",
-			Jsr310Converters.class.getClassLoader());
-
 	private static final List<Class<?>> CLASSES = Arrays.asList(LocalDateTime.class, LocalDate.class, LocalTime.class,
 			Instant.class, ZoneId.class, Duration.class, Period.class);
 
@@ -64,9 +59,6 @@ public abstract class Jsr310Converters {
 	 * @return
 	 */
 	public static Collection<Converter<?, ?>> getConvertersToRegister() {
-		if (!JAVA_8_IS_PRESENT) {
-			return Collections.emptySet();
-		}
 		List<Converter<?, ?>> converters = new ArrayList<>();
 		converters.add(DateToLocalDateTimeConverter.INSTANCE);
 		converters.add(LocalDateTimeToDateConverter.INSTANCE);
@@ -91,9 +83,6 @@ public abstract class Jsr310Converters {
 	}
 
 	public static boolean supports(Class<?> type) {
-		if (!JAVA_8_IS_PRESENT) {
-			return false;
-		}
 		return CLASSES.contains(type);
 	}
 
