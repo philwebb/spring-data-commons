@@ -29,4 +29,5 @@
 	<suppress files=".*" checks="SpringMethodOrder" />
 	<suppress files=".*" checks="SpringMethodVisibility" />
 	<suppress files=".*" checks="SpringTernary" />
+	<suppress files="generated-test-sources" checks=".*" />
 </suppressions>
