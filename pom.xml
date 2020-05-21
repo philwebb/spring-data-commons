@@ -22,6 +22,7 @@
 		<vavr>0.10.2</vavr>
 		<scala>2.11.7</scala>
 		<xmlbeam>1.4.16</xmlbeam>
+		<spring-javaformat>0.0.23-SNAPSHOT</spring-javaformat>
 
 		<java-module-name>spring.data.commons</java-module-name>
 	</properties>
@@ -366,7 +367,20 @@
 				<groupId>org.asciidoctor</groupId>
 				<artifactId>asciidoctor-maven-plugin</artifactId>
 			</plugin>
-
+			<plugin>
+				<groupId>io.spring.javaformat</groupId>
+				<artifactId>spring-javaformat-maven-plugin</artifactId>
+				<version>${spring-javaformat}</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<inherited>true</inherited>
+						<goals>
+							<goal>validate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
