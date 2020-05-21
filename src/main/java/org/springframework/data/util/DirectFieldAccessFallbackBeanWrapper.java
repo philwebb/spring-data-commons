@@ -46,19 +46,15 @@ public class DirectFieldAccessFallbackBeanWrapper extends BeanWrapperImpl {
 	@Override
 	@Nullable
 	public Object getPropertyValue(String propertyName) {
-
 		try {
 			return super.getPropertyValue(propertyName);
 		}
 		catch (NotReadablePropertyException e) {
-
 			Field field = findField(getWrappedClass(), propertyName);
-
 			if (field == null) {
 				throw new NotReadablePropertyException(getWrappedClass(), propertyName,
 						"Could not find field for property during fallback access!");
 			}
-
 			makeAccessible(field);
 			return getField(field, getWrappedInstance());
 		}
@@ -72,19 +68,15 @@ public class DirectFieldAccessFallbackBeanWrapper extends BeanWrapperImpl {
 	 */
 	@Override
 	public void setPropertyValue(String propertyName, @Nullable Object value) {
-
 		try {
 			super.setPropertyValue(propertyName, value);
 		}
 		catch (NotWritablePropertyException e) {
-
 			Field field = findField(getWrappedClass(), propertyName);
-
 			if (field == null) {
 				throw new NotWritablePropertyException(getWrappedClass(), propertyName,
 						"Could not find field for property during fallback access!", e);
 			}
-
 			makeAccessible(field);
 			setField(field, getWrappedInstance(), value);
 		}

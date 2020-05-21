@@ -48,9 +48,7 @@ public class Function {
 	 * @param method
 	 */
 	public Function(Method method) {
-
 		this(method, null);
-
 		Assert.isTrue(Modifier.isStatic(method.getModifiers()), "Method must be static!");
 	}
 
@@ -60,11 +58,9 @@ public class Function {
 	 * @param target can be {@literal null}, if so, the method
 	 */
 	public Function(Method method, @Nullable Object target) {
-
 		Assert.notNull(method, "Method must not be null!");
 		Assert.isTrue(target != null || Modifier.isStatic(method.getModifiers()),
 				"Method must either be static or a non-static one with a target object!");
-
 		this.method = method;
 		this.target = target;
 	}
@@ -76,38 +72,28 @@ public class Function {
 	 * @throws Exception
 	 */
 	public Object invoke(Object[] arguments) throws Exception {
-
 		if (this.method.getParameterCount() == arguments.length) {
 			return this.method.invoke(this.target, arguments);
 		}
-
 		Class<?>[] types = this.method.getParameterTypes();
 		Class<?> tailType = types[types.length - 1];
-
 		if (tailType.isArray()) {
-
 			List<Object> argumentsToUse = new ArrayList<>(types.length);
-
 			// Add all arguments up until the last one
 			for (int i = 0; i < types.length - 1; i++) {
 				argumentsToUse.add(arguments[i]);
 			}
-
 			// Gather all other arguments into an array of the tail type
 			Object[] varargs = (Object[]) Array.newInstance(tailType.getComponentType(),
 					arguments.length - types.length + 1);
 			int count = 0;
-
 			for (int i = types.length - 1; i < arguments.length; i++) {
 				varargs[count++] = arguments[i];
 			}
-
 			argumentsToUse.add(varargs);
-
 			return this.method.invoke(this.target,
 					argumentsToUse.size() == 1 ? argumentsToUse.get(0) : argumentsToUse.toArray());
 		}
-
 		throw new IllegalStateException(
 				String.format("Could not invoke method %s for arguments %s!", this.method, arguments));
 	}
@@ -164,7 +150,6 @@ public class Function {
 	 * @return {@code true} if name and argument list are the same.
 	 */
 	public boolean isSignatureEqual(Function other) {
-
 		return getName().equals(other.getName()) //
 				&& this.method.getParameterCount() == other.method.getParameterCount()
 				&& Arrays.equals(this.method.getParameterTypes(), other.method.getParameterTypes());

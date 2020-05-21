@@ -53,9 +53,7 @@ public final class Alias {
 	 * @return the {@link Alias} for {@code alias}.
 	 */
 	public static Alias of(Object alias) {
-
 		Assert.notNull(alias, "Alias must not be null!");
-
 		return new Alias(alias);
 	}
 
@@ -86,9 +84,7 @@ public final class Alias {
 	 * {@code other} value.
 	 */
 	public boolean isPresentButDifferent(Alias other) {
-
 		Assert.notNull(other, "Other alias must not be null!");
-
 		return isPresent() && !this.value.equals(other.value);
 	}
 
@@ -128,9 +124,7 @@ public final class Alias {
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T> T mapTyped(Class<T> type) {
-
 		Assert.notNull(type, "Type must not be null");
-
 		return isPresent() && type.isInstance(this.value) ? (T) this.value : null;
 	}
 
@@ -145,15 +139,12 @@ public final class Alias {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof Alias)) {
 			return false;
 		}
-
 		Alias alias = (Alias) o;
 		return ObjectUtils.nullSafeEquals(this.value, alias.value);
 	}

@@ -52,7 +52,6 @@ public interface StreamUtils {
 	 * @return
 	 */
 	public static <T> Stream<T> createStreamFromIterator(Iterator<T> iterator) {
-
 		Spliterator<T> spliterator = Spliterators.spliteratorUnknownSize(iterator, Spliterator.NONNULL);
 		return StreamSupport.stream(spliterator, false);
 	}
@@ -65,9 +64,7 @@ public interface StreamUtils {
 	 * @since 2.0
 	 */
 	public static <T> Stream<T> createStreamFromIterator(CloseableIterator<T> iterator) {
-
 		Assert.notNull(iterator, "Iterator must not be null!");
-
 		return createStreamFromIterator((Iterator<T>) iterator).onClose(() -> iterator.close());
 	}
 
@@ -122,18 +119,14 @@ public interface StreamUtils {
 	 * @since 2.1
 	 */
 	public static <L, R, T> Stream<T> zip(Stream<L> left, Stream<R> right, BiFunction<L, R, T> combiner) {
-
 		Assert.notNull(left, "Left stream must not be null!");
 		Assert.notNull(right, "Right must not be null!");
 		Assert.notNull(combiner, "Combiner must not be null!");
-
 		Spliterator<L> lefts = left.spliterator();
 		Spliterator<R> rights = right.spliterator();
-
 		long size = Long.min(lefts.estimateSize(), rights.estimateSize());
 		int characteristics = lefts.characteristics() & rights.characteristics();
 		boolean parallel = left.isParallel() || right.isParallel();
-
 		return StreamSupport.stream(new AbstractSpliterator<T>(size, characteristics) {
 
 			@Override

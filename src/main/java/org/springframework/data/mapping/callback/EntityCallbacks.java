@@ -54,7 +54,6 @@ public interface EntityCallbacks {
 	 * {@link #addEntityCallback(EntityCallback) added}.
 	 */
 	static EntityCallbacks create(EntityCallback<?>... callbacks) {
-
 		EntityCallbacks entityCallbacks = create();
 		for (EntityCallback<?> callback : callbacks) {
 			entityCallbacks.addEntityCallback(callback);
@@ -81,7 +80,6 @@ public interface EntityCallbacks {
 	 * @throws IllegalArgumentException if a required argument is {@literal null}.
 	 */
 	static EntityCallbacks create(BeanFactory beanFactory) {
-
 		Assert.notNull(beanFactory, "Context must not be null!");
 		return new DefaultEntityCallbacks(beanFactory);
 	}

@@ -73,10 +73,8 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 	 */
 	public TransactionalRepositoryProxyPostProcessor(ListableBeanFactory beanFactory, String transactionManagerName,
 			boolean enableDefaultTransaction) {
-
 		Assert.notNull(beanFactory, "BeanFactory must not be null!");
 		Assert.notNull(transactionManagerName, "TransactionManagerName must not be null!");
-
 		this.beanFactory = beanFactory;
 		this.transactionManagerName = transactionManagerName;
 		this.enableDefaultTransactions = enableDefaultTransaction;
@@ -91,17 +89,14 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 	 */
 	@Override
 	public void postProcess(ProxyFactory factory, RepositoryInformation repositoryInformation) {
-
 		CustomAnnotationTransactionAttributeSource transactionAttributeSource = new CustomAnnotationTransactionAttributeSource();
 		transactionAttributeSource.setRepositoryInformation(repositoryInformation);
 		transactionAttributeSource.setEnableDefaultTransactions(this.enableDefaultTransactions);
-
 		@SuppressWarnings("null") // TODO: Remove
 		TransactionInterceptor transactionInterceptor = new TransactionInterceptor(null, transactionAttributeSource);
 		transactionInterceptor.setTransactionManagerBeanName(this.transactionManagerName);
 		transactionInterceptor.setBeanFactory(this.beanFactory);
 		transactionInterceptor.afterPropertiesSet();
-
 		factory.addAdvice(transactionInterceptor);
 	}
 
@@ -414,7 +409,6 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 			if (allowPublicMethodsOnly() && !Modifier.isPublic(method.getModifiers())) {
 				return null;
 			}
-
 			// Ignore CGLIB subclasses - introspect the actual user class.
 			Class<?> userClass = ProxyUtils.getUserClass(targetClass);
 			// The method may be on an interface, but we need attributes from the target
@@ -424,9 +418,7 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 			// If we are dealing with method with generic parameters, find the original
 			// method.
 			specificMethod = BridgeMethodResolver.findBridgedMethod(specificMethod);
-
 			TransactionAttribute txAtt = null;
-
 			if (specificMethod != method) {
 				// Fallback is to look at the original method.
 				txAtt = findTransactionAttribute(method);
@@ -440,43 +432,34 @@ class TransactionalRepositoryProxyPostProcessor implements RepositoryProxyPostPr
 					return txAtt;
 				}
 			}
-
 			// Start: Implementation class check block
-
 			// First try is the method in the target class.
 			txAtt = findTransactionAttribute(specificMethod);
 			if (txAtt != null) {
 				return txAtt;
 			}
-
 			// Second try is the transaction attribute on the target class.
 			txAtt = findTransactionAttribute(specificMethod.getDeclaringClass());
 			if (txAtt != null) {
 				return txAtt;
 			}
-
 			if (!this.enableDefaultTransactions) {
 				return null;
 			}
-
 			// Fallback to implementation class transaction settings of nothing found
 			// return findTransactionAttribute(method);
 			Method targetClassMethod = this.repositoryInformation.getTargetClassMethod(method);
-
 			if (targetClassMethod.equals(method)) {
 				return null;
 			}
-
 			txAtt = findTransactionAttribute(targetClassMethod);
 			if (txAtt != null) {
 				return txAtt;
 			}
-
 			txAtt = findTransactionAttribute(targetClassMethod.getDeclaringClass());
 			if (txAtt != null) {
 				return txAtt;
 			}
-
 			return null;
 			// End: Implementation class check block
 		}

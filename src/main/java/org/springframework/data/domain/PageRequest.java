@@ -38,11 +38,8 @@ public class PageRequest extends AbstractPageRequest {
 	 * @param sort must not be {@literal null}, use {@link Sort#unsorted()} instead.
 	 */
 	protected PageRequest(int page, int size, Sort sort) {
-
 		super(page, size);
-
 		Assert.notNull(sort, "Sort must not be null!");
-
 		this.sort = sort;
 	}
 
@@ -101,17 +98,13 @@ public class PageRequest extends AbstractPageRequest {
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof PageRequest)) {
 			return false;
 		}
-
 		PageRequest that = (PageRequest) obj;
-
 		return super.equals(that) && this.sort.equals(that.sort);
 	}
 

@@ -40,10 +40,8 @@ public class Box implements Shape {
 	 * @param second must not be {@literal null}.
 	 */
 	public Box(Point first, Point second) {
-
 		Assert.notNull(first, "First point must not be null!");
 		Assert.notNull(second, "Second point must not be null!");
-
 		this.first = first;
 		this.second = second;
 	}
@@ -55,10 +53,8 @@ public class Box implements Shape {
 	 * @param second must not be {@literal null} and contain exactly 2 doubles.
 	 */
 	public Box(double[] first, double[] second) {
-
 		Assert.isTrue(first.length == 2, "Point array has to have 2 elements!");
 		Assert.isTrue(second.length == 2, "Point array has to have 2 elements!");
-
 		this.first = new Point(first[0], first[1]);
 		this.second = new Point(second[0], second[1]);
 	}
@@ -86,28 +82,21 @@ public class Box implements Shape {
 
 	@Override
 	public int hashCode() {
-
 		int result = 31;
-
 		result += 17 * this.first.hashCode();
 		result += 17 * this.second.hashCode();
-
 		return result;
 	}
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof Box)) {
 			return false;
 		}
-
 		Box that = (Box) obj;
-
 		return this.first.equals(that.first) && this.second.equals(that.second);
 	}
 

@@ -67,11 +67,8 @@ public class QPageRequest extends AbstractPageRequest {
 	 */
 	@Deprecated
 	public QPageRequest(int page, int size, QSort sort) {
-
 		super(page, size);
-
 		Assert.notNull(sort, "QSort must not be null!");
-
 		this.sort = sort;
 	}
 

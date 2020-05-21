@@ -57,9 +57,7 @@ public class ReactivePageableHandlerMethodArgumentResolver extends PageableHandl
 	 * @param sortResolver the sort resolver to use.
 	 */
 	public ReactivePageableHandlerMethodArgumentResolver(ReactiveSortHandlerMethodArgumentResolver sortResolver) {
-
 		Assert.notNull(sortResolver, "ReactiveSortHandlerMethodArgumentResolver must not be null!");
-
 		this.sortResolver = sortResolver;
 	}
 
@@ -81,15 +79,11 @@ public class ReactivePageableHandlerMethodArgumentResolver extends PageableHandl
 	@Override
 	public Pageable resolveArgumentValue(MethodParameter parameter, BindingContext bindingContext,
 			ServerWebExchange exchange) {
-
 		MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
 		String page = queryParams.getFirst(getParameterNameToUse(getPageParameterName(), parameter));
 		String pageSize = queryParams.getFirst(getParameterNameToUse(getSizeParameterName(), parameter));
-
 		Sort sort = this.sortResolver.resolveArgumentValue(parameter, bindingContext, exchange);
-
 		Pageable pageable = getPageable(parameter, page, pageSize);
-
 		return sort.isSorted() ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort) : pageable;
 	}
 

@@ -65,13 +65,10 @@ public class HashMapChangeSet implements ChangeSet {
 	@Override
 	@Nullable
 	public <T> T get(String key, Class<T> requiredClass, ConversionService conversionService) {
-
 		Object value = this.values.get(key);
-
 		if (value == null) {
 			return null;
 		}
-
 		return conversionService.convert(value, requiredClass);
 	}
 

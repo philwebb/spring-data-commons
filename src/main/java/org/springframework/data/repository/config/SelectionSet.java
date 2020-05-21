@@ -59,9 +59,7 @@ class SelectionSet<T> {
 	 * @return a unique result, or the result of the callback provided in the constructor.
 	 */
 	Optional<T> uniqueResult() {
-
 		Optional<T> uniqueResult = findUniqueResult();
-
 		return uniqueResult.isPresent() ? uniqueResult : this.fallback.apply(this.collection);
 	}
 
@@ -71,13 +69,11 @@ class SelectionSet<T> {
 	 * @param predicate To be used for filtering.
 	 */
 	SelectionSet<T> filterIfNecessary(Predicate<T> predicate) {
-
 		return findUniqueResult().map(it -> this).orElseGet(() -> new SelectionSet<>(
 				this.collection.stream().filter(predicate).collect(Collectors.toList()), this.fallback));
 	}
 
 	private static <S> Function<Collection<S>, Optional<S>> defaultFallback() {
-
 		return c -> {
 			if (c.isEmpty()) {
 				return Optional.empty();

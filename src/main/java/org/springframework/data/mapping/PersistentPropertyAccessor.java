@@ -61,41 +61,29 @@ public interface PersistentPropertyAccessor<T> {
 	 */
 	@Deprecated
 	default void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value) {
-
 		Assert.notNull(path, "PersistentPropertyPath must not be null!");
 		Assert.isTrue(!path.isEmpty(), "PersistentPropertyPath must not be empty!");
-
 		PersistentPropertyPath<? extends PersistentProperty<?>> parentPath = path.getParentPath();
 		PersistentProperty<?> leafProperty = path.getRequiredLeafProperty();
 		PersistentProperty<?> parentProperty = parentPath.isEmpty() ? null : parentPath.getLeafProperty();
-
 		if (parentProperty != null && (parentProperty.isCollectionLike() || parentProperty.isMap())) {
 			throw new MappingException(
 					String.format("Cannot traverse collection or map intermediate %s", parentPath.toDotPath()));
 		}
-
 		Object parent = parentPath.isEmpty() ? getBean() : getProperty(parentPath);
-
 		if (parent == null) {
-
 			String nullIntermediateMessage = "Cannot lookup property %s on null intermediate! Original path was: %s on %s.";
-
 			throw new MappingException(String.format(nullIntermediateMessage, parentProperty, path.toDotPath(),
 					getBean().getClass().getName()));
 		}
-
 		PersistentPropertyAccessor<?> accessor = parent == getBean() //
 				? this //
 				: leafProperty.getOwner().getPropertyAccessor(parent);
-
 		accessor.setProperty(leafProperty, value);
-
 		if (parentPath.isEmpty()) {
 			return;
 		}
-
 		Object bean = accessor.getBean();
-
 		if (bean != parent) {
 			setProperty(parentPath, bean);
 		}
@@ -142,30 +130,21 @@ public interface PersistentPropertyAccessor<T> {
 	@Nullable
 	@Deprecated
 	default Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, TraversalContext context) {
-
 		Object bean = getBean();
 		Object current = bean;
-
 		if (path.isEmpty()) {
 			return bean;
 		}
-
 		for (PersistentProperty<?> property : path) {
-
 			if (current == null) {
-
 				String nullIntermediateMessage = "Cannot lookup property %s on null intermediate! Original path was: %s on %s.";
-
 				throw new MappingException(
 						String.format(nullIntermediateMessage, property, path.toDotPath(), bean.getClass().getName()));
 			}
-
 			PersistentEntity<?, ? extends PersistentProperty<?>> entity = property.getOwner();
 			PersistentPropertyAccessor<Object> accessor = entity.getPropertyAccessor(current);
-
 			current = context.postProcess(property, accessor.getProperty(property));
 		}
-
 		return current;
 	}
 

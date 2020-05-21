@@ -33,7 +33,6 @@ public class RepositoryNameSpaceHandler extends NamespaceHandlerSupport {
 
 	@Override
 	public void init() {
-
 		registerBeanDefinitionParser("unmarshaller-populator", PARSER);
 		registerBeanDefinitionParser("jackson-populator", PARSER);
 		registerBeanDefinitionParser("jackson2-populator", PARSER);

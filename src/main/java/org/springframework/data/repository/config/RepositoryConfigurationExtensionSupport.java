@@ -90,33 +90,24 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	@Override
 	public <T extends RepositoryConfigurationSource> Collection<RepositoryConfiguration<T>> getRepositoryConfigurations(
 			T configSource, ResourceLoader loader, boolean strictMatchesOnly) {
-
 		Assert.notNull(configSource, "ConfigSource must not be null!");
 		Assert.notNull(loader, "Loader must not be null!");
-
 		Set<RepositoryConfiguration<T>> result = new HashSet<>();
-
 		for (BeanDefinition candidate : configSource.getCandidates(loader)) {
-
 			RepositoryConfiguration<T> configuration = getRepositoryConfiguration(candidate, configSource);
 			Class<?> repositoryInterface = loadRepositoryInterface(configuration,
 					getConfigurationInspectionClassLoader(loader));
-
 			if (repositoryInterface == null) {
 				result.add(configuration);
 				continue;
 			}
-
 			RepositoryMetadata metadata = AbstractRepositoryMetadata.getMetadata(repositoryInterface);
-
 			boolean qualifiedForImplementation = !strictMatchesOnly || configSource.usesExplicitFilters()
 					|| isStrictRepositoryCandidate(metadata);
-
 			if (qualifiedForImplementation && useRepositoryConfiguration(metadata)) {
 				result.add(configuration);
 			}
 		}
-
 		return result;
 	}
 
@@ -227,12 +218,9 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 */
 	public static String registerWithSourceAndGeneratedBeanName(AbstractBeanDefinition bean,
 			BeanDefinitionRegistry registry, Object source) {
-
 		bean.setSource(source);
-
 		String beanName = generateBeanName(bean, registry);
 		registry.registerBeanDefinition(beanName, bean);
-
 		return beanName;
 	}
 
@@ -248,13 +236,10 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 */
 	public static void registerIfNotAlreadyRegistered(Supplier<AbstractBeanDefinition> supplier,
 			BeanDefinitionRegistry registry, String beanName, Object source) {
-
 		if (registry.containsBeanDefinition(beanName)) {
 			return;
 		}
-
 		AbstractBeanDefinition bean = supplier.get();
-
 		bean.setSource(source);
 		registry.registerBeanDefinition(beanName, bean);
 	}
@@ -271,15 +256,12 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 */
 	public static void registerLazyIfNotAlreadyRegistered(Supplier<AbstractBeanDefinition> supplier,
 			BeanDefinitionRegistry registry, String beanName, Object source) {
-
 		if (registry.containsBeanDefinition(beanName)) {
 			return;
 		}
-
 		AbstractBeanDefinition definition = supplier.get();
 		definition.setSource(source);
 		definition.setLazyInit(true);
-
 		registry.registerBeanDefinition(beanName, definition);
 	}
 
@@ -291,7 +273,6 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 * @return
 	 */
 	public static boolean hasBean(Class<?> type, BeanDefinitionRegistry registry) {
-
 		String name = String.format("%s%s0", type.getName(), GENERATED_BEAN_NAME_SEPARATOR);
 		return registry.containsBeanDefinition(name);
 	}
@@ -322,15 +303,12 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 * @since 1.9
 	 */
 	protected boolean isStrictRepositoryCandidate(RepositoryMetadata metadata) {
-
 		if (this.noMultiStoreSupport) {
 			return false;
 		}
-
 		Collection<Class<?>> types = getIdentifyingTypes();
 		Collection<Class<? extends Annotation>> annotations = getIdentifyingAnnotations();
 		String moduleName = getModuleName();
-
 		if (types.isEmpty() && annotations.isEmpty()) {
 			if (!this.noMultiStoreSupport) {
 				logger.warn("Spring Data {} does not support multi-store setups!", moduleName);
@@ -338,41 +316,31 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 				return false;
 			}
 		}
-
 		Class<?> repositoryInterface = metadata.getRepositoryInterface();
-
 		for (Class<?> type : types) {
 			if (type.isAssignableFrom(repositoryInterface)) {
 				return true;
 			}
 		}
-
 		Class<?> domainType = metadata.getDomainType();
-
 		for (Class<? extends Annotation> annotationType : annotations) {
 			if (AnnotationUtils.findAnnotation(domainType, annotationType) != null) {
 				return true;
 			}
 		}
-
 		String message = String.format(MULTI_STORE_DROPPED, moduleName, repositoryInterface, moduleName);
-
 		if (!annotations.isEmpty()) {
 			message = message.concat(" consider annotating your entities with one of these annotations: ") //
 					.concat(toString(annotations)) //
 					.concat(types.isEmpty() ? "." : " (preferred)");
 		}
-
 		if (!types.isEmpty()) {
-
 			message = message.concat(annotations.isEmpty() ? " consider" : ", or consider") //
 					.concat(" extending one of the following types with your repository: ") //
 					.concat(toString(types)) //
 					.concat(".");
 		}
-
 		logger.info(message);
-
 		return false;
 	}
 
@@ -387,13 +355,11 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	 * @return
 	 */
 	protected boolean useRepositoryConfiguration(RepositoryMetadata metadata) {
-
 		if (metadata.isReactiveRepository()) {
 			throw new InvalidDataAccessApiUsageException(
 					String.format("Reactive Repositories are not supported by %s. Offending repository is %s!",
 							getModuleName(), metadata.getRepositoryInterface().getName()));
 		}
-
 		return true;
 	}
 
@@ -407,21 +373,17 @@ public abstract class RepositoryConfigurationExtensionSupport implements Reposit
 	@Nullable
 	private Class<?> loadRepositoryInterface(RepositoryConfiguration<?> configuration,
 			@Nullable ClassLoader classLoader) {
-
 		String repositoryInterface = configuration.getRepositoryInterface();
-
 		try {
 			return org.springframework.util.ClassUtils.forName(repositoryInterface, classLoader);
 		}
 		catch (ClassNotFoundException | LinkageError e) {
 			logger.warn(String.format(CLASS_LOADING_ERROR, getModuleName(), repositoryInterface, classLoader), e);
 		}
-
 		return null;
 	}
 
 	private static String toString(Collection<? extends Class<?>> types) {
-
 		return types.stream() //
 				.map(Class::getName) //
 				.collect(Collectors.joining(", "));

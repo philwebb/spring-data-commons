@@ -50,14 +50,11 @@ class QuerydslPathInformation implements PathInformation {
 
 	@Override
 	public Class<?> getLeafParentType() {
-
 		Path<?> parent = this.path.getMetadata().getParent();
-
 		if (parent == null) {
 			throw new IllegalStateException(
 					String.format("Could not obtain metadata for parent node of %s!", this.path));
 		}
-
 		return parent.getType();
 	}
 
@@ -84,15 +81,12 @@ class QuerydslPathInformation implements PathInformation {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof QuerydslPathInformation)) {
 			return false;
 		}
-
 		QuerydslPathInformation that = (QuerydslPathInformation) o;
 		return ObjectUtils.nullSafeEquals(this.path, that.path);
 	}

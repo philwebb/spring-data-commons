@@ -67,11 +67,9 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	 */
 	public ReflectionRepositoryInvoker(Object repository, RepositoryMetadata metadata,
 			ConversionService conversionService) {
-
 		Assert.notNull(repository, "Repository must not be null!");
 		Assert.notNull(metadata, "RepositoryMetadata must not be null!");
 		Assert.notNull(conversionService, "ConversionService must not be null!");
-
 		this.repository = repository;
 		this.methods = metadata.getCrudMethods();
 		this.idType = metadata.getIdType();
@@ -100,10 +98,8 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	@Override
 	public <T> T invokeSave(T object) {
-
 		Method method = this.methods.getSaveMethod()//
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a save-method declared!"));
-
 		return invokeForNonNullResult(method, object);
 	}
 
@@ -114,10 +110,8 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	@Override
 	public <T> Optional<T> invokeFindById(Object id) {
-
 		Method method = this.methods.getFindOneMethod()//
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a find-one-method declared!"));
-
 		return returnAsOptional(invoke(method, convertId(id)));
 	}
 
@@ -128,12 +122,9 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 
 	@Override
 	public void invokeDeleteById(Object id) {
-
 		Assert.notNull(id, "Identifier must not be null!");
-
 		Method method = this.methods.getDeleteMethod()
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a delete-method declared!"));
-
 		if (method.getName().endsWith("ById")) {
 			invoke(method, convertId(id));
 		}
@@ -153,34 +144,25 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	@Override
 	public Optional<Object> invokeQueryMethod(Method method, MultiValueMap<String, ?> parameters, Pageable pageable,
 			Sort sort) {
-
 		Assert.notNull(method, "Method must not be null!");
 		Assert.notNull(parameters, "Parameters must not be null!");
 		Assert.notNull(pageable, "Pageable must not be null!");
 		Assert.notNull(sort, "Sort must not be null!");
-
 		ReflectionUtils.makeAccessible(method);
-
 		return returnAsOptional(invoke(method, prepareParameters(method, parameters, pageable, sort)));
 	}
 
 	private Object[] prepareParameters(Method method, MultiValueMap<String, ?> rawParameters, Pageable pageable,
 			Sort sort) {
-
 		List<MethodParameter> parameters = new MethodParameters(method, Optional.of(PARAM_ANNOTATION)).getParameters();
-
 		if (parameters.isEmpty()) {
 			return new Object[0];
 		}
-
 		Object[] result = new Object[parameters.size()];
 		Sort sortToUse = pageable.getSortOr(sort);
-
 		for (int i = 0; i < result.length; i++) {
-
 			MethodParameter param = parameters.get(i);
 			Class<?> targetType = param.getParameterType();
-
 			if (Pageable.class.isAssignableFrom(targetType)) {
 				result[i] = pageable;
 			}
@@ -188,30 +170,23 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 				result[i] = sortToUse;
 			}
 			else {
-
 				String parameterName = param.getParameterName();
-
 				if (!StringUtils.hasText(parameterName)) {
 					throw new IllegalArgumentException(
 							String.format(NAME_NOT_FOUND, ClassUtils.getQualifiedMethodName(method)));
 				}
-
 				Object value = unwrapSingleElement(rawParameters.get(parameterName));
-
 				result[i] = targetType.isInstance(value) ? value : convert(value, param);
 			}
 		}
-
 		return result;
 	}
 
 	@Nullable
 	private Object convert(@Nullable Object value, MethodParameter parameter) {
-
 		if (value == null) {
 			return value;
 		}
-
 		try {
 			return this.conversionService.convert(value, TypeDescriptor.forObject(value),
 					new TypeDescriptor(parameter));
@@ -234,21 +209,17 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	}
 
 	private <T> T invokeForNonNullResult(Method method, Object... arguments) {
-
 		T result = invoke(method, arguments);
-
 		if (result == null) {
 			throw new IllegalStateException(
 					String.format("Invocation of method %s(%s) on %s unexpectedly returned null!", method,
 							Arrays.toString(arguments), this.repository));
 		}
-
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	private <T> Optional<T> returnAsOptional(@Nullable Object source) {
-
 		return (Optional<T>) (source instanceof Optional //
 				? source //
 				: Optional.ofNullable(QueryExecutionConverters.unwrap(source)));
@@ -260,46 +231,34 @@ class ReflectionRepositoryInvoker implements RepositoryInvoker {
 	 * @return
 	 */
 	protected Object convertId(Object id) {
-
 		Assert.notNull(id, "Id must not be null!");
-
 		Object result = this.conversionService.convert(id, this.idType);
-
 		if (result == null) {
 			throw new IllegalStateException(
 					String.format("Identifier conversion of %s to %s unexpectedly returned null!", id, this.idType));
 		}
-
 		return result;
 	}
 
 	protected Iterable<Object> invokeFindAllReflectively(Pageable pageable) {
-
 		Method method = this.methods.getFindAllMethod()
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a find-all-method declared!"));
-
 		if (method.getParameterCount() == 0) {
 			return invokeForNonNullResult(method);
 		}
-
 		Class<?>[] types = method.getParameterTypes();
-
 		if (Pageable.class.isAssignableFrom(types[0])) {
 			return invokeForNonNullResult(method, pageable);
 		}
-
 		return invokeFindAll(pageable.getSort());
 	}
 
 	protected Iterable<Object> invokeFindAllReflectively(Sort sort) {
-
 		Method method = this.methods.getFindAllMethod()
 				.orElseThrow(() -> new IllegalStateException("Repository doesn't have a find-all-method declared!"));
-
 		if (method.getParameterCount() == 0) {
 			return invokeForNonNullResult(method);
 		}
-
 		return invokeForNonNullResult(method, sort);
 	}
 

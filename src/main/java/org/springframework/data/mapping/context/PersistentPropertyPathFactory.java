@@ -75,10 +75,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @return
 	 */
 	public PersistentPropertyPath<P> from(Class<?> type, String propertyPath) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyPath, "Property path must not be null!");
-
 		return getPersistentPropertyPath(ClassTypeInformation.from(type), propertyPath);
 	}
 
@@ -90,10 +88,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @return
 	 */
 	public PersistentPropertyPath<P> from(TypeInformation<?> type, String propertyPath) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyPath, "Property path must not be null!");
-
 		return getPersistentPropertyPath(type, propertyPath);
 	}
 
@@ -103,9 +99,7 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @return
 	 */
 	public PersistentPropertyPath<P> from(PropertyPath path) {
-
 		Assert.notNull(path, "Property path must not be null!");
-
 		return from(path.getOwningType(), path.toDotPath());
 	}
 
@@ -117,10 +111,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @return
 	 */
 	public <T> PersistentPropertyPaths<T, P> from(Class<T> type, Predicate<? super P> propertyFilter) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyFilter, "Property filter must not be null!");
-
 		return from(ClassTypeInformation.from(type), propertyFilter);
 	}
 
@@ -134,11 +126,9 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 */
 	public <T> PersistentPropertyPaths<T, P> from(Class<T> type, Predicate<? super P> propertyFilter,
 			Predicate<P> traversalGuard) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyFilter, "Property filter must not be null!");
 		Assert.notNull(traversalGuard, "Traversal guard must not be null!");
-
 		return from(ClassTypeInformation.from(type), propertyFilter, traversalGuard);
 	}
 
@@ -163,17 +153,14 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 */
 	public <T> PersistentPropertyPaths<T, P> from(TypeInformation<T> type, Predicate<? super P> propertyFilter,
 			Predicate<P> traversalGuard) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(propertyFilter, "Property filter must not be null!");
 		Assert.notNull(traversalGuard, "Traversal guard must not be null!");
-
 		return DefaultPersistentPropertyPaths.of(type,
 				from(type, propertyFilter, traversalGuard, DefaultPersistentPropertyPath.empty()));
 	}
 
 	private PersistentPropertyPath<P> getPersistentPropertyPath(TypeInformation<?> type, String propertyPath) {
-
 		return this.propertyPaths.computeIfAbsent(TypeAndPath.of(type, propertyPath),
 				it -> createPersistentPropertyPath(it.getPath(), it.getType()));
 	}
@@ -186,48 +173,34 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 	 * @return
 	 */
 	private PersistentPropertyPath<P> createPersistentPropertyPath(String propertyPath, TypeInformation<?> type) {
-
 		String trimmedPath = propertyPath.trim();
-
 		List<String> parts = trimmedPath.isEmpty() //
 				? Collections.emptyList() //
 				: Arrays.asList(trimmedPath.split("\\."));
-
 		DefaultPersistentPropertyPath<P> path = DefaultPersistentPropertyPath.empty();
 		Iterator<String> iterator = parts.iterator();
 		E current = this.context.getRequiredPersistentEntity(type);
-
 		while (iterator.hasNext()) {
-
 			String segment = iterator.next();
 			final DefaultPersistentPropertyPath<P> currentPath = path;
-
 			Pair<DefaultPersistentPropertyPath<P>, E> pair = getPair(path, iterator, segment, current);
-
 			if (pair == null) {
-
 				String source = StringUtils.collectionToDelimitedString(parts, ".");
-
 				throw new InvalidPersistentPropertyPath(source, type, segment, currentPath);
 			}
-
 			path = pair.getFirst();
 			current = pair.getSecond();
 		}
-
 		return path;
 	}
 
 	@Nullable
 	private Pair<DefaultPersistentPropertyPath<P>, E> getPair(DefaultPersistentPropertyPath<P> path,
 			Iterator<String> iterator, String segment, E entity) {
-
 		P property = entity.getPersistentProperty(segment);
-
 		if (property == null) {
 			return null;
 		}
-
 		TypeInformation<?> type = property.getTypeInformation().getRequiredActualType();
 		return Pair.of(path.append(property),
 				iterator.hasNext() ? this.context.getRequiredPersistentEntity(type) : entity);
@@ -235,42 +208,30 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 	private <T> Collection<PersistentPropertyPath<P>> from(TypeInformation<T> type, Predicate<? super P> filter,
 			Predicate<P> traversalGuard, DefaultPersistentPropertyPath<P> basePath) {
-
 		TypeInformation<?> actualType = type.getActualType();
-
 		if (actualType == null) {
 			return Collections.emptyList();
 		}
-
 		E entity = this.context.getRequiredPersistentEntity(actualType);
 		Set<PersistentPropertyPath<P>> properties = new HashSet<>();
-
 		PropertyHandler<P> propertyTester = persistentProperty -> {
-
 			TypeInformation<?> typeInformation = persistentProperty.getTypeInformation();
 			TypeInformation<?> actualPropertyType = typeInformation.getActualType();
-
 			if (basePath.containsPropertyOfType(actualPropertyType)) {
 				return;
 			}
-
 			DefaultPersistentPropertyPath<P> currentPath = basePath.append(persistentProperty);
-
 			if (filter.test(persistentProperty)) {
 				properties.add(currentPath);
 			}
-
 			if (traversalGuard.and(IS_ENTITY).test(persistentProperty)) {
 				properties.addAll(from(typeInformation, filter, traversalGuard, currentPath));
 			}
 		};
-
 		entity.doWithProperties(propertyTester);
-
 		AssociationHandler<P> handler = association -> propertyTester
 				.doWithPersistentProperty(association.getInverse());
 		entity.doWithAssociations(handler);
-
 		return properties;
 	}
 
@@ -299,21 +260,16 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof TypeAndPath)) {
 				return false;
 			}
-
 			TypeAndPath that = (TypeAndPath) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.type, that.type)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.path, that.path);
 		}
 
@@ -355,11 +311,8 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 		 */
 		static <T, P extends PersistentProperty<P>> PersistentPropertyPaths<T, P> of(TypeInformation<T> type,
 				Collection<PersistentPropertyPath<P>> paths) {
-
 			List<PersistentPropertyPath<P>> sorted = new ArrayList<>(paths);
-
 			Collections.sort(sorted, SHORTEST_PATH.thenComparing(ShortestSegmentFirst.INSTANCE));
-
 			return new DefaultPersistentPropertyPaths<>(type, sorted);
 		}
 
@@ -375,15 +328,11 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 		@Override
 		public boolean contains(PropertyPath path) {
-
 			Assert.notNull(path, "PropertyPath must not be null!");
-
 			if (!path.getOwningType().equals(this.type)) {
 				return false;
 			}
-
 			String dotPath = path.toDotPath();
-
 			return stream().anyMatch(it -> dotPath.equals(it.toDotPath()));
 		}
 
@@ -394,13 +343,10 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 
 		@Override
 		public PersistentPropertyPaths<T, P> dropPathIfSegmentMatches(Predicate<? super P> predicate) {
-
 			Assert.notNull(predicate, "Predicate must not be null!");
-
 			List<PersistentPropertyPath<P>> paths = this.stream() //
 					.filter(it -> !it.stream().anyMatch(predicate)) //
 					.collect(Collectors.toList());
-
 			return paths.equals(this.paths) ? this : new DefaultPersistentPropertyPaths<>(this.type, paths);
 		}
 
@@ -425,12 +371,9 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 			@Override
 			@SuppressWarnings("null")
 			public int compare(PersistentPropertyPath<?> left, PersistentPropertyPath<?> right) {
-
 				Function<PersistentProperty<?>, Integer> mapper = it -> it.getName().length();
-
 				Stream<Integer> leftNames = left.stream().map(mapper);
 				Stream<Integer> rightNames = right.stream().map(mapper);
-
 				return StreamUtils.zip(leftNames, rightNames, (l, r) -> l - r) //
 						.filter(it -> it != 0) //
 						.findFirst() //

@@ -31,7 +31,6 @@ public final class QueryCreationException extends RuntimeException {
 	 * @param method
 	 */
 	private QueryCreationException(String message) {
-
 		super(message);
 	}
 
@@ -42,7 +41,6 @@ public final class QueryCreationException extends RuntimeException {
 	 * @return
 	 */
 	public static QueryCreationException invalidProperty(QueryMethod method, String propertyName) {
-
 		return new QueryCreationException(
 				String.format(MESSAGE_TEMPLATE, method, propertyName, method.getDomainClass().getName()));
 	}
@@ -54,7 +52,6 @@ public final class QueryCreationException extends RuntimeException {
 	 * @return
 	 */
 	public static QueryCreationException create(QueryMethod method, String message) {
-
 		return new QueryCreationException(String.format("Could not create query for %s! Reason: %s", method, message));
 	}
 
@@ -66,7 +63,6 @@ public final class QueryCreationException extends RuntimeException {
 	 * @return
 	 */
 	public static QueryCreationException create(QueryMethod method, Throwable cause) {
-
 		return create(method, cause.getMessage());
 	}
 

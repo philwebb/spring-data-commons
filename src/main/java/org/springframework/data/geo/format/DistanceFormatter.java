@@ -47,14 +47,11 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 	private static final String INVALID_DISTANCE = "Expected double amount optionally followed by a metrics abbreviation (%s) but got '%s'!";
 
 	static {
-
 		Map<String, Metric> metrics = new LinkedHashMap<>();
-
 		for (Metric metric : Metrics.values()) {
 			metrics.put(metric.getAbbreviation(), metric);
 			metrics.put(metric.toString().toLowerCase(Locale.US), metric);
 		}
-
 		SUPPORTED_METRICS = Collections.unmodifiableMap(metrics);
 	}
 
@@ -92,13 +89,11 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 	 * @return
 	 */
 	private static Distance doConvert(String source) {
-
 		for (Entry<String, Metric> metric : SUPPORTED_METRICS.entrySet()) {
 			if (source.endsWith(metric.getKey())) {
 				return fromString(source, metric);
 			}
 		}
-
 		try {
 			return new Distance(Double.parseDouble(source));
 		}
@@ -117,9 +112,7 @@ public enum DistanceFormatter implements Converter<String, Distance>, Formatter<
 	 * @return
 	 */
 	private static Distance fromString(String source, Entry<String, Metric> metric) {
-
 		String amountString = source.substring(0, source.indexOf(metric.getKey()));
-
 		try {
 			return new Distance(Double.parseDouble(amountString), metric.getValue());
 		}

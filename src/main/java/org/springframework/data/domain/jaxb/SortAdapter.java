@@ -35,14 +35,11 @@ public class SortAdapter extends XmlAdapter<SortDto, Sort> {
 	@Nullable
 	@Override
 	public SortDto marshal(@Nullable Sort source) {
-
 		if (source == null) {
 			return null;
 		}
-
 		SortDto dto = new SortDto();
 		dto.orders = SpringDataJaxb.marshal(source, OrderAdapter.INSTANCE);
-
 		return dto;
 	}
 

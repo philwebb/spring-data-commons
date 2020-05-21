@@ -54,9 +54,7 @@ public class Point implements Serializable {
 	 * @param point must not be {@literal null}.
 	 */
 	public Point(Point point) {
-
 		Assert.notNull(point, "Source point must not be null!");
-
 		this.x = point.x;
 		this.y = point.y;
 	}
@@ -79,39 +77,29 @@ public class Point implements Serializable {
 
 	@Override
 	public int hashCode() {
-
 		int result = 1;
-
 		long temp = Double.doubleToLongBits(this.x);
 		result = 31 * result + (int) (temp ^ temp >>> 32);
-
 		temp = Double.doubleToLongBits(this.y);
 		result = 31 * result + (int) (temp ^ temp >>> 32);
-
 		return result;
 	}
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof Point)) {
 			return false;
 		}
-
 		Point other = (Point) obj;
-
 		if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
 			return false;
 		}
-
 		if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y)) {
 			return false;
 		}
-
 		return true;
 	}
 

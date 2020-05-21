@@ -43,22 +43,15 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 
 	@Override
 	protected EntityInstantiator doCreateEntityInstantiator(PersistentEntity<?, ?> entity) {
-
 		PreferredConstructor<?, ?> constructor = entity.getPersistenceConstructor();
-
 		if (ReflectionUtils.isSupportedKotlinClass(entity.getType()) && constructor != null) {
-
 			PreferredConstructor<?, ?> defaultConstructor = new DefaultingKotlinConstructorResolver(entity)
 					.getDefaultConstructor();
-
 			if (defaultConstructor != null) {
-
 				ObjectInstantiator instantiator = createObjectInstantiator(entity, defaultConstructor);
-
 				return new DefaultingKotlinClassInstantiatorAdapter(instantiator, constructor);
 			}
 		}
-
 		return super.doCreateEntityInstantiator(entity);
 	}
 
@@ -76,10 +69,8 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 
 		@SuppressWarnings("unchecked")
 		DefaultingKotlinConstructorResolver(PersistentEntity<?, ?> entity) {
-
 			Constructor<?> hit = resolveDefaultConstructor(entity);
 			PreferredConstructor<?, ?> persistenceConstructor = entity.getPersistenceConstructor();
-
 			if (hit != null && persistenceConstructor != null) {
 				this.defaultConstructor = new PreferredConstructor<>(hit,
 						persistenceConstructor.getParameters().toArray(new Parameter[0]));
@@ -91,54 +82,42 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 
 		@Nullable
 		private static Constructor<?> resolveDefaultConstructor(PersistentEntity<?, ?> entity) {
-
 			PreferredConstructor<?, ?> persistenceConstructor = entity.getPersistenceConstructor();
-
 			if (persistenceConstructor == null) {
 				return null;
 			}
-
 			Constructor<?> hit = null;
 			Constructor<?> constructor = persistenceConstructor.getConstructor();
-
 			for (Constructor<?> candidate : entity.getType().getDeclaredConstructors()) {
-
 				// use only synthetic constructors
 				if (!candidate.isSynthetic()) {
 					continue;
 				}
-
 				// candidates must contain at least two additional parameters (int,
 				// DefaultConstructorMarker).
 				// Number of defaulting masks derives from the original constructor arg
 				// count
 				int syntheticParameters = KotlinDefaultMask.getMaskCount(constructor.getParameterCount())
 						+ /* DefaultConstructorMarker */ 1;
-
 				if (constructor.getParameterCount() + syntheticParameters != candidate.getParameterCount()) {
 					continue;
 				}
-
 				java.lang.reflect.Parameter[] constructorParameters = constructor.getParameters();
 				java.lang.reflect.Parameter[] candidateParameters = candidate.getParameters();
-
 				if (!candidateParameters[candidateParameters.length - 1].getType().getName()
 						.equals("kotlin.jvm.internal.DefaultConstructorMarker")) {
 					continue;
 				}
-
 				if (parametersMatch(constructorParameters, candidateParameters)) {
 					hit = candidate;
 					break;
 				}
 			}
-
 			return hit;
 		}
 
 		private static boolean parametersMatch(java.lang.reflect.Parameter[] constructorParameters,
 				java.lang.reflect.Parameter[] candidateParameters) {
-
 			return IntStream.range(0, constructorParameters.length)
 					.allMatch(i -> constructorParameters[i].getType().equals(candidateParameters[i].getType()));
 		}
@@ -182,14 +161,11 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 
 		DefaultingKotlinClassInstantiatorAdapter(ObjectInstantiator instantiator,
 				PreferredConstructor<?, ?> constructor) {
-
 			KFunction<?> kotlinConstructor = ReflectJvmMapping.getKotlinFunction(constructor.getConstructor());
-
 			if (kotlinConstructor == null) {
 				throw new IllegalArgumentException(
 						"No corresponding Kotlin constructor found for " + constructor.getConstructor());
 			}
-
 			this.instantiator = instantiator;
 			this.constructor = kotlinConstructor;
 			this.kParameters = kotlinConstructor.getParameters();
@@ -207,9 +183,7 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 		@SuppressWarnings("unchecked")
 		public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(
 				E entity, ParameterValueProvider<P> provider) {
-
 			Object[] params = extractInvocationArguments(entity.getPersistenceConstructor(), provider);
-
 			try {
 				return (T) this.instantiator.newInstance(params);
 			}
@@ -221,50 +195,37 @@ class KotlinClassGeneratingEntityInstantiator extends ClassGeneratingEntityInsta
 		private <P extends PersistentProperty<P>, T> Object[] extractInvocationArguments(
 				@Nullable PreferredConstructor<? extends T, P> preferredConstructor,
 				ParameterValueProvider<P> provider) {
-
 			if (preferredConstructor == null) {
 				throw new IllegalArgumentException("PreferredConstructor must not be null!");
 			}
-
 			Object[] params = allocateArguments(this.synthetic.getParameterCount()
 					+ KotlinDefaultMask.getMaskCount(this.synthetic.getParameterCount())
 					+ /* DefaultConstructorMarker */1);
 			int userParameterCount = this.kParameters.size();
-
 			List<Parameter<Object, P>> parameters = preferredConstructor.getParameters();
-
 			// Prepare user-space arguments
 			for (int i = 0; i < userParameterCount; i++) {
-
 				Parameter<Object, P> parameter = parameters.get(i);
 				params[i] = provider.getParameterValue(parameter);
 			}
-
 			KotlinDefaultMask defaultMask = KotlinDefaultMask.from(this.constructor, it -> {
-
 				int index = this.kParameters.indexOf(it);
-
 				Parameter<Object, P> parameter = parameters.get(index);
 				Class<Object> type = parameter.getType().getType();
-
 				if (it.isOptional() && params[index] == null) {
 					if (type.isPrimitive()) {
-
 						// apply primitive defaulting to prevent NPE on primitive downcast
 						params[index] = ReflectionUtils.getPrimitiveDefault(type);
 					}
 					return false;
 				}
-
 				return true;
 			});
-
 			int[] defaulting = defaultMask.getDefaulting();
 			// append nullability masks to creation arguments
 			for (int i = 0; i < defaulting.length; i++) {
 				params[userParameterCount + i] = defaulting[i];
 			}
-
 			return params;
 		}
 

@@ -50,27 +50,20 @@ public class PersistentEntityParameterValueProvider<P extends PersistentProperty
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T> T getParameterValue(Parameter<T, P> parameter) {
-
 		PreferredConstructor<?, P> constructor = this.entity.getPersistenceConstructor();
-
 		if (constructor != null && constructor.isEnclosingClassParameter(parameter)) {
 			return (T) this.parent;
 		}
-
 		String name = parameter.getName();
-
 		if (name == null) {
 			throw new MappingException(String.format("Parameter %s does not have a name!", parameter));
 		}
-
 		P property = this.entity.getPersistentProperty(name);
-
 		if (property == null) {
 			throw new MappingException(
 					String.format("No property %s found on entity %s to bind constructor parameter to!", name,
 							this.entity.getType()));
 		}
-
 		return this.provider.getPropertyValue(property);
 	}
 

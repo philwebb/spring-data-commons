@@ -61,13 +61,10 @@ class MultiValueMapCollector<T, K, V> implements Collector<T, MultiValueMap<K, V
 
 	@Override
 	public BinaryOperator<MultiValueMap<K, V>> combiner() {
-
 		return (map1, map2) -> {
-
 			for (K key : map2.keySet()) {
 				map1.addAll(key, map2.get(key));
 			}
-
 			return map1;
 		};
 	}

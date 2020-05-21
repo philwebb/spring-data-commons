@@ -68,10 +68,8 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 	 */
 	@PersistenceConstructor
 	public GeoResults(List<? extends GeoResult<T>> results, Distance averageDistance) {
-
 		Assert.notNull(results, "Results must not be null!");
 		Assert.notNull(averageDistance, "Average Distance must not be null!");
-
 		this.results = results;
 		this.averageDistance = averageDistance;
 	}
@@ -100,21 +98,16 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof GeoResults)) {
 			return false;
 		}
-
 		GeoResults<?> that = (GeoResults<?>) o;
-
 		if (!ObjectUtils.nullSafeEquals(this.results, that.results)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.averageDistance, that.averageDistance);
 	}
 
@@ -132,18 +125,14 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 	}
 
 	private static Distance calculateAverageDistance(List<? extends GeoResult<?>> results, Metric metric) {
-
 		Assert.notNull(results, "Results must not be null!");
 		Assert.notNull(metric, "Metric must not be null!");
-
 		if (results.isEmpty()) {
 			return new Distance(0, metric);
 		}
-
 		double averageDistance = results.stream()//
 				.mapToDouble(it -> it.getDistance().getValue())//
 				.average().orElse(0);
-
 		return new Distance(averageDistance, metric);
 	}
 

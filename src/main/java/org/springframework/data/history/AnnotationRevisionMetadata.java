@@ -73,12 +73,10 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 	 */
 	public AnnotationRevisionMetadata(Object entity, Class<? extends Annotation> revisionNumberAnnotation,
 			Class<? extends Annotation> revisionTimeStampAnnotation, RevisionType revisionType) {
-
 		Assert.notNull(entity, "Entity must not be null!");
 		Assert.notNull(revisionNumberAnnotation, "Revision number annotation must not be null!");
 		Assert.notNull(revisionTimeStampAnnotation, "Revision time stamp annotation must not be null!");
 		Assert.notNull(revisionType, "Revision Type must not be null!");
-
 		this.entity = entity;
 		this.revisionNumber = detectAnnotation(entity, revisionNumberAnnotation);
 		this.revisionDate = detectAnnotation(entity, revisionTimeStampAnnotation);
@@ -107,9 +105,7 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 	}
 
 	private static <T> Lazy<Optional<T>> detectAnnotation(Object entity, Class<? extends Annotation> annotationType) {
-
 		return Lazy.of(() -> {
-
 			AnnotationDetectionFieldCallback callback = new AnnotationDetectionFieldCallback(annotationType);
 			ReflectionUtils.doWithFields(entity.getClass(), callback);
 			return Optional.ofNullable(callback.getValue(entity));
@@ -117,23 +113,18 @@ public class AnnotationRevisionMetadata<N extends Number & Comparable<N>> implem
 	}
 
 	private static Instant convertToInstant(Object timestamp) {
-
 		if (timestamp instanceof Instant) {
 			return (Instant) timestamp;
 		}
-
 		if (timestamp instanceof LocalDateTime) {
 			return ((LocalDateTime) timestamp).atZone(ZoneId.systemDefault()).toInstant();
 		}
-
 		if (timestamp instanceof Long) {
 			return Instant.ofEpochMilli((Long) timestamp);
 		}
-
 		if (Date.class.isInstance(timestamp)) {
 			return Date.class.cast(timestamp).toInstant();
 		}
-
 		throw new IllegalArgumentException(String.format("Can't convert %s to Instant!", timestamp));
 	}
 

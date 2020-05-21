@@ -36,15 +36,12 @@ public class PageAdapter extends XmlAdapter<PageDto, Page<Object>> {
 	@Nullable
 	@Override
 	public PageDto marshal(@Nullable Page<Object> source) {
-
 		if (source == null) {
 			return null;
 		}
-
 		PageDto dto = new PageDto();
 		dto.content = source.getContent();
 		dto.add(getLinks(source));
-
 		return dto;
 	}
 

@@ -66,7 +66,6 @@ public class Repositories implements Iterable<Class<?>> {
 	 * Constructor to create the {@link #NONE} instance.
 	 */
 	private Repositories() {
-
 		this.beanFactory = Optional.empty();
 		this.repositoryBeanNames = Collections.emptyMap();
 		this.repositoryFactoryInfos = Collections.emptyMap();
@@ -78,9 +77,7 @@ public class Repositories implements Iterable<Class<?>> {
 	 * @param factory must not be {@literal null}.
 	 */
 	public Repositories(ListableBeanFactory factory) {
-
 		Assert.notNull(factory, "ListableBeanFactory must not be null!");
-
 		this.beanFactory = Optional.of(factory);
 		this.repositoryFactoryInfos = new HashMap<>();
 		this.repositoryBeanNames = new HashMap<>();
@@ -89,7 +86,6 @@ public class Repositories implements Iterable<Class<?>> {
 	}
 
 	private void populateRepositoryFactoryInformation(ListableBeanFactory factory) {
-
 		for (String name : BeanFactoryUtils.beanNamesForTypeIncludingAncestors(factory,
 				RepositoryFactoryInformation.class, false, false)) {
 			cacheRepositoryFactory(name);
@@ -98,19 +94,15 @@ public class Repositories implements Iterable<Class<?>> {
 
 	@SuppressWarnings("rawtypes")
 	private synchronized void cacheRepositoryFactory(String name) {
-
 		RepositoryFactoryInformation repositoryFactoryInformation = this.beanFactory.get().getBean(name,
 				RepositoryFactoryInformation.class);
 		Class<?> domainType = ClassUtils
 				.getUserClass(repositoryFactoryInformation.getRepositoryInformation().getDomainType());
-
 		RepositoryInformation information = repositoryFactoryInformation.getRepositoryInformation();
 		Set<Class<?>> alternativeDomainTypes = information.getAlternativeDomainTypes();
-
 		Set<Class<?>> typesToRegister = new HashSet<>(alternativeDomainTypes.size() + 1);
 		typesToRegister.add(domainType);
 		typesToRegister.addAll(alternativeDomainTypes);
-
 		for (Class<?> type : typesToRegister) {
 			cacheFirstOrPrimary(type, repositoryFactoryInformation, BeanFactoryUtils.transformedBeanName(name));
 		}
@@ -123,11 +115,8 @@ public class Repositories implements Iterable<Class<?>> {
 	 * @return
 	 */
 	public boolean hasRepositoryFor(Class<?> domainClass) {
-
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
-
 		Class<?> userClass = ProxyUtils.getUserClass(domainClass);
-
 		return this.repositoryFactoryInfos.containsKey(userClass);
 	}
 
@@ -137,12 +126,9 @@ public class Repositories implements Iterable<Class<?>> {
 	 * @return
 	 */
 	public Optional<Object> getRepositoryFor(Class<?> domainClass) {
-
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
-
 		Class<?> userClass = ProxyUtils.getUserClass(domainClass);
 		Optional<String> repositoryBeanName = Optional.ofNullable(this.repositoryBeanNames.get(userClass));
-
 		return this.beanFactory.flatMap(it -> repositoryBeanName.map(it::getBean));
 	}
 
@@ -155,20 +141,15 @@ public class Repositories implements Iterable<Class<?>> {
 	 * {@literal null} if no repository registered for this domain class.
 	 */
 	private RepositoryFactoryInformation<Object, Object> getRepositoryFactoryInfoFor(Class<?> domainClass) {
-
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
-
 		Class<?> userType = ProxyUtils.getUserClass(domainClass);
 		RepositoryFactoryInformation<Object, Object> repositoryInfo = this.repositoryFactoryInfos.get(userType);
-
 		if (repositoryInfo != null) {
 			return repositoryInfo;
 		}
-
 		if (!userType.equals(Object.class)) {
 			return getRepositoryFactoryInfoFor(userType.getSuperclass());
 		}
-
 		return EMPTY_REPOSITORY_FACTORY_INFO;
 	}
 
@@ -179,9 +160,7 @@ public class Repositories implements Iterable<Class<?>> {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T, S> EntityInformation<T, S> getEntityInformationFor(Class<?> domainClass) {
-
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
-
 		return (EntityInformation<T, S>) getRepositoryFactoryInfoFor(domainClass).getEntityInformation();
 	}
 
@@ -192,9 +171,7 @@ public class Repositories implements Iterable<Class<?>> {
 	 * {@literal Optional#empty()} if no repository registered for this domain class.
 	 */
 	public Optional<RepositoryInformation> getRepositoryInformationFor(Class<?> domainClass) {
-
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
-
 		RepositoryFactoryInformation<Object, Object> information = getRepositoryFactoryInfoFor(domainClass);
 		return information == EMPTY_REPOSITORY_FACTORY_INFO ? Optional.empty()
 				: Optional.of(information.getRepositoryInformation());
@@ -208,7 +185,6 @@ public class Repositories implements Iterable<Class<?>> {
 	 * found for the given domain type.
 	 */
 	public RepositoryInformation getRequiredRepositoryInformation(Class<?> domainType) {
-
 		return getRepositoryInformationFor(domainType).orElseThrow(() -> new IllegalArgumentException(
 				"No required RepositoryInformation found for domain type " + domainType.getName() + "!"));
 	}
@@ -221,7 +197,6 @@ public class Repositories implements Iterable<Class<?>> {
 	 * @since 1.12
 	 */
 	public Optional<RepositoryInformation> getRepositoryInformation(Class<?> repositoryInterface) {
-
 		return this.repositoryFactoryInfos.values().stream()//
 				.map(RepositoryFactoryInformation::getRepositoryInformation)//
 				.filter(information -> information.getRepositoryInterface().equals(repositoryInterface))//
@@ -238,7 +213,6 @@ public class Repositories implements Iterable<Class<?>> {
 	 * by a {@link MappingContext} implementation.
 	 */
 	public PersistentEntity<?, ?> getPersistentEntity(Class<?> domainClass) {
-
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
 		return getRepositoryFactoryInfoFor(domainClass).getPersistentEntity();
 	}
@@ -250,7 +224,6 @@ public class Repositories implements Iterable<Class<?>> {
 	 * @return
 	 */
 	public List<QueryMethod> getQueryMethodsFor(Class<?> domainClass) {
-
 		Assert.notNull(domainClass, DOMAIN_TYPE_MUST_NOT_BE_NULL);
 		return getRepositoryFactoryInfoFor(domainClass).getQueryMethods();
 	}
@@ -269,21 +242,17 @@ public class Repositories implements Iterable<Class<?>> {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void cacheFirstOrPrimary(Class<?> type, RepositoryFactoryInformation information, String name) {
-
 		if (this.repositoryBeanNames.containsKey(type)) {
-
 			Boolean presentAndPrimary = this.beanFactory //
 					.filter(ConfigurableListableBeanFactory.class::isInstance) //
 					.map(ConfigurableListableBeanFactory.class::cast) //
 					.map(it -> it.getBeanDefinition(name)) //
 					.map(BeanDefinition::isPrimary) //
 					.orElse(false);
-
 			if (!presentAndPrimary) {
 				return;
 			}
 		}
-
 		this.repositoryFactoryInfos.put(type, information);
 		this.repositoryBeanNames.put(type, name);
 	}

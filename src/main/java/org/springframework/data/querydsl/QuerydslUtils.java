@@ -52,28 +52,21 @@ public abstract class QuerydslUtils {
 	 * @return
 	 */
 	private static String toDotPath(@Nullable Path<?> path, String tail) {
-
 		if (path == null) {
 			return tail;
 		}
-
 		PathMetadata metadata = path.getMetadata();
 		Path<?> parent = metadata.getParent();
-
 		if (parent == null) {
 			return tail;
 		}
-
 		if (metadata.getPathType().equals(PathType.DELEGATE)) {
 			return toDotPath(parent, tail);
 		}
-
 		Object element = metadata.getElement();
-
 		if (element == null || !StringUtils.hasText(element.toString())) {
 			return toDotPath(parent, tail);
 		}
-
 		return toDotPath(parent,
 				StringUtils.hasText(tail) ? String.format("%s.%s", element, tail) : element.toString());
 	}

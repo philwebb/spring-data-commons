@@ -55,11 +55,8 @@ class CrudRepositoryInvoker extends ReflectionRepositoryInvoker {
 	 */
 	public CrudRepositoryInvoker(CrudRepository<Object, Object> repository, RepositoryMetadata metadata,
 			ConversionService conversionService) {
-
 		super(repository, metadata, conversionService);
-
 		CrudMethods crudMethods = metadata.getCrudMethods();
-
 		this.customSaveMethod = isRedeclaredMethod(crudMethods.getSaveMethod());
 		this.customFindOneMethod = isRedeclaredMethod(crudMethods.getFindOneMethod());
 		this.customDeleteMethod = isRedeclaredMethod(crudMethods.getDeleteMethod());
@@ -91,7 +88,6 @@ class CrudRepositoryInvoker extends ReflectionRepositoryInvoker {
 
 	@Override
 	public void invokeDeleteById(Object id) {
-
 		if (this.customDeleteMethod) {
 			super.invokeDeleteById(id);
 		}

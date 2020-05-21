@@ -42,9 +42,7 @@ public class SliceImpl<T> extends Chunk<T> {
 	 * @param hasNext whether there's another slice following the current one.
 	 */
 	public SliceImpl(List<T> content, Pageable pageable, boolean hasNext) {
-
 		super(content, pageable);
-
 		this.hasNext = hasNext;
 		this.pageable = pageable;
 	}
@@ -70,41 +68,31 @@ public class SliceImpl<T> extends Chunk<T> {
 
 	@Override
 	public String toString() {
-
 		String contentType = "UNKNOWN";
 		List<T> content = getContent();
-
 		if (content.size() > 0) {
 			contentType = content.get(0).getClass().getName();
 		}
-
 		return String.format("Slice %d containing %s instances", getNumber(), contentType);
 	}
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof SliceImpl<?>)) {
 			return false;
 		}
-
 		SliceImpl<?> that = (SliceImpl<?>) obj;
-
 		return this.hasNext == that.hasNext && super.equals(obj);
 	}
 
 	@Override
 	public int hashCode() {
-
 		int result = 17;
-
 		result += 31 * (this.hasNext ? 1 : 0);
 		result += 31 * super.hashCode();
-
 		return result;
 	}
 

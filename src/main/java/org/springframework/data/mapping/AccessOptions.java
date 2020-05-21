@@ -69,7 +69,6 @@ public class AccessOptions {
 		private final GetNulls nullValues;
 
 		public GetOptions(Map<PersistentProperty<?>, Function<Object, Object>> handlers, GetNulls nullValues) {
-
 			this.handlers = handlers;
 			this.nullValues = nullValues;
 		}
@@ -113,13 +112,10 @@ public class AccessOptions {
 		 * @return
 		 */
 		public GetOptions registerHandler(PersistentProperty<?> property, Function<Object, Object> handler) {
-
 			Assert.notNull(property, "Property must not be null!");
 			Assert.notNull(handler, "Handler must not be null!");
-
 			Map<PersistentProperty<?>, Function<Object, Object>> newHandlers = new HashMap<>(this.handlers);
 			newHandlers.put(property, handler);
-
 			return new GetOptions(newHandlers, this.nullValues);
 		}
 
@@ -185,13 +181,10 @@ public class AccessOptions {
 		 */
 		public <T> GetOptions registerHandler(PersistentProperty<?> property, Class<T> type,
 				Function<? super T, Object> handler) {
-
 			Assert.isTrue(type.isAssignableFrom(property.getType()),
 					() -> String.format("Cannot register a property handler for %s on a property of type %s!", type,
 							property.getType()));
-
 			Function<Object, T> caster = it -> type.cast(it);
-
 			return registerHandler(property, caster.andThen(handler));
 		}
 
@@ -204,9 +197,7 @@ public class AccessOptions {
 		 */
 		@Nullable
 		Object postProcess(PersistentProperty<?> property, @Nullable Object value) {
-
 			Function<Object, Object> handler = this.handlers.get(property);
-
 			return handler == null ? value : handler.apply(value);
 		}
 
@@ -299,7 +290,6 @@ public class AccessOptions {
 		private final Propagation collectionPropagation, mapPropagation;
 
 		private SetOptions() {
-
 			this.nullHandling = SetNulls.REJECT;
 			this.collectionPropagation = Propagation.PROPAGATE;
 			this.mapPropagation = Propagation.PROPAGATE;
@@ -340,9 +330,7 @@ public class AccessOptions {
 		 * @return
 		 */
 		public SetOptions withCollectionAndMapPropagation(Propagation propagation) {
-
 			Assert.notNull(propagation, "Propagation must not be null!");
-
 			return withCollectionPropagation(propagation) //
 					.withMapPropagation(propagation);
 		}
@@ -354,19 +342,15 @@ public class AccessOptions {
 		 * @return
 		 */
 		public boolean propagate(@Nullable PersistentProperty<?> property) {
-
 			if (property == null) {
 				return true;
 			}
-
 			if (property.isCollectionLike() && this.collectionPropagation.equals(Propagation.SKIP)) {
 				return false;
 			}
-
 			if (property.isMap() && this.mapPropagation.equals(Propagation.SKIP)) {
 				return false;
 			}
-
 			return true;
 		}
 

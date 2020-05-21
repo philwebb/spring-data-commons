@@ -86,7 +86,6 @@ public interface RepositoryFragment<T> {
 	 * @return {@literal true} if the method was found or {@literal false} otherwise
 	 */
 	default boolean hasMethod(Method method) {
-
 		Assert.notNull(method, "Method must not be null!");
 		return ReflectionUtils.findMethod(getSignatureContributor(), method.getName(),
 				method.getParameterTypes()) != null;
@@ -147,15 +146,12 @@ public interface RepositoryFragment<T> {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof StructuralRepositoryFragment)) {
 				return false;
 			}
-
 			StructuralRepositoryFragment<?> that = (StructuralRepositoryFragment<?>) o;
 			return ObjectUtils.nullSafeEquals(this.interfaceOrImplementation, that.interfaceOrImplementation);
 		}
@@ -182,18 +178,14 @@ public interface RepositoryFragment<T> {
 		 * @param implementation must not be {@literal null}.
 		 */
 		public ImplementedRepositoryFragment(Optional<Class<T>> interfaceClass, T implementation) {
-
 			Assert.notNull(interfaceClass, "Interface class must not be null!");
 			Assert.notNull(implementation, "Implementation object must not be null!");
-
 			interfaceClass.ifPresent(it -> {
-
 				Assert.isTrue(ClassUtils.isAssignableValue(it, implementation),
 						() -> String.format("Fragment implementation %s does not implement %s!",
 								ClassUtils.getQualifiedName(implementation.getClass()),
 								ClassUtils.getQualifiedName(it)));
 			});
-
 			this.interfaceClass = interfaceClass;
 			this.implementation = implementation;
 			this.optionalImplementation = Optional.of(implementation);
@@ -217,7 +209,6 @@ public interface RepositoryFragment<T> {
 
 		@Override
 		public String toString() {
-
 			return String.format("ImplementedRepositoryFragment %s%s",
 					this.interfaceClass.map(ClassUtils::getShortName).map(it -> it + ":").orElse(""),
 					ClassUtils.getShortName(this.implementation.getClass()));
@@ -225,25 +216,19 @@ public interface RepositoryFragment<T> {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof ImplementedRepositoryFragment)) {
 				return false;
 			}
-
 			ImplementedRepositoryFragment<?> that = (ImplementedRepositoryFragment<?>) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.interfaceClass, that.interfaceClass)) {
 				return false;
 			}
-
 			if (!ObjectUtils.nullSafeEquals(this.implementation, that.implementation)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.optionalImplementation, that.optionalImplementation);
 		}
 

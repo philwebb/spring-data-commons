@@ -49,7 +49,6 @@ class MultiTransactionStatus implements TransactionStatus {
 	 * @param mainTransactionManager must not be {@literal null}.
 	 */
 	public MultiTransactionStatus(PlatformTransactionManager mainTransactionManager) {
-
 		Assert.notNull(mainTransactionManager, "TransactionManager must not be null!");
 		this.mainTransactionManager = mainTransactionManager;
 	}
@@ -114,9 +113,7 @@ class MultiTransactionStatus implements TransactionStatus {
 
 	@Override
 	public Object createSavepoint() throws TransactionException {
-
 		SavePoints savePoints = new SavePoints();
-
 		for (TransactionStatus transactionStatus : this.transactionStatuses.values()) {
 			savePoints.save(transactionStatus);
 		}
@@ -154,7 +151,6 @@ class MultiTransactionStatus implements TransactionStatus {
 		private final Map<TransactionStatus, Object> savepoints = new HashMap<>();
 
 		private void addSavePoint(TransactionStatus status, Object savepoint) {
-
 			Assert.notNull(status, "TransactionStatus must not be null!");
 			this.savepoints.put(status, savepoint);
 		}

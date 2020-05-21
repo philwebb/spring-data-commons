@@ -114,25 +114,19 @@ public class ProjectingArgumentResolverRegistrar {
 		@Nullable
 		@Override
 		public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-
 			if (!RequestMappingHandlerAdapter.class.isInstance(bean)) {
 				return bean;
 			}
-
 			RequestMappingHandlerAdapter adapter = (RequestMappingHandlerAdapter) bean;
 			List<HandlerMethodArgumentResolver> currentResolvers = adapter.getArgumentResolvers();
-
 			if (currentResolvers == null) {
 				throw new IllegalStateException(String.format(
 						"No HandlerMethodArgumentResolvers found in RequestMappingHandlerAdapter %s!", beanName));
 			}
-
 			List<HandlerMethodArgumentResolver> newResolvers = new ArrayList<>(currentResolvers.size() + 1);
 			newResolvers.add(this.resolver);
 			newResolvers.addAll(currentResolvers);
-
 			adapter.setArgumentResolvers(newResolvers);
-
 			return adapter;
 		}
 

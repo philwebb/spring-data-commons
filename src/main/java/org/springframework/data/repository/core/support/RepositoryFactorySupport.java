@@ -78,33 +78,23 @@ import org.springframework.util.ObjectUtils;
 public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, BeanFactoryAware {
 
 	private static final BiFunction<Method, Object[], Object[]> REACTIVE_ARGS_CONVERTER = (method, args) -> {
-
 		if (ReactiveWrappers.isAvailable()) {
-
 			Class<?>[] parameterTypes = method.getParameterTypes();
-
 			Object[] converted = new Object[args.length];
 			for (int i = 0; i < args.length; i++) {
-
 				Object value = args[i];
 				Object convertedArg = value;
-
 				Class<?> parameterType = parameterTypes.length > i ? parameterTypes[i] : null;
-
 				if (value != null && parameterType != null) {
 					if (!parameterType.isAssignableFrom(value.getClass())
 							&& ReactiveWrapperConverters.canConvert(value.getClass(), parameterType)) {
-
 						convertedArg = ReactiveWrapperConverters.toWrapper(value, parameterType);
 					}
 				}
-
 				converted[i] = convertedArg;
 			}
-
 			return converted;
 		}
-
 		return args;
 	};
 
@@ -139,10 +129,8 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 
 	@SuppressWarnings("null")
 	public RepositoryFactorySupport() {
-
 		this.repositoryInformationCache = new ConcurrentReferenceHashMap<>(16, ReferenceType.WEAK);
 		this.postProcessors = new ArrayList<>();
-
 		this.repositoryBaseClass = Optional.empty();
 		this.namedQueries = PropertiesBasedNamedQueries.EMPTY;
 		this.classLoader = org.springframework.util.ClassUtils.getDefaultClassLoader();
@@ -208,7 +196,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 * @param listener
 	 */
 	public void addQueryCreationListener(QueryCreationListener<?> listener) {
-
 		Assert.notNull(listener, "Listener must not be null!");
 		this.queryPostProcessors.add(listener);
 	}
@@ -221,7 +208,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 * @param processor
 	 */
 	public void addRepositoryProxyPostProcessor(RepositoryProxyPostProcessor processor) {
-
 		Assert.notNull(processor, "RepositoryProxyPostProcessor must not be null!");
 		this.postProcessors.add(processor);
 	}
@@ -243,14 +229,11 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 * @return
 	 */
 	private RepositoryComposition getRepositoryComposition(RepositoryMetadata metadata) {
-
 		RepositoryComposition composition = RepositoryComposition.empty();
-
 		if (metadata.isReactiveRepository()) {
 			return composition.withMethodLookup(MethodLookups.forReactiveTypes(metadata))
 					.withArgumentConverter(REACTIVE_ARGS_CONVERTER);
 		}
-
 		return composition.withMethodLookup(MethodLookups.forRepositoryTypes(metadata));
 	}
 
@@ -285,54 +268,39 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 */
 	@SuppressWarnings({ "unchecked" })
 	public <T> T getRepository(Class<T> repositoryInterface, RepositoryFragments fragments) {
-
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Initializing repository instance for {}…", repositoryInterface.getName());
 		}
-
 		Assert.notNull(repositoryInterface, "Repository interface must not be null!");
 		Assert.notNull(fragments, "RepositoryFragments must not be null!");
-
 		RepositoryMetadata metadata = getRepositoryMetadata(repositoryInterface);
 		RepositoryComposition composition = getRepositoryComposition(metadata, fragments);
 		RepositoryInformation information = getRepositoryInformation(metadata, composition);
-
 		validate(information, composition);
-
 		Object target = getTargetRepository(information);
-
 		// Create proxy
 		ProxyFactory result = new ProxyFactory();
 		result.setTarget(target);
 		result.setInterfaces(repositoryInterface, Repository.class, TransactionalProxy.class);
-
 		if (MethodInvocationValidator.supports(repositoryInterface)) {
 			result.addAdvice(new MethodInvocationValidator());
 		}
-
 		result.addAdvisor(ExposeInvocationInterceptor.ADVISOR);
-
 		this.postProcessors.forEach(processor -> processor.postProcess(result, information));
-
 		if (DefaultMethodInvokingMethodInterceptor.hasDefaultMethods(repositoryInterface)) {
 			result.addAdvice(new DefaultMethodInvokingMethodInterceptor());
 		}
-
 		ProjectionFactory projectionFactory = getProjectionFactory(this.classLoader, this.beanFactory);
 		Optional<QueryLookupStrategy> queryLookupStrategy = getQueryLookupStrategy(this.queryLookupStrategyKey,
 				this.evaluationContextProvider);
 		result.addAdvice(new QueryExecutorMethodInterceptor(information, projectionFactory, queryLookupStrategy,
 				this.namedQueries, this.queryPostProcessors));
-
 		composition = composition.append(RepositoryFragment.implemented(target));
 		result.addAdvice(new ImplementationMethodExecutionInterceptor(composition));
-
 		T repository = (T) result.getProxy(this.classLoader);
-
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Finished creation of repository instance for {}.", repositoryInterface.getName());
 		}
-
 		return repository;
 	}
 
@@ -344,11 +312,9 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 * @return will never be {@literal null}.
 	 */
 	protected ProjectionFactory getProjectionFactory(ClassLoader classLoader, BeanFactory beanFactory) {
-
 		SpelAwareProxyProjectionFactory factory = new SpelAwareProxyProjectionFactory();
 		factory.setBeanClassLoader(classLoader);
 		factory.setBeanFactory(beanFactory);
-
 		return factory;
 	}
 
@@ -381,13 +347,10 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 * @return will never be {@literal null}.
 	 */
 	private RepositoryComposition getRepositoryComposition(RepositoryMetadata metadata, RepositoryFragments fragments) {
-
 		Assert.notNull(metadata, "RepositoryMetadata must not be null!");
 		Assert.notNull(fragments, "RepositoryFragments must not be null!");
-
 		RepositoryComposition composition = getRepositoryComposition(metadata);
 		RepositoryFragments repositoryAspects = getRepositoryFragments(metadata);
-
 		return composition.append(fragments).append(repositoryAspects);
 	}
 
@@ -399,13 +362,9 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 */
 	private RepositoryInformation getRepositoryInformation(RepositoryMetadata metadata,
 			RepositoryComposition composition) {
-
 		RepositoryInformationCacheKey cacheKey = new RepositoryInformationCacheKey(metadata, composition);
-
 		return this.repositoryInformationCache.computeIfAbsent(cacheKey, key -> {
-
 			Class<?> baseClass = this.repositoryBaseClass.orElse(getRepositoryBaseClass(metadata));
-
 			return new DefaultRepositoryInformation(metadata, baseClass, composition);
 		});
 	}
@@ -460,24 +419,18 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 * @param composition
 	 */
 	private void validate(RepositoryInformation repositoryInformation, RepositoryComposition composition) {
-
 		if (repositoryInformation.hasCustomMethod()) {
-
 			if (composition.isEmpty()) {
-
 				throw new IllegalArgumentException(
 						String.format("You have custom methods in %s but not provided a custom implementation!",
 								repositoryInformation.getRepositoryInterface()));
 			}
-
 			composition.validateImplementation();
 		}
-
 		validate(repositoryInformation);
 	}
 
 	protected void validate(RepositoryMetadata repositoryMetadata) {
-
 	}
 
 	/**
@@ -489,7 +442,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	 */
 	protected final <R> R getTargetRepositoryViaReflection(RepositoryInformation information,
 			Object... constructorArguments) {
-
 		Class<?> baseClass = information.getRepositoryBaseClass();
 		return getTargetRepositoryViaReflection(baseClass, constructorArguments);
 	}
@@ -504,7 +456,6 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 	@SuppressWarnings("unchecked")
 	protected final <R> R getTargetRepositoryViaReflection(Class<?> baseClass, Object... constructorArguments) {
 		Optional<Constructor<?>> constructor = ReflectionUtils.findConstructor(baseClass, constructorArguments);
-
 		return constructor.map(it -> (R) BeanUtils.instantiateClass(it, constructorArguments))
 				.orElseThrow(() -> new IllegalStateException(String.format(
 						"No suitable constructor found on %s to match the given arguments: %s. Make sure you implement a constructor taking these",
@@ -528,17 +479,14 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 		@Nullable
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 			Method method = invocation.getMethod();
 			Object[] arguments = invocation.getArguments();
-
 			try {
 				return this.composition.invoke(method, arguments);
 			}
 			catch (Exception e) {
 				ClassUtils.unwrapReflectionException(e);
 			}
-
 			throw new IllegalStateException("Should not occur!");
 		}
 

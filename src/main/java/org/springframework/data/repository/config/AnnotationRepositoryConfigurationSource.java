@@ -119,21 +119,16 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	public AnnotationRepositoryConfigurationSource(AnnotationMetadata metadata, Class<? extends Annotation> annotation,
 			ResourceLoader resourceLoader, Environment environment, BeanDefinitionRegistry registry,
 			@Nullable BeanNameGenerator generator) {
-
 		super(environment, ConfigurationUtils.getRequiredClassLoader(resourceLoader), registry,
 				defaultBeanNameGenerator(generator));
-
 		Assert.notNull(metadata, "Metadata must not be null!");
 		Assert.notNull(annotation, "Annotation must not be null!");
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null!");
-
 		Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(annotation.getName());
-
 		if (annotationAttributes == null) {
 			throw new IllegalStateException(
 					String.format("Unable to obtain annotation attributes for %s!", annotation));
 		}
-
 		this.attributes = new AnnotationAttributes(annotationAttributes);
 		this.enableAnnotationMetadata = AnnotationMetadata.introspect(annotation);
 		this.configMetadata = metadata;
@@ -143,26 +138,20 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	@Override
 	public Streamable<String> getBasePackages() {
-
 		String[] value = this.attributes.getStringArray("value");
 		String[] basePackages = this.attributes.getStringArray(BASE_PACKAGES);
 		Class<?>[] basePackageClasses = this.attributes.getClassArray(BASE_PACKAGE_CLASSES);
-
 		// Default configuration - return package of annotated class
 		if (value.length == 0 && basePackages.length == 0 && basePackageClasses.length == 0) {
-
 			String className = this.configMetadata.getClassName();
 			return Streamable.of(ClassUtils.getPackageName(className));
 		}
-
 		Set<String> packages = new HashSet<>();
 		packages.addAll(Arrays.asList(value));
 		packages.addAll(Arrays.asList(basePackages));
-
 		Arrays.stream(basePackageClasses)//
 				.map(ClassUtils::getPackageName)//
 				.forEach(it -> packages.add(it));
-
 		return Streamable.of(packages);
 	}
 
@@ -204,11 +193,9 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	@Override
 	public Optional<String> getRepositoryBaseClassName() {
-
 		if (!this.attributes.containsKey(REPOSITORY_BASE_CLASS)) {
 			return Optional.empty();
 		}
-
 		Class<? extends Object> repositoryBaseClass = this.attributes.getClass(REPOSITORY_BASE_CLASS);
 		return DefaultRepositoryBaseClass.class.equals(repositoryBaseClass) ? Optional.empty()
 				: Optional.of(repositoryBaseClass.getName());
@@ -250,25 +237,19 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 */
 	@Override
 	public <T> Optional<T> getAttribute(String name, Class<T> type) {
-
 		if (!this.attributes.containsKey(name)) {
 			throw new IllegalArgumentException(String.format("No attribute named %s found!", name));
 		}
-
 		Object value = this.attributes.get(name);
-
 		if (value == null) {
 			return Optional.empty();
 		}
-
 		Assert.isInstanceOf(type, value,
 				() -> String.format("Attribute value for %s is of type %s but was expected to be of type %s!", name,
 						value.getClass(), type));
-
 		Object result = String.class.isInstance(value) //
 				? StringUtils.hasText((String) value) ? value : null //
 				: value;
-
 		return Optional.ofNullable(type.cast(result));
 	}
 
@@ -279,7 +260,6 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	@Override
 	public BootstrapMode getBootstrapMode() {
-
 		try {
 			return this.attributes.getEnum(BOOTSTRAP_MODE);
 		}
@@ -290,17 +270,13 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 
 	@Override
 	public String getResourceDescription() {
-
 		String simpleClassName = ClassUtils.getShortName(this.configMetadata.getClassName());
 		String annoationClassName = ClassUtils.getShortName(this.enableAnnotationMetadata.getClassName());
-
 		return String.format("@%s declared on %s", annoationClassName, simpleClassName);
 	}
 
 	private Streamable<TypeFilter> parseFilters(String attributeName) {
-
 		AnnotationAttributes[] filters = this.attributes.getAnnotationArray(attributeName);
-
 		return Streamable.of(() -> Arrays.stream(filters).flatMap(it -> typeFiltersFor(it).stream()));
 	}
 
@@ -311,9 +287,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @return
 	 */
 	private Optional<String> getNullDefaultedAttribute(String attributeName) {
-
 		String attribute = this.attributes.getString(attributeName);
-
 		return StringUtils.hasText(attribute) ? Optional.of(attribute) : Optional.empty();
 	}
 
@@ -323,10 +297,8 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @return
 	 */
 	private List<TypeFilter> typeFiltersFor(AnnotationAttributes filterAttributes) {
-
 		List<TypeFilter> typeFilters = new ArrayList<>();
 		FilterType filterType = filterAttributes.getEnum("type");
-
 		for (Class<?> filterClass : filterAttributes.getClassArray("value")) {
 			switch (filterType) {
 			case ANNOTATION:
@@ -348,11 +320,8 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 				throw new IllegalArgumentException("Unknown filter type " + filterType);
 			}
 		}
-
 		for (String expression : getPatterns(filterAttributes)) {
-
 			String rawName = filterType.toString();
-
 			if ("REGEX".equals(rawName)) {
 				typeFilters.add(new RegexPatternTypeFilter(Pattern.compile(expression)));
 			}
@@ -363,7 +332,6 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 				throw new IllegalArgumentException("Unknown filter type " + filterType);
 			}
 		}
-
 		return typeFilters;
 	}
 
@@ -375,7 +343,6 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @return
 	 */
 	private String[] getPatterns(AnnotationAttributes filterAttributes) {
-
 		try {
 			return filterAttributes.getStringArray("pattern");
 		}
@@ -390,7 +357,6 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @return
 	 */
 	private static boolean hasExplicitFilters(AnnotationAttributes attributes) {
-
 		return Stream.of("includeFilters", "excludeFilters") //
 				.anyMatch(it -> attributes.getAnnotationArray(it).length > 0);
 	}
@@ -406,7 +372,6 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
 	 * @since 2.2
 	 */
 	private static BeanNameGenerator defaultBeanNameGenerator(@Nullable BeanNameGenerator generator) {
-
 		return generator == null || ConfigurationClassPostProcessor.IMPORT_BEAN_NAME_GENERATOR.equals(generator) //
 				? new AnnotationBeanNameGenerator() //
 				: generator;

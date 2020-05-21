@@ -55,40 +55,28 @@ class QuerydslDefaultBinding implements MultiValueBinding<Path<? extends Object>
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Optional<Predicate> bind(Path<?> path, Collection<? extends Object> value) {
-
 		Assert.notNull(path, "Path must not be null!");
 		Assert.notNull(value, "Value must not be null!");
-
 		if (value.isEmpty()) {
 			return Optional.empty();
 		}
-
 		if (path instanceof CollectionPathBase) {
-
 			BooleanBuilder builder = new BooleanBuilder();
-
 			for (Object element : value) {
 				builder.and(((CollectionPathBase) path).contains(element));
 			}
-
 			return Optional.of(builder.getValue());
 		}
-
 		if (path instanceof SimpleExpression) {
-
 			SimpleExpression expression = (SimpleExpression) path;
-
 			if (value.size() > 1) {
 				return Optional.of(expression.in(value));
 			}
-
 			Object object = value.iterator().next();
-
 			return Optional.of(object == null //
 					? expression.isNull() //
 					: expression.eq(object));
 		}
-
 		throw new IllegalArgumentException(String.format("Cannot create predicate for path '%s' with type '%s'.", path,
 				path.getMetadata().getPathType()));
 	}

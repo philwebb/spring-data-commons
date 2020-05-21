@@ -45,14 +45,11 @@ public class DefaultRepositoryMetadata extends AbstractRepositoryMetadata {
 	 * @param repositoryInterface must not be {@literal null}.
 	 */
 	public DefaultRepositoryMetadata(Class<?> repositoryInterface) {
-
 		super(repositoryInterface);
 		Assert.isTrue(Repository.class.isAssignableFrom(repositoryInterface), MUST_BE_A_REPOSITORY);
-
 		List<TypeInformation<?>> arguments = ClassTypeInformation.from(repositoryInterface) //
 				.getRequiredSuperTypeInformation(Repository.class)//
 				.getTypeArguments();
-
 		this.domainType = resolveTypeParameter(arguments, 0,
 				() -> String.format("Could not resolve domain type of %s!", repositoryInterface));
 		this.idType = resolveTypeParameter(arguments, 1,
@@ -61,11 +58,9 @@ public class DefaultRepositoryMetadata extends AbstractRepositoryMetadata {
 
 	private static Class<?> resolveTypeParameter(List<TypeInformation<?>> arguments, int index,
 			Supplier<String> exceptionMessage) {
-
 		if (arguments.size() <= index || arguments.get(index) == null) {
 			throw new IllegalArgumentException(exceptionMessage.get());
 		}
-
 		return arguments.get(index).getType();
 	}
 

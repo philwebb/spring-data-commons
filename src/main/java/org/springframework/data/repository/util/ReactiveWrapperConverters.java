@@ -66,28 +66,21 @@ public abstract class ReactiveWrapperConverters {
 	private static final GenericConversionService GENERIC_CONVERSION_SERVICE = new GenericConversionService();
 
 	static {
-
 		if (ReactiveWrappers.isAvailable(ReactiveLibrary.RXJAVA1)) {
-
 			REACTIVE_WRAPPERS.add(RxJava1SingleWrapper.INSTANCE);
 			REACTIVE_WRAPPERS.add(RxJava1ObservableWrapper.INSTANCE);
 		}
-
 		if (ReactiveWrappers.isAvailable(ReactiveLibrary.RXJAVA2)) {
-
 			REACTIVE_WRAPPERS.add(RxJava2SingleWrapper.INSTANCE);
 			REACTIVE_WRAPPERS.add(RxJava2MaybeWrapper.INSTANCE);
 			REACTIVE_WRAPPERS.add(RxJava2ObservableWrapper.INSTANCE);
 			REACTIVE_WRAPPERS.add(RxJava2FlowableWrapper.INSTANCE);
 		}
-
 		if (ReactiveWrappers.isAvailable(ReactiveLibrary.PROJECT_REACTOR)) {
-
 			REACTIVE_WRAPPERS.add(FluxWrapper.INSTANCE);
 			REACTIVE_WRAPPERS.add(MonoWrapper.INSTANCE);
 			REACTIVE_WRAPPERS.add(PublisherWrapper.INSTANCE);
 		}
-
 		registerConvertersIn(GENERIC_CONVERSION_SERVICE);
 	}
 
@@ -99,23 +92,17 @@ public abstract class ReactiveWrapperConverters {
 	 * @param conversionService must not be {@literal null}.
 	 */
 	private static ConversionService registerConvertersIn(ConfigurableConversionService conversionService) {
-
 		Assert.notNull(conversionService, "ConversionService must not be null!");
-
 		if (ReactiveWrappers.isAvailable(ReactiveLibrary.PROJECT_REACTOR)) {
-
 			conversionService.addConverter(PublisherToMonoConverter.INSTANCE);
 			conversionService.addConverter(PublisherToFluxConverter.INSTANCE);
-
 			if (ReactiveWrappers.isAvailable(ReactiveLibrary.KOTLIN_COROUTINES)) {
 				conversionService.addConverter(PublisherToFlowConverter.INSTANCE);
 			}
-
 			if (RegistryHolder.REACTIVE_ADAPTER_REGISTRY != null) {
 				conversionService.addConverterFactory(ReactiveAdapterConverterFactory.INSTANCE);
 			}
 		}
-
 		return conversionService;
 	}
 
@@ -143,14 +130,11 @@ public abstract class ReactiveWrapperConverters {
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public static <T> T toWrapper(Object reactiveObject, Class<? extends T> targetWrapperType) {
-
 		Assert.notNull(reactiveObject, "Reactive source object must not be null!");
 		Assert.notNull(targetWrapperType, "Reactive target type must not be null!");
-
 		if (targetWrapperType.isAssignableFrom(reactiveObject.getClass())) {
 			return (T) reactiveObject;
 		}
-
 		return GENERIC_CONVERSION_SERVICE.convert(reactiveObject, targetWrapperType);
 	}
 
@@ -162,10 +146,8 @@ public abstract class ReactiveWrapperConverters {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T map(Object reactiveObject, Function<Object, Object> converter) {
-
 		Assert.notNull(reactiveObject, "Reactive source object must not be null!");
 		Assert.notNull(converter, "Converter must not be null!");
-
 		return REACTIVE_WRAPPERS.stream()//
 				.filter(it -> ClassUtils.isAssignable(it.getWrapperClass(), reactiveObject.getClass()))//
 				.findFirst()//
@@ -182,10 +164,8 @@ public abstract class ReactiveWrapperConverters {
 	 * @return {@literal true} if a conversion can be performed.
 	 */
 	public static boolean canConvert(Class<?> sourceType, Class<?> targetType) {
-
 		Assert.notNull(sourceType, "Source type must not be null!");
 		Assert.notNull(targetType, "Target type must not be null!");
-
 		return GENERIC_CONVERSION_SERVICE.canConvert(sourceType, targetType);
 	}
 
@@ -269,15 +249,12 @@ public abstract class ReactiveWrapperConverters {
 
 		@Override
 		public Publisher<?> map(Object wrapper, Function<Object, Object> function) {
-
 			if (wrapper instanceof Mono) {
 				return MonoWrapper.INSTANCE.map(wrapper, function);
 			}
-
 			if (wrapper instanceof Flux) {
 				return FluxWrapper.INSTANCE.map(wrapper, function);
 			}
-
 			return FluxWrapper.INSTANCE.map(Flux.from((Publisher<?>) wrapper), function);
 		}
 
@@ -482,13 +459,10 @@ public abstract class ReactiveWrapperConverters {
 		@SuppressWarnings({ "ConstantConditions", "unchecked" })
 		public <T> Converter<Object, T> getConverter(Class<T> targetType) {
 			return source -> {
-
 				Publisher<?> publisher = source instanceof Publisher ? (Publisher<?>) source
 						: RegistryHolder.REACTIVE_ADAPTER_REGISTRY.getAdapter(Publisher.class, source)
 								.toPublisher(source);
-
 				ReactiveAdapter adapter = RegistryHolder.REACTIVE_ADAPTER_REGISTRY.getAdapter(targetType);
-
 				return (T) adapter.fromPublisher(publisher);
 			};
 		}
@@ -506,7 +480,6 @@ public abstract class ReactiveWrapperConverters {
 		static final @Nullable ReactiveAdapterRegistry REACTIVE_ADAPTER_REGISTRY;
 
 		static {
-
 			if (ReactiveWrappers.isAvailable(ReactiveLibrary.PROJECT_REACTOR)) {
 				REACTIVE_ADAPTER_REGISTRY = new ReactiveAdapterRegistry();
 			}

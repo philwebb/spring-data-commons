@@ -37,7 +37,6 @@ public enum Metrics implements Metric {
 	 * {@literal null}.
 	 */
 	private Metrics(double multiplier, String abbreviation) {
-
 		this.multiplier = multiplier;
 		this.abbreviation = abbreviation;
 	}

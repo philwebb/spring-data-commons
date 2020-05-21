@@ -34,11 +34,9 @@ public class OrderAdapter extends XmlAdapter<OrderDto, Order> {
 	@Nullable
 	@Override
 	public OrderDto marshal(@Nullable Order order) {
-
 		if (order == null) {
 			return null;
 		}
-
 		OrderDto dto = new OrderDto();
 		dto.direction = order.getDirection();
 		dto.property = order.getProperty();
@@ -48,18 +46,14 @@ public class OrderAdapter extends XmlAdapter<OrderDto, Order> {
 	@Nullable
 	@Override
 	public Order unmarshal(@Nullable OrderDto source) {
-
 		if (source == null) {
 			return null;
 		}
-
 		Direction direction = source.direction;
 		String property = source.property;
-
 		if (direction == null || property == null) {
 			return null;
 		}
-
 		return new Order(direction, property);
 	}
 

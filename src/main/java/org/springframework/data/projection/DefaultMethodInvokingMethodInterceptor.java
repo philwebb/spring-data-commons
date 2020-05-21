@@ -56,44 +56,33 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 	 * @since 2.2
 	 */
 	public static boolean hasDefaultMethods(Class<?> interfaceClass) {
-
 		Method[] methods = ReflectionUtils.getAllDeclaredMethods(interfaceClass);
-
 		for (Method method : methods) {
 			if (method.isDefault()) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 		Method method = invocation.getMethod();
-
 		if (!method.isDefault()) {
 			return invocation.proceed();
 		}
-
 		Object[] arguments = invocation.getArguments();
 		Object proxy = ((ProxyMethodInvocation) invocation).getProxy();
-
 		return getMethodHandle(method).bindTo(proxy).invokeWithArguments(arguments);
 	}
 
 	private MethodHandle getMethodHandle(Method method) throws Exception {
-
 		MethodHandle handle = this.methodHandleCache.get(method);
-
 		if (handle == null) {
-
 			handle = this.methodHandleLookup.lookup(method);
 			this.methodHandleCache.put(method, handle);
 		}
-
 		return handle;
 	}
 
@@ -114,11 +103,9 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {
-
 				if (this.privateLookupIn == null) {
 					throw new IllegalStateException("Could not obtain MethodHandles.privateLookupIn!");
 				}
-
 				return doLookup(method, getLookup(method.getDeclaringClass(), this.privateLookupIn));
 			}
 
@@ -128,9 +115,7 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 			}
 
 			private Lookup getLookup(Class<?> declaringClass, Method privateLookupIn) {
-
 				Lookup lookup = MethodHandles.lookup();
-
 				try {
 					return (Lookup) privateLookupIn.invoke(MethodHandles.class, declaringClass, lookup);
 				}
@@ -138,6 +123,7 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 					return lookup;
 				}
 			}
+
 		},
 
 		/**
@@ -150,13 +136,10 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {
-
 				if (!isAvailable()) {
 					throw new IllegalStateException("Could not obtain MethodHandles.lookup constructor!");
 				}
-
 				Constructor<Lookup> constructor = this.constructor.get();
-
 				return constructor.newInstance(method.getDeclaringClass()).unreflectSpecial(method,
 						method.getDeclaringClass());
 			}
@@ -165,6 +148,7 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 			boolean isAvailable() {
 				return this.constructor.orElse(null) != null;
 			}
+
 		},
 
 		/**
@@ -174,6 +158,7 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 		 * @since 2.1
 		 */
 		FALLBACK {
+
 			@Override
 			MethodHandle lookup(Method method) throws ReflectiveOperationException {
 				return doLookup(method, MethodHandles.lookup());
@@ -183,6 +168,7 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 			boolean isAvailable() {
 				return true;
 			}
+
 		};
 
 		private static MethodHandle doLookup(Method method, Lookup lookup)
@@ -217,35 +203,27 @@ public class DefaultMethodInvokingMethodInterceptor implements MethodInterceptor
 		 * @throws IllegalStateException if no {@link MethodHandleLookup} is available.
 		 */
 		public static MethodHandleLookup getMethodHandleLookup() {
-
 			for (MethodHandleLookup it : MethodHandleLookup.values()) {
-
 				if (it.isAvailable()) {
 					return it;
 				}
 			}
-
 			throw new IllegalStateException("No MethodHandleLookup available!");
 		}
 
 		@Nullable
 		private static Constructor<Lookup> getLookupConstructor() {
-
 			try {
-
 				Constructor<Lookup> constructor = Lookup.class.getDeclaredConstructor(Class.class);
 				ReflectionUtils.makeAccessible(constructor);
-
 				return constructor;
 			}
 			catch (Exception ex) {
-
 				// this is the signal that we are on Java 9 (encapsulated) and can't use
 				// the accessible constructor approach.
 				if (ex.getClass().getName().equals("java.lang.reflect.InaccessibleObjectException")) {
 					return null;
 				}
-
 				throw new IllegalStateException(ex);
 			}
 		}

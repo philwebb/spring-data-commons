@@ -59,7 +59,6 @@ class KotlinCopyMethod {
 	 * variant of the copy method accepting the original instance and defaulting masks.
 	 */
 	private KotlinCopyMethod(Method publicCopyMethod, Method syntheticCopyMethod) {
-
 		this.publicCopyMethod = publicCopyMethod;
 		this.syntheticCopyMethod = syntheticCopyMethod;
 		this.copyFunction = ReflectJvmMapping.getKotlinFunction(publicCopyMethod);
@@ -73,17 +72,12 @@ class KotlinCopyMethod {
 	 * @return {@link Optional} {@link KotlinCopyMethod}.
 	 */
 	public static Optional<KotlinCopyMethod> findCopyMethod(Class<?> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		Optional<Method> syntheticCopyMethod = findSyntheticCopyMethod(type);
-
 		if (!syntheticCopyMethod.isPresent()) {
 			return Optional.empty();
 		}
-
 		Optional<Method> publicCopyMethod = syntheticCopyMethod.flatMap(KotlinCopyMethod::findPublicCopyMethod);
-
 		return publicCopyMethod.map(method -> new KotlinCopyMethod(method, syntheticCopyMethod.get()));
 	}
 
@@ -119,109 +113,82 @@ class KotlinCopyMethod {
 	 * @return
 	 */
 	Optional<KotlinCopyByProperty> forProperty(PersistentProperty<?> property) {
-
 		int index = KotlinCopyByProperty.findIndex(this.copyFunction, property.getName());
-
 		if (index == -1) {
 			return Optional.empty();
 		}
-
 		return Optional.of(new KotlinCopyByProperty(this.copyFunction, property));
 	}
 
 	boolean shouldUsePublicCopyMethod(PersistentEntity<?, ?> entity) {
-
 		List<PersistentProperty<?>> persistentProperties = new ArrayList<>();
 		entity.doWithProperties((SimplePropertyHandler) persistentProperties::add);
-
 		if (persistentProperties.size() > 1) {
 			return false;
 		}
-
 		if (this.publicCopyMethod.getParameterCount() != 1) {
 			return false;
 		}
-
 		if (Modifier.isStatic(this.publicCopyMethod.getModifiers())) {
 			return false;
 		}
-
 		Class<?>[] parameterTypes = this.publicCopyMethod.getParameterTypes();
-
 		for (int i = 0; i < parameterTypes.length; i++) {
 			if (!parameterTypes[i].equals(persistentProperties.get(i).getType())) {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
 	@SuppressWarnings("unchecked")
 	private static Optional<Method> findPublicCopyMethod(Method defaultKotlinMethod) {
-
 		Class<?> type = defaultKotlinMethod.getDeclaringClass();
 		KClass<?> kotlinClass = JvmClassMappingKt.getKotlinClass(type);
-
 		KFunction<?> primaryConstructor = KClasses.getPrimaryConstructor(kotlinClass);
-
 		if (primaryConstructor == null) {
 			return Optional.empty();
 		}
-
 		List<KParameter> constructorArguments = primaryConstructor.getParameters() //
 				.stream() //
 				.filter(it -> it.getKind() == Kind.VALUE) //
 				.collect(Collectors.toList());
-
 		return Arrays.stream(type.getDeclaredMethods()).filter(it -> it.getName().equals("copy") //
 				&& !it.isSynthetic() //
 				&& !Modifier.isStatic(it.getModifiers()) //
 				&& it.getReturnType().equals(type) //
 				&& it.getParameterCount() == constructorArguments.size()) //
 				.filter(it -> {
-
 					KFunction<?> kotlinFunction = ReflectJvmMapping.getKotlinFunction(it);
-
 					if (kotlinFunction == null) {
 						return false;
 					}
-
 					return parameterMatches(constructorArguments, kotlinFunction);
 				}).findFirst();
 	}
 
 	private static boolean parameterMatches(List<KParameter> constructorArguments, KFunction<?> kotlinFunction) {
-
 		boolean foundInstance = false;
 		int constructorArgIndex = 0;
-
 		for (KParameter parameter : kotlinFunction.getParameters()) {
-
 			if (parameter.getKind() == Kind.INSTANCE) {
 				foundInstance = true;
 				continue;
 			}
-
 			if (constructorArguments.size() <= constructorArgIndex) {
 				return false;
 			}
-
 			KParameter constructorParameter = constructorArguments.get(constructorArgIndex);
-
 			if (!constructorParameter.getName().equals(parameter.getName())
 					|| !constructorParameter.getType().equals(parameter.getType())) {
 				return false;
 			}
-
 			constructorArgIndex++;
 		}
-
 		return foundInstance;
 	}
 
 	private static Optional<Method> findSyntheticCopyMethod(Class<?> type) {
-
 		return Arrays.stream(type.getDeclaredMethods()) //
 				.filter(it -> it.getName().equals("copy$default") //
 						&& Modifier.isStatic(it.getModifiers()) //
@@ -244,20 +211,17 @@ class KotlinCopyMethod {
 		private final KotlinDefaultMask defaultMask;
 
 		KotlinCopyByProperty(KFunction<?> copyFunction, PersistentProperty<?> property) {
-
 			this.parameterPosition = findIndex(copyFunction, property.getName());
 			this.parameterCount = copyFunction.getParameters().size();
 			this.defaultMask = KotlinDefaultMask.from(copyFunction, it -> property.getName().equals(it.getName()));
 		}
 
 		static int findIndex(KFunction<?> function, String parameterName) {
-
 			for (KParameter parameter : function.getParameters()) {
 				if (parameterName.equals(parameter.getName())) {
 					return parameter.getIndex();
 				}
 			}
-
 			return -1;
 		}
 

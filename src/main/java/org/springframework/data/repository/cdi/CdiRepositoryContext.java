@@ -73,12 +73,9 @@ public class CdiRepositoryContext {
 	 * @param detector must not be {@literal null}.
 	 */
 	public CdiRepositoryContext(ClassLoader classLoader, CustomRepositoryImplementationDetector detector) {
-
 		Assert.notNull(classLoader, "ClassLoader must not be null!");
 		Assert.notNull(detector, "CustomRepositoryImplementationDetector must not be null!");
-
 		ResourceLoader resourceLoader = new PathMatchingResourcePatternResolver(classLoader);
-
 		this.classLoader = classLoader;
 		this.metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);
 		this.metdata = new FragmentMetadata(this.metadataReaderFactory);
@@ -96,7 +93,6 @@ public class CdiRepositoryContext {
 	 * @throws UnsatisfiedResolutionException if the class cannot be found.
 	 */
 	Class<?> loadClass(String className) {
-
 		try {
 			return ClassUtils.forName(className, this.classLoader);
 		}
@@ -115,10 +111,8 @@ public class CdiRepositoryContext {
 	 */
 	Stream<RepositoryFragmentConfiguration> getRepositoryFragments(CdiRepositoryConfiguration configuration,
 			Class<?> repositoryInterface) {
-
 		CdiImplementationDetectionConfiguration config = new CdiImplementationDetectionConfiguration(configuration,
 				this.metadataReaderFactory);
-
 		return this.metdata.getFragmentInterfaces(repositoryInterface.getName()) //
 				.map(it -> detectRepositoryFragmentConfiguration(it, config)) //
 				.flatMap(Optionals::toStream);
@@ -134,30 +128,23 @@ public class CdiRepositoryContext {
 	 */
 	Optional<Class<?>> getCustomImplementationClass(Class<?> repositoryType,
 			CdiRepositoryConfiguration cdiRepositoryConfiguration) {
-
 		ImplementationDetectionConfiguration configuration = new CdiImplementationDetectionConfiguration(
 				cdiRepositoryConfiguration, this.metadataReaderFactory);
 		ImplementationLookupConfiguration lookup = configuration.forFragment(repositoryType.getName());
-
 		Optional<AbstractBeanDefinition> beanDefinition = this.detector.detectCustomImplementation(lookup);
-
 		return beanDefinition.map(this::loadBeanClass);
 	}
 
 	private Optional<RepositoryFragmentConfiguration> detectRepositoryFragmentConfiguration(
 			String fragmentInterfaceName, CdiImplementationDetectionConfiguration config) {
-
 		ImplementationLookupConfiguration lookup = config.forFragment(fragmentInterfaceName);
 		Optional<AbstractBeanDefinition> beanDefinition = this.detector.detectCustomImplementation(lookup);
-
 		return beanDefinition.map(bd -> new RepositoryFragmentConfiguration(fragmentInterfaceName, bd));
 	}
 
 	@Nullable
 	private Class<?> loadBeanClass(AbstractBeanDefinition definition) {
-
 		String beanClassName = definition.getBeanClassName();
-
 		return beanClassName == null ? null : loadClass(beanClassName);
 	}
 
@@ -169,7 +156,6 @@ public class CdiRepositoryContext {
 
 		CdiImplementationDetectionConfiguration(CdiRepositoryConfiguration configuration,
 				MetadataReaderFactory metadataReaderFactory) {
-
 			this.configuration = configuration;
 			this.metadataReaderFactory = metadataReaderFactory;
 		}

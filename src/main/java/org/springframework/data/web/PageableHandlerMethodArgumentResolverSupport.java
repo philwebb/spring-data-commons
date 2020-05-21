@@ -84,9 +84,7 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 * @param fallbackPageable the {@link Pageable} to be used as general fallback.
 	 */
 	public void setFallbackPageable(Pageable fallbackPageable) {
-
 		Assert.notNull(fallbackPageable, "Fallback Pageable must not be null!");
-
 		this.fallbackPageable = fallbackPageable;
 	}
 
@@ -126,7 +124,6 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 * or empty.
 	 */
 	public void setPageParameterName(String pageParameterName) {
-
 		Assert.hasText(pageParameterName, "Page parameter name must not be null or empty!");
 		this.pageParameterName = pageParameterName;
 	}
@@ -147,7 +144,6 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 * or empty.
 	 */
 	public void setSizeParameterName(String sizeParameterName) {
-
 		Assert.hasText(sizeParameterName, "Size parameter name must not be null or empty!");
 		this.sizeParameterName = sizeParameterName;
 	}
@@ -207,26 +203,20 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	protected Pageable getPageable(MethodParameter methodParameter, @Nullable String pageString,
 			@Nullable String pageSizeString) {
 		assertPageableUniqueness(methodParameter);
-
 		Optional<Pageable> defaultOrFallback = getDefaultFromAnnotationOrFallback(methodParameter).toOptional();
-
 		Optional<Integer> page = parseAndApplyBoundaries(pageString, Integer.MAX_VALUE, true);
 		Optional<Integer> pageSize = parseAndApplyBoundaries(pageSizeString, this.maxPageSize, false);
-
 		if (!(page.isPresent() && pageSize.isPresent()) && !defaultOrFallback.isPresent()) {
 			return Pageable.unpaged();
 		}
-
 		int p = page.orElseGet(
 				() -> defaultOrFallback.map(Pageable::getPageNumber).orElseThrow(IllegalStateException::new));
 		int ps = pageSize
 				.orElseGet(() -> defaultOrFallback.map(Pageable::getPageSize).orElseThrow(IllegalStateException::new));
-
 		// Limit lower bound
 		ps = ps < 1 ? defaultOrFallback.map(Pageable::getPageSize).orElseThrow(IllegalStateException::new) : ps;
 		// Limit upper bound
 		ps = ps > this.maxPageSize ? this.maxPageSize : ps;
-
 		return PageRequest.of(p, ps, defaultOrFallback.map(Pageable::getSort).orElseGet(Sort::unsorted));
 	}
 
@@ -239,44 +229,33 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 * @return the name of the request parameter.
 	 */
 	protected String getParameterNameToUse(String source, @Nullable MethodParameter parameter) {
-
 		StringBuilder builder = new StringBuilder(this.prefix);
-
 		Qualifier qualifier = parameter == null ? null : parameter.getParameterAnnotation(Qualifier.class);
-
 		if (qualifier != null) {
 			builder.append(qualifier.value());
 			builder.append(this.qualifierDelimiter);
 		}
-
 		return builder.append(source).toString();
 	}
 
 	private Pageable getDefaultFromAnnotationOrFallback(MethodParameter methodParameter) {
-
 		PageableDefault defaults = methodParameter.getParameterAnnotation(PageableDefault.class);
-
 		if (defaults != null) {
 			return getDefaultPageRequestFrom(methodParameter, defaults);
 		}
-
 		return this.fallbackPageable;
 	}
 
 	private static Pageable getDefaultPageRequestFrom(MethodParameter parameter, PageableDefault defaults) {
-
 		Integer defaultPageNumber = defaults.page();
 		Integer defaultPageSize = getSpecificPropertyOrDefaultFromValue(defaults, "size");
-
 		if (defaultPageSize < 1) {
 			Method annotatedMethod = parameter.getMethod();
 			throw new IllegalStateException(String.format(INVALID_DEFAULT_PAGE_SIZE, annotatedMethod));
 		}
-
 		if (defaults.sort().length == 0) {
 			return PageRequest.of(defaultPageNumber, defaultPageSize);
 		}
-
 		return PageRequest.of(defaultPageNumber, defaultPageSize, defaults.direction(), defaults.sort());
 	}
 
@@ -290,11 +269,9 @@ public abstract class PageableHandlerMethodArgumentResolverSupport {
 	 * @return
 	 */
 	private Optional<Integer> parseAndApplyBoundaries(@Nullable String parameter, int upper, boolean shiftIndex) {
-
 		if (!StringUtils.hasText(parameter)) {
 			return Optional.empty();
 		}
-
 		try {
 			int parsed = Integer.parseInt(parameter) - (this.oneIndexedParameters && shiftIndex ? 1 : 0);
 			return Optional.of(parsed < 0 ? 0 : parsed > upper ? upper : parsed);

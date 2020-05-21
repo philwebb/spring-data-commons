@@ -50,9 +50,7 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 * @param properties must not be {@literal null}.
 	 */
 	public DefaultPersistentPropertyPath(List<P> properties) {
-
 		Assert.notNull(properties, "Properties must not be null!");
-
 		this.properties = properties;
 	}
 
@@ -74,22 +72,16 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 * of the current leaf property.
 	 */
 	public DefaultPersistentPropertyPath<P> append(P property) {
-
 		Assert.notNull(property, "Property must not be null!");
-
 		if (isEmpty()) {
 			return new DefaultPersistentPropertyPath<>(Collections.singletonList(property));
 		}
-
 		@SuppressWarnings("null")
 		Class<?> leafPropertyType = getLeafProperty().getActualType();
-
 		Assert.isTrue(property.getOwner().getType().equals(leafPropertyType), () -> String
 				.format("Cannot append property %s to type %s!", property.getName(), leafPropertyType.getName()));
-
 		List<P> properties = new ArrayList<>(this.properties);
 		properties.add(property);
-
 		return new DefaultPersistentPropertyPath<>(properties);
 	}
 
@@ -121,15 +113,12 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	@Override
 	@Nullable
 	public String toPath(String delimiter, Converter<? super P, String> converter) {
-
 		Assert.hasText(delimiter, "Delimiter must not be null or empty!");
 		Assert.notNull(converter, "Converter must not be null!");
-
 		String result = this.properties.stream() //
 				.map(converter::convert) //
 				.filter(StringUtils::hasText) //
 				.collect(Collectors.joining(delimiter));
-
 		return result.isEmpty() ? null : result;
 	}
 
@@ -147,53 +136,39 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 
 	@Override
 	public boolean isBasePathOf(PersistentPropertyPath<P> path) {
-
 		Assert.notNull(path, "PersistentPropertyPath must not be null!");
-
 		Iterator<P> iterator = path.iterator();
-
 		for (P property : this) {
-
 			if (!iterator.hasNext()) {
 				return false;
 			}
-
 			P reference = iterator.next();
-
 			if (!property.equals(reference)) {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
 	@Override
 	public PersistentPropertyPath<P> getExtensionForBaseOf(PersistentPropertyPath<P> base) {
-
 		if (!base.isBasePathOf(this)) {
 			return this;
 		}
-
 		List<P> result = new ArrayList<>();
 		Iterator<P> iterator = iterator();
-
 		for (int i = 0; i < base.getLength(); i++) {
 			iterator.next();
 		}
-
 		while (iterator.hasNext()) {
 			result.add(iterator.next());
 		}
-
 		return new DefaultPersistentPropertyPath<>(result);
 	}
 
 	@Override
 	public PersistentPropertyPath<P> getParentPath() {
-
 		int size = this.properties.size();
-
 		return size == 0 ? this : new DefaultPersistentPropertyPath<>(this.properties.subList(0, size - 1));
 	}
 
@@ -213,7 +188,6 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 	 * @return
 	 */
 	public boolean containsPropertyOfType(@Nullable TypeInformation<?> type) {
-
 		return type == null //
 				? false //
 				: this.properties.stream() //
@@ -222,15 +196,12 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof DefaultPersistentPropertyPath)) {
 			return false;
 		}
-
 		DefaultPersistentPropertyPath<?> that = (DefaultPersistentPropertyPath<?>) o;
 		return ObjectUtils.nullSafeEquals(this.properties, that.properties);
 	}

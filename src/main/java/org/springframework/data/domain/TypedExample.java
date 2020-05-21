@@ -32,10 +32,8 @@ class TypedExample<T> implements Example<T> {
 	private final ExampleMatcher matcher;
 
 	TypedExample(T probe, ExampleMatcher matcher) {
-
 		Assert.notNull(probe, "Probe must not be null");
 		Assert.notNull(matcher, "ExampleMatcher must not be null");
-
 		this.probe = probe;
 		this.matcher = matcher;
 	}
@@ -52,20 +50,16 @@ class TypedExample<T> implements Example<T> {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof TypedExample)) {
 			return false;
 		}
-
 		TypedExample<?> that = (TypedExample<?>) o;
 		if (!ObjectUtils.nullSafeEquals(this.probe, that.probe)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.matcher, that.matcher);
 	}
 

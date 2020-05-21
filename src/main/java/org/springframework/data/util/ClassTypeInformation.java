@@ -69,9 +69,7 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 	 * @return
 	 */
 	public static <S> ClassTypeInformation<S> from(Class<S> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		return (ClassTypeInformation<S>) CACHE.computeIfAbsent(type, ClassTypeInformation::new);
 	}
 
@@ -81,7 +79,6 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 	 * @return
 	 */
 	public static <S> TypeInformation<S> fromReturnTypeOf(Method method) {
-
 		Assert.notNull(method, "Method must not be null!");
 		return (TypeInformation<S>) ClassTypeInformation.from(method.getDeclaringClass())
 				.createInfo(method.getGenericReturnType());
@@ -107,24 +104,18 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 	}
 
 	private static Map<TypeVariable<?>, Type> getTypeVariableMap(Class<?> type, Collection<Type> visited) {
-
 		if (visited.contains(type)) {
 			return Collections.emptyMap();
 		}
 		else {
 			visited.add(type);
 		}
-
 		Map<TypeVariable, Type> source = GenericTypeResolver.getTypeVariableMap(type);
 		Map<TypeVariable<?>, Type> map = new HashMap<>(source.size());
-
 		for (Entry<TypeVariable, Type> entry : source.entrySet()) {
-
 			Type value = entry.getValue();
 			map.put(entry.getKey(), entry.getValue());
-
 			if (value instanceof Class) {
-
 				for (Entry<TypeVariable<?>, Type> nestedEntry : getTypeVariableMap((Class<?>) value, visited)
 						.entrySet()) {
 					if (!map.containsKey(nestedEntry.getKey())) {
@@ -133,7 +124,6 @@ public class ClassTypeInformation<S> extends TypeDiscoverer<S> {
 				}
 			}
 		}
-
 		return map;
 	}
 

@@ -91,9 +91,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * @see Stream#map(Function)
 	 */
 	default <R> Streamable<R> map(Function<? super T, ? extends R> mapper) {
-
 		Assert.notNull(mapper, "Mapping function must not be null!");
-
 		return Streamable.of(() -> stream().map(mapper));
 	}
 
@@ -105,9 +103,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * @see Stream#flatMap(Function)
 	 */
 	default <R> Streamable<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper) {
-
 		Assert.notNull(mapper, "Mapping function must not be null!");
-
 		return Streamable.of(() -> stream().flatMap(mapper));
 	}
 
@@ -119,9 +115,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * @see Stream#filter(Predicate)
 	 */
 	default Streamable<T> filter(Predicate<? super T> predicate) {
-
 		Assert.notNull(predicate, "Filter predicate must not be null!");
-
 		return Streamable.of(() -> stream().filter(predicate));
 	}
 
@@ -141,9 +135,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * @since 2.1
 	 */
 	default Streamable<T> and(Supplier<? extends Stream<? extends T>> stream) {
-
 		Assert.notNull(stream, "Stream must not be null!");
-
 		return Streamable.of(() -> Stream.concat(this.stream(), stream.get()));
 	}
 
@@ -156,9 +148,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 */
 	@SuppressWarnings("unchecked")
 	default Streamable<T> and(T... others) {
-
 		Assert.notNull(others, "Other values must not be null!");
-
 		return Streamable.of(() -> Stream.concat(this.stream(), Arrays.stream(others)));
 	}
 
@@ -170,9 +160,7 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	 * @since 2.2
 	 */
 	default Streamable<T> and(Iterable<? extends T> iterable) {
-
 		Assert.notNull(iterable, "Iterable must not be null!");
-
 		return Streamable.of(() -> Stream.concat(this.stream(), StreamSupport.stream(iterable.spliterator(), false)));
 	}
 
@@ -230,7 +218,6 @@ public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>> {
 	@SuppressWarnings("unchecked")
 	public static <S, T extends Iterable<S>> Collector<S, ?, Streamable<S>> toStreamable(
 			Collector<S, ?, T> intermediate) {
-
 		return Collector.of( //
 				(Supplier<T>) intermediate.supplier(), //
 				(BiConsumer<T, S>) intermediate.accumulator(), //

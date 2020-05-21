@@ -42,10 +42,8 @@ public final class Range<T extends Comparable<T>> {
 	private final Bound<T> upperBound;
 
 	private Range(Bound<T> lowerBound, Bound<T> upperBound) {
-
 		Assert.notNull(lowerBound, "Lower bound must not be null!");
 		Assert.notNull(upperBound, "Upper bound must not be null!");
-
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
 	}
@@ -139,7 +137,6 @@ public final class Range<T extends Comparable<T>> {
 	 * @since 2.0
 	 */
 	public static <T extends Comparable<T>> RangeBuilder<T> from(Bound<T> lower) {
-
 		Assert.notNull(lower, "Lower bound must not be null!");
 		return new RangeBuilder<>(lower);
 	}
@@ -172,17 +169,13 @@ public final class Range<T extends Comparable<T>> {
 	 * @return
 	 */
 	public boolean contains(T value) {
-
 		Assert.notNull(value, "Reference value must not be null!");
-
 		boolean greaterThanLowerBound = this.lowerBound.getValue() //
 				.map(it -> this.lowerBound.isInclusive() ? it.compareTo(value) <= 0 : it.compareTo(value) < 0) //
 				.orElse(true);
-
 		boolean lessThanUpperBound = this.upperBound.getValue() //
 				.map(it -> this.upperBound.isInclusive() ? it.compareTo(value) >= 0 : it.compareTo(value) > 0) //
 				.orElse(true);
-
 		return greaterThanLowerBound && lessThanUpperBound;
 	}
 
@@ -201,21 +194,16 @@ public final class Range<T extends Comparable<T>> {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof Range)) {
 			return false;
 		}
-
 		Range<?> range = (Range<?>) o;
-
 		if (!ObjectUtils.nullSafeEquals(this.lowerBound, range.lowerBound)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.upperBound, range.upperBound);
 	}
 
@@ -359,7 +347,6 @@ public final class Range<T extends Comparable<T>> {
 		}
 
 		String toPrefixString() {
-
 			return getValue() //
 					.map(Object::toString) //
 					.map(it -> isInclusive() ? "[".concat(it) : "(".concat(it)) //
@@ -367,7 +354,6 @@ public final class Range<T extends Comparable<T>> {
 		}
 
 		String toSuffixString() {
-
 			return getValue() //
 					.map(Object::toString) //
 					.map(it -> isInclusive() ? it.concat("]") : it.concat(")")) //
@@ -389,21 +375,16 @@ public final class Range<T extends Comparable<T>> {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof Bound)) {
 				return false;
 			}
-
 			Bound<?> bound = (Bound<?>) o;
-
 			if (this.inclusive != bound.inclusive) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.value, bound.value);
 		}
 
@@ -436,7 +417,6 @@ public final class Range<T extends Comparable<T>> {
 		 * @return
 		 */
 		public Range<T> to(Bound<T> upper) {
-
 			Assert.notNull(upper, "Upper bound must not be null!");
 			return new Range<>(this.lower, upper);
 		}

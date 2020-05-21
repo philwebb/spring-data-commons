@@ -73,7 +73,6 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	 */
 	public PagedResourcesAssembler(@Nullable HateoasPageableHandlerMethodArgumentResolver resolver,
 			@Nullable UriComponents baseUri) {
-
 		this.pageableResolver = resolver == null ? new HateoasPageableHandlerMethodArgumentResolver() : resolver;
 		this.baseUri = Optional.ofNullable(baseUri);
 	}
@@ -135,9 +134,7 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	 */
 	public <R extends RepresentationModel<?>> PagedModel<R> toModel(Page<T> page,
 			RepresentationModelAssembler<T, R> assembler, Link link) {
-
 		Assert.notNull(link, "Link must not be null!");
-
 		return createModel(page, assembler, Optional.of(link));
 	}
 
@@ -167,17 +164,13 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	}
 
 	private PagedModel<?> toEmptyModel(Page<?> page, Class<?> type, Optional<Link> link) {
-
 		Assert.notNull(page, "Page must not be null!");
 		Assert.isTrue(!page.hasContent(), "Page must not have any content!");
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(link, "Link must not be null!");
-
 		PageMetadata metadata = asPageMetadata(page);
-
 		EmbeddedWrapper wrapper = this.wrappers.emptyCollectionOf(type);
 		List<EmbeddedWrapper> embedded = Collections.singletonList(wrapper);
-
 		return addPaginationLinks(PagedModel.of(embedded, metadata), page, link);
 	}
 
@@ -191,62 +184,44 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	 */
 	protected <R extends RepresentationModel<?>, S> PagedModel<R> createPagedModel(List<R> resources,
 			PageMetadata metadata, Page<S> page) {
-
 		Assert.notNull(resources, "Content resources must not be null!");
 		Assert.notNull(metadata, "PageMetadata must not be null!");
 		Assert.notNull(page, "Page must not be null!");
-
 		return PagedModel.of(resources, metadata);
 	}
 
 	private <S, R extends RepresentationModel<?>> PagedModel<R> createModel(Page<S> page,
 			RepresentationModelAssembler<S, R> assembler, Optional<Link> link) {
-
 		Assert.notNull(page, "Page must not be null!");
 		Assert.notNull(assembler, "ResourceAssembler must not be null!");
-
 		List<R> resources = new ArrayList<>(page.getNumberOfElements());
-
 		for (S element : page) {
 			resources.add(assembler.toModel(element));
 		}
-
 		PagedModel<R> resource = createPagedModel(resources, asPageMetadata(page), page);
-
 		return addPaginationLinks(resource, page, link);
 	}
 
 	private <R> PagedModel<R> addPaginationLinks(PagedModel<R> resources, Page<?> page, Optional<Link> link) {
-
 		UriTemplate base = getUriTemplate(link);
-
 		boolean isNavigable = page.hasPrevious() || page.hasNext();
-
 		if (isNavigable || this.forceFirstAndLastRels) {
 			resources.add(createLink(base, PageRequest.of(0, page.getSize(), page.getSort()), IanaLinkRelations.FIRST));
 		}
-
 		if (page.hasPrevious()) {
 			resources.add(createLink(base, page.previousPageable(), IanaLinkRelations.PREV));
 		}
-
 		Link selfLink = link.map(Link::withSelfRel)//
 				.orElseGet(() -> createLink(base, page.getPageable(), IanaLinkRelations.SELF));
-
 		resources.add(selfLink);
-
 		if (page.hasNext()) {
 			resources.add(createLink(base, page.nextPageable(), IanaLinkRelations.NEXT));
 		}
-
 		if (isNavigable || this.forceFirstAndLastRels) {
-
 			int lastIndex = page.getTotalPages() == 0 ? 0 : page.getTotalPages() - 1;
-
 			resources.add(createLink(base, PageRequest.of(lastIndex, page.getSize(), page.getSort()),
 					IanaLinkRelations.LAST));
 		}
-
 		return resources;
 	}
 
@@ -269,10 +244,8 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	 * @return
 	 */
 	private Link createLink(UriTemplate base, Pageable pageable, LinkRelation relation) {
-
 		UriComponentsBuilder builder = fromUri(base.expand());
 		this.pageableResolver.enhance(builder, getMethodParameter(), pageable);
-
 		return Link.of(UriTemplate.of(builder.build().toString()), relation);
 	}
 
@@ -294,11 +267,8 @@ public class PagedResourcesAssembler<T> implements RepresentationModelAssembler<
 	 * @return
 	 */
 	private PageMetadata asPageMetadata(Page<?> page) {
-
 		Assert.notNull(page, "Page must not be null!");
-
 		int number = this.pageableResolver.isOneIndexedParameters() ? page.getNumber() + 1 : page.getNumber();
-
 		return new PageMetadata(page.getSize(), number, page.getTotalElements(), page.getTotalPages());
 	}
 

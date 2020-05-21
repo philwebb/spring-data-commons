@@ -71,6 +71,7 @@ public class SimpleTypeHolder {
 			add(Class.class);
 			add(Enum.class);
 		}
+
 	};
 
 	public static final SimpleTypeHolder DEFAULT = new SimpleTypeHolder();
@@ -94,13 +95,9 @@ public class SimpleTypeHolder {
 	 * @param registerDefaults
 	 */
 	public SimpleTypeHolder(Set<? extends Class<?>> customSimpleTypes, boolean registerDefaults) {
-
 		Assert.notNull(customSimpleTypes, "CustomSimpleTypes must not be null!");
-
 		this.simpleTypes = new WeakHashMap<>(customSimpleTypes.size() + DEFAULTS.size());
-
 		register(customSimpleTypes);
-
 		if (registerDefaults) {
 			register(DEFAULTS);
 		}
@@ -113,24 +110,18 @@ public class SimpleTypeHolder {
 	 * @param source must not be {@literal null}
 	 */
 	public SimpleTypeHolder(Set<? extends Class<?>> customSimpleTypes, SimpleTypeHolder source) {
-
 		Assert.notNull(customSimpleTypes, "CustomSimpleTypes must not be null!");
 		Assert.notNull(source, "SourceTypeHolder must not be null!");
-
 		this.simpleTypes = new WeakHashMap<>(customSimpleTypes.size() + source.simpleTypes.size());
-
 		register(customSimpleTypes);
 		registerCachePositives(source.simpleTypes);
 	}
 
 	private void registerCachePositives(Map<Class<?>, Boolean> source) {
-
 		for (Entry<Class<?>, Boolean> entry : source.entrySet()) {
-
 			if (!entry.getValue()) {
 				continue;
 			}
-
 			this.simpleTypes.put(entry.getKey(), true);
 		}
 	}
@@ -141,38 +132,27 @@ public class SimpleTypeHolder {
 	 * @return
 	 */
 	public boolean isSimpleType(Class<?> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		Map<Class<?>, Boolean> localSimpleTypes = this.simpleTypes;
 		Boolean isSimpleType = localSimpleTypes.get(type);
-
 		if (Object.class.equals(type) || Enum.class.isAssignableFrom(type)) {
 			return true;
 		}
-
 		if (isSimpleType != null) {
 			return isSimpleType;
 		}
-
 		String typeName = type.getName();
-
 		if (typeName.startsWith("java.lang") || type.getName().startsWith("java.time")) {
 			return true;
 		}
-
 		for (Class<?> simpleType : localSimpleTypes.keySet()) {
-
 			if (simpleType.isAssignableFrom(type)) {
-
 				isSimpleType = localSimpleTypes.get(simpleType);
 				this.simpleTypes = put(localSimpleTypes, type, isSimpleType);
 				return isSimpleType;
 			}
 		}
-
 		this.simpleTypes = put(localSimpleTypes, type, false);
-
 		return false;
 	}
 
@@ -181,10 +161,8 @@ public class SimpleTypeHolder {
 	}
 
 	private static Map<Class<?>, Boolean> put(Map<Class<?>, Boolean> simpleTypes, Class<?> type, boolean isSimpleType) {
-
 		Map<Class<?>, Boolean> copy = new WeakHashMap<>(simpleTypes);
 		copy.put(type, isSimpleType);
-
 		return copy;
 	}
 

@@ -119,13 +119,10 @@ public interface ExampleMatcher {
 	 */
 	default ExampleMatcher withMatcher(String propertyPath,
 			MatcherConfigurer<GenericPropertyMatcher> matcherConfigurer) {
-
 		Assert.hasText(propertyPath, "PropertyPath must not be empty!");
 		Assert.notNull(matcherConfigurer, "MatcherConfigurer must not be empty!");
-
 		GenericPropertyMatcher genericPropertyMatcher = new GenericPropertyMatcher();
 		matcherConfigurer.configureMatcher(genericPropertyMatcher);
-
 		return withMatcher(propertyPath, genericPropertyMatcher);
 	}
 
@@ -322,7 +319,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher ignoreCase() {
-
 			this.ignoreCase = true;
 			return this;
 		}
@@ -333,7 +329,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher ignoreCase(boolean ignoreCase) {
-
 			this.ignoreCase = ignoreCase;
 			return this;
 		}
@@ -343,7 +338,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher caseSensitive() {
-
 			this.ignoreCase = false;
 			return this;
 		}
@@ -353,7 +347,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher contains() {
-
 			this.stringMatcher = StringMatcher.CONTAINING;
 			return this;
 		}
@@ -363,7 +356,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher endsWith() {
-
 			this.stringMatcher = StringMatcher.ENDING;
 			return this;
 		}
@@ -373,7 +365,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher startsWith() {
-
 			this.stringMatcher = StringMatcher.STARTING;
 			return this;
 		}
@@ -383,7 +374,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher exact() {
-
 			this.stringMatcher = StringMatcher.EXACT;
 			return this;
 		}
@@ -393,7 +383,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher storeDefaultMatching() {
-
 			this.stringMatcher = StringMatcher.DEFAULT;
 			return this;
 		}
@@ -403,7 +392,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher regex() {
-
 			this.stringMatcher = StringMatcher.REGEX;
 			return this;
 		}
@@ -414,7 +402,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher stringMatcher(StringMatcher stringMatcher) {
-
 			Assert.notNull(stringMatcher, "StringMatcher must not be null!");
 			this.stringMatcher = stringMatcher;
 			return this;
@@ -426,7 +413,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public GenericPropertyMatcher transform(PropertyValueTransformer propertyValueTransformer) {
-
 			Assert.notNull(propertyValueTransformer, "PropertyValueTransformer must not be null!");
 			this.valueTransformer = propertyValueTransformer;
 			return this;
@@ -438,25 +424,19 @@ public interface ExampleMatcher {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof GenericPropertyMatcher)) {
 				return false;
 			}
-
 			GenericPropertyMatcher that = (GenericPropertyMatcher) o;
-
 			if (this.stringMatcher != that.stringMatcher) {
 				return false;
 			}
-
 			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, that.ignoreCase)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.valueTransformer, that.valueTransformer);
 		}
 
@@ -562,22 +542,27 @@ public interface ExampleMatcher {
 		 * Store specific default.
 		 */
 		DEFAULT,
+
 		/**
 		 * Matches the exact string
 		 */
 		EXACT,
+
 		/**
 		 * Matches string starting with pattern
 		 */
 		STARTING,
+
 		/**
 		 * Matches string ending with pattern
 		 */
 		ENDING,
+
 		/**
 		 * Matches string containing pattern
 		 */
 		CONTAINING,
+
 		/**
 		 * Treats strings as regular expression patterns
 		 */
@@ -631,10 +616,8 @@ public interface ExampleMatcher {
 		 * @param path Dot-Path to the property. Must not be {@literal null}.
 		 */
 		PropertySpecifier(String path) {
-
 			Assert.hasText(path, "Path must not be null/empty!");
 			this.path = path;
-
 			this.stringMatcher = null;
 			this.ignoreCase = null;
 			this.valueTransformer = NoOpPropertyValueTransformer.INSTANCE;
@@ -655,7 +638,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public PropertySpecifier withStringMatcher(StringMatcher stringMatcher) {
-
 			Assert.notNull(stringMatcher, "StringMatcher must not be null!");
 			return new PropertySpecifier(this.path, stringMatcher, this.ignoreCase, this.valueTransformer);
 		}
@@ -677,7 +659,6 @@ public interface ExampleMatcher {
 		 * @return
 		 */
 		public PropertySpecifier withValueTransformer(PropertyValueTransformer valueTransformer) {
-
 			Assert.notNull(valueTransformer, "PropertyValueTransformer must not be null!");
 			return new PropertySpecifier(this.path, this.stringMatcher, this.ignoreCase, valueTransformer);
 		}
@@ -726,29 +707,22 @@ public interface ExampleMatcher {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof PropertySpecifier)) {
 				return false;
 			}
-
 			PropertySpecifier that = (PropertySpecifier) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.path, that.path)) {
 				return false;
 			}
-
 			if (this.stringMatcher != that.stringMatcher) {
 				return false;
 			}
-
 			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, that.ignoreCase)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.valueTransformer, that.valueTransformer);
 		}
 
@@ -786,7 +760,6 @@ public interface ExampleMatcher {
 		}
 
 		public void add(PropertySpecifier specifier) {
-
 			Assert.notNull(specifier, "PropertySpecifier must not be null!");
 			this.propertySpecifiers.put(specifier.getPath(), specifier);
 		}
@@ -809,15 +782,12 @@ public interface ExampleMatcher {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof PropertySpecifiers)) {
 				return false;
 			}
-
 			PropertySpecifiers that = (PropertySpecifiers) o;
 			return ObjectUtils.nullSafeEquals(this.propertySpecifiers, that.propertySpecifiers);
 		}

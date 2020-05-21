@@ -45,19 +45,16 @@ class ImplementationInvocationMetadata {
 	private final boolean reactiveBaseClassMethod;
 
 	ImplementationInvocationMetadata(Method declaredMethod, Method baseClassMethod) {
-
 		if (!KotlinDetector.isKotlinReflectPresent()) {
 			this.suspendedDeclaredMethod = false;
 			this.suspendedBaseClassMethod = false;
 			this.reactiveBaseClassMethod = false;
 			return;
 		}
-
 		KFunction<?> declaredFunction = KotlinDetector.isKotlinType(declaredMethod.getDeclaringClass())
 				? KotlinReflectionUtils.findKotlinFunction(declaredMethod) : null;
 		KFunction<?> baseClassFunction = KotlinDetector.isKotlinType(baseClassMethod.getDeclaringClass())
 				? KotlinReflectionUtils.findKotlinFunction(baseClassMethod) : null;
-
 		this.suspendedDeclaredMethod = declaredFunction != null && declaredFunction.isSuspend();
 		this.suspendedBaseClassMethod = baseClassFunction != null && baseClassFunction.isSuspend();
 		this.reactiveBaseClassMethod = !this.suspendedBaseClassMethod
@@ -66,7 +63,6 @@ class ImplementationInvocationMetadata {
 
 	@Nullable
 	public Object invoke(Method methodToCall, Object instance, Object[] args) throws Throwable {
-
 		return shouldAdaptReactiveToSuspended() ? invokeReactiveToSuspend(methodToCall, instance, args)
 				: methodToCall.invoke(instance, args);
 
@@ -80,33 +76,25 @@ class ImplementationInvocationMetadata {
 	@SuppressWarnings({ "unchecked", "ConstantConditions" })
 	private Object invokeReactiveToSuspend(Method methodToCall, Object instance, Object[] args)
 			throws ReflectiveOperationException {
-
-		/*
-		 * Kotlin suspended functions are invoked with a synthetic Continuation parameter
-		 * that keeps track of the Coroutine context. We're invoking a method without
-		 * Continuation as we expect the method to return any sort of reactive type,
-		 * therefore we need to strip the Continuation parameter.
-		 */
+		// Kotlin suspended functions are invoked with a synthetic Continuation parameter
+		// that keeps track of the Coroutine context. We're invoking a method without
+		// Continuation as we expect the method to return any sort of reactive type,
+		// therefore we need to strip the Continuation parameter.
 		Object[] invocationArguments = new Object[args.length - 1];
 		System.arraycopy(args, 0, invocationArguments, 0, invocationArguments.length);
 		Object result = methodToCall.invoke(instance, invocationArguments);
-
 		Publisher<?> publisher = result instanceof Publisher ? (Publisher<?>) result
 				: ReactiveWrapperConverters.toWrapper(result, Publisher.class);
-
 		return AwaitKt.awaitFirstOrNull(publisher, (Continuation) args[args.length - 1]);
 	}
 
 	boolean canInvoke(Method invokedMethod, Method backendMethod) {
-
 		if (this.suspendedDeclaredMethod == this.suspendedBaseClassMethod) {
 			return invokedMethod.getParameterCount() == backendMethod.getParameterCount();
 		}
-
 		if (this.suspendedDeclaredMethod && this.reactiveBaseClassMethod) {
 			return invokedMethod.getParameterCount() - 1 == backendMethod.getParameterCount();
 		}
-
 		return false;
 	}
 

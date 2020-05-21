@@ -48,9 +48,7 @@ public class FragmentMetadata {
 	 * @return
 	 */
 	public Stream<String> getFragmentInterfaces(String interfaceName) {
-
 		Assert.hasText(interfaceName, "Interface name must not be null or empty!");
-
 		return Arrays.stream(getClassMetadata(interfaceName).getInterfaceNames()) //
 				.filter(this::isCandidate);
 	}
@@ -62,16 +60,13 @@ public class FragmentMetadata {
 	 * @return
 	 */
 	private boolean isCandidate(String interfaceName) {
-
 		Assert.hasText(interfaceName, "Interface name must not be null or empty!");
-
 		AnnotationMetadata metadata = getAnnotationMetadata(interfaceName);
 		return !metadata.hasAnnotation(NoRepositoryBean.class.getName());
 
 	}
 
 	private AnnotationMetadata getAnnotationMetadata(String className) {
-
 		try {
 			return this.factory.getMetadataReader(className).getAnnotationMetadata();
 		}
@@ -81,7 +76,6 @@ public class FragmentMetadata {
 	}
 
 	private ClassMetadata getClassMetadata(String className) {
-
 		try {
 			return this.factory.getMetadataReader(className).getClassMetadata();
 		}

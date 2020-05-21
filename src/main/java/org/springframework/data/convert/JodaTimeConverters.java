@@ -53,28 +53,21 @@ public abstract class JodaTimeConverters {
 	 * @return
 	 */
 	public static Collection<Converter<?, ?>> getConvertersToRegister() {
-
 		if (!JODA_TIME_IS_PRESENT) {
 			return Collections.emptySet();
 		}
-
 		List<Converter<?, ?>> converters = new ArrayList<>();
 		converters.add(LocalDateToDateConverter.INSTANCE);
 		converters.add(LocalDateTimeToDateConverter.INSTANCE);
 		converters.add(DateTimeToDateConverter.INSTANCE);
-
 		converters.add(DateToLocalDateConverter.INSTANCE);
 		converters.add(DateToLocalDateTimeConverter.INSTANCE);
 		converters.add(DateToDateTimeConverter.INSTANCE);
-
 		converters.add(LocalDateTimeToJodaLocalDateTime.INSTANCE);
 		converters.add(LocalDateTimeToJodaDateTime.INSTANCE);
-
 		converters.add(InstantToJodaLocalDateTime.INSTANCE);
 		converters.add(JodaLocalDateTimeToInstant.INSTANCE);
-
 		converters.add(LocalDateTimeToJsr310Converter.INSTANCE);
-
 		return converters;
 	}
 

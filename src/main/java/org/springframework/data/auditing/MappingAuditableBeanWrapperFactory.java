@@ -64,32 +64,24 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 	 * @param entities must not be {@literal null}.
 	 */
 	public MappingAuditableBeanWrapperFactory(PersistentEntities entities) {
-
 		Assert.notNull(entities, "PersistentEntities must not be null!");
-
 		this.entities = entities;
 		this.metadataCache = new ConcurrentReferenceHashMap<>();
 	}
 
 	@Override
 	public <T> Optional<AuditableBeanWrapper<T>> getBeanWrapperFor(T source) {
-
 		return Optional.of(source).flatMap(it -> {
-
 			if (it instanceof Auditable) {
 				return super.getBeanWrapperFor(source);
 			}
-
 			return this.entities.mapOnContext(it.getClass(), (context, entity) -> {
-
 				MappingAuditingMetadata metadata = this.metadataCache.computeIfAbsent(it.getClass(),
 						key -> new MappingAuditingMetadata(context, it.getClass()));
-
 				return Optional.<AuditableBeanWrapper<T>>ofNullable(metadata.isAuditable() //
 						? new MappingMetadataAuditableBeanWrapper<>(getConversionService(),
 								entity.getPropertyPathAccessor(it), metadata)
 						: null);
-
 			}).orElseGet(() -> super.getBeanWrapperFor(source));
 		});
 	}
@@ -116,14 +108,11 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		 * @param entity must not be {@literal null}.
 		 */
 		public <P> MappingAuditingMetadata(MappingContext<?, ? extends PersistentProperty<?>> context, Class<?> type) {
-
 			Assert.notNull(type, "Type must not be null!");
-
 			this.createdByPaths = findPropertyPaths(type, CreatedBy.class, context);
 			this.createdDatePaths = findPropertyPaths(type, CreatedDate.class, context);
 			this.lastModifiedByPaths = findPropertyPaths(type, LastModifiedBy.class, context);
 			this.lastModifiedDatePaths = findPropertyPaths(type, LastModifiedDate.class, context);
-
 			this.isAuditable = Lazy.of( //
 					() -> //
 					Stream.of(this.createdByPaths, this.createdDatePaths, this.lastModifiedByPaths,
@@ -181,10 +170,8 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		public MappingMetadataAuditableBeanWrapper(ConversionService conversionService,
 				PersistentPropertyPathAccessor<T> accessor, MappingAuditingMetadata metadata) {
 			super(conversionService);
-
 			Assert.notNull(accessor, "PersistentPropertyAccessor must not be null!");
 			Assert.notNull(metadata, "Auditing metadata must not be null!");
-
 			this.accessor = accessor;
 			this.metadata = metadata;
 		}
@@ -206,10 +193,8 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 
 		@Override
 		public Optional<TemporalAccessor> getLastModifiedDate() {
-
 			Optional<Object> firstValue = this.metadata.lastModifiedDatePaths.getFirst() //
 					.map(this.accessor::getProperty);
-
 			return getAsTemporalAccessor(firstValue, TemporalAccessor.class);
 		}
 
@@ -224,22 +209,16 @@ public class MappingAuditableBeanWrapperFactory extends DefaultAuditableBeanWrap
 		}
 
 		private <S> S setProperty(PersistentPropertyPaths<?, ? extends PersistentProperty<?>> paths, S value) {
-
 			paths.forEach(it -> this.accessor.setProperty(it, value, OPTIONS));
-
 			return value;
 		}
 
 		private TemporalAccessor setDateProperty(PersistentPropertyPaths<?, ? extends PersistentProperty<?>> property,
 				TemporalAccessor value) {
-
 			property.forEach(it -> {
-
 				Class<?> type = it.getRequiredLeafProperty().getType();
-
 				this.accessor.setProperty(it, getDateValueToSet(value, type, this.accessor.getBean()), OPTIONS);
 			});
-
 			return value;
 		}
 

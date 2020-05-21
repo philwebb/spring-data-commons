@@ -60,13 +60,10 @@ public class Property {
 	private final Lazy<Optional<Method>> wither;
 
 	private Property(TypeInformation<?> type, Optional<Field> field, Optional<PropertyDescriptor> descriptor) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.isTrue(Optionals.isAnyPresent(field, descriptor), "Either field or descriptor has to be given!");
-
 		this.field = field;
 		this.descriptor = descriptor;
-
 		this.rawType = withFieldOrDescriptor( //
 				it -> type.getRequiredProperty(it.getName()).getType(), //
 				it -> type.getRequiredProperty(it.getName()).getType() //
@@ -75,15 +72,12 @@ public class Property {
 		this.name = Lazy.of(() -> withFieldOrDescriptor(Field::getName, FeatureDescriptor::getName));
 		this.toString = Lazy.of(() -> withFieldOrDescriptor(Object::toString,
 				it -> String.format("%s.%s", type.getType().getName(), it.getDisplayName())));
-
 		this.getter = descriptor.map(PropertyDescriptor::getReadMethod)//
 				.filter(it -> getType() != null)//
 				.filter(it -> getType().isAssignableFrom(type.getReturnType(it).getType()));
-
 		this.setter = descriptor.map(PropertyDescriptor::getWriteMethod)//
 				.filter(it -> getType() != null)//
 				.filter(it -> type.getParameterTypes(it).get(0).getType().isAssignableFrom(getType()));
-
 		this.wither = Lazy.of(() -> findWither(type, getName(), getType()));
 	}
 
@@ -94,9 +88,7 @@ public class Property {
 	 * @return
 	 */
 	public static Property of(TypeInformation<?> type, Field field) {
-
 		Assert.notNull(field, "Field must not be null!");
-
 		return new Property(type, Optional.of(field), Optional.empty());
 	}
 
@@ -109,10 +101,8 @@ public class Property {
 	 * @return
 	 */
 	public static Property of(TypeInformation<?> type, Field field, PropertyDescriptor descriptor) {
-
 		Assert.notNull(field, "Field must not be null!");
 		Assert.notNull(descriptor, "PropertyDescriptor must not be null!");
-
 		return new Property(type, Optional.of(field), Optional.of(descriptor));
 	}
 
@@ -125,9 +115,7 @@ public class Property {
 	 * @see #supportsStandalone(PropertyDescriptor)
 	 */
 	public static Property of(TypeInformation<?> type, PropertyDescriptor descriptor) {
-
 		Assert.notNull(descriptor, "PropertyDescriptor must not be null!");
-
 		return new Property(type, Optional.empty(), Optional.of(descriptor));
 	}
 
@@ -138,9 +126,7 @@ public class Property {
 	 * @return
 	 */
 	public static boolean supportsStandalone(PropertyDescriptor descriptor) {
-
 		Assert.notNull(descriptor, "PropertyDescriptor must not be null!");
-
 		return descriptor.getPropertyType() != null;
 	}
 
@@ -214,17 +200,13 @@ public class Property {
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof Property)) {
 			return false;
 		}
-
 		Property that = (Property) obj;
-
 		return this.field.isPresent() ? this.field.equals(that.field) : this.descriptor.equals(that.descriptor);
 	}
 
@@ -257,7 +239,6 @@ public class Property {
 	 */
 	private <T> T withFieldOrDescriptor(Function<? super Field, T> field,
 			Function<? super PropertyDescriptor, T> descriptor) {
-
 		return Optionals.firstNonEmpty(//
 				() -> this.field.map(field), //
 				() -> this.descriptor.map(descriptor))//
@@ -266,23 +247,18 @@ public class Property {
 	}
 
 	private static Optional<Method> findWither(TypeInformation<?> owner, String propertyName, Class<?> rawType) {
-
 		AtomicReference<Method> resultHolder = new AtomicReference<>();
 		String methodName = String.format("with%s", StringUtils.capitalize(propertyName));
-
 		ReflectionUtils.doWithMethods(owner.getType(), it -> {
-
 			if (owner.isAssignableFrom(owner.getReturnType(it))) {
 				resultHolder.set(it);
 			}
 		}, it -> isMethodWithSingleParameterOfType(it, methodName, rawType));
-
 		Method method = resultHolder.get();
 		return method != null ? Optional.of(method) : Optional.empty();
 	}
 
 	private static boolean isMethodWithSingleParameterOfType(Method method, String name, Class<?> type) {
-
 		return method.getParameterCount() == 1 //
 				&& method.getName().equals(name) //
 				&& method.getParameterTypes()[0].equals(type);

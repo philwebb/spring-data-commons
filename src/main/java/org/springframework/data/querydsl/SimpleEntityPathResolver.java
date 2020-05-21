@@ -47,9 +47,7 @@ public class SimpleEntityPathResolver implements EntityPathResolver {
 	 * @param querySuffix must not be {@literal null}.
 	 */
 	public SimpleEntityPathResolver(String querySuffix) {
-
 		Assert.notNull(querySuffix, "Query suffix must not be null!");
-
 		this.querySuffix = querySuffix;
 	}
 
@@ -63,17 +61,12 @@ public class SimpleEntityPathResolver implements EntityPathResolver {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> EntityPath<T> createPath(Class<T> domainClass) {
-
 		String pathClassName = getQueryClassName(domainClass);
-
 		try {
-
 			Class<?> pathClass = ClassUtils.forName(pathClassName, domainClass.getClassLoader());
-
 			return getStaticFieldOfType(pathClass)//
 					.map(it -> (EntityPath<T>) ReflectionUtils.getField(it, null))//
 					.orElseThrow(() -> new IllegalStateException(String.format(NO_FIELD_FOUND_TEMPLATE, pathClass)));
-
 		}
 		catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException(
@@ -87,17 +80,13 @@ public class SimpleEntityPathResolver implements EntityPathResolver {
 	 * @return
 	 */
 	private Optional<Field> getStaticFieldOfType(Class<?> type) {
-
 		for (Field field : type.getDeclaredFields()) {
-
 			boolean isStatic = Modifier.isStatic(field.getModifiers());
 			boolean hasSameType = type.equals(field.getType());
-
 			if (isStatic && hasSameType) {
 				return Optional.of(field);
 			}
 		}
-
 		Class<?> superclass = type.getSuperclass();
 		return Object.class.equals(superclass) ? Optional.empty() : getStaticFieldOfType(superclass);
 	}
@@ -108,10 +97,8 @@ public class SimpleEntityPathResolver implements EntityPathResolver {
 	 * @return
 	 */
 	private String getQueryClassName(Class<?> domainClass) {
-
 		String simpleClassName = ClassUtils.getShortName(domainClass);
 		String packageName = domainClass.getPackage().getName();
-
 		return String.format("%s%s.Q%s%s", packageName, this.querySuffix, getClassBase(simpleClassName),
 				domainClass.getSimpleName());
 	}
@@ -122,9 +109,7 @@ public class SimpleEntityPathResolver implements EntityPathResolver {
 	 * @return
 	 */
 	private String getClassBase(String shortName) {
-
 		String[] parts = shortName.split("\\.");
-
 		return parts.length < 2 ? "" : parts[0] + "_";
 	}
 

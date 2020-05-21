@@ -59,14 +59,10 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 	 * consider, must not be {@literal null}.
 	 */
 	public RepositoryComponentProvider(Iterable<? extends TypeFilter> includeFilters, BeanDefinitionRegistry registry) {
-
 		super(false);
-
 		Assert.notNull(includeFilters, "Include filters must not be null!");
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
-
 		this.registry = registry;
-
 		if (includeFilters.iterator().hasNext()) {
 			for (TypeFilter filter : includeFilters) {
 				addIncludeFilter(filter);
@@ -76,7 +72,6 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 			super.addIncludeFilter(new InterfaceTypeFilter(Repository.class));
 			super.addIncludeFilter(new AnnotationTypeFilter(RepositoryDefinition.class, true, true));
 		}
-
 		addExcludeFilter(new AnnotationTypeFilter(NoRepositoryBean.class));
 	}
 
@@ -90,27 +85,21 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 	 */
 	@Override
 	public void addIncludeFilter(TypeFilter includeFilter) {
-
 		List<TypeFilter> filterPlusInterface = new ArrayList<>(2);
 		filterPlusInterface.add(includeFilter);
 		filterPlusInterface.add(new InterfaceTypeFilter(Repository.class));
-
 		super.addIncludeFilter(new AllTypeFilter(filterPlusInterface));
-
 		List<TypeFilter> filterPlusAnnotation = new ArrayList<>(2);
 		filterPlusAnnotation.add(includeFilter);
 		filterPlusAnnotation.add(new AnnotationTypeFilter(RepositoryDefinition.class, true, true));
-
 		super.addIncludeFilter(new AllTypeFilter(filterPlusAnnotation));
 	}
 
 	@Override
 	protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
-
 		boolean isNonRepositoryInterface = !ClassUtils.isGenericRepositoryInterface(beanDefinition.getBeanClassName());
 		boolean isTopLevelType = !beanDefinition.getMetadata().hasEnclosingClass();
 		boolean isConsiderNestedRepositories = isConsiderNestedRepositoryInterfaces();
-
 		return isNonRepositoryInterface && (isTopLevelType || isConsiderNestedRepositories);
 	}
 
@@ -120,15 +109,12 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 	 */
 	@Override
 	public Set<BeanDefinition> findCandidateComponents(String basePackage) {
-
 		Set<BeanDefinition> candidates = super.findCandidateComponents(basePackage);
-
 		for (BeanDefinition candidate : candidates) {
 			if (candidate instanceof AnnotatedBeanDefinition) {
 				AnnotationConfigUtils.processCommonDefinitionAnnotations((AnnotatedBeanDefinition) candidate);
 			}
 		}
-
 		return candidates;
 	}
 
@@ -182,7 +168,6 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 		@Override
 		public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory)
 				throws IOException {
-
 			return metadataReader.getClassMetadata().isInterface()
 					&& super.match(metadataReader, metadataReaderFactory);
 		}
@@ -204,7 +189,6 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 		 * @param delegates must not be {@literal null}.
 		 */
 		public AllTypeFilter(List<TypeFilter> delegates) {
-
 			Assert.notNull(delegates, "TypeFilter deleages must not be null!");
 			this.delegates = delegates;
 		}
@@ -220,13 +204,11 @@ class RepositoryComponentProvider extends ClassPathScanningCandidateComponentPro
 		@Override
 		public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory)
 				throws IOException {
-
 			for (TypeFilter filter : this.delegates) {
 				if (!filter.match(metadataReader, metadataReaderFactory)) {
 					return false;
 				}
 			}
-
 			return true;
 		}
 

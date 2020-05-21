@@ -65,14 +65,12 @@ final class AnnotationAuditingMetadata {
 	static final List<String> SUPPORTED_DATE_TYPES;
 
 	static {
-
 		List<String> types = new ArrayList<>(5);
 		types.add("org.joda.time.DateTime");
 		types.add("org.joda.time.LocalDateTime");
 		types.add(Date.class.getName());
 		types.add(Long.class.getName());
 		types.add(long.class.getName());
-
 		SUPPORTED_DATE_TYPES = Collections.unmodifiableList(types);
 	}
 
@@ -89,14 +87,11 @@ final class AnnotationAuditingMetadata {
 	 * @param type must not be {@literal null}.
 	 */
 	private AnnotationAuditingMetadata(Class<?> type) {
-
 		Assert.notNull(type, "Given type must not be null!");
-
 		this.createdByField = Optional.ofNullable(ReflectionUtils.findField(type, CREATED_BY_FILTER));
 		this.createdDateField = Optional.ofNullable(ReflectionUtils.findField(type, CREATED_DATE_FILTER));
 		this.lastModifiedByField = Optional.ofNullable(ReflectionUtils.findField(type, LAST_MODIFIED_BY_FILTER));
 		this.lastModifiedDateField = Optional.ofNullable(ReflectionUtils.findField(type, LAST_MODIFIED_DATE_FILTER));
-
 		assertValidDateFieldType(this.createdDateField);
 		assertValidDateFieldType(this.lastModifiedDateField);
 	}
@@ -106,19 +101,14 @@ final class AnnotationAuditingMetadata {
 	 * @param field
 	 */
 	private void assertValidDateFieldType(Optional<Field> field) {
-
 		field.ifPresent(it -> {
-
 			if (SUPPORTED_DATE_TYPES.contains(it.getType().getName())) {
 				return;
 			}
-
 			Class<?> type = it.getType();
-
 			if (Jsr310Converters.supports(type) || ThreeTenBackPortConverters.supports(type)) {
 				return;
 			}
-
 			throw new IllegalStateException(String.format(
 					"Found created/modified date field with type %s but only %s as well as java.time types are supported!",
 					type, SUPPORTED_DATE_TYPES));

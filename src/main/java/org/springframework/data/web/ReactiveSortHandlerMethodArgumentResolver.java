@@ -55,19 +55,15 @@ public class ReactiveSortHandlerMethodArgumentResolver extends SortHandlerMethod
 	@Override
 	public Sort resolveArgumentValue(MethodParameter parameter, BindingContext bindingContext,
 			ServerWebExchange exchange) {
-
 		List<String> directionParameter = exchange.getRequest().getQueryParams().get(getSortParameter(parameter));
-
 		// No parameter
 		if (directionParameter == null) {
 			return getDefaultFromAnnotationOrFallback(parameter);
 		}
-
 		// Single empty parameter, e.g "sort="
 		if (directionParameter.size() == 1 && !StringUtils.hasText(directionParameter.get(0))) {
 			return getDefaultFromAnnotationOrFallback(parameter);
 		}
-
 		return parseParameterIntoSort(directionParameter, getPropertyDelimiter());
 	}
 

@@ -58,13 +58,10 @@ public interface TypeInformation<S> {
 	 * @since 2.0
 	 */
 	default TypeInformation<?> getRequiredProperty(String property) {
-
 		TypeInformation<?> typeInformation = getProperty(property);
-
 		if (typeInformation != null) {
 			return typeInformation;
 		}
-
 		throw new IllegalArgumentException(
 				String.format("Could not find required property %s on %s!", property, getType()));
 	}
@@ -97,13 +94,10 @@ public interface TypeInformation<S> {
 	 * @since 2.0
 	 */
 	default TypeInformation<?> getRequiredComponentType() {
-
 		TypeInformation<?> componentType = getComponentType();
-
 		if (componentType != null) {
 			return componentType;
 		}
-
 		throw new IllegalStateException(String.format("Can't resolve required component type for %s!", getType()));
 	}
 
@@ -133,13 +127,10 @@ public interface TypeInformation<S> {
 	 * @since 2.0
 	 */
 	default TypeInformation<?> getRequiredMapValueType() {
-
 		TypeInformation<?> mapValueType = getMapValueType();
-
 		if (mapValueType != null) {
 			return mapValueType;
 		}
-
 		throw new IllegalStateException(String.format("Can't resolve required map value type for %s!", getType()));
 	}
 
@@ -177,14 +168,11 @@ public interface TypeInformation<S> {
 	 * @since 2.0
 	 */
 	default TypeInformation<?> getRequiredActualType() {
-
 		TypeInformation<?> result = getActualType();
-
 		if (result == null) {
 			throw new IllegalStateException(
 					"Expected to be able to resolve a type but got null! This usually stems from types implementing raw Map or Collection interfaces!");
 		}
-
 		return result;
 	}
 
@@ -223,15 +211,12 @@ public interface TypeInformation<S> {
 	 * @since 2.0
 	 */
 	default TypeInformation<?> getRequiredSuperTypeInformation(Class<?> superType) {
-
 		TypeInformation<?> result = getSuperTypeInformation(superType);
-
 		if (result == null) {
 			throw new IllegalArgumentException(String.format(
 					"Can't retrieve super type information for %s! Does current type really implement the given one?",
 					superType));
 		}
-
 		return result;
 	}
 

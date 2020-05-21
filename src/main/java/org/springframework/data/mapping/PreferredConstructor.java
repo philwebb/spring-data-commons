@@ -66,10 +66,8 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 */
 	@SafeVarargs
 	public PreferredConstructor(Constructor<T> constructor, Parameter<Object, P>... parameters) {
-
 		Assert.notNull(constructor, "Constructor must not be null!");
 		Assert.notNull(parameters, "Parameters must not be null!");
-
 		ReflectionUtils.makeAccessible(constructor);
 		this.constructor = constructor;
 		this.parameters = Arrays.asList(parameters);
@@ -127,37 +125,27 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 * @return
 	 */
 	public boolean isConstructorParameter(PersistentProperty<?> property) {
-
 		Assert.notNull(property, "Property must not be null!");
-
 		try {
-
 			this.read.lock();
 			Boolean cached = this.isPropertyParameterCache.get(property);
-
 			if (cached != null) {
 				return cached;
 			}
-
 		}
 		finally {
 			this.read.unlock();
 		}
-
 		try {
-
 			this.write.lock();
-
 			for (Parameter<?, P> parameter : this.parameters) {
 				if (parameter.maps(property)) {
 					this.isPropertyParameterCache.put(property, true);
 					return true;
 				}
 			}
-
 			this.isPropertyParameterCache.put(property, false);
 			return false;
-
 		}
 		finally {
 			this.write.unlock();
@@ -173,13 +161,10 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 	 * @return
 	 */
 	public boolean isEnclosingClassParameter(Parameter<?, P> parameter) {
-
 		Assert.notNull(parameter, "Parameter must not be null!");
-
 		if (this.parameters.isEmpty() || !parameter.isEnclosingClassParameter()) {
 			return false;
 		}
-
 		return this.parameters.get(0).equals(parameter);
 	}
 
@@ -214,30 +199,23 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		 */
 		public Parameter(@Nullable String name, TypeInformation<T> type, Annotation[] annotations,
 				@Nullable PersistentEntity<T, P> entity) {
-
 			Assert.notNull(type, "Type must not be null!");
 			Assert.notNull(annotations, "Annotations must not be null!");
-
 			this.name = name;
 			this.type = type;
 			this.key = getValue(annotations);
 			this.entity = entity;
-
 			this.enclosingClassCache = Lazy.of(() -> {
-
 				if (entity == null) {
 					throw new IllegalStateException();
 				}
-
 				Class<T> owningType = entity.getType();
 				return owningType.isMemberClass() && type.getType().equals(owningType.getEnclosingClass());
 			});
-
 			this.hasSpelExpression = Lazy.of(() -> StringUtils.hasText(getSpelExpression()));
 		}
 
 		private static String getValue(Annotation[] annotations) {
-
 			return Arrays.stream(annotations)//
 					.filter(it -> it.annotationType() == Value.class)//
 					.findFirst().map(it -> ((Value) it).value())//
@@ -288,29 +266,22 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof Parameter)) {
 				return false;
 			}
-
 			Parameter<?, ?> parameter = (Parameter<?, ?>) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.name, parameter.name)) {
 				return false;
 			}
-
 			if (!ObjectUtils.nullSafeEquals(this.type, parameter.type)) {
 				return false;
 			}
-
 			if (!ObjectUtils.nullSafeEquals(this.key, parameter.key)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.entity, parameter.entity);
 		}
 
@@ -330,12 +301,9 @@ public class PreferredConstructor<T, P extends PersistentProperty<P>> {
 		 * @return
 		 */
 		boolean maps(PersistentProperty<?> property) {
-
 			PersistentEntity<T, P> entity = this.entity;
 			String name = this.name;
-
 			P referencedProperty = entity == null ? null : name == null ? null : entity.getPersistentProperty(name);
-
 			return property != null && property.equals(referencedProperty);
 		}
 

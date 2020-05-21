@@ -50,11 +50,9 @@ public abstract class ClassUtils {
 	 * @return
 	 */
 	public static boolean hasProperty(Class<?> type, String property) {
-
 		if (null != ReflectionUtils.findMethod(type, "get" + property)) {
 			return true;
 		}
-
 		return null != ReflectionUtils.findField(type, StringUtils.uncapitalize(property));
 	}
 
@@ -72,7 +70,6 @@ public abstract class ClassUtils {
 	 * interface implemented by the class to be checked here)
 	 */
 	public static void ifPresent(String className, @Nullable ClassLoader classLoader, Consumer<Class<?>> action) {
-
 		try {
 			Class<?> theClass = org.springframework.util.ClassUtils.forName(className, classLoader);
 			action.accept(theClass);
@@ -93,7 +90,6 @@ public abstract class ClassUtils {
 	 * @return
 	 */
 	public static boolean isGenericRepositoryInterface(Class<?> interfaze) {
-
 		return Repository.class.equals(interfaze);
 	}
 
@@ -114,7 +110,6 @@ public abstract class ClassUtils {
 	 * @return
 	 */
 	public static int getNumberOfOccurences(Method method, Class<?> type) {
-
 		int result = 0;
 		for (Class<?> clazz : method.getParameterTypes()) {
 			if (type.equals(clazz)) {
@@ -133,12 +128,9 @@ public abstract class ClassUtils {
 	 * @param types must not be {@literal null} or empty.
 	 */
 	public static void assertReturnTypeAssignable(Method method, Class<?>... types) {
-
 		Assert.notNull(method, "Method must not be null!");
 		Assert.notEmpty(types, "Types must not be null or empty!");
-
 		TypeInformation<?> returnType = getEffectivelyReturnedTypeFrom(method);
-
 		Arrays.stream(types)//
 				.filter(it -> it.isAssignableFrom(returnType.getType()))//
 				.findAny().orElseThrow(() -> new IllegalStateException(
@@ -153,11 +145,9 @@ public abstract class ClassUtils {
 	 * @return
 	 */
 	public static boolean isOfType(@Nullable Object object, Collection<Class<?>> types) {
-
 		if (object == null) {
 			return false;
 		}
-
 		return types.stream().anyMatch(it -> it.isAssignableFrom(object.getClass()));
 	}
 
@@ -178,16 +168,13 @@ public abstract class ClassUtils {
 	 * @throws Throwable
 	 */
 	public static void unwrapReflectionException(Exception ex) throws Throwable {
-
 		if (ex instanceof InvocationTargetException) {
 			throw ((InvocationTargetException) ex).getTargetException();
 		}
-
 		throw ex;
 	}
 
 	private static TypeInformation<?> getEffectivelyReturnedTypeFrom(Method method) {
-
 		TypeInformation<?> returnType = ClassTypeInformation.fromReturnTypeOf(method);
 		return QueryExecutionConverters.supports(returnType.getType()) ? returnType.getRequiredComponentType()
 				: returnType;

@@ -38,16 +38,12 @@ public abstract class ReactiveRepositoryFactorySupport extends RepositoryFactory
 
 	@Override
 	protected void validate(RepositoryMetadata repositoryMetadata) {
-
 		if (!ReactiveWrappers.isAvailable()) {
-
 			throw new InvalidDataAccessApiUsageException(
 					String.format("Cannot implement repository %s without reactive library support.",
 							repositoryMetadata.getRepositoryInterface().getName()));
 		}
-
 		if (RxJavaOneConversionSetup.REACTIVE_STREAMS_PRESENT) {
-
 			Arrays.stream(repositoryMetadata.getRepositoryInterface().getMethods())
 					.forEach(RxJavaOneConversionSetup::validate);
 		}
@@ -72,16 +68,13 @@ public abstract class ReactiveRepositoryFactorySupport extends RepositoryFactory
 		 * @param method the method to validate.
 		 */
 		private static void validate(Method method) {
-
 			if (ReactiveWrappers.supports(method.getReturnType())
 					&& !ClassUtils.isAssignable(Publisher.class, method.getReturnType())
 					&& !ReactiveWrapperConverters.supports(method.getReturnType())) {
-
 				throw new InvalidDataAccessApiUsageException(
 						String.format("No reactive type converter found for type %s used in %s, method %s.",
 								method.getReturnType().getName(), method.getDeclaringClass().getName(), method));
 			}
-
 			Arrays.stream(method.getParameterTypes()) //
 					.filter(ReactiveWrappers::supports) //
 					.filter(parameterType -> !ClassUtils.isAssignable(Publisher.class, parameterType)) //

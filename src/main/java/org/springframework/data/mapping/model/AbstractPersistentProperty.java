@@ -79,30 +79,24 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 	public AbstractPersistentProperty(Property property, PersistentEntity<?, P> owner,
 			SimpleTypeHolder simpleTypeHolder) {
-
 		Assert.notNull(simpleTypeHolder, "SimpleTypeHolder must not be null!");
 		Assert.notNull(owner, "Owner entity must not be null!");
-
 		this.name = property.getName();
 		this.information = owner.getTypeInformation().getRequiredProperty(getName());
 		this.rawType = this.information.getType();
 		this.property = property;
 		this.association = Lazy.of(() -> isAssociation() ? createAssociation() : null);
 		this.owner = owner;
-
 		this.hashCode = Lazy.of(property::hashCode);
 		this.usePropertyAccess = Lazy.of(() -> owner.getType().isInterface() || CAUSE_FIELD.equals(getField()));
-
 		this.entityTypeInformation = Lazy.of(() -> Optional.ofNullable(this.information.getActualType())//
 				.filter(it -> !simpleTypeHolder.isSimpleType(it.getType()))//
 				.filter(it -> !it.isCollectionLike())//
 				.filter(it -> !it.isMap()));
-
 		this.getter = property.getGetter().orElse(null);
 		this.setter = property.getSetter().orElse(null);
 		this.field = property.getField().orElse(null);
 		this.wither = property.getWither().orElse(null);
-
 		if (this.setter == null && (this.field == null || Modifier.isFinal(this.field.getModifiers()))) {
 			this.immutable = true;
 		}
@@ -140,11 +134,9 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 	@Override
 	public Iterable<? extends TypeInformation<?>> getPersistentEntityTypes() {
-
 		if (!isEntity()) {
 			return Collections.emptySet();
 		}
-
 		return this.entityTypeInformation.get()//
 				.map(Collections::singleton)//
 				.orElseGet(Collections::emptySet);
@@ -232,15 +224,12 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 	@Nullable
 	@Override
 	public Class<?> getMapValueType() {
-
 		if (isMap()) {
-
 			TypeInformation<?> mapValueType = this.information.getMapValueType();
 			if (mapValueType != null) {
 				return mapValueType.getType();
 			}
 		}
-
 		return null;
 	}
 
@@ -261,17 +250,13 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof AbstractPersistentProperty)) {
 			return false;
 		}
-
 		AbstractPersistentProperty<?> that = (AbstractPersistentProperty<?>) obj;
-
 		return this.property.equals(that.property);
 	}
 

@@ -68,12 +68,9 @@ class EvaluationContextExtensionInformation {
 	 * @param type must not be {@literal null}.
 	 */
 	public EvaluationContextExtensionInformation(Class<? extends EvaluationContextExtension> type) {
-
 		Assert.notNull(type, "Extension type must not be null!");
-
 		Class<?> rootObjectType = org.springframework.data.util.ReflectionUtils
 				.findRequiredMethod(type, "getRootObject").getReturnType();
-
 		this.rootObjectInformation = Optional
 				.ofNullable(Object.class.equals(rootObjectType) ? null : new RootObjectInformation(rootObjectType));
 		this.extensionTypeInformation = new ExtensionTypeInformation(type);
@@ -94,7 +91,6 @@ class EvaluationContextExtensionInformation {
 	 * @return
 	 */
 	public RootObjectInformation getRootObjectInformation(Optional<Object> target) {
-
 		return target.map(it -> this.rootObjectInformation.orElseGet(() -> new RootObjectInformation(it.getClass())))
 				.orElse(RootObjectInformation.NONE);
 	}
@@ -125,21 +121,16 @@ class EvaluationContextExtensionInformation {
 		 * @param type must not be {@literal null}.
 		 */
 		public ExtensionTypeInformation(Class<? extends EvaluationContextExtension> type) {
-
 			Assert.notNull(type, "Extension type must not be null!");
-
 			this.functions = discoverDeclaredFunctions(type);
 			this.properties = discoverDeclaredProperties(type);
 		}
 
 		private static MultiValueMap<String, Function> discoverDeclaredFunctions(Class<?> type) {
-
 			MultiValueMap<String, Function> map = CollectionUtils.toMultiValueMap(new HashMap<>());
-
 			ReflectionUtils.doWithMethods(type, //
 					method -> map.add(method.getName(), new Function(method, null)), //
 					PublicMethodAndFieldFilter.STATIC);
-
 			return CollectionUtils.unmodifiableMultiValueMap(map);
 		}
 
@@ -165,23 +156,18 @@ class EvaluationContextExtensionInformation {
 
 			@Override
 			public boolean matches(Method method) {
-
 				if (ReflectionUtils.isObjectMethod(method)) {
 					return false;
 				}
-
 				boolean methodStatic = Modifier.isStatic(method.getModifiers());
 				boolean staticMatch = this.staticOnly ? methodStatic : !methodStatic;
-
 				return Modifier.isPublic(method.getModifiers()) && staticMatch;
 			}
 
 			@Override
 			public boolean matches(Field field) {
-
 				boolean fieldStatic = Modifier.isStatic(field.getModifiers());
 				boolean staticMatch = this.staticOnly ? fieldStatic : !fieldStatic;
-
 				return Modifier.isPublic(field.getModifiers()) && staticMatch;
 			}
 
@@ -210,29 +196,20 @@ class EvaluationContextExtensionInformation {
 		 * @param type must not be {@literal null}.
 		 */
 		public RootObjectInformation(Class<?> type) {
-
 			Assert.notNull(type, "Type must not be null!");
-
 			this.accessors = new HashMap<>();
 			this.methods = new HashSet<>();
 			this.fields = new ArrayList<>();
-
 			if (Object.class.equals(type)) {
 				return;
 			}
-
 			Streamable<PropertyDescriptor> descriptors = Streamable.of(BeanUtils.getPropertyDescriptors(type));
-
 			ReflectionUtils.doWithMethods(type, method -> {
-
 				RootObjectInformation.this.methods.add(method);
-
 				descriptors.stream()//
 						.filter(it -> method.equals(it.getReadMethod()))//
 						.forEach(it -> RootObjectInformation.this.accessors.put(it.getName(), method));
-
 			}, PublicMethodAndFieldFilter.NON_STATIC);
-
 			ReflectionUtils.doWithFields(type, RootObjectInformation.this.fields::add,
 					PublicMethodAndFieldFilter.NON_STATIC);
 		}
@@ -258,30 +235,22 @@ class EvaluationContextExtensionInformation {
 		 * @return the properties
 		 */
 		public Map<String, Object> getProperties(Optional<Object> target) {
-
 			return target.map(it -> {
-
 				Map<String, Object> properties = new HashMap<>();
-
 				this.accessors.entrySet().stream()
 						.forEach(method -> properties.put(method.getKey(), new Function(method.getValue(), it)));
 				this.fields.stream()
 						.forEach(field -> properties.put(field.getName(), ReflectionUtils.getField(field, it)));
-
 				return Collections.unmodifiableMap(properties);
-
 			}).orElseGet(Collections::emptyMap);
 		}
 
 	}
 
 	private static Map<String, Object> discoverDeclaredProperties(Class<?> type) {
-
 		Map<String, Object> map = new HashMap<>();
-
 		ReflectionUtils.doWithFields(type, field -> map.put(field.getName(), field.get(null)),
 				PublicMethodAndFieldFilter.STATIC);
-
 		return map.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(map);
 	}
 

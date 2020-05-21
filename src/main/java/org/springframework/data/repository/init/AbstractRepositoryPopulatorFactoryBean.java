@@ -52,7 +52,6 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 	 * @param resources must not be {@literal null}.
 	 */
 	public void setResources(Resource[] resources) {
-
 		Assert.notNull(resources, "Resources must not be null!");
 		this.resources = resources.clone();
 	}
@@ -70,30 +69,22 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 
 	@Override
 	protected ResourceReaderRepositoryPopulator createInstance() {
-
 		ResourceReaderRepositoryPopulator initializer = new ResourceReaderRepositoryPopulator(getResourceReader());
 		initializer.setResources(this.resources);
-
 		if (this.context != null) {
 			initializer.setApplicationEventPublisher(this.context);
 		}
-
 		this.populator = initializer;
-
 		return initializer;
 	}
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-
 		RepositoryPopulator populator = this.populator;
-
 		if (populator == null) {
 			throw new IllegalStateException("RepositoryPopulator was not properly initialized!");
 		}
-
 		if (event.getApplicationContext().equals(this.context)) {
-
 			Repositories repositories = new Repositories(event.getApplicationContext());
 			populator.populate(repositories);
 		}
@@ -103,7 +94,6 @@ public abstract class AbstractRepositoryPopulatorFactoryBean
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-
 		Assert.state(this.resources != null, "Resources must not be null!");
 		super.afterPropertiesSet();
 	}

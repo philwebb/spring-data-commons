@@ -53,9 +53,7 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	 * @param parent must not be {@literal null}
 	 */
 	public ParameterizedTypeInformation(ParameterizedType type, TypeDiscoverer<?> parent) {
-
 		super(type, parent, calculateTypeVariables(type, parent));
-
 		this.type = type;
 		this.resolved = Lazy.of(() -> isResolvedCompletely());
 	}
@@ -63,78 +61,59 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	@Override
 	@Nullable
 	protected TypeInformation<?> doGetMapValueType() {
-
 		if (Map.class.isAssignableFrom(getType())) {
-
 			Type[] arguments = this.type.getActualTypeArguments();
-
 			if (arguments.length > 1) {
 				return createInfo(arguments[1]);
 			}
 		}
-
 		Class<?> rawType = getType();
-
 		Set<Type> supertypes = new HashSet<>();
 		Optional.ofNullable(rawType.getGenericSuperclass()).ifPresent(supertypes::add);
 		supertypes.addAll(Arrays.asList(rawType.getGenericInterfaces()));
-
 		Optional<TypeInformation<?>> result = supertypes.stream()//
 				.map(it -> Pair.of(it, resolveType(it)))//
 				.filter(it -> Map.class.isAssignableFrom(it.getSecond()))//
 				.<TypeInformation<?>>map(it -> {
-
 					ParameterizedType parameterizedSupertype = (ParameterizedType) it.getFirst();
 					Type[] arguments = parameterizedSupertype.getActualTypeArguments();
 					return createInfo(arguments[1]);
 				}).findFirst();
-
 		return result.orElseGet(super::doGetMapValueType);
 	}
 
 	@Override
 	public List<TypeInformation<?>> getTypeArguments() {
-
 		List<TypeInformation<?>> result = new ArrayList<>();
-
 		for (Type argument : this.type.getActualTypeArguments()) {
 			result.add(createInfo(argument));
 		}
-
 		return result;
 	}
 
 	@Override
 	public boolean isAssignableFrom(TypeInformation<?> target) {
-
 		if (this.equals(target)) {
 			return true;
 		}
-
 		Class<T> rawType = getType();
 		Class<?> rawTargetType = target.getType();
-
 		if (!rawType.isAssignableFrom(rawTargetType)) {
 			return false;
 		}
-
 		TypeInformation<?> otherTypeInformation = rawType.equals(rawTargetType) ? target
 				: target.getSuperTypeInformation(rawType);
-
 		List<TypeInformation<?>> myParameters = getTypeArguments();
 		List<TypeInformation<?>> typeParameters = otherTypeInformation == null ? Collections.emptyList()
 				: otherTypeInformation.getTypeArguments();
-
 		if (myParameters.size() != typeParameters.size()) {
 			return false;
 		}
-
 		for (int i = 0; i < myParameters.size(); i++) {
 			if (!myParameters.get(i).isAssignableFrom(typeParameters.get(i))) {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -147,17 +126,13 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	@Override
 	@SuppressWarnings("unchecked")
 	public TypeInformation<? extends T> specialize(ClassTypeInformation<?> type) {
-
 		if (isResolvedCompletely()) {
 			return (TypeInformation<? extends T>) type;
 		}
-
 		TypeInformation<?> asSupertype = type.getSuperTypeInformation(getType());
-
 		if (asSupertype == null || !ParameterizedTypeInformation.class.isInstance(asSupertype)) {
 			return super.specialize(type);
 		}
-
 		return ((ParameterizedTypeInformation<?>) asSupertype).isResolvedCompletely() //
 				? (TypeInformation<? extends T>) type //
 				: super.specialize(type);
@@ -165,21 +140,16 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (obj == this) {
 			return true;
 		}
-
 		if (!(obj instanceof ParameterizedTypeInformation)) {
 			return false;
 		}
-
 		ParameterizedTypeInformation<?> that = (ParameterizedTypeInformation<?>) obj;
-
 		if (this.isResolved() && that.isResolved()) {
 			return this.type.equals(that.type);
 		}
-
 		return super.equals(obj);
 	}
 
@@ -190,7 +160,6 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 
 	@Override
 	public String toString() {
-
 		return String.format("%s<%s>", getType().getName(),
 				StringUtils.collectionToCommaDelimitedString(getTypeArguments()));
 	}
@@ -200,28 +169,21 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	}
 
 	private boolean isResolvedCompletely() {
-
 		Type[] typeArguments = this.type.getActualTypeArguments();
-
 		if (typeArguments.length == 0) {
 			return false;
 		}
-
 		for (Type typeArgument : typeArguments) {
-
 			TypeInformation<?> info = createInfo(typeArgument);
-
 			if (info instanceof ParameterizedTypeInformation) {
 				if (!((ParameterizedTypeInformation<?>) info).isResolvedCompletely()) {
 					return false;
 				}
 			}
-
 			if (!(info instanceof ClassTypeInformation)) {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -233,17 +195,13 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	 * @return will never be {@literal null}.
 	 */
 	private static Map<TypeVariable<?>, Type> calculateTypeVariables(ParameterizedType type, TypeDiscoverer<?> parent) {
-
 		Class<?> resolvedType = parent.resolveType(type);
 		TypeVariable<?>[] typeParameters = resolvedType.getTypeParameters();
 		Type[] arguments = type.getActualTypeArguments();
-
 		Map<TypeVariable<?>, Type> localTypeVariables = new HashMap<>(parent.getTypeVariableMap());
-
 		IntStream.range(0, typeParameters.length) //
 				.mapToObj(it -> Pair.of(typeParameters[it], flattenTypeVariable(arguments[it], localTypeVariables))) //
 				.forEach(it -> localTypeVariables.put(it.getFirst(), it.getSecond()));
-
 		return localTypeVariables;
 	}
 
@@ -255,13 +213,10 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 	 * @return will never be {@literal null}.
 	 */
 	private static Type flattenTypeVariable(Type source, Map<TypeVariable<?>, Type> variables) {
-
 		if (!(source instanceof TypeVariable)) {
 			return source;
 		}
-
 		Type value = variables.get(source);
-
 		return value == null ? source : flattenTypeVariable(value, variables);
 	}
 

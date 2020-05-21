@@ -108,50 +108,39 @@ public abstract class QueryExecutionConverters {
 	private static final Map<Class<?>, Boolean> SUPPORTS_CACHE = new ConcurrentReferenceHashMap<>();
 
 	static {
-
 		WRAPPER_TYPES.add(WrapperType.singleValue(Future.class));
 		UNWRAPPER_TYPES.add(WrapperType.singleValue(Future.class));
 		WRAPPER_TYPES.add(WrapperType.singleValue(ListenableFuture.class));
 		UNWRAPPER_TYPES.add(WrapperType.singleValue(ListenableFuture.class));
-
 		ALLOWED_PAGEABLE_TYPES.add(Slice.class);
 		ALLOWED_PAGEABLE_TYPES.add(Page.class);
 		ALLOWED_PAGEABLE_TYPES.add(List.class);
-
 		if (GUAVA_PRESENT) {
 			WRAPPER_TYPES.add(NullableWrapperToGuavaOptionalConverter.getWrapperType());
 			UNWRAPPER_TYPES.add(NullableWrapperToGuavaOptionalConverter.getWrapperType());
 			UNWRAPPERS.add(GuavaOptionalUnwrapper.INSTANCE);
 		}
-
 		if (JDK_8_PRESENT) {
 			WRAPPER_TYPES.add(NullableWrapperToJdk8OptionalConverter.getWrapperType());
 			UNWRAPPER_TYPES.add(NullableWrapperToJdk8OptionalConverter.getWrapperType());
 			UNWRAPPERS.add(Jdk8OptionalUnwrapper.INSTANCE);
 		}
-
 		if (JDK_8_PRESENT) {
 			WRAPPER_TYPES.add(NullableWrapperToCompletableFutureConverter.getWrapperType());
 			UNWRAPPER_TYPES.add(NullableWrapperToCompletableFutureConverter.getWrapperType());
 		}
-
 		if (SCALA_PRESENT) {
 			WRAPPER_TYPES.add(NullableWrapperToScalaOptionConverter.getWrapperType());
 			UNWRAPPER_TYPES.add(NullableWrapperToScalaOptionConverter.getWrapperType());
 			UNWRAPPERS.add(ScalOptionUnwrapper.INSTANCE);
 		}
-
 		if (VAVR_PRESENT) {
-
 			WRAPPER_TYPES.add(NullableWrapperToVavrOptionConverter.getWrapperType());
 			WRAPPER_TYPES.add(VavrCollections.ToJavaConverter.INSTANCE.getWrapperType());
-
 			UNWRAPPERS.add(VavrOptionUnwrapper.INSTANCE);
-
 			// Try support
 			WRAPPER_TYPES.add(WrapperType.singleValue(io.vavr.control.Try.class));
 			EXECUTION_ADAPTER.put(io.vavr.control.Try.class, it -> io.vavr.control.Try.of(it::get));
-
 			ALLOWED_PAGEABLE_TYPES.add(io.vavr.collection.Seq.class);
 		}
 	}
@@ -165,21 +154,16 @@ public abstract class QueryExecutionConverters {
 	 * @return
 	 */
 	public static boolean supports(Class<?> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		return SUPPORTS_CACHE.computeIfAbsent(type, key -> {
-
 			for (WrapperType candidate : WRAPPER_TYPES) {
 				if (candidate.getType().isAssignableFrom(key)) {
 					return true;
 				}
 			}
-
 			if (ReactiveWrappers.supports(type)) {
 				return true;
 			}
-
 			return false;
 		});
 	}
@@ -190,30 +174,24 @@ public abstract class QueryExecutionConverters {
 	 * @return
 	 */
 	public static boolean supportsUnwrapping(Class<?> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		for (WrapperType candidate : UNWRAPPER_TYPES) {
 			if (candidate.getType().isAssignableFrom(type)) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	public static boolean isSingleValue(Class<?> type) {
-
 		for (WrapperType candidate : WRAPPER_TYPES) {
 			if (candidate.getType().isAssignableFrom(type)) {
 				return candidate.isSingleValue();
 			}
 		}
-
 		if (ReactiveWrappers.supports(type) && ReactiveWrappers.isSingleValueType(type)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -231,29 +209,22 @@ public abstract class QueryExecutionConverters {
 	 * @param conversionService must not be {@literal null}.
 	 */
 	public static void registerConvertersIn(ConfigurableConversionService conversionService) {
-
 		Assert.notNull(conversionService, "ConversionService must not be null!");
-
 		conversionService.removeConvertible(Collection.class, Object.class);
-
 		if (GUAVA_PRESENT) {
 			conversionService.addConverter(new NullableWrapperToGuavaOptionalConverter(conversionService));
 		}
-
 		if (JDK_8_PRESENT) {
 			conversionService.addConverter(new NullableWrapperToJdk8OptionalConverter(conversionService));
 			conversionService.addConverter(new NullableWrapperToCompletableFutureConverter(conversionService));
 		}
-
 		if (SCALA_PRESENT) {
 			conversionService.addConverter(new NullableWrapperToScalaOptionConverter(conversionService));
 		}
-
 		if (VAVR_PRESENT) {
 			conversionService.addConverter(new NullableWrapperToVavrOptionConverter(conversionService));
 			conversionService.addConverter(VavrCollections.FromJavaConverter.INSTANCE);
 		}
-
 		conversionService.addConverter(new NullableWrapperToFutureConverter(conversionService));
 		conversionService.addConverter(new IterableToStreamableConverter());
 	}
@@ -266,20 +237,15 @@ public abstract class QueryExecutionConverters {
 	 */
 	@Nullable
 	public static Object unwrap(@Nullable Object source) {
-
 		if (source == null || !supports(source.getClass())) {
 			return source;
 		}
-
 		for (Converter<Object, Object> converter : UNWRAPPERS) {
-
 			Object result = converter.convert(source);
-
 			if (result != source) {
 				return result;
 			}
 		}
-
 		return source;
 	}
 
@@ -290,18 +256,14 @@ public abstract class QueryExecutionConverters {
 	 * @return will never be {@literal null}.
 	 */
 	public static TypeInformation<?> unwrapWrapperTypes(TypeInformation<?> type) {
-
 		Assert.notNull(type, "type must not be null");
-
 		Class<?> rawType = type.getType();
-
 		boolean needToUnwrap = type.isCollectionLike() //
 				|| Slice.class.isAssignableFrom(rawType) //
 				|| GeoResults.class.isAssignableFrom(rawType) //
 				|| rawType.isArray() //
 				|| supports(rawType) //
 				|| Stream.class.isAssignableFrom(rawType);
-
 		return needToUnwrap ? unwrapWrapperTypes(type.getRequiredComponentType()) : type;
 	}
 
@@ -312,9 +274,7 @@ public abstract class QueryExecutionConverters {
 	 */
 	@Nullable
 	public static ExecutionAdapter getExecutionAdapter(Class<?> returnType) {
-
 		Assert.notNull(returnType, "Return type must not be null!");
-
 		return EXECUTION_ADAPTER.get(returnType);
 	}
 
@@ -351,10 +311,8 @@ public abstract class QueryExecutionConverters {
 		 * @param nullValue must not be {@literal null}.
 		 */
 		protected AbstractWrapperTypeConverter(ConversionService conversionService, Object nullValue) {
-
 			Assert.notNull(conversionService, "ConversionService must not be null!");
 			Assert.notNull(nullValue, "Null value must not be null!");
-
 			this.conversionService = conversionService;
 			this.nullValue = nullValue;
 			this.wrapperTypes = Collections.singleton(nullValue.getClass());
@@ -369,7 +327,6 @@ public abstract class QueryExecutionConverters {
 
 		@Override
 		public Set<ConvertiblePair> getConvertibleTypes() {
-
 			return Streamable.of(this.wrapperTypes)//
 					.map(it -> new ConvertiblePair(NullableWrapper.class, it))//
 					.stream().collect(StreamUtils.toUnmodifiableSet());
@@ -386,14 +343,11 @@ public abstract class QueryExecutionConverters {
 		@Nullable
 		@Override
 		public final Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-
 			if (source == null) {
 				return null;
 			}
-
 			NullableWrapper wrapper = (NullableWrapper) source;
 			Object value = wrapper.getValue();
-
 			// TODO: Add Recursive conversion once we move to Spring 4
 			return value == null ? this.nullValue : wrap(value);
 		}
@@ -614,11 +568,13 @@ public abstract class QueryExecutionConverters {
 		INSTANCE;
 
 		private final Function0<Object> alternative = new AbstractFunction0<Object>() {
+
 			@Nullable
 			@Override
 			public Option<Object> apply() {
 				return null;
 			}
+
 		};
 
 		@Nullable
@@ -643,15 +599,12 @@ public abstract class QueryExecutionConverters {
 		@Override
 		@SuppressWarnings("unchecked")
 		public Object convert(Object source) {
-
 			if (source instanceof io.vavr.control.Option) {
 				return ((io.vavr.control.Option<Object>) source).getOrElse(() -> null);
 			}
-
 			if (source instanceof io.vavr.collection.Traversable) {
 				return VavrCollections.ToJavaConverter.INSTANCE.convert(source);
 			}
-
 			return source;
 		}
 
@@ -684,19 +637,15 @@ public abstract class QueryExecutionConverters {
 		 */
 		@Override
 		public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-
 			if (sourceType.isAssignableTo(targetType)) {
 				return false;
 			}
-
 			if (!Iterable.class.isAssignableFrom(sourceType.getType())) {
 				return false;
 			}
-
 			if (Streamable.class.equals(targetType.getType())) {
 				return true;
 			}
-
 			return this.TARGET_TYPE_CACHE.computeIfAbsent(targetType, it -> {
 				return this.conversionService.canConvert(STREAMABLE, targetType);
 			});
@@ -714,11 +663,9 @@ public abstract class QueryExecutionConverters {
 		@Nullable
 		@Override
 		public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-
 			Streamable<Object> streamable = source == null //
 					? Streamable.empty() //
 					: Streamable.of(Iterable.class.cast(source));
-
 			return Streamable.class.equals(targetType.getType()) //
 					? streamable //
 					: this.conversionService.convert(streamable, STREAMABLE, targetType);
@@ -743,21 +690,16 @@ public abstract class QueryExecutionConverters {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof WrapperType)) {
 				return false;
 			}
-
 			WrapperType that = (WrapperType) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.type, that.type)) {
 				return false;
 			}
-
 			return this.cardinality == that.cardinality;
 		}
 

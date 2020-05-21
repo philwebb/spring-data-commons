@@ -49,12 +49,9 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 	 * @param mappingContext must not be {@literal null}.
 	 */
 	public MappingContextTypeInformationMapper(MappingContext<? extends PersistentEntity<?, ?>, ?> mappingContext) {
-
 		Assert.notNull(mappingContext, "MappingContext must not be null!");
-
 		this.typeMap = new ConcurrentHashMap<>();
 		this.mappingContext = mappingContext;
-
 		for (PersistentEntity<?, ?> entity : mappingContext.getPersistentEntities()) {
 			verify(entity.getTypeInformation().getRawTypeInformation(), entity.getTypeAlias());
 		}
@@ -62,15 +59,11 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 
 	@Override
 	public Alias createAliasFor(TypeInformation<?> type) {
-
 		return this.typeMap.computeIfAbsent(type.getRawTypeInformation(), key -> {
-
 			PersistentEntity<?, ?> entity = this.mappingContext.getPersistentEntity(key);
-
 			if (entity == null || entity.getTypeAlias() == null) {
 				return Alias.NONE;
 			}
-
 			return verify(key, entity.getTypeAlias());
 		});
 	}
@@ -81,52 +74,39 @@ public class MappingContextTypeInformationMapper implements TypeInformationMappe
 	 * @param alias can be {@literal null}.
 	 */
 	private Alias verify(ClassTypeInformation<?> key, Alias alias) {
-
 		// Reject second alias for same type
-
 		Alias existingAlias = this.typeMap.getOrDefault(key, Alias.NONE);
-
 		if (existingAlias.isPresentButDifferent(alias)) {
-
 			throw new IllegalArgumentException(
 					String.format("Trying to register alias '%s', but found already registered alias '%s' for type %s!",
 							alias, existingAlias, key));
 		}
-
 		// Reject second type for same alias
-
 		if (this.typeMap.containsValue(alias)) {
-
 			this.typeMap.entrySet().stream()//
 					.filter(it -> it.getValue().hasSamePresentValueAs(alias) && !it.getKey().equals(key))//
 					.findFirst().ifPresent(it -> {
-
 						throw new IllegalArgumentException(String.format(
 								"Detected existing type mapping of %s to alias '%s' but attempted to bind the same alias to %s!",
 								key, alias, it.getKey()));
 					});
 		}
-
 		return alias;
 	}
 
 	@Nullable
 	@Override
 	public TypeInformation<?> resolveTypeFrom(Alias alias) {
-
 		for (Entry<ClassTypeInformation<?>, Alias> entry : this.typeMap.entrySet()) {
 			if (entry.getValue().hasSamePresentValueAs(alias)) {
 				return entry.getKey();
 			}
 		}
-
 		for (PersistentEntity<?, ?> entity : this.mappingContext.getPersistentEntities()) {
-
 			if (entity.getTypeAlias().hasSamePresentValueAs(alias)) {
 				return entity.getTypeInformation().getRawTypeInformation();
 			}
 		}
-
 		return null;
 	}
 

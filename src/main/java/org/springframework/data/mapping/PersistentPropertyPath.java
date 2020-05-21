@@ -71,13 +71,10 @@ public interface PersistentPropertyPath<P extends PersistentProperty<P>> extends
 	P getLeafProperty();
 
 	default P getRequiredLeafProperty() {
-
 		P property = getLeafProperty();
-
 		if (property == null) {
 			throw new IllegalStateException("No leaf property found!");
 		}
-
 		return property;
 	}
 

@@ -44,12 +44,9 @@ public class QueryMethodParameterConversionException extends RuntimeException {
 	 */
 	public QueryMethodParameterConversionException(Object source, MethodParameter parameter,
 			ConversionException cause) {
-
 		super(String.format("Failed to convert %s into %s!", source, parameter.getParameterType().getName()), cause);
-
 		Assert.notNull(parameter, "Method parameter must not be null!");
 		Assert.notNull(cause, "ConversionException must not be null!");
-
 		this.parameter = parameter;
 		this.source = source;
 	}

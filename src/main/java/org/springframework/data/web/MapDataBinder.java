@@ -68,9 +68,7 @@ class MapDataBinder extends WebDataBinder {
 	 * values.
 	 */
 	public MapDataBinder(Class<?> type, ConversionService conversionService) {
-
 		super(new HashMap<String, Object>());
-
 		this.type = type;
 		this.conversionService = conversionService;
 	}
@@ -79,13 +77,10 @@ class MapDataBinder extends WebDataBinder {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> getTarget() {
-
 		Object target = super.getTarget();
-
 		if (target == null) {
 			throw new IllegalStateException("Target bean should never be null!");
 		}
-
 		return (Map<String, Object>) target;
 	}
 
@@ -113,7 +108,6 @@ class MapDataBinder extends WebDataBinder {
 		private final ConversionService conversionService;
 
 		public MapPropertyAccessor(Class<?> type, Map<String, Object> map, ConversionService conversionService) {
-
 			this.type = type;
 			this.map = map;
 			this.conversionService = conversionService;
@@ -126,7 +120,6 @@ class MapDataBinder extends WebDataBinder {
 
 		@Override
 		public boolean isWritableProperty(String propertyName) {
-
 			try {
 				return getPropertyPath(propertyName) != null;
 			}
@@ -156,46 +149,34 @@ class MapDataBinder extends WebDataBinder {
 		 */
 		@Override
 		public void setPropertyValue(String propertyName, @Nullable Object value) throws BeansException {
-
 			if (!isWritableProperty(propertyName)) {
 				throw new NotWritablePropertyException(this.type, propertyName);
 			}
-
 			PropertyPath leafProperty = getPropertyPath(propertyName).getLeafProperty();
 			TypeInformation<?> owningType = leafProperty.getOwningType();
 			TypeInformation<?> propertyType = leafProperty.getTypeInformation();
-
 			propertyType = propertyName.endsWith("]") ? propertyType.getActualType() : propertyType;
-
 			if (propertyType != null && conversionRequired(value, propertyType.getType())) {
-
 				PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(owningType.getType(),
 						leafProperty.getSegment());
-
 				if (descriptor == null) {
 					throw new IllegalStateException(String.format("Couldn't find PropertyDescriptor for %s on %s!",
 							leafProperty.getSegment(), owningType.getType()));
 				}
-
 				MethodParameter methodParameter = new MethodParameter(descriptor.getReadMethod(), -1);
 				TypeDescriptor typeDescriptor = TypeDescriptor.nested(methodParameter, 0);
-
 				if (typeDescriptor == null) {
 					throw new IllegalStateException(
 							String.format("Couldn't obtain type descriptor for method parameter %s!", methodParameter));
 				}
-
 				value = this.conversionService.convert(value, TypeDescriptor.forObject(value), typeDescriptor);
 			}
-
 			EvaluationContext context = SimpleEvaluationContext //
 					.forPropertyAccessors(new PropertyTraversingMapAccessor(this.type, this.conversionService)) //
 					.withConversionService(this.conversionService) //
 					.withRootObject(this.map) //
 					.build();
-
 			Expression expression = PARSER.parseExpression(propertyName);
-
 			try {
 				expression.setValue(context, value);
 			}
@@ -205,16 +186,13 @@ class MapDataBinder extends WebDataBinder {
 		}
 
 		private boolean conversionRequired(@Nullable Object source, Class<?> targetType) {
-
 			if (source == null || targetType.isInstance(source)) {
 				return false;
 			}
-
 			return this.conversionService.canConvert(source.getClass(), targetType);
 		}
 
 		private PropertyPath getPropertyPath(String propertyName) {
-
 			String plainPropertyPath = propertyName.replaceAll("\\[.*?\\]", "");
 			return PropertyPath.from(plainPropertyPath, this.type);
 		}
@@ -239,10 +217,8 @@ class MapDataBinder extends WebDataBinder {
 			 * @param conversionService must not be {@literal null}.
 			 */
 			public PropertyTraversingMapAccessor(Class<?> type, ConversionService conversionService) {
-
 				Assert.notNull(type, "Type must not be null!");
 				Assert.notNull(conversionService, "ConversionService must not be null!");
-
 				this.type = type;
 				this.conversionService = conversionService;
 			}
@@ -271,23 +247,17 @@ class MapDataBinder extends WebDataBinder {
 			@SuppressWarnings("unchecked")
 			public TypedValue read(EvaluationContext context, @Nullable Object target, String name)
 					throws AccessException {
-
 				if (target == null) {
 					return TypedValue.NULL;
 				}
-
 				PropertyPath path = PropertyPath.from(name, this.type);
-
 				try {
 					return super.read(context, target, name);
 				}
 				catch (AccessException o_O) {
-
 					Object emptyResult = path.isCollection() ? CollectionFactory.createCollection(List.class, 0)
 							: CollectionFactory.createMap(Map.class, 0);
-
 					((Map<String, Object>) target).put(name, emptyResult);
-
 					return new TypedValue(emptyResult, getDescriptor(path, emptyResult));
 				}
 				finally {
@@ -303,16 +273,12 @@ class MapDataBinder extends WebDataBinder {
 			 * @return
 			 */
 			private TypeDescriptor getDescriptor(PropertyPath path, Object emptyValue) {
-
 				Class<?> actualPropertyType = path.getType();
-
 				TypeDescriptor valueDescriptor = this.conversionService.canConvert(String.class, actualPropertyType)
 						? TypeDescriptor.valueOf(String.class) : TypeDescriptor.valueOf(HashMap.class);
-
 				return path.isCollection() ? TypeDescriptor.collection(emptyValue.getClass(), valueDescriptor)
 						: TypeDescriptor.map(emptyValue.getClass(), TypeDescriptor.valueOf(String.class),
 								valueDescriptor);
-
 			}
 
 		}

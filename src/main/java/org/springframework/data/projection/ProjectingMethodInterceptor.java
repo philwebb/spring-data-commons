@@ -56,7 +56,6 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 
 	ProjectingMethodInterceptor(ProjectionFactory factory, MethodInterceptor delegate,
 			ConversionService conversionService) {
-
 		this.factory = factory;
 		this.delegate = delegate;
 		this.conversionService = conversionService;
@@ -65,16 +64,12 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") @Nonnull MethodInvocation invocation) throws Throwable {
-
 		Object result = this.delegate.invoke(invocation);
-
 		if (result == null) {
 			return null;
 		}
-
 		TypeInformation<?> type = ClassTypeInformation.fromReturnTypeOf(invocation.getMethod());
 		Class<?> rawType = type.getType();
-
 		if (type.isCollectionLike() && !ClassUtils.isPrimitiveArray(rawType)) {
 			return projectCollectionElements(asCollection(result), type);
 		}
@@ -97,21 +92,17 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	 * @return
 	 */
 	private Object projectCollectionElements(Collection<?> sources, TypeInformation<?> type) {
-
 		Class<?> rawType = type.getType();
 		TypeInformation<?> componentType = type.getComponentType();
 		Collection<Object> result = CollectionFactory.createCollection(rawType.isArray() ? List.class : rawType,
 				componentType != null ? componentType.getType() : null, sources.size());
-
 		for (Object source : sources) {
 			result.add(getProjection(source, type.getRequiredComponentType().getType()));
 		}
-
 		if (rawType.isArray()) {
 			return result
 					.toArray((Object[]) Array.newInstance(type.getRequiredComponentType().getType(), result.size()));
 		}
-
 		return result;
 	}
 
@@ -123,13 +114,10 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	 * @return
 	 */
 	private Map<Object, Object> projectMapValues(Map<?, ?> sources, TypeInformation<?> type) {
-
 		Map<Object, Object> result = CollectionFactory.createMap(type.getType(), sources.size());
-
 		for (Entry<?, ?> source : sources.entrySet()) {
 			result.put(source.getKey(), getProjection(source.getValue(), type.getRequiredMapValueType().getType()));
 		}
-
 		return result;
 	}
 
@@ -147,11 +135,9 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	 * @return
 	 */
 	private boolean conversionRequiredAndPossible(Object source, Class<?> targetType) {
-
 		if (source == null || targetType.isInstance(source)) {
 			return false;
 		}
-
 		return this.conversionService.canConvert(source.getClass(), targetType);
 	}
 
@@ -162,9 +148,7 @@ class ProjectingMethodInterceptor implements MethodInterceptor {
 	 * @return
 	 */
 	private static Collection<?> asCollection(Object source) {
-
 		Assert.notNull(source, "Source object must not be null!");
-
 		if (source instanceof Collection) {
 			return (Collection<?>) source;
 		}

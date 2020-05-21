@@ -36,10 +36,8 @@ public final class GeoResult<T> implements Serializable {
 	private final Distance distance;
 
 	public GeoResult(T content, Distance distance) {
-
 		Assert.notNull(content, "Content must not be null");
 		Assert.notNull(distance, "Distance must not be null");
-
 		this.content = content;
 		this.distance = distance;
 	}
@@ -54,21 +52,16 @@ public final class GeoResult<T> implements Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof GeoResult)) {
 			return false;
 		}
-
 		GeoResult<?> geoResult = (GeoResult<?>) o;
-
 		if (!ObjectUtils.nullSafeEquals(this.content, geoResult.content)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.distance, geoResult.distance);
 	}
 

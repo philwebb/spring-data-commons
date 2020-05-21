@@ -58,9 +58,7 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 	 * are found.
 	 */
 	public AnnotationDetectionMethodCallback(Class<A> annotationType, boolean enforceUniqueness) {
-
 		Assert.notNull(annotationType, "Annotation type must not be null!");
-
 		this.annotationType = annotationType;
 		this.enforceUniqueness = enforceUniqueness;
 	}
@@ -80,13 +78,10 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 	 * found.
 	 */
 	public Method getRequiredMethod() {
-
 		Method method = this.foundMethod;
-
 		if (method == null) {
 			throw new IllegalStateException(String.format("No method with annotation %s found!", this.annotationType));
 		}
-
 		return method;
 	}
 
@@ -108,20 +103,15 @@ public class AnnotationDetectionMethodCallback<A extends Annotation> implements 
 
 	@Override
 	public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
-
 		if (this.foundMethod != null && !this.enforceUniqueness) {
 			return;
 		}
-
 		A foundAnnotation = AnnotatedElementUtils.findMergedAnnotation(method, this.annotationType);
-
 		if (foundAnnotation != null) {
-
 			if (this.foundMethod != null && this.enforceUniqueness) {
 				throw new IllegalStateException(
 						String.format(MULTIPLE_FOUND, foundAnnotation.getClass().getName(), this.foundMethod, method));
 			}
-
 			this.annotation = foundAnnotation;
 			this.foundMethod = method;
 		}

@@ -61,7 +61,6 @@ public abstract class ThreeTenBackPortConverters {
 	private static final Collection<Class<?>> SUPPORTED_TYPES;
 
 	static {
-
 		SUPPORTED_TYPES = THREE_TEN_BACK_PORT_IS_PRESENT //
 				? Arrays.asList(LocalDateTime.class, LocalDate.class, LocalTime.class, Instant.class,
 						java.time.Instant.class)
@@ -74,11 +73,9 @@ public abstract class ThreeTenBackPortConverters {
 	 * @return
 	 */
 	public static Collection<Converter<?, ?>> getConvertersToRegister() {
-
 		if (!THREE_TEN_BACK_PORT_IS_PRESENT) {
 			return Collections.emptySet();
 		}
-
 		List<Converter<?, ?>> converters = new ArrayList<>();
 		converters.add(DateToLocalDateTimeConverter.INSTANCE);
 		converters.add(LocalDateTimeToDateConverter.INSTANCE);
@@ -93,7 +90,6 @@ public abstract class ThreeTenBackPortConverters {
 		converters.add(LocalDateTimeToJsr310LocalDateTimeConverter.INSTANCE);
 		converters.add(LocalDateTimeToJavaTimeInstantConverter.INSTANCE);
 		converters.add(JavaTimeInstantToLocalDateTimeConverter.INSTANCE);
-
 		return converters;
 	}
 
@@ -110,9 +106,7 @@ public abstract class ThreeTenBackPortConverters {
 		@Nonnull
 		@Override
 		public java.time.LocalDateTime convert(LocalDateTime source) {
-
 			Date date = toDate(source.atZone(ZoneId.systemDefault()).toInstant());
-
 			return Jsr310Converters.DateToLocalDateTimeConverter.INSTANCE.convert(date);
 		}
 

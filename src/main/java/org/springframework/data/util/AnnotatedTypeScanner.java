@@ -63,7 +63,6 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 	 */
 	@SafeVarargs
 	public AnnotatedTypeScanner(boolean considerInterfaces, Class<? extends Annotation>... annotationTypes) {
-
 		this.annotationTypess = Arrays.asList(annotationTypes);
 		this.considerInterfaces = considerInterfaces;
 	}
@@ -83,37 +82,26 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 	}
 
 	public Set<Class<?>> findTypes(Iterable<String> basePackages) {
-
 		ClassPathScanningCandidateComponentProvider provider = new InterfaceAwareScanner(this.considerInterfaces);
-
 		if (this.resourceLoader != null) {
 			provider.setResourceLoader(this.resourceLoader);
 		}
-
 		if (this.environment != null) {
 			provider.setEnvironment(this.environment);
 		}
-
 		for (Class<? extends Annotation> annotationType : this.annotationTypess) {
 			provider.addIncludeFilter(new AnnotationTypeFilter(annotationType, true, this.considerInterfaces));
 		}
-
 		Set<Class<?>> types = new HashSet<>();
-
 		ResourceLoader loader = this.resourceLoader;
 		ClassLoader classLoader = loader == null ? null : loader.getClassLoader();
-
 		for (String basePackage : basePackages) {
-
 			for (BeanDefinition definition : provider.findCandidateComponents(basePackage)) {
-
 				String beanClassName = definition.getBeanClassName();
-
 				if (beanClassName == null) {
 					throw new IllegalStateException(
 							String.format("Unable to obtain bean class name from bean definition %s!", definition));
 				}
-
 				try {
 					types.add(ClassUtils.forName(beanClassName, classLoader));
 				}
@@ -122,7 +110,6 @@ public class AnnotatedTypeScanner implements ResourceLoaderAware, EnvironmentAwa
 				}
 			}
 		}
-
 		return types;
 	}
 

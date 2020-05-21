@@ -54,14 +54,11 @@ public class InvalidPersistentPropertyPath extends MappingException {
 	 */
 	public InvalidPersistentPropertyPath(String source, TypeInformation<?> type, String unresolvableSegment,
 			PersistentPropertyPath<? extends PersistentProperty<?>> resolvedPath) {
-
 		super(createMessage(resolvedPath.isEmpty() ? type : resolvedPath.getRequiredLeafProperty().getTypeInformation(),
 				unresolvableSegment));
-
 		Assert.notNull(source, "Source property path must not be null!");
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(unresolvableSegment, "Unresolvable segment must not be null!");
-
 		this.source = source;
 		this.type = type;
 		this.unresolvableSegment = unresolvableSegment;
@@ -102,30 +99,23 @@ public class InvalidPersistentPropertyPath extends MappingException {
 	}
 
 	private static String toDotPathOrEmpty(@Nullable PersistentPropertyPath<? extends PersistentProperty<?>> path) {
-
 		if (path == null) {
 			return "";
 		}
-
 		String dotPath = path.toDotPath();
-
 		return dotPath == null ? "" : dotPath;
 	}
 
 	private static String createMessage(TypeInformation<?> type, String unresolvableSegment) {
-
 		Set<String> potentialMatches = detectPotentialMatches(unresolvableSegment, type.getType());
 		Object match = StringUtils.collectionToCommaDelimitedString(potentialMatches);
-
 		return String.format(DEFAULT_MESSAGE, unresolvableSegment, type.getType(), match);
 	}
 
 	private static Set<String> detectPotentialMatches(String propertyName, Class<?> type) {
-
 		Set<String> result = new HashSet<>();
 		result.addAll(Arrays.asList(PropertyMatches.forField(propertyName, type).getPossibleMatches()));
 		result.addAll(Arrays.asList(PropertyMatches.forProperty(propertyName, type).getPossibleMatches()));
-
 		return result;
 	}
 

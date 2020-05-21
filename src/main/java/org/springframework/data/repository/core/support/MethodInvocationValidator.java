@@ -59,7 +59,6 @@ public class MethodInvocationValidator implements MethodInterceptor {
 	 * interceptor.
 	 */
 	public static boolean supports(Class<?> repositoryInterface) {
-
 		return ReflectionUtils.isSupportedKotlinClass(repositoryInterface)
 				|| NullableUtils.isNonNull(repositoryInterface, ElementType.METHOD)
 				|| NullableUtils.isNonNull(repositoryInterface, ElementType.PARAMETER);
@@ -68,37 +67,27 @@ public class MethodInvocationValidator implements MethodInterceptor {
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 		Method method = invocation.getMethod();
 		Nullability nullability = this.nullabilityCache.get(method);
-
 		if (nullability == null) {
-
 			nullability = Nullability.of(method, this.discoverer);
 			this.nullabilityCache.put(method, nullability);
 		}
-
 		Object[] arguments = invocation.getArguments();
-
 		for (int i = 0; i < method.getParameterCount(); i++) {
-
 			if (nullability.isNullableParameter(i)) {
 				continue;
 			}
-
 			if (arguments.length < i || arguments[i] == null) {
 				throw new IllegalArgumentException(
 						String.format("Parameter %s in %s.%s must not be null!", nullability.getMethodParameterName(i),
 								ClassUtils.getShortName(method.getDeclaringClass()), method.getName()));
 			}
 		}
-
 		Object result = invocation.proceed();
-
 		if (result == null && !nullability.isNullableReturn()) {
 			throw new EmptyResultDataAccessException("Result must not be null!", 1);
 		}
-
 		return result;
 	}
 
@@ -117,31 +106,24 @@ public class MethodInvocationValidator implements MethodInterceptor {
 		}
 
 		static Nullability of(Method method, ParameterNameDiscoverer discoverer) {
-
 			boolean nullableReturn = isNullableParameter(new MethodParameter(method, -1));
 			boolean[] nullableParameters = new boolean[method.getParameterCount()];
 			MethodParameter[] methodParameters = new MethodParameter[method.getParameterCount()];
-
 			for (int i = 0; i < method.getParameterCount(); i++) {
-
 				MethodParameter parameter = new MethodParameter(method, i);
 				parameter.initParameterNameDiscovery(discoverer);
 				nullableParameters[i] = isNullableParameter(parameter);
 				methodParameters[i] = parameter;
 			}
-
 			return new Nullability(nullableReturn, nullableParameters, methodParameters);
 		}
 
 		String getMethodParameterName(int index) {
-
 			String parameterName = this.methodParameters[index].getParameterName();
-
 			if (parameterName == null) {
 				parameterName = String.format("of type %s at index %d",
 						ClassUtils.getShortName(this.methodParameters[index].getParameterType()), index);
 			}
-
 			return parameterName;
 		}
 
@@ -154,7 +136,6 @@ public class MethodInvocationValidator implements MethodInterceptor {
 		}
 
 		private static boolean isNullableParameter(MethodParameter parameter) {
-
 			return requiresNoValue(parameter) || NullableUtils.isExplicitNullable(parameter)
 					|| (ReflectionUtils.isSupportedKotlinClass(parameter.getDeclaringClass())
 							&& ReflectionUtils.isNullable(parameter));
@@ -174,25 +155,19 @@ public class MethodInvocationValidator implements MethodInterceptor {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof Nullability)) {
 				return false;
 			}
-
 			Nullability that = (Nullability) o;
-
 			if (this.nullableReturn != that.nullableReturn) {
 				return false;
 			}
-
 			if (!ObjectUtils.nullSafeEquals(this.nullableParameters, that.nullableParameters)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.methodParameters, that.methodParameters);
 		}
 

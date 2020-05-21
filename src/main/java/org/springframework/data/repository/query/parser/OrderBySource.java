@@ -70,29 +70,21 @@ class OrderBySource {
 	 * @param domainClass must not be {@literal null}.
 	 */
 	OrderBySource(String clause, Optional<Class<?>> domainClass) {
-
 		this.orders = new ArrayList<>();
-
 		if (!StringUtils.hasText(clause)) {
 			return;
 		}
-
 		for (String part : clause.split(BLOCK_SPLIT)) {
-
 			Matcher matcher = DIRECTION_SPLIT.matcher(part);
-
 			if (!matcher.find()) {
 				throw new IllegalArgumentException(String.format(INVALID_ORDER_SYNTAX, part));
 			}
-
 			String propertyString = matcher.group(1);
 			String directionString = matcher.group(2);
-
 			// No property, but only a direction keyword
 			if (DIRECTION_KEYWORDS.contains(propertyString) && directionString == null) {
 				throw new IllegalArgumentException(String.format(INVALID_ORDER_SYNTAX, part));
 			}
-
 			this.orders.add(createOrder(propertyString, Direction.fromOptionalString(directionString), domainClass));
 		}
 	}
@@ -108,9 +100,7 @@ class OrderBySource {
 	 * @see PropertyPath#from(String, Class)
 	 */
 	private Order createOrder(String propertySource, Optional<Direction> direction, Optional<Class<?>> domainClass) {
-
 		return domainClass.map(type -> {
-
 			PropertyPath propertyPath = PropertyPath.from(propertySource, type);
 			return direction.map(it -> new Order(it, propertyPath.toDotPath()))
 					.orElseGet(() -> Order.by(propertyPath.toDotPath()));

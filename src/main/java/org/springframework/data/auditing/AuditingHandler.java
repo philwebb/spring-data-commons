@@ -73,9 +73,7 @@ public class AuditingHandler implements InitializingBean {
 	 * @since 1.10
 	 */
 	public AuditingHandler(PersistentEntities entities) {
-
 		Assert.notNull(entities, "PersistentEntities must not be null!");
-
 		this.factory = new MappingAuditableBeanWrapperFactory(entities);
 		this.auditorAware = Optional.empty();
 	}
@@ -85,7 +83,6 @@ public class AuditingHandler implements InitializingBean {
 	 * @param auditorAware must not be {@literal null}.
 	 */
 	public void setAuditorAware(AuditorAware<?> auditorAware) {
-
 		Assert.notNull(auditorAware, "AuditorAware must not be null!");
 		this.auditorAware = Optional.of(auditorAware);
 	}
@@ -124,9 +121,7 @@ public class AuditingHandler implements InitializingBean {
 	 * @param source
 	 */
 	public <T> T markCreated(T source) {
-
 		Assert.notNull(source, "Entity must not be null!");
-
 		return touch(source, true);
 	}
 
@@ -135,9 +130,7 @@ public class AuditingHandler implements InitializingBean {
 	 * @param source
 	 */
 	public <T> T markModified(T source) {
-
 		Assert.notNull(source, "Entity must not be null!");
-
 		return touch(source, false);
 	}
 
@@ -147,31 +140,21 @@ public class AuditingHandler implements InitializingBean {
 	 * @return
 	 */
 	protected final boolean isAuditable(Object source) {
-
 		Assert.notNull(source, "Source must not be null!");
-
 		return this.factory.getBeanWrapperFor(source).isPresent();
 	}
 
 	private <T> T touch(T target, boolean isNew) {
-
 		Optional<AuditableBeanWrapper<T>> wrapper = this.factory.getBeanWrapperFor(target);
-
 		return wrapper.map(it -> {
-
 			Optional<Object> auditor = touchAuditor(it, isNew);
 			Optional<TemporalAccessor> now = this.dateTimeForNow ? touchDate(it, isNew) : Optional.empty();
-
 			if (logger.isDebugEnabled()) {
-
 				Object defaultedNow = now.map(Object::toString).orElse("not set");
 				Object defaultedAuditor = auditor.map(Object::toString).orElse("unknown");
-
 				logger.debug("Touched {} - Last modification at {} by {}", target, defaultedNow, defaultedAuditor);
 			}
-
 			return it.getBean();
-
 		}).orElse(target);
 	}
 
@@ -182,19 +165,13 @@ public class AuditingHandler implements InitializingBean {
 	 * @return
 	 */
 	private Optional<Object> touchAuditor(AuditableBeanWrapper<?> wrapper, boolean isNew) {
-
 		Assert.notNull(wrapper, "AuditableBeanWrapper must not be null!");
-
 		return this.auditorAware.map(it -> {
-
 			Optional<?> auditor = it.getCurrentAuditor();
-
 			Assert.notNull(auditor,
 					() -> String.format("Auditor must not be null! Returned by: %s!", AopUtils.getTargetClass(it)));
-
 			auditor.filter(temporalAccessor -> isNew).ifPresent(wrapper::setCreatedBy);
 			auditor.filter(temporalAccessor -> !isNew || this.modifyOnCreation).ifPresent(wrapper::setLastModifiedBy);
-
 			return auditor;
 		});
 	}
@@ -206,23 +183,17 @@ public class AuditingHandler implements InitializingBean {
 	 * @return
 	 */
 	private Optional<TemporalAccessor> touchDate(AuditableBeanWrapper<?> wrapper, boolean isNew) {
-
 		Assert.notNull(wrapper, "AuditableBeanWrapper must not be null!");
-
 		Optional<TemporalAccessor> now = this.dateTimeProvider.getNow();
-
 		Assert.notNull(now,
 				() -> String.format("Now must not be null! Returned by: %s!", this.dateTimeProvider.getClass()));
-
 		now.filter(temporalAccessor -> isNew).ifPresent(wrapper::setCreatedDate);
 		now.filter(temporalAccessor -> !isNew || this.modifyOnCreation).ifPresent(wrapper::setLastModifiedDate);
-
 		return now;
 	}
 
 	@Override
 	public void afterPropertiesSet() {
-
 		if (!this.auditorAware.isPresent()) {
 			logger.debug("No AuditorAware set! Auditing will not be applied!");
 		}

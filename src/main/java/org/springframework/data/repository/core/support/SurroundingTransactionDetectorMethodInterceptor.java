@@ -50,9 +50,7 @@ public enum SurroundingTransactionDetectorMethodInterceptor implements MethodInt
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 		this.SURROUNDING_TX_ACTIVE.set(TransactionSynchronizationManager.isActualTransactionActive());
-
 		try {
 			return invocation.proceed();
 		}

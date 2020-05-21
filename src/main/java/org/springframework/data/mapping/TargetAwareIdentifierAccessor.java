@@ -34,13 +34,10 @@ public abstract class TargetAwareIdentifierAccessor implements IdentifierAccesso
 
 	@Override
 	public Object getRequiredIdentifier() {
-
 		Object identifier = getIdentifier();
-
 		if (identifier != null) {
 			return identifier;
 		}
-
 		throw new IllegalStateException(String.format("Could not obtain identifier from %s!", this.target));
 	}
 

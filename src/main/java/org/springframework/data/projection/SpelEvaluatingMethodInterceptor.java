@@ -73,24 +73,18 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 	 */
 	public SpelEvaluatingMethodInterceptor(MethodInterceptor delegate, Object target, @Nullable BeanFactory beanFactory,
 			SpelExpressionParser parser, Class<?> targetInterface) {
-
 		Assert.notNull(delegate, "Delegate MethodInterceptor must not be null!");
 		Assert.notNull(target, "Target object must not be null!");
 		Assert.notNull(parser, "SpelExpressionParser must not be null!");
 		Assert.notNull(targetInterface, "Target interface must not be null!");
-
 		StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
-
 		if (target instanceof Map) {
 			evaluationContext.addPropertyAccessor(new MapAccessor());
 		}
-
 		if (beanFactory != null) {
 			evaluationContext.setBeanResolver(new BeanFactoryResolver(beanFactory));
 		}
-
 		this.expressions = potentiallyCreateExpressionsForMethodsOnTargetInterface(parser, targetInterface);
-
 		this.evaluationContext = evaluationContext;
 		this.delegate = delegate;
 		this.target = target;
@@ -106,38 +100,28 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 	 */
 	private static Map<Integer, Expression> potentiallyCreateExpressionsForMethodsOnTargetInterface(
 			SpelExpressionParser parser, Class<?> targetInterface) {
-
 		Map<Integer, Expression> expressions = new HashMap<>();
-
 		for (Method method : targetInterface.getMethods()) {
-
 			if (!method.isAnnotationPresent(Value.class)) {
 				continue;
 			}
-
 			Value value = method.getAnnotation(Value.class);
-
 			if (!StringUtils.hasText(value.value())) {
 				throw new IllegalStateException(
 						String.format("@Value annotation on %s contains empty expression!", method));
 			}
-
 			expressions.put(method.hashCode(), parser.parseExpression(value.value(), PARSER_CONTEXT));
 		}
-
 		return Collections.unmodifiableMap(expressions);
 	}
 
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 		Expression expression = this.expressions.get(invocation.getMethod().hashCode());
-
 		if (expression == null) {
 			return this.delegate.invoke(invocation);
 		}
-
 		return expression.getValue(this.evaluationContext, TargetWrapper.of(this.target, invocation.getArguments()));
 	}
 
@@ -171,21 +155,16 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof TargetWrapper)) {
 				return false;
 			}
-
 			TargetWrapper that = (TargetWrapper) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.target, that.target)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.args, that.args);
 		}
 

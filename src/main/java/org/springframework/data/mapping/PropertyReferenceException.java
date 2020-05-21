@@ -61,11 +61,9 @@ public class PropertyReferenceException extends RuntimeException {
 	 */
 	public PropertyReferenceException(String propertyName, TypeInformation<?> type,
 			List<PropertyPath> alreadyResolvedPah) {
-
 		Assert.hasText(propertyName, "Property name must not be null!");
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(alreadyResolvedPah, "Already resolved paths must not be null!");
-
 		this.propertyName = propertyName;
 		this.type = type;
 		this.alreadyResolvedPath = alreadyResolvedPah;
@@ -99,22 +97,18 @@ public class PropertyReferenceException extends RuntimeException {
 
 	@Override
 	public String getMessage() {
-
 		StringBuilder builder = new StringBuilder(
 				String.format(ERROR_TEMPLATE, this.propertyName, this.type.getType().getSimpleName()));
-
 		Collection<String> potentialMatches = getPropertyMatches();
 		if (!potentialMatches.isEmpty()) {
 			String matches = StringUtils.collectionToDelimitedString(potentialMatches, ",", "'", "'");
 			builder.append(String.format(HINTS_TEMPLATE, matches));
 		}
-
 		if (!this.alreadyResolvedPath.isEmpty()) {
 			builder.append(" Traversed path: ");
 			builder.append(this.alreadyResolvedPath.get(0).toString());
 			builder.append(".");
 		}
-
 		return builder.toString();
 	}
 
@@ -146,11 +140,9 @@ public class PropertyReferenceException extends RuntimeException {
 	 * @return
 	 */
 	private static Set<String> detectPotentialMatches(String propertyName, Class<?> type) {
-
 		Set<String> result = new HashSet<>();
 		result.addAll(Arrays.asList(PropertyMatches.forField(propertyName, type).getPossibleMatches()));
 		result.addAll(Arrays.asList(PropertyMatches.forProperty(propertyName, type).getPossibleMatches()));
-
 		return result;
 	}
 

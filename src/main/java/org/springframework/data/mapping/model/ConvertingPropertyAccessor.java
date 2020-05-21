@@ -45,12 +45,9 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 	 * @param conversionService must not be {@literal null}.
 	 */
 	public ConvertingPropertyAccessor(PersistentPropertyAccessor<T> accessor, ConversionService conversionService) {
-
 		super(accessor);
-
 		Assert.notNull(accessor, "PersistentPropertyAccessor must not be null!");
 		Assert.notNull(conversionService, "ConversionService must not be null!");
-
 		this.accessor = accessor;
 		this.conversionService = conversionService;
 	}
@@ -74,9 +71,7 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 	 */
 	@Override
 	public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value) {
-
 		Object converted = convertIfNecessary(value, path.getRequiredLeafProperty().getType());
-
 		super.setProperty(path, converted);
 	}
 
@@ -89,10 +84,8 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 	 */
 	@Nullable
 	public <S> S getProperty(PersistentProperty<?> property, Class<S> targetType) {
-
 		Assert.notNull(property, "PersistentProperty must not be null!");
 		Assert.notNull(targetType, "Target type must not be null!");
-
 		return convertIfNecessary(getProperty(property), targetType);
 	}
 
@@ -119,7 +112,6 @@ public class ConvertingPropertyAccessor<T> extends SimplePersistentPropertyPathA
 	@Nullable
 	@SuppressWarnings("unchecked")
 	private <S> S convertIfNecessary(@Nullable Object source, Class<S> type) {
-
 		return (S) (source == null //
 				? null //
 				: type.isAssignableFrom(source.getClass()) //

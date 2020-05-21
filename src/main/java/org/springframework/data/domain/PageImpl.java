@@ -42,9 +42,7 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 	 * the last page. This is in place to mitigate inconsistencies.
 	 */
 	public PageImpl(List<T> content, Pageable pageable, long total) {
-
 		super(content, pageable);
-
 		this.total = pageable.toOptional().filter(it -> !content.isEmpty())//
 				.filter(it -> it.getOffset() + it.getPageSize() > total)//
 				.map(it -> it.getOffset() + content.size())//
@@ -87,41 +85,31 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 
 	@Override
 	public String toString() {
-
 		String contentType = "UNKNOWN";
 		List<T> content = getContent();
-
 		if (content.size() > 0) {
 			contentType = content.get(0).getClass().getName();
 		}
-
 		return String.format("Page %s of %d containing %s instances", getNumber() + 1, getTotalPages(), contentType);
 	}
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof PageImpl<?>)) {
 			return false;
 		}
-
 		PageImpl<?> that = (PageImpl<?>) obj;
-
 		return this.total == that.total && super.equals(obj);
 	}
 
 	@Override
 	public int hashCode() {
-
 		int result = 17;
-
 		result += 31 * (int) (this.total ^ this.total >>> 32);
 		result += 31 * super.hashCode();
-
 		return result;
 	}
 

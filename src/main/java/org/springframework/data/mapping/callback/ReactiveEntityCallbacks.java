@@ -57,7 +57,6 @@ public interface ReactiveEntityCallbacks {
 	 * {@link #addEntityCallback(EntityCallback) added}.
 	 */
 	static ReactiveEntityCallbacks create(EntityCallback<?>... callbacks) {
-
 		ReactiveEntityCallbacks entityCallbacks = create();
 		for (EntityCallback<?> callback : callbacks) {
 			entityCallbacks.addEntityCallback(callback);
@@ -84,7 +83,6 @@ public interface ReactiveEntityCallbacks {
 	 * @throws IllegalArgumentException if a required argument is {@literal null}.
 	 */
 	static ReactiveEntityCallbacks create(BeanFactory beanFactory) {
-
 		Assert.notNull(beanFactory, "Context must not be null!");
 		return new DefaultReactiveEntityCallbacks(beanFactory);
 	}

@@ -57,9 +57,7 @@ public class QSort extends Sort implements Serializable {
 	 */
 	@SuppressWarnings("deprecation")
 	public QSort(List<OrderSpecifier<?>> orderSpecifiers) {
-
 		super(toOrders(orderSpecifiers));
-
 		this.orderSpecifiers = orderSpecifiers;
 	}
 
@@ -77,9 +75,7 @@ public class QSort extends Sort implements Serializable {
 	 * @return
 	 */
 	private static List<Order> toOrders(List<OrderSpecifier<?>> orderSpecifiers) {
-
 		Assert.notNull(orderSpecifiers, "Order specifiers must not be null!");
-
 		return orderSpecifiers.stream().map(QSort::toOrder).collect(Collectors.toList());
 	}
 
@@ -89,15 +85,10 @@ public class QSort extends Sort implements Serializable {
 	 * @return
 	 */
 	private static Order toOrder(OrderSpecifier<?> orderSpecifier) {
-
 		Assert.notNull(orderSpecifier, "Order specifier must not be null!");
-
 		Expression<?> target = orderSpecifier.getTarget();
-
 		Object targetElement = target instanceof Path ? preparePropertyPath((Path<?>) target) : target;
-
 		Assert.notNull(targetElement, "Target element must not be null!");
-
 		return Order.by(targetElement.toString()).with(orderSpecifier.isAscending() ? Direction.ASC : Direction.DESC);
 	}
 
@@ -125,12 +116,9 @@ public class QSort extends Sort implements Serializable {
 	 * @return
 	 */
 	public QSort and(List<OrderSpecifier<?>> orderSpecifiers) {
-
 		Assert.notEmpty(orderSpecifiers, "OrderSpecifiers must not be null or empty!");
-
 		List<OrderSpecifier<?>> newOrderSpecifiers = new ArrayList<>(this.orderSpecifiers);
 		newOrderSpecifiers.addAll(orderSpecifiers);
-
 		return new QSort(newOrderSpecifiers);
 	}
 
@@ -141,7 +129,6 @@ public class QSort extends Sort implements Serializable {
 	 * @return
 	 */
 	public QSort and(OrderSpecifier<?>... orderSpecifiers) {
-
 		Assert.notEmpty(orderSpecifiers, "OrderSpecifiers must not be null or empty!");
 		return and(Arrays.asList(orderSpecifiers));
 	}
@@ -152,9 +139,7 @@ public class QSort extends Sort implements Serializable {
 	 * @return
 	 */
 	private static String preparePropertyPath(Path<?> path) {
-
 		Path<?> root = path.getRoot();
-
 		return root == null || path.equals(root) ? path.toString()
 				: path.toString().substring(root.toString().length() + 1);
 	}

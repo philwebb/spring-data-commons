@@ -60,15 +60,11 @@ public class Parameter {
 	private final Lazy<Optional<String>> name;
 
 	static {
-
 		List<Class<?>> types = new ArrayList<>(Arrays.asList(Pageable.class, Sort.class));
-
 		// consider Kotlin Coroutines Continuation a special parameter. That parameter is
 		// synthetic and should not get
 		// bound to any query.
-
 		ClassUtils.ifPresent("kotlin.coroutines.Continuation", Parameter.class.getClassLoader(), types::add);
-
 		TYPES = Collections.unmodifiableList(types);
 	}
 
@@ -77,9 +73,7 @@ public class Parameter {
 	 * @param parameter must not be {@literal null}.
 	 */
 	protected Parameter(MethodParameter parameter) {
-
 		Assert.notNull(parameter, "MethodParameter must not be null!");
-
 		this.parameter = parameter;
 		this.parameterType = potentiallyUnwrapParameterType(parameter);
 		this.isDynamicProjectionParameter = isDynamicProjectionParameter(parameter);
@@ -121,7 +115,6 @@ public class Parameter {
 	 * @return
 	 */
 	public String getPlaceholder() {
-
 		if (isNamedParameter()) {
 			return format(NAMED_PARAMETER_TEMPLATE, getName().get());
 		}
@@ -206,23 +199,17 @@ public class Parameter {
 	 * @return
 	 */
 	private static boolean isDynamicProjectionParameter(MethodParameter parameter) {
-
 		Method method = parameter.getMethod();
-
 		if (method == null) {
 			throw new IllegalStateException(String.format("Method parameter %s is not backed by a method!", parameter));
 		}
-
 		ClassTypeInformation<?> ownerType = ClassTypeInformation.from(parameter.getDeclaringClass());
 		TypeInformation<?> parameterTypes = ownerType.getParameterTypes(method).get(parameter.getParameterIndex());
-
 		if (!parameterTypes.getType().equals(Class.class)) {
 			return false;
 		}
-
 		TypeInformation<?> bound = parameterTypes.getTypeArguments().get(0);
 		TypeInformation<Object> returnType = ClassTypeInformation.fromReturnTypeOf(method);
-
 		return bound.equals(QueryExecutionConverters.unwrapWrapperTypes(returnType));
 	}
 
@@ -253,13 +240,10 @@ public class Parameter {
 	 * @return
 	 */
 	private static Class<?> potentiallyUnwrapParameterType(MethodParameter parameter) {
-
 		Class<?> originalType = parameter.getParameterType();
-
 		if (isWrapped(parameter) && shouldUnwrap(parameter)) {
 			return ResolvableType.forMethodParameter(parameter).getGeneric(0).resolve(Object.class);
 		}
-
 		return originalType;
 	}
 

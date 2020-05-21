@@ -65,10 +65,8 @@ public class MethodInvocationRecorder {
 	 * @return
 	 */
 	public static <T> Recorded<T> forProxyOf(Class<T> type) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.isTrue(!Modifier.isFinal(type.getModifiers()), "Type to record invocations on must not be final!");
-
 		return new MethodInvocationRecorder().create(type);
 	}
 
@@ -80,12 +78,9 @@ public class MethodInvocationRecorder {
 	 */
 	@SuppressWarnings("unchecked")
 	private <T> Recorded<T> create(Class<T> type) {
-
 		RecordingMethodInterceptor interceptor = new RecordingMethodInterceptor();
-
 		ProxyFactory proxyFactory = new ProxyFactory();
 		proxyFactory.addAdvice(interceptor);
-
 		if (!type.isInterface()) {
 			proxyFactory.setTargetClass(type);
 			proxyFactory.setProxyTargetClass(true);
@@ -93,9 +88,7 @@ public class MethodInvocationRecorder {
 		else {
 			proxyFactory.addInterface(type);
 		}
-
 		T proxy = (T) proxyFactory.getProxy(type.getClassLoader());
-
 		return new Recorded<>(proxy, new MethodInvocationRecorder(Optional.ofNullable(interceptor)));
 	}
 
@@ -110,40 +103,27 @@ public class MethodInvocationRecorder {
 		@Override
 		@SuppressWarnings("null")
 		public Object invoke(MethodInvocation invocation) throws Throwable {
-
 			Method method = invocation.getMethod();
 			Object[] arguments = invocation.getArguments();
-
 			if (ReflectionUtils.isObjectMethod(method)) {
 				return method.invoke(this, arguments);
 			}
-
 			ResolvableType type = ResolvableType.forMethodReturnType(method);
 			Class<?> rawType = type.resolve(Object.class);
-
 			if (Collection.class.isAssignableFrom(rawType)) {
-
 				Class<?> clazz = type.getGeneric(0).resolve(Object.class);
-
 				InvocationInformation information = registerInvocation(method, clazz);
-
 				Collection<Object> collection = CollectionFactory.createCollection(rawType, 1);
 				collection.add(information.getCurrentInstance());
-
 				return collection;
 			}
-
 			if (Map.class.isAssignableFrom(rawType)) {
-
 				Class<?> clazz = type.getGeneric(1).resolve(Object.class);
 				InvocationInformation information = registerInvocation(method, clazz);
-
 				Map<Object, Object> map = CollectionFactory.createMap(rawType, 1);
 				map.put("_key_", information.getCurrentInstance());
-
 				return map;
 			}
-
 			return registerInvocation(method, rawType).getCurrentInstance();
 		}
 
@@ -152,11 +132,8 @@ public class MethodInvocationRecorder {
 		}
 
 		private InvocationInformation registerInvocation(Method method, Class<?> proxyType) {
-
 			Recorded<?> create = Modifier.isFinal(proxyType.getModifiers()) ? new Unrecorded() : create(proxyType);
-			InvocationInformation information = new InvocationInformation(create, method);
-
-			return this.information = information;
+			return this.information = new InvocationInformation(create, method);
 		}
 
 	}
@@ -181,22 +158,17 @@ public class MethodInvocationRecorder {
 		}
 
 		Optional<String> getPropertyPath(List<PropertyNameDetectionStrategy> strategies) {
-
 			Method invokedMethod = this.invokedMethod;
-
 			if (invokedMethod == null) {
 				return Optional.empty();
 			}
-
 			String propertyName = getPropertyName(invokedMethod, strategies);
 			Optional<String> next = this.recorded.getPropertyPath(strategies);
-
 			return Optionals.firstNonEmpty(() -> next.map(it -> propertyName.concat(".").concat(it)), //
 					() -> Optional.of(propertyName));
 		}
 
 		private static String getPropertyName(Method invokedMethod, List<PropertyNameDetectionStrategy> strategies) {
-
 			return strategies.stream() //
 					.map(it -> it.getPropertyName(invokedMethod)) //
 					.findFirst() //
@@ -215,21 +187,16 @@ public class MethodInvocationRecorder {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof InvocationInformation)) {
 				return false;
 			}
-
 			InvocationInformation that = (InvocationInformation) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.recorded, that.recorded)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.invokedMethod, that.invokedMethod);
 		}
 
@@ -265,10 +232,8 @@ public class MethodInvocationRecorder {
 		}
 
 		private static String getPropertyName(Class<?> type, String methodName) {
-
 			String pattern = getPatternFor(type);
 			String replaced = methodName.replaceFirst(pattern, "");
-
 			return StringUtils.uncapitalize(replaced);
 		}
 
@@ -294,16 +259,12 @@ public class MethodInvocationRecorder {
 		}
 
 		public Optional<String> getPropertyPath(PropertyNameDetectionStrategy strategy) {
-
 			MethodInvocationRecorder recorder = this.recorder;
-
 			return recorder == null ? Optional.empty() : recorder.getPropertyPath(Arrays.asList(strategy));
 		}
 
 		public Optional<String> getPropertyPath(List<PropertyNameDetectionStrategy> strategies) {
-
 			MethodInvocationRecorder recorder = this.recorder;
-
 			return recorder == null ? Optional.empty() : recorder.getPropertyPath(strategies);
 		}
 
@@ -314,9 +275,7 @@ public class MethodInvocationRecorder {
 		 * @return
 		 */
 		public <S> Recorded<S> record(Function<? super T, S> converter) {
-
 			Assert.notNull(converter, "Function must not be null!");
-
 			return new Recorded<>(converter.apply(this.currentInstance), this.recorder);
 		}
 
@@ -326,9 +285,7 @@ public class MethodInvocationRecorder {
 		 * @return
 		 */
 		public <S> Recorded<S> record(ToCollectionConverter<T, S> converter) {
-
 			Assert.notNull(converter, "Converter must not be null!");
-
 			return new Recorded<>(converter.apply(this.currentInstance).iterator().next(), this.recorder);
 		}
 
@@ -338,9 +295,7 @@ public class MethodInvocationRecorder {
 		 * @return
 		 */
 		public <S> Recorded<S> record(ToMapConverter<T, S> converter) {
-
 			Assert.notNull(converter, "Converter must not be null!");
-
 			return new Recorded<>(converter.apply(this.currentInstance).values().iterator().next(), this.recorder);
 		}
 

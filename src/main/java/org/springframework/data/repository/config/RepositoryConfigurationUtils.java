@@ -42,25 +42,20 @@ public interface RepositoryConfigurationUtils {
 	 */
 	public static void exposeRegistration(RepositoryConfigurationExtension extension, BeanDefinitionRegistry registry,
 			RepositoryConfigurationSource configurationSource) {
-
 		Assert.notNull(extension, "RepositoryConfigurationExtension must not be null!");
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
 		Assert.notNull(configurationSource, "RepositoryConfigurationSource must not be null!");
-
 		Class<? extends RepositoryConfigurationExtension> extensionType = extension.getClass();
 		String beanName = extensionType.getName().concat(GENERATED_BEAN_NAME_SEPARATOR).concat("0");
-
 		if (registry.containsBeanDefinition(beanName)) {
 			return;
 		}
-
 		// Register extension as bean to indicate repository parsing and registration has
 		// happened
 		RootBeanDefinition definition = new RootBeanDefinition(extensionType);
 		definition.setSource(configurationSource.getSource());
 		definition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		definition.setLazyInit(true);
-
 		registry.registerBeanDefinition(beanName, definition);
 	}
 

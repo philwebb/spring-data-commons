@@ -43,17 +43,12 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	 * @param values must not be {@literal null}.
 	 */
 	public ParametersParameterAccessor(Parameters<?, ?> parameters, Object[] values) {
-
 		Assert.notNull(parameters, "Parameters must not be null!");
 		Assert.notNull(values, "Values must not be null!");
-
 		Assert.isTrue(parameters.getNumberOfParameters() == values.length, "Invalid number of parameters given!");
-
 		this.parameters = parameters;
-
 		if (requiresUnwrapping(values)) {
 			this.values = new Object[values.length];
-
 			for (int i = 0; i < values.length; i++) {
 				this.values[i] = QueryExecutionConverters.unwrap(values[i]);
 			}
@@ -64,13 +59,11 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	}
 
 	private static boolean requiresUnwrapping(Object[] values) {
-
 		for (Object value : values) {
 			if (value != null && QueryExecutionConverters.supports(value.getClass())) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -92,29 +85,22 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 	@Override
 	public Pageable getPageable() {
-
 		if (!this.parameters.hasPageableParameter()) {
 			return Pageable.unpaged();
 		}
-
 		Pageable pageable = (Pageable) this.values[this.parameters.getPageableIndex()];
-
 		return pageable == null ? Pageable.unpaged() : pageable;
 	}
 
 	@Override
 	public Sort getSort() {
-
 		if (this.parameters.hasSortParameter()) {
-
 			Sort sort = (Sort) this.values[this.parameters.getSortIndex()];
 			return sort == null ? Sort.unsorted() : sort;
 		}
-
 		if (this.parameters.hasPageableParameter()) {
 			return getPageable().getSort();
 		}
-
 		return Sort.unsorted();
 	}
 
@@ -124,7 +110,6 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	 */
 	@Override
 	public Optional<Class<?>> getDynamicProjection() {
-
 		return Optional.ofNullable(this.parameters.hasDynamicProjection() //
 				? (Class<?>) this.values[this.parameters.getDynamicProjectionIndex()] //
 				: null);
@@ -137,7 +122,6 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 	@Override
 	@Nullable
 	public Class<?> findDynamicProjection() {
-
 		return this.parameters.hasDynamicProjection() //
 				? (Class<?>) this.values[this.parameters.getDynamicProjectionIndex()] : null;
 	}
@@ -159,13 +143,11 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 
 	@Override
 	public boolean hasBindableNullValue() {
-
 		for (Parameter parameter : this.parameters.getBindableParameters()) {
 			if (this.values[parameter.getIndex()] == null) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -192,9 +174,7 @@ public class ParametersParameterAccessor implements ParameterAccessor {
 		 * @param accessor must not be {@literal null}.
 		 */
 		public BindableParameterIterator(ParametersParameterAccessor accessor) {
-
 			Assert.notNull(accessor, "ParametersParameterAccessor must not be null!");
-
 			this.accessor = accessor;
 			this.bindableParameterCount = accessor.getParameters().getBindableParameters().getNumberOfParameters();
 		}

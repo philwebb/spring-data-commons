@@ -55,9 +55,7 @@ public interface MethodLookup {
 	 * @return the composed {@link MethodLookup}.
 	 */
 	default MethodLookup and(MethodLookup other) {
-
 		Assert.notNull(other, "Other method lookup must not be null!");
-
 		return () -> Stream.concat(getLookups().stream(), other.getLookups().stream()).collect(Collectors.toList());
 	}
 
@@ -111,15 +109,12 @@ public interface MethodLookup {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof InvokedMethod)) {
 				return false;
 			}
-
 			InvokedMethod that = (InvokedMethod) o;
 			return ObjectUtils.nullSafeEquals(this.method, that.method);
 		}

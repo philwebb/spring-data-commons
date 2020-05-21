@@ -38,10 +38,8 @@ public class GeoModule extends SimpleModule {
 	 * Creates a new {@link GeoModule} registering mixins for common geo-spatial types.
 	 */
 	public GeoModule() {
-
 		super("Spring Data Geo Mixins",
 				new Version(1, 0, 0, null, "org.springframework.data", "spring-data-commons-geo"));
-
 		setMixInAnnotation(Distance.class, DistanceMixin.class);
 		setMixInAnnotation(Point.class, PointMixin.class);
 		setMixInAnnotation(Box.class, BoxMixin.class);

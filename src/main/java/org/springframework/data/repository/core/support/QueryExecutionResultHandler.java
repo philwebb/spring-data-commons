@@ -67,27 +67,19 @@ class QueryExecutionResultHandler {
 	 */
 	@Nullable
 	public Object postProcessInvocationResult(@Nullable Object result, Method method) {
-
 		if (!processingRequired(result, method.getReturnType())) {
 			return result;
 		}
-
 		ReturnTypeDescriptor descriptor = getOrCreateReturnTypeDescriptor(method);
-
 		return postProcessInvocationResult(result, 0, descriptor);
 	}
 
 	private ReturnTypeDescriptor getOrCreateReturnTypeDescriptor(Method method) {
-
 		Map<Method, ReturnTypeDescriptor> descriptorCache = this.descriptorCache;
 		ReturnTypeDescriptor descriptor = descriptorCache.get(method);
-
 		if (descriptor == null) {
-
 			descriptor = ReturnTypeDescriptor.of(method);
-
 			Map<Method, ReturnTypeDescriptor> updatedDescriptorCache;
-
 			if (descriptorCache.isEmpty()) {
 				updatedDescriptorCache = Collections.singletonMap(method, descriptor);
 			}
@@ -95,14 +87,11 @@ class QueryExecutionResultHandler {
 				updatedDescriptorCache = new HashMap<>(descriptorCache.size() + 1, 1);
 				updatedDescriptorCache.putAll(descriptorCache);
 				updatedDescriptorCache.put(method, descriptor);
-
 			}
-
 			synchronized (this.mutex) {
 				this.descriptorCache = updatedDescriptorCache;
 			}
 		}
-
 		return descriptor;
 	}
 
@@ -115,58 +104,41 @@ class QueryExecutionResultHandler {
 	 */
 	@Nullable
 	Object postProcessInvocationResult(@Nullable Object result, int nestingLevel, ReturnTypeDescriptor descriptor) {
-
 		TypeDescriptor returnTypeDescriptor = descriptor.getReturnTypeDescriptor(nestingLevel);
-
 		if (returnTypeDescriptor == null) {
 			return result;
 		}
-
 		Class<?> expectedReturnType = returnTypeDescriptor.getType();
-
 		result = unwrapOptional(result);
-
 		if (QueryExecutionConverters.supports(expectedReturnType)) {
-
 			// For a wrapper type, try nested resolution first
 			result = postProcessInvocationResult(result, nestingLevel + 1, descriptor);
-
 			if (conversionRequired(WRAPPER_TYPE, returnTypeDescriptor)) {
 				return this.conversionService.convert(new NullableWrapper(result), returnTypeDescriptor);
 			}
-
 			if (result != null) {
-
 				TypeDescriptor source = TypeDescriptor.valueOf(result.getClass());
-
 				if (conversionRequired(source, returnTypeDescriptor)) {
 					return this.conversionService.convert(result, returnTypeDescriptor);
 				}
 			}
 		}
-
 		if (result != null) {
-
 			if (ReactiveWrapperConverters.supports(expectedReturnType)) {
 				return ReactiveWrapperConverters.toWrapper(result, expectedReturnType);
 			}
-
 			if (result instanceof Collection<?>) {
-
 				TypeDescriptor elementDescriptor = descriptor.getReturnTypeDescriptor(nestingLevel + 1);
 				boolean requiresConversion = requiresConversion((Collection<?>) result, expectedReturnType,
 						elementDescriptor);
-
 				if (!requiresConversion) {
 					return result;
 				}
 			}
-
 			TypeDescriptor resultDescriptor = TypeDescriptor.forObject(result);
 			return this.conversionService.canConvert(resultDescriptor, returnTypeDescriptor)
 					? this.conversionService.convert(result, returnTypeDescriptor) : result;
 		}
-
 		return Map.class.equals(expectedReturnType) //
 				? CollectionFactory.createMap(expectedReturnType, 0) //
 				: null;
@@ -175,24 +147,18 @@ class QueryExecutionResultHandler {
 
 	private boolean requiresConversion(Collection<?> collection, Class<?> expectedReturnType,
 			@Nullable TypeDescriptor elementDescriptor) {
-
 		if (Streamable.class.isAssignableFrom(expectedReturnType) || !expectedReturnType.isInstance(collection)) {
 			return true;
 		}
-
 		if (elementDescriptor == null || !Iterable.class.isAssignableFrom(expectedReturnType)) {
 			return false;
 		}
-
 		Class<?> type = elementDescriptor.getType();
-
 		for (Object o : collection) {
-
 			if (!type.isInstance(o)) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -204,7 +170,6 @@ class QueryExecutionResultHandler {
 	 * @return
 	 */
 	private boolean conversionRequired(TypeDescriptor source, TypeDescriptor target) {
-
 		return this.conversionService.canConvert(source, target) //
 				&& !this.conversionService.canBypassConvert(source, target);
 	}
@@ -217,11 +182,9 @@ class QueryExecutionResultHandler {
 	@Nullable
 	@SuppressWarnings("unchecked")
 	private static Object unwrapOptional(@Nullable Object source) {
-
 		if (source == null) {
 			return null;
 		}
-
 		return Optional.class.isInstance(source) //
 				? Optional.class.cast(source).orElse(null) //
 				: source;
@@ -234,7 +197,6 @@ class QueryExecutionResultHandler {
 	 * @return
 	 */
 	private static boolean processingRequired(@Nullable Object source, Class<?> targetType) {
-
 		return !targetType.isInstance(source) //
 				|| source == null //
 				|| Collection.class.isInstance(source);
@@ -278,10 +240,8 @@ class QueryExecutionResultHandler {
 		 */
 		@Nullable
 		public TypeDescriptor getReturnTypeDescriptor(int nestingLevel) {
-
 			// optimizing for nesting level 0 and 1 (Optional<T>, List<T>)
 			// nesting level 2 (Optional<List<T>>) uses the slow path.
-
 			switch (nestingLevel) {
 			case 0:
 				return this.typeDescriptor;

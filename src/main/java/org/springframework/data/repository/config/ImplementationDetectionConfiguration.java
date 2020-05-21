@@ -64,15 +64,11 @@ public interface ImplementationDetectionConfiguration {
 	 * @return
 	 */
 	default String generateBeanName(BeanDefinition definition) {
-
 		Assert.notNull(definition, "BeanDefinition must not be null!");
-
 		String beanName = definition.getBeanClassName();
-
 		if (beanName == null) {
 			throw new IllegalStateException("Cannot generate bean name for BeanDefinition without bean class name!");
 		}
-
 		return Introspector.decapitalize(ClassUtils.getShortName(beanName));
 	}
 
@@ -83,9 +79,7 @@ public interface ImplementationDetectionConfiguration {
 	 * @return
 	 */
 	default ImplementationLookupConfiguration forFragment(String fragmentInterfaceName) {
-
 		Assert.hasText(fragmentInterfaceName, "Fragment interface name must not be null or empty!");
-
 		return new DefaultImplementationLookupConfiguration(this, fragmentInterfaceName);
 	}
 
@@ -96,14 +90,14 @@ public interface ImplementationDetectionConfiguration {
 	 * @return
 	 */
 	default ImplementationLookupConfiguration forRepositoryConfiguration(RepositoryConfiguration<?> config) {
-
 		Assert.notNull(config, "RepositoryConfiguration must not be null!");
-
 		return new DefaultImplementationLookupConfiguration(this, config.getRepositoryInterface()) {
+
 			@Override
 			public Streamable<String> getBasePackages() {
 				return config.getImplementationBasePackages();
 			}
+
 		};
 	}
 

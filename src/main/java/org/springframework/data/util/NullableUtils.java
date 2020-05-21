@@ -143,37 +143,28 @@ public abstract class NullableUtils {
 	 * default.
 	 */
 	public static boolean isNonNull(AnnotatedElement element, ElementType elementType) {
-
 		for (Annotation annotation : element.getAnnotations()) {
-
 			boolean isNonNull = NON_NULL_ANNOTATION_CLASS.isPresent() ? isNonNull(annotation, elementType)
 					: NON_NULLABLE_ANNOTATIONS.contains(annotation.annotationType());
-
 			if (isNonNull) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	private static boolean isNonNull(Annotation annotation, ElementType elementType) {
-
 		if (!NON_NULL_ANNOTATION_CLASS.isPresent()) {
 			return false;
 		}
-
 		Class<Annotation> annotationClass = NON_NULL_ANNOTATION_CLASS.get();
-
 		if (annotation.annotationType().equals(annotationClass)) {
 			return true;
 		}
-
 		if (!AnnotationUtils.isAnnotationMetaPresent(annotation.annotationType(), annotationClass)
 				|| !isNonNull(annotation)) {
 			return false;
 		}
-
 		return test(annotation, TYPE_QUALIFIER_CLASS_NAME, "value",
 				(ElementType[] o) -> Arrays.binarySearch(o, elementType) >= 0);
 	}
@@ -190,26 +181,20 @@ public abstract class NullableUtils {
 	 * @return {@literal true} if the parameter is nullable, {@literal false} otherwise.
 	 */
 	public static boolean isExplicitNullable(MethodParameter methodParameter) {
-
 		if (methodParameter.getParameterIndex() == -1) {
 			return isExplicitNullable(methodParameter.getMethodAnnotations());
 		}
-
 		return isExplicitNullable(methodParameter.getParameterAnnotations());
 	}
 
 	private static boolean isExplicitNullable(Annotation[] annotations) {
-
 		for (Annotation annotation : annotations) {
-
 			boolean isNullable = NON_NULL_ANNOTATION_CLASS.isPresent() ? isNullable(annotation)
 					: NULLABLE_ANNOTATIONS.contains(annotation.annotationType());
-
 			if (isNullable) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -236,25 +221,17 @@ public abstract class NullableUtils {
 	@SuppressWarnings("unchecked")
 	private static <T> boolean test(Annotation annotation, String metaAnnotationName, String attribute,
 			Predicate<T> filter) {
-
 		if (annotation.annotationType().getName().equals(metaAnnotationName)) {
-
 			Map<String, Object> attributes = AnnotationUtils.getAnnotationAttributes(annotation);
-
 			return !attributes.isEmpty() && filter.test((T) attributes.get(attribute));
 		}
-
 		MultiValueMap<String, Object> attributes = AnnotatedElementUtils
 				.getAllAnnotationAttributes(annotation.annotationType(), metaAnnotationName);
-
 		if (attributes == null || attributes.isEmpty()) {
 			return false;
 		}
-
 		List<Object> elementTypes = attributes.get(attribute);
-
 		for (Object value : elementTypes) {
-
 			if (filter.test((T) value)) {
 				return true;
 			}
@@ -263,7 +240,6 @@ public abstract class NullableUtils {
 	}
 
 	private static Set<Class<?>> findClasses(String... classNames) {
-
 		return Arrays.stream(classNames) //
 				.map(NullableUtils::findClass) //
 				.filter(Optional::isPresent) //
@@ -273,7 +249,6 @@ public abstract class NullableUtils {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static <T> Optional<Class<T>> findClass(String className) {
-
 		try {
 			return Optional.of((Class) ClassUtils.forName(className, NullableUtils.class.getClassLoader()));
 		}

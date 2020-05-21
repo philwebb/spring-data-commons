@@ -46,20 +46,14 @@ import org.springframework.util.StringUtils;
  */
 public class PartTree implements Streamable<OrPart> {
 
-	/*
-	 * We look for a pattern of: keyword followed by
-	 *
-	 * an upper-case letter that has a lower-case variant \p{Lu} OR any other letter NOT
-	 * in the BASIC_LATIN Uni-code Block \\P{InBASIC_LATIN} (like Chinese, Korean,
-	 * Japanese, etc.).
-	 *
-	 * @see <a
-	 * href="https://www.regular-expressions.info/unicode.html">https://www.regular-
+	/**
+	 * We look for a pattern of: keyword followed by an upper-case letter that has a
+	 * lower-case variant \p{Lu} OR any other letter NOT in the BASIC_LATIN Uni-code Block
+	 * \\P{InBASIC_LATIN} (like Chinese, Korean, Japanese, etc.).
+	 * @see <a href=
+	 * "https://www.regular-expressions.info/unicode.html">https://www.regular-
 	 * expressions.info/unicode.html</a>
-	 *
-	 * @see <a
-	 * href="https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html#ubc">
-	 * Pattern</a>
+	 * @see Pattern
 	 */
 	private static final String KEYWORD_TEMPLATE = "(%s)(?=(\\p{Lu}|\\P{InBASIC_LATIN}))";
 
@@ -94,12 +88,9 @@ public class PartTree implements Streamable<OrPart> {
 	 * they refer to a property of the class
 	 */
 	public PartTree(String source, Class<?> domainClass) {
-
 		Assert.notNull(source, "Source must not be null");
 		Assert.notNull(domainClass, "Domain class must not be null");
-
 		Matcher matcher = PREFIX_TEMPLATE.matcher(source);
-
 		if (!matcher.find()) {
 			this.subject = new Subject(Optional.empty());
 			this.predicate = new Predicate(source, domainClass);
@@ -206,7 +197,6 @@ public class PartTree implements Streamable<OrPart> {
 
 	@Override
 	public String toString() {
-
 		return String.format("%s %s", StringUtils.collectionToDelimitedString(this.predicate.nodes, " or "),
 				this.predicate.getOrderBySource().toString()).trim();
 	}
@@ -219,7 +209,6 @@ public class PartTree implements Streamable<OrPart> {
 	 * @return an array of split items
 	 */
 	private static String[] split(String text, String keyword) {
-
 		Pattern pattern = Pattern.compile(String.format(KEYWORD_TEMPLATE, keyword));
 		return pattern.split(text);
 	}
@@ -241,9 +230,7 @@ public class PartTree implements Streamable<OrPart> {
 		 * @param alwaysIgnoreCase if always ignoring case
 		 */
 		OrPart(String source, Class<?> domainClass, boolean alwaysIgnoreCase) {
-
 			String[] split = split(source, "And");
-
 			this.children = Arrays.stream(split)//
 					.filter(StringUtils::hasText)//
 					.map(part -> new Part(part, domainClass, alwaysIgnoreCase))//
@@ -298,7 +285,6 @@ public class PartTree implements Streamable<OrPart> {
 		private final Optional<Integer> maxResults;
 
 		public Subject(Optional<String> subject) {
-
 			this.distinct = subject.map(it -> it.contains(DISTINCT)).orElse(false);
 			this.count = matches(subject, COUNT_BY_TEMPLATE);
 			this.exists = matches(subject, EXISTS_BY_TEMPLATE);
@@ -312,15 +298,11 @@ public class PartTree implements Streamable<OrPart> {
 		 * @since 1.9
 		 */
 		private Optional<Integer> returnMaxResultsIfFirstKSubjectOrNull(Optional<String> subject) {
-
 			return subject.map(it -> {
-
 				Matcher grp = LIMITED_QUERY_TEMPLATE.matcher(it);
-
 				if (!grp.find()) {
 					return null;
 				}
-
 				return StringUtils.hasText(grp.group(4)) ? Integer.valueOf(grp.group(4)) : 1;
 			});
 
@@ -381,32 +363,25 @@ public class PartTree implements Streamable<OrPart> {
 		private boolean alwaysIgnoreCase;
 
 		public Predicate(String predicate, Class<?> domainClass) {
-
 			String[] parts = split(detectAndSetAllIgnoreCase(predicate), ORDER_BY);
-
 			if (parts.length > 2) {
 				throw new IllegalArgumentException("OrderBy must not be used more than once in a method name!");
 			}
-
 			this.nodes = Arrays.stream(split(parts[0], "Or")) //
 					.filter(StringUtils::hasText) //
 					.map(part -> new OrPart(part, domainClass, this.alwaysIgnoreCase)) //
 					.collect(Collectors.toList());
-
 			this.orderBySource = parts.length == 2 ? new OrderBySource(parts[1], Optional.of(domainClass))
 					: OrderBySource.EMPTY;
 		}
 
 		private String detectAndSetAllIgnoreCase(String predicate) {
-
 			Matcher matcher = ALL_IGNORE_CASE.matcher(predicate);
-
 			if (matcher.find()) {
 				this.alwaysIgnoreCase = true;
 				predicate = predicate.substring(0, matcher.start())
 						+ predicate.substring(matcher.end(), predicate.length());
 			}
-
 			return predicate;
 		}
 

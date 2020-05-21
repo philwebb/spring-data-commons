@@ -46,10 +46,8 @@ class RepositoryBeanNameGenerator {
 	 * @param generator must not be {@literal null}.
 	 */
 	public RepositoryBeanNameGenerator(ClassLoader beanClassLoader, BeanNameGenerator generator) {
-
 		Assert.notNull(beanClassLoader, "Bean ClassLoader must not be null!");
 		Assert.notNull(generator, "BeanNameGenerator must not be null!");
-
 		this.beanClassLoader = beanClassLoader;
 		this.delegate = new SpringDataAnnotationBeanNameGenerator(generator);
 	}
@@ -61,11 +59,9 @@ class RepositoryBeanNameGenerator {
 	 * @since 2.0
 	 */
 	public String generateBeanName(BeanDefinition definition) {
-
 		AnnotatedBeanDefinition beanDefinition = definition instanceof AnnotatedBeanDefinition //
 				? (AnnotatedBeanDefinition) definition //
 				: new AnnotatedGenericBeanDefinition(getRepositoryInterfaceFrom(definition));
-
 		return this.delegate.generateBeanName(beanDefinition);
 	}
 
@@ -77,29 +73,21 @@ class RepositoryBeanNameGenerator {
 	 * @return
 	 */
 	private Class<?> getRepositoryInterfaceFrom(BeanDefinition beanDefinition) {
-
 		ValueHolder argumentValue = beanDefinition.getConstructorArgumentValues().getArgumentValue(0, Class.class);
-
 		if (argumentValue == null) {
 			throw new IllegalStateException(String.format(
 					"Failed to obtain first constructor parameter value of BeanDefinition %s!", beanDefinition));
 		}
-
 		Object value = argumentValue.getValue();
-
 		if (value == null) {
-
 			throw new IllegalStateException(String.format(
 					"Value of first constructor parameter value of BeanDefinition %s is null!", beanDefinition));
-
 		}
 		else if (value instanceof Class<?>) {
-
 			return (Class<?>) value;
 
 		}
 		else {
-
 			try {
 				return ClassUtils.forName(value.toString(), this.beanClassLoader);
 			}

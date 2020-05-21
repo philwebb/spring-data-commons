@@ -58,9 +58,7 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 	 */
 	public ProxyingHandlerMethodArgumentResolver(ObjectFactory<ConversionService> conversionService,
 			boolean annotationNotRequired) {
-
 		super(annotationNotRequired);
-
 		this.proxyFactory = new SpelAwareProxyProjectionFactory();
 		this.conversionService = conversionService;
 	}
@@ -77,30 +75,23 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-
 		if (!super.supportsParameter(parameter)) {
 			return false;
 		}
-
 		Class<?> type = parameter.getParameterType();
-
 		if (!type.isInterface()) {
 			return false;
 		}
-
 		// Annotated parameter
 		if (parameter.getParameterAnnotation(ProjectedPayload.class) != null) {
 			return true;
 		}
-
 		// Annotated type
 		if (AnnotatedElementUtils.findMergedAnnotation(type, ProjectedPayload.class) != null) {
 			return true;
 		}
-
 		// Fallback for only user defined interfaces
 		String packageName = ClassUtils.getPackageName(type);
-
 		return !IGNORED_PACKAGES.stream().anyMatch(it -> packageName.startsWith(it));
 	}
 
@@ -115,10 +106,8 @@ public class ProxyingHandlerMethodArgumentResolver extends ModelAttributeMethodP
 	@Override
 	protected Object createAttribute(String attributeName, MethodParameter parameter,
 			WebDataBinderFactory binderFactory, NativeWebRequest request) throws Exception {
-
 		MapDataBinder binder = new MapDataBinder(parameter.getParameterType(), this.conversionService.getObject());
 		binder.bind(new MutablePropertyValues(request.getParameterMap()));
-
 		return this.proxyFactory.createProjection(parameter.getParameterType(), binder.getTarget());
 	}
 

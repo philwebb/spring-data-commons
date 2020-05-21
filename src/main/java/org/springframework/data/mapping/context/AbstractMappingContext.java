@@ -112,12 +112,9 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	private final Lock write = this.lock.writeLock();
 
 	protected AbstractMappingContext() {
-
 		this.persistentPropertyPathFactory = new PersistentPropertyPathFactory<>(this);
-
 		EntityInstantiators instantiators = new EntityInstantiators();
 		ClassGeneratingPropertyAccessorFactory accessorFactory = new ClassGeneratingPropertyAccessorFactory();
-
 		this.persistentPropertyAccessorFactory = new InstantiationAwarePropertyAccessorFactory(accessorFactory,
 				instantiators);
 	}
@@ -129,9 +126,7 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-
 		this.evaluationContextProvider = new ExtensionAwareEvaluationContextProvider(applicationContext);
-
 		if (this.applicationEventPublisher == null) {
 			this.applicationEventPublisher = applicationContext;
 		}
@@ -164,23 +159,17 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 * @param simpleTypes must not be {@literal null}.
 	 */
 	public void setSimpleTypeHolder(SimpleTypeHolder simpleTypes) {
-
 		Assert.notNull(simpleTypes, "SimpleTypeHolder must not be null!");
-
 		this.simpleTypeHolder = simpleTypes;
 	}
 
 	@Override
 	public Collection<E> getPersistentEntities() {
-
 		try {
-
 			this.read.lock();
-
 			return this.persistentEntities.values().stream()//
 					.flatMap(Optionals::toStream)//
 					.collect(Collectors.toSet());
-
 		}
 		finally {
 			this.read.unlock();
@@ -195,37 +184,26 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 	@Override
 	public boolean hasPersistentEntityFor(Class<?> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		Optional<E> entity = this.persistentEntities.get(ClassTypeInformation.from(type));
-
 		return entity == null ? false : entity.isPresent();
 	}
 
 	@Nullable
 	@Override
 	public E getPersistentEntity(TypeInformation<?> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		try {
-
 			this.read.lock();
-
 			Optional<E> entity = this.persistentEntities.get(type);
-
 			if (entity != null) {
 				return entity.orElse(null);
 			}
-
 		}
 		finally {
 			this.read.unlock();
 		}
-
 		if (!shouldCreatePersistentEntityFor(type)) {
-
 			try {
 				this.write.lock();
 				this.persistentEntities.put(type, this.NONE);
@@ -233,27 +211,21 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			finally {
 				this.write.unlock();
 			}
-
 			return null;
 		}
-
 		if (this.strict) {
 			throw new MappingException("Unknown persistent entity " + type);
 		}
-
 		return addPersistentEntity(type).orElse(null);
 	}
 
 	@Nullable
 	@Override
 	public E getPersistentEntity(P persistentProperty) {
-
 		Assert.notNull(persistentProperty, "PersistentProperty must not be null!");
-
 		if (!persistentProperty.isEntity()) {
 			return null;
 		}
-
 		TypeInformation<?> typeInfo = persistentProperty.getTypeInformation();
 		return getPersistentEntity(typeInfo.getRequiredActualType());
 	}
@@ -292,10 +264,8 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	@Override
 	public <T> PersistentPropertyPaths<T, P> findPersistentPropertyPaths(Class<T> type,
 			Predicate<? super P> predicate) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(predicate, "Selection predicate must not be null!");
-
 		return doFindPersistentPropertyPaths(type, predicate, it -> !it.isAssociation());
 	}
 
@@ -330,59 +300,40 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 * @return
 	 */
 	protected Optional<E> addPersistentEntity(TypeInformation<?> typeInformation) {
-
 		Assert.notNull(typeInformation, "TypeInformation must not be null!");
-
 		try {
-
 			this.read.lock();
-
 			Optional<E> persistentEntity = this.persistentEntities.get(typeInformation);
-
 			if (persistentEntity != null) {
 				return persistentEntity;
 			}
-
 		}
 		finally {
 			this.read.unlock();
 		}
-
 		Class<?> type = typeInformation.getType();
 		E entity = null;
-
 		try {
-
 			this.write.lock();
-
 			entity = createPersistentEntity(typeInformation);
-
 			entity.setEvaluationContextProvider(this.evaluationContextProvider);
-
 			// Eagerly cache the entity as we might have to find it during recursive
 			// lookups.
 			this.persistentEntities.put(typeInformation, Optional.of(entity));
-
 			PropertyDescriptor[] pds = BeanUtils.getPropertyDescriptors(type);
-
 			final Map<String, PropertyDescriptor> descriptors = new HashMap<>();
 			for (PropertyDescriptor descriptor : pds) {
 				descriptors.put(descriptor.getName(), descriptor);
 			}
-
 			try {
-
 				PersistentPropertyCreator persistentPropertyCreator = new PersistentPropertyCreator(entity,
 						descriptors);
 				ReflectionUtils.doWithFields(type, persistentPropertyCreator, PersistentPropertyFilter.INSTANCE);
 				persistentPropertyCreator.addPropertiesForRemainingDescriptors();
-
 				entity.verify();
-
 				if (this.persistentPropertyAccessorFactory.isSupported(entity)) {
 					entity.setPersistentPropertyAccessorFactory(this.persistentPropertyAccessorFactory);
 				}
-
 			}
 			catch (RuntimeException e) {
 				this.persistentEntities.remove(typeInformation);
@@ -396,20 +347,16 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		finally {
 			this.write.unlock();
 		}
-
 		// Inform listeners
 		if (this.applicationEventPublisher != null && entity != null) {
 			this.applicationEventPublisher.publishEvent(new MappingContextEvent<>(this, entity));
 		}
-
 		return Optional.of(entity);
 	}
 
 	@Override
 	public Collection<TypeInformation<?>> getManagedTypes() {
-
 		try {
-
 			this.read.lock();
 			return Collections.unmodifiableSet(new HashSet<>(this.persistentEntities.keySet()));
 
@@ -460,11 +407,9 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 	 * @return
 	 */
 	protected boolean shouldCreatePersistentEntityFor(TypeInformation<?> type) {
-
 		if (this.simpleTypeHolder.isSimpleType(type.getType())) {
 			return false;
 		}
-
 		return !KotlinDetector.isKotlinType(type.getType())
 				|| KotlinReflectionUtils.isSupportedKotlinClass(type.getType());
 	}
@@ -495,18 +440,13 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 
 		@Override
 		public void doWith(Field field) {
-
 			String fieldName = field.getName();
 			TypeInformation<?> type = this.entity.getTypeInformation();
-
 			ReflectionUtils.makeAccessible(field);
-
 			Property property = Optional.ofNullable(this.descriptors.get(fieldName))//
 					.map(it -> Property.of(type, field, it))//
 					.orElseGet(() -> Property.of(type, field));
-
 			createAndRegisterProperty(property);
-
 			this.remainingDescriptors.remove(fieldName);
 		}
 
@@ -517,7 +457,6 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		 * @see PersistentPropertyFilter
 		 */
 		public void addPropertiesForRemainingDescriptors() {
-
 			this.remainingDescriptors.values().stream() //
 					.filter(Property::supportsStandalone) //
 					.map(it -> Property.of(this.entity.getTypeInformation(), it)) //
@@ -526,27 +465,20 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		}
 
 		private void createAndRegisterProperty(Property input) {
-
 			P property = createPersistentProperty(input, this.entity, AbstractMappingContext.this.simpleTypeHolder);
-
 			if (property.isTransient()) {
 				return;
 			}
-
 			if (!input.isFieldBacked() && !property.usePropertyAccess()) {
 				return;
 			}
-
 			this.entity.addPersistentProperty(property);
-
 			if (property.isAssociation()) {
 				this.entity.addAssociation(property.getRequiredAssociation());
 			}
-
 			if (this.entity.getType().equals(property.getRawType())) {
 				return;
 			}
-
 			property.getPersistentEntityTypes().forEach(AbstractMappingContext.this::addPersistentEntity);
 		}
 
@@ -565,22 +497,18 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		private static final Streamable<PropertyMatch> UNMAPPED_PROPERTIES;
 
 		static {
-
 			Set<PropertyMatch> matches = new HashSet<>();
 			matches.add(new PropertyMatch("class", null));
 			matches.add(new PropertyMatch("this\\$.*", null));
 			matches.add(new PropertyMatch("metaClass", "groovy.lang.MetaClass"));
-
 			UNMAPPED_PROPERTIES = Streamable.of(matches);
 		}
 
 		@Override
 		public boolean matches(Field field) {
-
 			if (Modifier.isStatic(field.getModifiers())) {
 				return false;
 			}
-
 			return !UNMAPPED_PROPERTIES.stream()//
 					.anyMatch(it -> it.matches(field.getName(), field.getType()));
 		}
@@ -592,13 +520,10 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 		 * @return
 		 */
 		public boolean matches(Property property) {
-
 			Assert.notNull(property, "Property must not be null!");
-
 			if (!property.hasAccessor()) {
 				return false;
 			}
-
 			return !UNMAPPED_PROPERTIES.stream()//
 					.anyMatch(it -> it.matches(property.getName(), property.getType()));
 		}
@@ -622,10 +547,8 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			 * @param typeName the name of the type to exclude, can be {@literal null}.
 			 */
 			public PropertyMatch(@Nullable String namePattern, @Nullable String typeName) {
-
 				Assert.isTrue(!(namePattern == null && typeName == null),
 						"Either name pattern or type name must be given!");
-
 				this.namePattern = namePattern;
 				this.typeName = typeName;
 			}
@@ -638,18 +561,14 @@ public abstract class AbstractMappingContext<E extends MutablePersistentEntity<?
 			 * @return
 			 */
 			public boolean matches(String name, Class<?> type) {
-
 				Assert.notNull(name, "Name must not be null!");
 				Assert.notNull(type, "Type must not be null!");
-
 				if (this.namePattern != null && !name.matches(this.namePattern)) {
 					return false;
 				}
-
 				if (this.typeName != null && !type.getName().equals(this.typeName)) {
 					return false;
 				}
-
 				return true;
 			}
 

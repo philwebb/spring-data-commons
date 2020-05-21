@@ -80,13 +80,10 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	Method getGetter();
 
 	default Method getRequiredGetter() {
-
 		Method getter = getGetter();
-
 		if (getter == null) {
 			throw new IllegalArgumentException(String.format("No getter available for persistent property %s!", this));
 		}
-
 		return getter;
 	}
 
@@ -100,13 +97,10 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	Method getSetter();
 
 	default Method getRequiredSetter() {
-
 		Method setter = getSetter();
-
 		if (setter == null) {
 			throw new IllegalArgumentException(String.format("No setter available for persistent property %s!", this));
 		}
-
 		return setter;
 	}
 
@@ -137,13 +131,10 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	Method getWither();
 
 	default Method getRequiredWither() {
-
 		Method wither = getWither();
-
 		if (wither == null) {
 			throw new IllegalArgumentException(String.format("No wither available for persistent property %s!", this));
 		}
-
 		return wither;
 	}
 
@@ -151,13 +142,10 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	Field getField();
 
 	default Field getRequiredField() {
-
 		Field field = getField();
-
 		if (field == null) {
 			throw new IllegalArgumentException(String.format("No field backing persistent property %s!", this));
 		}
-
 		return field;
 	}
 
@@ -179,13 +167,10 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	 * @throws IllegalStateException if not involved in an {@link Association}.
 	 */
 	default Association<P> getRequiredAssociation() {
-
 		Association<P> association = getAssociation();
-
 		if (association != null) {
 			return association;
 		}
-
 		throw new IllegalStateException("No association found!");
 	}
 
@@ -318,13 +303,10 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	 * @since 2.0
 	 */
 	default <A extends Annotation> A getRequiredAnnotation(Class<A> annotationType) throws IllegalStateException {
-
 		A annotation = findAnnotation(annotationType);
-
 		if (annotation != null) {
 			return annotation;
 		}
-
 		throw new IllegalStateException(
 				String.format("Required annotation %s not found for %s!", annotationType, getName()));
 	}
@@ -361,9 +343,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	 * @see #getActualType()
 	 */
 	default boolean hasActualTypeAnnotation(Class<? extends Annotation> annotationType) {
-
 		Assert.notNull(annotationType, "Annotation type must not be null!");
-
 		return AnnotatedElementUtils.hasAnnotation(getActualType(), annotationType);
 	}
 
@@ -385,9 +365,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	 * @since 2.3
 	 */
 	default <T> PersistentPropertyAccessor<T> getAccessorForOwner(T owner) {
-
 		Assert.notNull(owner, "Owner must not be null!");
-
 		return getOwner().getPropertyAccessor(owner);
 	}
 

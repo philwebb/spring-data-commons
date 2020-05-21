@@ -73,9 +73,7 @@ public class MappingInstantiationException extends RuntimeException {
 
 	private MappingInstantiationException(Optional<PersistentEntity<?, ?>> entity, List<Object> arguments,
 			@Nullable String message, Exception cause) {
-
 		super(buildExceptionMessage(entity, arguments, message), cause);
-
 		this.entityType = entity.map(PersistentEntity::getType).orElse(null);
 		this.constructor = entity.map(PersistentEntity::getPersistenceConstructor)
 				.map(PreferredConstructor::getConstructor).orElse(null);
@@ -84,17 +82,13 @@ public class MappingInstantiationException extends RuntimeException {
 
 	private static String buildExceptionMessage(Optional<PersistentEntity<?, ?>> entity, List<Object> arguments,
 			@Nullable String defaultMessage) {
-
 		return entity.map(it -> {
-
 			Optional<? extends PreferredConstructor<?, ?>> constructor = Optional
 					.ofNullable(it.getPersistenceConstructor());
 			List<String> toStringArgs = new ArrayList<>(arguments.size());
-
 			for (Object o : arguments) {
 				toStringArgs.add(ObjectUtils.nullSafeToString(o));
 			}
-
 			return String.format(TEXT_TEMPLATE, it.getType().getName(),
 					constructor.map(MappingInstantiationException::toString).orElse("NO_CONSTRUCTOR"), //
 					String.join(",", toStringArgs));
@@ -103,18 +97,13 @@ public class MappingInstantiationException extends RuntimeException {
 	}
 
 	private static String toString(PreferredConstructor<?, ?> preferredConstructor) {
-
 		Constructor<?> constructor = preferredConstructor.getConstructor();
-
 		if (ReflectionUtils.isSupportedKotlinClass(constructor.getDeclaringClass())) {
-
 			KFunction<?> kotlinFunction = ReflectJvmMapping.getKotlinFunction(constructor);
-
 			if (kotlinFunction != null) {
 				return kotlinFunction.toString();
 			}
 		}
-
 		return constructor.toString();
 	}
 

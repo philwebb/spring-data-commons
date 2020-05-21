@@ -44,14 +44,11 @@ abstract class SpringDataAnnotationUtils {
 	 * @param parameter must not be {@literal null}.
 	 */
 	public static void assertPageableUniqueness(MethodParameter parameter) {
-
 		Method method = parameter.getMethod();
-
 		if (method == null) {
 			throw new IllegalArgumentException(
 					String.format("Method parameter %s is not backed by a method.", parameter));
 		}
-
 		if (containsMoreThanOnePageableParameter(method)) {
 			Annotation[][] annotations = method.getParameterAnnotations();
 			assertQualifiersFor(method.getParameterTypes(), annotations);
@@ -65,20 +62,15 @@ abstract class SpringDataAnnotationUtils {
 	 * @return
 	 */
 	private static boolean containsMoreThanOnePageableParameter(Method method) {
-
 		boolean pageableFound = false;
-
 		for (Class<?> type : method.getParameterTypes()) {
-
 			if (pageableFound && type.equals(Pageable.class)) {
 				return true;
 			}
-
 			if (type.equals(Pageable.class)) {
 				pageableFound = true;
 			}
 		}
-
 		return false;
 	}
 
@@ -92,18 +84,14 @@ abstract class SpringDataAnnotationUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getSpecificPropertyOrDefaultFromValue(Annotation annotation, String property) {
-
 		Object propertyDefaultValue = AnnotationUtils.getDefaultValue(annotation, property);
 		Object propertyValue = AnnotationUtils.getValue(annotation, property);
-
 		Object result = ObjectUtils.nullSafeEquals(propertyDefaultValue, propertyValue) //
 				? AnnotationUtils.getValue(annotation) //
 				: propertyValue;
-
 		if (result == null) {
 			throw new IllegalStateException("Exepected to be able to look up an annotation property value but failed!");
 		}
-
 		return (T) result;
 	}
 
@@ -114,24 +102,17 @@ abstract class SpringDataAnnotationUtils {
 	 * @param annotations must not be {@literal null}.
 	 */
 	public static void assertQualifiersFor(Class<?>[] parameterTypes, Annotation[][] annotations) {
-
 		Set<String> values = new HashSet<>();
-
 		for (int i = 0; i < annotations.length; i++) {
-
 			if (Pageable.class.equals(parameterTypes[i])) {
-
 				Qualifier qualifier = findAnnotation(annotations[i]);
-
 				if (null == qualifier) {
 					throw new IllegalStateException(
 							"Ambiguous Pageable arguments in handler method. If you use multiple parameters of type Pageable you need to qualify them with @Qualifier");
 				}
-
 				if (values.contains(qualifier.value())) {
 					throw new IllegalStateException("Values of the user Qualifiers must be unique!");
 				}
-
 				values.add(qualifier.value());
 			}
 		}
@@ -146,13 +127,11 @@ abstract class SpringDataAnnotationUtils {
 	 */
 	@Nullable
 	private static Qualifier findAnnotation(Annotation[] annotations) {
-
 		for (Annotation annotation : annotations) {
 			if (annotation instanceof Qualifier) {
 				return (Qualifier) annotation;
 			}
 		}
-
 		return null;
 	}
 

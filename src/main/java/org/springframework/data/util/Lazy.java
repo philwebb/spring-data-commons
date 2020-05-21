@@ -93,13 +93,10 @@ public class Lazy<T> implements Supplier<T> {
 	 */
 	@Override
 	public T get() {
-
 		T value = getNullable();
-
 		if (value == null) {
 			throw new IllegalStateException("Expected lazy evaluation to yield a non-null value but got null!");
 		}
-
 		return value;
 	}
 
@@ -120,9 +117,7 @@ public class Lazy<T> implements Supplier<T> {
 	 * @return
 	 */
 	public Lazy<T> or(Supplier<? extends T> supplier) {
-
 		Assert.notNull(supplier, "Supplier must not be null!");
-
 		return Lazy.of(() -> orElseGet(supplier));
 	}
 
@@ -133,9 +128,7 @@ public class Lazy<T> implements Supplier<T> {
 	 * @return
 	 */
 	public Lazy<T> or(T value) {
-
 		Assert.notNull(value, "Value must not be null!");
-
 		return Lazy.of(() -> orElse(value));
 	}
 
@@ -147,9 +140,7 @@ public class Lazy<T> implements Supplier<T> {
 	 */
 	@Nullable
 	public T orElse(@Nullable T value) {
-
 		T nullable = getNullable();
-
 		return nullable == null ? value : nullable;
 	}
 
@@ -161,11 +152,8 @@ public class Lazy<T> implements Supplier<T> {
 	 */
 	@Nullable
 	private T orElseGet(Supplier<? extends T> supplier) {
-
 		Assert.notNull(supplier, "Default value supplier must not be null!");
-
 		T value = getNullable();
-
 		return value == null ? supplier.get() : value;
 	}
 
@@ -176,9 +164,7 @@ public class Lazy<T> implements Supplier<T> {
 	 * @return
 	 */
 	public <S> Lazy<S> map(Function<? super T, ? extends S> function) {
-
 		Assert.notNull(function, "Function must not be null!");
-
 		return Lazy.of(() -> function.apply(get()));
 	}
 
@@ -189,9 +175,7 @@ public class Lazy<T> implements Supplier<T> {
 	 * @return
 	 */
 	public <S> Lazy<S> flatMap(Function<? super T, Lazy<? extends S>> function) {
-
 		Assert.notNull(function, "Function must not be null!");
-
 		return Lazy.of(() -> function.apply(get()).get());
 	}
 
@@ -202,42 +186,31 @@ public class Lazy<T> implements Supplier<T> {
 	 */
 	@Nullable
 	public T getNullable() {
-
 		T value = this.value;
-
 		if (this.resolved) {
 			return value;
 		}
-
 		value = this.supplier.get();
-
 		this.value = value;
 		this.resolved = true;
-
 		return value;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof Lazy)) {
 			return false;
 		}
-
 		Lazy<?> lazy = (Lazy<?>) o;
-
 		if (this.resolved != lazy.resolved) {
 			return false;
 		}
-
 		if (!ObjectUtils.nullSafeEquals(this.supplier, lazy.supplier)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.value, lazy.value);
 	}
 

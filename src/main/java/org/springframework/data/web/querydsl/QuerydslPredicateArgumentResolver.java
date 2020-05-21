@@ -71,7 +71,6 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 	 */
 	public QuerydslPredicateArgumentResolver(QuerydslBindingsFactory factory,
 			Optional<ConversionService> conversionService) {
-
 		this.bindingsFactory = factory;
 		this.predicateBuilder = new QuerydslPredicateBuilder(conversionService.orElseGet(DefaultConversionService::new),
 				factory.getEntityPathResolver());
@@ -79,19 +78,15 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-
 		ResolvableType type = ResolvableType.forMethodParameter(parameter);
-
 		if (PREDICATE.isAssignableFrom(type) || OPTIONAL_OF_PREDICATE.isAssignableFrom(type)) {
 			return true;
 		}
-
 		if (parameter.hasParameterAnnotation(QuerydslPredicate.class)) {
 			throw new IllegalArgumentException(
 					String.format("Parameter at position %s must be of type Predicate but was %s.",
 							parameter.getParameterIndex(), parameter.getParameterType()));
 		}
-
 		return false;
 	}
 
@@ -108,31 +103,23 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 	@Override
 	public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) throws Exception {
-
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-
 		for (Entry<String, String[]> entry : webRequest.getParameterMap().entrySet()) {
 			parameters.put(entry.getKey(), Arrays.asList(entry.getValue()));
 		}
-
 		Optional<QuerydslPredicate> annotation = Optional
 				.ofNullable(parameter.getParameterAnnotation(QuerydslPredicate.class));
 		TypeInformation<?> domainType = extractTypeInfo(parameter).getRequiredActualType();
-
 		Optional<Class<? extends QuerydslBinderCustomizer<?>>> bindingsAnnotation = annotation //
 				.map(QuerydslPredicate::bindings) //
 				.map(CastUtils::cast);
-
 		QuerydslBindings bindings = bindingsAnnotation //
 				.map(it -> this.bindingsFactory.createBindingsFor(domainType, it)) //
 				.orElseGet(() -> this.bindingsFactory.createBindingsFor(domainType));
-
 		Predicate result = this.predicateBuilder.getPredicate(domainType, parameters, bindings);
-
 		if (!parameter.isOptional() && result == null) {
 			return new BooleanBuilder();
 		}
-
 		return OPTIONAL_OF_PREDICATE.isAssignableFrom(ResolvableType.forMethodParameter(parameter)) //
 				? Optional.ofNullable(result) //
 				: result;
@@ -146,46 +133,35 @@ public class QuerydslPredicateArgumentResolver implements HandlerMethodArgumentR
 	 * @return
 	 */
 	static TypeInformation<?> extractTypeInfo(MethodParameter parameter) {
-
 		Optional<QuerydslPredicate> annotation = Optional
 				.ofNullable(parameter.getParameterAnnotation(QuerydslPredicate.class));
-
 		return annotation.filter(it -> !Object.class.equals(it.root()))//
 				.<TypeInformation<?>>map(it -> ClassTypeInformation.from(it.root()))//
 				.orElseGet(() -> detectDomainType(parameter));
 	}
 
 	private static TypeInformation<?> detectDomainType(MethodParameter parameter) {
-
 		Method method = parameter.getMethod();
-
 		if (method == null) {
 			throw new IllegalArgumentException("Method parameter is not backed by a method!");
 		}
-
 		return detectDomainType(ClassTypeInformation.fromReturnTypeOf(method));
 	}
 
 	private static TypeInformation<?> detectDomainType(TypeInformation<?> source) {
-
 		if (source.getTypeArguments().isEmpty()) {
 			return source;
 		}
-
 		TypeInformation<?> actualType = source.getActualType();
-
 		if (actualType == null) {
 			throw new IllegalArgumentException(String.format("Could not determine domain type from %s!", source));
 		}
-
 		if (source != actualType) {
 			return detectDomainType(actualType);
 		}
-
 		if (source instanceof Iterable) {
 			return source;
 		}
-
 		return detectDomainType(source.getRequiredComponentType());
 	}
 

@@ -42,11 +42,9 @@ public class Circle implements Shape {
 	 */
 	@PersistenceConstructor
 	public Circle(Point center, Distance radius) {
-
 		Assert.notNull(center, "Center point must not be null!");
 		Assert.notNull(radius, "Radius must not be null!");
 		Assert.isTrue(radius.getValue() >= 0, "Radius must not be negative!");
-
 		this.center = center;
 		this.radius = radius;
 	}
@@ -89,21 +87,16 @@ public class Circle implements Shape {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof Circle)) {
 			return false;
 		}
-
 		Circle circle = (Circle) o;
-
 		if (!ObjectUtils.nullSafeEquals(this.center, circle.center)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.radius, circle.radius);
 	}
 

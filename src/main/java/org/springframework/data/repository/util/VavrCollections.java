@@ -54,19 +54,15 @@ class VavrCollections {
 		@Nonnull
 		@Override
 		public Object convert(Object source) {
-
 			if (source instanceof io.vavr.collection.Seq) {
 				return ((io.vavr.collection.Seq<?>) source).toJavaList();
 			}
-
 			if (source instanceof io.vavr.collection.Map) {
 				return ((io.vavr.collection.Map<?, ?>) source).toJavaMap();
 			}
-
 			if (source instanceof io.vavr.collection.Set) {
 				return ((io.vavr.collection.Set<?>) source).toJavaSet();
 			}
-
 			throw new IllegalArgumentException("Unsupported Javaslang collection " + source.getClass());
 		}
 
@@ -91,18 +87,15 @@ class VavrCollections {
 			 */
 			@Override
 			public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-
 				// Prevent collections to be mapped to maps
 				if (sourceType.isCollection() && io.vavr.collection.Map.class.isAssignableFrom(targetType.getType())) {
 					return false;
 				}
-
 				// Prevent maps to be mapped to collections
 				if (sourceType.isMap() && !(io.vavr.collection.Map.class.isAssignableFrom(targetType.getType())
 						|| targetType.getType().equals(Traversable.class))) {
 					return false;
 				}
-
 				return true;
 			}
 
@@ -118,36 +111,27 @@ class VavrCollections {
 			@Override
 			public Object convert(@Nullable Object source, TypeDescriptor sourceDescriptor,
 					TypeDescriptor targetDescriptor) {
-
 				Class<?> targetType = targetDescriptor.getType();
-
 				if (io.vavr.collection.Seq.class.isAssignableFrom(targetType)) {
 					return io.vavr.collection.List.ofAll((Iterable<?>) source);
 				}
-
 				if (io.vavr.collection.Set.class.isAssignableFrom(targetType)) {
 					return LinkedHashSet.ofAll((Iterable<?>) source);
 				}
-
 				if (io.vavr.collection.Map.class.isAssignableFrom(targetType)) {
 					return LinkedHashMap.ofAll((Map<?, ?>) source);
 				}
-
 				// No dedicated type asked for, probably Traversable.
 				// Try to stay as close to the source value.
-
 				if (source instanceof List) {
 					return io.vavr.collection.List.ofAll((Iterable<?>) source);
 				}
-
 				if (source instanceof Set) {
 					return LinkedHashSet.ofAll((Iterable<?>) source);
 				}
-
 				if (source instanceof Map) {
 					return LinkedHashMap.ofAll((Map<?, ?>) source);
 				}
-
 				return source;
 			}
 		};
@@ -155,11 +139,9 @@ class VavrCollections {
 		private static final Set<ConvertiblePair> CONVERTIBLE_PAIRS;
 
 		static {
-
 			Set<ConvertiblePair> pairs = new HashSet<>();
 			pairs.add(new ConvertiblePair(Collection.class, io.vavr.collection.Traversable.class));
 			pairs.add(new ConvertiblePair(Map.class, io.vavr.collection.Traversable.class));
-
 			CONVERTIBLE_PAIRS = Collections.unmodifiableSet(pairs);
 		}
 

@@ -37,9 +37,7 @@ public class PersistenceExceptionTranslationRepositoryProxyPostProcessor impleme
 	 * @param beanFactory must not be {@literal null}.
 	 */
 	public PersistenceExceptionTranslationRepositoryProxyPostProcessor(ListableBeanFactory beanFactory) {
-
 		Assert.notNull(beanFactory, "BeanFactory must not be null!");
-
 		this.interceptor = new PersistenceExceptionTranslationInterceptor();
 		this.interceptor.setBeanFactory(beanFactory);
 		this.interceptor.afterPropertiesSet();

@@ -66,9 +66,7 @@ public class QuerydslPredicateBuilder {
 	 * @param resolver can be {@literal null}.
 	 */
 	public QuerydslPredicateBuilder(ConversionService conversionService, EntityPathResolver resolver) {
-
 		Assert.notNull(conversionService, "ConversionService must not be null!");
-
 		this.defaultBinding = new QuerydslDefaultBinding();
 		this.conversionService = conversionService;
 		this.paths = new ConcurrentHashMap<>();
@@ -86,39 +84,27 @@ public class QuerydslPredicateBuilder {
 	@Nullable
 	public Predicate getPredicate(TypeInformation<?> type, MultiValueMap<String, String> values,
 			QuerydslBindings bindings) {
-
 		Assert.notNull(bindings, "Context must not be null!");
-
 		BooleanBuilder builder = new BooleanBuilder();
-
 		if (values.isEmpty()) {
 			return builder.getValue();
 		}
-
 		for (Entry<String, List<String>> entry : values.entrySet()) {
-
 			if (isSingleElementCollectionWithoutText(entry.getValue())) {
 				continue;
 			}
-
 			String path = entry.getKey();
-
 			if (!bindings.isPathAvailable(path, type)) {
 				continue;
 			}
-
 			PathInformation propertyPath = bindings.getPropertyPath(path, type);
-
 			if (propertyPath == null) {
 				continue;
 			}
-
 			Collection<Object> value = convertToPropertyPathSpecificType(entry.getValue(), propertyPath);
 			Optional<Predicate> predicate = invokeBinding(propertyPath, bindings, value);
-
 			predicate.ifPresent(builder::and);
 		}
-
 		return builder.getValue();
 	}
 
@@ -132,9 +118,7 @@ public class QuerydslPredicateBuilder {
 	 */
 	private Optional<Predicate> invokeBinding(PathInformation dotPath, QuerydslBindings bindings,
 			Collection<Object> values) {
-
 		Path<?> path = getPath(dotPath, bindings);
-
 		return bindings.getBindingForPath(dotPath).orElse(this.defaultBinding).bind(path, values);
 	}
 
@@ -148,9 +132,7 @@ public class QuerydslPredicateBuilder {
 	 * @return
 	 */
 	private Path<?> getPath(PathInformation path, QuerydslBindings bindings) {
-
 		Optional<Path<?>> resolvedPath = bindings.getExistingPath(path);
-
 		return resolvedPath.orElseGet(() -> this.paths.computeIfAbsent(path, it -> it.reifyPath(this.resolver)));
 	}
 
@@ -164,21 +146,15 @@ public class QuerydslPredicateBuilder {
 	 * @return
 	 */
 	private Collection<Object> convertToPropertyPathSpecificType(List<String> source, PathInformation path) {
-
 		Class<?> targetType = path.getLeafType();
-
 		if (source.isEmpty() || isSingleElementCollectionWithoutText(source)) {
 			return Collections.emptyList();
 		}
-
 		Collection<Object> target = new ArrayList<>(source.size());
-
 		for (String value : source) {
-
 			target.add(this.conversionService.canConvert(String.class, targetType) ? this.conversionService
 					.convert(value, TypeDescriptor.forObject(value), getTargetTypeDescriptor(path)) : value);
 		}
-
 		return target;
 	}
 
@@ -190,24 +166,19 @@ public class QuerydslPredicateBuilder {
 	 * @return
 	 */
 	private static TypeDescriptor getTargetTypeDescriptor(PathInformation path) {
-
 		PropertyDescriptor descriptor = path.getLeafPropertyDescriptor();
-
 		Class<?> owningType = path.getLeafParentType();
 		String leafProperty = path.getLeafProperty();
-
 		TypeDescriptor result = descriptor == null //
 				? TypeDescriptor.nested(
 						org.springframework.data.util.ReflectionUtils.findRequiredField(owningType, leafProperty), 0)
 				: TypeDescriptor.nested(
 						new Property(owningType, descriptor.getReadMethod(), descriptor.getWriteMethod(), leafProperty),
 						0);
-
 		if (result == null) {
 			throw new IllegalStateException(
 					String.format("Could not obtain TypeDesciptor for PathInformation %s!", path));
 		}
-
 		return result;
 	}
 

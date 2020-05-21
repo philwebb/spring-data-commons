@@ -59,12 +59,9 @@ class MethodParameters {
 	 * @param namingAnnotation must not be {@literal null}.
 	 */
 	public MethodParameters(Method method, Optional<AnnotationAttribute> namingAnnotation) {
-
 		Assert.notNull(method, "Method must not be null!");
 		this.parameters = new ArrayList<>();
-
 		for (int i = 0; i < method.getParameterCount(); i++) {
-
 			MethodParameter parameter = new AnnotationNamingMethodParameter(method, i, namingAnnotation);
 			parameter.initParameterNameDiscovery(this.discoverer);
 			this.parameters.add(parameter);
@@ -86,9 +83,7 @@ class MethodParameters {
 	 * @return
 	 */
 	public Optional<MethodParameter> getParameter(String name) {
-
 		Assert.hasText(name, "Parameter name must not be null!");
-
 		return getParameters().stream()//
 				.filter(it -> name.equals(it.getParameterName())).findFirst();
 	}
@@ -100,9 +95,7 @@ class MethodParameters {
 	 * @since 0.9
 	 */
 	public List<MethodParameter> getParametersOfType(Class<?> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		return getParameters().stream()//
 				.filter(it -> it.getParameterType().equals(type))//
 				.collect(Collectors.toList());
@@ -114,9 +107,7 @@ class MethodParameters {
 	 * @return
 	 */
 	public List<MethodParameter> getParametersWith(Class<? extends Annotation> annotation) {
-
 		Assert.notNull(annotation, "Annotation must not be null!");
-
 		return getParameters().stream()//
 				.filter(it -> it.hasParameterAnnotation(annotation))//
 				.collect(Collectors.toList());
@@ -143,9 +134,7 @@ class MethodParameters {
 		 */
 		public AnnotationNamingMethodParameter(Method method, int parameterIndex,
 				Optional<AnnotationAttribute> attribute) {
-
 			super(method, parameterIndex);
-
 			this.attribute = attribute;
 			this.name = Lazy.of(() -> this.attribute.//
 					flatMap(it -> it.getValueFrom(this).map(Object::toString)).//

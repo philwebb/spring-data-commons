@@ -70,24 +70,18 @@ public abstract class ParsingUtils {
 	 * @return
 	 */
 	public static String reconcatenateCamelCase(String source, String delimiter) {
-
 		Assert.notNull(source, "Source string must not be null!");
 		Assert.notNull(delimiter, "Delimiter must not be null!");
-
 		return StringUtils.collectionToDelimitedString(splitCamelCaseToLower(source), delimiter);
 	}
 
 	private static List<String> split(String source, boolean toLower) {
-
 		Assert.notNull(source, "Source string must not be null!");
-
 		String[] parts = CAMEL_CASE.split(source);
 		List<String> result = new ArrayList<>(parts.length);
-
 		for (String part : parts) {
 			result.add(toLower ? part.toLowerCase() : part);
 		}
-
 		return Collections.unmodifiableList(result);
 	}
 

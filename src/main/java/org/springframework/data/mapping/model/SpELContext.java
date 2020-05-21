@@ -80,9 +80,7 @@ public class SpELContext {
 	 */
 	private SpELContext(PropertyAccessor accessor, @Nullable SpelExpressionParser parser,
 			@Nullable BeanFactory factory) {
-
 		Assert.notNull(accessor, "PropertyAccessor must not be null!");
-
 		this.parser = parser == null ? new SpelExpressionParser() : parser;
 		this.accessor = accessor;
 		this.factory = factory;
@@ -93,14 +91,11 @@ public class SpELContext {
 	}
 
 	public EvaluationContext getEvaluationContext(Object source) {
-
 		StandardEvaluationContext evaluationContext = new StandardEvaluationContext(source);
 		evaluationContext.addPropertyAccessor(this.accessor);
-
 		if (this.factory != null) {
 			evaluationContext.setBeanResolver(new BeanFactoryResolver(this.factory));
 		}
-
 		return evaluationContext;
 	}
 

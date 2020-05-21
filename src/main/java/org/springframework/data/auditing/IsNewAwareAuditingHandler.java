@@ -71,16 +71,12 @@ public class IsNewAwareAuditingHandler extends AuditingHandler {
 	 * @param object must not be {@literal null}.
 	 */
 	public Object markAudited(Object object) {
-
 		Assert.notNull(object, "Source object must not be null!");
-
 		if (!isAuditable(object)) {
 			return object;
 		}
-
 		PersistentEntity<?, ? extends PersistentProperty<?>> entity = this.entities
 				.getRequiredPersistentEntity(object.getClass());
-
 		return entity.isNew(object) ? markCreated(object) : markModified(object);
 	}
 

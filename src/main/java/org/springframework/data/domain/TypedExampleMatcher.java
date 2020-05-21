@@ -45,7 +45,6 @@ class TypedExampleMatcher implements ExampleMatcher {
 	private final MatchMode mode;
 
 	TypedExampleMatcher() {
-
 		this(NullHandler.IGNORE, StringMatcher.DEFAULT, new PropertySpecifiers(), Collections.emptySet(), false,
 				MatchMode.ALL);
 	}
@@ -63,22 +62,17 @@ class TypedExampleMatcher implements ExampleMatcher {
 
 	@Override
 	public ExampleMatcher withIgnorePaths(String... ignoredPaths) {
-
 		Assert.notEmpty(ignoredPaths, "IgnoredPaths must not be empty!");
 		Assert.noNullElements(ignoredPaths, "IgnoredPaths must not contain null elements!");
-
 		Set<String> newIgnoredPaths = new LinkedHashSet<>(this.ignoredPaths);
 		newIgnoredPaths.addAll(Arrays.asList(ignoredPaths));
-
 		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, this.propertySpecifiers,
 				newIgnoredPaths, this.defaultIgnoreCase, this.mode);
 	}
 
 	@Override
 	public ExampleMatcher withStringMatcher(StringMatcher defaultStringMatcher) {
-
 		Assert.notNull(this.ignoredPaths, "DefaultStringMatcher must not be empty!");
-
 		return new TypedExampleMatcher(this.nullHandler, defaultStringMatcher, this.propertySpecifiers,
 				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
@@ -97,25 +91,18 @@ class TypedExampleMatcher implements ExampleMatcher {
 	 */
 	@Override
 	public ExampleMatcher withMatcher(String propertyPath, GenericPropertyMatcher genericPropertyMatcher) {
-
 		Assert.hasText(propertyPath, "PropertyPath must not be empty!");
 		Assert.notNull(genericPropertyMatcher, "GenericPropertyMatcher must not be empty!");
-
 		PropertySpecifiers propertySpecifiers = new PropertySpecifiers(this.propertySpecifiers);
 		PropertySpecifier propertySpecifier = new PropertySpecifier(propertyPath);
-
 		if (genericPropertyMatcher.ignoreCase != null) {
 			propertySpecifier = propertySpecifier.withIgnoreCase(genericPropertyMatcher.ignoreCase);
 		}
-
 		if (genericPropertyMatcher.stringMatcher != null) {
 			propertySpecifier = propertySpecifier.withStringMatcher(genericPropertyMatcher.stringMatcher);
 		}
-
 		propertySpecifier = propertySpecifier.withValueTransformer(genericPropertyMatcher.valueTransformer);
-
 		propertySpecifiers.add(propertySpecifier);
-
 		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, propertySpecifiers,
 				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
@@ -129,39 +116,30 @@ class TypedExampleMatcher implements ExampleMatcher {
 	 */
 	@Override
 	public ExampleMatcher withTransformer(String propertyPath, PropertyValueTransformer propertyValueTransformer) {
-
 		Assert.hasText(propertyPath, "PropertyPath must not be empty!");
 		Assert.notNull(propertyValueTransformer, "PropertyValueTransformer must not be empty!");
-
 		PropertySpecifiers propertySpecifiers = new PropertySpecifiers(this.propertySpecifiers);
 		PropertySpecifier propertySpecifier = getOrCreatePropertySpecifier(propertyPath, propertySpecifiers);
-
 		propertySpecifiers.add(propertySpecifier.withValueTransformer(propertyValueTransformer));
-
 		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, propertySpecifiers,
 				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
 
 	@Override
 	public ExampleMatcher withIgnoreCase(String... propertyPaths) {
-
 		Assert.notEmpty(propertyPaths, "PropertyPaths must not be empty!");
 		Assert.noNullElements(propertyPaths, "PropertyPaths must not contain null elements!");
-
 		PropertySpecifiers propertySpecifiers = new PropertySpecifiers(this.propertySpecifiers);
-
 		for (String propertyPath : propertyPaths) {
 			PropertySpecifier propertySpecifier = getOrCreatePropertySpecifier(propertyPath, propertySpecifiers);
 			propertySpecifiers.add(propertySpecifier.withIgnoreCase(true));
 		}
-
 		return new TypedExampleMatcher(this.nullHandler, this.defaultStringMatcher, propertySpecifiers,
 				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
 	}
 
 	@Override
 	public ExampleMatcher withNullHandler(NullHandler nullHandler) {
-
 		Assert.notNull(nullHandler, "NullHandler must not be null!");
 		return new TypedExampleMatcher(nullHandler, this.defaultStringMatcher, this.propertySpecifiers,
 				this.ignoredPaths, this.defaultIgnoreCase, this.mode);
@@ -203,48 +181,36 @@ class TypedExampleMatcher implements ExampleMatcher {
 	}
 
 	private PropertySpecifier getOrCreatePropertySpecifier(String propertyPath, PropertySpecifiers propertySpecifiers) {
-
 		if (propertySpecifiers.hasSpecifierForPath(propertyPath)) {
 			return propertySpecifiers.getForPath(propertyPath);
 		}
-
 		return new PropertySpecifier(propertyPath);
 	}
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof TypedExampleMatcher)) {
 			return false;
 		}
-
 		TypedExampleMatcher that = (TypedExampleMatcher) o;
-
 		if (this.defaultIgnoreCase != that.defaultIgnoreCase) {
 			return false;
 		}
-
 		if (this.nullHandler != that.nullHandler) {
 			return false;
 		}
-
 		if (this.defaultStringMatcher != that.defaultStringMatcher) {
 			return false;
 		}
-
 		if (!ObjectUtils.nullSafeEquals(this.propertySpecifiers, that.propertySpecifiers)) {
-
 			return false;
 		}
-
 		if (!ObjectUtils.nullSafeEquals(this.ignoredPaths, that.ignoredPaths)) {
 			return false;
 		}
-
 		return this.mode == that.mode;
 	}
 

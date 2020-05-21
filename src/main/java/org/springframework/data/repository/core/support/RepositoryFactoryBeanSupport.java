@@ -94,7 +94,6 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 	 * @param repositoryInterface must not be {@literal null}.
 	 */
 	protected RepositoryFactoryBeanSupport(Class<? extends T> repositoryInterface) {
-
 		Assert.notNull(repositoryInterface, "Repository interface must not be null!");
 		this.repositoryInterface = repositoryInterface;
 	}
@@ -175,9 +174,7 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-
 		this.beanFactory = beanFactory;
-
 		if (!this.evaluationContextProvider.isPresent() && ListableBeanFactory.class.isInstance(beanFactory)) {
 			this.evaluationContextProvider = Optional
 					.of(new ExtensionAwareQueryMethodEvaluationContextProvider((ListableBeanFactory) beanFactory));
@@ -197,16 +194,13 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	@Override
 	public RepositoryInformation getRepositoryInformation() {
-
 		RepositoryFragments fragments = this.customImplementation.map(RepositoryFragments::just)//
 				.orElse(RepositoryFragments.empty());
-
 		return this.factory.getRepositoryInformation(this.repositoryMetadata, fragments);
 	}
 
 	@Override
 	public PersistentEntity<?, ?> getPersistentEntity() {
-
 		return this.mappingContext.orElseThrow(() -> new IllegalStateException("No MappingContext available!"))
 				.getRequiredPersistentEntity(this.repositoryMetadata.getDomainType());
 	}
@@ -235,7 +229,6 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 
 	@Override
 	public void afterPropertiesSet() {
-
 		this.factory = createRepositoryFactory();
 		this.factory.setQueryLookupStrategyKey(this.queryLookupStrategyKey);
 		this.factory.setNamedQueries(this.namedQueries);
@@ -243,30 +236,22 @@ public abstract class RepositoryFactoryBeanSupport<T extends Repository<S, ID>, 
 				this.evaluationContextProvider.orElseGet(() -> QueryMethodEvaluationContextProvider.DEFAULT));
 		this.factory.setBeanClassLoader(this.classLoader);
 		this.factory.setBeanFactory(this.beanFactory);
-
 		if (this.publisher != null) {
 			this.factory
 					.addRepositoryProxyPostProcessor(new EventPublishingRepositoryProxyPostProcessor(this.publisher));
 		}
-
 		this.repositoryBaseClass.ifPresent(this.factory::setRepositoryBaseClass);
-
 		RepositoryFragments customImplementationFragment = this.customImplementation //
 				.map(RepositoryFragments::just) //
 				.orElseGet(RepositoryFragments::empty);
-
 		RepositoryFragments repositoryFragmentsToUse = this.repositoryFragments //
 				.orElseGet(RepositoryFragments::empty) //
 				.append(customImplementationFragment);
-
 		this.repositoryMetadata = this.factory.getRepositoryMetadata(this.repositoryInterface);
-
 		// Make sure the aggregate root type is present in the MappingContext (e.g. for
 		// auditing)
 		this.mappingContext.ifPresent(it -> it.getPersistentEntity(this.repositoryMetadata.getDomainType()));
-
 		this.repository = Lazy.of(() -> this.factory.getRepository(this.repositoryInterface, repositoryFragmentsToUse));
-
 		if (!this.lazyInit) {
 			this.repository.get();
 		}

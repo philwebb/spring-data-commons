@@ -44,11 +44,8 @@ enum ReflectionEntityInstantiator implements EntityInstantiator {
 	@SuppressWarnings("unchecked")
 	public <T, E extends PersistentEntity<? extends T, P>, P extends PersistentProperty<P>> T createInstance(E entity,
 			ParameterValueProvider<P> provider) {
-
 		PreferredConstructor<? extends T, P> constructor = entity.getPersistenceConstructor();
-
 		if (constructor == null) {
-
 			try {
 				Class<?> clazz = entity.getType();
 				if (clazz.isArray()) {
@@ -69,13 +66,11 @@ enum ReflectionEntityInstantiator implements EntityInstantiator {
 			}
 		}
 		int parameterCount = constructor.getConstructor().getParameterCount();
-
 		Object[] params = parameterCount == 0 ? EMPTY_ARGS : new Object[parameterCount];
 		int i = 0;
 		for (Parameter<?, P> parameter : constructor.getParameters()) {
 			params[i++] = provider.getParameterValue(parameter);
 		}
-
 		try {
 			return BeanUtils.instantiateClass(constructor.getConstructor(), params);
 		}

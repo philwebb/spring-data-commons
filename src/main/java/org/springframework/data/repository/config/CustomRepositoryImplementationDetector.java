@@ -72,11 +72,9 @@ public class CustomRepositoryImplementationDetector {
 	 */
 	public CustomRepositoryImplementationDetector(Environment environment, ResourceLoader resourceLoader,
 			ImplementationDetectionConfiguration configuration) {
-
 		Assert.notNull(environment, "Environment must not be null!");
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null!");
 		Assert.notNull(configuration, "ImplementationDetectionConfiguration must not be null!");
-
 		this.environment = environment;
 		this.resourceLoader = resourceLoader;
 		this.implementationCandidates = Lazy.of(() -> findCandidateBeanDefinitions(configuration));
@@ -91,10 +89,8 @@ public class CustomRepositoryImplementationDetector {
 	 * @param resourceLoader must not be {@literal null}.
 	 */
 	public CustomRepositoryImplementationDetector(Environment environment, ResourceLoader resourceLoader) {
-
 		Assert.notNull(environment, "Environment must not be null!");
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null!");
-
 		this.environment = environment;
 		this.resourceLoader = resourceLoader;
 		this.implementationCandidates = Lazy.empty();
@@ -108,14 +104,11 @@ public class CustomRepositoryImplementationDetector {
 	 * {@literal null} if none found.
 	 */
 	public Optional<AbstractBeanDefinition> detectCustomImplementation(ImplementationLookupConfiguration lookup) {
-
 		Assert.notNull(lookup, "ImplementationLookupConfiguration must not be null!");
-
 		Set<BeanDefinition> definitions = this.implementationCandidates.getOptional()
 				.orElseGet(() -> findCandidateBeanDefinitions(lookup)).stream() //
 				.filter(lookup::matches) //
 				.collect(StreamUtils.toUnmodifiableSet());
-
 		return SelectionSet //
 				.of(definitions, c -> c.isEmpty() ? Optional.empty() : throwAmbiguousCustomImplementationException(c)) //
 				.filterIfNecessary(lookup::hasMatchingBeanName) //
@@ -124,18 +117,14 @@ public class CustomRepositoryImplementationDetector {
 	}
 
 	private Set<BeanDefinition> findCandidateBeanDefinitions(ImplementationDetectionConfiguration config) {
-
 		String postfix = config.getImplementationPostfix();
-
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false,
 				this.environment);
 		provider.setResourceLoader(this.resourceLoader);
 		provider.setResourcePattern(String.format(CUSTOM_IMPLEMENTATION_RESOURCE_PATTERN, postfix));
 		provider.setMetadataReaderFactory(config.getMetadataReaderFactory());
 		provider.addIncludeFilter((reader, factory) -> true);
-
 		config.getExcludeFilters().forEach(it -> provider.addExcludeFilter(it));
-
 		return config.getBasePackages().stream()//
 				.flatMap(it -> provider.findCandidateComponents(it).stream())//
 				.collect(Collectors.toSet());
@@ -143,11 +132,9 @@ public class CustomRepositoryImplementationDetector {
 
 	private static Optional<BeanDefinition> throwAmbiguousCustomImplementationException(
 			Collection<BeanDefinition> definitions) {
-
 		String implementationNames = definitions.stream()//
 				.map(BeanDefinition::getBeanClassName)//
 				.collect(Collectors.joining(", "));
-
 		throw new IllegalStateException(String.format(AMBIGUOUS_CUSTOM_IMPLEMENTATIONS, implementationNames));
 	}
 

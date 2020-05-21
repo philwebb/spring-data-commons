@@ -45,11 +45,8 @@ class Functions {
 	private final MultiValueMap<String, Function> functions = new LinkedMultiValueMap<>();
 
 	void addAll(Map<String, Function> newFunctions) {
-
 		newFunctions.forEach((n, f) -> {
-
 			List<Function> currentElements = get(n);
-
 			if (!contains(currentElements, f)) {
 				this.functions.add(n, f);
 			}
@@ -57,11 +54,8 @@ class Functions {
 	}
 
 	void addAll(MultiValueMap<String, Function> newFunctions) {
-
 		newFunctions.forEach((k, list) -> {
-
 			List<Function> currentElements = get(k);
-
 			list.stream() //
 					.filter(f -> !contains(currentElements, f)) //
 					.forEach(f -> this.functions.add(k, f));
@@ -84,12 +78,9 @@ class Functions {
 	 * parameters.
 	 */
 	Optional<Function> get(String name, List<TypeDescriptor> argumentTypes) {
-
 		Stream<Function> candidates = get(name).stream() //
 				.filter(f -> f.supports(argumentTypes));
-
 		List<Function> collect = candidates.collect(Collectors.toList());
-
 		return bestMatch(collect, argumentTypes);
 	}
 
@@ -98,30 +89,23 @@ class Functions {
 	}
 
 	private static Optional<Function> bestMatch(List<Function> candidates, List<TypeDescriptor> argumentTypes) {
-
 		if (candidates.isEmpty()) {
 			return Optional.empty();
 		}
-
 		if (candidates.size() == 1) {
 			return Optional.of(candidates.get(0));
 		}
-
 		Optional<Function> exactMatch = candidates.stream().filter(f -> f.supportsExact(argumentTypes)).findFirst();
-
 		if (!exactMatch.isPresent()) {
 			throw new IllegalStateException(createErrorMessage(candidates, argumentTypes));
 		}
-
 		return exactMatch;
 	}
 
 	private static String createErrorMessage(List<Function> candidates, List<TypeDescriptor> argumentTypes) {
-
 		String argumentTypeString = argumentTypes.stream()//
 				.map(TypeDescriptor::getName)//
 				.collect(Collectors.joining(","));
-
 		return String.format(MESSAGE_TEMPLATE, candidates.get(0).getName(), argumentTypeString);
 	}
 

@@ -56,10 +56,8 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 	private final MethodsMetadata methodsMetadata;
 
 	DefaultMethodsMetadataReader(Resource resource, @Nullable ClassLoader classLoader) throws IOException {
-
 		MethodsMetadataReadingVisitor visitor = new MethodsMetadataReadingVisitor(classLoader);
 		createClassReader(resource).accept(visitor, ClassReader.SKIP_DEBUG);
-
 		this.resource = resource;
 		this.classMetadata = visitor;
 		this.annotationMetadata = visitor;
@@ -67,9 +65,7 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 	}
 
 	private static ClassReader createClassReader(Resource resource) throws IOException {
-
 		try (InputStream is = new BufferedInputStream(resource.getInputStream())) {
-
 			return new ClassReader(is);
 
 		}
@@ -135,21 +131,17 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 		@Override
 		@SuppressWarnings("null")
 		public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-
 			// Skip bridge methods - we're only interested in original user methods.
 			// On JDK 8, we'd otherwise run into double detection of the same method...
 			if ((access & Opcodes.ACC_BRIDGE) != 0) {
 				return super.visitMethod(access, name, desc, signature, exceptions);
 			}
-
 			// Skip constructors
 			if (name.equals("<init>")) {
 				return super.visitMethod(access, name, desc, signature, exceptions);
 			}
-
 			MethodMetadataReadingVisitor visitor = new MethodMetadataReadingVisitor(name, access, getClassName(),
 					Type.getReturnType(desc).getClassName(), this.classLoader, this.methodMetadataSet);
-
 			this.methodMetadataSet.add(visitor);
 			return visitor;
 		}
@@ -161,9 +153,7 @@ class DefaultMethodsMetadataReader implements MethodsMetadataReader {
 
 		@Override
 		public Set<MethodMetadata> getMethods(String name) {
-
 			Assert.hasText(name, "Method name must not be null or empty");
-
 			return this.methodMetadataSet.stream() //
 					.filter(it -> it.getMethodName().equals(name)) //
 					.collect(StreamUtils.toUnmodifiableSet());

@@ -39,23 +39,17 @@ public class PropertiesBasedNamedQueries implements NamedQueries {
 
 	@Override
 	public boolean hasQuery(String queryName) {
-
 		Assert.hasText(queryName, "Query name must not be null or empty!");
-
 		return this.properties.containsKey(queryName);
 	}
 
 	@Override
 	public String getQuery(String queryName) {
-
 		Assert.hasText(queryName, "Query name must not be null or empty!");
-
 		String query = this.properties.getProperty(queryName);
-
 		if (query == null) {
 			throw new IllegalArgumentException(String.format(NO_QUERY_FOUND, queryName));
 		}
-
 		return query;
 	}
 

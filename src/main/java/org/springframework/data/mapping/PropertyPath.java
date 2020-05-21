@@ -87,18 +87,14 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @param base the {@link PropertyPath} previously found.
 	 */
 	PropertyPath(String name, TypeInformation<?> owningType, List<PropertyPath> base) {
-
 		Assert.hasText(name, "Name must not be null or empty!");
 		Assert.notNull(owningType, "Owning type must not be null!");
 		Assert.notNull(base, "Perviously found properties must not be null!");
-
 		String propertyName = Introspector.decapitalize(name);
 		TypeInformation<?> propertyType = owningType.getProperty(propertyName);
-
 		if (propertyType == null) {
 			throw new PropertyReferenceException(propertyName, owningType, base);
 		}
-
 		this.owningType = owningType;
 		this.typeInformation = propertyType;
 		this.isCollection = propertyType.isCollectionLike();
@@ -128,13 +124,10 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @return will never be {@literal null}.
 	 */
 	public PropertyPath getLeafProperty() {
-
 		PropertyPath result = this;
-
 		while (result.hasNext()) {
 			result = result.requiredNext();
 		}
-
 		return result;
 	}
 
@@ -186,11 +179,9 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @return
 	 */
 	public String toDotPath() {
-
 		if (hasNext()) {
 			return getSegment() + "." + requiredNext().toDotPath();
 		}
-
 		return getSegment();
 	}
 
@@ -208,17 +199,13 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @return will never be {@literal null}.
 	 */
 	public PropertyPath nested(String path) {
-
 		Assert.hasText(path, "Path must not be null or empty!");
-
 		String lookup = toDotPath().concat(".").concat(path);
-
 		return PropertyPath.from(lookup, this.owningType);
 	}
 
 	@Override
 	public Iterator<PropertyPath> iterator() {
-
 		return new Iterator<PropertyPath>() {
 
 			private @Nullable PropertyPath current = PropertyPath.this;
@@ -231,13 +218,10 @@ public class PropertyPath implements Streamable<PropertyPath> {
 			@Override
 			@Nullable
 			public PropertyPath next() {
-
 				PropertyPath result = this.current;
-
 				if (result == null) {
 					return null;
 				}
-
 				this.current = result.next();
 				return result;
 			}
@@ -246,42 +230,34 @@ public class PropertyPath implements Streamable<PropertyPath> {
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}
+
 		};
 	}
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof PropertyPath)) {
 			return false;
 		}
-
 		PropertyPath that = (PropertyPath) o;
-
 		if (this.isCollection != that.isCollection) {
 			return false;
 		}
-
 		if (!ObjectUtils.nullSafeEquals(this.owningType, that.owningType)) {
 			return false;
 		}
-
 		if (!ObjectUtils.nullSafeEquals(this.name, that.name)) {
 			return false;
 		}
-
 		if (!ObjectUtils.nullSafeEquals(this.typeInformation, that.typeInformation)) {
 			return false;
 		}
-
 		if (!ObjectUtils.nullSafeEquals(this.actualTypeInformation, that.actualTypeInformation)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.next, that.next);
 	}
 
@@ -302,14 +278,11 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @throws IllegalStateException it there's no next one.
 	 */
 	private PropertyPath requiredNext() {
-
 		PropertyPath result = this.next;
-
 		if (result == null) {
 			throw new IllegalStateException(
 					"No next path available! Clients should call hasNext() before invoking this method!");
 		}
-
 		return result;
 	}
 
@@ -334,27 +307,19 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @return
 	 */
 	public static PropertyPath from(String source, TypeInformation<?> type) {
-
 		Assert.hasText(source, "Source must not be null or empty!");
 		Assert.notNull(type, "TypeInformation must not be null or empty!");
-
 		return CACHE.computeIfAbsent(Key.of(type, source), it -> {
-
 			List<String> iteratorSource = new ArrayList<>();
-
 			Matcher matcher = isQuoted(it.path)
 					? SPLITTER_FOR_QUOTED.matcher(it.path.replace("\\Q", "").replace("\\E", ""))
 					: SPLITTER.matcher("_" + it.path);
-
 			while (matcher.find()) {
 				iteratorSource.add(matcher.group(1));
 			}
-
 			Iterator<String> parts = iteratorSource.iterator();
-
 			PropertyPath result = null;
 			Stack<PropertyPath> current = new Stack<>();
-
 			while (parts.hasNext()) {
 				if (result == null) {
 					result = create(parts.next(), it.type, current);
@@ -364,12 +329,10 @@ public class PropertyPath implements Streamable<PropertyPath> {
 					current.push(create(parts.next(), current));
 				}
 			}
-
 			if (result == null) {
 				throw new IllegalStateException(
 						String.format("Expected parsing to yield a PropertyPath from %s but got null!", source));
 			}
-
 			return result;
 		});
 	}
@@ -386,9 +349,7 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 * @return
 	 */
 	private static PropertyPath create(String source, Stack<PropertyPath> base) {
-
 		PropertyPath previous = base.peek();
-
 		PropertyPath propertyPath = create(source, previous.typeInformation.getRequiredActualType(), base);
 		previous.next = propertyPath;
 		return propertyPath;
@@ -421,50 +382,36 @@ public class PropertyPath implements Streamable<PropertyPath> {
 	 */
 	private static PropertyPath create(String source, TypeInformation<?> type, String addTail,
 			List<PropertyPath> base) {
-
 		if (base.size() > 1000) {
 			throw new IllegalArgumentException(PARSE_DEPTH_EXCEEDED);
 		}
-
 		PropertyReferenceException exception = null;
 		PropertyPath current = null;
-
 		try {
-
 			current = new PropertyPath(source, type, base);
-
 			if (!base.isEmpty()) {
 				base.get(base.size() - 1).next = current;
 			}
-
 			List<PropertyPath> newBase = new ArrayList<>(base);
 			newBase.add(current);
-
 			if (StringUtils.hasText(addTail)) {
 				current.next = create(addTail, current.actualTypeInformation, newBase);
 			}
-
 			return current;
 
 		}
 		catch (PropertyReferenceException e) {
-
 			if (current != null) {
 				throw e;
 			}
-
 			exception = e;
 		}
-
 		Pattern pattern = Pattern.compile("\\p{Lu}\\p{Ll}*$");
 		Matcher matcher = pattern.matcher(source);
-
 		if (matcher.find() && matcher.start() != 0) {
-
 			int position = matcher.start();
 			String head = source.substring(0, position);
 			String tail = source.substring(position);
-
 			try {
 				return create(head, type, tail + addTail, base);
 			}
@@ -472,7 +419,6 @@ public class PropertyPath implements Streamable<PropertyPath> {
 				throw e.hasDeeperResolutionDepthThan(exception) ? e : exception;
 			}
 		}
-
 		throw exception;
 	}
 
@@ -506,21 +452,16 @@ public class PropertyPath implements Streamable<PropertyPath> {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof Key)) {
 				return false;
 			}
-
 			Key key = (Key) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.type, key.type)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.path, key.path);
 		}
 

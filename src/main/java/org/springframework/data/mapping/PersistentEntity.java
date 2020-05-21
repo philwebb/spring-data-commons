@@ -93,13 +93,10 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 * @since 2.0
 	 */
 	default P getRequiredIdProperty() {
-
 		P property = getIdProperty();
-
 		if (property != null) {
 			return property;
 		}
-
 		throw new IllegalStateException(String.format("Required identifier property not found for %s!", getType()));
 	}
 
@@ -120,13 +117,10 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 * @since 2.0
 	 */
 	default P getRequiredVersionProperty() {
-
 		P property = getVersionProperty();
-
 		if (property != null) {
 			return property;
 		}
-
 		throw new IllegalStateException(String.format("Required version property not found for %s!", getType()));
 	}
 
@@ -145,13 +139,10 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 * @throws IllegalStateException in case no property with the given name exists.
 	 */
 	default P getRequiredPersistentProperty(String name) {
-
 		P property = getPersistentProperty(name);
-
 		if (property != null) {
 			return property;
 		}
-
 		throw new IllegalStateException(String.format("Required property %s not found for %s!", name, getType()));
 	}
 
@@ -163,7 +154,6 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 */
 	@Nullable
 	default P getPersistentProperty(Class<? extends Annotation> annotationType) {
-
 		Iterator<P> it = getPersistentProperties(annotationType).iterator();
 		return it.hasNext() ? it.next() : null;
 	}
@@ -247,13 +237,10 @@ public interface PersistentEntity<T, P extends PersistentProperty<P>> extends It
 	 * @since 2.0
 	 */
 	default <A extends Annotation> A getRequiredAnnotation(Class<A> annotationType) throws IllegalStateException {
-
 		A annotation = findAnnotation(annotationType);
-
 		if (annotation != null) {
 			return annotation;
 		}
-
 		throw new IllegalStateException(
 				String.format("Required annotation %s not found for %s!", annotationType, getType()));
 	}

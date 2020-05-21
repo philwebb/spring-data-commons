@@ -73,9 +73,7 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 	 * @param classLoader can be {@literal null}.
 	 */
 	public ResourceReaderRepositoryPopulator(ResourceReader reader, @Nullable ClassLoader classLoader) {
-
 		Assert.notNull(reader, "Reader must not be null!");
-
 		this.reader = reader;
 		this.classLoader = classLoader;
 		this.resolver = classLoader == null ? new PathMatchingResourcePatternResolver()
@@ -108,17 +106,11 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 
 	@Override
 	public void populate(Repositories repositories) {
-
 		Assert.notNull(repositories, "Repositories must not be null!");
-
 		RepositoryInvokerFactory invokerFactory = new DefaultRepositoryInvokerFactory(repositories);
-
 		for (Resource resource : this.resources) {
-
 			logger.info(String.format("Reading resource: %s", resource));
-
 			Object result = readObjectFrom(resource);
-
 			if (result instanceof Collection) {
 				for (Object element : (Collection<?>) result) {
 					if (element != null) {
@@ -133,7 +125,6 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 				persist(result, invokerFactory);
 			}
 		}
-
 		if (this.publisher != null) {
 			this.publisher.publishEvent(new RepositoriesPopulatedEvent(this, repositories));
 		}
@@ -160,7 +151,6 @@ public class ResourceReaderRepositoryPopulator implements RepositoryPopulator, A
 	 * @param invokerFactory must not be {@literal null}.
 	 */
 	private void persist(Object object, RepositoryInvokerFactory invokerFactory) {
-
 		RepositoryInvoker invoker = invokerFactory.getInvokerFor(object.getClass());
 		logger.debug(String.format("Persisting %s using repository %s", object, invoker));
 		invoker.invokeSave(object);

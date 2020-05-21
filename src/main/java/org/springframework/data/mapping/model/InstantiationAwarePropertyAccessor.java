@@ -54,10 +54,8 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 	 */
 	public InstantiationAwarePropertyAccessor(PersistentPropertyAccessor<T> delegate,
 			EntityInstantiators instantiators) {
-
 		Assert.notNull(delegate, "Delegate PersistenPropertyAccessor must not be null!");
 		Assert.notNull(instantiators, "EntityInstantiators must not be null!");
-
 		this.delegate = delegate;
 		this.instantiators = instantiators;
 		this.bean = delegate.getBean();
@@ -72,49 +70,39 @@ public class InstantiationAwarePropertyAccessor<T> implements PersistentProperty
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
-
 		PersistentEntity<?, ?> owner = property.getOwner();
-
 		if (!property.isImmutable() || property.getWither() != null || ReflectionUtils.isKotlinClass(owner.getType())) {
-
 			this.delegate.setProperty(property, value);
 			this.bean = this.delegate.getBean();
-
 			return;
 		}
-
 		PreferredConstructor<?, ?> constructor = owner.getPersistenceConstructor();
-
 		if (constructor == null) {
 			throw new IllegalStateException(
 					String.format(NO_SETTER_OR_CONSTRUCTOR, property.getName(), owner.getType()));
 		}
-
 		if (!constructor.isConstructorParameter(property)) {
 			throw new IllegalStateException(
 					String.format(NO_CONSTRUCTOR_PARAMETER, property.getName(), constructor.getConstructor()));
 		}
-
 		constructor.getParameters().stream().forEach(it -> {
-
 			if (it.getName() == null) {
 				throw new IllegalStateException(
 						String.format("Cannot detect parameter names of copy constructor of %s!", owner.getType()));
 			}
 		});
-
 		EntityInstantiator instantiator = this.instantiators.getInstantiatorFor(owner);
-
 		this.bean = (T) instantiator.createInstance(owner, new ParameterValueProvider() {
+
 			@Override
 			@Nullable
 			@SuppressWarnings("null")
 			public Object getParameterValue(Parameter parameter) {
-
 				return property.getName().equals(parameter.getName()) //
 						? value : InstantiationAwarePropertyAccessor.this.delegate
 								.getProperty(owner.getRequiredPersistentProperty(parameter.getName()));
 			}
+
 		});
 	}
 

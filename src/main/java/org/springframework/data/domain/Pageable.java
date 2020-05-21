@@ -81,9 +81,7 @@ public interface Pageable {
 	 * @return
 	 */
 	default Sort getSortOr(Sort sort) {
-
 		Assert.notNull(sort, "Fallback Sort must not be null!");
-
 		return getSort().isSorted() ? getSort() : sort;
 	}
 

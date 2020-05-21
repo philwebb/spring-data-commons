@@ -54,10 +54,8 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 	 * @param repositoryInterface must not be {@literal null} and must be an interface.
 	 */
 	public AbstractRepositoryMetadata(Class<?> repositoryInterface) {
-
 		Assert.notNull(repositoryInterface, "Given type must not be null!");
 		Assert.isTrue(repositoryInterface.isInterface(), "Given type must be an interface!");
-
 		this.repositoryInterface = repositoryInterface;
 		this.typeInformation = ClassTypeInformation.from(repositoryInterface);
 		this.crudMethods = Lazy.of(() -> new DefaultCrudMethods(this));
@@ -70,9 +68,7 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 	 * @return
 	 */
 	public static RepositoryMetadata getMetadata(Class<?> repositoryInterface) {
-
 		Assert.notNull(repositoryInterface, "Repository interface must not be null!");
-
 		return Repository.class.isAssignableFrom(repositoryInterface)
 				? new DefaultRepositoryMetadata(repositoryInterface)
 				: new AnnotationRepositoryMetadata(repositoryInterface);
@@ -80,20 +76,16 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 
 	@Override
 	public Class<?> getReturnedDomainClass(Method method) {
-
 		TypeInformation<?> returnType = null;
 		if (KotlinDetector.isKotlinType(method.getDeclaringClass()) && KotlinReflectionUtils.isSuspend(method)) {
-
 			// the last parameter is Continuation<? super T> or Continuation<? super
 			// Flow<? super T>>
 			List<TypeInformation<?>> types = this.typeInformation.getParameterTypes(method);
 			returnType = types.get(types.size() - 1).getComponentType();
 		}
-
 		if (returnType == null) {
 			returnType = this.typeInformation.getReturnType(method);
 		}
-
 		return QueryExecutionConverters.unwrapWrapperTypes(returnType).getType();
 	}
 
@@ -109,7 +101,6 @@ public abstract class AbstractRepositoryMetadata implements RepositoryMetadata {
 
 	@Override
 	public boolean isPagingRepository() {
-
 		return getCrudMethods().getFindAllMethod()//
 				.map(it -> Arrays.asList(it.getParameterTypes()).contains(Pageable.class))//
 				.orElse(false);

@@ -56,9 +56,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 	 */
 	@Nullable
 	static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(Class<T> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		return Discoverers.findDiscoverer(type) //
 				.discover(ClassTypeInformation.from(type), null);
 	}
@@ -71,9 +69,7 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 	 */
 	@Nullable
 	static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(PersistentEntity<T, P> entity) {
-
 		Assert.notNull(entity, "PersistentEntity must not be null!");
-
 		return Discoverers.findDiscoverer(entity.getType()) //
 				.discover(entity.getTypeInformation(), entity);
 	}
@@ -106,22 +102,17 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 			@Override
 			<T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(TypeInformation<T> type,
 					@Nullable PersistentEntity<T, P> entity) {
-
 				Class<?> rawOwningType = type.getType();
-
 				List<Constructor<?>> candidates = new ArrayList<>();
 				Constructor<?> noArg = null;
 				for (Constructor<?> candidate : rawOwningType.getDeclaredConstructors()) {
-
 					// Synthetic constructors should not be considered
 					if (candidate.isSynthetic()) {
 						continue;
 					}
-
 					if (candidate.isAnnotationPresent(PersistenceConstructor.class)) {
 						return buildPreferredConstructor(candidate, type, entity);
 					}
-
 					if (candidate.getParameterCount() == 0) {
 						noArg = candidate;
 					}
@@ -129,11 +120,9 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 						candidates.add(candidate);
 					}
 				}
-
 				if (noArg != null) {
 					return buildPreferredConstructor(noArg, type, entity);
 				}
-
 				return candidates.size() > 1 || candidates.isEmpty() ? null
 						: buildPreferredConstructor(candidates.iterator().next(), type, entity);
 			}
@@ -156,30 +145,21 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 			@Override
 			<T, P extends PersistentProperty<P>> PreferredConstructor<T, P> discover(TypeInformation<T> type,
 					@Nullable PersistentEntity<T, P> entity) {
-
 				Class<?> rawOwningType = type.getType();
-
 				return Arrays.stream(rawOwningType.getDeclaredConstructors()) //
-						.filter(it -> !it.isSynthetic()) // Synthetic constructors should
-															// not be considered
-						.filter(it -> it.isAnnotationPresent(PersistenceConstructor.class)) // Explicitly
-																							// defined
-																							// constructor
-																							// trumps
-																							// all
+						// Synthetic constructors should not be considered
+						.filter(it -> !it.isSynthetic())
+						// Explicitly defined constructor trumps all
+						.filter(it -> it.isAnnotationPresent(PersistenceConstructor.class))
 						.map(it -> buildPreferredConstructor(it, type, entity)) //
 						.findFirst() //
 						.orElseGet(() -> {
-
 							KFunction<T> primaryConstructor = KClasses
 									.getPrimaryConstructor(JvmClassMappingKt.getKotlinClass(type.getType()));
-
 							if (primaryConstructor == null) {
 								return DEFAULT.discover(type, entity);
 							}
-
 							Constructor<T> javaConstructor = ReflectJvmMapping.getJavaConstructor(primaryConstructor);
-
 							return javaConstructor != null ? buildPreferredConstructor(javaConstructor, type, entity)
 									: null;
 						});
@@ -211,26 +191,19 @@ public interface PreferredConstructorDiscoverer<T, P extends PersistentProperty<
 		private static <T, P extends PersistentProperty<P>> PreferredConstructor<T, P> buildPreferredConstructor(
 				Constructor<?> constructor, TypeInformation<T> typeInformation,
 				@Nullable PersistentEntity<T, P> entity) {
-
 			if (constructor.getParameterCount() == 0) {
 				return new PreferredConstructor<>((Constructor<T>) constructor);
 			}
-
 			List<TypeInformation<?>> parameterTypes = typeInformation.getParameterTypes(constructor);
 			String[] parameterNames = PARAMETER_NAME_DISCOVERER.getParameterNames(constructor);
-
 			Parameter<Object, P>[] parameters = new Parameter[parameterTypes.size()];
 			Annotation[][] parameterAnnotations = constructor.getParameterAnnotations();
-
 			for (int i = 0; i < parameterTypes.size(); i++) {
-
 				String name = parameterNames == null ? null : parameterNames[i];
 				TypeInformation<?> type = parameterTypes.get(i);
 				Annotation[] annotations = parameterAnnotations[i];
-
 				parameters[i] = new Parameter(name, type, annotations, entity);
 			}
-
 			return new PreferredConstructor<>((Constructor<T>) constructor, parameters);
 		}
 

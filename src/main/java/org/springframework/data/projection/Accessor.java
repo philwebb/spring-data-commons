@@ -41,15 +41,11 @@ public final class Accessor {
 	 * method.
 	 */
 	public Accessor(Method method) {
-
 		Assert.notNull(method, "Method must not be null!");
-
 		PropertyDescriptor descriptor = BeanUtils.findPropertyForMethod(method);
-
 		if (descriptor == null) {
 			throw new IllegalArgumentException(String.format("Invoked method %s is no accessor method!", method));
 		}
-
 		this.descriptor = descriptor;
 		this.method = method;
 	}

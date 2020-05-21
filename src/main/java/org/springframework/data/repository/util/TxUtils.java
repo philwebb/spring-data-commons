@@ -23,7 +23,6 @@ package org.springframework.data.repository.util;
 public abstract class TxUtils {
 
 	private TxUtils() {
-
 	}
 
 	public static final String DEFAULT_TRANSACTION_MANAGER = "transactionManager";

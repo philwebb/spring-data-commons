@@ -69,10 +69,8 @@ public class SpelQueryContext {
 
 	private SpelQueryContext(BiFunction<Integer, String, String> parameterNameSource,
 			BiFunction<String, String, String> replacementSource) {
-
 		Assert.notNull(parameterNameSource, "Parameter name source must not be null");
 		Assert.notNull(replacementSource, "Replacement source must not be null");
-
 		this.parameterNameSource = parameterNameSource;
 		this.replacementSource = replacementSource;
 	}
@@ -108,9 +106,7 @@ public class SpelQueryContext {
 	 * @return
 	 */
 	public EvaluatingSpelQueryContext withEvaluationContextProvider(QueryMethodEvaluationContextProvider provider) {
-
 		Assert.notNull(provider, "QueryMethodEvaluationContextProvider must not be null!");
-
 		return new EvaluatingSpelQueryContext(provider, this.parameterNameSource, this.replacementSource);
 	}
 
@@ -136,9 +132,7 @@ public class SpelQueryContext {
 		private EvaluatingSpelQueryContext(QueryMethodEvaluationContextProvider evaluationContextProvider,
 				BiFunction<Integer, String, String> parameterNameSource,
 				BiFunction<String, String, String> replacementSource) {
-
 			super(parameterNameSource, replacementSource);
-
 			this.evaluationContextProvider = evaluationContextProvider;
 		}
 
@@ -193,48 +187,33 @@ public class SpelQueryContext {
 		 * @param query must not be {@literal null}.
 		 */
 		SpelExtractor(String query) {
-
 			Assert.notNull(query, "Query must not be null");
-
 			Map<String, String> expressions = new HashMap<>();
 			Matcher matcher = SPEL_PATTERN.matcher(query);
 			StringBuilder resultQuery = new StringBuilder();
 			QuotationMap quotedAreas = new QuotationMap(query);
-
 			int expressionCounter = 0;
 			int matchedUntil = 0;
-
 			while (matcher.find()) {
-
 				if (quotedAreas.isQuoted(matcher.start())) {
-
 					resultQuery.append(query, matchedUntil, matcher.end());
-
 				}
 				else {
-
 					String spelExpression = matcher.group(EXPRESSION_GROUP_INDEX);
 					String prefix = matcher.group(PREFIX_GROUP_INDEX);
-
 					String parameterName = SpelQueryContext.this.parameterNameSource.apply(expressionCounter,
 							spelExpression);
 					String replacement = SpelQueryContext.this.replacementSource.apply(prefix, parameterName);
-
 					resultQuery.append(query, matchedUntil, matcher.start());
 					resultQuery.append(replacement);
-
 					expressions.put(parameterName, spelExpression);
 					expressionCounter++;
 				}
-
 				matchedUntil = matcher.end();
 			}
-
 			resultQuery.append(query.substring(matchedUntil));
-
 			this.expressions = Collections.unmodifiableMap(expressions);
 			this.query = resultQuery.toString();
-
 			// recreate quotation map based on rewritten query.
 			this.quotations = new QuotationMap(this.query);
 		}
@@ -293,35 +272,24 @@ public class SpelQueryContext {
 		 * @param query can be {@literal null}.
 		 */
 		public QuotationMap(@Nullable String query) {
-
 			if (query == null) {
 				return;
 			}
-
 			Character inQuotation = null;
 			int start = 0;
-
 			for (int i = 0; i < query.length(); i++) {
-
 				char currentChar = query.charAt(i);
-
 				if (QUOTING_CHARACTERS.contains(currentChar)) {
-
 					if (inQuotation == null) {
-
 						inQuotation = currentChar;
 						start = i;
-
 					}
 					else if (currentChar == inQuotation) {
-
 						inQuotation = null;
-
 						this.quotedRanges.add(Range.from(Bound.inclusive(start)).to(Bound.inclusive(i)));
 					}
 				}
 			}
-
 			if (inQuotation != null) {
 				throw new IllegalArgumentException(
 						String.format("The string <%s> starts a quoted range at %d, but never ends it.", query, start));

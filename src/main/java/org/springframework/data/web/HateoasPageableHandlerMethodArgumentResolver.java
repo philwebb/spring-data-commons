@@ -65,7 +65,6 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 	 */
 	public HateoasPageableHandlerMethodArgumentResolver(
 			@Nullable HateoasSortHandlerMethodArgumentResolver sortResolver) {
-
 		super(getDefaultedSortResolver(sortResolver));
 		this.sortResolver = getDefaultedSortResolver(sortResolver);
 	}
@@ -77,24 +76,18 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 	 * @since 1.7
 	 */
 	public TemplateVariables getPaginationTemplateVariables(MethodParameter parameter, UriComponents template) {
-
 		String pagePropertyName = getParameterNameToUse(getPageParameterName(), parameter);
 		String sizePropertyName = getParameterNameToUse(getSizeParameterName(), parameter);
-
 		List<TemplateVariable> names = new ArrayList<>();
 		MultiValueMap<String, String> queryParameters = template.getQueryParams();
 		boolean append = !queryParameters.isEmpty();
-
 		for (String propertyName : Arrays.asList(pagePropertyName, sizePropertyName)) {
-
 			if (!queryParameters.containsKey(propertyName)) {
-
 				VariableType type = append ? REQUEST_PARAM_CONTINUED : REQUEST_PARAM;
 				String description = String.format("pagination.%s.description", propertyName);
 				names.add(new TemplateVariable(propertyName, type, description));
 			}
 		}
-
 		TemplateVariables pagingVariables = new TemplateVariables(names);
 		return pagingVariables.concat(this.sortResolver.getSortTemplateVariables(parameter, template));
 	}
@@ -108,28 +101,20 @@ public class HateoasPageableHandlerMethodArgumentResolver extends PageableHandle
 	 */
 	@Override
 	public void enhance(UriComponentsBuilder builder, @Nullable MethodParameter parameter, Object value) {
-
 		Assert.notNull(builder, "UriComponentsBuilder must not be null!");
-
 		if (!(value instanceof Pageable)) {
 			return;
 		}
-
 		Pageable pageable = (Pageable) value;
-
 		if (pageable.isUnpaged()) {
 			return;
 		}
-
 		String pagePropertyName = getParameterNameToUse(getPageParameterName(), parameter);
 		String sizePropertyName = getParameterNameToUse(getSizeParameterName(), parameter);
-
 		int pageNumber = pageable.getPageNumber();
-
 		builder.replaceQueryParam(pagePropertyName, isOneIndexedParameters() ? pageNumber + 1 : pageNumber);
 		builder.replaceQueryParam(sizePropertyName,
 				pageable.getPageSize() <= getMaxPageSize() ? pageable.getPageSize() : getMaxPageSize());
-
 		this.sortResolver.enhance(builder, parameter, pageable.getSort());
 	}
 

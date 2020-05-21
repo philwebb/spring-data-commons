@@ -55,10 +55,8 @@ public abstract class AuditingBeanDefinitionRegistrarSupport implements ImportBe
 
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry registry) {
-
 		Assert.notNull(annotationMetadata, "AnnotationMetadata must not be null!");
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
-
 		AbstractBeanDefinition ahbd = registerAuditHandlerBeanDefinition(registry,
 				getConfiguration(annotationMetadata));
 		registerAuditListenerBeanDefinition(ahbd, registry);
@@ -72,10 +70,8 @@ public abstract class AuditingBeanDefinitionRegistrarSupport implements ImportBe
 	 */
 	private AbstractBeanDefinition registerAuditHandlerBeanDefinition(BeanDefinitionRegistry registry,
 			AuditingConfiguration configuration) {
-
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
 		Assert.notNull(configuration, "AuditingConfiguration must not be null!");
-
 		AbstractBeanDefinition ahbd = getAuditHandlerBeanDefinitionBuilder(configuration).getBeanDefinition();
 		registry.registerBeanDefinition(getAuditingHandlerBeanName(), ahbd);
 		return ahbd;
@@ -88,9 +84,7 @@ public abstract class AuditingBeanDefinitionRegistrarSupport implements ImportBe
 	 * @return
 	 */
 	protected BeanDefinitionBuilder getAuditHandlerBeanDefinitionBuilder(AuditingConfiguration configuration) {
-
 		Assert.notNull(configuration, "AuditingConfiguration must not be null!");
-
 		return configureDefaultAuditHandlerAttributes(configuration,
 				BeanDefinitionBuilder.rootBeanDefinition(AuditingHandler.class));
 	}
@@ -104,7 +98,6 @@ public abstract class AuditingBeanDefinitionRegistrarSupport implements ImportBe
 	 */
 	protected BeanDefinitionBuilder configureDefaultAuditHandlerAttributes(AuditingConfiguration configuration,
 			BeanDefinitionBuilder builder) {
-
 		if (StringUtils.hasText(configuration.getAuditorAwareRef())) {
 			builder.addPropertyValue(AUDITOR_AWARE,
 					createLazyInitTargetSourceBeanDefinition(configuration.getAuditorAwareRef()));
@@ -112,19 +105,15 @@ public abstract class AuditingBeanDefinitionRegistrarSupport implements ImportBe
 		else {
 			builder.setAutowireMode(AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE);
 		}
-
 		builder.addPropertyValue(SET_DATES, configuration.isSetDates());
 		builder.addPropertyValue(MODIFY_ON_CREATE, configuration.isModifyOnCreate());
-
 		if (StringUtils.hasText(configuration.getDateTimeProviderRef())) {
 			builder.addPropertyReference(DATE_TIME_PROVIDER, configuration.getDateTimeProviderRef());
 		}
 		else {
 			builder.addPropertyValue(DATE_TIME_PROVIDER, CurrentDateTimeProvider.INSTANCE);
 		}
-
 		builder.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-
 		return builder;
 	}
 
@@ -166,19 +155,15 @@ public abstract class AuditingBeanDefinitionRegistrarSupport implements ImportBe
 	 */
 	protected void registerInfrastructureBeanWithId(AbstractBeanDefinition definition, String id,
 			BeanDefinitionRegistry registry) {
-
 		definition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		registry.registerBeanDefinition(id, definition);
 	}
 
 	private BeanDefinition createLazyInitTargetSourceBeanDefinition(String auditorAwareRef) {
-
 		BeanDefinitionBuilder targetSourceBuilder = rootBeanDefinition(LazyInitTargetSource.class);
 		targetSourceBuilder.addPropertyValue("targetBeanName", auditorAwareRef);
-
 		BeanDefinitionBuilder builder = rootBeanDefinition(ProxyFactoryBean.class);
 		builder.addPropertyValue("targetSource", targetSourceBuilder.getBeanDefinition());
-
 		return builder.getBeanDefinition();
 	}
 

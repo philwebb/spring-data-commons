@@ -52,15 +52,11 @@ public interface EntityInformation<T, ID> extends EntityMetadata<T> {
 	 * @since 2.0
 	 */
 	default ID getRequiredId(T entity) throws IllegalArgumentException {
-
 		Assert.notNull(entity, "Entity must not be null!");
-
 		ID id = getId(entity);
-
 		if (id != null) {
 			return id;
 		}
-
 		throw new IllegalArgumentException(
 				String.format("Could not obtain required identifier from entity %s!", entity));
 	}

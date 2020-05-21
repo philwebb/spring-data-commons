@@ -58,9 +58,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 	 * @param type must not be {@literal null}.
 	 */
 	DefaultProjectionInformation(Class<?> type) {
-
 		Assert.notNull(type, "Projection type must not be null!");
-
 		this.projectionType = type;
 		this.properties = new PropertyDescriptorSource(type).getDescriptors();
 	}
@@ -72,7 +70,6 @@ class DefaultProjectionInformation implements ProjectionInformation {
 
 	@Override
 	public List<PropertyDescriptor> getInputProperties() {
-
 		return this.properties.stream()//
 				.filter(this::isInputProperty)//
 				.distinct()//
@@ -102,9 +99,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 	 * @return
 	 */
 	private static boolean hasDefaultGetter(PropertyDescriptor descriptor) {
-
 		Method method = descriptor.getReadMethod();
-
 		return method != null && method.isDefault();
 	}
 
@@ -128,9 +123,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @param type must not be {@literal null}.
 		 */
 		PropertyDescriptorSource(Class<?> type) {
-
 			Assert.notNull(type, "Type must not be null!");
-
 			this.type = type;
 			this.metadata = getMetadata(type);
 		}
@@ -150,17 +143,13 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private Stream<PropertyDescriptor> collectDescriptors() {
-
 			Stream<PropertyDescriptor> allButDefaultGetters = Arrays.stream(BeanUtils.getPropertyDescriptors(this.type)) //
 					.filter(it -> !hasDefaultGetter(it));
-
 			Stream<PropertyDescriptor> ownDescriptors = this.metadata
 					.map(it -> filterAndOrder(allButDefaultGetters, it)).orElse(allButDefaultGetters);
-
 			Stream<PropertyDescriptor> superTypeDescriptors = this.metadata.map(this::fromMetadata) //
 					.orElseGet(this::fromType) //
 					.flatMap(it -> new PropertyDescriptorSource(it).collectDescriptors());
-
 			return Stream.concat(ownDescriptors, superTypeDescriptors);
 		}
 
@@ -174,13 +163,10 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 */
 		private static Stream<PropertyDescriptor> filterAndOrder(Stream<PropertyDescriptor> source,
 				MethodsMetadata metadata) {
-
 			Map<String, Integer> orderedMethods = getMethodOrder(metadata);
-
 			if (orderedMethods.isEmpty()) {
 				return source;
 			}
-
 			return source.filter(descriptor -> descriptor.getReadMethod() != null)
 					.filter(descriptor -> orderedMethods.containsKey(descriptor.getReadMethod().getName()))
 					.sorted(Comparator.comparingInt(left -> orderedMethods.get(left.getReadMethod().getName())));
@@ -213,19 +199,13 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return the optional {@link MethodsMetadata}.
 		 */
 		private static Optional<MethodsMetadata> getMetadata(Class<?> type) {
-
 			try {
-
 				MethodsMetadataReaderFactory factory = new MethodsMetadataReaderFactory(type.getClassLoader());
 				MethodsMetadataReader metadataReader = factory.getMetadataReader(ClassUtils.getQualifiedName(type));
-
 				return Optional.of(metadataReader.getMethodsMetadata());
-
 			}
 			catch (IOException e) {
-
 				LOG.info("Couldn't read class metadata for {}. Input property calculation might fail!", type);
-
 				return Optional.empty();
 			}
 		}
@@ -237,7 +217,6 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private static Class<?> findType(String name, Class<?>[] types) {
-
 			return Arrays.stream(types) //
 					.filter(it -> name.equals(it.getName())) //
 					.findFirst().orElseThrow(() -> new IllegalStateException(
@@ -251,13 +230,11 @@ class DefaultProjectionInformation implements ProjectionInformation {
 		 * @return
 		 */
 		private static Map<String, Integer> getMethodOrder(MethodsMetadata metadata) {
-
 			List<String> methods = metadata.getMethods() //
 					.stream() //
 					.map(MethodMetadata::getMethodName) //
 					.distinct() //
 					.collect(Collectors.toList());
-
 			return IntStream.range(0, methods.size()) //
 					.boxed() //
 					.collect(Collectors.toMap(methods::get, i -> i));

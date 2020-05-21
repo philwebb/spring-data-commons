@@ -44,7 +44,6 @@ public class KotlinDefaultMask {
 	 * @param maskCallback must not be {@literal null}.
 	 */
 	public void forEach(IntConsumer maskCallback) {
-
 		for (int i : this.defaulting) {
 			maskCallback.accept(i);
 		}
@@ -68,31 +67,23 @@ public class KotlinDefaultMask {
 	 * @return {@link KotlinDefaultMask}.
 	 */
 	public static KotlinDefaultMask from(KFunction<?> function, Predicate<KParameter> isPresent) {
-
 		List<Integer> masks = new ArrayList<>();
 		int index = 0;
 		int mask = 0;
-
 		List<KParameter> parameters = function.getParameters();
-
 		for (KParameter parameter : parameters) {
-
 			if (index != 0 && index % Integer.SIZE == 0) {
 				masks.add(mask);
 				mask = 0;
 			}
-
 			if (parameter.isOptional() && !isPresent.test(parameter)) {
 				mask = mask | (1 << (index % Integer.SIZE));
 			}
-
 			if (parameter.getKind() == Kind.VALUE) {
 				index++;
 			}
 		}
-
 		masks.add(mask);
-
 		return new KotlinDefaultMask(masks.stream().mapToInt(i -> i).toArray());
 	}
 

@@ -100,12 +100,10 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 */
 	public CdiRepositoryBean(Set<Annotation> qualifiers, Class<T> repositoryType, BeanManager beanManager,
 			Optional<CustomRepositoryImplementationDetector> detector) {
-
 		Assert.notNull(qualifiers, "Qualifiers must not be null!");
 		Assert.notNull(beanManager, "BeanManager must not be null!");
 		Assert.notNull(repositoryType, "Repoitory type must not be null!");
 		Assert.isTrue(repositoryType.isInterface(), "RepositoryType must be an interface!");
-
 		this.qualifiers = qualifiers;
 		this.repositoryType = repositoryType;
 		this.beanManager = beanManager;
@@ -125,12 +123,10 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 */
 	public CdiRepositoryBean(Set<Annotation> qualifiers, Class<T> repositoryType, BeanManager beanManager,
 			CdiRepositoryContext context) {
-
 		Assert.notNull(qualifiers, "Qualifiers must not be null!");
 		Assert.notNull(beanManager, "BeanManager must not be null!");
 		Assert.notNull(repositoryType, "Repoitory type must not be null!");
 		Assert.isTrue(repositoryType.isInterface(), "RepositoryType must be an interface!");
-
 		this.qualifiers = qualifiers;
 		this.repositoryType = repositoryType;
 		this.beanManager = beanManager;
@@ -146,13 +142,10 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 * @return
 	 */
 	private String createPassivationId(Set<Annotation> qualifiers, Class<?> repositoryType) {
-
 		List<String> qualifierNames = new ArrayList<>(qualifiers.size());
-
 		for (Annotation qualifier : qualifiers) {
 			qualifierNames.add(qualifier.annotationType().getName());
 		}
-
 		Collections.sort(qualifierNames);
 		return StringUtils.collectionToDelimitedString(qualifierNames, ":") + ":" + repositoryType.getName();
 	}
@@ -160,11 +153,9 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	@Override
 	@SuppressWarnings("rawtypes")
 	public Set<Type> getTypes() {
-
 		Set<Class> interfaces = new HashSet<>();
 		interfaces.add(this.repositoryType);
 		interfaces.addAll(Arrays.asList(this.repositoryType.getInterfaces()));
-
 		return new HashSet<>(interfaces);
 	}
 
@@ -204,18 +195,14 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 	@Override
 	public final T create(@SuppressWarnings("null") CreationalContext<T> creationalContext) {
-
 		T repoInstance = this.repoInstance;
-
 		if (repoInstance != null) {
 			logger.debug("Returning eagerly created CDI repository instance for {}.", this.repositoryType.getName());
 			return repoInstance;
 		}
-
 		logger.debug("Creating CDI repository bean instance for {}.", this.repositoryType.getName());
 		repoInstance = create(creationalContext, this.repositoryType);
 		this.repoInstance = repoInstance;
-
 		return repoInstance;
 	}
 
@@ -228,12 +215,10 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	@Override
 	public void destroy(@SuppressWarnings("null") T instance,
 			@SuppressWarnings("null") CreationalContext<T> creationalContext) {
-
 		if (logger.isDebugEnabled()) {
 			logger.debug(String.format("Destroying bean instance %s for repository type '%s'.", instance.toString(),
 					this.repositoryType.getName()));
 		}
-
 		creationalContext.release();
 	}
 
@@ -249,7 +234,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 
 	@Override
 	public Set<Class<? extends Annotation>> getStereotypes() {
-
 		return Arrays.stream(this.repositoryType.getAnnotations())//
 				.map(Annotation::annotationType)//
 				.filter(it -> it.isAnnotationPresent(Stereotype.class))//
@@ -293,13 +277,10 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 * @return
 	 */
 	protected T create(CreationalContext<T> creationalContext, Class<T> repositoryType) {
-
 		CdiRepositoryConfiguration cdiRepositoryConfiguration = lookupConfiguration(this.beanManager, this.qualifiers);
-
 		Optional<Bean<?>> customImplementationBean = getCustomImplementationBean(repositoryType,
 				cdiRepositoryConfiguration);
 		Optional<Object> customImplementation = customImplementationBean.map(this::getDependencyInstance);
-
 		return create(creationalContext, repositoryType, customImplementation);
 	}
 
@@ -315,14 +296,10 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 * @since 2.1
 	 */
 	protected T create(Supplier<? extends RepositoryFactorySupport> factorySupplier, Class<T> repositoryType) {
-
 		CdiRepositoryConfiguration configuration = lookupConfiguration(this.beanManager, this.qualifiers);
 		RepositoryFragments repositoryFragments = getRepositoryFragments(repositoryType, configuration);
-
 		RepositoryFactorySupport factory = factorySupplier.get();
-
 		applyConfiguration(factory, configuration);
-
 		return create(factory, repositoryType, repositoryFragments);
 	}
 
@@ -333,28 +310,21 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 * @since 2.1
 	 */
 	protected RepositoryFragments getRepositoryFragments(Class<T> repositoryType) {
-
 		Assert.notNull(repositoryType, "Repository type must not be null!");
-
 		CdiRepositoryConfiguration cdiRepositoryConfiguration = lookupConfiguration(this.beanManager, this.qualifiers);
-
 		return getRepositoryFragments(repositoryType, cdiRepositoryConfiguration);
 	}
 
 	private RepositoryFragments getRepositoryFragments(Class<T> repositoryType,
 			CdiRepositoryConfiguration cdiRepositoryConfiguration) {
-
 		Optional<Bean<?>> customImplementationBean = getCustomImplementationBean(repositoryType,
 				cdiRepositoryConfiguration);
 		Optional<Object> customImplementation = customImplementationBean.map(this::getDependencyInstance);
-
 		List<RepositoryFragment<?>> repositoryFragments = findRepositoryFragments(repositoryType,
 				cdiRepositoryConfiguration);
-
 		RepositoryFragments customImplementationFragment = customImplementation //
 				.map(RepositoryFragments::just) //
 				.orElseGet(RepositoryFragments::empty);
-
 		return RepositoryFragments.from(repositoryFragments) //
 				.append(customImplementationFragment);
 	}
@@ -362,17 +332,13 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	@SuppressWarnings("unchecked")
 	private List<RepositoryFragment<?>> findRepositoryFragments(Class<T> repositoryType,
 			CdiRepositoryConfiguration cdiRepositoryConfiguration) {
-
 		Stream<RepositoryFragmentConfiguration> fragmentConfigurations = this.context
 				.getRepositoryFragments(cdiRepositoryConfiguration, repositoryType);
-
 		return fragmentConfigurations.flatMap(it -> {
-
 			Class<Object> interfaceClass = (Class<Object>) lookupFragmentInterface(repositoryType,
 					it.getInterfaceName());
 			Class<?> implementationClass = this.context.loadClass(it.getClassName());
 			Optional<Bean<?>> bean = getBean(implementationClass, this.beanManager, this.qualifiers);
-
 			return Optionals.toStream(bean.map(this::getDependencyInstance) //
 					.map(implementation -> RepositoryFragment.implemented(interfaceClass, implementation))); //
 
@@ -380,7 +346,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	}
 
 	private static Class<?> lookupFragmentInterface(Class<?> repositoryType, String interfaceName) {
-
 		return Arrays.stream(repositoryType.getInterfaces()) //
 				.filter(it -> it.getName().equals(interfaceName)) //
 				.findFirst() //
@@ -413,7 +378,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 * configuration.
 	 */
 	protected CdiRepositoryConfiguration lookupConfiguration(BeanManager beanManager, Set<Annotation> qualifiers) {
-
 		return beanManager.getBeans(CdiRepositoryConfiguration.class, getQualifiersArray(qualifiers)).stream()
 				.findFirst()//
 				.map(it -> (CdiRepositoryConfiguration) getDependencyInstance(it)) //
@@ -430,7 +394,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 */
 	private Optional<Bean<?>> getCustomImplementationBean(Class<?> repositoryType,
 			CdiRepositoryConfiguration cdiRepositoryConfiguration) {
-
 		return this.context.getCustomImplementationClass(repositoryType, cdiRepositoryConfiguration)//
 				.flatMap(type -> getBean(type, this.beanManager, this.qualifiers));
 	}
@@ -454,7 +417,6 @@ public abstract class CdiRepositoryBean<T> implements Bean<T>, PassivationCapabl
 	 */
 	protected static void applyConfiguration(RepositoryFactorySupport repositoryFactory,
 			CdiRepositoryConfiguration configuration) {
-
 		configuration.getEvaluationContextProvider().ifPresent(repositoryFactory::setEvaluationContextProvider);
 		configuration.getNamedQueries().ifPresent(repositoryFactory::setNamedQueries);
 		configuration.getQueryLookupStrategy().ifPresent(repositoryFactory::setQueryLookupStrategyKey);

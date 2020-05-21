@@ -43,10 +43,8 @@ public class BeanComponentDefinitionBuilder {
 	 * @param context must not be {@literal null}.
 	 */
 	public BeanComponentDefinitionBuilder(Element defaultSource, ParserContext context) {
-
 		Assert.notNull(defaultSource, "DefaultSource must not be null!");
 		Assert.notNull(context, "Context must not be null!");
-
 		this.defaultSource = defaultSource;
 		this.context = context;
 	}
@@ -58,13 +56,10 @@ public class BeanComponentDefinitionBuilder {
 	 * @return
 	 */
 	public BeanComponentDefinition getComponent(BeanDefinitionBuilder builder) {
-
 		Assert.notNull(builder, "Builder must not be null!");
-
 		AbstractBeanDefinition definition = builder.getRawBeanDefinition();
 		String name = BeanDefinitionReaderUtils.generateBeanName(definition, this.context.getRegistry(),
 				this.context.isNested());
-
 		return getComponent(builder, name);
 	}
 
@@ -77,9 +72,7 @@ public class BeanComponentDefinitionBuilder {
 	 * @return
 	 */
 	public BeanComponentDefinition getComponentIdButFallback(BeanDefinitionBuilder builder, String fallback) {
-
 		Assert.hasText(fallback, "Fallback component id must not be null or empty!");
-
 		String id = this.defaultSource.getAttribute("id");
 		return getComponent(builder, StringUtils.hasText(id) ? id : fallback);
 	}
@@ -104,13 +97,10 @@ public class BeanComponentDefinitionBuilder {
 	 * @return
 	 */
 	public BeanComponentDefinition getComponent(BeanDefinitionBuilder builder, String name, Object rawSource) {
-
 		Assert.notNull(builder, "Builder must not be null!");
 		Assert.hasText(name, "Name of bean must not be null or empty!");
-
 		AbstractBeanDefinition definition = builder.getRawBeanDefinition();
 		definition.setSource(this.context.extractSource(rawSource));
-
 		return new BeanComponentDefinition(definition, name);
 	}
 

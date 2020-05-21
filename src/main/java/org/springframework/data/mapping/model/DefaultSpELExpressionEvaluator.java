@@ -36,10 +36,8 @@ public class DefaultSpELExpressionEvaluator implements SpELExpressionEvaluator {
 	private final SpELContext factory;
 
 	public DefaultSpELExpressionEvaluator(Object source, SpELContext factory) {
-
 		Assert.notNull(source, "Source must not be null!");
 		Assert.notNull(factory, "SpELContext must not be null!");
-
 		this.source = source;
 		this.factory = factory;
 	}
@@ -48,7 +46,6 @@ public class DefaultSpELExpressionEvaluator implements SpELExpressionEvaluator {
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T> T evaluate(String expression) {
-
 		Expression parseExpression = this.factory.getParser().parseExpression(expression);
 		return (T) parseExpression.getValue(this.factory.getEvaluationContext(this.source));
 	}

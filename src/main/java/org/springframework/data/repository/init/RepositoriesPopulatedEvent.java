@@ -43,12 +43,9 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 	 * {@literal null}.
 	 */
 	public RepositoriesPopulatedEvent(RepositoryPopulator populator, Repositories repositories) {
-
 		super(populator);
-
 		Assert.notNull(populator, "Populator must not be null!");
 		Assert.notNull(repositories, "Repositories must not be null!");
-
 		this.repositories = repositories;
 	}
 
@@ -67,26 +64,21 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (obj == null || !getClass().equals(obj.getClass())) {
 			return false;
 		}
-
 		RepositoriesPopulatedEvent that = (RepositoriesPopulatedEvent) obj;
 		return this.source.equals(that.source) && this.repositories.equals(that.repositories);
 	}
 
 	@Override
 	public int hashCode() {
-
 		int result = 17;
 		result += 31 * this.source.hashCode();
 		result += 31 * this.repositories.hashCode();
-
 		return result;
 	}
 

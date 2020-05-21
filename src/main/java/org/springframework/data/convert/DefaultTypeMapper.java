@@ -79,24 +79,19 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	public DefaultTypeMapper(TypeAliasAccessor<S> accessor,
 			@Nullable MappingContext<? extends PersistentEntity<?, ?>, ?> mappingContext,
 			List<? extends TypeInformationMapper> additionalMappers) {
-
 		Assert.notNull(accessor, "Accessor must not be null!");
 		Assert.notNull(additionalMappers, "AdditionalMappers must not be null!");
-
 		List<TypeInformationMapper> mappers = new ArrayList<>(additionalMappers.size() + 1);
 		if (mappingContext != null) {
 			mappers.add(new MappingContextTypeInformationMapper(mappingContext));
 		}
 		mappers.addAll(additionalMappers);
-
 		this.mappers = Collections.unmodifiableList(mappers);
 		this.accessor = accessor;
 		this.typeCache = new ConcurrentHashMap<>();
 		this.getAlias = key -> {
-
 			for (TypeInformationMapper mapper : mappers) {
 				TypeInformation<?> typeInformation = mapper.resolveTypeFrom(key);
-
 				if (typeInformation != null) {
 					return Optional.of(typeInformation);
 				}
@@ -108,9 +103,7 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	@Override
 	@Nullable
 	public TypeInformation<?> readType(S source) {
-
 		Assert.notNull(source, "Source object must not be null!");
-
 		return getFromCacheOrCreate(this.accessor.readAliasFrom(source));
 	}
 
@@ -123,13 +116,10 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	 */
 	@Nullable
 	private TypeInformation<?> getFromCacheOrCreate(Alias alias) {
-
 		Optional<TypeInformation<?>> typeInformation = this.typeCache.get(alias);
-
 		if (typeInformation == null) {
 			typeInformation = this.typeCache.computeIfAbsent(alias, this.getAlias);
 		}
-
 		return typeInformation.orElse(null);
 	}
 
@@ -141,27 +131,19 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	 */
 	@Override
 	public <T> TypeInformation<? extends T> readType(S source, TypeInformation<T> basicType) {
-
 		Assert.notNull(source, "Source must not be null!");
 		Assert.notNull(basicType, "Basic type must not be null!");
-
 		Class<?> documentsTargetType = getDefaultedTypeToBeUsed(source);
-
 		if (documentsTargetType == null) {
 			return basicType;
 		}
-
 		Class<T> rawType = basicType.getType();
-
 		boolean isMoreConcreteCustomType = rawType == null
 				|| rawType.isAssignableFrom(documentsTargetType) && !rawType.equals(documentsTargetType);
-
 		if (!isMoreConcreteCustomType) {
 			return basicType;
 		}
-
 		ClassTypeInformation<?> targetType = ClassTypeInformation.from(documentsTargetType);
-
 		return basicType.specialize(targetType);
 	}
 
@@ -173,7 +155,6 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	 */
 	@Nullable
 	private Class<?> getDefaultedTypeToBeUsed(S source) {
-
 		TypeInformation<?> documentsTargetTypeInformation = readType(source);
 		documentsTargetTypeInformation = documentsTargetTypeInformation == null ? getFallbackTypeFor(source)
 				: documentsTargetTypeInformation;
@@ -211,9 +192,7 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	 */
 	@Override
 	public void writeType(TypeInformation<?> info, S sink) {
-
 		Assert.notNull(info, "TypeInformation must not be null!");
-
 		Alias alias = getAliasFor(info);
 		if (alias.isPresent()) {
 			this.accessor.writeTypeTo(sink, alias.getValue());
@@ -227,17 +206,13 @@ public class DefaultTypeMapper<S> implements TypeMapper<S> {
 	 * was found or all mappers returned {@literal null}.
 	 */
 	protected final Alias getAliasFor(TypeInformation<?> info) {
-
 		Assert.notNull(info, "TypeInformation must not be null!");
-
 		for (TypeInformationMapper mapper : this.mappers) {
-
 			Alias alias = mapper.createAliasFor(info);
 			if (alias.isPresent()) {
 				return alias;
 			}
 		}
-
 		return Alias.NONE;
 	}
 

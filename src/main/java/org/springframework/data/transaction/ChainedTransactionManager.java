@@ -79,11 +79,9 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 	 */
 	ChainedTransactionManager(SynchronizationManager synchronizationManager,
 			PlatformTransactionManager... transactionManagers) {
-
 		Assert.notNull(synchronizationManager, "SynchronizationManager must not be null!");
 		Assert.notNull(transactionManagers, "Transaction managers must not be null!");
 		Assert.isTrue(transactionManagers.length > 0, "At least one PlatformTransactionManager must be given!");
-
 		this.synchronizationManager = synchronizationManager;
 		this.transactionManagers = asList(transactionManagers);
 	}
@@ -91,29 +89,21 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 	@Override
 	public MultiTransactionStatus getTransaction(@Nullable TransactionDefinition definition)
 			throws TransactionException {
-
 		MultiTransactionStatus mts = new MultiTransactionStatus(this.transactionManagers.get(0));
-
 		if (definition == null) {
 			return mts;
 		}
-
 		if (!this.synchronizationManager.isSynchronizationActive()) {
 			this.synchronizationManager.initSynchronization();
 			mts.setNewSynchonization();
 		}
-
 		try {
-
 			for (PlatformTransactionManager transactionManager : this.transactionManagers) {
 				mts.registerTransactionManager(definition, transactionManager);
 			}
-
 		}
 		catch (Exception ex) {
-
 			Map<PlatformTransactionManager, TransactionStatus> transactionStatuses = mts.getTransactionStatuses();
-
 			for (PlatformTransactionManager transactionManager : this.transactionManagers) {
 				try {
 					if (transactionStatuses.get(transactionManager) != null) {
@@ -124,30 +114,22 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 					logger.warn("Rollback exception (" + transactionManager + ") " + ex2.getMessage(), ex2);
 				}
 			}
-
 			if (mts.isNewSynchonization()) {
 				this.synchronizationManager.clearSynchronization();
 			}
-
 			throw new CannotCreateTransactionException(ex.getMessage(), ex);
 		}
-
 		return mts;
 	}
 
 	@Override
 	public void commit(TransactionStatus status) throws TransactionException {
-
 		MultiTransactionStatus multiTransactionStatus = (MultiTransactionStatus) status;
-
 		boolean commit = true;
 		Exception commitException = null;
 		PlatformTransactionManager commitExceptionTransactionManager = null;
-
 		for (PlatformTransactionManager transactionManager : reverse(this.transactionManagers)) {
-
 			if (commit) {
-
 				try {
 					multiTransactionStatus.commit(transactionManager);
 				}
@@ -156,13 +138,10 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 					commitException = ex;
 					commitExceptionTransactionManager = transactionManager;
 				}
-
 			}
 			else {
-
 				// after unsucessfull commit we must try to rollback remaining transaction
 				// managers
-
 				try {
 					multiTransactionStatus.rollback(transactionManager);
 				}
@@ -172,11 +151,9 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 				}
 			}
 		}
-
 		if (multiTransactionStatus.isNewSynchonization()) {
 			this.synchronizationManager.clearSynchronization();
 		}
-
 		if (commitException != null) {
 			boolean firstTransactionManagerFailed = commitExceptionTransactionManager == getLastTransactionManager();
 			int transactionState = firstTransactionManagerFailed ? HeuristicCompletionException.STATE_ROLLED_BACK
@@ -187,12 +164,9 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 
 	@Override
 	public void rollback(TransactionStatus status) throws TransactionException {
-
 		Exception rollbackException = null;
 		PlatformTransactionManager rollbackExceptionTransactionManager = null;
-
 		MultiTransactionStatus multiTransactionStatus = (MultiTransactionStatus) status;
-
 		for (PlatformTransactionManager transactionManager : reverse(this.transactionManagers)) {
 			try {
 				multiTransactionStatus.rollback(transactionManager);
@@ -207,11 +181,9 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 				}
 			}
 		}
-
 		if (multiTransactionStatus.isNewSynchonization()) {
 			this.synchronizationManager.clearSynchronization();
 		}
-
 		if (rollbackException != null) {
 			throw new UnexpectedRollbackException("Rollback exception, originated at ("
 					+ rollbackExceptionTransactionManager + ") " + rollbackException.getMessage(), rollbackException);
@@ -219,7 +191,6 @@ public class ChainedTransactionManager implements PlatformTransactionManager {
 	}
 
 	private <T> Iterable<T> reverse(Collection<T> collection) {
-
 		List<T> list = new ArrayList<>(collection);
 		Collections.reverse(list);
 		return list;

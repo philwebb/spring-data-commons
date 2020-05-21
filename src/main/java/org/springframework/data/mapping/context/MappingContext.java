@@ -69,13 +69,10 @@ public interface MappingContext<E extends PersistentEntity<?, P>, P extends Pers
 	 * @since 2.0
 	 */
 	default E getRequiredPersistentEntity(Class<?> type) throws MappingException {
-
 		E entity = getPersistentEntity(type);
-
 		if (entity != null) {
 			return entity;
 		}
-
 		throw new MappingException(String.format("Couldn't find PersistentEntity for type %s!", type));
 	}
 
@@ -112,13 +109,10 @@ public interface MappingContext<E extends PersistentEntity<?, P>, P extends Pers
 	 * {@link TypeInformation}.
 	 */
 	default E getRequiredPersistentEntity(TypeInformation<?> type) throws MappingException {
-
 		E entity = getPersistentEntity(type);
-
 		if (entity != null) {
 			return entity;
 		}
-
 		throw new MappingException(String.format("Couldn't find PersistentEntity for type %s!", type));
 	}
 
@@ -148,13 +142,10 @@ public interface MappingContext<E extends PersistentEntity<?, P>, P extends Pers
 	 * {@link PersistentProperty}.
 	 */
 	default E getRequiredPersistentEntity(P persistentProperty) throws MappingException {
-
 		E entity = getPersistentEntity(persistentProperty);
-
 		if (entity != null) {
 			return entity;
 		}
-
 		throw new MappingException(
 				String.format("Couldn't find PersistentEntity for property %s!", persistentProperty));
 	}

@@ -60,9 +60,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	private final Map<Class<? extends Annotation>, Optional<? extends Annotation>> annotationCache = new ConcurrentHashMap<>();
 
 	private final Lazy<Boolean> usePropertyAccess = Lazy.of(() -> {
-
 		AccessType accessType = findPropertyOrOwnerAnnotation(AccessType.class);
-
 		return accessType != null && Type.PROPERTY.equals(accessType.value()) || super.usePropertyAccess();
 	});
 
@@ -85,13 +83,9 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	 */
 	public AnnotationBasedPersistentProperty(Property property, PersistentEntity<?, P> owner,
 			SimpleTypeHolder simpleTypeHolder) {
-
 		super(property, owner, simpleTypeHolder);
-
 		populateAnnotationCache(property);
-
 		Value value = findAnnotation(Value.class);
-
 		this.value = value == null ? null : value.value();
 	}
 
@@ -104,34 +98,24 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	 * methods
 	 */
 	private void populateAnnotationCache(Property property) {
-
 		Optionals.toStream(property.getGetter(), property.getSetter()).forEach(it -> {
-
 			for (Annotation annotation : it.getAnnotations()) {
-
 				Class<? extends Annotation> annotationType = annotation.annotationType();
-
 				validateAnnotation(annotation,
 						"Ambiguous mapping! Annotation %s configured "
 								+ "multiple times on accessor methods of property %s in class %s!",
 						annotationType.getSimpleName(), getName(), getOwner().getType().getSimpleName());
-
 				this.annotationCache.put(annotationType,
 						Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(it, annotationType)));
 			}
 		});
-
 		property.getField().ifPresent(it -> {
-
 			for (Annotation annotation : it.getAnnotations()) {
-
 				Class<? extends Annotation> annotationType = annotation.annotationType();
-
 				validateAnnotation(annotation,
 						"Ambiguous mapping! Annotation %s configured "
 								+ "on field %s and one of its accessor methods in class %s!",
 						annotationType.getSimpleName(), it.getName(), getOwner().getType().getSimpleName());
-
 				this.annotationCache.put(annotationType,
 						Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(it, annotationType)));
 			}
@@ -147,13 +131,10 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	 * @param arguments must not be {@literal null}.
 	 */
 	private void validateAnnotation(Annotation candidate, String message, Object... arguments) {
-
 		Class<? extends Annotation> annotationType = candidate.annotationType();
-
 		if (!annotationType.getName().startsWith(SPRING_DATA_PACKAGE)) {
 			return;
 		}
-
 		if (this.annotationCache.containsKey(annotationType)
 				&& !this.annotationCache.get(annotationType).equals(Optional.of(candidate))) {
 			throw new MappingException(String.format(message, arguments));
@@ -218,23 +199,17 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	@Override
 	@Nullable
 	public <A extends Annotation> A findAnnotation(Class<A> annotationType) {
-
 		Assert.notNull(annotationType, "Annotation type must not be null!");
-
 		return doFindAnnotation(annotationType).orElse(null);
 	}
 
 	@SuppressWarnings("unchecked")
 	private <A extends Annotation> Optional<A> doFindAnnotation(Class<A> annotationType) {
-
 		Optional<? extends Annotation> annotation = this.annotationCache.get(annotationType);
-
 		if (annotation != null) {
 			return (Optional<A>) annotation;
 		}
-
 		return (Optional<A>) this.annotationCache.computeIfAbsent(annotationType, type -> {
-
 			return getAccessors() //
 					.map(it -> AnnotatedElementUtils.findMergedAnnotation(it, type)) //
 					.flatMap(StreamUtils::fromNullable) //
@@ -245,9 +220,7 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	@Nullable
 	@Override
 	public <A extends Annotation> A findPropertyOrOwnerAnnotation(Class<A> annotationType) {
-
 		A annotation = findAnnotation(annotationType);
-
 		return annotation != null ? annotation : getOwner().findAnnotation(annotationType);
 	}
 
@@ -269,15 +242,11 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 	@Nullable
 	@Override
 	public Class<?> getAssociationTargetType() {
-
 		Reference reference = findAnnotation(Reference.class);
-
 		if (reference == null) {
 			return isEntity() ? getActualType() : null;
 		}
-
 		Class<?> targetType = reference.to();
-
 		return Class.class.equals(targetType) //
 				? isEntity() ? getActualType() : null //
 				: targetType;
@@ -285,21 +254,17 @@ public abstract class AnnotationBasedPersistentProperty<P extends PersistentProp
 
 	@Override
 	public String toString() {
-
 		if (this.annotationCache.isEmpty()) {
 			populateAnnotationCache(getProperty());
 		}
-
 		String builder = this.annotationCache.values().stream() //
 				.flatMap(Optionals::toStream) //
 				.map(Object::toString) //
 				.collect(Collectors.joining(" "));
-
 		return builder + super.toString();
 	}
 
 	private Stream<? extends AnnotatedElement> getAccessors() {
-
 		return Optionals.toStream(Optional.ofNullable(getGetter()), Optional.ofNullable(getSetter()),
 				Optional.ofNullable(getField()));
 	}

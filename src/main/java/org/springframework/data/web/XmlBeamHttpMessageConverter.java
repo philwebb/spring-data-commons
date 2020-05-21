@@ -55,21 +55,18 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 	 * Creates a new {@link XmlBeamHttpMessageConverter}.
 	 */
 	public XmlBeamHttpMessageConverter() {
-
 		this(new XBProjector(new DefaultXMLFactoriesConfig() {
 
 			private static final long serialVersionUID = -1324345769124477493L;
 
 			@Override
 			public DocumentBuilderFactory createDocumentBuilderFactory() {
-
 				DocumentBuilderFactory factory = super.createDocumentBuilderFactory();
-
 				factory.setAttribute("http://apache.org/xml/features/disallow-doctype-decl", true);
 				factory.setAttribute("http://xml.org/sax/features/external-general-entities", false);
-
 				return factory;
 			}
+
 		}));
 	}
 
@@ -79,28 +76,20 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 	 * @param projector must not be {@literal null}.
 	 */
 	public XmlBeamHttpMessageConverter(XBProjector projector) {
-
 		super(MediaType.APPLICATION_XML, MediaType.parseMediaType("application/*+xml"));
-
 		Assert.notNull(projector, "XBProjector must not be null!");
-
 		this.projectionFactory = projector;
 	}
 
 	@Override
 	protected boolean supports(Class<?> type) {
-
 		Class<?> rawType = ResolvableType.forType(type).resolve(Object.class);
 		Boolean result = this.supportedTypesCache.get(rawType);
-
 		if (result != null) {
 			return result;
 		}
-
 		result = rawType.isInterface() && AnnotationUtils.findAnnotation(rawType, ProjectedPayload.class) != null;
-
 		this.supportedTypesCache.put(rawType, result);
-
 		return result;
 	}
 
@@ -126,16 +115,11 @@ public class XmlBeamHttpMessageConverter extends AbstractHttpMessageConverter<Ob
 	@Override
 	protected Object readInternal(Class<? extends Object> clazz, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException {
-
 		try {
-
 			return this.projectionFactory.io().stream(inputMessage.getBody()).read(clazz);
-
 		}
 		catch (RuntimeException o_O) {
-
 			Throwable cause = o_O.getCause();
-
 			if (SAXParseException.class.isInstance(cause)) {
 				throw new HttpMessageNotReadableException("Cannot read input message!", cause, inputMessage);
 			}

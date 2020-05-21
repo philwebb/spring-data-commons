@@ -52,7 +52,6 @@ public class RepositoryFragmentsFactoryBean<T>
 	 */
 	@SuppressWarnings("null")
 	public RepositoryFragmentsFactoryBean(List<String> fragmentBeanNames) {
-
 		Assert.notNull(fragmentBeanNames, "Fragment bean names must not be null!");
 		this.fragmentBeanNames = fragmentBeanNames;
 	}
@@ -65,11 +64,9 @@ public class RepositoryFragmentsFactoryBean<T>
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void afterPropertiesSet() {
-
 		List<RepositoryFragment<?>> fragments = (List) this.fragmentBeanNames.stream() //
 				.map(it -> this.beanFactory.getBean(it, RepositoryFragment.class)) //
 				.collect(Collectors.toList());
-
 		this.repositoryFragments = RepositoryFragments.from(fragments);
 	}
 

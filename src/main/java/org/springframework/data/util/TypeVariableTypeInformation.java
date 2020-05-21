@@ -41,37 +41,27 @@ class TypeVariableTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 	 * @param parent
 	 */
 	public TypeVariableTypeInformation(TypeVariable<?> variable, TypeDiscoverer<?> parent) {
-
 		super(variable, parent);
-
 		Assert.notNull(variable, "TypeVariable must not be null!");
-
 		this.variable = variable;
 	}
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (obj == this) {
 			return true;
 		}
-
 		if (!(obj instanceof TypeVariableTypeInformation)) {
 			return false;
 		}
-
 		TypeVariableTypeInformation<?> that = (TypeVariableTypeInformation<?>) obj;
-
 		return getType().equals(that.getType());
 	}
 
 	@Override
 	public int hashCode() {
-
 		int result = 17;
-
 		result += 31 * nullSafeHashCode(getType());
-
 		return result;
 	}
 

@@ -121,9 +121,7 @@ public interface RepositoryConfigurationSource {
 	 * @since 2.2
 	 */
 	default <T> T getRequiredAttribute(String name, Class<T> type) {
-
 		Assert.hasText(name, "Attribute name must not be null or empty!");
-
 		return getAttribute(name, type)
 				.orElseThrow(() -> new IllegalArgumentException(String.format("No attribute named %s found!", name)));
 	}

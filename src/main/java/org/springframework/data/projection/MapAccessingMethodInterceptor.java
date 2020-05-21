@@ -38,24 +38,18 @@ class MapAccessingMethodInterceptor implements MethodInterceptor {
 	private final Map<String, Object> map;
 
 	MapAccessingMethodInterceptor(Map<String, Object> map) {
-
 		Assert.notNull(map, "Map must not be null");
-
 		this.map = map;
 	}
 
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 		Method method = invocation.getMethod();
-
 		if (ReflectionUtils.isObjectMethod(method)) {
 			return invocation.proceed();
 		}
-
 		Accessor accessor = new Accessor(method);
-
 		if (accessor.isGetter()) {
 			return this.map.get(accessor.getPropertyName());
 		}
@@ -63,7 +57,6 @@ class MapAccessingMethodInterceptor implements MethodInterceptor {
 			this.map.put(accessor.getPropertyName(), invocation.getArguments()[0]);
 			return null;
 		}
-
 		throw new IllegalStateException("Should never get here!");
 	}
 

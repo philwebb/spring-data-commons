@@ -50,7 +50,6 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 
 	public DefaultRepositoryConfiguration(T configurationSource, BeanDefinition definition,
 			RepositoryConfigurationExtension extension) {
-
 		this.configurationSource = configurationSource;
 		this.definition = definition;
 		this.extension = extension;
@@ -119,7 +118,6 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 
 	@Override
 	public String getRepositoryFactoryBeanClassName() {
-
 		return this.configurationSource.getRepositoryFactoryBeanClassName()
 				.orElseGet(this.extension::getRepositoryFactoryBeanClassName);
 	}
@@ -142,17 +140,13 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
 
 	@Override
 	public ImplementationDetectionConfiguration toImplementationDetectionConfiguration(MetadataReaderFactory factory) {
-
 		Assert.notNull(factory, "MetadataReaderFactory must not be null!");
-
 		return this.configurationSource.toImplementationDetectionConfiguration(factory);
 	}
 
 	@Override
 	public ImplementationLookupConfiguration toLookupConfiguration(MetadataReaderFactory factory) {
-
 		Assert.notNull(factory, "MetadataReaderFactory must not be null!");
-
 		return toImplementationDetectionConfiguration(factory).forRepositoryConfiguration(this);
 	}
 

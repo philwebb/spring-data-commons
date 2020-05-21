@@ -49,15 +49,12 @@ public class HateoasSortHandlerMethodArgumentResolver extends SortHandlerMethodA
 	 * @since 1.7
 	 */
 	public TemplateVariables getSortTemplateVariables(MethodParameter parameter, UriComponents template) {
-
 		String sortParameter = getSortParameter(parameter);
 		MultiValueMap<String, String> queryParameters = template.getQueryParams();
 		boolean append = !queryParameters.isEmpty();
-
 		if (queryParameters.containsKey(sortParameter)) {
 			return TemplateVariables.NONE;
 		}
-
 		String description = String.format("pagination.%s.description", sortParameter);
 		VariableType type = append ? REQUEST_PARAM_CONTINUED : REQUEST_PARAM;
 		return new TemplateVariables(new TemplateVariable(sortParameter, type, description));
@@ -72,16 +69,12 @@ public class HateoasSortHandlerMethodArgumentResolver extends SortHandlerMethodA
 	 */
 	@Override
 	public void enhance(UriComponentsBuilder builder, @Nullable MethodParameter parameter, @Nullable Object value) {
-
 		if (!(value instanceof Sort)) {
 			return;
 		}
-
 		Sort sort = (Sort) value;
 		String sortParameter = getSortParameter(parameter);
-
 		builder.replaceQueryParam(sortParameter);
-
 		for (String expression : foldIntoExpressions(sort)) {
 			builder.queryParam(sortParameter, expression);
 		}

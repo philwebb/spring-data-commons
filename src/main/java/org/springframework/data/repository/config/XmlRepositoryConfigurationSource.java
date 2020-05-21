@@ -82,15 +82,11 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	 * @param environment must not be {@literal null}.
 	 */
 	public XmlRepositoryConfigurationSource(Element element, ParserContext context, Environment environment) {
-
 		super(environment, ConfigurationUtils.getRequiredClassLoader(context.getReaderContext()), context.getRegistry(),
 				defaultBeanNameGenerator(context.getReaderContext().getReader().getBeanNameGenerator()));
-
 		Assert.notNull(element, "Element must not be null!");
-
 		this.element = element;
 		this.context = context;
-
 		TypeFilterParser parser = new TypeFilterParser(context.getReaderContext());
 		this.includeFilters = parser.parseTypeFilters(element, Type.INCLUDE);
 		this.excludeFilters = parser.parseTypeFilters(element, Type.EXCLUDE);
@@ -104,9 +100,7 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 
 	@Override
 	public Streamable<String> getBasePackages() {
-
 		String attribute = this.element.getAttribute(BASE_PACKAGE);
-
 		return Streamable.of(StringUtils.delimitedListToStringArray(attribute, ",", " "));
 	}
 
@@ -164,7 +158,6 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	}
 
 	private Optional<String> getNullDefaultedAttribute(Element element, String attributeName) {
-
 		String attribute = element.getAttribute(attributeName);
 		return StringUtils.hasText(attribute) ? Optional.of(attribute) : Optional.empty();
 	}
@@ -177,10 +170,8 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 
 	@Override
 	public Optional<String> getAttribute(String name) {
-
 		String xmlAttributeName = ParsingUtils.reconcatenateCamelCase(name, "-");
 		String attribute = this.element.getAttribute(xmlAttributeName);
-
 		return StringUtils.hasText(attribute) ? Optional.of(attribute) : Optional.empty();
 	}
 
@@ -193,9 +184,7 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Optional<T> getAttribute(String name, Class<T> type) {
-
 		Assert.isAssignable(String.class, type, "Only String attribute lookups are allowed for XML namespaces!");
-
 		return (Optional<T>) getAttribute(name);
 	}
 
@@ -206,9 +195,7 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 
 	@Override
 	public BootstrapMode getBootstrapMode() {
-
 		String attribute = this.element.getAttribute(BOOTSTRAP_MODE);
-
 		return StringUtils.hasText(attribute) //
 				? BootstrapMode.valueOf(attribute.toUpperCase(Locale.US)) //
 				: BootstrapMode.DEFAULT;
@@ -217,9 +204,7 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	@Override
 	@NonNull
 	public String getResourceDescription() {
-
 		Object source = getSource();
-
 		return source == null ? "" : source.toString();
 	}
 
@@ -233,7 +218,6 @@ public class XmlRepositoryConfigurationSource extends RepositoryConfigurationSou
 	 * @since 2.2
 	 */
 	private static BeanNameGenerator defaultBeanNameGenerator(@Nullable BeanNameGenerator generator) {
-
 		return generator == null || DefaultBeanNameGenerator.class.equals(generator.getClass()) //
 				? new AnnotationBeanNameGenerator() //
 				: generator;

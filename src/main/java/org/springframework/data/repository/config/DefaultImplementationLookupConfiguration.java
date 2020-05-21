@@ -50,10 +50,8 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 	 * @param interfaceName must not be {@literal null} or empty.
 	 */
 	DefaultImplementationLookupConfiguration(ImplementationDetectionConfiguration config, String interfaceName) {
-
 		Assert.notNull(config, "ImplementationDetectionConfiguration must not be null!");
 		Assert.hasText(interfaceName, "Interface name must not be null or empty!");
-
 		this.config = config;
 		this.interfaceName = interfaceName;
 		this.beanName = Introspector
@@ -92,9 +90,7 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 
 	@Override
 	public boolean hasMatchingBeanName(BeanDefinition definition) {
-
 		Assert.notNull(definition, "BeanDefinition must not be null!");
-
 		return this.beanName != null && this.beanName.equals(this.config.generateBeanName(definition));
 	}
 
@@ -107,30 +103,22 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 	 */
 	@Override
 	public boolean matches(BeanDefinition definition) {
-
 		Assert.notNull(definition, "BeanDefinition must not be null!");
-
 		String beanClassName = definition.getBeanClassName();
-
 		if (beanClassName == null || isExcluded(beanClassName, getExcludeFilters())) {
 			return false;
 		}
-
 		String beanPackage = ClassUtils.getPackageName(beanClassName);
 		String shortName = ClassUtils.getShortName(beanClassName);
 		String localName = shortName.substring(shortName.lastIndexOf('.') + 1);
-
 		return localName.equals(getImplementationClassName()) //
 				&& getBasePackages().stream().anyMatch(it -> beanPackage.startsWith(it));
 	}
 
 	private boolean isExcluded(String beanClassName, Streamable<TypeFilter> filters) {
-
 		try {
-
 			MetadataReader reader = getMetadataReaderFactory().getMetadataReader(beanClassName);
 			return filters.stream().anyMatch(it -> matches(it, reader));
-
 		}
 		catch (IOException o_O) {
 			return true;
@@ -138,7 +126,6 @@ class DefaultImplementationLookupConfiguration implements ImplementationLookupCo
 	}
 
 	private boolean matches(TypeFilter filter, MetadataReader reader) {
-
 		try {
 			return filter.match(reader, getMetadataReaderFactory());
 		}

@@ -93,11 +93,9 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 
 	@Override
 	public int compareTo(@Nullable Revision<N, ?> that) {
-
 		if (that == null) {
 			return 1;
 		}
-
 		return mapIfAllPresent(getRevisionNumber(), that.getRevisionNumber(), //
 				Comparable::compareTo).orElse(-1);
 	}
@@ -118,21 +116,16 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof Revision)) {
 			return false;
 		}
-
 		Revision<?, ?> revision = (Revision<?, ?>) o;
-
 		if (!ObjectUtils.nullSafeEquals(this.metadata, revision.metadata)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.entity, revision.entity);
 	}
 

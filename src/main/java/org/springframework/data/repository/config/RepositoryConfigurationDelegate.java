@@ -86,14 +86,11 @@ public class RepositoryConfigurationDelegate {
 	 */
 	public RepositoryConfigurationDelegate(RepositoryConfigurationSource configurationSource,
 			ResourceLoader resourceLoader, Environment environment) {
-
 		this.isXml = configurationSource instanceof XmlRepositoryConfigurationSource;
 		boolean isAnnotation = configurationSource instanceof AnnotationRepositoryConfigurationSource;
-
 		Assert.isTrue(this.isXml || isAnnotation,
 				"Configuration source must either be an Xml- or an AnnotationBasedConfigurationSource!");
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null!");
-
 		this.configurationSource = configurationSource;
 		this.resourceLoader = resourceLoader;
 		this.environment = defaultEnvironment(environment, resourceLoader);
@@ -109,11 +106,9 @@ public class RepositoryConfigurationDelegate {
 	 */
 	private static Environment defaultEnvironment(@Nullable Environment environment,
 			@Nullable ResourceLoader resourceLoader) {
-
 		if (environment != null) {
 			return environment;
 		}
-
 		return resourceLoader instanceof EnvironmentCapable ? ((EnvironmentCapable) resourceLoader).getEnvironment()
 				: new StandardEnvironment();
 	}
@@ -126,41 +121,28 @@ public class RepositoryConfigurationDelegate {
 	 */
 	public List<BeanComponentDefinition> registerRepositoriesIn(BeanDefinitionRegistry registry,
 			RepositoryConfigurationExtension extension) {
-
 		if (LOG.isInfoEnabled()) {
 			LOG.info("Bootstrapping Spring Data {} repositories in {} mode.", //
 					extension.getModuleName(), this.configurationSource.getBootstrapMode().name());
 		}
-
 		extension.registerBeansForRoot(registry, this.configurationSource);
-
 		RepositoryBeanDefinitionBuilder builder = new RepositoryBeanDefinitionBuilder(registry, extension,
 				this.configurationSource, this.resourceLoader, this.environment);
 		List<BeanComponentDefinition> definitions = new ArrayList<>();
-
 		StopWatch watch = new StopWatch();
-
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Scanning for {} repositories in packages {}.", //
 					extension.getModuleName(), //
 					this.configurationSource.getBasePackages().stream().collect(Collectors.joining(", ")));
 		}
-
 		watch.start();
-
 		Collection<RepositoryConfiguration<RepositoryConfigurationSource>> configurations = extension
 				.getRepositoryConfigurations(this.configurationSource, this.resourceLoader, this.inMultiStoreMode);
-
 		Map<String, RepositoryConfiguration<?>> configurationsByRepositoryName = new HashMap<>(configurations.size());
-
 		for (RepositoryConfiguration<? extends RepositoryConfigurationSource> configuration : configurations) {
-
 			configurationsByRepositoryName.put(configuration.getRepositoryInterface(), configuration);
-
 			BeanDefinitionBuilder definitionBuilder = builder.build(configuration);
-
 			extension.postProcess(definitionBuilder, this.configurationSource);
-
 			if (this.isXml) {
 				extension.postProcess(definitionBuilder, (XmlRepositoryConfigurationSource) this.configurationSource);
 			}
@@ -168,33 +150,24 @@ public class RepositoryConfigurationDelegate {
 				extension.postProcess(definitionBuilder,
 						(AnnotationRepositoryConfigurationSource) this.configurationSource);
 			}
-
 			AbstractBeanDefinition beanDefinition = definitionBuilder.getBeanDefinition();
 			beanDefinition.setResourceDescription(configuration.getResourceDescription());
-
 			String beanName = this.configurationSource.generateBeanName(beanDefinition);
-
 			if (LOG.isTraceEnabled()) {
 				LOG.trace(REPOSITORY_REGISTRATION, extension.getModuleName(), beanName,
 						configuration.getRepositoryInterface(), configuration.getRepositoryFactoryBeanClassName());
 			}
-
 			beanDefinition.setAttribute(FACTORY_BEAN_OBJECT_TYPE, configuration.getRepositoryInterface());
-
 			registry.registerBeanDefinition(beanName, beanDefinition);
 			definitions.add(new BeanComponentDefinition(beanDefinition, beanName));
 		}
-
 		potentiallyLazifyRepositories(configurationsByRepositoryName, registry,
 				this.configurationSource.getBootstrapMode());
-
 		watch.stop();
-
 		if (LOG.isInfoEnabled()) {
 			LOG.info("Finished Spring Data repository scanning in {}ms. Found {} {} repository interfaces.", //
 					watch.getLastTaskTimeMillis(), configurations.size(), extension.getModuleName());
 		}
-
 		return definitions;
 	}
 
@@ -209,33 +182,22 @@ public class RepositoryConfigurationDelegate {
 	 */
 	private static void potentiallyLazifyRepositories(Map<String, RepositoryConfiguration<?>> configurations,
 			BeanDefinitionRegistry registry, BootstrapMode mode) {
-
 		if (!DefaultListableBeanFactory.class.isInstance(registry) || mode.equals(BootstrapMode.DEFAULT)) {
 			return;
 		}
-
 		DefaultListableBeanFactory beanFactory = DefaultListableBeanFactory.class.cast(registry);
-
 		AutowireCandidateResolver resolver = beanFactory.getAutowireCandidateResolver();
-
 		if (!Arrays.asList(ContextAnnotationAutowireCandidateResolver.class, LazyRepositoryInjectionPointResolver.class)
 				.contains(resolver.getClass())) {
-
 			LOG.warn(NON_DEFAULT_AUTOWIRE_CANDIDATE_RESOLVER, resolver.getClass().getName());
-
 			return;
 		}
-
 		AutowireCandidateResolver newResolver = LazyRepositoryInjectionPointResolver.class.isInstance(resolver) //
 				? LazyRepositoryInjectionPointResolver.class.cast(resolver).withAdditionalConfigurations(configurations) //
 				: new LazyRepositoryInjectionPointResolver(configurations);
-
 		beanFactory.setAutowireCandidateResolver(newResolver);
-
 		if (mode.equals(BootstrapMode.DEFERRED)) {
-
 			LOG.debug("Registering deferred repository initialization listener.");
-
 			beanFactory.registerSingleton(DeferredRepositoryInitializationListener.class.getName(),
 					new DeferredRepositoryInitializationListener(beanFactory));
 		}
@@ -248,14 +210,11 @@ public class RepositoryConfigurationDelegate {
 	 * @return
 	 */
 	private boolean multipleStoresDetected() {
-
 		boolean multipleModulesFound = SpringFactoriesLoader
 				.loadFactoryNames(RepositoryFactorySupport.class, this.resourceLoader.getClassLoader()).size() > 1;
-
 		if (multipleModulesFound) {
 			LOG.info(MULTIPLE_MODULES);
 		}
-
 		return multipleModulesFound;
 	}
 
@@ -284,30 +243,22 @@ public class RepositoryConfigurationDelegate {
 		 */
 		LazyRepositoryInjectionPointResolver withAdditionalConfigurations(
 				Map<String, RepositoryConfiguration<?>> configurations) {
-
 			Map<String, RepositoryConfiguration<?>> map = new HashMap<>(this.configurations);
 			map.putAll(configurations);
-
 			return new LazyRepositoryInjectionPointResolver(map);
 		}
 
 		@Override
 		protected boolean isLazy(DependencyDescriptor descriptor) {
-
 			Class<?> type = descriptor.getDependencyType();
-
 			RepositoryConfiguration<?> configuration = this.configurations.get(type.getName());
-
 			if (configuration == null) {
 				return super.isLazy(descriptor);
 			}
-
 			boolean lazyInit = configuration.isLazyInit();
-
 			if (lazyInit) {
 				LOG.debug("Creating lazy injection proxy for {}…", configuration.getRepositoryInterface());
 			}
-
 			return lazyInit;
 		}
 

@@ -49,13 +49,10 @@ public class SimpleTypeInformationMapper implements TypeInformationMapper {
 	@Nullable
 	@Override
 	public TypeInformation<?> resolveTypeFrom(Alias alias) {
-
 		String stringAlias = alias.mapTyped(String.class);
-
 		if (stringAlias != null) {
 			return this.CACHE.computeIfAbsent(stringAlias, SimpleTypeInformationMapper::loadClass).orElse(null);
 		}
-
 		return null;
 	}
 
@@ -72,7 +69,6 @@ public class SimpleTypeInformationMapper implements TypeInformationMapper {
 	}
 
 	private static Optional<ClassTypeInformation<?>> loadClass(String typeName) {
-
 		try {
 			return Optional.of(ClassTypeInformation.from(ClassUtils.forName(typeName, null)));
 		}

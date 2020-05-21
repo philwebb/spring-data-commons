@@ -43,7 +43,6 @@ public class NamedQueriesBeanDefinitionBuilder {
 	 */
 	@SuppressWarnings("null")
 	public NamedQueriesBeanDefinitionBuilder(String defaultLocation) {
-
 		Assert.hasText(defaultLocation, "DefaultLocation must not be null nor empty!");
 		this.defaultLocation = defaultLocation;
 	}
@@ -54,9 +53,7 @@ public class NamedQueriesBeanDefinitionBuilder {
 	 * @param locations must not be {@literal null} or empty.
 	 */
 	public void setLocations(String locations) {
-
 		Assert.hasText(locations, "Locations must not be null nor empty!");
-
 		this.locations = locations;
 	}
 
@@ -66,26 +63,19 @@ public class NamedQueriesBeanDefinitionBuilder {
 	 * @return
 	 */
 	public BeanDefinition build(@Nullable Object source) {
-
 		BeanDefinitionBuilder properties = BeanDefinitionBuilder.rootBeanDefinition(PropertiesFactoryBean.class);
-
 		String locationsToUse = StringUtils.hasText(this.locations) ? this.locations : this.defaultLocation;
 		properties.addPropertyValue("locations", locationsToUse);
-
 		if (!StringUtils.hasText(this.locations)) {
 			properties.addPropertyValue("ignoreResourceNotFound", true);
 		}
-
 		AbstractBeanDefinition propertiesDefinition = properties.getBeanDefinition();
 		propertiesDefinition.setSource(source);
-
 		BeanDefinitionBuilder namedQueries = BeanDefinitionBuilder
 				.rootBeanDefinition(PropertiesBasedNamedQueries.class);
 		namedQueries.addConstructorArgValue(propertiesDefinition);
-
 		AbstractBeanDefinition namedQueriesDefinition = namedQueries.getBeanDefinition();
 		namedQueriesDefinition.setSource(source);
-
 		return namedQueriesDefinition;
 	}
 

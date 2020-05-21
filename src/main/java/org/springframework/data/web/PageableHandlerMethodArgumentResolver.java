@@ -87,17 +87,13 @@ public class PageableHandlerMethodArgumentResolver extends PageableHandlerMethod
 	@Override
 	public Pageable resolveArgument(MethodParameter methodParameter, @Nullable ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
-
 		String page = webRequest.getParameter(getParameterNameToUse(getPageParameterName(), methodParameter));
 		String pageSize = webRequest.getParameter(getParameterNameToUse(getSizeParameterName(), methodParameter));
-
 		Sort sort = this.sortResolver.resolveArgument(methodParameter, mavContainer, webRequest, binderFactory);
 		Pageable pageable = getPageable(methodParameter, page, pageSize);
-
 		if (sort.isSorted()) {
 			return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 		}
-
 		return pageable;
 	}
 

@@ -61,11 +61,9 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	 * Creates a new {@link ProxyProjectionFactory}.
 	 */
 	protected ProxyProjectionFactory() {
-
 		this.factories = new ArrayList<>();
 		this.factories.add(MapAccessingMethodInterceptorFactory.INSTANCE);
 		this.factories.add(PropertyAccessingMethodInvokerFactory.INSTANCE);
-
 		this.conversionService = DefaultConversionService.getSharedInstance();
 	}
 
@@ -81,9 +79,7 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	 * @since 1.13
 	 */
 	public void registerMethodInvokerFactory(MethodInterceptorFactory factory) {
-
 		Assert.notNull(factory, "MethodInterceptorFactory must not be null!");
-
 		this.factories.add(0, factory);
 	}
 
@@ -97,38 +93,30 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T createProjection(Class<T> projectionType, Object source) {
-
 		Assert.notNull(projectionType, "Projection type must not be null!");
 		Assert.notNull(source, "Source must not be null!");
 		Assert.isTrue(projectionType.isInterface(), "Projection type must be an interface!");
-
 		if (projectionType.isInstance(source)) {
 			return (T) source;
 		}
-
 		ProxyFactory factory = new ProxyFactory();
 		factory.setTarget(source);
 		factory.setOpaque(true);
 		factory.setInterfaces(projectionType, TargetAware.class);
-
 		factory.addAdvice(new DefaultMethodInvokingMethodInterceptor());
 		factory.addAdvice(new TargetAwareMethodInterceptor(source.getClass()));
 		factory.addAdvice(getMethodInterceptor(source, projectionType));
-
 		return (T) factory.getProxy(this.classLoader == null ? ClassUtils.getDefaultClassLoader() : this.classLoader);
 	}
 
 	@Override
 	public <T> T createProjection(Class<T> projectionType) {
-
 		Assert.notNull(projectionType, "Projection type must not be null!");
-
 		return createProjection(projectionType, new HashMap<String, Object>());
 	}
 
 	@Override
 	public final ProjectionInformation getProjectionInformation(Class<?> projectionType) {
-
 		return this.projectionInformationCache.computeIfAbsent(projectionType, this::createProjectionInformation);
 	}
 
@@ -162,10 +150,8 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	 * @return
 	 */
 	private MethodInterceptor getMethodInterceptor(Object source, Class<?> projectionType) {
-
 		MethodInterceptor propertyInvocationInterceptor = getFactoryFor(source, projectionType)
 				.createMethodInterceptor(source, projectionType);
-
 		return new ProjectingMethodInterceptor(this,
 				postProcessAccessorInterceptor(propertyInvocationInterceptor, source, projectionType),
 				this.conversionService);
@@ -179,13 +165,11 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 	 * @return
 	 */
 	private MethodInterceptorFactory getFactoryFor(Object source, Class<?> projectionType) {
-
 		for (MethodInterceptorFactory factory : this.factories) {
 			if (factory.supports(source, projectionType)) {
 				return factory;
 			}
 		}
-
 		throw new IllegalStateException(
 				"No MethodInterceptorFactory found for type ".concat(source.getClass().getName()));
 	}
@@ -220,7 +204,6 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 		 * @param targetType must not be {@literal null}.
 		 */
 		public TargetAwareMethodInterceptor(Class<?> targetType) {
-
 			Assert.notNull(targetType, "Target type must not be null!");
 			this.targetType = targetType;
 		}
@@ -228,14 +211,12 @@ class ProxyProjectionFactory implements ProjectionFactory, BeanClassLoaderAware 
 		@Nullable
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 			if (invocation.getMethod().equals(GET_TARGET_CLASS_METHOD)) {
 				return this.targetType;
 			}
 			else if (invocation.getMethod().equals(GET_TARGET_METHOD)) {
 				return invocation.getThis();
 			}
-
 			return invocation.proceed();
 		}
 

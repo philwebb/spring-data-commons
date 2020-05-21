@@ -63,10 +63,8 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 	 * @param conversionService must not be {@literal null}.
 	 */
 	public DefaultRepositoryInvokerFactory(Repositories repositories, ConversionService conversionService) {
-
 		Assert.notNull(repositories, "Repositories must not be null!");
 		Assert.notNull(conversionService, "ConversionService must not be null!");
-
 		this.repositories = repositories;
 		this.conversionService = conversionService;
 		this.invokers = new ConcurrentHashMap<>();
@@ -84,10 +82,8 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 	 * @return
 	 */
 	private RepositoryInvoker prepareInvokers(Class<?> domainType) {
-
 		Optional<RepositoryInformation> information = this.repositories.getRepositoryInformationFor(domainType);
 		Optional<Object> repository = this.repositories.getRepositoryFor(domainType);
-
 		return mapIfAllPresent(information, repository, this::createInvoker)//
 				.orElseThrow(() -> new IllegalArgumentException(
 						String.format("No repository found for domain type: %s", domainType)));
@@ -95,7 +91,6 @@ public class DefaultRepositoryInvokerFactory implements RepositoryInvokerFactory
 
 	@SuppressWarnings("unchecked")
 	protected RepositoryInvoker createInvoker(RepositoryInformation information, Object repository) {
-
 		if (repository instanceof PagingAndSortingRepository) {
 			return new PagingAndSortingRepositoryInvoker((PagingAndSortingRepository<Object, Object>) repository,
 					information, this.conversionService);

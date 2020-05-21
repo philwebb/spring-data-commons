@@ -38,36 +38,28 @@ class PageableAdapter extends XmlAdapter<PageRequestDto, Pageable> {
 	@Nullable
 	@Override
 	public PageRequestDto marshal(@Nullable Pageable request) {
-
 		if (request == null) {
 			return null;
 		}
-
 		PageRequestDto dto = new PageRequestDto();
-
 		SortDto sortDto = SortAdapter.INSTANCE.marshal(request.getSort());
 		dto.orders = sortDto == null ? Collections.emptyList() : sortDto.orders;
 		dto.page = request.getPageNumber();
 		dto.size = request.getPageSize();
-
 		return dto;
 	}
 
 	@Nonnull
 	@Override
 	public Pageable unmarshal(@Nullable PageRequestDto v) {
-
 		if (v == null) {
 			return Pageable.unpaged();
 		}
-
 		if (v.orders.isEmpty()) {
 			return PageRequest.of(v.page, v.size);
 		}
-
 		SortDto sortDto = new SortDto();
 		sortDto.orders = v.orders;
-
 		return PageRequest.of(v.page, v.size, SortAdapter.INSTANCE.unmarshal(sortDto));
 	}
 

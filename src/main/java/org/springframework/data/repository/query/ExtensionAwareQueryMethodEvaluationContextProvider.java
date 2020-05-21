@@ -57,9 +57,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	 * {@link EvaluationContextExtension}s from, must not be {@literal null}.
 	 */
 	public ExtensionAwareQueryMethodEvaluationContextProvider(ListableBeanFactory beanFactory) {
-
 		Assert.notNull(beanFactory, "ListableBeanFactory must not be null!");
-
 		this.delegate = new ExtensionAwareEvaluationContextProvider(beanFactory);
 	}
 
@@ -69,9 +67,7 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	 * @param extensions must not be {@literal null}.
 	 */
 	public ExtensionAwareQueryMethodEvaluationContextProvider(List<? extends EvaluationContextExtension> extensions) {
-
 		Assert.notNull(extensions, "EvaluationContextExtensions must not be null!");
-
 		this.delegate = new org.springframework.data.spel.ExtensionAwareEvaluationContextProvider(extensions);
 	}
 
@@ -85,11 +81,8 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	 */
 	@Override
 	public <T extends Parameters<?, ?>> EvaluationContext getEvaluationContext(T parameters, Object[] parameterValues) {
-
 		StandardEvaluationContext evaluationContext = this.delegate.getEvaluationContext(parameterValues);
-
 		evaluationContext.setVariables(collectVariables(parameters, parameterValues));
-
 		return evaluationContext;
 	}
 
@@ -101,21 +94,17 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	 * @return
 	 */
 	private static Map<String, Object> collectVariables(Parameters<?, ?> parameters, Object[] arguments) {
-
 		Map<String, Object> variables = new HashMap<>();
-
 		parameters.stream()//
 				.filter(Parameter::isSpecialParameter)//
 				.forEach(it -> variables.put(//
 						StringUtils.uncapitalize(it.getType().getSimpleName()), //
 						arguments[it.getIndex()]));
-
 		parameters.stream()//
 				.filter(Parameter::isNamedParameter)//
 				.forEach(it -> variables.put(//
 						it.getName().orElseThrow(() -> new IllegalStateException("Should never occur!")), //
 						arguments[it.getIndex()]));
-
 		return variables;
 	}
 
@@ -128,10 +117,8 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 	 * @return
 	 */
 	private static List<EvaluationContextExtension> getExtensionsFrom(ListableBeanFactory beanFactory) {
-
 		Stream<EvaluationContextExtension> extensions = beanFactory
 				.getBeansOfType(EvaluationContextExtension.class, true, false).values().stream();
-
 		return extensions.collect(Collectors.toList());
 	}
 
@@ -166,30 +153,23 @@ public class ExtensionAwareQueryMethodEvaluationContextProvider implements Query
 		@Nullable
 		@Override
 		public Object invoke(@Nullable MethodInvocation invocation) throws Throwable {
-
 			if (invocation == null) {
 				throw new IllegalArgumentException("Invocation must not be null!");
 			}
-
 			Method method = invocation.getMethod();
 			Method targetMethod = METHOD_CACHE.computeIfAbsent(method,
 					it -> Optional.ofNullable(findTargetMethod(it)).orElse(it));
-
 			Object result = method.equals(targetMethod) ? invocation.proceed()
 					: ReflectionUtils.invokeMethod(targetMethod, this.target, invocation.getArguments());
-
 			if (result == null) {
 				return result;
 			}
-
 			java.util.function.Function<Object, Object> mapper = this.directMappings.get(targetMethod.getName());
-
 			return mapper != null ? mapper.apply(result) : result;
 		}
 
 		@Nullable
 		private Method findTargetMethod(Method method) {
-
 			try {
 				return this.target.getClass().getMethod(method.getName(), method.getParameterTypes());
 			}

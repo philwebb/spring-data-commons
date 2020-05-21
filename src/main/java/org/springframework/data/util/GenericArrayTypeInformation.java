@@ -37,7 +37,6 @@ class GenericArrayTypeInformation<S> extends ParentTypeAwareTypeInformation<S> {
 	 * @param parent must not be {@literal null}.
 	 */
 	protected GenericArrayTypeInformation(GenericArrayType type, TypeDiscoverer<?> parent) {
-
 		super(type, parent);
 		this.type = type;
 	}
@@ -51,7 +50,6 @@ class GenericArrayTypeInformation<S> extends ParentTypeAwareTypeInformation<S> {
 	@Override
 	@Nonnull
 	protected TypeInformation<?> doGetComponentType() {
-
 		Type componentType = this.type.getGenericComponentType();
 		return createInfo(componentType);
 	}

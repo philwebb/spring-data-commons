@@ -50,7 +50,6 @@ public class RepositoryBeanDefinitionParser implements BeanDefinitionParser {
 	 * @param extension must not be {@literal null}.
 	 */
 	public RepositoryBeanDefinitionParser(RepositoryConfigurationExtension extension) {
-
 		Assert.notNull(extension, "Extension must not be null!");
 		this.extension = extension;
 	}
@@ -64,31 +63,23 @@ public class RepositoryBeanDefinitionParser implements BeanDefinitionParser {
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parser) {
-
 		XmlReaderContext readerContext = parser.getReaderContext();
-
 		try {
-
 			ResourceLoader resourceLoader = ConfigurationUtils.getRequiredResourceLoader(readerContext);
 			Environment environment = readerContext.getEnvironment();
 			BeanDefinitionRegistry registry = parser.getRegistry();
-
 			XmlRepositoryConfigurationSource configSource = new XmlRepositoryConfigurationSource(element, parser,
 					environment);
 			RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configSource, resourceLoader,
 					environment);
-
 			RepositoryConfigurationUtils.exposeRegistration(this.extension, registry, configSource);
-
 			for (BeanComponentDefinition definition : delegate.registerRepositoriesIn(registry, this.extension)) {
 				readerContext.fireComponentRegistered(definition);
 			}
-
 		}
 		catch (RuntimeException e) {
 			handleError(e, element, readerContext);
 		}
-
 		return null;
 	}
 
@@ -104,7 +95,6 @@ public class RepositoryBeanDefinitionParser implements BeanDefinitionParser {
 	 * @return
 	 */
 	protected static boolean hasBean(Class<?> type, BeanDefinitionRegistry registry) {
-
 		String name = String.format("%s%s0", type.getName(), GENERATED_BEAN_NAME_SEPARATOR);
 		return registry.containsBeanDefinition(name);
 	}

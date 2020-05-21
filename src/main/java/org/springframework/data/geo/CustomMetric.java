@@ -37,7 +37,6 @@ public class CustomMetric implements Metric {
 	 * @param multiplier
 	 */
 	public CustomMetric(double multiplier) {
-
 		this(multiplier, "");
 	}
 
@@ -47,9 +46,7 @@ public class CustomMetric implements Metric {
 	 * @param abbreviation must not be {@literal null}.
 	 */
 	public CustomMetric(double multiplier, String abbreviation) {
-
 		Assert.notNull(abbreviation, "Abbreviation must not be null!");
-
 		this.multiplier = multiplier;
 		this.abbreviation = abbreviation;
 	}

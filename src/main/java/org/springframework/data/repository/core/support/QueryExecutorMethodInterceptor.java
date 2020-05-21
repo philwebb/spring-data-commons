@@ -71,19 +71,14 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 	public QueryExecutorMethodInterceptor(RepositoryInformation repositoryInformation,
 			ProjectionFactory projectionFactory, Optional<QueryLookupStrategy> queryLookupStrategy,
 			NamedQueries namedQueries, List<QueryCreationListener<?>> queryPostProcessors) {
-
 		this.namedQueries = namedQueries;
 		this.queryPostProcessors = queryPostProcessors;
-
 		this.resultHandler = new QueryExecutionResultHandler(RepositoryFactorySupport.CONVERSION_SERVICE);
-
 		if (!queryLookupStrategy.isPresent() && repositoryInformation.hasQueryMethods()) {
-
 			throw new IllegalStateException("You have defined query method in the repository but "
 					+ "you don't have any query lookup strategy defined. The "
 					+ "infrastructure apparently does not support query methods!");
 		}
-
 		this.queries = queryLookupStrategy //
 				.map(it -> mapMethodsToQuery(repositoryInformation, it, projectionFactory)) //
 				.orElse(Collections.emptyMap());
@@ -91,7 +86,6 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 
 	private Map<Method, RepositoryQuery> mapMethodsToQuery(RepositoryInformation repositoryInformation,
 			QueryLookupStrategy lookupStrategy, ProjectionFactory projectionFactory) {
-
 		return repositoryInformation.getQueryMethods().stream() //
 				.map(method -> lookupQuery(method, repositoryInformation, lookupStrategy, projectionFactory)) //
 				.peek(pair -> invokeListeners(pair.getSecond())) //
@@ -105,12 +99,9 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void invokeListeners(RepositoryQuery query) {
-
 		for (QueryCreationListener listener : this.queryPostProcessors) {
-
 			ResolvableType typeArgument = ResolvableType.forClass(QueryCreationListener.class, listener.getClass())
 					.getGeneric(0);
-
 			if (typeArgument != null && typeArgument.isAssignableFrom(ResolvableType.forClass(query.getClass()))) {
 				listener.onCreation(query);
 			}
@@ -120,38 +111,28 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 	@Override
 	@Nullable
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 		Method method = invocation.getMethod();
-
 		QueryExecutionConverters.ExecutionAdapter executionAdapter = QueryExecutionConverters //
 				.getExecutionAdapter(method.getReturnType());
-
 		if (executionAdapter == null) {
 			return this.resultHandler.postProcessInvocationResult(doInvoke(invocation), method);
 		}
-
 		return executionAdapter //
 				.apply(() -> this.resultHandler.postProcessInvocationResult(doInvoke(invocation), method));
 	}
 
 	@Nullable
 	private Object doInvoke(MethodInvocation invocation) throws Throwable {
-
 		Method method = invocation.getMethod();
-
 		if (hasQueryFor(method)) {
-
 			QueryMethodInvoker invocationMetadata = this.invocationMetadataCache.get(method);
-
 			if (invocationMetadata == null) {
 				invocationMetadata = new QueryMethodInvoker(method);
 				this.invocationMetadataCache.put(method, invocationMetadata);
 			}
-
 			RepositoryQuery repositoryQuery = this.queries.get(method);
 			return invocationMetadata.invoke(repositoryQuery, invocation.getArguments());
 		}
-
 		return invocation.proceed();
 	}
 
@@ -176,19 +157,15 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 		private final boolean returnsReactiveType;
 
 		QueryMethodInvoker(Method invokedMethod) {
-
 			if (KotlinDetector.isKotlinReflectPresent()) {
-
 				this.suspendedDeclaredMethod = KotlinReflectionUtils.isSuspend(invokedMethod);
 				this.returnedType = this.suspendedDeclaredMethod ? KotlinReflectionUtils.getReturnType(invokedMethod)
 						: invokedMethod.getReturnType();
 			}
 			else {
-
 				this.suspendedDeclaredMethod = false;
 				this.returnedType = invokedMethod.getReturnType();
 			}
-
 			this.returnsReactiveType = ReactiveWrappers.supports(this.returnedType);
 		}
 
@@ -200,24 +177,18 @@ class QueryExecutorMethodInterceptor implements MethodInterceptor {
 		@Nullable
 		@SuppressWarnings({ "unchecked", "ConstantConditions" })
 		private Object invokeReactiveToSuspend(RepositoryQuery query, Object[] args) {
-
-			/*
-			 * Kotlin suspended functions are invoked with a synthetic Continuation
-			 * parameter that keeps track of the Coroutine context. We're invoking a
-			 * method without Continuation as we expect the method to return any sort of
-			 * reactive type, therefore we need to strip the Continuation parameter.
-			 */
+			// Kotlin suspended functions are invoked with a synthetic Continuation
+			// parameter that keeps track of the Coroutine context. We're invoking a
+			// method without Continuation as we expect the method to return any sort of
+			// reactive type, therefore we need to strip the Continuation parameter.
 			Continuation<Object> continuation = (Continuation) args[args.length - 1];
 			args[args.length - 1] = null;
 			Object result = query.execute(args);
-
 			if (this.returnsReactiveType) {
 				return ReactiveWrapperConverters.toWrapper(result, this.returnedType);
 			}
-
 			Publisher<?> publisher = result instanceof Publisher ? (Publisher<?>) result
 					: ReactiveWrapperConverters.toWrapper(result, Publisher.class);
-
 			return AwaitKt.awaitFirstOrNull(publisher, continuation);
 		}
 

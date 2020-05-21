@@ -68,7 +68,6 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 	 */
 	public PagedResourcesAssemblerArgumentResolver(HateoasPageableHandlerMethodArgumentResolver resolver,
 			@Nullable MethodLinkBuilderFactory<?> linkBuilderFactory) {
-
 		this.resolver = resolver;
 		this.linkBuilderFactory = linkBuilderFactory == null ? new WebMvcLinkBuilderFactory() : linkBuilderFactory;
 	}
@@ -91,10 +90,8 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 	@Override
 	public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
-
 		UriComponents fromUriString = resolveBaseUri(parameter);
 		MethodParameter pageableParameter = findMatchingPageableParameter(parameter);
-
 		if (pageableParameter != null) {
 			return new MethodParameterAwarePagedResourcesAssembler<>(pageableParameter, this.resolver, fromUriString);
 		}
@@ -112,13 +109,10 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 	 */
 	@Nullable
 	private UriComponents resolveBaseUri(MethodParameter parameter) {
-
 		Method method = parameter.getMethod();
-
 		if (method == null) {
 			throw new IllegalArgumentException(String.format("Could not obtain method from parameter %s!", parameter));
 		}
-
 		try {
 			Link linkToMethod = this.linkBuilderFactory.linkTo(parameter.getDeclaringClass(), method).withSelfRel();
 			return UriComponentsBuilder.fromUriString(linkToMethod.getHref()).build();
@@ -136,64 +130,47 @@ public class PagedResourcesAssemblerArgumentResolver implements HandlerMethodArg
 	 */
 	@Nullable
 	private static MethodParameter findMatchingPageableParameter(MethodParameter parameter) {
-
 		Method method = parameter.getMethod();
-
 		if (method == null) {
 			throw new IllegalArgumentException(String.format("Could not obtain method from parameter %s!", parameter));
 		}
-
 		MethodParameters parameters = MethodParameters.of(method);
 		List<MethodParameter> pageableParameters = parameters.getParametersOfType(Pageable.class);
 		Qualifier assemblerQualifier = parameter.getParameterAnnotation(Qualifier.class);
-
 		if (pageableParameters.isEmpty()) {
 			return null;
 		}
-
 		if (pageableParameters.size() == 1) {
-
 			MethodParameter pageableParameter = pageableParameters.get(0);
 			MethodParameter matchingParameter = returnIfQualifiersMatch(pageableParameter, assemblerQualifier);
-
 			if (matchingParameter == null) {
 				logger.info(SUPERFLOUS_QUALIFIER, PagedResourcesAssembler.class.getSimpleName(),
 						Pageable.class.getName());
 			}
-
 			return pageableParameter;
 		}
-
 		if (assemblerQualifier == null) {
 			throw new IllegalStateException(PARAMETER_AMBIGUITY);
 		}
-
 		for (MethodParameter pageableParameter : pageableParameters) {
-
 			MethodParameter matchingParameter = returnIfQualifiersMatch(pageableParameter, assemblerQualifier);
-
 			if (matchingParameter != null) {
 				return matchingParameter;
 			}
 		}
-
 		throw new IllegalStateException(PARAMETER_AMBIGUITY);
 	}
 
 	@Nullable
 	private static MethodParameter returnIfQualifiersMatch(MethodParameter pageableParameter,
 			@Nullable Qualifier assemblerQualifier) {
-
 		if (assemblerQualifier == null) {
 			return pageableParameter;
 		}
-
 		Qualifier pageableParameterQualifier = pageableParameter.getParameterAnnotation(Qualifier.class);
-
 		if (pageableParameterQualifier == null) {
 			return null;
 		}
-
 		return pageableParameterQualifier.value().equals(assemblerQualifier.value()) ? pageableParameter : null;
 	}
 

@@ -45,9 +45,7 @@ public class NullableWrapper {
 	 * @return will never be {@literal null}.
 	 */
 	public Class<?> getValueType() {
-
 		Object value = this.value;
-
 		return value == null ? Object.class : value.getClass();
 	}
 

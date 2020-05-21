@@ -70,11 +70,9 @@ public class QueryMethod {
 	 * @param factory must not be {@literal null}.
 	 */
 	public QueryMethod(Method method, RepositoryMetadata metadata, ProjectionFactory factory) {
-
 		Assert.notNull(method, "Method must not be null!");
 		Assert.notNull(metadata, "Repository metadata must not be null!");
 		Assert.notNull(factory, "ProjectionFactory must not be null!");
-
 		Parameters.TYPES.stream()//
 				.filter(type -> getNumberOfOccurences(method, type) > 1)//
 				.findFirst().ifPresent(type -> {
@@ -82,18 +80,14 @@ public class QueryMethod {
 							String.format("Method must only one argument of type %s! Offending method: %s",
 									type.getSimpleName(), method.toString()));
 				});
-
 		this.method = method;
 		this.unwrappedReturnType = potentiallyUnwrapReturnTypeFor(method);
 		this.parameters = createParameters(method);
 		this.metadata = metadata;
-
 		if (hasParameterOfType(method, Pageable.class)) {
-
 			if (!isStreamQuery()) {
 				assertReturnTypeAssignable(method, QueryExecutionConverters.getAllowedPageableTypes());
 			}
-
 			if (hasParameterOfType(method, Sort.class)) {
 				throw new IllegalStateException(String.format(
 						"Method must not have Pageable *and* Sort parameter. "
@@ -101,24 +95,18 @@ public class QueryMethod {
 						method.toString()));
 			}
 		}
-
 		Assert.notNull(this.parameters,
 				() -> String.format("Parameters extracted from method '%s' must not be null!", method.getName()));
-
 		if (isPageQuery()) {
 			Assert.isTrue(this.parameters.hasPageableParameter(), String
 					.format("Paging query needs to have a Pageable parameter! Offending method %s", method.toString()));
 		}
-
 		this.domainClass = Lazy.of(() -> {
-
 			Class<?> repositoryDomainClass = metadata.getDomainType();
 			Class<?> methodDomainClass = metadata.getReturnedDomainClass(method);
-
 			return repositoryDomainClass == null || repositoryDomainClass.isAssignableFrom(methodDomainClass)
 					? methodDomainClass : repositoryDomainClass;
 		});
-
 		this.resultProcessor = new ResultProcessor(this, factory);
 		this.isCollectionQuery = Lazy.of(this::calculateIsCollectionQuery);
 	}
@@ -244,60 +232,44 @@ public class QueryMethod {
 	}
 
 	private boolean calculateIsCollectionQuery() {
-
 		if (isPageQuery() || isSliceQuery()) {
 			return false;
 		}
-
 		Class<?> returnType = this.method.getReturnType();
-
 		if (QueryExecutionConverters.supports(returnType) && !QueryExecutionConverters.isSingleValue(returnType)) {
 			return true;
 		}
-
 		if (QueryExecutionConverters.supports(this.unwrappedReturnType)) {
 			return !QueryExecutionConverters.isSingleValue(this.unwrappedReturnType);
 		}
-
 		return ClassTypeInformation.from(this.unwrappedReturnType).isCollectionLike();
 	}
 
 	private static Class<? extends Object> potentiallyUnwrapReturnTypeFor(Method method) {
-
 		if (QueryExecutionConverters.supports(method.getReturnType())) {
-
 			// unwrap only one level to handle cases like Future<List<Entity>> correctly.
-
 			TypeInformation<?> componentType = ClassTypeInformation.fromReturnTypeOf(method).getComponentType();
-
 			if (componentType == null) {
 				throw new IllegalStateException(
 						String.format("Couldn't find component type for return value of method %s!", method));
 			}
-
 			return componentType.getType();
 		}
-
 		return method.getReturnType();
 	}
 
 	private static void assertReturnTypeAssignable(Method method, Set<Class<?>> types) {
-
 		Assert.notNull(method, "Method must not be null!");
 		Assert.notEmpty(types, "Types must not be null or empty!");
-
 		TypeInformation<?> returnType = ClassTypeInformation.fromReturnTypeOf(method);
-
 		returnType = QueryExecutionConverters.isSingleValue(returnType.getType()) //
 				? returnType.getRequiredComponentType() //
 				: returnType;
-
 		for (Class<?> type : types) {
 			if (type.isAssignableFrom(returnType.getType())) {
 				return;
 			}
 		}
-
 		throw new IllegalStateException("Method has to have one of the following return types! " + types.toString());
 	}
 

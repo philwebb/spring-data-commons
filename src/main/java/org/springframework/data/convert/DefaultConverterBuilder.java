@@ -84,7 +84,6 @@ class DefaultConverterBuilder<S, T>
 
 	@Override
 	public Set<GenericConverter> getConverters() {
-
 		return Optionals//
 				.toStream(getOptionalReadingConverter(), getOptionalWritingConverter())//
 				.collect(Collectors.toSet());
@@ -146,21 +145,16 @@ class DefaultConverterBuilder<S, T>
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof ConfigurableGenericConverter)) {
 				return false;
 			}
-
 			ConfigurableGenericConverter<?, ?> that = (ConfigurableGenericConverter<?, ?>) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.convertiblePair, that.convertiblePair)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.function, that.function);
 		}
 

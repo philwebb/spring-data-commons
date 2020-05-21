@@ -61,7 +61,6 @@ public final class ReflectionUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T createInstanceIfPresent(String classname, T defaultInstance) {
-
 		try {
 			Class<?> type = ClassUtils.forName(classname, ClassUtils.getDefaultClassLoader());
 			return (T) BeanUtils.instantiateClass(type);
@@ -133,6 +132,7 @@ public final class ReflectionUtils {
 			public String getDescription() {
 				return String.format("FieldFilter %s", filter.toString());
 			}
+
 		}, false);
 	}
 
@@ -166,35 +166,25 @@ public final class ReflectionUtils {
 	 */
 	@Nullable
 	public static Field findField(Class<?> type, DescribedFieldFilter filter, boolean enforceUniqueness) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(filter, "Filter must not be null!");
-
 		Class<?> targetClass = type;
 		Field foundField = null;
-
 		while (targetClass != Object.class) {
-
 			for (Field field : targetClass.getDeclaredFields()) {
-
 				if (!filter.matches(field)) {
 					continue;
 				}
-
 				if (!enforceUniqueness) {
 					return field;
 				}
-
 				if (foundField != null && enforceUniqueness) {
 					throw new IllegalStateException(filter.getDescription());
 				}
-
 				foundField = field;
 			}
-
 			targetClass = targetClass.getSuperclass();
 		}
-
 		return foundField;
 	}
 
@@ -206,13 +196,10 @@ public final class ReflectionUtils {
 	 * @throws IllegalArgumentException in case the field can't be found.
 	 */
 	public static Field findRequiredField(Class<?> type, String name) {
-
 		Field result = org.springframework.util.ReflectionUtils.findField(type, name);
-
 		if (result == null) {
 			throw new IllegalArgumentException(String.format("Unable to find field %s on %s!", name, type));
 		}
-
 		return result;
 	}
 
@@ -224,7 +211,6 @@ public final class ReflectionUtils {
 	 * @param value
 	 */
 	public static void setField(Field field, Object target, @Nullable Object value) {
-
 		org.springframework.util.ReflectionUtils.makeAccessible(field);
 		org.springframework.util.ReflectionUtils.setField(field, target, value);
 	}
@@ -236,10 +222,8 @@ public final class ReflectionUtils {
 	 * @return a {@link Constructor} that is compatible with the given arguments.
 	 */
 	public static Optional<Constructor<?>> findConstructor(Class<?> type, Object... constructorArguments) {
-
 		Assert.notNull(type, "Target type must not be null!");
 		Assert.notNull(constructorArguments, "Constructor arguments must not be null!");
-
 		return Arrays.stream(type.getDeclaredConstructors())//
 				.filter(constructor -> argumentsMatch(constructor.getParameterTypes(), constructorArguments))//
 				.findFirst();
@@ -254,19 +238,14 @@ public final class ReflectionUtils {
 	 * @throws IllegalArgumentException in case the method cannot be resolved.
 	 */
 	public static Method findRequiredMethod(Class<?> type, String name, Class<?>... parameterTypes) {
-
 		Method result = org.springframework.util.ReflectionUtils.findMethod(type, name, parameterTypes);
-
 		if (result == null) {
-
 			String parameterTypeNames = Arrays.stream(parameterTypes) //
 					.map(Object::toString) //
 					.collect(Collectors.joining(", "));
-
 			throw new IllegalArgumentException(
 					String.format("Unable to find method %s(%s)on %s!", name, parameterTypeNames, type));
 		}
-
 		return result;
 	}
 
@@ -278,12 +257,9 @@ public final class ReflectionUtils {
 	 * @since 2.0
 	 */
 	public static Stream<Class<?>> returnTypeAndParameters(Method method) {
-
 		Assert.notNull(method, "Method must not be null!");
-
 		Stream<Class<?>> returnType = Stream.of(method.getReturnType());
 		Stream<Class<?>> parameterTypes = Arrays.stream(method.getParameterTypes());
-
 		return Stream.concat(returnType, parameterTypes);
 	}
 
@@ -297,48 +273,36 @@ public final class ReflectionUtils {
 	 * @since 2.0
 	 */
 	public static Optional<Method> getMethod(Class<?> type, String name, ResolvableType... parameterTypes) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.hasText(name, "Name must not be null or empty!");
 		Assert.notNull(parameterTypes, "Parameter types must not be null!");
-
 		List<Class<?>> collect = Arrays.stream(parameterTypes)//
 				.map(ResolvableType::getRawClass)//
 				.collect(Collectors.toList());
-
 		Method method = org.springframework.util.ReflectionUtils.findMethod(type, name,
 				collect.toArray(new Class<?>[collect.size()]));
-
 		return Optional.ofNullable(method)//
 				.filter(it -> IntStream.range(0, it.getParameterCount())//
 						.allMatch(index -> ResolvableType.forMethodParameter(it, index).equals(parameterTypes[index])));
 	}
 
 	private static boolean argumentsMatch(Class<?>[] parameterTypes, Object[] arguments) {
-
 		if (parameterTypes.length != arguments.length) {
 			return false;
 		}
-
 		int index = 0;
-
 		for (Class<?> argumentType : parameterTypes) {
-
 			Object argument = arguments[index];
-
 			// Reject nulls for primitives
 			if (argumentType.isPrimitive() && argument == null) {
 				return false;
 			}
-
 			// Type check if argument is not null
 			if (argument != null && !ClassUtils.isAssignableValue(argumentType, argument)) {
 				return false;
 			}
-
 			index++;
 		}
-
 		return true;
 	}
 
@@ -374,15 +338,12 @@ public final class ReflectionUtils {
 	 * @since 2.0
 	 */
 	public static boolean isNullable(MethodParameter parameter) {
-
 		if (Void.class.equals(parameter.getParameterType()) || Void.TYPE.equals(parameter.getParameterType())) {
 			return true;
 		}
-
 		if (isSupportedKotlinClass(parameter.getDeclaringClass())) {
 			return KotlinReflectionUtils.isNullable(parameter);
 		}
-
 		return !parameter.getParameterType().isPrimitive();
 	}
 
@@ -393,39 +354,30 @@ public final class ReflectionUtils {
 	 * @since 2.1
 	 */
 	public static Object getPrimitiveDefault(Class<?> type) {
-
 		if (type == Byte.TYPE || type == Byte.class) {
 			return (byte) 0;
 		}
-
 		if (type == Short.TYPE || type == Short.class) {
 			return (short) 0;
 		}
-
 		if (type == Integer.TYPE || type == Integer.class) {
 			return 0;
 		}
-
 		if (type == Long.TYPE || type == Long.class) {
 			return 0L;
 		}
-
 		if (type == Float.TYPE || type == Float.class) {
 			return 0F;
 		}
-
 		if (type == Double.TYPE || type == Double.class) {
 			return 0D;
 		}
-
 		if (type == Character.TYPE || type == Character.class) {
 			return '\u0000';
 		}
-
 		if (type == Boolean.TYPE) {
 			return Boolean.FALSE;
 		}
-
 		throw new IllegalArgumentException(String.format("Primitive type %s not supported!", type));
 	}
 

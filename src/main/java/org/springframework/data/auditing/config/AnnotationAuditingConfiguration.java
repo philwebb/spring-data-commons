@@ -42,16 +42,12 @@ public class AnnotationAuditingConfiguration implements AuditingConfiguration {
 	 * @param annotation must not be {@literal null}.
 	 */
 	public AnnotationAuditingConfiguration(AnnotationMetadata metadata, Class<? extends Annotation> annotation) {
-
 		Assert.notNull(metadata, "AnnotationMetadata must not be null!");
 		Assert.notNull(annotation, "Annotation must not be null!");
-
 		Map<String, Object> attributesSource = metadata.getAnnotationAttributes(annotation.getName());
-
 		if (attributesSource == null) {
 			throw new IllegalArgumentException(String.format(MISSING_ANNOTATION_ATTRIBUTES, annotation, metadata));
 		}
-
 		this.attributes = new AnnotationAttributes(attributesSource);
 	}
 

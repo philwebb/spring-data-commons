@@ -85,26 +85,19 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	@Nullable
 	@Override
 	public Object getProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, GetOptions options) {
-
 		Object bean = getBean();
 		Object current = bean;
-
 		if (path.isEmpty()) {
 			return bean;
 		}
-
 		for (PersistentProperty<?> property : path) {
-
 			if (current == null) {
 				return handleNull(path, options.getNullValues().toNullHandling());
 			}
-
 			PersistentEntity<?, ? extends PersistentProperty<?>> entity = property.getOwner();
 			PersistentPropertyAccessor<Object> accessor = entity.getPropertyAccessor(current);
-
 			current = accessor.getProperty(property);
 		}
-
 		return current;
 	}
 
@@ -142,69 +135,48 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	@Override
 	public void setProperty(PersistentPropertyPath<? extends PersistentProperty<?>> path, @Nullable Object value,
 			SetOptions options) {
-
 		Assert.notNull(path, "PersistentPropertyPath must not be null!");
 		Assert.isTrue(!path.isEmpty(), "PersistentPropertyPath must not be empty!");
-
 		PersistentPropertyPath<? extends PersistentProperty<?>> parentPath = path.getParentPath();
 		PersistentProperty<?> leafProperty = path.getRequiredLeafProperty();
-
 		if (!options.propagate(parentPath.getLeafProperty())) {
 			return;
 		}
-
 		Object parent = parentPath.isEmpty() ? getBean() : getProperty(parentPath);
-
 		if (parent == null) {
 			handleNull(path, options.getNullHandling());
 			return;
 		}
-
 		if (parent == getBean()) {
-
 			setProperty(leafProperty, value);
 			return;
 		}
-
 		PersistentProperty<?> parentProperty = parentPath.getRequiredLeafProperty();
-
 		Object newValue;
-
 		if (parentProperty.isCollectionLike()) {
-
 			Collection<Object> source = getTypedProperty(parentProperty, Collection.class);
-
 			if (source == null) {
 				return;
 			}
-
 			newValue = source.stream() //
 					.map(it -> setValue(it, leafProperty, value)) //
 					.collect(Collectors
 							.toCollection(() -> CollectionFactory.createApproximateCollection(source, source.size())));
-
 		}
 		else if (Map.class.isInstance(parent)) {
-
 			Map<Object, Object> source = getTypedProperty(parentProperty, Map.class);
-
 			if (source == null) {
 				return;
 			}
-
 			Map<Object, Object> result = CollectionFactory.createApproximateMap(source, source.size());
-
 			for (Entry<?, Object> entry : source.entrySet()) {
 				result.put(entry.getKey(), setValue(entry.getValue(), leafProperty, value));
 			}
-
 			newValue = result;
-
 		}
 		else {
 			newValue = setValue(parent, leafProperty, value);
 		}
-
 		if (newValue != parent) {
 			setProperty(parentPath, newValue);
 		}
@@ -217,20 +189,15 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	 */
 	@Nullable
 	private Object handleNull(PersistentPropertyPath<? extends PersistentProperty<?>> path, SetNulls handling) {
-
 		if (SKIP.equals(handling)) {
 			return null;
 		}
-
 		String nullIntermediateMessage = "Cannot lookup property %s on null intermediate! Original path was: %s on %s.";
-
 		if (SetNulls.SKIP_AND_LOG.equals(handling)) {
 			LOG.info(nullIntermediateMessage);
 			return null;
 		}
-
 		PersistentPropertyPath<? extends PersistentProperty<?>> parentPath = path.getParentPath();
-
 		throw new MappingException(String.format(nullIntermediateMessage, parentPath.getLeafProperty(),
 				path.toDotPath(), getBean().getClass().getName()));
 	}
@@ -244,7 +211,6 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	 * @return will never be {@literal null}.
 	 */
 	private static Object setValue(Object parent, PersistentProperty<?> property, @Nullable Object newValue) {
-
 		PersistentPropertyAccessor<Object> accessor = property.getAccessorForOwner(parent);
 		accessor.setProperty(property, newValue);
 		return accessor.getBean();
@@ -260,21 +226,16 @@ class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathA
 	 */
 	@Nullable
 	protected <S> S getTypedProperty(PersistentProperty<?> property, Class<S> type) {
-
 		Assert.notNull(property, "Property must not be null!");
 		Assert.notNull(type, "Type must not be null!");
-
 		Object value = getProperty(property);
-
 		if (value == null) {
 			return null;
 		}
-
 		if (!type.isInstance(value)) {
 			throw new MappingException(String.format("Invalid property value type! Need %s but got %s!", //
 					type.getName(), value.getClass().getName()));
 		}
-
 		return type.cast(value);
 	}
 

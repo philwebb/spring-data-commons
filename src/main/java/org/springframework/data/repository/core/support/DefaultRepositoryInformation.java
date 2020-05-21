@@ -64,11 +64,9 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	 */
 	public DefaultRepositoryInformation(RepositoryMetadata metadata, Class<?> repositoryBaseClass,
 			RepositoryComposition composition) {
-
 		Assert.notNull(metadata, "Repository metadata must not be null!");
 		Assert.notNull(repositoryBaseClass, "Repository base class must not be null!");
 		Assert.notNull(composition, "Repository composition must not be null!");
-
 		this.metadata = metadata;
 		this.repositoryBaseClass = repositoryBaseClass;
 		this.composition = composition;
@@ -94,42 +92,33 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 
 	@Override
 	public Method getTargetClassMethod(Method method) {
-
 		if (this.methodCache.containsKey(method)) {
 			return this.methodCache.get(method);
 		}
-
 		Method result = this.composition.findMethod(method).orElse(method);
-
 		if (!result.equals(method)) {
 			return cacheAndReturn(method, result);
 		}
-
 		return cacheAndReturn(method, this.baseComposition.findMethod(method).orElse(method));
 	}
 
 	private Method cacheAndReturn(Method key, Method value) {
-
 		if (value != null) {
 			makeAccessible(value);
 		}
-
 		this.methodCache.put(key, value);
 		return value;
 	}
 
 	@Override
 	public Streamable<Method> getQueryMethods() {
-
 		Set<Method> result = new HashSet<>();
-
 		for (Method method : getRepositoryInterface().getMethods()) {
 			method = ClassUtils.getMostSpecificMethod(method, getRepositoryInterface());
 			if (isQueryMethodCandidate(method)) {
 				result.add(method);
 			}
 		}
-
 		return Streamable.of(Collections.unmodifiableSet(result));
 	}
 
@@ -152,7 +141,6 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 	 * @return
 	 */
 	private boolean isQueryAnnotationPresentOn(Method method) {
-
 		return AnnotationUtils.findAnnotation(method, QueryAnnotation.class) != null;
 	}
 
@@ -168,27 +156,22 @@ class DefaultRepositoryInformation implements RepositoryInformation {
 
 	@Override
 	public boolean isBaseClassMethod(Method method) {
-
 		Assert.notNull(method, "Method must not be null!");
 		return this.baseComposition.getMethod(method) != null;
 	}
 
 	@Override
 	public boolean hasCustomMethod() {
-
 		Class<?> repositoryInterface = getRepositoryInterface();
-
 		// No detection required if no typing interface was configured
 		if (isGenericRepositoryInterface(repositoryInterface)) {
 			return false;
 		}
-
 		for (Method method : repositoryInterface.getMethods()) {
 			if (isCustomMethod(method) && !isBaseClassMethod(method)) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 

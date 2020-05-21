@@ -56,11 +56,9 @@ interface MethodLookups {
 	 * @return direct method lookup.
 	 */
 	static MethodLookup direct() {
-
 		MethodPredicate direct = (invoked, candidate) -> candidate.getName().equals(invoked.getName())
 				&& candidate.getParameterCount() == invoked.getParameterCount()
 				&& Arrays.equals(candidate.getParameterTypes(), invoked.getParameterTypes());
-
 		return () -> Collections.singletonList(direct);
 	}
 
@@ -122,9 +120,7 @@ interface MethodLookups {
 		 * @param repositoryMetadata must not be {@literal null}.
 		 */
 		public RepositoryAwareMethodLookup(RepositoryMetadata repositoryMetadata) {
-
 			Assert.notNull(repositoryMetadata, "Repository metadata must not be null!");
-
 			this.entityType = ResolvableType.forClass(repositoryMetadata.getDomainType());
 			this.idType = ResolvableType.forClass(repositoryMetadata.getIdType());
 			this.repositoryInterface = repositoryMetadata.getRepositoryInterface();
@@ -132,16 +128,12 @@ interface MethodLookups {
 
 		@Override
 		public List<MethodPredicate> getLookups() {
-
 			MethodPredicate detailedComparison = (invoked, candidate) -> Optional.of(candidate)
-					.filter(baseClassMethod -> baseClassMethod.getName().equals(invoked.getName()))// Right
-																									// name
+					.filter(baseClassMethod -> baseClassMethod.getName().equals(invoked.getName()))
+					// Right
 					.filter(baseClassMethod -> baseClassMethod.getParameterCount() == invoked.getParameterCount())
-					.filter(baseClassMethod -> parametersMatch(invoked.getMethod(), baseClassMethod))// All
-																										// parameters
-																										// match
-					.isPresent();
-
+					// All parameters match
+					.filter(baseClassMethod -> parametersMatch(invoked.getMethod(), baseClassMethod)).isPresent();
 			return Collections.singletonList(detailedComparison);
 		}
 
@@ -155,27 +147,20 @@ interface MethodLookups {
 		 * @return
 		 */
 		protected boolean matchesGenericType(TypeVariable<?> variable, ResolvableType parameterType) {
-
 			GenericDeclaration declaration = variable.getGenericDeclaration();
-
 			if (declaration instanceof Class) {
-
 				if (ID_TYPE_NAME.equals(variable.getName()) && parameterType.isAssignableFrom(this.idType)) {
 					return true;
 				}
-
 				Type boundType = variable.getBounds()[0];
 				String referenceName = boundType instanceof TypeVariable ? boundType.toString() : variable.toString();
-
 				return DOMAIN_TYPE_NAME.equals(referenceName) && parameterType.isAssignableFrom(this.entityType);
 			}
-
 			for (Type type : variable.getBounds()) {
 				if (ResolvableType.forType(type).isAssignableFrom(parameterType)) {
 					return true;
 				}
 			}
-
 			return false;
 		}
 
@@ -188,37 +173,28 @@ interface MethodLookups {
 		 * @return
 		 */
 		private boolean parametersMatch(Method invokedMethod, Method candidate) {
-
 			Class<?>[] methodParameterTypes = invokedMethod.getParameterTypes();
 			Type[] genericTypes = candidate.getGenericParameterTypes();
 			Class<?>[] types = candidate.getParameterTypes();
-
 			for (int i = 0; i < genericTypes.length; i++) {
-
 				Type genericType = genericTypes[i];
 				Class<?> type = types[i];
 				MethodParameter parameter = new MethodParameter(invokedMethod, i);
 				Class<?> parameterType = resolveParameterType(parameter, this.repositoryInterface);
-
 				if (genericType instanceof TypeVariable<?>) {
-
 					if (!matchesGenericType((TypeVariable<?>) genericType,
 							ResolvableType.forMethodParameter(parameter))) {
 						return false;
 					}
-
 					continue;
 				}
-
 				if (types[i].equals(parameterType)) {
 					continue;
 				}
-
 				if (!type.isAssignableFrom(parameterType) || !type.equals(methodParameterTypes[i])) {
 					return false;
 				}
 			}
-
 			return true;
 		}
 
@@ -242,24 +218,18 @@ interface MethodLookups {
 
 		@Override
 		public List<MethodPredicate> getLookups() {
-
 			MethodPredicate convertibleComparison = (invokedMethod, candidate) -> {
-
 				List<Supplier<Optional<Method>>> suppliers = new ArrayList<>();
-
 				if (usesParametersWithReactiveWrappers(invokedMethod.getMethod())) {
 					suppliers.add(() -> getMethodCandidate(invokedMethod, candidate, assignableWrapperMatch())); //
 					suppliers.add(() -> getMethodCandidate(invokedMethod, candidate, wrapperConversionMatch()));
 				}
-
 				return suppliers.stream().anyMatch(supplier -> supplier.get().isPresent());
 			};
-
 			MethodPredicate detailedComparison = (invokedMethod,
 					candidate) -> getMethodCandidate(invokedMethod, candidate,
 							matchParameterOrComponentType(this.repositoryMetadata.getRepositoryInterface()))
 									.isPresent();
-
 			return Arrays.asList(convertibleComparison, detailedComparison);
 		}
 
@@ -273,20 +243,15 @@ interface MethodLookups {
 		 * @see #matchesGenericType
 		 */
 		private Predicate<ParameterOverrideCriteria> matchParameterOrComponentType(Class<?> repositoryInterface) {
-
 			return (parameterCriteria) -> {
-
 				Class<?> parameterType = resolveParameterType(parameterCriteria.getDeclared(), repositoryInterface);
 				Type genericType = parameterCriteria.getGenericBaseType();
-
 				if (genericType instanceof TypeVariable<?>) {
-
 					if (!matchesGenericType((TypeVariable<?>) genericType,
 							ResolvableType.forMethodParameter(parameterCriteria.getDeclared()))) {
 						return false;
 					}
 				}
-
 				return parameterCriteria.getBaseType().isAssignableFrom(parameterType)
 						&& parameterCriteria.isAssignableFromDeclared();
 			};
@@ -299,9 +264,7 @@ interface MethodLookups {
 		 * @return
 		 */
 		private static boolean isNonUnwrappingWrapper(Class<?> parameterType) {
-
 			Assert.notNull(parameterType, "Parameter type must not be null!");
-
 			return QueryExecutionConverters.supports(parameterType)
 					&& !QueryExecutionConverters.supportsUnwrapping(parameterType);
 		}
@@ -313,9 +276,7 @@ interface MethodLookups {
 		 * @return
 		 */
 		private static boolean usesParametersWithReactiveWrappers(Method method) {
-
 			Assert.notNull(method, "Method must not be null!");
-
 			return Arrays.stream(method.getParameterTypes())//
 					.anyMatch(ReactiveTypeInteropMethodLookup::isNonUnwrappingWrapper);
 		}
@@ -330,7 +291,6 @@ interface MethodLookups {
 		 */
 		private static Optional<Method> getMethodCandidate(InvokedMethod invokedMethod, Method candidate,
 				Predicate<ParameterOverrideCriteria> predicate) {
-
 			return Optional.of(candidate)//
 					.filter(it -> invokedMethod.getName().equals(it.getName()))//
 					.filter(it -> parameterCountMatch(invokedMethod, it))//
@@ -359,7 +319,6 @@ interface MethodLookups {
 		 * @return
 		 */
 		private static Predicate<ParameterOverrideCriteria> wrapperConversionMatch() {
-
 			return (parameterCriteria) -> isNonUnwrappingWrapper(parameterCriteria.getBaseType()) //
 					&& isNonUnwrappingWrapper(parameterCriteria.getDeclaredType()) //
 					&& ReactiveWrapperConverters.canConvert(parameterCriteria.getDeclaredType(),
@@ -374,14 +333,12 @@ interface MethodLookups {
 		 * @return
 		 */
 		private static Predicate<ParameterOverrideCriteria> assignableWrapperMatch() {
-
 			return (parameterCriteria) -> isNonUnwrappingWrapper(parameterCriteria.getBaseType()) //
 					&& isNonUnwrappingWrapper(parameterCriteria.getDeclaredType()) //
 					&& parameterCriteria.getBaseType().isAssignableFrom(parameterCriteria.getDeclaredType());
 		}
 
 		private static boolean parameterCountMatch(InvokedMethod invokedMethod, Method baseClassMethod) {
-
 			ImplementationInvocationMetadata invocationMetadata = new ImplementationInvocationMetadata(
 					invokedMethod.getMethod(), baseClassMethod);
 			return invocationMetadata.canInvoke(invokedMethod.getMethod(), baseClassMethod);
@@ -450,21 +407,16 @@ interface MethodLookups {
 
 			@Override
 			public boolean equals(Object o) {
-
 				if (this == o) {
 					return true;
 				}
-
 				if (!(o instanceof ParameterOverrideCriteria)) {
 					return false;
 				}
-
 				ParameterOverrideCriteria that = (ParameterOverrideCriteria) o;
-
 				if (!ObjectUtils.nullSafeEquals(this.declared, that.declared)) {
 					return false;
 				}
-
 				return ObjectUtils.nullSafeEquals(this.base, that.base);
 			}
 

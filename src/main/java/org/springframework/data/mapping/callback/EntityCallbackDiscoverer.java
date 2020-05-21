@@ -78,11 +78,8 @@ class EntityCallbackDiscoverer {
 	}
 
 	void addEntityCallback(EntityCallback<?> callback) {
-
 		Assert.notNull(callback, "Callback must not be null!");
-
 		synchronized (this.retrievalMutex) {
-
 			// Explicitly remove target for a proxy, if registered already,
 			// in order to avoid double invocations of the same callback.
 			Object singletonTarget = AopProxyUtils.getSingletonTarget(callback);
@@ -95,7 +92,6 @@ class EntityCallbackDiscoverer {
 	}
 
 	void addEntityCallbackBean(String callbackBeanName) {
-
 		synchronized (this.retrievalMutex) {
 			this.defaultRetriever.entityCallbackBeans.add(callbackBeanName);
 			this.retrieverCache.clear();
@@ -103,7 +99,6 @@ class EntityCallbackDiscoverer {
 	}
 
 	void removeEntityCallback(EntityCallback<?> callback) {
-
 		synchronized (this.retrievalMutex) {
 			this.defaultRetriever.entityCallbacks.remove(callback);
 			this.retrieverCache.clear();
@@ -111,7 +106,6 @@ class EntityCallbackDiscoverer {
 	}
 
 	void removeEntityCallbackBean(String callbackBeanName) {
-
 		synchronized (this.retrievalMutex) {
 			this.defaultRetriever.entityCallbackBeans.remove(callbackBeanName);
 			this.retrieverCache.clear();
@@ -119,7 +113,6 @@ class EntityCallbackDiscoverer {
 	}
 
 	void clear() {
-
 		synchronized (this.retrievalMutex) {
 			this.defaultRetriever.entityCallbacks.clear();
 			this.defaultRetriever.entityCallbackBeans.clear();
@@ -137,19 +130,15 @@ class EntityCallbackDiscoverer {
 	 * @see EntityCallback
 	 */
 	<T extends S, S> Collection<EntityCallback<S>> getEntityCallbacks(Class<T> entity, ResolvableType callbackType) {
-
 		Class<?> sourceType = entity;
 		CallbackCacheKey cacheKey = new CallbackCacheKey(callbackType, sourceType);
-
 		// Quick check for existing entry on ConcurrentHashMap...
 		CallbackRetriever retriever = this.retrieverCache.get(cacheKey);
 		if (retriever != null) {
 			return (Collection) retriever.getEntityCallbacks();
 		}
-
 		if (this.beanClassLoader == null || (ClassUtils.isCacheSafe(entity.getClass(), this.beanClassLoader)
 				&& (sourceType == null || ClassUtils.isCacheSafe(sourceType, this.beanClassLoader)))) {
-
 			// Fully synchronized building and caching of a CallbackRetriever
 			synchronized (this.retrievalMutex) {
 				retriever = this.retrieverCache.get(cacheKey);
@@ -171,14 +160,11 @@ class EntityCallbackDiscoverer {
 
 	@Nullable
 	ResolvableType resolveDeclaredEntityType(Class<?> callbackType) {
-
 		ResolvableType eventType = this.entityTypeCache.get(callbackType);
-
 		if (eventType == null) {
 			eventType = ResolvableType.forClass(callbackType).as(EntityCallback.class).getGeneric();
 			this.entityTypeCache.put(callbackType, eventType);
 		}
-
 		return (eventType != ResolvableType.NONE ? eventType : null);
 	}
 
@@ -193,26 +179,21 @@ class EntityCallbackDiscoverer {
 	 */
 	private Collection<EntityCallback<?>> retrieveEntityCallbacks(ResolvableType entityType,
 			ResolvableType callbackType, @Nullable CallbackRetriever retriever) {
-
 		List<EntityCallback<?>> allCallbacks = null;
 		Set<EntityCallback<?>> callbacks;
 		Set<String> callbackBeans;
-
 		synchronized (this.retrievalMutex) {
 			callbacks = new LinkedHashSet<>(this.defaultRetriever.entityCallbacks);
 			callbackBeans = new LinkedHashSet<>(this.defaultRetriever.entityCallbackBeans);
 		}
-
 		for (EntityCallback<?> callback : callbacks) {
 			if (supportsEvent(callback, entityType, callbackType)) {
-
 				if (allCallbacks == null) {
 					allCallbacks = new ArrayList<>();
 				}
 				allCallbacks.add(callback);
 			}
 		}
-
 		if (!callbackBeans.isEmpty()) {
 			BeanFactory beanFactory = getRequiredBeanFactory();
 			for (String callbackBeanName : callbackBeans) {
@@ -246,18 +227,14 @@ class EntityCallbackDiscoverer {
 				}
 			}
 		}
-
 		if (allCallbacks == null) {
 			return Collections.emptyList();
 		}
-
 		AnnotationAwareOrderComparator.sort(allCallbacks);
-
 		if (retriever != null && retriever.entityCallbackBeans.isEmpty()) {
 			retriever.entityCallbacks.clear();
 			retriever.entityCallbacks.addAll(allCallbacks);
 		}
-
 		return allCallbacks;
 	}
 
@@ -275,7 +252,6 @@ class EntityCallbackDiscoverer {
 	 * given callback type.
 	 */
 	protected boolean supportsEvent(Class<?> callback, ResolvableType entityType) {
-
 		ResolvableType declaredEventType = resolveDeclaredEntityType(callback);
 		return (declaredEventType == null || declaredEventType.isAssignableFrom(entityType));
 	}
@@ -291,7 +267,6 @@ class EntityCallbackDiscoverer {
 	 */
 	protected boolean supportsEvent(EntityCallback<?> callback, ResolvableType entityType,
 			ResolvableType callbackType) {
-
 		return supportsEvent(callback.getClass(), entityType)
 				&& callbackType.isAssignableFrom(ResolvableType.forInstance(callback));
 	}
@@ -313,9 +288,7 @@ class EntityCallbackDiscoverer {
 	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(BeanFactory)
 	 */
 	public void setBeanFactory(BeanFactory beanFactory) {
-
 		this.beanFactory = beanFactory;
-
 		if (beanFactory instanceof ConfigurableBeanFactory) {
 			ConfigurableBeanFactory cbf = (ConfigurableBeanFactory) beanFactory;
 			if (this.beanClassLoader == null) {
@@ -323,30 +296,23 @@ class EntityCallbackDiscoverer {
 			}
 			this.retrievalMutex = cbf.getSingletonMutex();
 		}
-
 		this.defaultRetriever.discoverEntityCallbacks(this.beanFactory);
 		this.retrieverCache.clear();
 	}
 
 	@Nullable
 	static Method lookupCallbackMethod(Class<?> callbackType, Class<?> entityType, Object[] args) {
-
 		Collection<Method> methods = new ArrayList<>(1);
-
 		ReflectionUtils.doWithMethods(callbackType, methods::add, method -> {
-
 			if (!Modifier.isPublic(method.getModifiers()) || method.getParameterCount() != args.length + 1
 					|| method.isBridge() || ReflectionUtils.isObjectMethod(method)) {
 				return false;
 			}
-
 			return ClassUtils.isAssignable(method.getParameterTypes()[0], entityType);
 		});
-
 		if (methods.size() == 1) {
 			return methods.iterator().next();
 		}
-
 		throw new IllegalStateException(
 				String.format("%s does not define a callback method accepting %s and %s additional arguments.",
 						ClassUtils.getShortName(callbackType), ClassUtils.getShortName(entityType), args.length));
@@ -354,21 +320,17 @@ class EntityCallbackDiscoverer {
 
 	static <T> BiFunction<EntityCallback<T>, T, Object> computeCallbackInvokerFunction(EntityCallback<T> callback,
 			Method callbackMethod, Object[] args) {
-
 		return (entityCallback, entity) -> {
-
 			Object[] invocationArgs = new Object[args.length + 1];
 			invocationArgs[0] = entity;
 			if (args.length > 0) {
 				System.arraycopy(args, 0, invocationArgs, 1, args.length);
 			}
-
 			return ReflectionUtils.invokeMethod(callbackMethod, callback, invocationArgs);
 		};
 	}
 
 	private BeanFactory getRequiredBeanFactory() {
-
 		Assert.state(this.beanFactory != null,
 				"EntityCallbacks cannot retrieve callback beans because it is not associated with a BeanFactory");
 		return this.beanFactory;
@@ -393,22 +355,17 @@ class EntityCallbackDiscoverer {
 		}
 
 		Collection<EntityCallback<?>> getEntityCallbacks() {
-
 			if (this.entityCallbackBeans.isEmpty()) {
-
 				if (this.cachedEntityCallbacks.size() != this.entityCallbacks.size()) {
 					this.cachedEntityCallbacks.clear();
 					this.cachedEntityCallbacks.addAll(this.entityCallbacks);
 					AnnotationAwareOrderComparator.sort(this.cachedEntityCallbacks);
 				}
-
 				return this.cachedEntityCallbacks;
 			}
-
 			List<EntityCallback<?>> allCallbacks = new ArrayList<>(
 					this.entityCallbacks.size() + this.entityCallbackBeans.size());
 			allCallbacks.addAll(this.entityCallbacks);
-
 			if (!this.entityCallbackBeans.isEmpty()) {
 				BeanFactory beanFactory = getRequiredBeanFactory();
 				for (String callbackBeanName : this.entityCallbackBeans) {
@@ -425,11 +382,9 @@ class EntityCallbackDiscoverer {
 					}
 				}
 			}
-
 			if (!this.preFiltered || !this.entityCallbackBeans.isEmpty()) {
 				AnnotationAwareOrderComparator.sort(allCallbacks);
 			}
-
 			return allCallbacks;
 		}
 
@@ -449,23 +404,18 @@ class EntityCallbackDiscoverer {
 		private final Class<?> entityType;
 
 		public CallbackCacheKey(ResolvableType callbackType, @Nullable Class<?> entityType) {
-
 			Assert.notNull(callbackType, "Callback type must not be null");
 			Assert.notNull(entityType, "Entity type must not be null");
-
 			this.callbackType = callbackType;
 			this.entityType = entityType;
 		}
 
 		@Override
 		public boolean equals(Object other) {
-
 			if (this == other) {
 				return true;
 			}
-
 			CallbackCacheKey otherKey = (CallbackCacheKey) other;
-
 			return (this.callbackType.equals(otherKey.callbackType)
 					&& ObjectUtils.nullSafeEquals(this.entityType, otherKey.entityType));
 		}
@@ -477,7 +427,6 @@ class EntityCallbackDiscoverer {
 
 		@Override
 		public int compareTo(CallbackCacheKey other) {
-
 			return Comparators.<CallbackCacheKey>nullsHigh().thenComparing(it -> this.callbackType.toString())
 					.thenComparing(it -> this.entityType.getName()).compare(this, other);
 

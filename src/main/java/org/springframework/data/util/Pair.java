@@ -40,10 +40,8 @@ public final class Pair<S, T> {
 	private final T second;
 
 	private Pair(S first, T second) {
-
 		Assert.notNull(first, "First must not be null!");
 		Assert.notNull(second, "Second must not be null!");
-
 		this.first = first;
 		this.second = second;
 	}
@@ -84,21 +82,16 @@ public final class Pair<S, T> {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof Pair)) {
 			return false;
 		}
-
 		Pair<?, ?> pair = (Pair<?, ?>) o;
-
 		if (!ObjectUtils.nullSafeEquals(this.first, pair.first)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.second, pair.second);
 	}
 

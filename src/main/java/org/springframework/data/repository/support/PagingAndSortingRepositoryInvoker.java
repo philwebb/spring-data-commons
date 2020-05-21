@@ -48,11 +48,8 @@ class PagingAndSortingRepositoryInvoker extends CrudRepositoryInvoker {
 	 */
 	public PagingAndSortingRepositoryInvoker(PagingAndSortingRepository<Object, Object> repository,
 			RepositoryMetadata metadata, ConversionService conversionService) {
-
 		super(repository, metadata, conversionService);
-
 		CrudMethods crudMethods = metadata.getCrudMethods();
-
 		this.repository = repository;
 		this.customFindAll = isRedeclaredMethod(crudMethods.getFindAllMethod());
 	}

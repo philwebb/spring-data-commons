@@ -74,7 +74,6 @@ public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory impl
 	@Override
 	protected MethodInterceptor postProcessAccessorInterceptor(MethodInterceptor interceptor, Object source,
 			Class<?> projectionType) {
-
 		return this.typeCache.computeIfAbsent(projectionType,
 				SpelAwareProxyProjectionFactory::hasMethodWithValueAnnotation)
 						? new SpelEvaluatingMethodInterceptor(interceptor, source, this.beanFactory, this.parser,
@@ -88,12 +87,9 @@ public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory impl
 	 * @return
 	 */
 	private static boolean hasMethodWithValueAnnotation(Class<?> type) {
-
 		Assert.notNull(type, "Type must not be null!");
-
 		AnnotationDetectionMethodCallback<Value> callback = new AnnotationDetectionMethodCallback<>(Value.class);
 		ReflectionUtils.doWithMethods(type, callback);
-
 		return callback.hasFoundAnnotation();
 	}
 
@@ -105,17 +101,13 @@ public class SpelAwareProxyProjectionFactory extends ProxyProjectionFactory impl
 
 		@Override
 		protected boolean isInputProperty(PropertyDescriptor descriptor) {
-
 			if (!super.isInputProperty(descriptor)) {
 				return false;
 			}
-
 			Method readMethod = descriptor.getReadMethod();
-
 			if (readMethod == null) {
 				return false;
 			}
-
 			return AnnotationUtils.findAnnotation(readMethod, Value.class) == null;
 		}
 

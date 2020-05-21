@@ -38,16 +38,13 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 	@Nonnull
 	@Override
 	protected String getBeanClassName(Element element) {
-
 		String name = element.getLocalName();
-
 		if ("unmarshaller-populator".equals(name)) {
 			return UnmarshallerRepositoryPopulatorFactoryBean.class.getName();
 		}
 		else if ("jackson2-populator".equals(name)) {
 			return Jackson2RepositoryPopulatorFactoryBean.class.getName();
 		}
-
 		throw new IllegalStateException("Unsupported populator type " + name + "!");
 	}
 
@@ -61,11 +58,8 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 	 */
 	@Override
 	protected void doParse(Element element, BeanDefinitionBuilder builder) {
-
 		String localName = element.getLocalName();
-
 		builder.addPropertyValue("resources", element.getAttribute("locations"));
-
 		if ("unmarshaller-populator".equals(localName)) {
 			parseXmlPopulator(element, builder);
 		}
@@ -80,9 +74,7 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 	 * @param builder
 	 */
 	private static void parseJsonPopulator(Element element, BeanDefinitionBuilder builder) {
-
 		String objectMapperRef = element.getAttribute("object-mapper-ref");
-
 		if (StringUtils.hasText(objectMapperRef)) {
 			builder.addPropertyReference("mapper", objectMapperRef);
 		}
@@ -94,9 +86,7 @@ public class ResourceReaderRepositoryPopulatorBeanDefinitionParser extends Abstr
 	 * @param builder
 	 */
 	private static void parseXmlPopulator(Element element, BeanDefinitionBuilder builder) {
-
 		String unmarshallerRefName = element.getAttribute("unmarshaller-ref");
-
 		if (StringUtils.hasText(unmarshallerRefName)) {
 			builder.addPropertyReference("unmarshaller", unmarshallerRefName);
 		}

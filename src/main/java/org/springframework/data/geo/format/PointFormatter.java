@@ -41,20 +41,14 @@ public enum PointFormatter implements Converter<String, Point>, Formatter<Point>
 	@Nonnull
 	@Override
 	public Point convert(String source) {
-
 		String[] parts = source.split(",");
-
 		if (parts.length != 2) {
 			throw new IllegalArgumentException(String.format(INVALID_FORMAT, source));
 		}
-
 		try {
-
 			double latitude = Double.parseDouble(parts[0]);
 			double longitude = Double.parseDouble(parts[1]);
-
 			return new Point(longitude, latitude);
-
 		}
 		catch (NumberFormatException o_O) {
 			throw new IllegalArgumentException(String.format(INVALID_FORMAT, source), o_O);

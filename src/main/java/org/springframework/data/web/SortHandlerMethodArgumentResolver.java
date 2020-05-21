@@ -58,19 +58,15 @@ public class SortHandlerMethodArgumentResolver extends SortHandlerMethodArgument
 	@Override
 	public Sort resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
-
 		String[] directionParameter = webRequest.getParameterValues(getSortParameter(parameter));
-
 		// No parameter
 		if (directionParameter == null) {
 			return getDefaultFromAnnotationOrFallback(parameter);
 		}
-
 		// Single empty parameter, e.g "sort="
 		if (directionParameter.length == 1 && !StringUtils.hasText(directionParameter[0])) {
 			return getDefaultFromAnnotationOrFallback(parameter);
 		}
-
 		return parseParameterIntoSort(Arrays.asList(directionParameter), getPropertyDelimiter());
 	}
 

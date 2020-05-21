@@ -68,10 +68,8 @@ public class TypeFilterParser {
 	 * @param classLoader must not be {@literal null}.
 	 */
 	TypeFilterParser(ReaderContext readerContext, ClassLoader classLoader) {
-
 		Assert.notNull(readerContext, "ReaderContext must not be null!");
 		Assert.notNull(classLoader, "ClassLoader must not be null!");
-
 		this.readerContext = readerContext;
 		this.classLoader = classLoader;
 	}
@@ -85,19 +83,14 @@ public class TypeFilterParser {
 	 * @return
 	 */
 	public Collection<TypeFilter> parseTypeFilters(Element element, Type type) {
-
 		NodeList nodeList = element.getChildNodes();
 		Collection<TypeFilter> filters = new HashSet<>();
-
 		for (int i = 0; i < nodeList.getLength(); i++) {
-
 			Node node = nodeList.item(i);
 			Element childElement = type.getElement(node);
-
 			if (childElement == null) {
 				continue;
 			}
-
 			try {
 				filters.add(createTypeFilter(childElement, this.classLoader));
 			}
@@ -105,7 +98,6 @@ public class TypeFilterParser {
 				this.readerContext.error(e.getMessage(), this.readerContext.extractSource(element), e.getCause());
 			}
 		}
-
 		return filters;
 	}
 
@@ -117,12 +109,9 @@ public class TypeFilterParser {
 	 * @return
 	 */
 	protected TypeFilter createTypeFilter(Element element, ClassLoader classLoader) {
-
 		String filterType = element.getAttribute(FILTER_TYPE_ATTRIBUTE);
 		String expression = element.getAttribute(FILTER_EXPRESSION_ATTRIBUTE);
-
 		try {
-
 			FilterType filter = FilterType.fromString(filterType);
 			return filter.getFilter(expression, classLoader);
 
@@ -142,35 +131,44 @@ public class TypeFilterParser {
 	private static enum FilterType {
 
 		ANNOTATION {
+
 			@Override
 			@SuppressWarnings("unchecked")
 			public TypeFilter getFilter(String expression, ClassLoader classLoader) throws ClassNotFoundException {
 				return new AnnotationTypeFilter((Class<Annotation>) classLoader.loadClass(expression));
 			}
+
 		},
 
 		ASSIGNABLE {
+
 			@Override
 			public TypeFilter getFilter(String expression, ClassLoader classLoader) throws ClassNotFoundException {
 				return new AssignableTypeFilter(classLoader.loadClass(expression));
 			}
+
 		},
 
 		ASPECTJ {
+
 			@Override
 			public TypeFilter getFilter(String expression, ClassLoader classLoader) {
 				return new AspectJTypeFilter(expression, classLoader);
 			}
+
 		},
 
 		REGEX {
+
 			@Override
 			public TypeFilter getFilter(String expression, ClassLoader classLoader) {
 				return new RegexPatternTypeFilter(Pattern.compile(expression));
 			}
+
 		},
 
 		CUSTOM {
+
 			@Override
 			public TypeFilter getFilter(String expression, ClassLoader classLoader) throws ClassNotFoundException {
 
@@ -181,6 +179,7 @@ public class TypeFilterParser {
 				}
 				return (TypeFilter) BeanUtils.instantiateClass(filterClass);
 			}
+
 		};
 
 		/**
@@ -201,13 +200,11 @@ public class TypeFilterParser {
 		 * the given argument.
 		 */
 		static FilterType fromString(String typeString) {
-
 			for (FilterType filter : FilterType.values()) {
 				if (filter.name().equalsIgnoreCase(typeString)) {
 					return filter;
 				}
 			}
-
 			throw new IllegalArgumentException("Unsupported filter type: " + typeString);
 		}
 
@@ -215,7 +212,9 @@ public class TypeFilterParser {
 
 	public static enum Type {
 
-		INCLUDE("include-filter"), EXCLUDE("exclude-filter");
+		INCLUDE("include-filter"),
+
+		EXCLUDE("exclude-filter");
 
 		private String elementName;
 
@@ -231,14 +230,12 @@ public class TypeFilterParser {
 		 */
 		@Nullable
 		Element getElement(Node node) {
-
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				String localName = node.getLocalName();
 				if (this.elementName.equals(localName)) {
 					return (Element) node;
 				}
 			}
-
 			return null;
 		}
 

@@ -57,9 +57,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	 * @param entityPathResolver must not be {@literal null}.
 	 */
 	public QuerydslBindingsFactory(EntityPathResolver entityPathResolver) {
-
 		Assert.notNull(entityPathResolver, "EntityPathResolver must not be null!");
-
 		this.entityPathResolver = entityPathResolver;
 		this.entityPaths = new ConcurrentReferenceHashMap<>();
 		this.beanFactory = Optional.empty();
@@ -68,7 +66,6 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-
 		this.beanFactory = Optional.of(applicationContext.getAutowireCapableBeanFactory());
 		this.repositories = Optional.of(new Repositories(applicationContext));
 	}
@@ -116,15 +113,11 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	 */
 	private QuerydslBindings createBindingsFor(TypeInformation<?> domainType,
 			Optional<Class<? extends QuerydslBinderCustomizer<?>>> customizer) {
-
 		Assert.notNull(customizer, "Customizer must not be null!");
 		Assert.notNull(domainType, "Domain type must not be null!");
-
 		EntityPath<?> path = verifyEntityPathPresent(domainType);
-
 		QuerydslBindings bindings = new QuerydslBindings();
 		findCustomizerForDomainType(customizer, domainType.getType()).customize(bindings, path);
-
 		return bindings;
 	}
 
@@ -136,9 +129,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	 * configuration is necessary.
 	 */
 	private EntityPath<?> verifyEntityPathPresent(TypeInformation<?> candidate) {
-
 		return this.entityPaths.computeIfAbsent(candidate, key -> {
-
 			try {
 				return this.entityPathResolver.createPath(key.getType());
 			}
@@ -161,7 +152,6 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private QuerydslBinderCustomizer<EntityPath<?>> findCustomizerForDomainType(
 			Optional<? extends Class<? extends QuerydslBinderCustomizer>> customizer, Class<?> domainType) {
-
 		return customizer//
 				.filter(it -> !QuerydslBinderCustomizer.class.equals(it))//
 				.map(this::createQuerydslBinderCustomizer)
@@ -184,9 +174,7 @@ public class QuerydslBindingsFactory implements ApplicationContextAware {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private QuerydslBinderCustomizer<EntityPath<?>> createQuerydslBinderCustomizer(
 			Class<? extends QuerydslBinderCustomizer> type) {
-
 		return this.beanFactory.map(it -> {
-
 			try {
 				return it.getBean(type);
 			}

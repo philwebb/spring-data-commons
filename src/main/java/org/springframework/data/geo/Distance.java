@@ -59,9 +59,7 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	 * @param metric must not be {@literal null}.
 	 */
 	public Distance(double value, Metric metric) {
-
 		Assert.notNull(metric, "Metric must not be null!");
-
 		this.value = value;
 		this.metric = metric;
 	}
@@ -113,11 +111,8 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	 * @return
 	 */
 	public Distance add(Distance other) {
-
 		Assert.notNull(other, "Distance to add must not be null!");
-
 		double newNormalizedValue = getNormalizedValue() + other.getNormalizedValue();
-
 		return new Distance(newNormalizedValue * this.metric.getMultiplier(), this.metric);
 	}
 
@@ -129,13 +124,10 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	 * @return
 	 */
 	public Distance add(Distance other, Metric metric) {
-
 		Assert.notNull(other, "Distance to must not be null!");
 		Assert.notNull(metric, "Result metric must not be null!");
-
 		double newLeft = getNormalizedValue() * metric.getMultiplier();
 		double newRight = other.getNormalizedValue() * metric.getMultiplier();
-
 		return new Distance(newLeft + newRight, metric);
 	}
 
@@ -146,34 +138,26 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	 * @return
 	 */
 	public Distance in(Metric metric) {
-
 		Assert.notNull(metric, "Metric must not be null!");
-
 		return this.metric.equals(metric) ? this : new Distance(getNormalizedValue() * metric.getMultiplier(), metric);
 	}
 
 	@Override
 	public int compareTo(@Nullable Distance that) {
-
 		if (that == null) {
 			return 1;
 		}
-
 		double difference = this.getNormalizedValue() - that.getNormalizedValue();
-
 		return difference == 0 ? 0 : difference > 0 ? 1 : -1;
 	}
 
 	@Override
 	public String toString() {
-
 		StringBuilder builder = new StringBuilder();
 		builder.append(this.value);
-
 		if (this.metric != Metrics.NEUTRAL) {
 			builder.append(" ").append(this.metric.toString());
 		}
-
 		return builder.toString();
 	}
 
@@ -187,17 +171,13 @@ public final class Distance implements Serializable, Comparable<Distance> {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof Distance)) {
 			return false;
 		}
-
 		Distance distance = (Distance) o;
-
 		if (this.value != distance.value) {
 			return false;
 		}

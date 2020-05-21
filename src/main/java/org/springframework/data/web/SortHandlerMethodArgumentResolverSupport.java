@@ -70,7 +70,6 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 * @param sortParameter must not be {@literal null} or empty.
 	 */
 	public void setSortParameter(String sortParameter) {
-
 		Assert.hasText(sortParameter, "SortParameter must not be null nor empty!");
 		this.sortParameter = sortParameter;
 	}
@@ -82,7 +81,6 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 * @param propertyDelimiter must not be {@literal null} or empty.
 	 */
 	public void setPropertyDelimiter(String propertyDelimiter) {
-
 		Assert.hasText(propertyDelimiter, "Property delimiter must not be null or empty!");
 		this.propertyDelimiter = propertyDelimiter;
 	}
@@ -130,32 +128,24 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 * the configured fallback-sort {@link #setFallbackSort(Sort)}.
 	 */
 	protected Sort getDefaultFromAnnotationOrFallback(MethodParameter parameter) {
-
 		SortDefaults annotatedDefaults = parameter.getParameterAnnotation(SortDefaults.class);
 		SortDefault annotatedDefault = parameter.getParameterAnnotation(SortDefault.class);
-
 		if (annotatedDefault != null && annotatedDefaults != null) {
 			throw new IllegalArgumentException(String.format(
 					"Cannot use both @%s and @%s on parameter %s! Move %s into %s to define sorting order!",
 					SORT_DEFAULTS_NAME, SORT_DEFAULT_NAME, parameter.toString(), SORT_DEFAULT_NAME,
 					SORT_DEFAULTS_NAME));
 		}
-
 		if (annotatedDefault != null) {
 			return appendOrCreateSortTo(annotatedDefault, Sort.unsorted());
 		}
-
 		if (annotatedDefaults != null) {
-
 			Sort sort = Sort.unsorted();
-
 			for (SortDefault currentAnnotatedDefault : annotatedDefaults.value()) {
 				sort = appendOrCreateSortTo(currentAnnotatedDefault, sort);
 			}
-
 			return sort;
 		}
-
 		return this.fallbackSort;
 	}
 
@@ -167,20 +157,15 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 * @return
 	 */
 	private Sort appendOrCreateSortTo(SortDefault sortDefault, Sort sortOrNull) {
-
 		String[] fields = SpringDataAnnotationUtils.getSpecificPropertyOrDefaultFromValue(sortDefault, "sort");
-
 		if (fields.length == 0) {
 			return Sort.unsorted();
 		}
-
 		List<Order> orders = new ArrayList<>(fields.length);
 		for (String field : fields) {
-
 			Order order = new Order(sortDefault.direction(), field);
 			orders.add(sortDefault.caseSensitive() ? order : order.ignoreCase());
 		}
-
 		return sortOrNull.and(Sort.by(orders));
 	}
 
@@ -191,15 +176,11 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 * @return
 	 */
 	protected String getSortParameter(@Nullable MethodParameter parameter) {
-
 		StringBuilder builder = new StringBuilder();
-
 		Qualifier qualifier = parameter != null ? parameter.getParameterAnnotation(Qualifier.class) : null;
-
 		if (qualifier != null) {
 			builder.append(qualifier.value()).append(this.qualifierDelimiter);
 		}
-
 		return builder.append(this.sortParameter).toString();
 	}
 
@@ -217,21 +198,16 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 * @return
 	 */
 	Sort parseParameterIntoSort(List<String> source, String delimiter) {
-
 		List<Order> allOrders = new ArrayList<>();
-
 		for (String part : source) {
-
 			if (part == null) {
 				continue;
 			}
-
 			SortOrderParser.parse(part, delimiter) //
 					.parseIgnoreCase() //
 					.parseDirection() //
 					.forEachOrder(allOrders::add);
 		}
-
 		return allOrders.isEmpty() ? Sort.unsorted() : Sort.by(allOrders);
 	}
 
@@ -243,14 +219,10 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 * @return
 	 */
 	protected List<String> foldIntoExpressions(Sort sort) {
-
 		List<String> expressions = new ArrayList<>();
 		ExpressionBuilder builder = null;
-
 		for (Order order : sort) {
-
 			Direction direction = order.getDirection();
-
 			if (builder == null) {
 				builder = new ExpressionBuilder(direction);
 			}
@@ -258,10 +230,8 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 				builder.dumpExpressionIfPresentInto(expressions);
 				builder = new ExpressionBuilder(direction);
 			}
-
 			builder.add(order.getProperty());
 		}
-
 		return builder == null ? Collections.emptyList() : builder.dumpExpressionIfPresentInto(expressions);
 	}
 
@@ -274,14 +244,10 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 	 * @return
 	 */
 	protected List<String> legacyFoldExpressions(Sort sort) {
-
 		List<String> expressions = new ArrayList<>();
 		ExpressionBuilder builder = null;
-
 		for (Order order : sort) {
-
 			Direction direction = order.getDirection();
-
 			if (builder == null) {
 				builder = new ExpressionBuilder(direction);
 			}
@@ -290,10 +256,8 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 						String.format("%s in legacy configuration only supports a single direction to sort by!",
 								getClass().getSimpleName()));
 			}
-
 			builder.add(order.getProperty());
 		}
-
 		return builder == null ? Collections.emptyList() : builder.dumpExpressionIfPresentInto(expressions);
 	}
 
@@ -323,7 +287,6 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * @param direction must not be {@literal null}.
 		 */
 		ExpressionBuilder(Direction direction) {
-
 			Assert.notNull(direction, "Direction must not be null!");
 			this.direction = direction;
 		}
@@ -354,15 +317,12 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * @return
 		 */
 		List<String> dumpExpressionIfPresentInto(List<String> expressions) {
-
 			if (this.elements.isEmpty()) {
 				return expressions;
 			}
-
 			this.elements.add(this.direction.name().toLowerCase());
 			expressions.add(StringUtils.collectionToDelimitedString(this.elements,
 					SortHandlerMethodArgumentResolverSupport.this.propertyDelimiter));
-
 			return expressions;
 		}
 
@@ -406,11 +366,9 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * @return the parsing state object.
 		 */
 		public static SortOrderParser parse(String part, String delimiter) {
-
 			String[] elements = Arrays.stream(part.split(delimiter)) //
 					.filter(SortHandlerMethodArgumentResolver::notOnlyDots) //
 					.toArray(String[]::new);
-
 			return new SortOrderParser(elements);
 		}
 
@@ -419,10 +377,8 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * @return a new parsing state object.
 		 */
 		public SortOrderParser parseIgnoreCase() {
-
 			Optional<Boolean> ignoreCase = this.lastIndex > 0 ? fromOptionalString(this.elements[this.lastIndex - 1])
 					: Optional.empty();
-
 			return new SortOrderParser(this.elements, this.lastIndex - (ignoreCase.isPresent() ? 1 : 0), this.direction,
 					ignoreCase);
 		}
@@ -432,10 +388,8 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * @return a new parsing state object.
 		 */
 		public SortOrderParser parseDirection() {
-
 			Optional<Direction> direction = this.lastIndex > 0
 					? Direction.fromOptionalString(this.elements[this.lastIndex - 1]) : Optional.empty();
-
 			return new SortOrderParser(this.elements, this.lastIndex - (direction.isPresent() ? 1 : 0), direction,
 					this.ignoreCase);
 		}
@@ -446,7 +400,6 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		 * @param callback block to be executed.
 		 */
 		public void forEachOrder(Consumer<? super Order> callback) {
-
 			for (int i = 0; i < this.lastIndex; i++) {
 				toOrder(this.elements[i]).ifPresent(callback);
 			}
@@ -457,17 +410,13 @@ public abstract class SortHandlerMethodArgumentResolverSupport {
 		}
 
 		private Optional<Order> toOrder(String property) {
-
 			if (!StringUtils.hasText(property)) {
 				return Optional.empty();
 			}
-
 			Order order = this.direction.map(it -> new Order(it, property)).orElseGet(() -> Order.by(property));
-
 			if (this.ignoreCase.isPresent()) {
 				return Optional.of(order.ignoreCase());
 			}
-
 			return Optional.of(order);
 		}
 

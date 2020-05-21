@@ -67,47 +67,33 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @param method must not be {@literal null}.
 	 */
 	public Parameters(Method method) {
-
 		Assert.notNull(method, "Method must not be null!");
-
 		int parameterCount = method.getParameterCount();
-
 		this.parameters = new ArrayList<>(parameterCount);
 		this.dynamicProjectionIndex = -1;
-
 		int pageableIndex = -1;
 		int sortIndex = -1;
-
 		for (int i = 0; i < parameterCount; i++) {
-
 			MethodParameter methodParameter = new MethodParameter(method, i);
 			methodParameter.initParameterNameDiscovery(PARAMETER_NAME_DISCOVERER);
-
 			T parameter = createParameter(methodParameter);
-
 			if (parameter.isSpecialParameter() && parameter.isNamedParameter()) {
 				throw new IllegalArgumentException(PARAM_ON_SPECIAL);
 			}
-
 			if (parameter.isDynamicProjectionParameter()) {
 				this.dynamicProjectionIndex = parameter.getIndex();
 			}
-
 			if (Pageable.class.isAssignableFrom(parameter.getType())) {
 				pageableIndex = i;
 			}
-
 			if (Sort.class.isAssignableFrom(parameter.getType())) {
 				sortIndex = i;
 			}
-
 			this.parameters.add(parameter);
 		}
-
 		this.pageableIndex = pageableIndex;
 		this.sortIndex = sortIndex;
 		this.bindable = Lazy.of(this::getBindable);
-
 		assertEitherAllParamAnnotatedOrNone();
 	}
 
@@ -117,23 +103,17 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @param originals
 	 */
 	protected Parameters(List<T> originals) {
-
 		this.parameters = new ArrayList<>(originals.size());
-
 		int pageableIndexTemp = -1;
 		int sortIndexTemp = -1;
 		int dynamicProjectionTemp = -1;
-
 		for (int i = 0; i < originals.size(); i++) {
-
 			T original = originals.get(i);
 			this.parameters.add(original);
-
 			pageableIndexTemp = original.isPageable() ? i : -1;
 			sortIndexTemp = original.isSort() ? i : -1;
 			dynamicProjectionTemp = original.isDynamicProjectionParameter() ? i : -1;
 		}
-
 		this.pageableIndex = pageableIndexTemp;
 		this.sortIndex = sortIndexTemp;
 		this.dynamicProjectionIndex = dynamicProjectionTemp;
@@ -141,16 +121,12 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	}
 
 	private S getBindable() {
-
 		List<T> bindables = new ArrayList<>();
-
 		for (T candidate : this) {
-
 			if (candidate.isBindable()) {
 				bindables.add(candidate);
 			}
 		}
-
 		return createFrom(bindables);
 	}
 
@@ -230,7 +206,6 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @return
 	 */
 	public T getParameter(int index) {
-
 		try {
 			return this.parameters.get(index);
 		}
@@ -246,7 +221,6 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @return
 	 */
 	public boolean hasParameterAt(int position) {
-
 		try {
 			return null != getParameter(position);
 		}
@@ -302,12 +276,9 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 	 * @param method
 	 */
 	private void assertEitherAllParamAnnotatedOrNone() {
-
 		boolean nameFound = false;
 		int index = 0;
-
 		for (T parameter : this.getBindableParameters()) {
-
 			if (parameter.isNamedParameter()) {
 				Assert.isTrue(nameFound || index == 0, ALL_OR_NOTHING);
 				nameFound = true;
@@ -315,7 +286,6 @@ public abstract class Parameters<S extends Parameters<S, T>, T extends Parameter
 			else {
 				Assert.isTrue(!nameFound, ALL_OR_NOTHING);
 			}
-
 			index++;
 		}
 	}

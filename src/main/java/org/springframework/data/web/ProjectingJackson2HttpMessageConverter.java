@@ -67,9 +67,7 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 	 * @param mapper must not be {@literal null}.
 	 */
 	public ProjectingJackson2HttpMessageConverter(ObjectMapper mapper) {
-
 		super(mapper);
-
 		this.projectionFactory = initProjectionFactory(mapper);
 	}
 
@@ -81,13 +79,10 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 	 * @return
 	 */
 	private static SpelAwareProxyProjectionFactory initProjectionFactory(ObjectMapper mapper) {
-
 		Assert.notNull(mapper, "ObjectMapper must not be null!");
-
 		SpelAwareProxyProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 		projectionFactory.registerMethodInvokerFactory(
 				new JsonProjectingMethodInterceptorFactory(new JacksonMappingProvider(mapper)));
-
 		return projectionFactory;
 	}
 
@@ -110,22 +105,17 @@ public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpM
 	 */
 	@Override
 	public boolean canRead(Type type, @Nullable Class<?> contextClass, @Nullable MediaType mediaType) {
-
 		if (!canRead(mediaType)) {
 			return false;
 		}
-
 		ResolvableType owner = contextClass == null ? null : ResolvableType.forClass(contextClass);
 		Class<?> rawType = ResolvableType.forType(type, owner).resolve(Object.class);
 		Boolean result = this.supportedTypesCache.get(rawType);
-
 		if (result != null) {
 			return result;
 		}
-
 		result = rawType.isInterface() && AnnotationUtils.findAnnotation(rawType, ProjectedPayload.class) != null;
 		this.supportedTypesCache.put(rawType, result);
-
 		return result;
 	}
 

@@ -46,7 +46,6 @@ class PropertyAccessingMethodInterceptor implements MethodInterceptor {
 	 * @param target must not be {@literal null}.
 	 */
 	public PropertyAccessingMethodInterceptor(Object target) {
-
 		Assert.notNull(target, "Proxy target must not be null!");
 		this.target = new DirectFieldAccessFallbackBeanWrapper(target);
 	}
@@ -54,27 +53,20 @@ class PropertyAccessingMethodInterceptor implements MethodInterceptor {
 	@Nullable
 	@Override
 	public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 		Method method = invocation.getMethod();
-
 		if (ReflectionUtils.isObjectMethod(method)) {
 			return invocation.proceed();
 		}
-
 		PropertyDescriptor descriptor = BeanUtils.findPropertyForMethod(method);
-
 		if (descriptor == null) {
 			throw new IllegalStateException("Invoked method is not a property accessor!");
 		}
-
 		if (!isSetterMethod(method, descriptor)) {
 			return this.target.getPropertyValue(descriptor.getName());
 		}
-
 		if (invocation.getArguments().length != 1) {
 			throw new IllegalStateException("Invoked setter method requires exactly one argument!");
 		}
-
 		this.target.setPropertyValue(descriptor.getName(), invocation.getArguments()[0]);
 		return null;
 	}

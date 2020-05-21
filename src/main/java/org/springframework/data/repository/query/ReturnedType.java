@@ -63,13 +63,10 @@ public abstract class ReturnedType {
 	 * @return
 	 */
 	static ReturnedType of(Class<?> returnedType, Class<?> domainType, ProjectionFactory factory) {
-
 		Assert.notNull(returnedType, "Returned type must not be null!");
 		Assert.notNull(domainType, "Domain type must not be null!");
 		Assert.notNull(factory, "ProjectionFactory must not be null!");
-
 		return CACHE.computeIfAbsent(CacheKey.of(returnedType, domainType, factory.hashCode()), key -> {
-
 			return returnedType.isInterface()
 					? new ReturnedInterface(factory.getProjectionInformation(returnedType), domainType)
 					: new ReturnedClass(returnedType, domainType);
@@ -145,11 +142,8 @@ public abstract class ReturnedType {
 		 * @param domainType must not be {@literal null}.
 		 */
 		public ReturnedInterface(ProjectionInformation information, Class<?> domainType) {
-
 			super(domainType);
-
 			Assert.notNull(information, "Projection information must not be null!");
-
 			this.information = information;
 			this.domainType = domainType;
 		}
@@ -177,15 +171,12 @@ public abstract class ReturnedType {
 
 		@Override
 		public List<String> getInputProperties() {
-
 			List<String> properties = new ArrayList<>();
-
 			for (PropertyDescriptor descriptor : this.information.getInputProperties()) {
 				if (!properties.contains(descriptor.getName())) {
 					properties.add(descriptor.getName());
 				}
 			}
-
 			return properties;
 		}
 
@@ -212,13 +203,10 @@ public abstract class ReturnedType {
 		 * @param domainType must not be {@literal null}.
 		 */
 		public ReturnedClass(Class<?> returnedType, Class<?> domainType) {
-
 			super(domainType);
-
 			Assert.notNull(returnedType, "Returned type must not be null!");
 			Assert.notNull(domainType, "Domain type must not be null!");
 			Assert.isTrue(!returnedType.isInterface(), "Returned type must not be an interface!");
-
 			this.type = returnedType;
 			this.inputProperties = detectConstructorParameterNames(returnedType);
 		}
@@ -250,23 +238,17 @@ public abstract class ReturnedType {
 		}
 
 		private List<String> detectConstructorParameterNames(Class<?> type) {
-
 			if (!isDto()) {
 				return Collections.emptyList();
 			}
-
 			PreferredConstructor<?, ?> constructor = PreferredConstructorDiscoverer.discover(type);
-
 			if (constructor == null) {
 				return Collections.emptyList();
 			}
-
 			List<String> properties = new ArrayList<>(constructor.getConstructor().getParameterCount());
-
 			for (PreferredConstructor.Parameter<Object, ?> parameter : constructor.getParameters()) {
 				properties.add(parameter.getName());
 			}
-
 			return properties;
 		}
 
@@ -297,7 +279,6 @@ public abstract class ReturnedType {
 		private final int projectionFactoryHashCode;
 
 		private CacheKey(Class<?> returnedType, Class<?> domainType, int projectionFactoryHashCode) {
-
 			this.returnedType = returnedType;
 			this.domainType = domainType;
 			this.projectionFactoryHashCode = projectionFactoryHashCode;
@@ -321,25 +302,19 @@ public abstract class ReturnedType {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof CacheKey)) {
 				return false;
 			}
-
 			CacheKey cacheKey = (CacheKey) o;
-
 			if (this.projectionFactoryHashCode != cacheKey.projectionFactoryHashCode) {
 				return false;
 			}
-
 			if (!ObjectUtils.nullSafeEquals(this.returnedType, cacheKey.returnedType)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.domainType, cacheKey.domainType);
 		}
 

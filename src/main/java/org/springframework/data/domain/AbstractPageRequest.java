@@ -39,15 +39,12 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 	 * @param size must not be less than one.
 	 */
 	public AbstractPageRequest(int page, int size) {
-
 		if (page < 0) {
 			throw new IllegalArgumentException("Page index must not be less than zero!");
 		}
-
 		if (size < 1) {
 			throw new IllegalArgumentException("Page size must not be less than one!");
 		}
-
 		this.page = page;
 		this.size = size;
 	}
@@ -91,27 +88,21 @@ public abstract class AbstractPageRequest implements Pageable, Serializable {
 
 	@Override
 	public int hashCode() {
-
 		final int prime = 31;
 		int result = 1;
-
 		result = prime * result + this.page;
 		result = prime * result + this.size;
-
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-
 		AbstractPageRequest other = (AbstractPageRequest) obj;
 		return this.page == other.page && this.size == other.size;
 	}

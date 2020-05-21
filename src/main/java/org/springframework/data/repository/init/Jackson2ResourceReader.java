@@ -85,25 +85,18 @@ public class Jackson2ResourceReader implements ResourceReader {
 	 */
 	@Override
 	public Object readFrom(Resource resource, @Nullable ClassLoader classLoader) throws Exception {
-
 		Assert.notNull(resource, "Resource must not be null!");
-
 		InputStream stream = resource.getInputStream();
 		JsonNode node = this.mapper.readerFor(JsonNode.class).readTree(stream);
-
 		if (node.isArray()) {
-
 			Iterator<JsonNode> elements = node.elements();
 			List<Object> result = new ArrayList<>();
-
 			while (elements.hasNext()) {
 				JsonNode element = elements.next();
 				result.add(readSingle(element, classLoader));
 			}
-
 			return result;
 		}
-
 		return readSingle(node, classLoader);
 	}
 
@@ -115,16 +108,12 @@ public class Jackson2ResourceReader implements ResourceReader {
 	 * @return
 	 */
 	private Object readSingle(JsonNode node, @Nullable ClassLoader classLoader) throws IOException {
-
 		JsonNode typeNode = node.findValue(this.typeKey);
-
 		if (typeNode == null) {
 			throw new IllegalArgumentException(String.format("Could not find type for type key '%s'!", this.typeKey));
 		}
-
 		String typeName = typeNode.asText();
 		Class<?> type = ClassUtils.resolveClassName(typeName, classLoader);
-
 		return this.mapper.readerFor(type).readValue(node);
 	}
 

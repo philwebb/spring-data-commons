@@ -71,11 +71,9 @@ public class ResultProcessor {
 	 * @param type must not be {@literal null}.
 	 */
 	private ResultProcessor(QueryMethod method, ProjectionFactory factory, Class<?> type) {
-
 		Assert.notNull(method, "QueryMethod must not be null!");
 		Assert.notNull(factory, "ProjectionFactory must not be null!");
 		Assert.notNull(type, "Type must not be null!");
-
 		this.method = method;
 		this.type = ReturnedType.of(type, method.getDomainClass(), factory);
 		this.converter = new ProjectingConverter(this.type, factory);
@@ -97,11 +95,8 @@ public class ResultProcessor {
 	 * @return
 	 */
 	public ResultProcessor withDynamicProjection(ParameterAccessor accessor) {
-
 		Assert.notNull(accessor, "Parameter accessor must not be null!");
-
 		Class<?> projection = accessor.findDynamicProjection();
-
 		return projection == null //
 				? this //
 				: withType(projection);
@@ -135,45 +130,33 @@ public class ResultProcessor {
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T> T processResult(@Nullable Object source, Converter<Object, Object> preparingConverter) {
-
 		if (source == null || this.type.isInstance(source) || !this.type.isProjecting()) {
 			return (T) source;
 		}
-
 		Assert.notNull(preparingConverter, "Preparing converter must not be null!");
-
 		ChainingConverter converter = ChainingConverter.of(this.type.getReturnedType(), preparingConverter)
 				.and(this.converter);
-
 		if (source instanceof Slice && this.method.isPageQuery() || this.method.isSliceQuery()) {
 			return (T) ((Slice<?>) source).map(converter::convert);
 		}
-
 		if (source instanceof Collection && this.method.isCollectionQuery()) {
-
 			Collection<?> collection = (Collection<?>) source;
 			Collection<Object> target = createCollectionFor(collection);
-
 			for (Object columns : collection) {
 				target.add(this.type.isInstance(columns) ? columns : converter.convert(columns));
 			}
-
 			return (T) target;
 		}
-
 		if (source instanceof Stream && this.method.isStreamQuery()) {
 			return (T) ((Stream<Object>) source).map(t -> this.type.isInstance(t) ? t : converter.convert(t));
 		}
-
 		if (ReactiveWrapperConverters.supports(source.getClass())) {
 			return (T) ReactiveWrapperConverters.map(source, converter::convert);
 		}
-
 		return (T) converter.convert(source);
 	}
 
 	private ResultProcessor withType(Class<?> type) {
-
 		ReturnedType returnedType = ReturnedType.of(type, this.method.getDomainClass(), this.factory);
 		return new ResultProcessor(this.method, this.converter.withType(returnedType), this.factory, returnedType);
 	}
@@ -186,7 +169,6 @@ public class ResultProcessor {
 	 * @return
 	 */
 	private static Collection<Object> createCollectionFor(Collection<?> source) {
-
 		try {
 			return CollectionFactory.createCollection(source.getClass(), source.size());
 		}
@@ -217,13 +199,9 @@ public class ResultProcessor {
 		 * @return
 		 */
 		public ChainingConverter and(final Converter<Object, Object> converter) {
-
 			Assert.notNull(converter, "Converter must not be null!");
-
 			return new ChainingConverter(this.targetType, source -> {
-
 				Object intermediate = ChainingConverter.this.convert(source);
-
 				return intermediate == null || this.targetType.isInstance(intermediate) ? intermediate
 						: converter.convert(intermediate);
 			});
@@ -284,47 +262,36 @@ public class ResultProcessor {
 		 * @return
 		 */
 		ProjectingConverter withType(ReturnedType type) {
-
 			Assert.notNull(type, "ReturnedType must not be null!");
-
 			return new ProjectingConverter(type, this.factory, this.conversionService);
 		}
 
 		@Nullable
 		@Override
 		public Object convert(Object source) {
-
 			Class<?> targetType = this.type.getReturnedType();
-
 			if (targetType.isInterface()) {
 				return this.factory.createProjection(targetType, getProjectionTarget(source));
 			}
-
 			return this.conversionService.convert(source, targetType);
 		}
 
 		private Object getProjectionTarget(Object source) {
-
 			if (source != null && source.getClass().isArray()) {
 				source = Arrays.asList((Object[]) source);
 			}
-
 			if (source instanceof Collection) {
 				return toMap((Collection<?>) source, this.type.getInputProperties());
 			}
-
 			return source;
 		}
 
 		private static Map<String, Object> toMap(Collection<?> values, List<String> names) {
-
 			int i = 0;
 			Map<String, Object> result = new HashMap<>(values.size());
-
 			for (Object element : values) {
 				result.put(names.get(i++), element);
 			}
-
 			return result;
 		}
 

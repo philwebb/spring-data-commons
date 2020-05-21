@@ -43,13 +43,10 @@ public interface IdentifierAccessor {
 	 * @since 2.0
 	 */
 	default Object getRequiredIdentifier() {
-
 		Object identifier = getIdentifier();
-
 		if (identifier != null) {
 			return identifier;
 		}
-
 		throw new IllegalStateException("Could not obtain identifier!");
 	}
 

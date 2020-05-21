@@ -34,9 +34,7 @@ class PersistableIdentifierAccessor extends TargetAwareIdentifierAccessor {
 	 * @param target must not be {@literal null}.
 	 */
 	public PersistableIdentifierAccessor(Persistable<?> target) {
-
 		super(target);
-
 		this.target = target;
 	}
 

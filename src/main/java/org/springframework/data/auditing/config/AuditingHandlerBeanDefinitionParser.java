@@ -57,7 +57,6 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	 */
 	@SuppressWarnings("null")
 	public AuditingHandlerBeanDefinitionParser(String mappingContextBeanName) {
-
 		Assert.hasText(mappingContextBeanName, "MappingContext bean name must not be null!");
 		this.mappingContextBeanName = mappingContextBeanName;
 	}
@@ -92,15 +91,11 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	 */
 	@Override
 	protected void doParse(Element element, BeanDefinitionBuilder builder) {
-
 		builder.addConstructorArgReference(this.mappingContextBeanName);
-
 		String auditorAwareRef = element.getAttribute(AUDITOR_AWARE_REF);
-
 		if (StringUtils.hasText(auditorAwareRef)) {
 			builder.addPropertyValue("auditorAware", createLazyInitTargetSourceBeanDefinition(auditorAwareRef));
 		}
-
 		ParsingUtils.setPropertyValue(builder, element, "set-dates", "dateTimeForNow");
 		ParsingUtils.setPropertyReference(builder, element, "date-time-provider-ref", "dateTimeProvider");
 		ParsingUtils.setPropertyValue(builder, element, "modify-on-creation", "modifyOnCreation");
@@ -116,19 +111,15 @@ public class AuditingHandlerBeanDefinitionParser extends AbstractSingleBeanDefin
 	 */
 	@Override
 	protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {
-
 		this.resolvedBeanName = super.resolveId(element, definition, parserContext);
 		return this.resolvedBeanName;
 	}
 
 	private BeanDefinition createLazyInitTargetSourceBeanDefinition(String auditorAwareRef) {
-
 		BeanDefinitionBuilder targetSourceBuilder = rootBeanDefinition(LazyInitTargetSource.class);
 		targetSourceBuilder.addPropertyValue("targetBeanName", auditorAwareRef);
-
 		BeanDefinitionBuilder builder = rootBeanDefinition(ProxyFactoryBean.class);
 		builder.addPropertyValue("targetSource", targetSourceBuilder.getBeanDefinition());
-
 		return builder.getBeanDefinition();
 	}
 

@@ -43,21 +43,16 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 	 * @param annotationType must not be {@literal null}.
 	 */
 	public AnnotationDetectionFieldCallback(Class<? extends Annotation> annotationType) {
-
 		Assert.notNull(annotationType, "AnnotationType must not be null!");
-
 		this.annotationType = annotationType;
 	}
 
 	@Override
 	public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
-
 		if (this.field != null) {
 			return;
 		}
-
 		if (AnnotatedElementUtils.findMergedAnnotation(field, this.annotationType) != null) {
-
 			ReflectionUtils.makeAccessible(field);
 			this.field = field;
 		}
@@ -79,13 +74,10 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 	 * found.
 	 */
 	public Field getRequiredField() {
-
 		Field field = this.field;
-
 		if (field == null) {
 			throw new IllegalStateException(String.format("No field found for annotation %s!", this.annotationType));
 		}
-
 		return field;
 	}
 
@@ -95,9 +87,7 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 	 */
 	@Nullable
 	public Class<?> getType() {
-
 		Field field = this.field;
-
 		return field == null ? null : field.getType();
 	}
 
@@ -120,15 +110,11 @@ public class AnnotationDetectionFieldCallback implements FieldCallback {
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T> T getValue(Object source) {
-
 		Assert.notNull(source, "Source object must not be null!");
-
 		Field field = this.field;
-
 		if (field == null) {
 			return null;
 		}
-
 		return (T) ReflectionUtils.getField(field, source);
 	}
 

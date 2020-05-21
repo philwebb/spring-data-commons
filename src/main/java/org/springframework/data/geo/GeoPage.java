@@ -43,9 +43,7 @@ public class GeoPage<T> extends PageImpl<GeoResult<T>> {
 	 * @param content must not be {@literal null}.
 	 */
 	public GeoPage(GeoResults<T> results) {
-
 		super(results.getContent());
-
 		this.averageDistance = results.getAverageDistance();
 	}
 
@@ -57,25 +55,19 @@ public class GeoPage<T> extends PageImpl<GeoResult<T>> {
 	 * @param total
 	 */
 	public GeoPage(GeoResults<T> results, Pageable pageable, long total) {
-
 		super(results.getContent(), pageable, total);
-
 		this.averageDistance = results.getAverageDistance();
 	}
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof GeoPage)) {
 			return false;
 		}
-
 		GeoPage<?> that = (GeoPage<?>) obj;
-
 		return super.equals(obj) && ObjectUtils.nullSafeEquals(this.averageDistance, that.averageDistance);
 	}
 

@@ -71,10 +71,8 @@ public class EntityInstantiators {
 	 */
 	public EntityInstantiators(EntityInstantiator defaultInstantiator,
 			Map<Class<?>, EntityInstantiator> customInstantiators) {
-
 		Assert.notNull(defaultInstantiator, "DefaultInstantiator must not be null!");
 		Assert.notNull(customInstantiators, "CustomInstantiators must not be null!");
-
 		this.fallback = defaultInstantiator;
 		this.customInstantiators = customInstantiators;
 	}
@@ -86,14 +84,11 @@ public class EntityInstantiators {
 	 * @return will never be {@literal null}.
 	 */
 	public EntityInstantiator getInstantiatorFor(PersistentEntity<?, ?> entity) {
-
 		Assert.notNull(entity, "Entity must not be null!");
 		Class<?> type = entity.getType();
-
 		if (!this.customInstantiators.containsKey(type)) {
 			return this.fallback;
 		}
-
 		EntityInstantiator instantiator = this.customInstantiators.get(entity.getType());
 		return instantiator == null ? this.fallback : instantiator;
 	}

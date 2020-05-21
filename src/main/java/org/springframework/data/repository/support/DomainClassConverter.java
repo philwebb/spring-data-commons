@@ -107,12 +107,9 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 
 	@Override
 	public void setApplicationContext(ApplicationContext context) {
-
 		this.repositories = new Repositories(context);
-
 		this.toEntityConverter = Optional.of(new ToEntityConverter(this.repositories, this.conversionService));
 		this.toEntityConverter.ifPresent(it -> this.conversionService.addConverter(it));
-
 		this.toIdConverter = Optional.of(new ToIdConverter());
 		this.toIdConverter.ifPresent(it -> this.conversionService.addConverter(it));
 	}
@@ -155,22 +152,17 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 		@Nullable
 		@Override
 		public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-
 			if (source == null || !StringUtils.hasText(source.toString())) {
 				return null;
 			}
-
 			if (sourceType.equals(targetType)) {
 				return source;
 			}
-
 			Class<?> domainType = targetType.getType();
 			RepositoryInvoker invoker = this.repositoryInvokerFactory.getInvokerFor(domainType);
 			RepositoryInformation information = DomainClassConverter.this.repositories
 					.getRequiredRepositoryInformation(domainType);
-
 			Object id = DomainClassConverter.this.conversionService.convert(source, information.getIdType());
-
 			return id == null ? null : invoker.invokeFindById(id).orElse(null);
 		}
 
@@ -184,24 +176,17 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 		 */
 		@Override
 		public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-
 			if (sourceType.isAssignableTo(targetType)) {
 				return false;
 			}
-
 			Class<?> domainType = targetType.getType();
-
 			if (!DomainClassConverter.this.repositories.hasRepositoryFor(domainType)) {
 				return false;
 			}
-
 			Optional<RepositoryInformation> repositoryInformation = DomainClassConverter.this.repositories
 					.getRepositoryInformationFor(domainType);
-
 			return repositoryInformation.map(it -> {
-
 				Class<?> rawIdType = it.getIdType();
-
 				return sourceType.equals(TypeDescriptor.valueOf(rawIdType))
 						|| DomainClassConverter.this.conversionService.canConvert(sourceType.getType(), rawIdType);
 			}).orElseThrow(() -> new IllegalStateException(
@@ -236,20 +221,15 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 		@Nullable
 		@Override
 		public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-
 			if (source == null || !StringUtils.hasText(source.toString())) {
 				return null;
 			}
-
 			if (sourceType.equals(targetType)) {
 				return source;
 			}
-
 			Class<?> domainType = sourceType.getType();
-
 			EntityInformation<Object, ?> entityInformation = DomainClassConverter.this.repositories
 					.getEntityInformationFor(domainType);
-
 			return DomainClassConverter.this.conversionService.convert(entityInformation.getId(source),
 					targetType.getType());
 		}
@@ -264,24 +244,17 @@ public class DomainClassConverter<T extends ConversionService & ConverterRegistr
 		 */
 		@Override
 		public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-
 			if (sourceType.isAssignableTo(targetType)) {
 				return false;
 			}
-
 			Class<?> domainType = sourceType.getType();
-
 			if (!DomainClassConverter.this.repositories.hasRepositoryFor(domainType)) {
 				return false;
 			}
-
 			Optional<RepositoryInformation> information = DomainClassConverter.this.repositories
 					.getRepositoryInformationFor(domainType);
-
 			return information.map(it -> {
-
 				Class<?> rawIdType = it.getIdType();
-
 				return targetType.equals(TypeDescriptor.valueOf(rawIdType))
 						|| DomainClassConverter.this.conversionService.canConvert(rawIdType, targetType.getType());
 

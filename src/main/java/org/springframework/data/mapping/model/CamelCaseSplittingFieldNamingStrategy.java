@@ -40,26 +40,20 @@ public class CamelCaseSplittingFieldNamingStrategy implements FieldNamingStrateg
 	 * @param delimiter must not be {@literal null}.
 	 */
 	public CamelCaseSplittingFieldNamingStrategy(String delimiter) {
-
 		Assert.notNull(delimiter, "Delimiter must not be null!");
 		this.delimiter = delimiter;
 	}
 
 	@Override
 	public String getFieldName(PersistentProperty<?> property) {
-
 		List<String> parts = ParsingUtils.splitCamelCaseToLower(property.getName());
 		List<String> result = new ArrayList<>();
-
 		for (String part : parts) {
-
 			String candidate = preparePart(part);
-
 			if (StringUtils.hasText(candidate)) {
 				result.add(candidate);
 			}
 		}
-
 		return StringUtils.collectionToDelimitedString(result, this.delimiter);
 	}
 

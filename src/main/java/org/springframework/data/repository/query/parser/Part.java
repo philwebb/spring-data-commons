@@ -65,30 +65,23 @@ public class Part {
 	 * @param alwaysIgnoreCase
 	 */
 	public Part(String source, Class<?> clazz, boolean alwaysIgnoreCase) {
-
 		Assert.hasText(source, "Part source must not be null or empty!");
 		Assert.notNull(clazz, "Type must not be null!");
-
 		String partToUse = detectAndSetIgnoreCase(source);
-
 		if (alwaysIgnoreCase && this.ignoreCase != IgnoreCaseType.ALWAYS) {
 			this.ignoreCase = IgnoreCaseType.WHEN_POSSIBLE;
 		}
-
 		this.type = Type.fromProperty(partToUse);
 		this.propertyPath = PropertyPath.from(this.type.extractProperty(partToUse), clazz);
 	}
 
 	private String detectAndSetIgnoreCase(String part) {
-
 		Matcher matcher = IGNORE_CASE.matcher(part);
 		String result = part;
-
 		if (matcher.find()) {
 			this.ignoreCase = IgnoreCaseType.ALWAYS;
 			result = part.substring(0, matcher.start()) + part.substring(matcher.end(), part.length());
 		}
-
 		return result;
 	}
 
@@ -129,25 +122,19 @@ public class Part {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof Part)) {
 			return false;
 		}
-
 		Part part = (Part) o;
-
 		if (!ObjectUtils.nullSafeEquals(this.propertyPath, part.propertyPath)) {
 			return false;
 		}
-
 		if (this.type != part.type) {
 			return false;
 		}
-
 		return this.ignoreCase == part.ignoreCase;
 	}
 
@@ -173,41 +160,140 @@ public class Part {
 	 */
 	public static enum Type {
 
-		BETWEEN(2, "IsBetween", "Between"), IS_NOT_NULL(0, "IsNotNull", "NotNull"), IS_NULL(0, "IsNull",
-				"Null"), LESS_THAN("IsLessThan", "LessThan"), LESS_THAN_EQUAL("IsLessThanEqual",
-						"LessThanEqual"), GREATER_THAN("IsGreaterThan", "GreaterThan"), GREATER_THAN_EQUAL(
-								"IsGreaterThanEqual",
-								"GreaterThanEqual"), BEFORE("IsBefore", "Before"), AFTER("IsAfter", "After"), NOT_LIKE(
-										"IsNotLike", "NotLike"), LIKE("IsLike", "Like"), STARTING_WITH("IsStartingWith",
-												"StartingWith", "StartsWith"), ENDING_WITH("IsEndingWith", "EndingWith",
-														"EndsWith"), IS_NOT_EMPTY(0, "IsNotEmpty",
-																"NotEmpty"), IS_EMPTY(0, "IsEmpty",
-																		"Empty"), NOT_CONTAINING("IsNotContaining",
-																				"NotContaining",
-																				"NotContains"), CONTAINING(
-																						"IsContaining", "Containing",
-																						"Contains"), NOT_IN("IsNotIn",
-																								"NotIn"), IN("IsIn",
-																										"In"), NEAR(
-																												"IsNear",
-																												"Near"), WITHIN(
-																														"IsWithin",
-																														"Within"), REGEX(
-																																"MatchesRegex",
-																																"Matches",
-																																"Regex"), EXISTS(
-																																		0,
-																																		"Exists"), TRUE(
-																																				0,
-																																				"IsTrue",
-																																				"True"), FALSE(
-																																						0,
-																																						"IsFalse",
-																																						"False"), NEGATING_SIMPLE_PROPERTY(
-																																								"IsNot",
-																																								"Not"), SIMPLE_PROPERTY(
-																																										"Is",
-																																										"Equals");
+		/**
+		 * 'Between' method part name type.
+		 */
+		BETWEEN(2, "IsBetween", "Between"),
+
+		/**
+		 * 'Is Not Null' method part name type.
+		 */
+		IS_NOT_NULL(0, "IsNotNull", "NotNull"),
+
+		/**
+		 * 'Is Null' method part name type.
+		 */
+		IS_NULL(0, "IsNull", "Null"),
+
+		/**
+		 * 'Less Than' method part name type.
+		 */
+		LESS_THAN("IsLessThan", "LessThan"),
+
+		/**
+		 * 'Less Than Equal' method part name type.
+		 */
+		LESS_THAN_EQUAL("IsLessThanEqual", "LessThanEqual"),
+
+		/**
+		 * 'Greater Than' method part name type.
+		 */
+		GREATER_THAN("IsGreaterThan", "GreaterThan"),
+
+		/**
+		 * 'Greater Than Equal' method part name type.
+		 */
+		GREATER_THAN_EQUAL("IsGreaterThanEqual", "GreaterThanEqual"),
+
+		/**
+		 * 'Before' method part name type.
+		 */
+		BEFORE("IsBefore", "Before"),
+
+		/**
+		 * 'After' method part name type.
+		 */
+		AFTER("IsAfter", "After"),
+
+		/**
+		 * 'Not Like' method part name type.
+		 */
+		NOT_LIKE("IsNotLike", "NotLike"),
+
+		/**
+		 * 'Like' method part name type.
+		 */
+		LIKE("IsLike", "Like"),
+
+		/**
+		 * 'Starting With' method part name type.
+		 */
+		STARTING_WITH("IsStartingWith", "StartingWith", "StartsWith"),
+
+		/**
+		 * 'Ending With' method part name type.
+		 */
+		ENDING_WITH("IsEndingWith", "EndingWith", "EndsWith"),
+
+		/**
+		 * 'Is Not Empty' method part name type.
+		 */
+		IS_NOT_EMPTY(0, "IsNotEmpty", "NotEmpty"),
+
+		/**
+		 * 'Is Empty' method part name type.
+		 */
+		IS_EMPTY(0, "IsEmpty", "Empty"),
+
+		/**
+		 * 'Not Containing' method part name type.
+		 */
+		NOT_CONTAINING("IsNotContaining", "NotContaining", "NotContains"),
+
+		/**
+		 * 'Containing' method part name type.
+		 */
+		CONTAINING("IsContaining", "Containing", "Contains"),
+
+		/**
+		 * 'Not In' method part name type.
+		 */
+		NOT_IN("IsNotIn", "NotIn"),
+
+		/**
+		 * 'In' method part name type.
+		 */
+		IN("IsIn", "In"),
+
+		/**
+		 * 'Near' method part name type.
+		 */
+		NEAR("IsNear", "Near"),
+
+		/**
+		 * 'Within' method part name type.
+		 */
+		WITHIN("IsWithin", "Within"),
+
+		/**
+		 * 'Refex' method part name type.
+		 */
+		REGEX("MatchesRegex", "Matches", "Regex"),
+
+		/**
+		 * 'Exists' method part name type.
+		 */
+		EXISTS(0, "Exists"),
+
+		/**
+		 * 'True' method part name type.
+		 */
+		TRUE(0, "IsTrue", "True"),
+
+		/**
+		 * 'False' method part name type.
+		 */
+		FALSE(0, "IsFalse", "False"),
+
+		/**
+		 * 'Negating Simple Property' method part name type.
+		 */
+		NEGATING_SIMPLE_PROPERTY("IsNot", "Not"),
+
+		/**
+		 * 'Simple Property' method part name type.
+		 */
+		SIMPLE_PROPERTY("Is", "Equals");
 
 		// Need to list them again explicitly as the order is important
 		// (esp. for IS_NULL, IS_NOT_NULL)
@@ -237,7 +323,6 @@ public class Part {
 		 * @param keywords
 		 */
 		private Type(int numberOfArguments, String... keywords) {
-
 			this.numberOfArguments = numberOfArguments;
 			this.keywords = Arrays.asList(keywords);
 		}
@@ -254,13 +339,11 @@ public class Part {
 		 * @return
 		 */
 		public static Part.Type fromProperty(String rawProperty) {
-
 			for (Part.Type type : ALL) {
 				if (type.supports(rawProperty)) {
 					return type;
 				}
 			}
-
 			return SIMPLE_PROPERTY;
 		}
 
@@ -280,13 +363,11 @@ public class Part {
 		 * @return
 		 */
 		protected boolean supports(String property) {
-
 			for (String keyword : this.keywords) {
 				if (property.endsWith(keyword)) {
 					return true;
 				}
 			}
-
 			return false;
 		}
 
@@ -306,15 +387,12 @@ public class Part {
 		 * @return
 		 */
 		public String extractProperty(String part) {
-
 			String candidate = Introspector.decapitalize(part);
-
 			for (String keyword : this.keywords) {
 				if (candidate.endsWith(keyword)) {
 					return candidate.substring(0, candidate.length() - keyword.length());
 				}
 			}
-
 			return candidate;
 		}
 

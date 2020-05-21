@@ -64,11 +64,9 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 * strings.
 	 */
 	private Sort(Direction direction, List<String> properties) {
-
 		if (properties == null || properties.isEmpty()) {
 			throw new IllegalArgumentException("You have to provide at least one property to sort by!");
 		}
-
 		this.orders = properties.stream() //
 				.map(it -> new Order(direction, it)) //
 				.collect(Collectors.toList());
@@ -80,9 +78,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 * @return
 	 */
 	public static Sort by(String... properties) {
-
 		Assert.notNull(properties, "Properties must not be null!");
-
 		return properties.length == 0 //
 				? Sort.unsorted() //
 				: new Sort(DEFAULT_DIRECTION, Arrays.asList(properties));
@@ -94,9 +90,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 * @return
 	 */
 	public static Sort by(List<Order> orders) {
-
 		Assert.notNull(orders, "Orders must not be null!");
-
 		return orders.isEmpty() ? Sort.unsorted() : new Sort(orders);
 	}
 
@@ -106,9 +100,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 * @return
 	 */
 	public static Sort by(Order... orders) {
-
 		Assert.notNull(orders, "Orders must not be null!");
-
 		return new Sort(Arrays.asList(orders));
 	}
 
@@ -119,11 +111,9 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 * @return
 	 */
 	public static Sort by(Direction direction, String... properties) {
-
 		Assert.notNull(direction, "Direction must not be null!");
 		Assert.notNull(properties, "Properties must not be null!");
 		Assert.isTrue(properties.length > 0, "At least one property must be given!");
-
 		return Sort.by(Arrays.stream(properties)//
 				.map(it -> new Order(direction, it))//
 				.collect(Collectors.toList()));
@@ -178,15 +168,11 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 * @return
 	 */
 	public Sort and(Sort sort) {
-
 		Assert.notNull(sort, "Sort must not be null!");
-
 		ArrayList<Order> these = new ArrayList<>(this.orders);
-
 		for (Order order : sort) {
 			these.add(order);
 		}
-
 		return Sort.by(these);
 	}
 
@@ -197,13 +183,11 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 */
 	@Nullable
 	public Order getOrderFor(String property) {
-
 		for (Order order : this) {
 			if (order.getProperty().equals(property)) {
 				return order;
 			}
 		}
-
 		return null;
 	}
 
@@ -214,23 +198,18 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof Sort)) {
 			return false;
 		}
-
 		Sort that = (Sort) obj;
-
 		return this.orders.equals(that.orders);
 	}
 
 	@Override
 	public int hashCode() {
-
 		int result = 17;
 		result = 31 * result + this.orders.hashCode();
 		return result;
@@ -247,7 +226,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 * @return
 	 */
 	private Sort withDirection(Direction direction) {
-
 		return Sort.by(
 				this.orders.stream().map(it -> new Order(direction, it.getProperty())).collect(Collectors.toList()));
 	}
@@ -287,7 +265,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @return
 		 */
 		public static Direction fromString(String value) {
-
 			try {
 				return Direction.valueOf(value.toUpperCase(Locale.US));
 			}
@@ -305,7 +282,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @return
 		 */
 		public static Optional<Direction> fromOptionalString(String value) {
-
 			try {
 				return Optional.of(fromString(value));
 			}
@@ -431,11 +407,9 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		 * @since 1.7
 		 */
 		private Order(@Nullable Direction direction, String property, boolean ignoreCase, NullHandling nullHandling) {
-
 			if (!StringUtils.hasText(property)) {
 				throw new IllegalArgumentException("Property must not null or empty!");
 			}
-
 			this.direction = direction == null ? DEFAULT_DIRECTION : direction;
 			this.property = property;
 			this.ignoreCase = ignoreCase;
@@ -570,47 +544,36 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		@Override
 		public int hashCode() {
-
 			int result = 17;
-
 			result = 31 * result + this.direction.hashCode();
 			result = 31 * result + this.property.hashCode();
 			result = 31 * result + (this.ignoreCase ? 1 : 0);
 			result = 31 * result + this.nullHandling.hashCode();
-
 			return result;
 		}
 
 		@Override
 		public boolean equals(@Nullable Object obj) {
-
 			if (this == obj) {
 				return true;
 			}
-
 			if (!(obj instanceof Order)) {
 				return false;
 			}
-
 			Order that = (Order) obj;
-
 			return this.direction.equals(that.direction) && this.property.equals(that.property)
 					&& this.ignoreCase == that.ignoreCase && this.nullHandling.equals(that.nullHandling);
 		}
 
 		@Override
 		public String toString() {
-
 			String result = String.format("%s: %s", this.property, this.direction);
-
 			if (!NullHandling.NATIVE.equals(this.nullHandling)) {
 				result += ", " + this.nullHandling;
 			}
-
 			if (this.ignoreCase) {
 				result += ", ignoring case";
 			}
-
 			return result;
 		}
 
@@ -633,7 +596,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		}
 
 		private TypedSort(Recorded<T> recorded) {
-
 			super(Collections.emptyList());
 			this.recorded = recorded;
 		}
@@ -661,7 +623,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		}
 
 		private Sort withDirection(Function<Sort, Sort> direction) {
-
 			return this.recorded.getPropertyPath() //
 					.map(Sort::by) //
 					.map(direction) //
@@ -670,7 +631,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		@Override
 		public Iterator<Order> iterator() {
-
 			return this.recorded.getPropertyPath() //
 					.map(Order::by) //
 					.map(Collections::singleton) //
@@ -680,7 +640,6 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 
 		@Override
 		public String toString() {
-
 			return this.recorded.getPropertyPath() //
 					.map(Sort::by) //
 					.orElseGet(Sort::unsorted) //

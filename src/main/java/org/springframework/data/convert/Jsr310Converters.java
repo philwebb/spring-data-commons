@@ -64,11 +64,9 @@ public abstract class Jsr310Converters {
 	 * @return
 	 */
 	public static Collection<Converter<?, ?>> getConvertersToRegister() {
-
 		if (!JAVA_8_IS_PRESENT) {
 			return Collections.emptySet();
 		}
-
 		List<Converter<?, ?>> converters = new ArrayList<>();
 		converters.add(DateToLocalDateTimeConverter.INSTANCE);
 		converters.add(LocalDateTimeToDateConverter.INSTANCE);
@@ -89,16 +87,13 @@ public abstract class Jsr310Converters {
 		converters.add(StringToLocalDateConverter.INSTANCE);
 		converters.add(StringToLocalDateTimeConverter.INSTANCE);
 		converters.add(StringToInstantConverter.INSTANCE);
-
 		return converters;
 	}
 
 	public static boolean supports(Class<?> type) {
-
 		if (!JAVA_8_IS_PRESENT) {
 			return false;
 		}
-
 		return CLASSES.contains(type);
 	}
 

@@ -45,9 +45,7 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 * @param contexts
 	 */
 	public PersistentEntities(Iterable<? extends MappingContext<?, ?>> contexts) {
-
 		Assert.notNull(contexts, "MappingContexts must not be null!");
-
 		this.contexts = Streamable.of(contexts);
 	}
 
@@ -57,9 +55,7 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 * @return
 	 */
 	public static PersistentEntities of(MappingContext<?, ?>... contexts) {
-
 		Assert.notNull(contexts, "MappingContexts must not be null!");
-
 		return new PersistentEntities(Arrays.asList(contexts));
 	}
 
@@ -72,7 +68,6 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 * @return
 	 */
 	public Optional<PersistentEntity<?, ? extends PersistentProperty<?>>> getPersistentEntity(Class<?> type) {
-
 		return this.contexts.stream()//
 				.filter(it -> it.hasPersistentEntityFor(type))//
 				.findFirst().map(it -> it.getRequiredPersistentEntity(type));
@@ -89,9 +84,7 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 * for the given type.
 	 */
 	public PersistentEntity<?, ? extends PersistentProperty<?>> getRequiredPersistentEntity(Class<?> type) {
-
 		Assert.notNull(type, "Domain type must not be null!");
-
 		return getPersistentEntity(type).orElseThrow(
 				() -> new IllegalArgumentException(String.format("Couldn't find PersistentEntity for type %s!", type)));
 	}
@@ -105,10 +98,8 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 */
 	public <T> Optional<T> mapOnContext(Class<?> type,
 			BiFunction<MappingContext<?, ? extends PersistentProperty<?>>, PersistentEntity<?, ?>, T> combiner) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.notNull(combiner, "Combining BiFunction must not be null!");
-
 		return this.contexts.stream() //
 				.filter(it -> it.hasPersistentEntityFor(type)) //
 				.map(it -> combiner.apply(it, it.getRequiredPersistentEntity(type))) //
@@ -121,7 +112,6 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 * @return
 	 */
 	public Streamable<TypeInformation<?>> getManagedTypes() {
-
 		return Streamable.of(this.contexts.stream()//
 				.flatMap(it -> it.getManagedTypes().stream())//
 				.collect(Collectors.toSet()));
@@ -129,7 +119,6 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 
 	@Override
 	public Iterator<PersistentEntity<?, ? extends PersistentProperty<?>>> iterator() {
-
 		return this.contexts.stream().<PersistentEntity<?, ? extends PersistentProperty<?>>>flatMap(
 				it -> it.getPersistentEntities().stream()).collect(Collectors.toList()).iterator();
 	}
@@ -148,15 +137,11 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 */
 	@Nullable
 	public PersistentEntity<?, ?> getEntityUltimatelyReferredToBy(PersistentProperty<?> property) {
-
 		TypeInformation<?> propertyType = property.getTypeInformation().getActualType();
-
 		if (propertyType == null || !property.isAssociation()) {
 			return null;
 		}
-
 		Class<?> associationTargetType = property.getAssociationTargetType();
-
 		return associationTargetType == null //
 				? getEntityIdentifiedBy(propertyType) //
 				: getPersistentEntity(associationTargetType).orElseGet(() -> getEntityIdentifiedBy(propertyType));
@@ -169,11 +154,8 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 * @return
 	 */
 	public TypeInformation<?> getTypeUltimatelyReferredToBy(PersistentProperty<?> property) {
-
 		Assert.notNull(property, "PersistentProperty must not be null!");
-
 		PersistentEntity<?, ?> entity = getEntityUltimatelyReferredToBy(property);
-
 		return entity == null //
 				? property.getTypeInformation().getRequiredActualType() //
 				: entity.getTypeInformation();
@@ -188,23 +170,18 @@ public class PersistentEntities implements Streamable<PersistentEntity<?, ? exte
 	 */
 	@Nullable
 	private PersistentEntity<?, ?> getEntityIdentifiedBy(TypeInformation<?> type) {
-
 		Collection<PersistentEntity<?, ?>> entities = this.contexts.stream() //
 				.flatMap(it -> it.getPersistentEntities().stream()) //
 				.map(PersistentEntity::getIdProperty) //
 				.filter(it -> it != null && type.equals(it.getTypeInformation().getActualType())) //
 				.map(PersistentProperty::getOwner) //
 				.collect(Collectors.toList());
-
 		if (entities.size() > 1) {
-
 			String message = "Found multiple entities identified by " + type.getType() + ": ";
 			message += entities.stream().map(it -> it.getType().getName()).collect(Collectors.joining(", "));
 			message += "! Introduce dedciated unique identifier types or explicitly define the target type in @Reference!";
-
 			throw new IllegalStateException(message);
 		}
-
 		return entities.isEmpty() ? null : entities.iterator().next();
 	}
 

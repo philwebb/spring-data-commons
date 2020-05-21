@@ -50,7 +50,6 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 	 * @param bean must not be {@literal null}.
 	 */
 	protected BeanWrapper(T bean) {
-
 		Assert.notNull(bean, "Bean must not be null!");
 		this.bean = bean;
 	}
@@ -64,46 +63,31 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void setProperty(PersistentProperty<?> property, @Nullable Object value) {
-
 		Assert.notNull(property, "PersistentProperty must not be null!");
-
 		try {
-
 			if (property.isImmutable()) {
-
 				Method wither = property.getWither();
-
 				if (wither != null) {
-
 					ReflectionUtils.makeAccessible(wither);
 					this.bean = (T) ReflectionUtils.invokeMethod(wither, this.bean, value);
 					return;
 				}
-
 				if (KotlinDetector.isKotlinType(property.getOwner().getType())) {
-
 					this.bean = (T) KotlinCopyUtil.setProperty(property, this.bean, value);
 					return;
 				}
-
 				throw new UnsupportedOperationException(String.format("Cannot set immutable property %s.%s!",
 						property.getOwner().getName(), property.getName()));
 			}
-
 			if (!property.usePropertyAccess()) {
-
 				Field field = property.getRequiredField();
-
 				ReflectionUtils.makeAccessible(field);
 				ReflectionUtils.setField(field, this.bean, value);
 				return;
 			}
-
 			Method setter = property.getRequiredSetter();
-
 			ReflectionUtils.makeAccessible(setter);
 			ReflectionUtils.invokeMethod(setter, this.bean, value);
-
 		}
 		catch (IllegalStateException e) {
 			throw new MappingException("Could not set object property!", e);
@@ -127,24 +111,16 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 	 */
 	@Nullable
 	public <S> Object getProperty(PersistentProperty<?> property, Class<? extends S> type) {
-
 		Assert.notNull(property, "PersistentProperty must not be null!");
-
 		try {
-
 			if (!property.usePropertyAccess()) {
-
 				Field field = property.getRequiredField();
-
 				ReflectionUtils.makeAccessible(field);
 				return ReflectionUtils.getField(field, this.bean);
 			}
-
 			Method getter = property.getRequiredGetter();
-
 			ReflectionUtils.makeAccessible(getter);
 			return ReflectionUtils.invokeMethod(getter, this.bean);
-
 		}
 		catch (IllegalStateException e) {
 			throw new MappingException(
@@ -174,31 +150,23 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 		 * @see KCallable#callBy(Map)
 		 */
 		static <T> Object setProperty(PersistentProperty<?> property, T bean, @Nullable Object value) {
-
 			Class<?> type = property.getOwner().getType();
 			KCallable<?> copy = COPY_METHOD_CACHE.computeIfAbsent(type, it -> getCopyMethod(it, property));
-
 			if (copy == null) {
 				throw new UnsupportedOperationException(String.format(
 						"Kotlin class %s has no .copy(…) method for property %s!", type.getName(), property.getName()));
 			}
-
 			return copy.callBy(getCallArgs(copy, property, bean, value));
 		}
 
 		private static <T> Map<KParameter, Object> getCallArgs(KCallable<?> callable, PersistentProperty<?> property,
 				T bean, @Nullable Object value) {
-
 			Map<KParameter, Object> args = new LinkedHashMap<>(2, 1);
-
 			List<KParameter> parameters = callable.getParameters();
-
 			for (KParameter parameter : parameters) {
-
 				if (parameter.getKind() == Kind.INSTANCE) {
 					args.put(parameter, bean);
 				}
-
 				if (parameter.getKind() == Kind.VALUE && parameter.getName() != null
 						&& parameter.getName().equals(property.getName())) {
 					args.put(parameter, value);

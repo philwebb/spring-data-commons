@@ -72,15 +72,11 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 * @param processAnnotatedType The annotated type as defined by CDI.
 	 */
 	protected <X> void processAnnotatedType(@Observes ProcessAnnotatedType<X> processAnnotatedType) {
-
 		AnnotatedType<X> annotatedType = processAnnotatedType.getAnnotatedType();
 		Class<X> repositoryType = annotatedType.getJavaClass();
-
 		if (isRepository(repositoryType)) {
-
 			// Determine the qualifiers of the repository type.
 			Set<Annotation> qualifiers = getQualifiers(repositoryType);
-
 			if (logger.isDebugEnabled()) {
 				logger.debug(String.format("Discovered repository type '%s' with qualifiers %s.",
 						repositoryType.getName(), qualifiers));
@@ -96,12 +92,10 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 * @return
 	 */
 	private boolean isRepository(Class<?> type) {
-
 		boolean isInterface = type.isInterface();
 		boolean extendsRepository = Repository.class.isAssignableFrom(type);
 		boolean isAnnotated = type.isAnnotationPresent(RepositoryDefinition.class);
 		boolean excludedByAnnotation = type.isAnnotationPresent(NoRepositoryBean.class);
-
 		return isInterface && (extendsRepository || isAnnotated) && !excludedByAnnotation;
 	}
 
@@ -109,7 +103,6 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 * Determines the qualifiers of the given type.
 	 */
 	private Set<Annotation> getQualifiers(final Class<?> type) {
-
 		Set<Annotation> qualifiers = new HashSet<>();
 		Annotation[] annotations = type.getAnnotations();
 		for (Annotation annotation : annotations) {
@@ -118,12 +111,10 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 				qualifiers.add(annotation);
 			}
 		}
-
 		// Add @Default qualifier if no qualifier is specified.
 		if (qualifiers.isEmpty()) {
 			qualifiers.add(DefaultAnnotationLiteral.INSTANCE);
 		}
-
 		// Add @Any qualifier.
 		qualifiers.add(AnyAnnotationLiteral.INSTANCE);
 		return qualifiers;
@@ -136,9 +127,7 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 * @see #registerBean(CdiRepositoryBean)
 	 */
 	void afterDeploymentValidation(@Observes AfterDeploymentValidation event, BeanManager manager) {
-
 		for (CdiRepositoryBean<?> bean : this.eagerRepositories) {
-
 			logger.debug("Eagerly instantiating CDI repository bean for {}.", bean.getBeanClass());
 			bean.initialize();
 		}
@@ -160,9 +149,7 @@ public abstract class CdiRepositoryExtensionSupport implements Extension {
 	 * @see #afterDeploymentValidation(AfterDeploymentValidation, BeanManager)
 	 */
 	protected void registerBean(CdiRepositoryBean<?> bean) {
-
 		Class<?> repositoryInterface = bean.getBeanClass();
-
 		if (AnnotationUtils.findAnnotation(repositoryInterface, Eager.class) != null) {
 			this.eagerRepositories.add(bean);
 		}

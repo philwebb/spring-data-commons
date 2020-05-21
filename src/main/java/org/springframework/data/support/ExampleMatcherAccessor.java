@@ -85,14 +85,11 @@ public class ExampleMatcherAccessor {
 	 * @return never {@literal null}.
 	 */
 	public ExampleMatcher.StringMatcher getStringMatcherForPath(String path) {
-
 		if (!hasPropertySpecifier(path)) {
 			return this.matcher.getDefaultStringMatcher();
 		}
-
 		ExampleMatcher.PropertySpecifier specifier = getPropertySpecifier(path);
 		StringMatcher stringMatcher = specifier.getStringMatcher();
-
 		return stringMatcher != null ? stringMatcher : this.matcher.getDefaultStringMatcher();
 	}
 
@@ -135,14 +132,11 @@ public class ExampleMatcherAccessor {
 	 * @return never {@literal null}.
 	 */
 	public boolean isIgnoreCaseForPath(String path) {
-
 		if (!hasPropertySpecifier(path)) {
 			return this.matcher.isIgnoreCaseEnabled();
 		}
-
 		ExampleMatcher.PropertySpecifier specifier = getPropertySpecifier(path);
 		Boolean ignoreCase = specifier.getIgnoreCase();
-
 		return ignoreCase != null ? ignoreCase : this.matcher.isIgnoreCaseEnabled();
 	}
 
@@ -153,11 +147,9 @@ public class ExampleMatcherAccessor {
 	 * @return never {@literal null}.
 	 */
 	public ExampleMatcher.PropertyValueTransformer getValueTransformerForPath(String path) {
-
 		if (!hasPropertySpecifier(path)) {
 			return ExampleMatcher.NoOpPropertyValueTransformer.INSTANCE;
 		}
-
 		return getPropertySpecifier(path).getPropertyValueTransformer();
 	}
 

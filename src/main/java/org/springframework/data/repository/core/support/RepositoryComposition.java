@@ -198,15 +198,11 @@ public class RepositoryComposition {
 	 * @throws Throwable
 	 */
 	public Object invoke(Method method, Object... args) throws Throwable {
-
 		Method methodToCall = getMethod(method);
-
 		if (methodToCall == null) {
 			throw new IllegalArgumentException(String.format("No fragment found for method %s", method));
 		}
-
 		ReflectionUtils.makeAccessible(methodToCall);
-
 		return this.fragments.invoke(method, methodToCall, this.argumentConverter.apply(methodToCall, args));
 	}
 
@@ -229,7 +225,6 @@ public class RepositoryComposition {
 	 */
 	@Nullable
 	Method getMethod(Method method) {
-
 		return this.methodCache.computeIfAbsent(method, key -> RepositoryFragments.findMethod(InvokedMethod.of(key),
 				this.methodLookup, this.fragments::methods));
 	}
@@ -238,7 +233,6 @@ public class RepositoryComposition {
 	 * Validates that all {@link RepositoryFragment fragments} have an implementation.
 	 */
 	public void validateImplementation() {
-
 		this.fragments.stream().forEach(it -> it.getImplementation() //
 				.orElseThrow(() -> new IllegalStateException(String.format("Fragment %s has no implementation.",
 						ClassUtils.getQualifiedName(it.getSignatureContributor())))));
@@ -246,15 +240,12 @@ public class RepositoryComposition {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof RepositoryComposition)) {
 			return false;
 		}
-
 		RepositoryComposition that = (RepositoryComposition) o;
 		return ObjectUtils.nullSafeEquals(this.fragments, that.fragments);
 	}
@@ -309,10 +300,8 @@ public class RepositoryComposition {
 		 * @return the {@link RepositoryFragments} for {@code implementations}.
 		 */
 		public static RepositoryFragments just(Object... implementations) {
-
 			Assert.notNull(implementations, "Implementations must not be null!");
 			Assert.noNullElements(implementations, "Implementations must not contain null elements!");
-
 			return new RepositoryFragments(
 					Arrays.stream(implementations).map(RepositoryFragment::implemented).collect(Collectors.toList()));
 		}
@@ -323,10 +312,8 @@ public class RepositoryComposition {
 		 * @return the {@link RepositoryFragments} for {@code implementations}.
 		 */
 		public static RepositoryFragments of(RepositoryFragment<?>... fragments) {
-
 			Assert.notNull(fragments, "RepositoryFragments must not be null!");
 			Assert.noNullElements(fragments, "RepositoryFragments must not contain null elements!");
-
 			return new RepositoryFragments(Arrays.asList(fragments));
 		}
 
@@ -337,9 +324,7 @@ public class RepositoryComposition {
 		 * @return the {@link RepositoryFragments} for {@code implementations}.
 		 */
 		public static RepositoryFragments from(List<RepositoryFragment<?>> fragments) {
-
 			Assert.notNull(fragments, "RepositoryFragments must not be null!");
-
 			return new RepositoryFragments(new ArrayList<>(fragments));
 		}
 
@@ -351,9 +336,7 @@ public class RepositoryComposition {
 		 * and the given {@link RepositoryFragment} as last element.
 		 */
 		public RepositoryFragments append(RepositoryFragment<?> fragment) {
-
 			Assert.notNull(fragment, "RepositoryFragment must not be null!");
-
 			return concat(stream(), Stream.of(fragment));
 		}
 
@@ -365,9 +348,7 @@ public class RepositoryComposition {
 		 * and the given {@link RepositoryFragments} as last elements.
 		 */
 		public RepositoryFragments append(RepositoryFragments fragments) {
-
 			Assert.notNull(fragments, "RepositoryFragments must not be null!");
-
 			return concat(stream(), fragments.stream());
 		}
 
@@ -398,28 +379,22 @@ public class RepositoryComposition {
 		 */
 		@Nullable
 		public Object invoke(Method invokedMethod, Method methodToCall, Object[] args) throws Throwable {
-
 			RepositoryFragment<?> fragment = this.fragmentCache.computeIfAbsent(methodToCall,
 					this::findImplementationFragment);
 			Optional<?> optional = fragment.getImplementation();
-
 			if (!optional.isPresent()) {
 				throw new IllegalArgumentException(
 						String.format("No implementation found for method %s", methodToCall));
 			}
-
 			ImplementationInvocationMetadata invocationMetadata = this.invocationMetadataCache.get(invokedMethod);
-
 			if (invocationMetadata == null) {
 				invocationMetadata = new ImplementationInvocationMetadata(invokedMethod, methodToCall);
 				this.invocationMetadataCache.put(invokedMethod, invocationMetadata);
 			}
-
 			return invocationMetadata.invoke(methodToCall, optional.get(), args);
 		}
 
 		private RepositoryFragment<?> findImplementationFragment(Method key) {
-
 			return stream().filter(it -> it.hasMethod(key)) //
 					.filter(it -> it.getImplementation().isPresent()) //
 					.findFirst().orElseThrow(
@@ -429,18 +404,14 @@ public class RepositoryComposition {
 		@Nullable
 		private static Method findMethod(InvokedMethod invokedMethod, MethodLookup lookup,
 				Supplier<Stream<Method>> methodStreamSupplier) {
-
 			for (MethodPredicate methodPredicate : lookup.getLookups()) {
-
 				Optional<Method> resolvedMethod = methodStreamSupplier.get()
 						.filter(it -> methodPredicate.test(invokedMethod, it)) //
 						.findFirst();
-
 				if (resolvedMethod.isPresent()) {
 					return resolvedMethod.get();
 				}
 			}
-
 			return null;
 		}
 
@@ -451,25 +422,19 @@ public class RepositoryComposition {
 
 		@Override
 		public boolean equals(Object o) {
-
 			if (this == o) {
 				return true;
 			}
-
 			if (!(o instanceof RepositoryFragments)) {
 				return false;
 			}
-
 			RepositoryFragments that = (RepositoryFragments) o;
-
 			if (!ObjectUtils.nullSafeEquals(this.fragmentCache, that.fragmentCache)) {
 				return false;
 			}
-
 			if (!ObjectUtils.nullSafeEquals(this.invocationMetadataCache, that.invocationMetadataCache)) {
 				return false;
 			}
-
 			return ObjectUtils.nullSafeEquals(this.fragments, that.fragments);
 		}
 

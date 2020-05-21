@@ -47,10 +47,8 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 	 * @param pageable must not be {@literal null}.
 	 */
 	public Chunk(List<T> content, Pageable pageable) {
-
 		Assert.notNull(content, "Content must not be null!");
 		Assert.notNull(pageable, "Pageable must not be null!");
-
 		this.content.addAll(content);
 		this.pageable = pageable;
 	}
@@ -126,39 +124,29 @@ abstract class Chunk<T> implements Slice<T>, Serializable {
 	 * @return
 	 */
 	protected <U> List<U> getConvertedContent(Function<? super T, ? extends U> converter) {
-
 		Assert.notNull(converter, "Function must not be null!");
-
 		return this.stream().map(converter::apply).collect(Collectors.toList());
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-
 		if (this == obj) {
 			return true;
 		}
-
 		if (!(obj instanceof Chunk<?>)) {
 			return false;
 		}
-
 		Chunk<?> that = (Chunk<?>) obj;
-
 		boolean contentEqual = this.content.equals(that.content);
 		boolean pageableEqual = this.pageable.equals(that.pageable);
-
 		return contentEqual && pageableEqual;
 	}
 
 	@Override
 	public int hashCode() {
-
 		int result = 17;
-
 		result += 31 * this.pageable.hashCode();
 		result += 31 * this.content.hashCode();
-
 		return result;
 	}
 

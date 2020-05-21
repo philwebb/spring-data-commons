@@ -127,15 +127,11 @@ public abstract class SpringDataJaxb {
 	 * @throws Exception
 	 */
 	public static <T, S> List<T> unmarshal(Collection<S> source, XmlAdapter<S, T> adapter) {
-
 		Assert.notNull(adapter, "Adapter must not be null!");
-
 		if (source == null || source.isEmpty()) {
 			return Collections.emptyList();
 		}
-
 		List<T> result = new ArrayList<>(source.size());
-
 		for (S element : source) {
 			try {
 				result.add(adapter.unmarshal(element));
@@ -156,15 +152,11 @@ public abstract class SpringDataJaxb {
 	 * @throws Exception
 	 */
 	public static <T, S> List<S> marshal(@Nullable Iterable<T> source, XmlAdapter<S, T> adapter) {
-
 		Assert.notNull(adapter, "Adapter must not be null!");
-
 		if (source == null) {
 			return Collections.emptyList();
 		}
-
 		List<S> result = new ArrayList<>();
-
 		for (T element : source) {
 			try {
 				result.add(adapter.marshal(element));
@@ -173,7 +165,6 @@ public abstract class SpringDataJaxb {
 				throw new RuntimeException(o_O);
 			}
 		}
-
 		return result;
 	}
 

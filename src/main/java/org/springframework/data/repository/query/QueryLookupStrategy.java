@@ -42,11 +42,9 @@ public interface QueryLookupStrategy {
 		 */
 		@Nullable
 		public static Key create(String xml) {
-
 			if (!StringUtils.hasText(xml)) {
 				return null;
 			}
-
 			return valueOf(xml.toUpperCase(Locale.US).replace("-", "_"));
 		}
 

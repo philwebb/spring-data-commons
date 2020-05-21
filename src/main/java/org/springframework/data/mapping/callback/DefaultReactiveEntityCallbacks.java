@@ -70,31 +70,22 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 	 */
 	@Override
 	public <T> Mono<T> callback(Class<? extends EntityCallback> callbackType, T entity, Object... args) {
-
 		Assert.notNull(entity, "Entity must not be null!");
-
 		Class<T> entityType = (Class<T>) (entity != null ? ClassUtils.getUserClass(entity.getClass())
 				: this.callbackDiscoverer.resolveDeclaredEntityType(callbackType).getRawClass());
-
 		Method callbackMethod = this.callbackMethodCache.computeIfAbsent(callbackType, it -> {
-
 			Method method = EntityCallbackDiscoverer.lookupCallbackMethod(it, entityType, args);
 			ReflectionUtils.makeAccessible(method);
 			return method;
 		});
-
 		Mono<T> deferredCallbackChain = Mono.just(entity);
-
 		for (EntityCallback<T> callback : this.callbackDiscoverer.getEntityCallbacks(entityType,
 				ResolvableType.forClass(callbackType))) {
-
 			BiFunction<EntityCallback<T>, T, Object> callbackFunction = EntityCallbackDiscoverer
 					.computeCallbackInvokerFunction(callback, callbackMethod, args);
-
 			deferredCallbackChain = deferredCallbackChain
 					.flatMap(it -> this.callbackInvoker.invokeCallback(callback, it, callbackFunction));
 		}
-
 		return deferredCallbackChain;
 	}
 
@@ -108,23 +99,17 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 		@Override
 		public <T> Mono<T> invokeCallback(EntityCallback<T> callback, T entity,
 				BiFunction<EntityCallback<T>, T, Object> callbackInvokerFunction) {
-
 			try {
-
 				Object value = callbackInvokerFunction.apply(callback, entity);
-
 				if (value != null) {
 					return value instanceof Publisher ? Mono.from((Publisher<T>) value) : Mono.just((T) value);
 				}
-
 				throw new IllegalArgumentException(String.format("Callback invocation on %s returned null value for %s",
 						callback.getClass(), entity));
 			}
 			catch (ClassCastException ex) {
-
 				String msg = ex.getMessage();
 				if (msg == null || EntityCallbackInvoker.matchesClassCastMessage(msg, entity.getClass())) {
-
 					// Possibly a lambda-defined listener which we could not resolve the
 					// generic event type for
 					// -> let's suppress the exception and just log a debug message.
@@ -132,7 +117,6 @@ class DefaultReactiveEntityCallbacks implements ReactiveEntityCallbacks {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Non-matching callback type for entity callback: " + callback, ex);
 					}
-
 					return Mono.just(entity);
 				}
 				else {

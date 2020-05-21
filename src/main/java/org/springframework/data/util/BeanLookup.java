@@ -48,10 +48,8 @@ public abstract class BeanLookup {
 	 * provided by the fallback in case no bean of the given type can be found.
 	 */
 	public static <T> Lazy<T> lazyIfAvailable(Class<T> type, BeanFactory beanFactory) {
-
 		Assert.notNull(type, "Type must not be null!");
 		Assert.isInstanceOf(ListableBeanFactory.class, beanFactory);
-
 		return Lazy.of(() -> lookupBean(type, (ListableBeanFactory) beanFactory));
 	}
 
@@ -64,11 +62,8 @@ public abstract class BeanLookup {
 	 */
 	@Nullable
 	private static <T> T lookupBean(Class<T> type, ListableBeanFactory beanFactory) {
-
 		Map<String, T> names = beanFactory.getBeansOfType(type, false, false);
-
 		switch (names.size()) {
-
 		case 0:
 			return null;
 		case 1:

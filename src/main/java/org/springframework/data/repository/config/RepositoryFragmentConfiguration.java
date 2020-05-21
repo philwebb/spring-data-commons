@@ -45,10 +45,8 @@ public final class RepositoryFragmentConfiguration {
 	 * @param className must not be {@literal null} or empty.
 	 */
 	public RepositoryFragmentConfiguration(String interfaceName, String className) {
-
 		Assert.hasText(interfaceName, "Interface name must not be null or empty!");
 		Assert.hasText(className, "Class name must not be null or empty!");
-
 		this.interfaceName = interfaceName;
 		this.className = className;
 		this.beanDefinition = Optional.empty();
@@ -61,10 +59,8 @@ public final class RepositoryFragmentConfiguration {
 	 * @param beanDefinition must not be {@literal null}.
 	 */
 	public RepositoryFragmentConfiguration(String interfaceName, AbstractBeanDefinition beanDefinition) {
-
 		Assert.hasText(interfaceName, "Interface name must not be null or empty!");
 		Assert.notNull(beanDefinition, "Bean definition must not be null!");
-
 		this.interfaceName = interfaceName;
 		this.className = ConfigurationUtils.getRequiredBeanClassName(beanDefinition);
 		this.beanDefinition = Optional.of(beanDefinition);
@@ -105,24 +101,19 @@ public final class RepositoryFragmentConfiguration {
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o) {
 			return true;
 		}
-
 		if (!(o instanceof RepositoryFragmentConfiguration)) {
 			return false;
 		}
-
 		RepositoryFragmentConfiguration that = (RepositoryFragmentConfiguration) o;
 		if (!ObjectUtils.nullSafeEquals(this.interfaceName, that.interfaceName)) {
 			return false;
 		}
-
 		if (!ObjectUtils.nullSafeEquals(this.className, that.className)) {
 			return false;
 		}
-
 		return ObjectUtils.nullSafeEquals(this.beanDefinition, that.beanDefinition);
 	}
 

@@ -63,24 +63,18 @@ public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 	@Override
 	@Nonnull
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
-
 		BeanDefinitionBuilder properties = BeanDefinitionBuilder.rootBeanDefinition(PropertiesFactoryBean.class);
 		properties.addPropertyValue("locations", getDefaultedLocation(element));
-
 		if (isDefaultLocation(element)) {
 			properties.addPropertyValue("ignoreResourceNotFound", true);
 		}
-
 		AbstractBeanDefinition propertiesDefinition = properties.getBeanDefinition();
 		propertiesDefinition.setSource(parserContext.extractSource(element));
-
 		BeanDefinitionBuilder namedQueries = BeanDefinitionBuilder
 				.rootBeanDefinition(PropertiesBasedNamedQueries.class);
 		namedQueries.addConstructorArgValue(propertiesDefinition);
-
 		AbstractBeanDefinition namedQueriesDefinition = namedQueries.getBeanDefinition();
 		namedQueriesDefinition.setSource(parserContext.extractSource(element));
-
 		return namedQueriesDefinition;
 	}
 
@@ -100,7 +94,6 @@ public class NamedQueriesBeanDefinitionParser implements BeanDefinitionParser {
 	 * @return
 	 */
 	private String getDefaultedLocation(Element element) {
-
 		String locations = element.getAttribute(ATTRIBUTE);
 		return StringUtils.hasText(locations) ? locations : this.defaultLocation;
 	}

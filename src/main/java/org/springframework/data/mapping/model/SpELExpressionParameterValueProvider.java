@@ -39,7 +39,6 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 
 	public SpELExpressionParameterValueProvider(SpELExpressionEvaluator evaluator, ConversionService conversionService,
 			ParameterValueProvider<P> delegate) {
-
 		this.evaluator = evaluator;
 		this.conversionService = conversionService;
 		this.delegate = delegate;
@@ -48,11 +47,9 @@ public class SpELExpressionParameterValueProvider<P extends PersistentProperty<P
 	@Override
 	@Nullable
 	public <T> T getParameterValue(Parameter<T, P> parameter) {
-
 		if (!parameter.hasSpelExpression()) {
 			return this.delegate == null ? null : this.delegate.getParameterValue(parameter);
 		}
-
 		Object object = this.evaluator.evaluate(parameter.getSpelExpression());
 		return object == null ? null : potentiallyConvertSpelValue(object, parameter);
 	}

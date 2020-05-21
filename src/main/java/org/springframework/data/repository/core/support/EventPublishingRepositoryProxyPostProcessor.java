@@ -67,13 +67,10 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 	 */
 	@Override
 	public void postProcess(ProxyFactory factory, RepositoryInformation repositoryInformation) {
-
 		EventPublishingMethod method = EventPublishingMethod.of(repositoryInformation.getDomainType());
-
 		if (method == null) {
 			return;
 		}
-
 		factory.addAdvice(new EventPublishingMethodInterceptor(method, this.publisher));
 	}
 
@@ -92,7 +89,6 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 		private EventPublishingMethodInterceptor(EventPublishingMethod eventMethod,
 				ApplicationEventPublisher publisher) {
-
 			this.eventMethod = eventMethod;
 			this.publisher = publisher;
 		}
@@ -104,18 +100,13 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 		@Override
 		public Object invoke(@SuppressWarnings("null") MethodInvocation invocation) throws Throwable {
-
 			Object[] arguments = invocation.getArguments();
 			Object result = invocation.proceed();
-
 			if (!invocation.getMethod().getName().startsWith("save")) {
 				return result;
 			}
-
 			Object eventSource = arguments.length == 1 ? arguments[0] : result;
-
 			this.eventMethod.publishEventsFrom(eventSource, this.publisher);
-
 			return result;
 		}
 
@@ -138,7 +129,6 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		private final @Nullable Method clearingMethod;
 
 		EventPublishingMethod(Method publishingMethod, Method clearingMethod) {
-
 			this.publishingMethod = publishingMethod;
 			this.clearingMethod = clearingMethod;
 		}
@@ -151,20 +141,14 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		 */
 		@Nullable
 		public static EventPublishingMethod of(Class<?> type) {
-
 			Assert.notNull(type, "Type must not be null!");
-
 			EventPublishingMethod eventPublishingMethod = CACHE.get(type);
-
 			if (eventPublishingMethod != null) {
 				return eventPublishingMethod.orNull();
 			}
-
 			EventPublishingMethod result = from(getDetector(type, DomainEvents.class),
 					() -> getDetector(type, AfterDomainEventPublication.class));
-
 			CACHE.put(type, result);
-
 			return result.orNull();
 		}
 
@@ -175,17 +159,13 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		 * @param publisher must not be {@literal null}.
 		 */
 		public void publishEventsFrom(@Nullable Object object, ApplicationEventPublisher publisher) {
-
 			if (object == null) {
 				return;
 			}
-
 			for (Object aggregateRoot : asCollection(object)) {
-
 				for (Object event : asCollection(ReflectionUtils.invokeMethod(this.publishingMethod, aggregateRoot))) {
 					publisher.publishEvent(event);
 				}
-
 				if (this.clearingMethod != null) {
 					ReflectionUtils.invokeMethod(this.clearingMethod, aggregateRoot);
 				}
@@ -204,10 +184,8 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 
 		private static <T extends Annotation> AnnotationDetectionMethodCallback<T> getDetector(Class<?> type,
 				Class<T> annotation) {
-
 			AnnotationDetectionMethodCallback<T> callback = new AnnotationDetectionMethodCallback<>(annotation);
 			ReflectionUtils.doWithMethods(type, callback);
-
 			return callback;
 		}
 
@@ -221,14 +199,11 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		 */
 		private static EventPublishingMethod from(AnnotationDetectionMethodCallback<?> publishing,
 				Supplier<AnnotationDetectionMethodCallback<?>> clearing) {
-
 			if (!publishing.hasFoundAnnotation()) {
 				return EventPublishingMethod.NONE;
 			}
-
 			Method eventMethod = publishing.getRequiredMethod();
 			ReflectionUtils.makeAccessible(eventMethod);
-
 			return new EventPublishingMethod(eventMethod, getClearingMethod(clearing.get()));
 		}
 
@@ -240,14 +215,11 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		 */
 		@Nullable
 		private static Method getClearingMethod(AnnotationDetectionMethodCallback<?> clearing) {
-
 			if (!clearing.hasFoundAnnotation()) {
 				return null;
 			}
-
 			Method method = clearing.getRequiredMethod();
 			ReflectionUtils.makeAccessible(method);
-
 			return method;
 		}
 
@@ -260,15 +232,12 @@ public class EventPublishingRepositoryProxyPostProcessor implements RepositoryPr
 		 */
 		@SuppressWarnings("unchecked")
 		private static Collection<Object> asCollection(@Nullable Object source) {
-
 			if (source == null) {
 				return Collections.emptyList();
 			}
-
 			if (Collection.class.isInstance(source)) {
 				return (Collection<Object>) source;
 			}
-
 			return Collections.singletonList(source);
 		}
 
