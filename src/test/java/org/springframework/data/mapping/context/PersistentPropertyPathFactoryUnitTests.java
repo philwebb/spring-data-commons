@@ -35,7 +35,6 @@ import org.springframework.util.StringUtils;
  * Unit tests for {@link PersistentPropertyPathFactory}.
  *
  * @author Oliver Gierke
- * @soundtrack Cypress Hill - Illusions (Q-Tip Remix, Unreleased & Revamped)
  */
 class PersistentPropertyPathFactoryUnitTests {
 

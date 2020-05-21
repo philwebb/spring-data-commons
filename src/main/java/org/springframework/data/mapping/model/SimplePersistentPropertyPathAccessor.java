@@ -45,7 +45,6 @@ import org.springframework.util.Assert;
  *
  * @author Oliver Gierke
  * @since 2.3
- * @soundtrack Ron Spielman - Nineth Song (Tip of My Tongue)
  */
 class SimplePersistentPropertyPathAccessor<T> implements PersistentPropertyPathAccessor<T> {
 

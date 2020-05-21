@@ -28,7 +28,6 @@ import org.springframework.data.util.MethodInvocationRecorder.Recorded;
  * Unit tests for {@link MethodInvocationRecorder}.
  *
  * @author Oliver Gierke
- * @soundtrack The Intersphere - Don't Think Twice (The Grand Delusion)
  */
 class MethodInvocationRecorderUnitTests {
 

@@ -36,7 +36,6 @@ import org.springframework.data.querydsl.SimpleEntityPathResolver;
  * Unit tests for {@link BeanLookup}.
  * 
  * @author Oliver Gierke
- * @soundtrack Dave Matthews Band - Shotgun (DMB Live 25)
  */
 @ExtendWith(MockitoExtension.class)
 public class BeanLookupUnitTests {

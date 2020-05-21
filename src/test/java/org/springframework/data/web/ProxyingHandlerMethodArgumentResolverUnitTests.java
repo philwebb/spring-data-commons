@@ -29,7 +29,6 @@ import org.springframework.data.web.ProjectingJackson2HttpMessageConverterUnitTe
  * Unit tests for {@link ProxyingHandlerMethodArgumentResolver}.
  *
  * @author Oliver Gierke
- * @soundtrack Karlijn Langendijk & Sönke Meinen - Englishman In New York (Sting,
  *             https://www.youtube.com/watch?v=O7LZsqrnaaA)
  */
 public class ProxyingHandlerMethodArgumentResolverUnitTests {

@@ -40,7 +40,6 @@ import org.springframework.util.StringUtils;
  *
  * @author Oliver Gierke
  * @since 2.2
- * @soundtrack The Intersphere - Don't Think Twice (The Grand Delusion)
  */
 public class MethodInvocationRecorder {
 

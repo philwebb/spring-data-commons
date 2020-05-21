@@ -39,7 +39,6 @@ import org.springframework.util.TypeUtils;
  *
  * @author Oliver Drotbohm
  * @since 2.1.7
- * @soundtrack Signs, High Times - Tedeschi Trucks Band (Signs)
  */
 public class ParameterTypes {
 

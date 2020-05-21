@@ -53,7 +53,6 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
  * {@link MethodInterceptorFactory} to create a {@link MethodInterceptor} that will
  *
  * @author Oliver Gierke
- * @soundtrack Jeff Coffin - Fruitcake (The Inside Of The Outside)
  * @since 1.13
  */
 public class JsonProjectingMethodInterceptorFactory implements MethodInterceptorFactory {

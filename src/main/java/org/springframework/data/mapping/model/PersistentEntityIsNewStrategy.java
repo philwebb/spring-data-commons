@@ -27,7 +27,6 @@ import org.springframework.util.ClassUtils;
  * An {@link IsNewStrategy} to use a {@link PersistentEntity}'s version property followed by it
  * 
  * @author Oliver Gierke
- * @soundtrack Scary Pockets - Crash Into Me (Dave Matthews Band Cover feat. Julia Nunes) -
  *             https://www.youtube.com/watch?v=syGlBNVGEqU
  */
 class PersistentEntityIsNewStrategy implements IsNewStrategy {

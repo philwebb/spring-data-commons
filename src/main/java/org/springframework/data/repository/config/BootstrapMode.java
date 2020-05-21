@@ -21,7 +21,6 @@ package org.springframework.data.repository.config;
  * @author Oliver Gierke
  * @see RepositoryConfigurationSource#getBootstrapMode()
  * @since 2.1
- * @soundtrack Dave Matthews Band - She (Come Tomorrow)
  */
 public enum BootstrapMode {
 

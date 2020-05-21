@@ -30,7 +30,6 @@ import org.springframework.util.Assert;
  *
  * @author Oliver Gierke
  * @since 2.1
- * @soundtrack Dave Matthews Band - Bartender (DMB Live 25)
  */
 public abstract class BeanLookup {
 

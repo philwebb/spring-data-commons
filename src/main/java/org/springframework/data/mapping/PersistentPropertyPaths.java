@@ -25,7 +25,6 @@ import org.springframework.data.util.Streamable;
  * 
  * @author Oliver Gierke
  * @since 2.1
- * @soundtrack Stuart McCallum - North Star (City)
  */
 public interface PersistentPropertyPaths<T, P extends PersistentProperty<P>>
 		extends Streamable<PersistentPropertyPath<P>> {

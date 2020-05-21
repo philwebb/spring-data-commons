@@ -24,7 +24,6 @@ import org.aopalliance.intercept.MethodInterceptor;
  *
  * @author Oliver Gierke
  * @see ProxyProjectionFactory
- * @soundtrack Henrik Freischlader Trio - Nobody Else To Blame (Openness)
  * @since 1.13
  */
 public interface MethodInterceptorFactory {

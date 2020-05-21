@@ -56,7 +56,6 @@ import org.springframework.util.ReflectionUtils;
  * Composition objects are immutable and thread-safe.
  *
  * @author Mark Paluch
- * @soundtrack Masterboy - Anybody (Fj Gauder Mix)
  * @since 2.0
  * @see RepositoryFragment
  */

@@ -34,7 +34,6 @@ import org.springframework.util.Assert;
  *
  * @author Oliver Drotbohm
  * @since 2.2
- * @soundtrack 8-Bit Misfits - Crash Into Me (Dave Matthews Band cover)
  */
 public class TraversalContext {
 

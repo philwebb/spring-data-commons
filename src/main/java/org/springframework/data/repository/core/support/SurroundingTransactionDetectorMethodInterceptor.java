@@ -30,7 +30,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * @author Oliver Gierke
  * @author Christoph Strobl
  * @since 1.13
- * @soundtrack Hendrik Freischlader Trio - Openness (Openness)
  */
 public enum SurroundingTransactionDetectorMethodInterceptor implements MethodInterceptor {
 

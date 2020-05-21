@@ -38,7 +38,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  * {@link ProxyingHandlerMethodArgumentResolver}.
  *
  * @author Oliver Gierke
- * @soundtrack Apparat With Soap & Skin - Goodbye (Dark Theme Song - https://www.youtube.com/watch?v=66VnOdk6oto)
  */
 @Configuration
 public class ProjectingArgumentResolverRegistrar {
@@ -63,8 +62,7 @@ public class ProjectingArgumentResolverRegistrar {
 	 * a {@link ProxyingHandlerMethodArgumentResolver} configured as first {@link HandlerMethodArgumentResolver}.
 	 *
 	 * @author Oliver Gierke
-	 * @soundtrack Apparat With Soap & Skin - Goodbye (Dark Theme Song - https://www.youtube.com/watch?v=66VnOdk6oto)
-	 */
+		 */
 	private static class ProjectingArgumentResolverBeanPostProcessor
 			implements BeanPostProcessor, BeanFactoryAware, BeanClassLoaderAware {
 

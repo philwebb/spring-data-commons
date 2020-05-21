@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Oliver Gierke
  * @author Mark Paluch
- * @soundtrack Anika Nilles - Greenfield (Pikalar)
  */
 public class TargetAwareIdentifierAccessorUnitTests {
 

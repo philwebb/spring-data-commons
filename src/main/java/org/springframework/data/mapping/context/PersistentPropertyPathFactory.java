@@ -43,7 +43,6 @@ import org.springframework.util.StringUtils;
  *
  * @author Oliver Gierke
  * @since 2.1
- * @soundtrack Cypress Hill - Boom Biddy Bye Bye (Fugees Remix, Unreleased & Revamped)
  */
 class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends PersistentProperty<P>> {
 

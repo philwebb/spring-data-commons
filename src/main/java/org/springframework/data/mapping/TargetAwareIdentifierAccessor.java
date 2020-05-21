@@ -22,7 +22,6 @@ package org.springframework.data.mapping;
  * @author Oliver Gierke
  * @author Mark Paluch
  * @since 2.0
- * @soundtrack Anika Nilles - Greenfield (Pikalar)
  */
 public abstract class TargetAwareIdentifierAccessor implements IdentifierAccessor {
 

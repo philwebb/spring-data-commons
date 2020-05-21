@@ -25,7 +25,6 @@ import org.springframework.lang.Nullable;
  *
  * @author Oliver Drotbohm
  * @since 2.3
- * @soundtrack Sophia Wahnschaffe - Leuchten (Live Session) https://www.youtube.com/watch?v=izZxWiPto5Q
  */
 public interface PersistentPropertyPathAccessor<T> extends PersistentPropertyAccessor<T> {
 

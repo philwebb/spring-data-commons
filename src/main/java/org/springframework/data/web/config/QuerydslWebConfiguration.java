@@ -41,7 +41,6 @@ import com.querydsl.core.types.Predicate;
  *
  * @author Oliver Gierke
  * @since 1.11
- * @soundtrack Anika Nilles - Alter Ego
  */
 @Configuration
 public class QuerydslWebConfiguration implements WebMvcConfigurer {

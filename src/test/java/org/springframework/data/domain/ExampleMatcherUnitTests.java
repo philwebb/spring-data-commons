@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Mark Paluch
  * @author Oliver Gierke
- * @soundtrack K2 - Der Berg Ruft (Club Mix)
  */
 class ExampleMatcherUnitTests {
 

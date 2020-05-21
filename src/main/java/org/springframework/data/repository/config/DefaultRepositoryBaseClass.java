@@ -21,7 +21,6 @@ package org.springframework.data.repository.config;
  * defaults.
  *
  * @author Oliver Gierke
- * @soundtrack Elen - Sink like a stone (Elen)
  * @since 1.11
  */
 public final class DefaultRepositoryBaseClass {

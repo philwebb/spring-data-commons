@@ -38,7 +38,6 @@ import org.xmlbeam.annotation.XBRead;
  * Unit tests for {@link XmlBeamHttpMessageConverter}.
  *
  * @author Oliver Gierke
- * @soundtrack Dr. Kobayashi Maru & The Mothership Connection - Anthem (EPisode One)
  */
 @ExtendWith(MockitoExtension.class)
 class XmlBeamHttpMessageConverterUnitTests {

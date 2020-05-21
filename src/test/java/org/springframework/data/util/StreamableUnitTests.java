@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test;
  * Unit tests for {@link Streamable}
  * 
  * @author Oliver Gierke
- * @soundtrack The Intersphere - Antitype (The Grand Delusion)
  */
 public class StreamableUnitTests {
 

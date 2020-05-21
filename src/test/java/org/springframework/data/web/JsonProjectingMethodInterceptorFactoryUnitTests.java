@@ -39,7 +39,6 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
  *
  * @author Oliver Gierke
  * @since 1.13
- * @soundtrack Richard Spaven - Assemble (Whole Other*)
  */
 class JsonProjectingMethodInterceptorFactoryUnitTests {
 

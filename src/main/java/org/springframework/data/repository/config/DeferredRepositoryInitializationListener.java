@@ -29,7 +29,6 @@ import org.springframework.data.repository.Repository;
  *
  * @author Oliver Gierke
  * @since 2.1
- * @soundtrack Dave Matthews Band - Here On Out (Come Tomorrow)
  */
 class DeferredRepositoryInitializationListener implements ApplicationListener<ContextRefreshedEvent>, Ordered {
 

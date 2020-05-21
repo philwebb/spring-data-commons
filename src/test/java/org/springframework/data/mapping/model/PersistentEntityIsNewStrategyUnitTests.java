@@ -30,7 +30,6 @@ import org.springframework.data.mapping.context.SampleMappingContext;
  * Unit tests for {@link PersistentEntityIsNewStrategy}.
  * 
  * @author Oliver Gierke
- * @soundtrack Scary Pockets - Crash Into Me (Dave Matthews Band Cover feat. Julia Nunes) -
  *             https://www.youtube.com/watch?v=syGlBNVGEqU
  */
 class PersistentEntityIsNewStrategyUnitTests {

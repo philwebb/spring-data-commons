@@ -28,7 +28,6 @@ import org.springframework.http.MediaType;
  *
  * @author Oliver Gierke
  * @author Mark Paluch
- * @soundtrack Richard Spaven - Tribute (Whole Other*)
  * @since 1.13
  */
 class ProjectingJackson2HttpMessageConverterUnitTests {

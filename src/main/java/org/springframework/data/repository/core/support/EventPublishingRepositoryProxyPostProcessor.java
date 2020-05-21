@@ -48,7 +48,6 @@ import org.springframework.util.ReflectionUtils;
  * @author Christoph Strobl
  * @author Yuki Yoshida
  * @since 1.13
- * @soundtrack Henrik Freischlader Trio - Master Plan (Openness)
  */
 public class EventPublishingRepositoryProxyPostProcessor implements RepositoryProxyPostProcessor {
 

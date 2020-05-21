@@ -53,7 +53,6 @@ import org.springframework.data.repository.core.support.EventPublishingRepositor
  * @author Oliver Gierke
  * @author Mark Paluch
  * @author Yuki Yoshida
- * @soundtrack Henrik Freischlader Trio - Nobody Else To Blame (Openness)
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)

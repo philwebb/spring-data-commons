@@ -26,7 +26,6 @@ import org.springframework.util.Assert;
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
- * @soundtrack Benny Greb - Soulfood (Live)
  * @since 1.13
  */
 public final class Accessor {

@@ -26,7 +26,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * Unit tests for {@link SurroundingTransactionDetectorMethodInterceptor}.
  *
  * @author Oliver Gierke
- * @soundtrack Hendrik Freischlader Trio - Openness (Openness)
  */
 class SurroundingTransactionDetectorMethodInterceptorUnitTests {
 

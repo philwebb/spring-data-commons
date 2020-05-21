@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
  * Annotation to explicitly declare a JSON Path expression on a projection interface.
  *
  * @author Oliver Gierke
- * @soundtrack Andy McKee - RyLynn (Live book)
  * @since 1.13
  */
 @Documented

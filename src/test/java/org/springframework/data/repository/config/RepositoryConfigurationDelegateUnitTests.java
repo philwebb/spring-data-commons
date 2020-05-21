@@ -45,7 +45,6 @@ import org.springframework.data.repository.sample.ProductRepository;
  * Unit tests for {@link RepositoryConfigurationDelegate}.
  *
  * @author Oliver Gierke
- * @soundtrack Richard Spaven - Tribute (Whole Other*)
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)

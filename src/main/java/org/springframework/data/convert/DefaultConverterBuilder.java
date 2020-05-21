@@ -41,7 +41,6 @@ import org.springframework.util.ObjectUtils;
  * @since 2.0
  * @see ConverterBuilder#writing(Class, Class, Function)
  * @see ConverterBuilder#reading(Class, Class, Function)
- * @soundtrack John Mayer - Still Feel Like Your Man (The Search for Everything)
  */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 class DefaultConverterBuilder<S, T>

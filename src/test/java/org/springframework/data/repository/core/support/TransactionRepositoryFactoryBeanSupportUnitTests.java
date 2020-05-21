@@ -31,7 +31,6 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
  * Unit tests for {@link TransactionalRepositoryFactoryBeanSupport}.
  *
  * @author Oliver Gierke
- * @soundtrack The Intersphere - Live in Mannheim
  */
 class TransactionRepositoryFactoryBeanSupportUnitTests {
 

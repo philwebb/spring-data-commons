@@ -33,7 +33,6 @@ import org.springframework.data.support.ExampleMatcherAccessor;
  *
  * @author Oliver Gierke
  * @author Mark Paluch
- * @soundtrack Ron Spielman Trio - Fretboard Highway (Electric Tales)
  */
 class ExampleSpecificationAccessorUnitTests {
 

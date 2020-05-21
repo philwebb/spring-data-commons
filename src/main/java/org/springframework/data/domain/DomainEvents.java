@@ -28,7 +28,6 @@ import java.lang.annotation.Target;
  * @see org.springframework.context.ApplicationEventPublisher
  * @see AfterDomainEventPublication
  * @since 1.13
- * @soundtrack Benny Greb - Soulfood (Moving Parts Live)
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE })

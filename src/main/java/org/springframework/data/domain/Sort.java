@@ -659,8 +659,7 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 	 *
 	 * @author Oliver Gierke
 	 * @since 2.2
-	 * @soundtrack The Intersphere - Linger (The Grand Delusion)
-	 */
+		 */
 	public static class TypedSort<T> extends Sort {
 
 		private static final long serialVersionUID = -3550403511206745880L;

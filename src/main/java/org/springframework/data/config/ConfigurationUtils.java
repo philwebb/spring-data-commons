@@ -26,7 +26,6 @@ import org.springframework.util.Assert;
  *
  * @author Oliver Gierke
  * @since 2.0
- * @soundtrack Richard Spaven - The Self (feat. Jordan Rakei)
  */
 public interface ConfigurationUtils {
 

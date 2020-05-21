@@ -255,8 +255,7 @@ public final class Range<T extends Comparable<T>> {
 	 *
 	 * @author Mark Paluch
 	 * @since 2.0
-	 * @soundtrack Mohamed Ragab - Excelsior Sessions (March 2017)
-	 */
+		 */
 	public static final class Bound<T extends Comparable<T>> {
 
 		@SuppressWarnings({ "rawtypes", "unchecked" }) //
@@ -464,8 +463,7 @@ public final class Range<T extends Comparable<T>> {
 	 *
 	 * @author Mark Paluch
 	 * @since 2.0
-	 * @soundtrack Aly and Fila - Future Sound Of Egypt 493
-	 */
+		 */
 	public static class RangeBuilder<T extends Comparable<T>> {
 
 		private final Bound<T> lower;

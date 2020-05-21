@@ -31,7 +31,6 @@ import org.springframework.data.convert.ConverterBuilder.WritingConverterBuilder
  *
  * @author Oliver Gierke
  * @since 2.0
- * @soundtrack John Mayer - In the Blood (The Search for Everything)
  */
 class ConverterBuilderUnitTests {
 

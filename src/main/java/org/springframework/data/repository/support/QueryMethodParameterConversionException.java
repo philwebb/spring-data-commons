@@ -23,7 +23,6 @@ import org.springframework.util.Assert;
  * Exception to represent a failed attempt to convert a source value into a query method parameter.
  *
  * @author Oliver Gierke
- * @soundtrack Dave Matthews Band - The Dreaming Tree (DMB 2009-2018 Europe)
  * @since 1.11
  */
 public class QueryMethodParameterConversionException extends RuntimeException {

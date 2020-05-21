@@ -26,7 +26,6 @@ import org.springframework.util.Assert;
  *
  * @author Oliver Gierke
  * @since 1.13
- * @soundtrack Benny Greb's Moving Parts - Soulfood (Live)
  */
 public class RevisionSort extends Sort {
 

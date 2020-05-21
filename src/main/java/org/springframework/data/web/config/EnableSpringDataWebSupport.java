@@ -124,8 +124,7 @@ public @interface EnableSpringDataWebSupport {
 	 * classpath.
 	 *
 	 * @author Oliver Gierke
-	 * @soundtrack Anika Nilles - Chary Life
-	 * @since 1.11
+		 * @since 1.11
 	 */
 	static class QuerydslActivator implements ImportSelector {
 

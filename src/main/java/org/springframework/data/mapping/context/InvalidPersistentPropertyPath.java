@@ -32,7 +32,6 @@ import org.springframework.util.StringUtils;
  * Exception to indicate a source path couldn't be resolved into a {@link PersistentPropertyPath} completely.
  *
  * @author Oliver Gierke
- * @soundtrack John Mayer - Slow Dancing In A Burning Room (Acoustic, The Village Sessions)
  */
 public class InvalidPersistentPropertyPath extends MappingException {
 

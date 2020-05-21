@@ -35,7 +35,6 @@ import com.querydsl.core.types.Predicate;
  * Unit tests for {@link QuerydslRepositoryInvokerAdapter}.
  *
  * @author Oliver Gierke
- * @soundtrack Emilie Nicolas - Grown Up
  */
 @ExtendWith(MockitoExtension.class)
 class QuerydslRepositoryInvokerAdapterUnitTests {

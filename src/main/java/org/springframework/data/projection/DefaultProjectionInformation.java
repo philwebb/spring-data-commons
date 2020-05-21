@@ -126,8 +126,7 @@ class DefaultProjectionInformation implements ProjectionInformation {
 	 * @author Mark Paluch
 	 * @author Oliver Gierke
 	 * @since 2.1
-	 * @soundtrack The Meters - Cissy Strut (Here Comes The Meter Man)
-	 */
+		 */
 	private static class PropertyDescriptorSource {
 
 		private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(PropertyDescriptorSource.class);

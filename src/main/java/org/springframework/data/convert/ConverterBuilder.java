@@ -32,7 +32,6 @@ import org.springframework.util.Assert;
  * @since 2.0
  * @see #reading(Class, Class, Function)
  * @see #writing(Class, Class, Function)
- * @soundtrack John Mayer - Moving On and Getting Over (The Search for Everything)
  */
 public interface ConverterBuilder {
 

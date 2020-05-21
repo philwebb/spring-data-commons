@@ -27,7 +27,6 @@ import java.lang.annotation.Target;
  * response payloads to.
  *
  * @author Oliver Gierke
- * @soundtrack
  * @since 1.13
  */
 @Documented

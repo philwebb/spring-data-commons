@@ -27,7 +27,6 @@ import org.springframework.data.util.ProxyUtils.ProxyDetector;
  * Unit tests for {@link ProxyUtils}.
  * 
  * @author Oliver Gierke
- * @soundtrack Victor Wooten - The 13th Floor (Trypnotix)
  */
 public class ProxyUtilsUnitTests {
 

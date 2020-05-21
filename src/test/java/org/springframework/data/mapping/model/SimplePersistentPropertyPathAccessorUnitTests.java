@@ -43,7 +43,6 @@ import org.springframework.data.mapping.context.SamplePersistentProperty;
  *
  * @author Oliver Gierke
  * @since 2.3
- * @soundtrack Ron Spielman Trio - Raindrops (Electric Tales)
  */
 class SimplePersistentPropertyPathAccessorUnitTests {
 

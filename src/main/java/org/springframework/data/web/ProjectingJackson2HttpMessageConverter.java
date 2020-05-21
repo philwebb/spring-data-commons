@@ -44,7 +44,6 @@ import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
  *
  * @author Oliver Gierke
  * @author Christoph Strobl
- * @soundtrack Richard Spaven - Ice Is Nice (Spaven's 5ive)
  * @since 1.13
  */
 public class ProjectingJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter

@@ -28,7 +28,6 @@ import org.springframework.util.ConcurrentReferenceHashMap;
  * Proxy type detection utilities, extensible via {@link ProxyDetector} registered via Spring factories.
  *
  * @author Oliver Gierke
- * @soundtrack Victor Wooten - Cruising Altitude (Trypnotix)
  */
 public abstract class ProxyUtils {
 

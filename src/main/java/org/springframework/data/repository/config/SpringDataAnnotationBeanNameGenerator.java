@@ -28,7 +28,6 @@ import org.springframework.context.annotation.AnnotationBeanNameGenerator;
  *
  * @author Oliver Gierke
  * @since 2.0
- * @soundtrack Nils Wülker - Never Left At All (feat. Rob Summerfield)
  */
 class SpringDataAnnotationBeanNameGenerator {
 

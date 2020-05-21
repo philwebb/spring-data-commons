@@ -40,7 +40,6 @@ import com.querydsl.core.types.Predicate;
  * Unit tests for {@link QuerydslBindingsFactory}.
  *
  * @author Oliver Gierke
- * @soundtrack Miles Davis - All Blues (Kind of Blue)
  */
 class QuerydslBindingsFactoryUnitTests {
 
