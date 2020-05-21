@@ -116,7 +116,7 @@ public interface PersistentProperty<P extends PersistentProperty<P>> {
 	 * 	final String id;
 	 * 	final String name;
 	 *
-	 * 	// …
+	 * 	// ...
 	 *
 	 * 	Person withName(String name) {
 	 * 		return new Person(this.id, name);

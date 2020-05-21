@@ -27,7 +27,7 @@ import org.springframework.util.Assert;
  */
 public class PropertiesBasedNamedQueries implements NamedQueries {
 
-	private static final String NO_QUERY_FOUND = "No query with name %s found! Make sure you call hasQuery(…) before calling this method!";
+	private static final String NO_QUERY_FOUND = "No query with name %s found! Make sure you call hasQuery(...) before calling this method!";
 
 	public static final NamedQueries EMPTY = new PropertiesBasedNamedQueries(new Properties());
 

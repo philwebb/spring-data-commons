@@ -137,7 +137,7 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 		private static final Map<Class<?>, KCallable<?>> copyMethodCache = new ConcurrentReferenceHashMap<>();
 
 		/**
-		 * Set a single property by calling {@code copy(…)} on a Kotlin data class.
+		 * Set a single property by calling {@code copy(...)} on a Kotlin data class.
 		 * Copying creates a new instance that holds all values of the original instance
 		 * and the newly set {@link PersistentProperty} value.
 		 *
@@ -147,8 +147,9 @@ class BeanWrapper<T> implements PersistentPropertyAccessor<T> {
 			Class<?> type = property.getOwner().getType();
 			KCallable<?> copy = copyMethodCache.computeIfAbsent(type, it -> getCopyMethod(it, property));
 			if (copy == null) {
-				throw new UnsupportedOperationException(String.format(
-						"Kotlin class %s has no .copy(…) method for property %s!", type.getName(), property.getName()));
+				throw new UnsupportedOperationException(
+						String.format("Kotlin class %s has no .copy(...) method for property %s!", type.getName(),
+								property.getName()));
 			}
 			return copy.callBy(getCallArgs(copy, property, bean, value));
 		}

@@ -282,7 +282,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 	 * 			case 3359:
 	 * 				this.bean = PersonWithId.copy$default(bean, value, 0, null); // Kotlin
 	 * 				return;
-	 * 			// …
+	 * 			// ...
 	 * 		}
 	 * 		throw new UnsupportedOperationException(
 	 * 				String.format("No accessor to set property %s!", new Object[] { property }));
@@ -295,10 +295,10 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 	 * 				return id_fieldGetter.invoke(bean);
 	 * 			case 3356:
 	 * 				return bean.getField();
-	 * 			// …
+	 * 			// ...
 	 * 			case 3357:
 	 * 				return bean.field;
-	 * 				// …
+	 * 				// ...
 	 * 				throw new UnsupportedOperationException(
 	 * 						String.format("No accessor to get property %s!", new Object[] { property }));
 	 * 		}
@@ -403,7 +403,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 * private final Object bean;
 		 * private static final MethodHandle $id_fieldGetter;
 		 * private static final MethodHandle $id_fieldSetter;
-		 * // …
+		 * // ...
 		 * </pre>
 		 */
 		private static void visitFields(PersistentEntity<?, ?> entity, List<PersistentProperty<?>> persistentProperties,
@@ -490,7 +490,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 * 	field.setAccessible(true);
 		 * 	$id_fieldGetter = lookup.unreflectGetter(field);
 		 * 	$id_fieldSetter = lookup.unreflectSetter(field);
-		 * 	// …
+		 * 	// ...
 		 * }
 		 * </pre>
 		 */
@@ -716,10 +716,10 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 * 			return id_fieldGetter.invoke(bean);
 		 * 		case 3356:
 		 * 			return bean.getField();
-		 * 		// …
+		 * 		// ...
 		 * 		case 3357:
 		 * 			return bean.field;
-		 * 		// …
+		 * 		// ...
 		 * 	}
 		 * 	throw new UnsupportedOperationException(
 		 * 			String.format("No MethodHandle to get property %s", new Object[] { property }));
@@ -806,7 +806,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 							false);
 				}
 				else {
-					// bean.get…
+					// bean.get...
 					mv.visitVarInsn(ALOAD, 2);
 					int invokeOpCode = INVOKEVIRTUAL;
 					Class<?> declaringClass = getter.getDeclaringClass();
@@ -862,7 +862,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		 * 		case 3359:
 		 * 			this.bean = PersonWithId.copy$default(bean, value, 0, null); // Kotlin
 		 * 			return;
-		 * 		// …
+		 * 		// ...
 		 * 	}
 		 * 	throw new UnsupportedOperationException(
 		 * 			String.format("No accessor to set property %s!", new Object[] { property }));
@@ -1008,8 +1008,8 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 		private static void visitKotlinCopy(PersistentEntity<?, ?> entity, PersistentProperty<?> property,
 				MethodVisitor mv, String internalClassName) {
 			KotlinCopyMethod kotlinCopyMethod = KotlinCopyMethod.findCopyMethod(entity.getType())
-					.orElseThrow(() -> new IllegalStateException(
-							String.format("No usable .copy(…) method found in entity %s", entity.getType().getName())));
+					.orElseThrow(() -> new IllegalStateException(String
+							.format("No usable .copy(...) method found in entity %s", entity.getType().getName())));
 			// this. <- for later PUTFIELD
 			mv.visitVarInsn(ALOAD, 0);
 			if (kotlinCopyMethod.shouldUsePublicCopyMethod(entity)) {
@@ -1025,7 +1025,7 @@ public class ClassGeneratingPropertyAccessorFactory implements PersistentPropert
 				mv.visitVarInsn(ALOAD, 3);
 				KotlinCopyByProperty copyByProperty = kotlinCopyMethod.forProperty(property)
 						.orElseThrow(() -> new IllegalStateException(
-								String.format("No usable .copy(…) method found for property %s", property)));
+								String.format("No usable .copy(...) method found for property %s", property)));
 				for (int i = 1; i < kotlinCopyMethod.getParameterCount(); i++) {
 					if (copyByProperty.getParameterPosition() == i) {
 						mv.visitVarInsn(ALOAD, 2);

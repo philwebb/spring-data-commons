@@ -193,7 +193,7 @@ public class Parameter {
 	 * the type parameter of the actually returned type.
 	 * <p>
 	 * <code>
-	 * <T> Collection<T> findBy…(…, Class<T> type);
+	 * <T> Collection<T> findBy...(..., Class<T> type);
 	 * </code>
 	 * @param parameter must not be {@literal null}.
 	 * @return

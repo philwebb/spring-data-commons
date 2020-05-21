@@ -28,8 +28,8 @@ import org.springframework.util.MultiValueMap;
 
 /**
  * {@link RepositoryInvoker} that is aware of a {@link QuerydslPredicateExecutor} and
- * {@link Predicate} to be executed for all flavors of {@code findAll(…)}. All other calls
- * are forwarded to the configured delegate.
+ * {@link Predicate} to be executed for all flavors of {@code findAll(...)}. All other
+ * calls are forwarded to the configured delegate.
  *
  * @author Oliver Gierke
  */

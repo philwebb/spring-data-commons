@@ -258,7 +258,7 @@ public class RepositoryConfigurationDelegate {
 			}
 			boolean lazyInit = configuration.isLazyInit();
 			if (lazyInit) {
-				logger.debug(LogMessage.format("Creating lazy injection proxy for %s…",
+				logger.debug(LogMessage.format("Creating lazy injection proxy for %s...",
 						configuration.getRepositoryInterface()));
 			}
 			return lazyInit;

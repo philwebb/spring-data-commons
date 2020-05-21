@@ -63,12 +63,12 @@ import org.springframework.util.MultiValueMap;
  * public class ExampleClass {
  *
  * 	String shouldNotReturnNull(@Nullable String acceptsNull, String doesNotAcceptNull) {
- * 		// …
+ * 		// ...
  * 	}
  *
  * 	&#64;Nullable
  * 	String nullableReturn(String parameter) {
- * 		// …
+ * 		// ...
  * 	}
  * }
  * </pre>
