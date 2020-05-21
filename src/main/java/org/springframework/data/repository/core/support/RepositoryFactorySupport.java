@@ -559,11 +559,11 @@ public abstract class RepositoryFactorySupport implements BeanClassLoaderAware, 
 			if (!(o instanceof RepositoryInformationCacheKey)) {
 				return false;
 			}
-			RepositoryInformationCacheKey that = (RepositoryInformationCacheKey) o;
-			if (this.compositionHash != that.compositionHash) {
+			RepositoryInformationCacheKey other = (RepositoryInformationCacheKey) o;
+			if (this.compositionHash != other.compositionHash) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.repositoryInterfaceName, that.repositoryInterfaceName);
+			return ObjectUtils.nullSafeEquals(this.repositoryInterfaceName, other.repositoryInterfaceName);
 		}
 
 		@Override

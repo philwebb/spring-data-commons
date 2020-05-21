@@ -54,8 +54,8 @@ class TypeVariableTypeInformation<T> extends ParentTypeAwareTypeInformation<T> {
 		if (!(obj instanceof TypeVariableTypeInformation)) {
 			return false;
 		}
-		TypeVariableTypeInformation<?> that = (TypeVariableTypeInformation<?>) obj;
-		return getType().equals(that.getType());
+		TypeVariableTypeInformation<?> other = (TypeVariableTypeInformation<?>) obj;
+		return getType().equals(other.getType());
 	}
 
 	@Override

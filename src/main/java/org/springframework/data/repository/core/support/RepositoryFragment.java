@@ -152,8 +152,8 @@ public interface RepositoryFragment<T> {
 			if (!(o instanceof StructuralRepositoryFragment)) {
 				return false;
 			}
-			StructuralRepositoryFragment<?> that = (StructuralRepositoryFragment<?>) o;
-			return ObjectUtils.nullSafeEquals(this.interfaceOrImplementation, that.interfaceOrImplementation);
+			StructuralRepositoryFragment<?> other = (StructuralRepositoryFragment<?>) o;
+			return ObjectUtils.nullSafeEquals(this.interfaceOrImplementation, other.interfaceOrImplementation);
 		}
 
 		@Override
@@ -222,14 +222,14 @@ public interface RepositoryFragment<T> {
 			if (!(o instanceof ImplementedRepositoryFragment)) {
 				return false;
 			}
-			ImplementedRepositoryFragment<?> that = (ImplementedRepositoryFragment<?>) o;
-			if (!ObjectUtils.nullSafeEquals(this.interfaceClass, that.interfaceClass)) {
+			ImplementedRepositoryFragment<?> other = (ImplementedRepositoryFragment<?>) o;
+			if (!ObjectUtils.nullSafeEquals(this.interfaceClass, other.interfaceClass)) {
 				return false;
 			}
-			if (!ObjectUtils.nullSafeEquals(this.implementation, that.implementation)) {
+			if (!ObjectUtils.nullSafeEquals(this.implementation, other.implementation)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.optionalImplementation, that.optionalImplementation);
+			return ObjectUtils.nullSafeEquals(this.optionalImplementation, other.optionalImplementation);
 		}
 
 		@Override

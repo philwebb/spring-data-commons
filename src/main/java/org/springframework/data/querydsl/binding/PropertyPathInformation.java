@@ -126,8 +126,8 @@ class PropertyPathInformation implements PathInformation {
 		if (!(o instanceof PropertyPathInformation)) {
 			return false;
 		}
-		PropertyPathInformation that = (PropertyPathInformation) o;
-		return ObjectUtils.nullSafeEquals(this.path, that.path);
+		PropertyPathInformation other = (PropertyPathInformation) o;
+		return ObjectUtils.nullSafeEquals(this.path, other.path);
 	}
 
 	@Override

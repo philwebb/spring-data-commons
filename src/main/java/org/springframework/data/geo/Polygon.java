@@ -93,8 +93,8 @@ public class Polygon implements Iterable<Point>, Shape {
 		if (!(o instanceof Polygon)) {
 			return false;
 		}
-		Polygon that = (Polygon) o;
-		return ObjectUtils.nullSafeEquals(this.points, that.points);
+		Polygon other = (Polygon) o;
+		return ObjectUtils.nullSafeEquals(this.points, other.points);
 	}
 
 	@Override

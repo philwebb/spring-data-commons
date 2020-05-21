@@ -159,11 +159,11 @@ class SpelEvaluatingMethodInterceptor implements MethodInterceptor {
 			if (!(o instanceof TargetWrapper)) {
 				return false;
 			}
-			TargetWrapper that = (TargetWrapper) o;
-			if (!ObjectUtils.nullSafeEquals(this.target, that.target)) {
+			TargetWrapper other = (TargetWrapper) o;
+			if (!ObjectUtils.nullSafeEquals(this.target, other.target)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.args, that.args);
+			return ObjectUtils.nullSafeEquals(this.args, other.args);
 		}
 
 		@Override

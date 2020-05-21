@@ -87,8 +87,8 @@ class QuerydslPathInformation implements PathInformation {
 		if (!(o instanceof QuerydslPathInformation)) {
 			return false;
 		}
-		QuerydslPathInformation that = (QuerydslPathInformation) o;
-		return ObjectUtils.nullSafeEquals(this.path, that.path);
+		QuerydslPathInformation other = (QuerydslPathInformation) o;
+		return ObjectUtils.nullSafeEquals(this.path, other.path);
 	}
 
 	@Override

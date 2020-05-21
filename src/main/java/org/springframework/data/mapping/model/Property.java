@@ -202,8 +202,8 @@ public class Property {
 		if (!(obj instanceof Property)) {
 			return false;
 		}
-		Property that = (Property) obj;
-		return this.field.isPresent() ? this.field.equals(that.field) : this.descriptor.equals(that.descriptor);
+		Property other = (Property) obj;
+		return this.field.isPresent() ? this.field.equals(other.field) : this.descriptor.equals(other.descriptor);
 	}
 
 	@Override

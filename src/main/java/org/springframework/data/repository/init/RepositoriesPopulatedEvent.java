@@ -70,8 +70,8 @@ public class RepositoriesPopulatedEvent extends ApplicationEvent {
 		if (obj == null || !getClass().equals(obj.getClass())) {
 			return false;
 		}
-		RepositoriesPopulatedEvent that = (RepositoriesPopulatedEvent) obj;
-		return this.source.equals(that.source) && this.repositories.equals(that.repositories);
+		RepositoriesPopulatedEvent other = (RepositoriesPopulatedEvent) obj;
+		return this.source.equals(other.source) && this.repositories.equals(other.repositories);
 	}
 
 	@Override

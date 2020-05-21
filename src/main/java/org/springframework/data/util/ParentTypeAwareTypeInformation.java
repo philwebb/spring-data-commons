@@ -65,8 +65,8 @@ public abstract class ParentTypeAwareTypeInformation<S> extends TypeDiscoverer<S
 		if (!this.getClass().equals(obj.getClass())) {
 			return false;
 		}
-		ParentTypeAwareTypeInformation<?> that = (ParentTypeAwareTypeInformation<?>) obj;
-		return this.parent == null ? that.parent == null : this.parent.equals(that.parent);
+		ParentTypeAwareTypeInformation<?> other = (ParentTypeAwareTypeInformation<?>) obj;
+		return this.parent == null ? other.parent == null : this.parent.equals(other.parent);
 	}
 
 	@Override

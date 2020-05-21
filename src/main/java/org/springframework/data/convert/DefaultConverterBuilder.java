@@ -142,11 +142,11 @@ class DefaultConverterBuilder<S, T>
 			if (!(o instanceof ConfigurableGenericConverter)) {
 				return false;
 			}
-			ConfigurableGenericConverter<?, ?> that = (ConfigurableGenericConverter<?, ?>) o;
-			if (!ObjectUtils.nullSafeEquals(this.convertiblePair, that.convertiblePair)) {
+			ConfigurableGenericConverter<?, ?> other = (ConfigurableGenericConverter<?, ?>) o;
+			if (!ObjectUtils.nullSafeEquals(this.convertiblePair, other.convertiblePair)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.function, that.function);
+			return ObjectUtils.nullSafeEquals(this.function, other.function);
 		}
 
 		@Override

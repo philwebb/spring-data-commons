@@ -100,8 +100,8 @@ public class PageImpl<T> extends Chunk<T> implements Page<T> {
 		if (!(obj instanceof PageImpl<?>)) {
 			return false;
 		}
-		PageImpl<?> that = (PageImpl<?>) obj;
-		return this.total == that.total && super.equals(obj);
+		PageImpl<?> other = (PageImpl<?>) obj;
+		return this.total == other.total && super.equals(obj);
 	}
 
 	@Override

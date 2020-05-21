@@ -107,14 +107,14 @@ public final class RepositoryFragmentConfiguration {
 		if (!(o instanceof RepositoryFragmentConfiguration)) {
 			return false;
 		}
-		RepositoryFragmentConfiguration that = (RepositoryFragmentConfiguration) o;
-		if (!ObjectUtils.nullSafeEquals(this.interfaceName, that.interfaceName)) {
+		RepositoryFragmentConfiguration other = (RepositoryFragmentConfiguration) o;
+		if (!ObjectUtils.nullSafeEquals(this.interfaceName, other.interfaceName)) {
 			return false;
 		}
-		if (!ObjectUtils.nullSafeEquals(this.className, that.className)) {
+		if (!ObjectUtils.nullSafeEquals(this.className, other.className)) {
 			return false;
 		}
-		return ObjectUtils.nullSafeEquals(this.beanDefinition, that.beanDefinition);
+		return ObjectUtils.nullSafeEquals(this.beanDefinition, other.beanDefinition);
 	}
 
 	@Override

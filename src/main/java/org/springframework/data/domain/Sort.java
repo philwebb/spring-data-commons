@@ -199,8 +199,8 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 		if (!(obj instanceof Sort)) {
 			return false;
 		}
-		Sort that = (Sort) obj;
-		return this.orders.equals(that.orders);
+		Sort other = (Sort) obj;
+		return this.orders.equals(other.orders);
 	}
 
 	@Override
@@ -550,9 +550,9 @@ public class Sort implements Streamable<org.springframework.data.domain.Sort.Ord
 			if (!(obj instanceof Order)) {
 				return false;
 			}
-			Order that = (Order) obj;
-			return this.direction.equals(that.direction) && this.property.equals(that.property)
-					&& this.ignoreCase == that.ignoreCase && this.nullHandling.equals(that.nullHandling);
+			Order other = (Order) obj;
+			return this.direction.equals(other.direction) && this.property.equals(other.property)
+					&& this.ignoreCase == other.ignoreCase && this.nullHandling.equals(other.nullHandling);
 		}
 
 		@Override

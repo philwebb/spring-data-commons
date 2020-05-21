@@ -104,8 +104,8 @@ public class PageRequest extends AbstractPageRequest {
 		if (!(obj instanceof PageRequest)) {
 			return false;
 		}
-		PageRequest that = (PageRequest) obj;
-		return super.equals(that) && this.sort.equals(that.sort);
+		PageRequest other = (PageRequest) obj;
+		return super.equals(other) && this.sort.equals(other.sort);
 	}
 
 	@Override

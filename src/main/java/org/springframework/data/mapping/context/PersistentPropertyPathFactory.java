@@ -264,11 +264,11 @@ class PersistentPropertyPathFactory<E extends PersistentEntity<?, P>, P extends 
 			if (!(o instanceof TypeAndPath)) {
 				return false;
 			}
-			TypeAndPath that = (TypeAndPath) o;
-			if (!ObjectUtils.nullSafeEquals(this.type, that.type)) {
+			TypeAndPath other = (TypeAndPath) o;
+			if (!ObjectUtils.nullSafeEquals(this.type, other.type)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.path, that.path);
+			return ObjectUtils.nullSafeEquals(this.path, other.path);
 		}
 
 		@Override

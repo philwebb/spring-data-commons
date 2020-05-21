@@ -161,14 +161,14 @@ public class MethodInvocationValidator implements MethodInterceptor {
 			if (!(o instanceof Nullability)) {
 				return false;
 			}
-			Nullability that = (Nullability) o;
-			if (this.nullableReturn != that.nullableReturn) {
+			Nullability other = (Nullability) o;
+			if (this.nullableReturn != other.nullableReturn) {
 				return false;
 			}
-			if (!ObjectUtils.nullSafeEquals(this.nullableParameters, that.nullableParameters)) {
+			if (!ObjectUtils.nullSafeEquals(this.nullableParameters, other.nullableParameters)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.methodParameters, that.methodParameters);
+			return ObjectUtils.nullSafeEquals(this.methodParameters, other.methodParameters);
 		}
 
 		@Override

@@ -56,11 +56,11 @@ class TypedExample<T> implements Example<T> {
 		if (!(o instanceof TypedExample)) {
 			return false;
 		}
-		TypedExample<?> that = (TypedExample<?>) o;
-		if (!ObjectUtils.nullSafeEquals(this.probe, that.probe)) {
+		TypedExample<?> other = (TypedExample<?>) o;
+		if (!ObjectUtils.nullSafeEquals(this.probe, other.probe)) {
 			return false;
 		}
-		return ObjectUtils.nullSafeEquals(this.matcher, that.matcher);
+		return ObjectUtils.nullSafeEquals(this.matcher, other.matcher);
 	}
 
 	@Override

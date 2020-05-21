@@ -143,11 +143,11 @@ public final class Distance implements Serializable, Comparable<Distance> {
 	}
 
 	@Override
-	public int compareTo(@Nullable Distance that) {
-		if (that == null) {
+	public int compareTo(@Nullable Distance other) {
+		if (other == null) {
 			return 1;
 		}
-		double difference = this.getNormalizedValue() - that.getNormalizedValue();
+		double difference = this.getNormalizedValue() - other.getNormalizedValue();
 		return difference == 0 ? 0 : difference > 0 ? 1 : -1;
 	}
 

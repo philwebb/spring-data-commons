@@ -406,11 +406,11 @@ interface MethodLookups {
 				if (!(o instanceof ParameterOverrideCriteria)) {
 					return false;
 				}
-				ParameterOverrideCriteria that = (ParameterOverrideCriteria) o;
-				if (!ObjectUtils.nullSafeEquals(this.declared, that.declared)) {
+				ParameterOverrideCriteria other = (ParameterOverrideCriteria) o;
+				if (!ObjectUtils.nullSafeEquals(this.declared, other.declared)) {
 					return false;
 				}
-				return ObjectUtils.nullSafeEquals(this.base, that.base);
+				return ObjectUtils.nullSafeEquals(this.base, other.base);
 			}
 
 			@Override

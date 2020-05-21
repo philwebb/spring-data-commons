@@ -104,11 +104,11 @@ public class GeoResults<T> implements Iterable<GeoResult<T>>, Serializable {
 		if (!(o instanceof GeoResults)) {
 			return false;
 		}
-		GeoResults<?> that = (GeoResults<?>) o;
-		if (!ObjectUtils.nullSafeEquals(this.results, that.results)) {
+		GeoResults<?> other = (GeoResults<?>) o;
+		if (!ObjectUtils.nullSafeEquals(this.results, other.results)) {
 			return false;
 		}
-		return ObjectUtils.nullSafeEquals(this.averageDistance, that.averageDistance);
+		return ObjectUtils.nullSafeEquals(this.averageDistance, other.averageDistance);
 	}
 
 	@Override

@@ -761,11 +761,11 @@ public class CustomConversions {
 			if (!(o instanceof StoreConversions)) {
 				return false;
 			}
-			StoreConversions that = (StoreConversions) o;
-			if (!ObjectUtils.nullSafeEquals(this.storeTypeHolder, that.storeTypeHolder)) {
+			StoreConversions other = (StoreConversions) o;
+			if (!ObjectUtils.nullSafeEquals(this.storeTypeHolder, other.storeTypeHolder)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.storeConverters, that.storeConverters);
+			return ObjectUtils.nullSafeEquals(this.storeConverters, other.storeConverters);
 		}
 
 		@Override

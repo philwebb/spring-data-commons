@@ -425,14 +425,14 @@ public interface ExampleMatcher {
 			if (!(o instanceof GenericPropertyMatcher)) {
 				return false;
 			}
-			GenericPropertyMatcher that = (GenericPropertyMatcher) o;
-			if (this.stringMatcher != that.stringMatcher) {
+			GenericPropertyMatcher other = (GenericPropertyMatcher) o;
+			if (this.stringMatcher != other.stringMatcher) {
 				return false;
 			}
-			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, that.ignoreCase)) {
+			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, other.ignoreCase)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.valueTransformer, that.valueTransformer);
+			return ObjectUtils.nullSafeEquals(this.valueTransformer, other.valueTransformer);
 		}
 
 		@Override
@@ -699,17 +699,17 @@ public interface ExampleMatcher {
 			if (!(o instanceof PropertySpecifier)) {
 				return false;
 			}
-			PropertySpecifier that = (PropertySpecifier) o;
-			if (!ObjectUtils.nullSafeEquals(this.path, that.path)) {
+			PropertySpecifier other = (PropertySpecifier) o;
+			if (!ObjectUtils.nullSafeEquals(this.path, other.path)) {
 				return false;
 			}
-			if (this.stringMatcher != that.stringMatcher) {
+			if (this.stringMatcher != other.stringMatcher) {
 				return false;
 			}
-			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, that.ignoreCase)) {
+			if (!ObjectUtils.nullSafeEquals(this.ignoreCase, other.ignoreCase)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.valueTransformer, that.valueTransformer);
+			return ObjectUtils.nullSafeEquals(this.valueTransformer, other.valueTransformer);
 		}
 
 		@Override
@@ -772,8 +772,8 @@ public interface ExampleMatcher {
 			if (!(o instanceof PropertySpecifiers)) {
 				return false;
 			}
-			PropertySpecifiers that = (PropertySpecifiers) o;
-			return ObjectUtils.nullSafeEquals(this.propertySpecifiers, that.propertySpecifiers);
+			PropertySpecifiers other = (PropertySpecifiers) o;
+			return ObjectUtils.nullSafeEquals(this.propertySpecifiers, other.propertySpecifiers);
 		}
 
 		@Override

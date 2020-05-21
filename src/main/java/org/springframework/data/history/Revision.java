@@ -92,11 +92,11 @@ public final class Revision<N extends Number & Comparable<N>, T> implements Comp
 	}
 
 	@Override
-	public int compareTo(@Nullable Revision<N, ?> that) {
-		if (that == null) {
+	public int compareTo(@Nullable Revision<N, ?> other) {
+		if (other == null) {
 			return 1;
 		}
-		return mapIfAllPresent(getRevisionNumber(), that.getRevisionNumber(), Comparable::compareTo).orElse(-1);
+		return mapIfAllPresent(getRevisionNumber(), other.getRevisionNumber(), Comparable::compareTo).orElse(-1);
 	}
 
 	@Override

@@ -242,23 +242,23 @@ public class PropertyPath implements Streamable<PropertyPath> {
 		if (!(o instanceof PropertyPath)) {
 			return false;
 		}
-		PropertyPath that = (PropertyPath) o;
-		if (this.isCollection != that.isCollection) {
+		PropertyPath other = (PropertyPath) o;
+		if (this.isCollection != other.isCollection) {
 			return false;
 		}
-		if (!ObjectUtils.nullSafeEquals(this.owningType, that.owningType)) {
+		if (!ObjectUtils.nullSafeEquals(this.owningType, other.owningType)) {
 			return false;
 		}
-		if (!ObjectUtils.nullSafeEquals(this.name, that.name)) {
+		if (!ObjectUtils.nullSafeEquals(this.name, other.name)) {
 			return false;
 		}
-		if (!ObjectUtils.nullSafeEquals(this.typeInformation, that.typeInformation)) {
+		if (!ObjectUtils.nullSafeEquals(this.typeInformation, other.typeInformation)) {
 			return false;
 		}
-		if (!ObjectUtils.nullSafeEquals(this.actualTypeInformation, that.actualTypeInformation)) {
+		if (!ObjectUtils.nullSafeEquals(this.actualTypeInformation, other.actualTypeInformation)) {
 			return false;
 		}
-		return ObjectUtils.nullSafeEquals(this.next, that.next);
+		return ObjectUtils.nullSafeEquals(this.next, other.next);
 	}
 
 	@Override

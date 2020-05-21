@@ -253,8 +253,8 @@ public abstract class AbstractPersistentProperty<P extends PersistentProperty<P>
 		if (!(obj instanceof AbstractPersistentProperty)) {
 			return false;
 		}
-		AbstractPersistentProperty<?> that = (AbstractPersistentProperty<?>) obj;
-		return this.property.equals(that.property);
+		AbstractPersistentProperty<?> other = (AbstractPersistentProperty<?>) obj;
+		return this.property.equals(other.property);
 	}
 
 	@Override

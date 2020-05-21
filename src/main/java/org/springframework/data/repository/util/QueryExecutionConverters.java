@@ -647,11 +647,11 @@ public abstract class QueryExecutionConverters {
 			if (!(o instanceof WrapperType)) {
 				return false;
 			}
-			WrapperType that = (WrapperType) o;
-			if (!ObjectUtils.nullSafeEquals(this.type, that.type)) {
+			WrapperType other = (WrapperType) o;
+			if (!ObjectUtils.nullSafeEquals(this.type, other.type)) {
 				return false;
 			}
-			return this.cardinality == that.cardinality;
+			return this.cardinality == other.cardinality;
 		}
 
 		@Override

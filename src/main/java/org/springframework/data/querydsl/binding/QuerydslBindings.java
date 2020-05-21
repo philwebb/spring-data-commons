@@ -484,11 +484,11 @@ public class QuerydslBindings {
 			if (!(o instanceof PathAndBinding)) {
 				return false;
 			}
-			PathAndBinding<?, ?> that = (PathAndBinding<?, ?>) o;
-			if (!ObjectUtils.nullSafeEquals(this.path, that.path)) {
+			PathAndBinding<?, ?> other = (PathAndBinding<?, ?>) o;
+			if (!ObjectUtils.nullSafeEquals(this.path, other.path)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.binding, that.binding);
+			return ObjectUtils.nullSafeEquals(this.binding, other.binding);
 		}
 
 		@Override

@@ -230,8 +230,8 @@ public class ParameterTypes {
 		if (!(o instanceof ParameterTypes)) {
 			return false;
 		}
-		ParameterTypes that = (ParameterTypes) o;
-		return ObjectUtils.nullSafeEquals(this.types, that.types);
+		ParameterTypes other = (ParameterTypes) o;
+		return ObjectUtils.nullSafeEquals(this.types, other.types);
 	}
 
 	@Override
@@ -277,8 +277,8 @@ public class ParameterTypes {
 			if (!super.equals(o)) {
 				return false;
 			}
-			ParentParameterTypes that = (ParentParameterTypes) o;
-			return ObjectUtils.nullSafeEquals(this.tail, that.tail);
+			ParentParameterTypes other = (ParentParameterTypes) o;
+			return ObjectUtils.nullSafeEquals(this.tail, other.tail);
 		}
 
 		@Override

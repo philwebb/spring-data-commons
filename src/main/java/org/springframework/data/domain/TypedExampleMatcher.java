@@ -182,23 +182,23 @@ class TypedExampleMatcher implements ExampleMatcher {
 		if (!(o instanceof TypedExampleMatcher)) {
 			return false;
 		}
-		TypedExampleMatcher that = (TypedExampleMatcher) o;
-		if (this.defaultIgnoreCase != that.defaultIgnoreCase) {
+		TypedExampleMatcher other = (TypedExampleMatcher) o;
+		if (this.defaultIgnoreCase != other.defaultIgnoreCase) {
 			return false;
 		}
-		if (this.nullHandler != that.nullHandler) {
+		if (this.nullHandler != other.nullHandler) {
 			return false;
 		}
-		if (this.defaultStringMatcher != that.defaultStringMatcher) {
+		if (this.defaultStringMatcher != other.defaultStringMatcher) {
 			return false;
 		}
-		if (!ObjectUtils.nullSafeEquals(this.propertySpecifiers, that.propertySpecifiers)) {
+		if (!ObjectUtils.nullSafeEquals(this.propertySpecifiers, other.propertySpecifiers)) {
 			return false;
 		}
-		if (!ObjectUtils.nullSafeEquals(this.ignoredPaths, that.ignoredPaths)) {
+		if (!ObjectUtils.nullSafeEquals(this.ignoredPaths, other.ignoredPaths)) {
 			return false;
 		}
-		return this.mode == that.mode;
+		return this.mode == other.mode;
 	}
 
 	@Override

@@ -143,9 +143,9 @@ class ParameterizedTypeInformation<T> extends ParentTypeAwareTypeInformation<T> 
 		if (!(obj instanceof ParameterizedTypeInformation)) {
 			return false;
 		}
-		ParameterizedTypeInformation<?> that = (ParameterizedTypeInformation<?>) obj;
-		if (this.isResolved() && that.isResolved()) {
-			return this.type.equals(that.type);
+		ParameterizedTypeInformation<?> other = (ParameterizedTypeInformation<?>) obj;
+		if (this.isResolved() && other.isResolved()) {
+			return this.type.equals(other.type);
 		}
 		return super.equals(obj);
 	}

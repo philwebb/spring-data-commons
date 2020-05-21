@@ -96,8 +96,8 @@ public class Box implements Shape {
 		if (!(obj instanceof Box)) {
 			return false;
 		}
-		Box that = (Box) obj;
-		return this.first.equals(that.first) && this.second.equals(that.second);
+		Box other = (Box) obj;
+		return this.first.equals(other.first) && this.second.equals(other.second);
 	}
 
 }

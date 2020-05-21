@@ -115,8 +115,8 @@ public interface MethodLookup {
 			if (!(o instanceof InvokedMethod)) {
 				return false;
 			}
-			InvokedMethod that = (InvokedMethod) o;
-			return ObjectUtils.nullSafeEquals(this.method, that.method);
+			InvokedMethod other = (InvokedMethod) o;
+			return ObjectUtils.nullSafeEquals(this.method, other.method);
 		}
 
 		@Override

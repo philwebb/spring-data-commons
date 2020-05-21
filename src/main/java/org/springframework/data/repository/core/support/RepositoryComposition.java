@@ -247,8 +247,8 @@ public class RepositoryComposition {
 		if (!(o instanceof RepositoryComposition)) {
 			return false;
 		}
-		RepositoryComposition that = (RepositoryComposition) o;
-		return ObjectUtils.nullSafeEquals(this.fragments, that.fragments);
+		RepositoryComposition other = (RepositoryComposition) o;
+		return ObjectUtils.nullSafeEquals(this.fragments, other.fragments);
 	}
 
 	@Override
@@ -425,14 +425,14 @@ public class RepositoryComposition {
 			if (!(o instanceof RepositoryFragments)) {
 				return false;
 			}
-			RepositoryFragments that = (RepositoryFragments) o;
-			if (!ObjectUtils.nullSafeEquals(this.fragmentCache, that.fragmentCache)) {
+			RepositoryFragments other = (RepositoryFragments) o;
+			if (!ObjectUtils.nullSafeEquals(this.fragmentCache, other.fragmentCache)) {
 				return false;
 			}
-			if (!ObjectUtils.nullSafeEquals(this.invocationMetadataCache, that.invocationMetadataCache)) {
+			if (!ObjectUtils.nullSafeEquals(this.invocationMetadataCache, other.invocationMetadataCache)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.fragments, that.fragments);
+			return ObjectUtils.nullSafeEquals(this.fragments, other.fragments);
 		}
 
 		@Override

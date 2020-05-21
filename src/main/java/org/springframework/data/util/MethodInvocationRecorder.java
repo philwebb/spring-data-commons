@@ -191,11 +191,11 @@ public class MethodInvocationRecorder {
 			if (!(o instanceof InvocationInformation)) {
 				return false;
 			}
-			InvocationInformation that = (InvocationInformation) o;
-			if (!ObjectUtils.nullSafeEquals(this.recorded, that.recorded)) {
+			InvocationInformation other = (InvocationInformation) o;
+			if (!ObjectUtils.nullSafeEquals(this.recorded, other.recorded)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.invokedMethod, that.invokedMethod);
+			return ObjectUtils.nullSafeEquals(this.invokedMethod, other.invokedMethod);
 		}
 
 		@Override

@@ -414,14 +414,14 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 		if (!this.getClass().equals(obj.getClass())) {
 			return false;
 		}
-		TypeDiscoverer<?> that = (TypeDiscoverer<?>) obj;
-		if (!this.type.equals(that.type)) {
+		TypeDiscoverer<?> other = (TypeDiscoverer<?>) obj;
+		if (!this.type.equals(other.type)) {
 			return false;
 		}
-		if (this.typeVariableMap.isEmpty() && that.typeVariableMap.isEmpty()) {
+		if (this.typeVariableMap.isEmpty() && other.typeVariableMap.isEmpty()) {
 			return true;
 		}
-		return this.typeVariableMap.equals(that.typeVariableMap);
+		return this.typeVariableMap.equals(other.typeVariableMap);
 	}
 
 	@Override
@@ -474,11 +474,11 @@ class TypeDiscoverer<S> implements TypeInformation<S> {
 			if (!(o instanceof SyntheticParamterizedType)) {
 				return false;
 			}
-			SyntheticParamterizedType that = (SyntheticParamterizedType) o;
-			if (!ObjectUtils.nullSafeEquals(this.typeInformation, that.typeInformation)) {
+			SyntheticParamterizedType other = (SyntheticParamterizedType) o;
+			if (!ObjectUtils.nullSafeEquals(this.typeInformation, other.typeInformation)) {
 				return false;
 			}
-			return ObjectUtils.nullSafeEquals(this.typeParameters, that.typeParameters);
+			return ObjectUtils.nullSafeEquals(this.typeParameters, other.typeParameters);
 		}
 
 		@Override

@@ -191,8 +191,8 @@ class DefaultPersistentPropertyPath<P extends PersistentProperty<P>> implements 
 		if (!(o instanceof DefaultPersistentPropertyPath)) {
 			return false;
 		}
-		DefaultPersistentPropertyPath<?> that = (DefaultPersistentPropertyPath<?>) o;
-		return ObjectUtils.nullSafeEquals(this.properties, that.properties);
+		DefaultPersistentPropertyPath<?> other = (DefaultPersistentPropertyPath<?>) o;
+		return ObjectUtils.nullSafeEquals(this.properties, other.properties);
 	}
 
 	@Override

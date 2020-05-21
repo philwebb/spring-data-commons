@@ -84,8 +84,8 @@ public class SliceImpl<T> extends Chunk<T> {
 		if (!(obj instanceof SliceImpl<?>)) {
 			return false;
 		}
-		SliceImpl<?> that = (SliceImpl<?>) obj;
-		return this.hasNext == that.hasNext && super.equals(obj);
+		SliceImpl<?> other = (SliceImpl<?>) obj;
+		return this.hasNext == other.hasNext && super.equals(obj);
 	}
 
 	@Override
